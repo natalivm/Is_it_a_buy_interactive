@@ -145,26 +145,29 @@ function buildHeatmapDays(year) {
 function dayDataForFilter(symbol) {
     const out = {}; // iso -> { cls, label, plPct, role }
     const list = symbol ? SETUPS_X.filter(s => s.symbol === symbol) : SETUPS_X;
+    const order = { trigger: 3, close: 2, pnl: 1 };
+
+    function put(date, entry) {
+        const existing = out[date];
+        if (!existing || order[entry.role] > order[existing.role] ||
+            (entry.role === 'pnl' && existing.role === 'pnl' && Math.abs(entry.plPct) > Math.abs(existing.plPct))) {
+            out[date] = entry;
+        }
+    }
 
     for (const s of list) {
         if (!s.triggerISO) continue;
+
+        // Always stamp the trigger date — even when prices.js has no bar for it
+        // (e.g. data not yet refreshed). This ensures open trades always appear.
+        put(s.triggerISO, { cls: 'hm-trigger', role: 'trigger', plPct: null, symbol: s.symbol, direction: s.direction });
+
         for (const t of s.track) {
             const role = t.isTrigger ? 'trigger' : (t.isClose ? 'close' : 'pnl');
-            const cls = role === 'trigger' ? 'hm-trigger'
-                      : role === 'close'   ? 'hm-close'
-                      : pnlBucket(t.plPct);
-            const existing = out[t.date];
-            // Trigger > close > pnl-magnitude when aggregating
-            if (!existing) {
-                out[t.date] = { cls, role, plPct: t.plPct, symbol: s.symbol, direction: s.direction };
-            } else {
-                const order = { trigger: 3, close: 2, pnl: 1 };
-                if (order[role] > order[existing.role]) {
-                    out[t.date] = { cls, role, plPct: t.plPct, symbol: s.symbol, direction: s.direction };
-                } else if (role === 'pnl' && existing.role === 'pnl' && Math.abs(t.plPct) > Math.abs(existing.plPct)) {
-                    out[t.date] = { cls, role, plPct: t.plPct, symbol: s.symbol, direction: s.direction };
-                }
-            }
+            const cls  = role === 'trigger' ? 'hm-trigger'
+                       : role === 'close'   ? 'hm-close'
+                       : pnlBucket(t.plPct);
+            put(t.date, { cls, role, plPct: t.plPct, symbol: s.symbol, direction: s.direction });
         }
     }
     return out;
