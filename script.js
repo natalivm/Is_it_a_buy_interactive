@@ -22,7 +22,6 @@ const TODAY_ISO = ISO(new Date());
 
 function pnlBucket(pct) {
     for (const b of CONFIG.pnlBuckets) if (pct >= b.min) return b.cls;
-    return 'hm-loss-3';
 }
 
 // ── Price lookup ─────────────────────────────────────────────────────────
