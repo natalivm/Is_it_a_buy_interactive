@@ -8,7 +8,6 @@ const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
 const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmapYear: new Date().getFullYear() };
 
-let activeFilter    = { symbol: null }; // null = show all setups in heatmap
 let statusFilter    = 'all';
 let directionFilter = 'all';
 let selectedSymbol  = null;             // ticker currently shown in detail pane
@@ -141,10 +140,10 @@ function buildHeatmapDays(year) {
     return days;
 }
 
-// Build a per-day map of cell info, given a filter (single symbol or all).
-function dayDataForFilter(symbol) {
+// Build a per-day map from all triggered trades — heatmap always shows full history.
+function dayDataForFilter() {
     const out = {}; // iso -> { cls, label, plPct, role }
-    const list = symbol ? SETUPS_X.filter(s => s.symbol === symbol) : SETUPS_X;
+    const list = SETUPS_X;
     const order = { trigger: 3, close: 2, pnl: 1 };
 
     function put(date, entry) {
@@ -180,7 +179,7 @@ function renderHeatmap() {
 
     const year = CONFIG.heatmapYear;
     const days = buildHeatmapDays(year);
-    const data = dayDataForFilter(activeFilter.symbol);
+    const data = dayDataForFilter();
 
     // Place month labels (one per month, on first column where that month begins)
     const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -362,10 +361,6 @@ function renderMetrics() {
 // ── Detail pane ──────────────────────────────────────────────────────────
 function selectSymbol(sym) {
     selectedSymbol = sym;
-    activeFilter.symbol = sym;
-    document.getElementById('heatmapSubtitle').textContent = sym || 'All setups';
-    document.getElementById('heatmapClearBtn').classList.remove('active');
-    renderHeatmap();
     renderActive();
     renderDetail();
 }
@@ -643,12 +638,8 @@ function renderDetail() {
     pane.innerHTML = html;
 }
 
-function clearFilter() {
-    activeFilter.symbol = null;
+function clearSelection() {
     selectedSymbol = null;
-    document.getElementById('heatmapSubtitle').textContent = 'All setups';
-    document.getElementById('heatmapClearBtn').classList.add('active');
-    renderHeatmap();
     renderActive();
     renderDetail();
 }
@@ -684,7 +675,6 @@ function initInstallButton() {
 // ── Wiring ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('heatmapYear').textContent = CONFIG.heatmapYear;
-
     initInstallButton();
 
     // Status filter
@@ -706,9 +696,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderActive();
         });
     });
-
-    // Heatmap clear button
-    document.getElementById('heatmapClearBtn').addEventListener('click', clearFilter);
 
     renderHeatmap();
     renderMetrics();
