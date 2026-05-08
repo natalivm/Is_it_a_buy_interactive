@@ -270,35 +270,24 @@ function levelCardHtml(num, label, price, status) {
 }
 
 function tvChartHtml(symbol) {
-    // The outer div must carry tradingview-widget-container so TV's script
-    // can locate the sibling widget div after async injection.
-    return `<div class="tradingview-widget-container tv-chart-wrap" data-tv-symbol="${symbol}">
-        <div class="tradingview-widget-container__widget"></div>
-    </div>`;
-}
-
-function initTVWidgets() {
-    document.querySelectorAll('[data-tv-symbol]').forEach(wrap => {
-        const symbol = wrap.dataset.tvSymbol;
-        delete wrap.dataset.tvSymbol;
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-        script.textContent = JSON.stringify({
-            autosize: true,
-            symbol,
-            interval: 'D',
-            timezone: 'America/New_York',
-            theme: 'dark',
-            style: '1',
-            locale: 'en',
-            enable_publishing: false,
-            allow_symbol_change: false,
-            hide_side_toolbar: false,
-            save_image: false,
-        });
-        wrap.appendChild(script);
+    // Direct iframe embed — this is the same URL TradingView's own embed
+    // widget loads internally, but used directly so we don't depend on async
+    // script injection (which is unreliable for dynamic re-renders).
+    const params = new URLSearchParams({
+        symbol,
+        interval: 'D',
+        theme: 'dark',
+        style: '1',
+        locale: 'en',
+        timezone: 'America/New_York',
+        hide_side_toolbar: '0',
+        allow_symbol_change: '0',
+        save_image: '0',
+        enable_publishing: '0',
+        withdateranges: '1',
     });
+    const src = `https://s.tradingview.com/widgetembed/?${params.toString()}`;
+    return `<iframe class="tv-chart-wrap" src="${src}" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen></iframe>`;
 }
 
 function setupBlockHtml(s) {
@@ -414,7 +403,6 @@ function renderDetail() {
 
     html += `</div>`;
     pane.innerHTML = html;
-    initTVWidgets();
 }
 
 function clearSelection() {
