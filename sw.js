@@ -1,4 +1,4 @@
-const CACHE_NAME = 'swingtrader-v12';
+const CACHE_NAME = 'swingtrader-v13';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
@@ -24,11 +24,26 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys()
-      .then(names => Promise.all(
+    (async () => {
+      // 1. Drop any cache that isn't the current version.
+      const names = await caches.keys();
+      await Promise.all(
         names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))
-      ))
-      .then(() => self.clients.claim())
+      );
+
+      // 2. Prune stale entries from the current cache: anything that isn't
+      // a precached asset and no longer matches a same-origin URL we'd
+      // serve. Anything we still need will be re-fetched and re-cached on
+      // first request.
+      const cache = await caches.open(CACHE_NAME);
+      const assetSet = new Set(ASSETS);
+      const requests = await cache.keys();
+      await Promise.all(requests.map(req => {
+        if (!assetSet.has(req.url)) return cache.delete(req);
+      }));
+
+      await self.clients.claim();
+    })()
   );
 });
 
