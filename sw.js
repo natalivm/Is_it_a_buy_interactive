@@ -1,10 +1,11 @@
-const CACHE_NAME = 'swingtrader-v7';
+const CACHE_NAME = 'swingtrader-v8';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
   BASE + 'index.html',
   BASE + 'styles.css',
   BASE + 'data.js',
+  BASE + 'prices.js',
   BASE + 'script.js',
   BASE + 'manifest.json',
   BASE + 'icon-192.png',

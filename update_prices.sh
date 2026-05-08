@@ -11,4 +11,4 @@ else
     source .venv/bin/activate
 fi
 
-python3 fetch_prices.py "$@"
+python3 fetch_setups.py "$@"
