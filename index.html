@@ -109,8 +109,15 @@
                         <button class="filter-btn filter-btn-short" data-dir-filter="short">▼ Short</button>
                     </div>
                 </div>
-                <div class="setups-list" id="activeSetups"></div>
-                <div class="empty-state" id="activeEmpty" hidden>No active setups match this filter.</div>
+                <div class="setups-split">
+                    <div class="setups-list-pane">
+                        <div class="setups-list" id="activeSetups"></div>
+                        <div class="empty-state" id="activeEmpty" hidden>No active setups match this filter.</div>
+                    </div>
+                    <div class="setups-detail-pane" id="setupDetail">
+                        <div class="detail-empty">Select a setup from the list to see its details.</div>
+                    </div>
+                </div>
             </section>
 
             <!-- History -->
