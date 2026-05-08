@@ -27,32 +27,31 @@
     </nav>
 
     <main class="main-content">
-
-        <!-- Year heatmap calendar — full-bleed -->
-        <section class="heatmap-section">
-            <div class="heatmap-header">
-                <h2 class="section-title">
-                    <span id="heatmapYear">2026</span>
-                    <span class="section-title-sub" id="heatmapSubtitle">All setups</span>
-                </h2>
-                <div class="heatmap-controls">
-                    <button class="filter-btn active" id="heatmapClearBtn" type="button">All</button>
-                    <span class="heatmap-hint">click a setup to filter</span>
-                </div>
-            </div>
-            <div class="heatmap-card">
-                <div class="heatmap-grid" id="heatmapGrid" role="img" aria-label="Yearly trade activity heatmap"></div>
-                <div class="heatmap-legend">
-                    <span class="hm-key hm-trigger" title="Entry triggered"></span> trigger
-                    <span class="hm-key hm-gain-2"></span> gain
-                    <span class="hm-key hm-loss-2"></span> loss
-                    <span class="hm-key hm-close" title="Trade closed"></span> close
-                    <span class="hm-key hm-empty"></span> no activity
-                </div>
-            </div>
-        </section>
-
         <div class="page-container">
+
+            <!-- Year heatmap calendar -->
+            <section class="heatmap-section">
+                <div class="heatmap-header">
+                    <h2 class="section-title">
+                        <span id="heatmapYear">2026</span>
+                        <span class="section-title-sub" id="heatmapSubtitle">All setups</span>
+                    </h2>
+                    <div class="heatmap-controls">
+                        <button class="filter-btn active" id="heatmapClearBtn" type="button">All</button>
+                        <span class="heatmap-hint">click a setup to filter</span>
+                    </div>
+                </div>
+                <div class="heatmap-card">
+                    <div class="heatmap-grid" id="heatmapGrid" role="img" aria-label="Yearly trade activity heatmap"></div>
+                    <div class="heatmap-legend">
+                        <span class="hm-key hm-trigger" title="Entry triggered"></span> trigger
+                        <span class="hm-key hm-gain-2"></span> gain
+                        <span class="hm-key hm-loss-2"></span> loss
+                        <span class="hm-key hm-close" title="Trade closed"></span> close
+                        <span class="hm-key hm-empty"></span> no activity
+                    </div>
+                </div>
+            </section>
 
             <!-- Setup summary metrics -->
             <section class="summary-section">
@@ -113,49 +112,8 @@
                 </div>
             </section>
 
-            <!-- History -->
-            <section class="setups-section history-section">
-                <div class="setups-header">
-                    <h2 class="section-title">
-                        History
-                        <span class="section-title-sub" id="historyCountLabel">(0)</span>
-                    </h2>
-                </div>
-                <div class="table-container">
-                    <table class="history-table" aria-label="Closed and cancelled trade setups">
-                        <thead>
-                            <tr>
-                                <th>SYMBOL</th>
-                                <th>DIR</th>
-                                <th>SETUP</th>
-                                <th class="text-right">ENTRY</th>
-                                <th class="text-right">EXIT</th>
-                                <th>TRIGGERED</th>
-                                <th>CLOSED</th>
-                                <th class="text-right">RETURN</th>
-                                <th>REASON</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historyBody"></tbody>
-                    </table>
-                </div>
-                <div class="empty-state" id="historyEmpty" hidden>No closed or cancelled setups yet.</div>
-            </section>
-
-        </div><!-- /.page-container -->
-    </main>
-
-    <!-- Setup detail modal -->
-    <div class="modal-overlay" id="setupModal" hidden>
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button class="modal-close" id="modalCloseBtn" aria-label="Close">×</button>
-            <div class="modal-header">
-                <h3 id="modalTitle">Setup detail</h3>
-                <div class="modal-subtitle" id="modalSubtitle"></div>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
         </div>
-    </div>
+    </main>
 
     <script src="data.js"></script>
     <script src="prices.js"></script>
