@@ -6,7 +6,6 @@
 
 const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
-const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : {};
 
 let statusFilter    = 'all';
 let directionFilter = 'all';
@@ -218,7 +217,9 @@ function renderActive() {
 // ── Detail pane ──────────────────────────────────────────────────────────
 function selectSymbol(sym) {
     selectedSymbol = sym;
-    renderActive();
+    document.querySelectorAll('.setup-row').forEach(el => {
+        el.classList.toggle('selected', el.dataset.symbol === sym);
+    });
     renderDetail();
 }
 
@@ -376,12 +377,6 @@ function renderDetail() {
 
     html += `</div>`;
     pane.innerHTML = html;
-}
-
-function clearSelection() {
-    selectedSymbol = null;
-    renderActive();
-    renderDetail();
 }
 
 // ── PWA install ─────────────────────────────────────────────────────────
