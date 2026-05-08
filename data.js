@@ -1,17 +1,5 @@
 // ── App config ──────────────────────────────────────────────────────────────
-const APP_CONFIG = {
-  // Year shown in the heatmap calendar
-  heatmapYear: 2026,
-  // Color thresholds for daily P&L heatmap squares (% from entry)
-  pnlBuckets: [
-    { min:  8, cls: 'hm-gain-3' },
-    { min:  3, cls: 'hm-gain-2' },
-    { min:  0, cls: 'hm-gain-1' },
-    { min: -3, cls: 'hm-loss-1' },
-    { min: -8, cls: 'hm-loss-2' },
-    { min: -Infinity, cls: 'hm-loss-3' },
-  ],
-};
+const APP_CONFIG = {};
 
 // ── Trade setups ────────────────────────────────────────────────────────────
 // Each setup describes a planned trade. Trigger detection, daily P&L, and

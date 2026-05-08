@@ -6,7 +6,7 @@
 
 const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
-const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmapYear: new Date().getFullYear() };
+const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : {};
 
 let statusFilter    = 'all';
 let directionFilter = 'all';
@@ -19,10 +19,6 @@ const ISO = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')
 const PARSE = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
 const FMT_SHORT = s => PARSE(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 const TODAY_ISO = ISO(new Date());
-
-function pnlBucket(pct) {
-    for (const b of CONFIG.pnlBuckets) if (pct >= b.min) return b.cls;
-}
 
 // ── Price lookup ─────────────────────────────────────────────────────────
 function bars(symbol) { return PRICES_DATA[symbol] || []; }
@@ -110,121 +106,6 @@ function enrichSetup(s) {
 }
 
 const SETUPS_X = SETUP_LIST.map(enrichSetup);
-
-// ── Heatmap rendering ────────────────────────────────────────────────────
-function startOfWeek(d) {
-    const x = new Date(d);
-    x.setDate(x.getDate() - x.getDay());
-    return x;
-}
-
-function buildHeatmapDays(year) {
-    const start = startOfWeek(new Date(year, 0, 1));
-    const yearEnd = new Date(year, 11, 31);
-    const end = new Date(yearEnd);
-    end.setDate(end.getDate() + (6 - end.getDay()));
-    const days = [];
-    const today = ISO(new Date());
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const iso = ISO(d);
-        days.push({
-            iso,
-            inYear: d.getFullYear() === year,
-            future: iso > today,
-            month: d.getMonth(),
-            day: d.getDate(),
-            dow: d.getDay(),
-        });
-    }
-    return days;
-}
-
-// Build a per-day map from all triggered trades — heatmap always shows full history.
-function dayDataForFilter() {
-    const out = {}; // iso -> { cls, label, plPct, role }
-    const list = SETUPS_X;
-    const order = { trigger: 3, close: 2, pnl: 1 };
-
-    function put(date, entry) {
-        const existing = out[date];
-        if (!existing || order[entry.role] > order[existing.role] ||
-            (entry.role === 'pnl' && existing.role === 'pnl' && Math.abs(entry.plPct) > Math.abs(existing.plPct))) {
-            out[date] = entry;
-        }
-    }
-
-    for (const s of list) {
-        if (!s.triggerISO) continue;
-
-        // Always stamp the trigger date — even when prices.js has no bar for it
-        // (e.g. data not yet refreshed). This ensures open trades always appear.
-        put(s.triggerISO, { cls: 'hm-trigger', role: 'trigger', plPct: null, symbol: s.symbol, direction: s.direction });
-
-        for (const t of s.track) {
-            const role = t.isTrigger ? 'trigger' : (t.isClose ? 'close' : 'pnl');
-            const cls  = role === 'trigger' ? 'hm-trigger'
-                       : role === 'close'   ? 'hm-close'
-                       : pnlBucket(t.plPct);
-            put(t.date, { cls, role, plPct: t.plPct, symbol: s.symbol, direction: s.direction });
-        }
-    }
-    return out;
-}
-
-function renderHeatmap() {
-    const grid = document.getElementById('heatmapGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-
-    const year = CONFIG.heatmapYear;
-    const days = buildHeatmapDays(year);
-    const data = dayDataForFilter();
-
-    // Place month labels (one per month, on first column where that month begins)
-    const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const seenMonth = new Set();
-
-    days.forEach((d, i) => {
-        const col = Math.floor(i / 7) + 1;
-        const row = (d.dow) + 2; // row 1 reserved for month labels
-
-        // Month label: place in row 1 the first time we encounter this month
-        // and the day is in-year and on row 2 (Sunday) or near month start.
-        if (d.inYear && !seenMonth.has(d.month) && d.day <= 7) {
-            seenMonth.add(d.month);
-            const lbl = document.createElement('div');
-            lbl.className = 'hm-month-label';
-            lbl.textContent = monthLabels[d.month];
-            lbl.style.gridColumn = col;
-            lbl.style.gridRow = 1;
-            grid.appendChild(lbl);
-        }
-
-        const cell = document.createElement('div');
-        cell.className = 'hm-day';
-        cell.style.gridColumn = col;
-        cell.style.gridRow = row;
-
-        if (!d.inYear || d.future) {
-            cell.classList.add(d.future ? 'future' : 'hm-empty');
-        } else {
-            const info = data[d.iso];
-            if (info) {
-                cell.classList.add(info.cls);
-                cell.dataset.active = '1';
-                let title = `${FMT_SHORT(d.iso)} — ${info.symbol}`;
-                if (info.role === 'trigger') title += ' · entry triggered';
-                else if (info.role === 'close') title += ' · trade closed';
-                else if (info.plPct != null) title += ` · ${info.plPct >= 0 ? '+' : ''}${info.plPct.toFixed(1)}%`;
-                cell.title = title;
-            } else {
-                cell.classList.add('hm-empty');
-                cell.title = FMT_SHORT(d.iso);
-            }
-        }
-        grid.appendChild(cell);
-    });
-}
 
 // ── Setup list rendering ─────────────────────────────────────────────────
 function fmtMoney(v) {
@@ -332,29 +213,6 @@ function renderActive() {
             container.appendChild(el);
         }
     }
-}
-
-function renderMetrics() {
-    const watching = SETUPS_X.filter(s => s.effectiveStatus === 'watching').length;
-    const open     = SETUPS_X.filter(s => s.effectiveStatus === 'open').length;
-    const closed   = SETUPS_X.filter(s => s.effectiveStatus === 'closed');
-
-    document.getElementById('metricWatching').textContent = watching;
-    document.getElementById('metricOpen').textContent = open;
-    document.getElementById('metricClosed').textContent = closed.length;
-
-    const wins = closed.filter(s => s.closeReturnPct != null && s.closeReturnPct > 0);
-    const winRate = closed.length ? (wins.length / closed.length) * 100 : null;
-    document.getElementById('metricWinRate').textContent = winRate == null ? '—' : winRate.toFixed(0) + '%';
-    document.getElementById('metricWinSub').textContent = closed.length
-        ? `${wins.length} / ${closed.length} closed` : 'closed only';
-
-    const returns = closed.map(s => s.closeReturnPct).filter(v => v != null);
-    const avg = returns.length ? returns.reduce((a, b) => a + b, 0) / returns.length : null;
-    const avgEl = document.getElementById('metricAvgReturn');
-    avgEl.textContent = avg == null ? '—' : fmtPct(avg);
-    avgEl.classList.toggle('green', avg != null && avg > 0);
-    avgEl.classList.toggle('red',   avg != null && avg < 0);
 }
 
 // ── Detail pane ──────────────────────────────────────────────────────────
@@ -673,7 +531,6 @@ function initInstallButton() {
 
 // ── Wiring ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('heatmapYear').textContent = CONFIG.heatmapYear;
     initInstallButton();
 
     // Status filter
@@ -696,8 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    renderHeatmap();
-    renderMetrics();
     renderActive();
     renderDetail();
 });

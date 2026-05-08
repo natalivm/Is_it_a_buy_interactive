@@ -29,57 +29,6 @@
     <main class="main-content">
         <div class="page-container">
 
-            <!-- Year heatmap calendar -->
-            <section class="heatmap-section">
-                <div class="heatmap-header">
-                    <h2 class="section-title">
-                        <span id="heatmapYear">2026</span>
-                        <span class="section-title-sub">Triggered trades</span>
-                    </h2>
-                </div>
-                <div class="heatmap-card">
-                    <div class="heatmap-grid" id="heatmapGrid" role="img" aria-label="Yearly trade activity heatmap"></div>
-                    <div class="heatmap-legend">
-                        <span class="hm-key hm-trigger" title="Entry triggered"></span> trigger
-                        <span class="hm-key hm-gain-2"></span> gain
-                        <span class="hm-key hm-loss-2"></span> loss
-                        <span class="hm-key hm-close" title="Trade closed"></span> close
-                        <span class="hm-key hm-empty"></span> no activity
-                    </div>
-                </div>
-            </section>
-
-            <!-- Setup summary metrics -->
-            <section class="summary-section">
-                <div class="metrics-grid metrics-grid-compact">
-                    <div class="metric-card">
-                        <div class="metric-label">Watching</div>
-                        <div class="metric-value blue" id="metricWatching">0</div>
-                        <div class="metric-sub">awaiting trigger</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Open</div>
-                        <div class="metric-value" id="metricOpen">0</div>
-                        <div class="metric-sub">triggered, live</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Closed</div>
-                        <div class="metric-value" id="metricClosed">0</div>
-                        <div class="metric-sub">historical</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Win rate</div>
-                        <div class="metric-value" id="metricWinRate">—</div>
-                        <div class="metric-sub" id="metricWinSub">closed only</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Avg return</div>
-                        <div class="metric-value" id="metricAvgReturn">—</div>
-                        <div class="metric-sub">closed only</div>
-                    </div>
-                </div>
-            </section>
-
             <!-- Active setups -->
             <section class="setups-section">
                 <div class="setups-header">
