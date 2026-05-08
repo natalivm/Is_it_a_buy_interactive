@@ -269,113 +269,35 @@ function levelCardHtml(num, label, price, status) {
     `;
 }
 
-function drawPriceChart(s) {
-    const allBars = bars(s.symbol);
-    const endDate = s.closedDate || TODAY_ISO;
-    const chartBars = allBars.filter(b => b.d >= s.addedDate && b.d <= endDate);
-    if (chartBars.length < 2) return '';
-
-    const W = 520, H = 190;
-    const PL = 6, PR = 74, PT = 14, PB = 26;
-    const iW = W - PL - PR;
-    const iH = H - PT - PB;
-
-    const levelPrices = [s.entryTrigger, s.stop, s.target].filter(v => v != null);
-    const allP = [...chartBars.map(b => b.c), ...levelPrices];
-    let lo = Math.min(...allP), hi = Math.max(...allP);
-    const margin = (hi - lo) * 0.12 || 1;
-    lo -= margin; hi += margin;
-
-    const xS = i => PL + (i / Math.max(chartBars.length - 1, 1)) * iW;
-    const yS = p => PT + (1 - (p - lo) / (hi - lo)) * iH;
-    const bY = PT + iH;
-    const lineX = (PL + iW).toFixed(1);
-
-    const pts = chartBars.map((b, i) => [xS(i), yS(b.c)]);
-    const polyPts = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-    const areaD = `M${pts[0][0].toFixed(1)},${bY} ${pts.map(([x, y]) => `L${x.toFixed(1)},${y.toFixed(1)}`).join(' ')} L${pts[pts.length-1][0].toFixed(1)},${bY} Z`;
-
-    const isShort = s.direction === 'Short';
-    const lastC = chartBars[chartBars.length - 1].c;
-    const isProfit = s.entryTrigger != null
-        ? (isShort ? lastC < s.entryTrigger : lastC > s.entryTrigger) : true;
-    const lineColor = isProfit ? '#34d399' : '#f87171';
-
-    const clipId = `cc-${s.id.replace(/[^a-z0-9]/gi, '')}`;
-    const gradId  = `gf-${s.id.replace(/[^a-z0-9]/gi, '')}`;
-
-    // Nice Y-axis tick step
-    function niceStep(range, n) {
-        const raw = range / n;
-        const mag = Math.pow(10, Math.floor(Math.log10(raw)));
-        const f = raw / mag;
-        return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag;
-    }
-    const step = niceStep(hi - lo, 4);
-    const yTicks = [];
-    for (let p = Math.ceil(lo / step) * step; p <= hi - (hi - lo) * 0.02; p += step)
-        yTicks.push(p);
-
-    // X-axis date labels (~4 evenly spaced)
-    const xStep = Math.max(1, Math.floor((chartBars.length - 1) / 4));
-    const xLabels = [];
-    for (let i = 0; i < chartBars.length; i += xStep)
-        xLabels.push({ x: xS(i), label: chartBars[i].d.slice(5) });
-
-    // Y-axis grid lines + right-side price labels
-    const yGridSvg = yTicks.map(p => {
-        const y = yS(p).toFixed(1);
-        return `<line x1="${PL}" y1="${y}" x2="${lineX}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>` +
-               `<text x="${W - PR + 5}" y="${(parseFloat(y) + 3.5).toFixed(1)}" font-size="8.5" fill="rgba(255,255,255,0.28)" font-family="-apple-system,sans-serif">${p.toFixed(2)}</text>`;
-    }).join('');
-
-    // X-axis date labels
-    const xGridSvg = xLabels.map(({ x, label }) =>
-        `<text x="${x.toFixed(1)}" y="${H - 7}" font-size="8.5" fill="rgba(255,255,255,0.28)" text-anchor="middle" font-family="-apple-system,sans-serif">${label}</text>`
-    ).join('');
-
-    // Level dashed lines + labelled boxes on the right
-    const bxX = W - PR + 4, bxW = PR - 6, bxH = 16;
-    const levelDefs = [
-        { price: s.entryTrigger, color: '#60a5fa' },
-        { price: s.target,       color: '#34d399' },
-        { price: s.stop,         color: '#f87171' },
-    ];
-    const levelSvg = levelDefs.map(lv => {
-        if (lv.price == null) return '';
-        const y = yS(lv.price), ys = y.toFixed(1);
-        return `<line x1="${PL}" y1="${ys}" x2="${lineX}" y2="${ys}" stroke="${lv.color}" stroke-width="0.9" stroke-dasharray="5,4" opacity="0.8"/>` +
-               `<rect x="${bxX}" y="${(y - bxH / 2).toFixed(1)}" width="${bxW}" height="${bxH}" fill="#161b22" rx="3"/>` +
-               `<text x="${(bxX + bxW / 2).toFixed(1)}" y="${(y + 4.5).toFixed(1)}" font-size="9.5" fill="${lv.color}" font-weight="700" text-anchor="middle" font-family="-apple-system,sans-serif">${fmtMoney(lv.price)}</text>`;
-    }).join('');
-
-    // Trigger date vertical marker
-    let trigLine = '';
-    if (s.triggerISO) {
-        const ti = chartBars.findIndex(b => b.d >= s.triggerISO);
-        if (ti >= 0) {
-            const tx = xS(ti).toFixed(1);
-            trigLine = `<line x1="${tx}" y1="${PT}" x2="${tx}" y2="${bY}" stroke="#60a5fa" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.35"/>`;
-        }
-    }
-
-    return `<div class="detail-chart">
-        <svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;height:auto" class="chart-svg">
-            <defs>
-                <clipPath id="${clipId}"><rect x="${PL}" y="${PT}" width="${iW}" height="${iH}"/></clipPath>
-                <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="${lineColor}" stop-opacity="0.28"/>
-                    <stop offset="100%" stop-color="${lineColor}" stop-opacity="0.02"/>
-                </linearGradient>
-            </defs>
-            ${yGridSvg}
-            <path d="${areaD}" fill="url(#${gradId})" clip-path="url(#${clipId})"/>
-            ${trigLine}
-            <polyline points="${polyPts}" fill="none" stroke="${lineColor}" stroke-width="1.5" stroke-linejoin="round" clip-path="url(#${clipId})"/>
-            ${levelSvg}
-            ${xGridSvg}
-        </svg>
+function tvChartHtml(symbol) {
+    return `<div class="tv-chart-wrap" data-tv-symbol="${symbol}">
+        <div class="tradingview-widget-container__widget"></div>
     </div>`;
+}
+
+function initTVWidgets() {
+    document.querySelectorAll('[data-tv-symbol]').forEach(wrap => {
+        const symbol = wrap.dataset.tvSymbol;
+        delete wrap.dataset.tvSymbol;
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+        script.async = true;
+        script.textContent = JSON.stringify({
+            autosize: true,
+            symbol,
+            interval: 'D',
+            timezone: 'America/New_York',
+            theme: 'dark',
+            style: '1',
+            locale: 'en',
+            enable_publishing: false,
+            allow_symbol_change: false,
+            hide_side_toolbar: false,
+            save_image: false,
+        });
+        wrap.appendChild(script);
+    });
 }
 
 function setupBlockHtml(s) {
@@ -405,8 +327,6 @@ function setupBlockHtml(s) {
         return '<span class="neutral">—</span>';
     })();
 
-    const chart = drawPriceChart(s);
-
     return `
         <div class="setup-block">
             <div class="setup-block-header">
@@ -424,7 +344,7 @@ function setupBlockHtml(s) {
                 <div><label>Closed</label><span>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</span></div>
                 <div><label>Days</label><span>${s.track.length || '—'}</span></div>
             </div>
-            ${chart ? `<div class="detail-section-chart">${chart}</div>` : ''}
+            <div class="detail-section-chart">${tvChartHtml(s.symbol)}</div>
             ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : ''}
         </div>
     `;
@@ -493,6 +413,7 @@ function renderDetail() {
 
     html += `</div>`;
     pane.innerHTML = html;
+    initTVWidgets();
 }
 
 function clearSelection() {
