@@ -1,6 +1,3 @@
-// ── App config ──────────────────────────────────────────────────────────────
-const APP_CONFIG = {};
-
 // ── Trade setups ────────────────────────────────────────────────────────────
 // Each setup describes a planned trade. Trigger detection, daily P&L, and
 // "if held to today" P&L are all computed from prices.js historical OHLC.
