@@ -144,11 +144,6 @@ button { font-family: inherit; cursor: pointer; }
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    padding: 0 24px;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
 }
 .heatmap-controls {
     display: flex;
@@ -161,29 +156,28 @@ button { font-family: inherit; cursor: pointer; }
 }
 .heatmap-card {
     background: var(--card-bg);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    padding: 14px 24px;
-    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
 }
 .heatmap-grid {
     display: grid;
-    grid-template-rows: 18px repeat(7, 12px);
+    /* 54 equal columns fills the card width; a year needs at most 54 weeks */
+    grid-template-columns: repeat(54, 1fr);
+    grid-template-rows: 16px repeat(7, auto);
     grid-auto-flow: column;
-    grid-auto-columns: 12px;
     gap: 3px;
-    min-width: max-content;
 }
 .hm-month-label {
     font-size: 10px;
     color: var(--text-muted);
     grid-row: 1;
     align-self: center;
+    white-space: nowrap;
 }
 .hm-day {
-    width: 12px;
-    height: 12px;
+    aspect-ratio: 1;
+    width: 100%;
     border-radius: 2px;
     background: var(--hm-empty);
     transition: transform 0.1s;
@@ -817,8 +811,7 @@ button { font-family: inherit; cursor: pointer; }
     .navbar-container { padding: 0 16px; gap: 12px; height: 56px; }
     .navbar-tagline { display: none; }
     .page-container { padding: 0 16px; gap: 24px; }
-    .heatmap-card { padding: 12px 16px; }
-    .heatmap-header { padding: 0 16px; }
+    .heatmap-card { padding: 12px; }
     .setup-grid { grid-template-columns: repeat(2, 1fr); }
     .setups-split { grid-template-columns: 1fr; }
     .setups-detail-pane { position: static; }
@@ -844,10 +837,5 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 @media (max-width: 480px) {
-    .heatmap-grid {
-        grid-template-rows: 16px repeat(7, 10px);
-        grid-auto-columns: 10px;
-        gap: 2px;
-    }
-    .hm-day { width: 10px; height: 10px; }
+    .heatmap-grid { gap: 2px; }
 }

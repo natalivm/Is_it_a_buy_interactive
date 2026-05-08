@@ -27,32 +27,31 @@
     </nav>
 
     <main class="main-content">
-
-        <!-- Year heatmap calendar — full-bleed -->
-        <section class="heatmap-section">
-            <div class="heatmap-header">
-                <h2 class="section-title">
-                    <span id="heatmapYear">2026</span>
-                    <span class="section-title-sub" id="heatmapSubtitle">All setups</span>
-                </h2>
-                <div class="heatmap-controls">
-                    <button class="filter-btn active" id="heatmapClearBtn" type="button">All</button>
-                    <span class="heatmap-hint">click a setup to filter</span>
-                </div>
-            </div>
-            <div class="heatmap-card">
-                <div class="heatmap-grid" id="heatmapGrid" role="img" aria-label="Yearly trade activity heatmap"></div>
-                <div class="heatmap-legend">
-                    <span class="hm-key hm-trigger" title="Entry triggered"></span> trigger
-                    <span class="hm-key hm-gain-2"></span> gain
-                    <span class="hm-key hm-loss-2"></span> loss
-                    <span class="hm-key hm-close" title="Trade closed"></span> close
-                    <span class="hm-key hm-empty"></span> no activity
-                </div>
-            </div>
-        </section>
-
         <div class="page-container">
+
+            <!-- Year heatmap calendar -->
+            <section class="heatmap-section">
+                <div class="heatmap-header">
+                    <h2 class="section-title">
+                        <span id="heatmapYear">2026</span>
+                        <span class="section-title-sub" id="heatmapSubtitle">All setups</span>
+                    </h2>
+                    <div class="heatmap-controls">
+                        <button class="filter-btn active" id="heatmapClearBtn" type="button">All</button>
+                        <span class="heatmap-hint">click a setup to filter</span>
+                    </div>
+                </div>
+                <div class="heatmap-card">
+                    <div class="heatmap-grid" id="heatmapGrid" role="img" aria-label="Yearly trade activity heatmap"></div>
+                    <div class="heatmap-legend">
+                        <span class="hm-key hm-trigger" title="Entry triggered"></span> trigger
+                        <span class="hm-key hm-gain-2"></span> gain
+                        <span class="hm-key hm-loss-2"></span> loss
+                        <span class="hm-key hm-close" title="Trade closed"></span> close
+                        <span class="hm-key hm-empty"></span> no activity
+                    </div>
+                </div>
+            </section>
 
             <!-- Setup summary metrics -->
             <section class="summary-section">
@@ -142,7 +141,7 @@
                 <div class="empty-state" id="historyEmpty" hidden>No closed or cancelled setups yet.</div>
             </section>
 
-        </div><!-- /.page-container -->
+        </div>
     </main>
 
     <!-- Setup detail modal -->
