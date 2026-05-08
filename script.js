@@ -464,5 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderActive();
-    renderDetail();
+    const firstRow = document.querySelector('.setup-row');
+    if (firstRow) selectSymbol(firstRow.dataset.symbol);
+    else renderDetail();
 });
