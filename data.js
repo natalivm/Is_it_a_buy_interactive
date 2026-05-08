@@ -1,17 +1,5 @@
 // ── App config ──────────────────────────────────────────────────────────────
-const APP_CONFIG = {
-  // Year shown in the heatmap calendar
-  heatmapYear: 2026,
-  // Color thresholds for daily P&L heatmap squares (% from entry)
-  pnlBuckets: [
-    { min:  8, cls: 'hm-gain-3' },
-    { min:  3, cls: 'hm-gain-2' },
-    { min:  0, cls: 'hm-gain-1' },
-    { min: -3, cls: 'hm-loss-1' },
-    { min: -8, cls: 'hm-loss-2' },
-    { min: -Infinity, cls: 'hm-loss-3' },
-  ],
-};
+const APP_CONFIG = {};
 
 // ── Trade setups ────────────────────────────────────────────────────────────
 // Each setup describes a planned trade. Trigger detection, daily P&L, and
@@ -212,14 +200,6 @@ const SETUPS = [
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
   },
   {
-    id: 'ups-2026-05-06', symbol: 'UPS', direction: 'Long',
-    entryTrigger: 25.58, stop: null, target: 31.40,
-    setupType: 'Pullback', tier: 'setup',
-    addedDate: '2026-05-06',
-    notes: 'Caught bid at gap fill, hit $30 · conservative long entry now $25.58 · resistance $31.40 then $35.36',
-    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
-  },
-  {
     id: 'shop-2026-05-06', symbol: 'SHOP', direction: 'Long',
     entryTrigger: 104.90, stop: 100.05, target: null,
     setupType: 'Pullback', tier: 'setup',
@@ -229,10 +209,10 @@ const SETUPS = [
   },
   {
     id: 'pltr-2026-05-06', symbol: 'PLTR', direction: 'Long',
-    entryTrigger: 12.86, stop: 122.67, target: null,
+    entryTrigger: 122.86, stop: 122.67, target: null,
     setupType: 'Pullback', tier: 'setup',
     addedDate: '2026-05-06',
-    notes: 'Long entries $12.86 and swing $12.55 · daily close below $122.67 = stop-out',
+    notes: 'Long entries $122.86 and swing $122.55 · daily close below $122.67 = stop-out',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
   },
   {
@@ -350,10 +330,10 @@ const SETUPS = [
   },
   {
     id: 'pltr-2026-05-07', symbol: 'PLTR', direction: 'Long',
-    entryTrigger: 12.86, stop: null, target: null,
+    entryTrigger: 122.86, stop: null, target: null,
     setupType: 'Pullback', tier: null,
     addedDate: '2026-05-07',
-    notes: 'Downside target for long entry $12.86 · swing trade level $12.55 · need to clear & confirm above downward trend line off recent pivot tops to turn bullish',
+    notes: 'Downside target for long entry $122.86 · swing trade level $122.55 · need to clear & confirm above downward trend line off recent pivot tops to turn bullish',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
   },
   {

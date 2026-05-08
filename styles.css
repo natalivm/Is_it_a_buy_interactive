@@ -802,14 +802,16 @@ button { font-family: inherit; cursor: pointer; }
     text-transform: uppercase;
 }
 .detail-section-chart { margin: 0 -2px; }
-.detail-chart {
-    background: #0d1117;
-    border: 1px solid var(--border);
+.tv-chart-wrap {
+    height: 460px;
+    width: 100%;
     border-radius: 8px;
     overflow: hidden;
-    padding: 4px 0 2px;
 }
-.chart-svg { display: block; width: 100%; height: auto; }
+.tv-chart-wrap .tradingview-widget-container__widget {
+    height: 100%;
+    width: 100%;
+}
 
 .levels-list { display: flex; flex-direction: column; gap: 8px; }
 .level-card {

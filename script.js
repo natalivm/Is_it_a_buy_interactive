@@ -6,7 +6,7 @@
 
 const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
-const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmapYear: new Date().getFullYear() };
+const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : {};
 
 let statusFilter    = 'all';
 let directionFilter = 'all';
@@ -19,11 +19,6 @@ const ISO = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')
 const PARSE = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
 const FMT_SHORT = s => PARSE(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 const TODAY_ISO = ISO(new Date());
-
-function pnlBucket(pct) {
-    for (const b of CONFIG.pnlBuckets) if (pct >= b.min) return b.cls;
-    return 'hm-loss-3';
-}
 
 // ── Price lookup ─────────────────────────────────────────────────────────
 function bars(symbol) { return PRICES_DATA[symbol] || []; }
@@ -111,121 +106,6 @@ function enrichSetup(s) {
 }
 
 const SETUPS_X = SETUP_LIST.map(enrichSetup);
-
-// ── Heatmap rendering ────────────────────────────────────────────────────
-function startOfWeek(d) {
-    const x = new Date(d);
-    x.setDate(x.getDate() - x.getDay());
-    return x;
-}
-
-function buildHeatmapDays(year) {
-    const start = startOfWeek(new Date(year, 0, 1));
-    const yearEnd = new Date(year, 11, 31);
-    const end = new Date(yearEnd);
-    end.setDate(end.getDate() + (6 - end.getDay()));
-    const days = [];
-    const today = ISO(new Date());
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const iso = ISO(d);
-        days.push({
-            iso,
-            inYear: d.getFullYear() === year,
-            future: iso > today,
-            month: d.getMonth(),
-            day: d.getDate(),
-            dow: d.getDay(),
-        });
-    }
-    return days;
-}
-
-// Build a per-day map from all triggered trades — heatmap always shows full history.
-function dayDataForFilter() {
-    const out = {}; // iso -> { cls, label, plPct, role }
-    const list = SETUPS_X;
-    const order = { trigger: 3, close: 2, pnl: 1 };
-
-    function put(date, entry) {
-        const existing = out[date];
-        if (!existing || order[entry.role] > order[existing.role] ||
-            (entry.role === 'pnl' && existing.role === 'pnl' && Math.abs(entry.plPct) > Math.abs(existing.plPct))) {
-            out[date] = entry;
-        }
-    }
-
-    for (const s of list) {
-        if (!s.triggerISO) continue;
-
-        // Always stamp the trigger date — even when prices.js has no bar for it
-        // (e.g. data not yet refreshed). This ensures open trades always appear.
-        put(s.triggerISO, { cls: 'hm-trigger', role: 'trigger', plPct: null, symbol: s.symbol, direction: s.direction });
-
-        for (const t of s.track) {
-            const role = t.isTrigger ? 'trigger' : (t.isClose ? 'close' : 'pnl');
-            const cls  = role === 'trigger' ? 'hm-trigger'
-                       : role === 'close'   ? 'hm-close'
-                       : pnlBucket(t.plPct);
-            put(t.date, { cls, role, plPct: t.plPct, symbol: s.symbol, direction: s.direction });
-        }
-    }
-    return out;
-}
-
-function renderHeatmap() {
-    const grid = document.getElementById('heatmapGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-
-    const year = CONFIG.heatmapYear;
-    const days = buildHeatmapDays(year);
-    const data = dayDataForFilter();
-
-    // Place month labels (one per month, on first column where that month begins)
-    const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const seenMonth = new Set();
-
-    days.forEach((d, i) => {
-        const col = Math.floor(i / 7) + 1;
-        const row = (d.dow) + 2; // row 1 reserved for month labels
-
-        // Month label: place in row 1 the first time we encounter this month
-        // and the day is in-year and on row 2 (Sunday) or near month start.
-        if (d.inYear && !seenMonth.has(d.month) && d.day <= 7) {
-            seenMonth.add(d.month);
-            const lbl = document.createElement('div');
-            lbl.className = 'hm-month-label';
-            lbl.textContent = monthLabels[d.month];
-            lbl.style.gridColumn = col;
-            lbl.style.gridRow = 1;
-            grid.appendChild(lbl);
-        }
-
-        const cell = document.createElement('div');
-        cell.className = 'hm-day';
-        cell.style.gridColumn = col;
-        cell.style.gridRow = row;
-
-        if (!d.inYear || d.future) {
-            cell.classList.add(d.future ? 'future' : 'hm-empty');
-        } else {
-            const info = data[d.iso];
-            if (info) {
-                cell.classList.add(info.cls);
-                cell.dataset.active = '1';
-                let title = `${FMT_SHORT(d.iso)} — ${info.symbol}`;
-                if (info.role === 'trigger') title += ' · entry triggered';
-                else if (info.role === 'close') title += ' · trade closed';
-                else if (info.plPct != null) title += ` · ${info.plPct >= 0 ? '+' : ''}${info.plPct.toFixed(1)}%`;
-                cell.title = title;
-            } else {
-                cell.classList.add('hm-empty');
-                cell.title = FMT_SHORT(d.iso);
-            }
-        }
-        grid.appendChild(cell);
-    });
-}
 
 // ── Setup list rendering ─────────────────────────────────────────────────
 function fmtMoney(v) {
@@ -335,29 +215,6 @@ function renderActive() {
     }
 }
 
-function renderMetrics() {
-    const watching = SETUPS_X.filter(s => s.effectiveStatus === 'watching').length;
-    const open     = SETUPS_X.filter(s => s.effectiveStatus === 'open').length;
-    const closed   = SETUPS_X.filter(s => s.effectiveStatus === 'closed');
-
-    document.getElementById('metricWatching').textContent = watching;
-    document.getElementById('metricOpen').textContent = open;
-    document.getElementById('metricClosed').textContent = closed.length;
-
-    const wins = closed.filter(s => s.closeReturnPct != null && s.closeReturnPct > 0);
-    const winRate = closed.length ? (wins.length / closed.length) * 100 : null;
-    document.getElementById('metricWinRate').textContent = winRate == null ? '—' : winRate.toFixed(0) + '%';
-    document.getElementById('metricWinSub').textContent = closed.length
-        ? `${wins.length} / ${closed.length} closed` : 'closed only';
-
-    const returns = closed.map(s => s.closeReturnPct).filter(v => v != null);
-    const avg = returns.length ? returns.reduce((a, b) => a + b, 0) / returns.length : null;
-    const avgEl = document.getElementById('metricAvgReturn');
-    avgEl.textContent = avg == null ? '—' : fmtPct(avg);
-    avgEl.classList.toggle('green', avg != null && avg > 0);
-    avgEl.classList.toggle('red',   avg != null && avg < 0);
-}
-
 // ── Detail pane ──────────────────────────────────────────────────────────
 function selectSymbol(sym) {
     selectedSymbol = sym;
@@ -412,113 +269,35 @@ function levelCardHtml(num, label, price, status) {
     `;
 }
 
-function drawPriceChart(s) {
-    const allBars = bars(s.symbol);
-    const endDate = s.closedDate || TODAY_ISO;
-    const chartBars = allBars.filter(b => b.d >= s.addedDate && b.d <= endDate);
-    if (chartBars.length < 2) return '';
-
-    const W = 520, H = 190;
-    const PL = 6, PR = 74, PT = 14, PB = 26;
-    const iW = W - PL - PR;
-    const iH = H - PT - PB;
-
-    const levelPrices = [s.entryTrigger, s.stop, s.target].filter(v => v != null);
-    const allP = [...chartBars.map(b => b.c), ...levelPrices];
-    let lo = Math.min(...allP), hi = Math.max(...allP);
-    const margin = (hi - lo) * 0.12 || 1;
-    lo -= margin; hi += margin;
-
-    const xS = i => PL + (i / Math.max(chartBars.length - 1, 1)) * iW;
-    const yS = p => PT + (1 - (p - lo) / (hi - lo)) * iH;
-    const bY = PT + iH;
-    const lineX = (PL + iW).toFixed(1);
-
-    const pts = chartBars.map((b, i) => [xS(i), yS(b.c)]);
-    const polyPts = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-    const areaD = `M${pts[0][0].toFixed(1)},${bY} ${pts.map(([x, y]) => `L${x.toFixed(1)},${y.toFixed(1)}`).join(' ')} L${pts[pts.length-1][0].toFixed(1)},${bY} Z`;
-
-    const isShort = s.direction === 'Short';
-    const lastC = chartBars[chartBars.length - 1].c;
-    const isProfit = s.entryTrigger != null
-        ? (isShort ? lastC < s.entryTrigger : lastC > s.entryTrigger) : true;
-    const lineColor = isProfit ? '#34d399' : '#f87171';
-
-    const clipId = `cc-${s.id.replace(/[^a-z0-9]/gi, '')}`;
-    const gradId  = `gf-${s.id.replace(/[^a-z0-9]/gi, '')}`;
-
-    // Nice Y-axis tick step
-    function niceStep(range, n) {
-        const raw = range / n;
-        const mag = Math.pow(10, Math.floor(Math.log10(raw)));
-        const f = raw / mag;
-        return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag;
-    }
-    const step = niceStep(hi - lo, 4);
-    const yTicks = [];
-    for (let p = Math.ceil(lo / step) * step; p <= hi - (hi - lo) * 0.02; p += step)
-        yTicks.push(p);
-
-    // X-axis date labels (~4 evenly spaced)
-    const xStep = Math.max(1, Math.floor((chartBars.length - 1) / 4));
-    const xLabels = [];
-    for (let i = 0; i < chartBars.length; i += xStep)
-        xLabels.push({ x: xS(i), label: chartBars[i].d.slice(5) });
-
-    // Y-axis grid lines + right-side price labels
-    const yGridSvg = yTicks.map(p => {
-        const y = yS(p).toFixed(1);
-        return `<line x1="${PL}" y1="${y}" x2="${lineX}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>` +
-               `<text x="${W - PR + 5}" y="${(parseFloat(y) + 3.5).toFixed(1)}" font-size="8.5" fill="rgba(255,255,255,0.28)" font-family="-apple-system,sans-serif">${p.toFixed(2)}</text>`;
-    }).join('');
-
-    // X-axis date labels
-    const xGridSvg = xLabels.map(({ x, label }) =>
-        `<text x="${x.toFixed(1)}" y="${H - 7}" font-size="8.5" fill="rgba(255,255,255,0.28)" text-anchor="middle" font-family="-apple-system,sans-serif">${label}</text>`
-    ).join('');
-
-    // Level dashed lines + labelled boxes on the right
-    const bxX = W - PR + 4, bxW = PR - 6, bxH = 16;
-    const levelDefs = [
-        { price: s.entryTrigger, color: '#60a5fa' },
-        { price: s.target,       color: '#34d399' },
-        { price: s.stop,         color: '#f87171' },
-    ];
-    const levelSvg = levelDefs.map(lv => {
-        if (lv.price == null) return '';
-        const y = yS(lv.price), ys = y.toFixed(1);
-        return `<line x1="${PL}" y1="${ys}" x2="${lineX}" y2="${ys}" stroke="${lv.color}" stroke-width="0.9" stroke-dasharray="5,4" opacity="0.8"/>` +
-               `<rect x="${bxX}" y="${(y - bxH / 2).toFixed(1)}" width="${bxW}" height="${bxH}" fill="#161b22" rx="3"/>` +
-               `<text x="${(bxX + bxW / 2).toFixed(1)}" y="${(y + 4.5).toFixed(1)}" font-size="9.5" fill="${lv.color}" font-weight="700" text-anchor="middle" font-family="-apple-system,sans-serif">${fmtMoney(lv.price)}</text>`;
-    }).join('');
-
-    // Trigger date vertical marker
-    let trigLine = '';
-    if (s.triggerISO) {
-        const ti = chartBars.findIndex(b => b.d >= s.triggerISO);
-        if (ti >= 0) {
-            const tx = xS(ti).toFixed(1);
-            trigLine = `<line x1="${tx}" y1="${PT}" x2="${tx}" y2="${bY}" stroke="#60a5fa" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.35"/>`;
-        }
-    }
-
-    return `<div class="detail-chart">
-        <svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;height:auto" class="chart-svg">
-            <defs>
-                <clipPath id="${clipId}"><rect x="${PL}" y="${PT}" width="${iW}" height="${iH}"/></clipPath>
-                <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="${lineColor}" stop-opacity="0.28"/>
-                    <stop offset="100%" stop-color="${lineColor}" stop-opacity="0.02"/>
-                </linearGradient>
-            </defs>
-            ${yGridSvg}
-            <path d="${areaD}" fill="url(#${gradId})" clip-path="url(#${clipId})"/>
-            ${trigLine}
-            <polyline points="${polyPts}" fill="none" stroke="${lineColor}" stroke-width="1.5" stroke-linejoin="round" clip-path="url(#${clipId})"/>
-            ${levelSvg}
-            ${xGridSvg}
-        </svg>
+function tvChartHtml(symbol) {
+    return `<div class="tv-chart-wrap" data-tv-symbol="${symbol}">
+        <div class="tradingview-widget-container__widget"></div>
     </div>`;
+}
+
+function initTVWidgets() {
+    document.querySelectorAll('[data-tv-symbol]').forEach(wrap => {
+        const symbol = wrap.dataset.tvSymbol;
+        delete wrap.dataset.tvSymbol;
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+        script.async = true;
+        script.textContent = JSON.stringify({
+            autosize: true,
+            symbol,
+            interval: 'D',
+            timezone: 'America/New_York',
+            theme: 'dark',
+            style: '1',
+            locale: 'en',
+            enable_publishing: false,
+            allow_symbol_change: false,
+            hide_side_toolbar: false,
+            save_image: false,
+        });
+        wrap.appendChild(script);
+    });
 }
 
 function setupBlockHtml(s) {
@@ -548,8 +327,6 @@ function setupBlockHtml(s) {
         return '<span class="neutral">—</span>';
     })();
 
-    const chart = drawPriceChart(s);
-
     return `
         <div class="setup-block">
             <div class="setup-block-header">
@@ -567,7 +344,7 @@ function setupBlockHtml(s) {
                 <div><label>Closed</label><span>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</span></div>
                 <div><label>Days</label><span>${s.track.length || '—'}</span></div>
             </div>
-            ${chart ? `<div class="detail-section-chart">${chart}</div>` : ''}
+            <div class="detail-section-chart">${tvChartHtml(s.symbol)}</div>
             ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : ''}
         </div>
     `;
@@ -636,6 +413,7 @@ function renderDetail() {
 
     html += `</div>`;
     pane.innerHTML = html;
+    initTVWidgets();
 }
 
 function clearSelection() {
@@ -674,7 +452,6 @@ function initInstallButton() {
 
 // ── Wiring ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('heatmapYear').textContent = CONFIG.heatmapYear;
     initInstallButton();
 
     // Status filter
@@ -697,8 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    renderHeatmap();
-    renderMetrics();
     renderActive();
     renderDetail();
 });
