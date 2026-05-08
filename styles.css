@@ -106,62 +106,6 @@ button { font-family: inherit; cursor: pointer; }
 }
 .install-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-/* ── Alert ticker (preserved from original) ─────────────────────────────── */
-.alert-ticker {
-    background: linear-gradient(90deg, #1e1b4b 0%, #1e3a8a 100%);
-    height: 40px;
-    display: flex;
-    overflow: hidden;
-    position: sticky;
-    top: 64px;
-    z-index: 998;
-    box-shadow: 0 2px 8px rgba(30, 27, 75, 0.3);
-}
-.ticker-badge {
-    flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    border-right: 1px solid rgba(255, 255, 255, 0.15);
-}
-.ticker-viewport { flex: 1; overflow: hidden; display: flex; align-items: center; }
-.ticker-track {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    width: max-content;
-    animation: ticker-scroll 90s linear infinite;
-}
-.ticker-track.paused { animation-play-state: paused; }
-@keyframes ticker-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-}
-.ticker-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 0 24px;
-    font-size: 12.5px;
-    color: rgba(255,255,255,0.7);
-}
-.ticker-sep { color: rgba(255,255,255,0.25); font-size: 16px; }
-.ticker-icon { font-size: 13px; }
-.ticker-item.warning .ticker-icon,
-.ticker-item.warning .ticker-title { color: #fbbf24; font-weight: 700; }
-@keyframes blink-arrow { 0%,100% {opacity:1;} 50% {opacity:0.2;} }
-.ticker-item.high-potential .ticker-icon { color: #6ee7b7; animation: blink-arrow 1.2s ease-in-out infinite; }
-.ticker-item.high-potential .ticker-title { color: #6ee7b7; font-weight: 700; }
-.ticker-item.setup .ticker-icon,
-.ticker-item.setup .ticker-title { color: rgba(255,255,255,0.85); font-weight: 700; }
-.ticker-body { color: rgba(255,255,255,0.75); }
-.ticker-body strong { color: #fff; }
-
 /* ── Layout ─────────────────────────────────────────────────────────────── */
 .main-content {
     padding: 24px 0 64px;
@@ -386,6 +330,33 @@ button { font-family: inherit; cursor: pointer; }
     text-transform: uppercase;
 }
 
+.status-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 14px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-light);
+    border-left: 3px solid var(--border);
+}
+.status-group-header .status-group-count {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.status-group-open     { border-left-color: #fbbf24; color: #fbbf24; }
+.status-group-watching { border-left-color: #6ee7b7; color: #6ee7b7; }
+.status-group-far      { border-left-color: var(--text-muted); color: var(--text-muted); opacity: 0.85; }
+
 .setup-row {
     display: flex;
     align-items: center;
@@ -445,30 +416,36 @@ button { font-family: inherit; cursor: pointer; }
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: center;
     gap: 4px;
-    min-width: 42px;
-}
-.row-date {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-variant-numeric: tabular-nums;
-}
-.row-meta-bottom { display: flex; gap: 5px; align-items: center; }
-.row-levels {
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--text-muted);
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 1px 4px;
+    min-width: 60px;
 }
 .row-pnl {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
 }
 .row-pnl.pos { color: var(--green); }
 .row-pnl.neg { color: var(--red); }
+
+.row-dist {
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    padding: 2px 7px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+.row-dist.near {
+    background: var(--blue-soft);
+    color: #93c5fd;
+    border-color: rgba(147,197,253,0.3);
+}
+.row-dist.far {
+    background: rgba(100,116,139,0.15);
+    color: var(--text-muted);
+    border-color: var(--border);
+}
 
 /* ── Shared tag styles (used in modal) ────────────────────────────────── */
 .tag {
@@ -837,12 +814,8 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .navbar-container { padding: 0 16px; gap: 12px; }
+    .navbar-container { padding: 0 16px; gap: 12px; height: 56px; }
     .navbar-tagline { display: none; }
-    .alert-ticker { top: 56px; height: 36px; }
-    .navbar-container { height: 56px; }
-    .ticker-badge { padding: 0 12px; font-size: 9px; }
-    .ticker-item { padding: 0 16px; font-size: 12px; }
     .page-container { padding: 0 16px; gap: 24px; }
     .heatmap-card { padding: 12px 16px; }
     .heatmap-header { padding: 0 16px; }
@@ -850,11 +823,27 @@ button { font-family: inherit; cursor: pointer; }
     .setups-split { grid-template-columns: 1fr; }
     .setups-detail-pane { position: static; }
     .detail-meta { grid-template-columns: repeat(2, 1fr); }
+
+    /* Tap-friendly setup rows on mobile */
+    .setup-row { padding: 13px 14px; gap: 12px; }
+    .row-symbol { font-size: 16px; }
+    .row-symbol-col { min-width: 64px; }
+    .row-note {
+        font-size: 13px;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.35;
+    }
+    .row-meta { min-width: 50px; }
+    .row-dist, .row-pnl { font-size: 12px; }
+
+    .status-group-header { padding: 10px 14px; font-size: 11px; }
 }
 
 @media (max-width: 480px) {
-    .ticker-badge { padding: 0 8px; font-size: 8px; }
-    .ticker-item { padding: 0 10px; font-size: 11px; }
     .heatmap-grid {
         grid-template-rows: 16px repeat(7, 10px);
         grid-auto-columns: 10px;
