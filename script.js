@@ -11,6 +11,7 @@ const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmap
 let activeFilter   = { setupId: null }; // null = show all setups in heatmap
 let statusFilter    = 'all';
 let directionFilter = 'all';
+let selectedSetupId = null;             // currently shown in detail pane
 
 // ── Date helpers ─────────────────────────────────────────────────────────
 // Use local-date strings (not UTC) so trigger detection and the heatmap line
@@ -285,10 +286,10 @@ function renderActive() {
             const el = document.createElement('article');
             const dirCls = s.direction === 'Short' ? 'dir-short' : 'dir-long';
             el.className = `setup-row ${dirCls}${s.tier ? ' tier-' + s.tier : ''}`;
-            if (activeFilter.setupId === s.id) el.classList.add('selected');
+            if (selectedSetupId === s.id) el.classList.add('selected');
             el.dataset.setupId = s.id;
             el.innerHTML = setupRowHtml(s);
-            el.addEventListener('click', () => openModal(s.id));
+            el.addEventListener('click', () => selectSetup(s.id));
             container.appendChild(el);
         }
     }
@@ -327,7 +328,7 @@ function renderHistory() {
             <td>${s.closeReason || (s.effectiveStatus === 'cancelled' ? 'cancelled' : '—')}</td>
         `;
         tr.style.cursor = 'pointer';
-        tr.addEventListener('click', () => openModal(s.id));
+        tr.addEventListener('click', () => selectSetup(s.id));
         tbody.appendChild(tr);
     }
 }
@@ -355,7 +356,153 @@ function renderMetrics() {
     avgEl.classList.toggle('red',   avg != null && avg < 0);
 }
 
-// ── Modal ────────────────────────────────────────────────────────────────
+// ── Detail pane ──────────────────────────────────────────────────────────
+function selectSetup(setupId) {
+    selectedSetupId = setupId;
+    // Update the active heatmap filter so the heatmap highlights this setup
+    activeFilter.setupId = setupId;
+    const s = SETUPS_X.find(x => x.id === setupId);
+    document.getElementById('heatmapSubtitle').textContent =
+        s ? `${s.symbol} · ${s.direction}` : 'All setups';
+    document.getElementById('heatmapClearBtn').classList.remove('active');
+    renderHeatmap();
+    renderActive();
+    renderDetail();
+}
+
+// Status of a price level given a setup's lifecycle.
+function levelStatus(s, levelType) {
+    // levelType: 'entry' | 'stop' | 'target'
+    if (s.effectiveStatus === 'cancelled') return 'invalidated';
+    if (levelType === 'entry') {
+        if (s.triggerISO) return 'hit';
+        return 'watching';
+    }
+    if (levelType === 'stop') {
+        if (s.closeReason === 'stop') return 'hit';
+        if (s.effectiveStatus === 'closed') return 'never-hit';
+        return 'watching';
+    }
+    if (levelType === 'target') {
+        if (s.closeReason === 'target') return 'hit';
+        if (s.effectiveStatus === 'closed') return 'never-hit';
+        return 'watching';
+    }
+    return 'watching';
+}
+
+const STATUS_LIST = ['watching', 'hit', 'overshoot', 'never-hit', 'invalidated'];
+const STATUS_LABEL = {
+    'watching':    'WATCHING',
+    'hit':         'HIT ✓',
+    'overshoot':   'OVERSHOOT',
+    'never-hit':   'NEVER HIT',
+    'invalidated': 'INVALIDATED ×',
+};
+
+function levelCardHtml(num, label, price, status) {
+    if (price == null) return '';
+    const buttons = STATUS_LIST.map(st =>
+        `<button class="status-btn ${st === status ? 'active' : ''} status-${st}" disabled>${STATUS_LABEL[st]}</button>`
+    ).join('');
+    return `
+        <div class="level-card">
+            <div class="level-row-top">
+                <span class="level-num">L${num}</span>
+                <span class="level-price">${fmtMoney(price)}</span>
+                <span class="level-desc">${label}</span>
+            </div>
+            <div class="level-status-row">${buttons}</div>
+        </div>
+    `;
+}
+
+function renderDetail() {
+    const pane = document.getElementById('setupDetail');
+    if (!pane) return;
+    if (!selectedSetupId) {
+        pane.innerHTML = `<div class="detail-empty">Select a setup from the list to see its details.</div>`;
+        return;
+    }
+    const s = SETUPS_X.find(x => x.id === selectedSetupId);
+    if (!s) {
+        pane.innerHTML = `<div class="detail-empty">Setup not found.</div>`;
+        return;
+    }
+
+    const isShort = s.direction === 'Short';
+    const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
+
+    let levelNum = 0;
+    const levels = [];
+    if (s.entryTrigger != null) {
+        levelNum++;
+        levels.push(levelCardHtml(levelNum, isShort ? 'Entry trigger — short' : 'Entry trigger — long', s.entryTrigger, levelStatus(s, 'entry')));
+    }
+    if (s.target != null) {
+        levelNum++;
+        levels.push(levelCardHtml(levelNum, 'Target', s.target, levelStatus(s, 'target')));
+    }
+    if (s.stop != null) {
+        levelNum++;
+        levels.push(levelCardHtml(levelNum, 'Stop', s.stop, levelStatus(s, 'stop')));
+    }
+
+    const triggerLabel = s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet';
+    const closedLabel  = s.closedDate ? FMT_SHORT(s.closedDate) : '—';
+
+    // P&L track mini-bar (reused from old card)
+    const miniBar = (() => {
+        if (!s.track.length) return '';
+        const cells = s.track.map(t => {
+            const cls = t.isTrigger ? 'hm-trigger' : (t.isClose ? 'hm-close' : pnlBucket(t.plPct));
+            return `<div class="mb-day ${cls}" title="${FMT_SHORT(t.date)} ${fmtPct(t.plPct)}"></div>`;
+        }).join('');
+        return `<div class="setup-mini-bar" style="height:24px;">${cells}</div>`;
+    })();
+
+    const pnl = (() => {
+        if (s.effectiveStatus === 'closed' && s.closeReturnPct != null) {
+            return `<span class="${pctClass(s.closeReturnPct)}">${fmtPct(s.closeReturnPct)}</span> closed`;
+        }
+        if (s.effectiveStatus === 'open' && s.ifHeldPct != null) {
+            return `<span class="${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)}</span> if held`;
+        }
+        return '<span class="neutral">—</span>';
+    })();
+
+    pane.innerHTML = `
+        <div class="detail-card">
+            <div class="detail-header">
+                <div class="detail-title-row">
+                    <h2 class="detail-symbol">${s.symbol}</h2>
+                    ${dirBadge}
+                    <span class="date-pill">${s.addedDate}</span>
+                    <span class="tag tag-status-${s.effectiveStatus}">${s.effectiveStatus}</span>
+                </div>
+                ${s.notes ? `<p class="detail-note">${s.notes}</p>` : ''}
+            </div>
+
+            <div class="detail-meta">
+                <div><label>Setup</label><span>${s.setupType || '—'}</span></div>
+                <div><label>Triggered</label><span>${triggerLabel}</span></div>
+                <div><label>Closed</label><span>${closedLabel}</span></div>
+                <div><label>Last price</label><span>${s.lastPrice != null ? fmtMoney(s.lastPrice) : '—'}</span></div>
+                <div><label>P&L</label><span>${pnl}</span></div>
+                <div><label>Days held</label><span>${s.track.length || '—'}</span></div>
+            </div>
+
+            ${miniBar ? `<div class="detail-section"><h4>P&L track</h4>${miniBar}</div>` : ''}
+
+            <div class="detail-section">
+                <h4>Price levels</h4>
+                ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : '<div class="empty-state" style="padding:14px;">No price levels set for this setup.</div>'}
+            </div>
+        </div>
+    `;
+}
+
+// ── Modal (legacy — kept but not opened by default) ─────────────────────
 function openModal(setupId) {
     const s = SETUPS_X.find(x => x.id === setupId);
     if (!s) return;
@@ -533,4 +680,5 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMetrics();
     renderActive();
     renderHistory();
+    renderDetail();
 });
