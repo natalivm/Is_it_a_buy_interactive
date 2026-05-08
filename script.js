@@ -417,6 +417,74 @@ function levelCardHtml(num, label, price, status) {
     `;
 }
 
+function drawPriceChart(s) {
+    const allBars = bars(s.symbol);
+    const endDate = s.closedDate || TODAY_ISO;
+    const chartBars = allBars.filter(b => b.d >= s.addedDate && b.d <= endDate);
+    if (chartBars.length < 2) return '';
+
+    const W = 500, H = 120;
+    const PL = 4, PR = 62, PT = 14, PB = 6;
+    const iW = W - PL - PR;
+    const iH = H - PT - PB;
+
+    const levelPrices = [s.entryTrigger, s.stop, s.target].filter(v => v != null);
+    const allP = [...chartBars.map(b => b.c), ...levelPrices];
+    let lo = Math.min(...allP), hi = Math.max(...allP);
+    const margin = (hi - lo) * 0.12 || 1;
+    lo -= margin; hi += margin;
+
+    const xS = i => PL + (i / Math.max(chartBars.length - 1, 1)) * iW;
+    const yS = p => PT + (1 - (p - lo) / (hi - lo)) * iH;
+    const bY = PT + iH;
+
+    const pts = chartBars.map((b, i) => [xS(i), yS(b.c)]);
+    const polyPts = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+    const areaD = `M${pts[0][0].toFixed(1)},${bY} ${pts.map(([x, y]) => `L${x.toFixed(1)},${y.toFixed(1)}`).join(' ')} L${pts[pts.length - 1][0].toFixed(1)},${bY} Z`;
+
+    const isShort = s.direction === 'Short';
+    const lastC = chartBars[chartBars.length - 1].c;
+    const isProfit = s.entryTrigger != null
+        ? (isShort ? lastC < s.entryTrigger : lastC > s.entryTrigger)
+        : true;
+    const lineColor = isProfit ? '#10b981' : '#ef4444';
+    const fillColor = isProfit ? 'rgba(16,185,129,0.10)' : 'rgba(239,68,68,0.10)';
+
+    const clipId = `cc-${s.id.replace(/[^a-z0-9]/gi, '')}`;
+    const lineEnd = (PL + iW).toFixed(1);
+
+    const levelDefs = [
+        { price: s.entryTrigger, label: 'Entry', color: '#60a5fa' },
+        { price: s.target,       label: 'Tgt',   color: '#34d399' },
+        { price: s.stop,         label: 'Stop',  color: '#f87171' },
+    ];
+    const levelSvg = levelDefs.map(lv => {
+        if (lv.price == null) return '';
+        const y = yS(lv.price).toFixed(1);
+        return `<line x1="${PL}" y1="${y}" x2="${lineEnd}" y2="${y}" stroke="${lv.color}" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.8"/>
+<text x="${(W - PR + 6)}" y="${(parseFloat(y) + 3.5).toFixed(1)}" font-size="9" fill="${lv.color}" opacity="0.95" font-family="-apple-system,BlinkMacSystemFont,sans-serif">${fmtMoney(lv.price)}</text>`;
+    }).join('');
+
+    let trigLine = '';
+    if (s.triggerISO) {
+        const ti = chartBars.findIndex(b => b.d >= s.triggerISO);
+        if (ti >= 0) {
+            const tx = xS(ti).toFixed(1);
+            trigLine = `<line x1="${tx}" y1="${PT}" x2="${tx}" y2="${bY}" stroke="#60a5fa" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>`;
+        }
+    }
+
+    return `<div class="detail-chart">
+        <svg viewBox="0 0 ${W} ${H}" width="100%" height="110" preserveAspectRatio="none" class="chart-svg">
+            <defs><clipPath id="${clipId}"><rect x="${PL}" y="${PT}" width="${iW}" height="${iH}"/></clipPath></defs>
+            <path d="${areaD}" fill="${fillColor}" clip-path="url(#${clipId})"/>
+            ${trigLine}
+            <polyline points="${polyPts}" fill="none" stroke="${lineColor}" stroke-width="1.5" stroke-linejoin="round" clip-path="url(#${clipId})"/>
+            ${levelSvg}
+        </svg>
+    </div>`;
+}
+
 function renderDetail() {
     const pane = document.getElementById('setupDetail');
     if (!pane) return;
@@ -451,14 +519,13 @@ function renderDetail() {
     const triggerLabel = s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet';
     const closedLabel  = s.closedDate ? FMT_SHORT(s.closedDate) : '—';
 
-    // P&L track mini-bar (reused from old card)
     const miniBar = (() => {
         if (!s.track.length) return '';
         const cells = s.track.map(t => {
             const cls = t.isTrigger ? 'hm-trigger' : (t.isClose ? 'hm-close' : pnlBucket(t.plPct));
             return `<div class="mb-day ${cls}" title="${FMT_SHORT(t.date)} ${fmtPct(t.plPct)}"></div>`;
         }).join('');
-        return `<div class="setup-mini-bar" style="height:24px;">${cells}</div>`;
+        return `<div class="setup-mini-bar">${cells}</div>`;
     })();
 
     const pnl = (() => {
@@ -470,6 +537,8 @@ function renderDetail() {
         }
         return '<span class="neutral">—</span>';
     })();
+
+    const chart = drawPriceChart(s);
 
     pane.innerHTML = `
         <div class="detail-card">
@@ -491,6 +560,8 @@ function renderDetail() {
                 <div><label>P&L</label><span>${pnl}</span></div>
                 <div><label>Days held</label><span>${s.track.length || '—'}</span></div>
             </div>
+
+            ${chart ? `<div class="detail-section detail-section-chart">${chart}</div>` : ''}
 
             ${miniBar ? `<div class="detail-section"><h4>P&L track</h4>${miniBar}</div>` : ''}
 
