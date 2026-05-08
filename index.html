@@ -103,9 +103,13 @@
                         <button class="filter-btn active" data-status-filter="all">All</button>
                         <button class="filter-btn" data-status-filter="watching">Watching</button>
                         <button class="filter-btn" data-status-filter="open">Open</button>
+                        <span class="filter-sep"></span>
+                        <button class="filter-btn active" data-dir-filter="all">All</button>
+                        <button class="filter-btn filter-btn-long" data-dir-filter="long">▲ Long</button>
+                        <button class="filter-btn filter-btn-short" data-dir-filter="short">▼ Short</button>
                     </div>
                 </div>
-                <div class="setups-grid" id="activeSetups"></div>
+                <div class="setups-list" id="activeSetups"></div>
                 <div class="empty-state" id="activeEmpty" hidden>No active setups match this filter.</div>
             </section>
 
