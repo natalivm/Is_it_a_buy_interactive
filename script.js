@@ -8,8 +8,9 @@ const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
 const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmapYear: new Date().getFullYear() };
 
-let activeFilter = { setupId: null }; // null = show all setups in heatmap
-let statusFilter = 'all';
+let activeFilter   = { setupId: null }; // null = show all setups in heatmap
+let statusFilter    = 'all';
+let directionFilter = 'all';
 
 // ── Date helpers ─────────────────────────────────────────────────────────
 // Use local-date strings (not UTC) so trigger detection and the heatmap line
@@ -212,7 +213,7 @@ function renderHeatmap() {
     });
 }
 
-// ── Setup card rendering ─────────────────────────────────────────────────
+// ── Setup list rendering ─────────────────────────────────────────────────
 function fmtMoney(v) {
     if (typeof v !== 'number' || !isFinite(v)) return '—';
     return '$' + v.toFixed(2);
@@ -223,92 +224,73 @@ function fmtPct(v) {
 }
 function pctClass(v) { return v == null ? 'neutral' : (v >= 0 ? 'pos' : 'neg'); }
 
-function setupCardHtml(s) {
-    const tags = [];
-    tags.push(`<span class="tag ${s.direction === 'Long' ? 'tag-long' : 'tag-short'}">${s.direction}</span>`);
-    tags.push(`<span class="tag tag-status-${s.effectiveStatus}">${s.effectiveStatus}</span>`);
-    if (s.setupType) tags.push(`<span class="tag tag-setup">${s.setupType}</span>`);
-
-    const triggerLabel = s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet';
-
-    const pnlBlock = (() => {
-        if (s.effectiveStatus === 'cancelled') {
-            return `<div class="setup-pnl"><span class="lbl">Cancelled</span><span class="val neutral">—</span></div>`;
+function setupRowHtml(s) {
+    const isShort = s.direction === 'Short';
+    const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
+    const levelCount = [s.entryTrigger, s.stop, s.target].filter(v => v != null).length;
+    const levelBadge = levelCount ? `<span class="row-levels">${levelCount}L</span>` : '';
+    const snippet = s.notes ? s.notes.substring(0, 60) + (s.notes.length > 60 ? '…' : '') : '';
+    const pnlVal = (() => {
+        if (s.effectiveStatus === 'open' && s.ifHeldPct != null) {
+            const cls = pctClass(s.ifHeldPct);
+            return `<span class="row-pnl ${cls}">${fmtPct(s.ifHeldPct)}</span>`;
         }
-        if (s.effectiveStatus === 'watching') {
-            return `<div class="setup-pnl"><span class="lbl">Awaiting trigger</span><span class="val neutral">—</span></div>`;
-        }
-        if (s.effectiveStatus === 'closed') {
-            const cls = pctClass(s.closeReturnPct);
-            return `<div class="setup-pnl"><span class="lbl">Closed return</span><span class="val ${cls}">${fmtPct(s.closeReturnPct)}</span></div>`;
-        }
-        const cls = pctClass(s.ifHeldPct);
-        return `<div class="setup-pnl"><span class="lbl">If held to today</span><span class="val ${cls}">${fmtPct(s.ifHeldPct)}</span></div>`;
-    })();
-
-    const miniBar = (() => {
-        if (!s.track.length) return '';
-        const cells = s.track.map(t => {
-            const cls = t.isTrigger ? 'hm-trigger' : (t.isClose ? 'hm-close' : pnlBucket(t.plPct));
-            return `<div class="mb-day ${cls}" title="${FMT_SHORT(t.date)} ${fmtPct(t.plPct)}"></div>`;
-        }).join('');
-        return `<div class="setup-mini-bar">${cells}</div>`;
+        return '';
     })();
 
     return `
-        <div class="setup-head">
-            <div>
-                <div class="setup-symbol">${s.symbol}</div>
-                <div class="setup-tags">${tags.join('')}</div>
-            </div>
-            <div class="setup-head-right">
-                <button class="setup-details-btn" type="button" data-action="details" aria-label="Details">↗</button>
-                <div class="setup-added">Added<br>${FMT_SHORT(s.addedDate)}</div>
-            </div>
+        <div class="row-symbol-col">
+            <span class="row-symbol">${s.symbol}</span>
+            ${dirBadge}
         </div>
-        <div class="setup-grid">
-            <div><label>Entry</label><span>${fmtMoney(s.entryTrigger)}</span></div>
-            <div><label>Stop</label><span>${s.stop != null ? fmtMoney(s.stop) : '<span class="neutral">—</span>'}</span></div>
-            <div><label>Target</label><span>${s.target != null ? fmtMoney(s.target) : '<span class="neutral">—</span>'}</span></div>
-            <div><label>Triggered</label><span>${triggerLabel}</span></div>
-            <div><label>Last</label><span>${s.lastPrice != null ? fmtMoney(s.lastPrice) : '<span class="neutral">—</span>'}</span></div>
-            <div><label>Days held</label><span>${s.track.length || '<span class="neutral">—</span>'}</span></div>
+        <div class="row-note">${snippet}</div>
+        <div class="row-meta">
+            <span class="row-date">${s.addedDate.slice(5)}</span>
+            <div class="row-meta-bottom">${pnlVal}${levelBadge}</div>
         </div>
-        ${pnlBlock}
-        ${miniBar}
-        ${s.notes ? `<div class="setup-notes">${s.notes}</div>` : ''}
     `;
 }
 
 function renderActive() {
-    const grid = document.getElementById('activeSetups');
-    const empty = document.getElementById('activeEmpty');
+    const container = document.getElementById('activeSetups');
+    const empty     = document.getElementById('activeEmpty');
     const countLabel = document.getElementById('activeCountLabel');
-    if (!grid) return;
+    if (!container) return;
 
     let list = SETUPS_X.filter(s => s.effectiveStatus === 'watching' || s.effectiveStatus === 'open');
-    if (statusFilter !== 'all') list = list.filter(s => s.effectiveStatus === statusFilter);
+    if (statusFilter    !== 'all') list = list.filter(s => s.effectiveStatus === statusFilter);
+    if (directionFilter !== 'all') list = list.filter(s => s.direction.toLowerCase() === directionFilter);
 
     countLabel.textContent = `(${list.length})`;
-    grid.innerHTML = '';
+    container.innerHTML = '';
     if (!list.length) { empty.hidden = false; return; }
     empty.hidden = true;
 
+    // Group by addedDate descending
+    const groups = {};
     for (const s of list) {
-        const el = document.createElement('article');
-        el.className = `setup-card${s.tier ? ' tier-' + s.tier : ''}`;
-        if (activeFilter.setupId === s.id) el.classList.add('selected');
-        el.dataset.setupId = s.id;
-        el.innerHTML = setupCardHtml(s);
-        el.addEventListener('click', e => {
-            if (e.target.closest('[data-action="details"]')) {
-                e.stopPropagation();
-                openModal(s.id);
-            } else {
-                onSetupClick(s.id);
-            }
-        });
-        grid.appendChild(el);
+        if (!groups[s.addedDate]) groups[s.addedDate] = [];
+        groups[s.addedDate].push(s);
+    }
+    const sortedDates = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+    for (const date of sortedDates) {
+        const hdr = document.createElement('div');
+        hdr.className = 'setup-date-header';
+        const isToday = date === TODAY_ISO;
+        hdr.textContent = FMT_SHORT(date).toUpperCase() + (isToday ? ' — TODAY' : '');
+        container.appendChild(hdr);
+
+        for (const s of groups[date]) {
+            const el = document.createElement('article');
+            const dirCls = s.direction === 'Short' ? 'dir-short' : 'dir-long';
+            el.className = `setup-row ${dirCls}${s.tier ? ' tier-' + s.tier : ''}`;
+            if (activeFilter.setupId === s.id) el.classList.add('selected');
+            el.dataset.setupId = s.id;
+            el.innerHTML = setupRowHtml(s);
+            el.addEventListener('click', () => openModal(s.id));
+            container.appendChild(el);
+        }
     }
 }
 
@@ -521,6 +503,16 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('[data-status-filter]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             statusFilter = btn.dataset.statusFilter;
+            renderActive();
+        });
+    });
+
+    // Direction filter
+    document.querySelectorAll('[data-dir-filter]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-dir-filter]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            directionFilter = btn.dataset.dirFilter;
             renderActive();
         });
     });
