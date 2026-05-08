@@ -1,12 +1,12 @@
 {
   "name": "SwingTrader 2026",
   "short_name": "SwingTrader",
-  "description": "A responsive web application for swing trading",
+  "description": "Trade setup tracker",
   "start_url": "/SwingTrader2026/",
   "scope": "/SwingTrader2026/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#ffffff",
+  "background_color": "#0b0f1a",
   "theme_color": "#4f46e5",
   "icons": [
     {
@@ -40,19 +40,5 @@
       "purpose": "any"
     }
   ],
-  "categories": ["finance", "business"],
-  "shortcuts": [
-    {
-      "name": "Portfolio",
-      "short_name": "Portfolio",
-      "description": "Manage your portfolio",
-      "url": "/SwingTrader2026/#portfolio"
-    },
-    {
-      "name": "Trade History",
-      "short_name": "History",
-      "description": "View closed trade history",
-      "url": "/SwingTrader2026/#dashboard"
-    }
-  ]
+  "categories": ["finance", "business"]
 }
