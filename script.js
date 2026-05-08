@@ -270,24 +270,22 @@ function levelCardHtml(num, label, price, status) {
 }
 
 function tvChartHtml(symbol) {
-    // Direct iframe embed — this is the same URL TradingView's own embed
-    // widget loads internally, but used directly so we don't depend on async
-    // script injection (which is unreliable for dynamic re-renders).
+    const frameId = `tv_${symbol.replace(/[^a-z0-9]/gi, '_')}`;
     const params = new URLSearchParams({
+        frameElementId: frameId,
         symbol,
-        interval: 'D',
-        theme: 'dark',
-        style: '1',
-        locale: 'en',
-        timezone: 'America/New_York',
-        hide_side_toolbar: '0',
-        allow_symbol_change: '0',
-        save_image: '0',
-        enable_publishing: '0',
-        withdateranges: '1',
+        interval:       'D',
+        theme:          'dark',
+        style:          '1',
+        locale:         'en',
+        hidesidetoolbar:'0',
+        saveimage:      '0',
+        utm_source:     location.hostname,
+        utm_medium:     'widget',
+        utm_campaign:   'chart',
     });
     const src = `https://s.tradingview.com/widgetembed/?${params.toString()}`;
-    return `<iframe class="tv-chart-wrap" src="${src}" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen></iframe>`;
+    return `<iframe id="${frameId}" class="tv-chart-wrap" src="${src}" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen></iframe>`;
 }
 
 function setupBlockHtml(s) {
