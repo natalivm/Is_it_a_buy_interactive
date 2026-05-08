@@ -270,7 +270,9 @@ function levelCardHtml(num, label, price, status) {
 }
 
 function tvChartHtml(symbol) {
-    return `<div class="tv-chart-wrap" data-tv-symbol="${symbol}">
+    // The outer div must carry tradingview-widget-container so TV's script
+    // can locate the sibling widget div after async injection.
+    return `<div class="tradingview-widget-container tv-chart-wrap" data-tv-symbol="${symbol}">
         <div class="tradingview-widget-container__widget"></div>
     </div>`;
 }
@@ -282,7 +284,6 @@ function initTVWidgets() {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-        script.async = true;
         script.textContent = JSON.stringify({
             autosize: true,
             symbol,

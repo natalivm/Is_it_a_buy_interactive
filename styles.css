@@ -108,18 +108,20 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ── Layout ─────────────────────────────────────────────────────────────── */
 .main-content {
-    padding: 24px 0 64px;
+    height: calc(100vh - 64px);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 32px;
 }
 .page-container {
     max-width: 1400px;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 20px 24px 16px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    flex: 1;
+    min-height: 0;
 }
 
 .section-title {
@@ -267,7 +269,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ── Setups grid ────────────────────────────────────────────────────────── */
-.setups-section { display: flex; flex-direction: column; gap: 12px; }
+.setups-section { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; }
 .setups-header {
     display: flex;
     justify-content: space-between;
@@ -285,17 +287,22 @@ button { font-family: inherit; cursor: pointer; }
     display: grid;
     grid-template-columns: minmax(320px, 380px) 1fr;
     gap: 16px;
-    align-items: start;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
 }
-.setups-list-pane { min-width: 0; }
+.setups-list-pane {
+    min-width: 0;
+    overflow-y: auto;
+    min-height: 0;
+}
 .setups-detail-pane {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    min-height: 320px;
     padding: 0;
-    position: sticky;
-    top: 16px;
+    overflow-y: auto;
+    min-height: 0;
 }
 .detail-empty {
     padding: 60px 20px;
@@ -880,11 +887,12 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 768px) {
     .navbar-container { padding: 0 16px; gap: 12px; height: 56px; }
     .navbar-tagline { display: none; }
-    .page-container { padding: 0 16px; gap: 24px; }
-    .heatmap-card { padding: 12px; }
-    .setup-grid { grid-template-columns: repeat(2, 1fr); }
-    .setups-split { grid-template-columns: 1fr; }
-    .setups-detail-pane { position: static; }
+    .page-container { padding: 0 16px 24px; }
+    .main-content { height: auto; overflow: visible; }
+    .setups-section { flex: none; min-height: auto; }
+    .setups-split { grid-template-columns: 1fr; flex: none; min-height: auto; }
+    .setups-list-pane { overflow-y: visible; }
+    .setups-detail-pane { overflow-y: visible; }
     .detail-meta { grid-template-columns: repeat(2, 1fr); }
 
     /* Tap-friendly setup rows on mobile */
