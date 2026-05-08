@@ -31,10 +31,9 @@ const TICKER_DATA = [
 //   id              unique slug
 //   symbol          ticker
 //   direction       'Long' | 'Short'
-//   entryTrigger    price that, once hit, triggers entry
+//   entryTrigger    price that, once hit, triggers entry (null = not set)
 //   stop            protective stop price (null = none yet)
 //   target          profit target price (null = none yet)
-//   rr              risk/reward as text, e.g. '1:2.3' (null = auto-calc)
 //   setupType       'Breakout' | 'Pullback' | 'Reversal' | 'Earnings' | …
 //   tier            null | 'warning' | 'high-potential' | 'setup'
 //   addedDate       ISO date when the setup was added (YYYY-MM-DD)
@@ -50,7 +49,7 @@ const SETUPS = [
   {
     id: 'tsem-2026-04-30', symbol: 'TSEM', direction: 'Long',
     entryTrigger: 200.75, stop: 179.00, target: 250.00,
-    rr: null, setupType: 'Breakout', tier: 'warning',
+    setupType: 'Breakout', tier: 'warning',
     addedDate: '2026-04-30',
     notes: 'Top-rated semicon play out of Israel · should get a boost from QCOM earnings and is set to break the recent pullback · wide stop — go small!',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -58,7 +57,7 @@ const SETUPS = [
   {
     id: 'stx-2026-04-16', symbol: 'STX', direction: 'Short',
     entryTrigger: 553.79, stop: null, target: 361.00,
-    rr: null, setupType: 'Reversal', tier: 'high-potential',
+    setupType: 'Reversal', tier: 'high-potential',
     addedDate: '2026-04-16',
     notes: 'Extended after blow-off · 44% target · sized for slow grind down',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -66,7 +65,7 @@ const SETUPS = [
   {
     id: 'be-2026-04-21', symbol: 'BE', direction: 'Short',
     entryTrigger: 253.03, stop: null, target: 185.00,
-    rr: null, setupType: 'Reversal', tier: 'high-potential',
+    setupType: 'Reversal', tier: 'high-potential',
     addedDate: '2026-04-21',
     notes: 'Parabolic · 33.8% potential to mean',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -74,7 +73,7 @@ const SETUPS = [
   {
     id: 'amd-2026-04-23', symbol: 'AMD', direction: 'Short',
     entryTrigger: 309.14, stop: null, target: 285.00,
-    rr: null, setupType: 'Pullback', tier: 'high-potential',
+    setupType: 'Pullback', tier: 'high-potential',
     addedDate: '2026-04-23',
     notes: 'Short the rip back into resistance',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -82,7 +81,7 @@ const SETUPS = [
   {
     id: 'nbis-2026-04-30', symbol: 'NBIS', direction: 'Short',
     entryTrigger: null, stop: null, target: null,
-    rr: null, setupType: 'Earnings', tier: 'setup',
+    setupType: 'Earnings', tier: 'setup',
     addedDate: '2026-04-30',
     notes: 'Earnings today · watch for a push up to re-enter Short',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -90,7 +89,7 @@ const SETUPS = [
   {
     id: 'googl-2026-04-14', symbol: 'GOOGL', direction: 'Short',
     entryTrigger: 351.00, stop: null, target: null,
-    rr: null, setupType: 'Reversal', tier: 'setup',
+    setupType: 'Reversal', tier: 'setup',
     addedDate: '2026-04-14',
     notes: 'Large position planned · watching for confirmation',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -98,7 +97,7 @@ const SETUPS = [
   {
     id: 'mu-2026-04-24', symbol: 'MU', direction: 'Short',
     entryTrigger: 518.25, stop: null, target: null,
-    rr: null, setupType: 'Reversal', tier: null,
+    setupType: 'Reversal', tier: null,
     addedDate: '2026-04-24',
     notes: 'Mean-reversion short',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -106,7 +105,7 @@ const SETUPS = [
   {
     id: 'figs-2026-04-22', symbol: 'FIGS', direction: 'Long',
     entryTrigger: 15.71, stop: 14.50, target: 20.00,
-    rr: null, setupType: 'Breakout', tier: null,
+    setupType: 'Breakout', tier: null,
     addedDate: '2026-04-22',
     notes: 'Tight base · 27% to target · small risk',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -114,7 +113,7 @@ const SETUPS = [
   {
     id: 'nxt-2026-04-24', symbol: 'NXT', direction: 'Long',
     entryTrigger: 124.70, stop: 113.50, target: 160.00,
-    rr: null, setupType: 'Pullback', tier: null,
+    setupType: 'Pullback', tier: null,
     addedDate: '2026-04-24',
     notes: 'Solar leader · bid back to 50dma',
     status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
@@ -124,7 +123,7 @@ const SETUPS = [
   {
     id: 'nbis-closed-2026-04-30', symbol: 'NBIS', direction: 'Long',
     entryTrigger: 86.50, stop: 80.00, target: 105.00,
-    rr: null, setupType: 'Pullback', tier: null,
+    setupType: 'Pullback', tier: null,
     addedDate: '2026-04-25',
     notes: 'Closed for +15.7% the day before earnings',
     status: 'closed',

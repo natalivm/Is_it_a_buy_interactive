@@ -8,29 +8,19 @@ const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
 const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmapYear: new Date().getFullYear() };
 
-const PNL_BUCKETS = CONFIG.pnlBuckets || [
-    { min:  8,         cls: 'hm-gain-3' },
-    { min:  3,         cls: 'hm-gain-2' },
-    { min:  0,         cls: 'hm-gain-1' },
-    { min: -3,         cls: 'hm-loss-1' },
-    { min: -8,         cls: 'hm-loss-2' },
-    { min: -Infinity,  cls: 'hm-loss-3' },
-];
-
 let activeFilter = { setupId: null }; // null = show all setups in heatmap
 let statusFilter = 'all';
 
 // ── Date helpers ─────────────────────────────────────────────────────────
-const ISO  = d => d.toISOString().slice(0, 10);
+// Use local-date strings (not UTC) so trigger detection and the heatmap line
+// up with the user's local "today" regardless of timezone.
+const ISO = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const PARSE = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
-const FMT_SHORT = s => {
-    const d = PARSE(s);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-};
+const FMT_SHORT = s => PARSE(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 const TODAY_ISO = ISO(new Date());
 
 function pnlBucket(pct) {
-    for (const b of PNL_BUCKETS) if (pct >= b.min) return b.cls;
+    for (const b of CONFIG.pnlBuckets) if (pct >= b.min) return b.cls;
     return 'hm-loss-3';
 }
 
@@ -69,12 +59,16 @@ function computeDailyTrack(setup, triggerISO) {
     const endISO = setup.closedDate || TODAY_ISO;
     const window = barsFromTo(setup.symbol, triggerISO, endISO);
     const entry = setup.entryTrigger;
+    const closed = setup.status === 'closed';
+    const lastIdx = window.length - 1;
     return window.map((b, i) => ({
         date: b.d,
         close: b.c,
         plPct: pnlPct(setup.direction, entry, b.c),
         isTrigger: i === 0,
-        isClose: setup.closedDate && b.d === setup.closedDate,
+        // Mark the final bar as the close bar for any closed trade — handles
+        // the case where closedDate falls on a weekend/holiday.
+        isClose: closed && i === lastIdx,
     }));
 }
 
@@ -220,11 +214,11 @@ function renderHeatmap() {
 
 // ── Setup card rendering ─────────────────────────────────────────────────
 function fmtMoney(v) {
-    if (v == null) return '—';
-    return '$' + v.toFixed(v >= 100 ? 2 : 2);
+    if (typeof v !== 'number' || !isFinite(v)) return '—';
+    return '$' + v.toFixed(2);
 }
 function fmtPct(v) {
-    if (v == null) return '—';
+    if (typeof v !== 'number' || !isFinite(v)) return '—';
     return (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
 }
 function pctClass(v) { return v == null ? 'neutral' : (v >= 0 ? 'pos' : 'neg'); }
@@ -267,8 +261,9 @@ function setupCardHtml(s) {
                 <div class="setup-symbol">${s.symbol}</div>
                 <div class="setup-tags">${tags.join('')}</div>
             </div>
-            <div style="text-align:right;font-size:11px;color:var(--text-muted);">
-                Added<br>${FMT_SHORT(s.addedDate)}
+            <div class="setup-head-right">
+                <button class="setup-details-btn" type="button" data-action="details" aria-label="Details">↗</button>
+                <div class="setup-added">Added<br>${FMT_SHORT(s.addedDate)}</div>
             </div>
         </div>
         <div class="setup-grid">
@@ -305,7 +300,14 @@ function renderActive() {
         if (activeFilter.setupId === s.id) el.classList.add('selected');
         el.dataset.setupId = s.id;
         el.innerHTML = setupCardHtml(s);
-        el.addEventListener('click', () => onSetupClick(s.id));
+        el.addEventListener('click', e => {
+            if (e.target.closest('[data-action="details"]')) {
+                e.stopPropagation();
+                openModal(s.id);
+            } else {
+                onSetupClick(s.id);
+            }
+        });
         grid.appendChild(el);
     }
 }
@@ -440,11 +442,10 @@ function closeModal() {
     document.getElementById('setupModal').hidden = true;
 }
 
-// ── Setup click → filter heatmap (or open modal on dbl/long-press) ──────
+// Click a card to filter the heatmap to that setup; click again to clear.
 function onSetupClick(setupId) {
     if (activeFilter.setupId === setupId) {
-        // Second click on same setup: open detail modal
-        openModal(setupId);
+        clearFilter();
         return;
     }
     activeFilter.setupId = setupId;
@@ -453,7 +454,7 @@ function onSetupClick(setupId) {
         s ? `${s.symbol} · ${s.direction}` : 'All setups';
     document.getElementById('heatmapClearBtn').classList.remove('active');
     renderHeatmap();
-    renderActive(); // refresh selected styling
+    renderActive();
 }
 
 function clearFilter() {
