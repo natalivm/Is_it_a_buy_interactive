@@ -97,7 +97,18 @@ function enrichSetup(s) {
         closeReturnPct = pnlPct(s.direction, s.entryTrigger, closePrice);
     }
 
-    return { ...s, triggerISO, track, effectiveStatus, lastPrice, ifHeldPct, closeReturnPct };
+    // distanceToTriggerPct: how far the price has to move (in the right direction)
+    // to trigger entry. + = still waiting; large + = "far / likely invalidated".
+    let distanceToTriggerPct = null;
+    if (effectiveStatus === 'watching' && s.entryTrigger != null && lastPrice != null && lastPrice > 0) {
+        if (s.direction === 'Long') {
+            distanceToTriggerPct = ((s.entryTrigger - lastPrice) / lastPrice) * 100;
+        } else {
+            distanceToTriggerPct = ((lastPrice - s.entryTrigger) / lastPrice) * 100;
+        }
+    }
+
+    return { ...s, triggerISO, track, effectiveStatus, lastPrice, ifHeldPct, closeReturnPct, distanceToTriggerPct };
 }
 
 const SETUPS_X = SETUP_LIST.map(enrichSetup);
@@ -228,16 +239,19 @@ function pctClass(v) { return v == null ? 'neutral' : (v >= 0 ? 'pos' : 'neg'); 
 function setupRowHtml(s) {
     const isShort = s.direction === 'Short';
     const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
-    const levelCount = [s.entryTrigger, s.stop, s.target].filter(v => v != null).length;
-    const levelBadge = levelCount ? `<span class="row-levels">${levelCount}L</span>` : '';
     const snippet = s.notes ? s.notes.substring(0, 60) + (s.notes.length > 60 ? '…' : '') : '';
-    const pnlVal = (() => {
-        if (s.effectiveStatus === 'open' && s.ifHeldPct != null) {
-            const cls = pctClass(s.ifHeldPct);
-            return `<span class="row-pnl ${cls}">${fmtPct(s.ifHeldPct)}</span>`;
-        }
-        return '';
-    })();
+
+    // Right-side metric:
+    //   Open   → if-held P&L
+    //   Watching → distance to trigger (e.g., "+2.4% away")
+    let metric = '';
+    if (s.effectiveStatus === 'open' && s.ifHeldPct != null) {
+        metric = `<span class="row-pnl ${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)}</span>`;
+    } else if (s.effectiveStatus === 'watching' && s.distanceToTriggerPct != null) {
+        const d = s.distanceToTriggerPct;
+        const farCls = d > 4 ? 'far' : 'near';
+        metric = `<span class="row-dist ${farCls}">${d >= 0 ? '+' : ''}${d.toFixed(1)}%</span>`;
+    }
 
     return `
         <div class="row-symbol-col">
@@ -245,10 +259,7 @@ function setupRowHtml(s) {
             ${dirBadge}
         </div>
         <div class="row-note">${snippet}</div>
-        <div class="row-meta">
-            <span class="row-date">${s.addedDate.slice(5)}</span>
-            <div class="row-meta-bottom">${pnlVal}${levelBadge}</div>
-        </div>
+        <div class="row-meta">${metric}</div>
     `;
 }
 
@@ -267,22 +278,37 @@ function renderActive() {
     if (!list.length) { empty.hidden = false; return; }
     empty.hidden = true;
 
-    // Group by addedDate descending
-    const groups = {};
+    // Group by status bucket:
+    //   open      → triggered, currently in the trade
+    //   watching  → still close to entry trigger (≤ 4% away)
+    //   far       → price has drifted far from entry — likely invalidated
+    const FAR_THRESHOLD = 4;
+    const buckets = { open: [], watching: [], far: [] };
     for (const s of list) {
-        if (!groups[s.addedDate]) groups[s.addedDate] = [];
-        groups[s.addedDate].push(s);
+        if (s.effectiveStatus === 'open') buckets.open.push(s);
+        else if (s.distanceToTriggerPct != null && s.distanceToTriggerPct > FAR_THRESHOLD) buckets.far.push(s);
+        else buckets.watching.push(s);
     }
-    const sortedDates = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+    // sort within each
+    buckets.open.sort((a, b) => (b.triggerISO || '').localeCompare(a.triggerISO || ''));
+    buckets.watching.sort((a, b) => (a.distanceToTriggerPct ?? 0) - (b.distanceToTriggerPct ?? 0));
+    buckets.far.sort((a, b) => (a.distanceToTriggerPct ?? 999) - (b.distanceToTriggerPct ?? 999));
 
-    for (const date of sortedDates) {
+    const sections = [
+        { key: 'open',     title: 'Triggered · in trade', items: buckets.open },
+        { key: 'watching', title: 'Watching · near trigger', items: buckets.watching },
+        { key: 'far',      title: 'Far from trigger · likely invalidated', items: buckets.far },
+    ];
+
+    for (const sec of sections) {
+        if (!sec.items.length) continue;
+
         const hdr = document.createElement('div');
-        hdr.className = 'setup-date-header';
-        const isToday = date === TODAY_ISO;
-        hdr.textContent = FMT_SHORT(date).toUpperCase() + (isToday ? ' — TODAY' : '');
+        hdr.className = `status-group-header status-group-${sec.key}`;
+        hdr.innerHTML = `<span>${sec.title}</span><span class="status-group-count">${sec.items.length}</span>`;
         container.appendChild(hdr);
 
-        for (const s of groups[date]) {
+        for (const s of sec.items) {
             const el = document.createElement('article');
             const dirCls = s.direction === 'Short' ? 'dir-short' : 'dir-long';
             el.className = `setup-row ${dirCls}${s.tier ? ' tier-' + s.tier : ''}`;
