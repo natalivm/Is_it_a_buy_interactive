@@ -222,51 +222,42 @@ function selectSymbol(sym) {
     renderDetail();
 }
 
-// Status of a price level given a setup's lifecycle.
-function levelStatus(s, levelType) {
-    // levelType: 'entry' | 'stop' | 'target'
-    if (s.effectiveStatus === 'cancelled') return 'invalidated';
-    if (levelType === 'entry') {
-        if (s.triggerISO) return 'hit';
-        return 'watching';
-    }
-    if (levelType === 'stop') {
-        if (s.closeReason === 'stop') return 'hit';
-        if (s.effectiveStatus === 'closed') return 'never-hit';
-        return 'watching';
-    }
-    if (levelType === 'target') {
-        if (s.closeReason === 'target') return 'hit';
-        if (s.effectiveStatus === 'closed') return 'never-hit';
-        return 'watching';
-    }
-    return 'watching';
-}
+function priceLadderHtml(s) {
+    const isShort = s.direction === 'Short';
+    const { entryTrigger: entry, stop, target, lastPrice: last } = s;
 
-const STATUS_LIST = ['watching', 'hit', 'overshoot', 'never-hit', 'invalidated'];
-const STATUS_LABEL = {
-    'watching':    'WATCHING',
-    'hit':         'HIT ✓',
-    'overshoot':   'OVERSHOOT',
-    'never-hit':   'NEVER HIT',
-    'invalidated': 'INVALIDATED ×',
-};
+    const pctVsEntry = p => (entry != null && p != null)
+        ? pnlPct(s.direction, entry, p) : null;
 
-function levelCardHtml(num, label, price, status) {
-    if (price == null) return '';
-    const buttons = STATUS_LIST.map(st =>
-        `<button class="status-btn ${st === status ? 'active' : ''} status-${st}" disabled>${STATUS_LABEL[st]}</button>`
-    ).join('');
-    return `
-        <div class="level-card">
-            <div class="level-row-top">
-                <span class="level-num">L${num}</span>
-                <span class="level-price">${fmtMoney(price)}</span>
-                <span class="level-desc">${label}</span>
-            </div>
-            <div class="level-status-row">${buttons}</div>
+    // Layout: lower price on left, higher on right.
+    // Long:  Stop(red/left) | Entry(blue) | Target(green/right)
+    // Short: Target(green/left) | Entry(blue) | Stop(red/right)
+    const risk   = { price: stop,   label: 'Stop',   cls: 'ladder-stop'   };
+    const reward = { price: target, label: 'Target', cls: 'ladder-target' };
+    const [left, right] = isShort ? [reward, risk] : [risk, reward];
+
+    const col = (lv, pct, align) => {
+        const pctHtml = pct != null
+            ? `<div class="ladder-pct ${pctClass(pct)}">${fmtPct(pct)}</div>` : '';
+        return `<div class="ladder-col ${lv.cls}" style="text-align:${align}">
+            <div class="ladder-price">${lv.price != null ? fmtMoney(lv.price) : '—'}</div>
+            <div class="ladder-label">${lv.label}</div>
+            ${pctHtml}
+        </div>`;
+    };
+
+    const lastHtml = last != null
+        ? `<div class="ladder-last">Last ${fmtMoney(last)}</div>` : '';
+
+    return `<div class="price-ladder">
+        ${col(left,  pctVsEntry(left.price),  'left')}
+        <div class="ladder-col ladder-entry" style="text-align:center">
+            <div class="ladder-price">${entry != null ? fmtMoney(entry) : '—'}</div>
+            <div class="ladder-label">Entry</div>
+            ${lastHtml}
         </div>
-    `;
+        ${col(right, pctVsEntry(right.price), 'right')}
+    </div>`;
 }
 
 function tvChartHtml(symbol) {
@@ -292,47 +283,31 @@ function setupBlockHtml(s) {
     const isShort = s.direction === 'Short';
     const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
 
-    let levelNum = 0;
-    const levels = [];
-    if (s.entryTrigger != null) {
-        levelNum++;
-        levels.push(levelCardHtml(levelNum, isShort ? 'Entry — short' : 'Entry — long', s.entryTrigger, levelStatus(s, 'entry')));
-    }
-    if (s.target != null) {
-        levelNum++;
-        levels.push(levelCardHtml(levelNum, 'Target', s.target, levelStatus(s, 'target')));
-    }
-    if (s.stop != null) {
-        levelNum++;
-        levels.push(levelCardHtml(levelNum, 'Stop', s.stop, levelStatus(s, 'stop')));
-    }
-
-    const pnl = (() => {
+    const pnlHtml = (() => {
         if (s.effectiveStatus === 'closed' && s.closeReturnPct != null)
-            return `<span class="${pctClass(s.closeReturnPct)}">${fmtPct(s.closeReturnPct)}</span> closed`;
+            return `<span class="setup-pnl ${pctClass(s.closeReturnPct)}">${fmtPct(s.closeReturnPct)} closed</span>`;
         if (s.effectiveStatus === 'open' && s.ifHeldPct != null)
-            return `<span class="${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)}</span> if held`;
-        return '<span class="neutral">—</span>';
+            return `<span class="setup-pnl ${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)} if held</span>`;
+        return '';
     })();
+
+    const pills = [
+        s.triggerISO  ? `<span class="setup-pill">Triggered ${FMT_SHORT(s.triggerISO)}</span>` : '',
+        s.closedDate  ? `<span class="setup-pill">Closed ${FMT_SHORT(s.closedDate)}</span>` : '',
+        s.track.length ? `<span class="setup-pill">${s.track.length}d in trade</span>` : '',
+    ].filter(Boolean).join('');
 
     return `
         <div class="setup-block">
             <div class="setup-block-header">
                 ${dirBadge}
-                <span class="tag tag-status-${s.effectiveStatus}">${s.effectiveStatus}</span>
-                <span class="date-pill">${s.addedDate}</span>
-                <span class="setup-block-type">${s.setupType || ''}</span>
+                ${s.setupType ? `<span class="setup-type-label">${s.setupType}</span>` : ''}
+                <span class="setup-date-label">${FMT_SHORT(s.addedDate)}</span>
+                ${pnlHtml}
             </div>
             ${s.notes ? `<p class="detail-note">${s.notes}</p>` : ''}
-            <div class="detail-meta">
-                <div><label>Entry</label><span>${fmtMoney(s.entryTrigger)}</span></div>
-                <div><label>Triggered</label><span>${s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet'}</span></div>
-                <div><label>P&L</label><span>${pnl}</span></div>
-                <div><label>Last px</label><span>${s.lastPrice != null ? fmtMoney(s.lastPrice) : '—'}</span></div>
-                <div><label>Closed</label><span>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</span></div>
-                <div><label>Days</label><span>${s.track.length || '—'}</span></div>
-            </div>
-            ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : ''}
+            ${priceLadderHtml(s)}
+            ${pills ? `<div class="setup-pills">${pills}</div>` : ''}
         </div>
     `;
 }
