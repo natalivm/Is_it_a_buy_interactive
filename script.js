@@ -334,7 +334,6 @@ function setupBlockHtml(s) {
                 <div><label>Closed</label><span>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</span></div>
                 <div><label>Days</label><span>${s.track.length || '—'}</span></div>
             </div>
-            <div class="detail-section-chart">${tvChartHtml(s.symbol)}</div>
             ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : ''}
         </div>
     `;
@@ -373,6 +372,7 @@ function renderDetail() {
                     ${lastPriceHtml}
                 </div>
             </div>
+            <div class="detail-section-chart">${tvChartHtml(selectedSymbol)}</div>
             ${active.map(setupBlockHtml).join('<div class="setup-block-divider"></div>')}
     `;
 
@@ -464,5 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderActive();
-    renderDetail();
+    const firstRow = document.querySelector('.setup-row');
+    if (firstRow) selectSymbol(firstRow.dataset.symbol);
+    else renderDetail();
 });
