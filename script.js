@@ -284,31 +284,73 @@ function setupBlockHtml(s) {
     const isShort = s.direction === 'Short';
     const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
 
-    const pnlHtml = (() => {
-        if (s.effectiveStatus === 'closed' && s.closeReturnPct != null)
-            return `<span class="setup-pnl ${pctClass(s.closeReturnPct)}">${fmtPct(s.closeReturnPct)} closed</span>`;
-        if (s.effectiveStatus === 'open' && s.ifHeldPct != null)
-            return `<span class="setup-pnl ${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)} if held</span>`;
-        return '';
-    })();
+    const status = s.effectiveStatus;
+    let banner = '';
 
-    const pills = [
-        s.triggerISO  ? `<span class="setup-pill">Triggered ${FMT_SHORT(s.triggerISO)}</span>` : '',
-        s.closedDate  ? `<span class="setup-pill">Closed ${FMT_SHORT(s.closedDate)}</span>` : '',
-        s.track.length ? `<span class="setup-pill">${s.track.length}d in trade</span>` : '',
-    ].filter(Boolean).join('');
+    if (status === 'open') {
+        const pnl = s.ifHeldPct;
+        const days = s.track.length;
+        const pnlHtml = pnl != null
+            ? `<span class="banner-pnl ${pctClass(pnl)}">${fmtPct(pnl)}</span>` : '';
+        banner = `
+            <div class="status-banner banner-open">
+                <div class="banner-left">
+                    <span class="banner-status">● TRIGGERED ${FMT_SHORT(s.triggerISO)}</span>
+                    <span class="banner-meta">${days}d in trade · entry ${fmtMoney(s.entryTrigger)}</span>
+                </div>
+                ${pnlHtml}
+            </div>`;
+    } else if (status === 'closed') {
+        const pnl = s.closeReturnPct;
+        const days = s.track.length;
+        const pnlHtml = pnl != null
+            ? `<span class="banner-pnl ${pctClass(pnl)}">${fmtPct(pnl)}</span>` : '';
+        const dateRange = s.triggerISO && s.closedDate
+            ? `${FMT_SHORT(s.triggerISO)} → ${FMT_SHORT(s.closedDate)}`
+            : (s.closedDate ? FMT_SHORT(s.closedDate) : '');
+        banner = `
+            <div class="status-banner banner-closed">
+                <div class="banner-left">
+                    <span class="banner-status">CLOSED</span>
+                    <span class="banner-meta">${dateRange}${days ? ' · ' + days + 'd' : ''}</span>
+                </div>
+                ${pnlHtml}
+            </div>`;
+    } else if (status === 'cancelled') {
+        banner = `
+            <div class="status-banner banner-cancelled">
+                <span class="banner-status">CANCELLED</span>
+            </div>`;
+    } else {
+        const dist = s.distanceToTriggerPct;
+        let distHtml = '';
+        if (dist != null) {
+            const cls = dist <= 2 ? 'near' : dist <= 4 ? 'mid' : 'far';
+            distHtml = `<span class="banner-pnl banner-dist ${cls}">${dist >= 0 ? '+' : ''}${dist.toFixed(2)}% to trigger</span>`;
+        }
+        const entryMeta = s.entryTrigger != null
+            ? `waiting for ${fmtMoney(s.entryTrigger)}`
+            : 'no entry set';
+        banner = `
+            <div class="status-banner banner-watching">
+                <div class="banner-left">
+                    <span class="banner-status">○ WATCHING</span>
+                    <span class="banner-meta">${entryMeta}</span>
+                </div>
+                ${distHtml}
+            </div>`;
+    }
 
     return `
-        <div class="setup-block">
+        <div class="setup-block setup-block-${status}">
             <div class="setup-block-header">
                 ${dirBadge}
                 ${s.setupType ? `<span class="setup-type-label">${s.setupType}</span>` : ''}
-                <span class="setup-date-label">${FMT_SHORT(s.addedDate)}</span>
-                ${pnlHtml}
+                <span class="setup-date-label">Added ${FMT_SHORT(s.addedDate)}</span>
             </div>
+            ${banner}
             ${s.notes ? `<p class="detail-note">${s.notes}</p>` : ''}
             ${priceLadderHtml(s)}
-            ${pills ? `<div class="setup-pills">${pills}</div>` : ''}
         </div>
     `;
 }

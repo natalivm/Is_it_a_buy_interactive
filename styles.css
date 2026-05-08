@@ -744,27 +744,71 @@ button { font-family: inherit; cursor: pointer; }
     font-size: 11px;
     color: var(--text-muted);
 }
-.setup-pnl {
-    font-size: 13px;
-    font-weight: 700;
-    margin-left: auto;
-}
-.setup-pnl.pos { color: var(--green); }
-.setup-pnl.neg { color: var(--red); }
-.setup-pills {
+.setup-block-divider { height: 1px; background: var(--border); margin: 2px 0; }
+
+/* ── Status banner ──────────────────────────────────────────────────────── */
+.status-banner {
     display: flex;
-    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 3px solid;
     flex-wrap: wrap;
 }
-.setup-pill {
-    font-size: 11px;
-    color: var(--text-muted);
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2px 9px;
+.banner-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
-.setup-block-divider { height: 1px; background: var(--border); margin: 2px 0; }
+.banner-status {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+}
+.banner-meta {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+.banner-pnl {
+    font-size: 16px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    margin-left: auto;
+}
+.banner-pnl.pos { color: var(--green); }
+.banner-pnl.neg { color: var(--red); }
+
+.banner-open {
+    background: rgba(52, 211, 153, 0.08);
+    border-left-color: var(--green);
+}
+.banner-open .banner-status { color: var(--green); }
+
+.banner-watching {
+    background: rgba(96, 165, 250, 0.06);
+    border-left-color: #60a5fa;
+}
+.banner-watching .banner-status { color: #60a5fa; }
+.banner-dist.near { color: #60a5fa; }
+.banner-dist.mid  { color: #fbbf24; }
+.banner-dist.far  { color: var(--text-muted); }
+
+.banner-closed {
+    background: var(--bg-soft);
+    border-left-color: var(--text-muted);
+}
+.banner-closed .banner-status { color: var(--text-light); }
+
+.banner-cancelled {
+    background: var(--bg-soft);
+    border-left-color: var(--text-muted);
+    opacity: 0.7;
+}
+.banner-cancelled .banner-status { color: var(--text-muted); }
 
 /* ── Price ladder ───────────────────────────────────────────────────────── */
 .price-ladder {
