@@ -691,21 +691,6 @@ function clearFilter() {
     renderActive();
 }
 
-// ── Ticker ──────────────────────────────────────────────────────────────
-function initTicker() {
-    const track = document.querySelector('.ticker-track');
-    if (!track) return;
-    if (typeof TICKER_DATA !== 'undefined' && TICKER_DATA.length) {
-        const html = TICKER_DATA.map(t =>
-            `<div class="ticker-item ${t.tier || ''}"><span class="ticker-icon">${t.icon || ''}</span><span class="ticker-title">${t.symbol}</span><span class="ticker-body">${t.body}</span></div><span class="ticker-sep">•</span>`
-        ).join('');
-        track.innerHTML = html + html;
-    }
-    track.addEventListener('mouseenter', () => track.classList.add('paused'));
-    track.addEventListener('mouseleave', () => track.classList.remove('paused'));
-    track.addEventListener('touchstart', () => track.classList.toggle('paused'), { passive: true });
-}
-
 // ── PWA install ─────────────────────────────────────────────────────────
 function initInstallButton() {
     let deferred = null;
@@ -738,7 +723,6 @@ function initInstallButton() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('heatmapYear').textContent = CONFIG.heatmapYear;
 
-    initTicker();
     initInstallButton();
 
     // Status filter
