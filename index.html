@@ -112,49 +112,8 @@
                 </div>
             </section>
 
-            <!-- History -->
-            <section class="setups-section history-section">
-                <div class="setups-header">
-                    <h2 class="section-title">
-                        History
-                        <span class="section-title-sub" id="historyCountLabel">(0)</span>
-                    </h2>
-                </div>
-                <div class="table-container">
-                    <table class="history-table" aria-label="Closed and cancelled trade setups">
-                        <thead>
-                            <tr>
-                                <th>SYMBOL</th>
-                                <th>DIR</th>
-                                <th>SETUP</th>
-                                <th class="text-right">ENTRY</th>
-                                <th class="text-right">EXIT</th>
-                                <th>TRIGGERED</th>
-                                <th>CLOSED</th>
-                                <th class="text-right">RETURN</th>
-                                <th>REASON</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historyBody"></tbody>
-                    </table>
-                </div>
-                <div class="empty-state" id="historyEmpty" hidden>No closed or cancelled setups yet.</div>
-            </section>
-
         </div>
     </main>
-
-    <!-- Setup detail modal -->
-    <div class="modal-overlay" id="setupModal" hidden>
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button class="modal-close" id="modalCloseBtn" aria-label="Close">×</button>
-            <div class="modal-header">
-                <h3 id="modalTitle">Setup detail</h3>
-                <div class="modal-subtitle" id="modalSubtitle"></div>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
-        </div>
-    </div>
 
     <script src="data.js"></script>
     <script src="prices.js"></script>

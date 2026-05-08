@@ -8,10 +8,10 @@ const PRICES_DATA = (typeof PRICES !== 'undefined') ? PRICES : {};
 const SETUP_LIST  = (typeof SETUPS !== 'undefined') ? SETUPS : [];
 const CONFIG      = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG : { heatmapYear: new Date().getFullYear() };
 
-let activeFilter   = { setupId: null }; // null = show all setups in heatmap
+let activeFilter    = { symbol: null }; // null = show all setups in heatmap
 let statusFilter    = 'all';
 let directionFilter = 'all';
-let selectedSetupId = null;             // currently shown in detail pane
+let selectedSymbol  = null;             // ticker currently shown in detail pane
 
 // ── Date helpers ─────────────────────────────────────────────────────────
 // Use local-date strings (not UTC) so trigger detection and the heatmap line
@@ -141,10 +141,10 @@ function buildHeatmapDays(year) {
     return days;
 }
 
-// Build a per-day map of cell info, given a filter (single setup or all).
-function dayDataForFilter(setupId) {
+// Build a per-day map of cell info, given a filter (single symbol or all).
+function dayDataForFilter(symbol) {
     const out = {}; // iso -> { cls, label, plPct, role }
-    const list = setupId ? SETUPS_X.filter(s => s.id === setupId) : SETUPS_X;
+    const list = symbol ? SETUPS_X.filter(s => s.symbol === symbol) : SETUPS_X;
 
     for (const s of list) {
         if (!s.triggerISO) continue;
@@ -177,7 +177,7 @@ function renderHeatmap() {
 
     const year = CONFIG.heatmapYear;
     const days = buildHeatmapDays(year);
-    const data = dayDataForFilter(activeFilter.setupId);
+    const data = dayDataForFilter(activeFilter.symbol);
 
     // Place month labels (one per month, on first column where that month begins)
     const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -236,27 +236,27 @@ function fmtPct(v) {
 }
 function pctClass(v) { return v == null ? 'neutral' : (v >= 0 ? 'pos' : 'neg'); }
 
-function setupRowHtml(s) {
-    const isShort = s.direction === 'Short';
-    const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
-    const snippet = s.notes ? s.notes.substring(0, 60) + (s.notes.length > 60 ? '…' : '') : '';
+function symbolRowHtml(symbol, setups, primary, bucket) {
+    const dirs = [...new Set(setups.map(s => s.direction))];
+    const dirBadges = dirs.map(d => {
+        const isShort = d === 'Short';
+        return `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${d.toUpperCase()}</span>`;
+    }).join('');
+    const countBadge = setups.length > 1 ? `<span class="row-setup-count">${setups.length}</span>` : '';
+    const snippet = primary.notes ? primary.notes.substring(0, 55) + (primary.notes.length > 55 ? '…' : '') : '';
 
-    // Right-side metric:
-    //   Open   → if-held P&L
-    //   Watching → distance to trigger (e.g., "+2.4% away")
     let metric = '';
-    if (s.effectiveStatus === 'open' && s.ifHeldPct != null) {
-        metric = `<span class="row-pnl ${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)}</span>`;
-    } else if (s.effectiveStatus === 'watching' && s.distanceToTriggerPct != null) {
-        const d = s.distanceToTriggerPct;
-        const farCls = d > 4 ? 'far' : 'near';
-        metric = `<span class="row-dist ${farCls}">${d >= 0 ? '+' : ''}${d.toFixed(1)}%</span>`;
+    if (bucket === 'open' && primary.ifHeldPct != null) {
+        metric = `<span class="row-pnl ${pctClass(primary.ifHeldPct)}">${fmtPct(primary.ifHeldPct)}</span>`;
+    } else if (primary.distanceToTriggerPct != null) {
+        const d = primary.distanceToTriggerPct;
+        metric = `<span class="row-dist ${d > 4 ? 'far' : 'near'}">${d >= 0 ? '+' : ''}${d.toFixed(1)}%</span>`;
     }
 
     return `
         <div class="row-symbol-col">
-            <span class="row-symbol">${s.symbol}</span>
-            ${dirBadge}
+            <span class="row-symbol">${symbol}</span>
+            <div class="row-badges">${dirBadges}${countBadge}</div>
         </div>
         <div class="row-note">${snippet}</div>
         <div class="row-meta">${metric}</div>
@@ -264,8 +264,8 @@ function setupRowHtml(s) {
 }
 
 function renderActive() {
-    const container = document.getElementById('activeSetups');
-    const empty     = document.getElementById('activeEmpty');
+    const container  = document.getElementById('activeSetups');
+    const empty      = document.getElementById('activeEmpty');
     const countLabel = document.getElementById('activeCountLabel');
     if (!container) return;
 
@@ -273,89 +273,63 @@ function renderActive() {
     if (statusFilter    !== 'all') list = list.filter(s => s.effectiveStatus === statusFilter);
     if (directionFilter !== 'all') list = list.filter(s => s.direction.toLowerCase() === directionFilter);
 
-    countLabel.textContent = `(${list.length})`;
+    // Deduplicate: one row per ticker, keeping all their setups grouped
+    const symbolMap = new Map();
+    for (const s of list) {
+        if (!symbolMap.has(s.symbol)) symbolMap.set(s.symbol, []);
+        symbolMap.get(s.symbol).push(s);
+    }
+
+    countLabel.textContent = `(${symbolMap.size})`;
     container.innerHTML = '';
-    if (!list.length) { empty.hidden = false; return; }
+    if (!symbolMap.size) { empty.hidden = false; return; }
     empty.hidden = true;
 
-    // Group by status bucket:
-    //   open      → triggered, currently in the trade
-    //   watching  → still close to entry trigger (≤ 4% away)
-    //   far       → price has drifted far from entry — likely invalidated
+    // Bucket each symbol by its best setup's status
     const FAR_THRESHOLD = 4;
     const buckets = { open: [], watching: [], far: [] };
-    for (const s of list) {
-        if (s.effectiveStatus === 'open') buckets.open.push(s);
-        else if (s.distanceToTriggerPct != null && s.distanceToTriggerPct > FAR_THRESHOLD) buckets.far.push(s);
-        else buckets.watching.push(s);
+    for (const [sym, setups] of symbolMap) {
+        const hasOpen = setups.some(s => s.effectiveStatus === 'open');
+        if (hasOpen) {
+            const primary = setups.filter(s => s.effectiveStatus === 'open')
+                .sort((a, b) => (b.ifHeldPct ?? -Infinity) - (a.ifHeldPct ?? -Infinity))[0];
+            buckets.open.push({ sym, setups, primary, minDist: null });
+        } else {
+            const finite = setups.map(s => s.distanceToTriggerPct).filter(v => v != null && isFinite(v));
+            const minDist = finite.length ? Math.min(...finite) : Infinity;
+            const primary = setups.reduce((b, s) =>
+                (s.distanceToTriggerPct ?? Infinity) < (b.distanceToTriggerPct ?? Infinity) ? s : b
+            );
+            if (minDist <= FAR_THRESHOLD) buckets.watching.push({ sym, setups, primary, minDist });
+            else                          buckets.far.push({ sym, setups, primary, minDist });
+        }
     }
-    // sort within each
-    buckets.open.sort((a, b) => (b.triggerISO || '').localeCompare(a.triggerISO || ''));
-    buckets.watching.sort((a, b) => (a.distanceToTriggerPct ?? 0) - (b.distanceToTriggerPct ?? 0));
-    buckets.far.sort((a, b) => (a.distanceToTriggerPct ?? 999) - (b.distanceToTriggerPct ?? 999));
+    buckets.open.sort((a, b) => (b.primary.ifHeldPct ?? -Infinity) - (a.primary.ifHeldPct ?? -Infinity));
+    buckets.watching.sort((a, b) => (a.minDist ?? 999) - (b.minDist ?? 999));
+    buckets.far.sort((a, b) => (a.minDist ?? 999) - (b.minDist ?? 999));
 
     const sections = [
-        { key: 'open',     title: 'Triggered · in trade', items: buckets.open },
-        { key: 'watching', title: 'Watching · near trigger', items: buckets.watching },
-        { key: 'far',      title: 'Far from trigger · likely invalidated', items: buckets.far },
+        { key: 'open',     title: 'Triggered · in trade',              items: buckets.open },
+        { key: 'watching', title: 'Watching · near trigger',            items: buckets.watching },
+        { key: 'far',      title: 'Far from trigger · likely stale',   items: buckets.far },
     ];
 
     for (const sec of sections) {
         if (!sec.items.length) continue;
-
         const hdr = document.createElement('div');
         hdr.className = `status-group-header status-group-${sec.key}`;
         hdr.innerHTML = `<span>${sec.title}</span><span class="status-group-count">${sec.items.length}</span>`;
         container.appendChild(hdr);
 
-        for (const s of sec.items) {
+        for (const { sym, setups, primary } of sec.items) {
             const el = document.createElement('article');
-            const dirCls = s.direction === 'Short' ? 'dir-short' : 'dir-long';
-            el.className = `setup-row ${dirCls}${s.tier ? ' tier-' + s.tier : ''}`;
-            if (selectedSetupId === s.id) el.classList.add('selected');
-            el.dataset.setupId = s.id;
-            el.innerHTML = setupRowHtml(s);
-            el.addEventListener('click', () => selectSetup(s.id));
+            el.className = `setup-row`;
+            if (selectedSymbol === sym) el.classList.add('selected');
+            el.dataset.symbol = sym;
+            el.innerHTML = symbolRowHtml(sym, setups, primary, sec.key);
+            el.addEventListener('click', () => selectSymbol(sym));
             container.appendChild(el);
         }
-    }
-}
-
-function renderHistory() {
-    const tbody = document.getElementById('historyBody');
-    const empty = document.getElementById('historyEmpty');
-    const countLabel = document.getElementById('historyCountLabel');
-    if (!tbody) return;
-
-    const list = SETUPS_X.filter(s => s.effectiveStatus === 'closed' || s.effectiveStatus === 'cancelled')
-        .sort((a, b) => (b.closedDate || b.addedDate).localeCompare(a.closedDate || a.addedDate));
-
-    countLabel.textContent = `(${list.length})`;
-    tbody.innerHTML = '';
-    if (!list.length) { empty.hidden = false; return; }
-    empty.hidden = true;
-
-    for (const s of list) {
-        const tr = document.createElement('tr');
-        const ret = s.closeReturnPct;
-        const retCls = ret == null ? 'even' : (ret >= 0.5 ? 'pos' : (ret <= -0.5 ? 'neg' : 'even'));
-        const exitPrice = s.closePrice != null
-            ? s.closePrice
-            : (s.track.length ? s.track[s.track.length - 1].close : null);
-        tr.innerHTML = `
-            <td><strong>${s.symbol}</strong></td>
-            <td><span class="tag ${s.direction === 'Long' ? 'tag-long' : 'tag-short'}">${s.direction}</span></td>
-            <td>${s.setupType || '—'}</td>
-            <td class="text-right">${fmtMoney(s.entryTrigger)}</td>
-            <td class="text-right">${exitPrice != null ? fmtMoney(exitPrice) : '—'}</td>
-            <td>${s.triggerISO ? FMT_SHORT(s.triggerISO) : '—'}</td>
-            <td>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</td>
-            <td class="text-right ${retCls}">${ret == null ? '—' : fmtPct(ret)}</td>
-            <td>${s.closeReason || (s.effectiveStatus === 'cancelled' ? 'cancelled' : '—')}</td>
-        `;
-        tr.style.cursor = 'pointer';
-        tr.addEventListener('click', () => selectSetup(s.id));
-        tbody.appendChild(tr);
     }
 }
 
@@ -383,13 +357,10 @@ function renderMetrics() {
 }
 
 // ── Detail pane ──────────────────────────────────────────────────────────
-function selectSetup(setupId) {
-    selectedSetupId = setupId;
-    // Update the active heatmap filter so the heatmap highlights this setup
-    activeFilter.setupId = setupId;
-    const s = SETUPS_X.find(x => x.id === setupId);
-    document.getElementById('heatmapSubtitle').textContent =
-        s ? `${s.symbol} · ${s.direction}` : 'All setups';
+function selectSymbol(sym) {
+    selectedSymbol = sym;
+    activeFilter.symbol = sym;
+    document.getElementById('heatmapSubtitle').textContent = sym || 'All setups';
     document.getElementById('heatmapClearBtn').classList.remove('active');
     renderHeatmap();
     renderActive();
@@ -511,19 +482,7 @@ function drawPriceChart(s) {
     </div>`;
 }
 
-function renderDetail() {
-    const pane = document.getElementById('setupDetail');
-    if (!pane) return;
-    if (!selectedSetupId) {
-        pane.innerHTML = `<div class="detail-empty">Select a setup from the list to see its details.</div>`;
-        return;
-    }
-    const s = SETUPS_X.find(x => x.id === selectedSetupId);
-    if (!s) {
-        pane.innerHTML = `<div class="detail-empty">Setup not found.</div>`;
-        return;
-    }
-
+function setupBlockHtml(s) {
     const isShort = s.direction === 'Short';
     const dirBadge = `<span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>`;
 
@@ -531,7 +490,7 @@ function renderDetail() {
     const levels = [];
     if (s.entryTrigger != null) {
         levelNum++;
-        levels.push(levelCardHtml(levelNum, isShort ? 'Entry trigger — short' : 'Entry trigger — long', s.entryTrigger, levelStatus(s, 'entry')));
+        levels.push(levelCardHtml(levelNum, isShort ? 'Entry — short' : 'Entry — long', s.entryTrigger, levelStatus(s, 'entry')));
     }
     if (s.target != null) {
         levelNum++;
@@ -542,153 +501,112 @@ function renderDetail() {
         levels.push(levelCardHtml(levelNum, 'Stop', s.stop, levelStatus(s, 'stop')));
     }
 
-    const triggerLabel = s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet';
-    const closedLabel  = s.closedDate ? FMT_SHORT(s.closedDate) : '—';
-
-    const miniBar = (() => {
-        if (!s.track.length) return '';
-        const cells = s.track.map(t => {
-            const cls = t.isTrigger ? 'hm-trigger' : (t.isClose ? 'hm-close' : pnlBucket(t.plPct));
-            return `<div class="mb-day ${cls}" title="${FMT_SHORT(t.date)} ${fmtPct(t.plPct)}"></div>`;
-        }).join('');
-        return `<div class="setup-mini-bar">${cells}</div>`;
-    })();
-
     const pnl = (() => {
-        if (s.effectiveStatus === 'closed' && s.closeReturnPct != null) {
+        if (s.effectiveStatus === 'closed' && s.closeReturnPct != null)
             return `<span class="${pctClass(s.closeReturnPct)}">${fmtPct(s.closeReturnPct)}</span> closed`;
-        }
-        if (s.effectiveStatus === 'open' && s.ifHeldPct != null) {
+        if (s.effectiveStatus === 'open' && s.ifHeldPct != null)
             return `<span class="${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)}</span> if held`;
-        }
         return '<span class="neutral">—</span>';
     })();
 
     const chart = drawPriceChart(s);
 
-    pane.innerHTML = `
+    return `
+        <div class="setup-block">
+            <div class="setup-block-header">
+                ${dirBadge}
+                <span class="tag tag-status-${s.effectiveStatus}">${s.effectiveStatus}</span>
+                <span class="date-pill">${s.addedDate}</span>
+                <span class="setup-block-type">${s.setupType || ''}</span>
+            </div>
+            ${s.notes ? `<p class="detail-note">${s.notes}</p>` : ''}
+            <div class="detail-meta">
+                <div><label>Entry</label><span>${fmtMoney(s.entryTrigger)}</span></div>
+                <div><label>Triggered</label><span>${s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet'}</span></div>
+                <div><label>P&L</label><span>${pnl}</span></div>
+                <div><label>Last px</label><span>${s.lastPrice != null ? fmtMoney(s.lastPrice) : '—'}</span></div>
+                <div><label>Closed</label><span>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</span></div>
+                <div><label>Days</label><span>${s.track.length || '—'}</span></div>
+            </div>
+            ${chart ? `<div class="detail-section-chart">${chart}</div>` : ''}
+            ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : ''}
+        </div>
+    `;
+}
+
+function renderDetail() {
+    const pane = document.getElementById('setupDetail');
+    if (!pane) return;
+    if (!selectedSymbol) {
+        pane.innerHTML = `<div class="detail-empty">Select a ticker from the list.</div>`;
+        return;
+    }
+
+    const allSetups = SETUPS_X.filter(s => s.symbol === selectedSymbol);
+    if (!allSetups.length) {
+        pane.innerHTML = `<div class="detail-empty">No setups for ${selectedSymbol}.</div>`;
+        return;
+    }
+
+    const statusOrder = { open: 0, watching: 1, closed: 2, cancelled: 3 };
+    const sorted = [...allSetups].sort((a, b) =>
+        (statusOrder[a.effectiveStatus] ?? 4) - (statusOrder[b.effectiveStatus] ?? 4)
+    );
+    const active  = sorted.filter(s => s.effectiveStatus === 'open' || s.effectiveStatus === 'watching');
+    const history = sorted.filter(s => s.effectiveStatus === 'closed' || s.effectiveStatus === 'cancelled');
+
+    const lastPrice = allSetups[0].lastPrice;
+    const lastPriceHtml = lastPrice != null
+        ? `<span class="detail-last-price">${fmtMoney(lastPrice)}</span>` : '';
+
+    let html = `
         <div class="detail-card">
             <div class="detail-header">
                 <div class="detail-title-row">
-                    <h2 class="detail-symbol">${s.symbol}</h2>
-                    ${dirBadge}
-                    <span class="date-pill">${s.addedDate}</span>
-                    <span class="tag tag-status-${s.effectiveStatus}">${s.effectiveStatus}</span>
+                    <h2 class="detail-symbol">${selectedSymbol}</h2>
+                    ${lastPriceHtml}
                 </div>
-                ${s.notes ? `<p class="detail-note">${s.notes}</p>` : ''}
             </div>
+            ${active.map(setupBlockHtml).join('<div class="setup-block-divider"></div>')}
+    `;
 
-            <div class="detail-meta">
-                <div><label>Setup</label><span>${s.setupType || '—'}</span></div>
-                <div><label>Triggered</label><span>${triggerLabel}</span></div>
-                <div><label>Closed</label><span>${closedLabel}</span></div>
-                <div><label>Last price</label><span>${s.lastPrice != null ? fmtMoney(s.lastPrice) : '—'}</span></div>
-                <div><label>P&L</label><span>${pnl}</span></div>
-                <div><label>Days held</label><span>${s.track.length || '—'}</span></div>
-            </div>
-
-            ${chart ? `<div class="detail-section detail-section-chart">${chart}</div>` : ''}
-
-            ${miniBar ? `<div class="detail-section"><h4>P&L track</h4>${miniBar}</div>` : ''}
-
+    if (history.length) {
+        html += `
             <div class="detail-section">
-                <h4>Price levels</h4>
-                ${levels.length ? `<div class="levels-list">${levels.join('')}</div>` : '<div class="empty-state" style="padding:14px;">No price levels set for this setup.</div>'}
-            </div>
-        </div>
-    `;
-}
-
-// ── Modal (legacy — kept but not opened by default) ─────────────────────
-function openModal(setupId) {
-    const s = SETUPS_X.find(x => x.id === setupId);
-    if (!s) return;
-
-    document.getElementById('modalTitle').textContent = `${s.symbol} · ${s.direction}`;
-    document.getElementById('modalSubtitle').textContent =
-        `${s.setupType || 'Setup'} · added ${FMT_SHORT(s.addedDate)} · ${s.effectiveStatus}`;
-
-    const body = document.getElementById('modalBody');
-    const facts = `
-        <div class="modal-section">
-            <h4>Plan</h4>
-            <div class="setup-grid" style="grid-template-columns:repeat(4,1fr);">
-                <div><label>Entry</label><span>${fmtMoney(s.entryTrigger)}</span></div>
-                <div><label>Stop</label><span>${s.stop != null ? fmtMoney(s.stop) : '—'}</span></div>
-                <div><label>Target</label><span>${s.target != null ? fmtMoney(s.target) : '—'}</span></div>
-                <div><label>Tier</label><span>${s.tier || '—'}</span></div>
-                <div><label>Triggered</label><span>${s.triggerISO ? FMT_SHORT(s.triggerISO) : 'not yet'}</span></div>
-                <div><label>Closed</label><span>${s.closedDate ? FMT_SHORT(s.closedDate) : '—'}</span></div>
-                <div><label>If held</label><span class="${pctClass(s.ifHeldPct)}">${fmtPct(s.ifHeldPct)}</span></div>
-                <div><label>Close return</label><span class="${pctClass(s.closeReturnPct)}">${fmtPct(s.closeReturnPct)}</span></div>
-            </div>
-        </div>
-    `;
-
-    let track = '';
-    if (s.track.length) {
-        const rows = s.track.map(t => {
-            const cls = t.isTrigger ? 'row-trigger' : (t.isClose ? 'row-close' : '');
-            const pcls = pctClass(t.plPct);
-            const note = t.isTrigger ? 'TRIGGER' : (t.isClose ? 'CLOSE' : '');
-            return `<tr class="${cls}">
-                <td>${FMT_SHORT(t.date)}</td>
-                <td>${fmtMoney(t.close)}</td>
-                <td class="${pcls}">${fmtPct(t.plPct)}</td>
-                <td>${note}</td>
-            </tr>`;
-        }).join('');
-        track = `
-            <div class="modal-section">
-                <h4>Daily P&L (${s.track.length} days)</h4>
-                <table class="daily-table">
-                    <thead><tr><th>Date</th><th>Close</th><th>P&L %</th><th></th></tr></thead>
-                    <tbody>${rows}</tbody>
-                </table>
+                <h4>History</h4>
+                <div class="history-list">
+                    ${history.map(s => {
+                        const isShort = s.direction === 'Short';
+                        const ret = s.closeReturnPct;
+                        const retHtml = ret != null
+                            ? `<span class="row-pnl ${pctClass(ret)}">${fmtPct(ret)}</span>`
+                            : `<span class="neutral">${s.effectiveStatus}</span>`;
+                        return `
+                            <div class="history-row">
+                                <span class="row-dir-badge ${isShort ? 'short' : 'long'}">${isShort ? '▼' : '▲'} ${s.direction.toUpperCase()}</span>
+                                <span class="history-dates">${s.addedDate.slice(5)}${s.closedDate ? ' → ' + s.closedDate.slice(5) : ''}</span>
+                                <span class="history-entry">${fmtMoney(s.entryTrigger)}</span>
+                                ${retHtml}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
             </div>
         `;
-    } else {
-        track = `<div class="modal-section"><h4>Daily P&L</h4><div class="empty-state" style="padding:16px;">No price data yet — run <code>python3 fetch_setups.py</code> to populate <code>prices.js</code>.</div></div>`;
     }
 
-    const notes = s.notes ? `
-        <div class="modal-section">
-            <h4>Notes</h4>
-            <div class="setup-notes" style="border:none;padding:0;font-size:13px;">${s.notes}</div>
-        </div>
-    ` : '';
-
-    body.innerHTML = facts + track + notes;
-
-    const overlay = document.getElementById('setupModal');
-    overlay.hidden = false;
-}
-
-function closeModal() {
-    document.getElementById('setupModal').hidden = true;
-}
-
-// Click a card to filter the heatmap to that setup; click again to clear.
-function onSetupClick(setupId) {
-    if (activeFilter.setupId === setupId) {
-        clearFilter();
-        return;
-    }
-    activeFilter.setupId = setupId;
-    const s = SETUPS_X.find(x => x.id === setupId);
-    document.getElementById('heatmapSubtitle').textContent =
-        s ? `${s.symbol} · ${s.direction}` : 'All setups';
-    document.getElementById('heatmapClearBtn').classList.remove('active');
-    renderHeatmap();
-    renderActive();
+    html += `</div>`;
+    pane.innerHTML = html;
 }
 
 function clearFilter() {
-    activeFilter.setupId = null;
+    activeFilter.symbol = null;
+    selectedSymbol = null;
     document.getElementById('heatmapSubtitle').textContent = 'All setups';
     document.getElementById('heatmapClearBtn').classList.add('active');
     renderHeatmap();
     renderActive();
+    renderDetail();
 }
 
 // ── PWA install ─────────────────────────────────────────────────────────
@@ -748,18 +666,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Heatmap clear button
     document.getElementById('heatmapClearBtn').addEventListener('click', clearFilter);
 
-    // Modal close
-    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-    document.getElementById('setupModal').addEventListener('click', e => {
-        if (e.target.id === 'setupModal') closeModal();
-    });
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeModal();
-    });
-
     renderHeatmap();
     renderMetrics();
     renderActive();
-    renderHistory();
     renderDetail();
 });
