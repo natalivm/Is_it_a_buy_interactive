@@ -1,68 +1,513 @@
-// ── Second table name (optional — leave empty for no label) ──────────────────
-const TABLE2_NAME = 'Optional trades';
-
-// ── Ticker alerts ────────────────────────────────────────────────────────────
-const TICKER_DATA = [
-  { tier: 'warning',        icon: '⚠', symbol: 'MU',   body: 'Short <strong>$498.36</strong> → current <strong>$494.32</strong> · still near entry <strong>+0.8%</strong>' },
-  { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$234.53</strong> · <strong>25.8%</strong> potential' },
-  { tier: 'high-potential', icon: '↗', symbol: 'BE',   body: 'Short · enter at <strong>$232.50</strong> · <strong>20.4%</strong> potential' },
-  { tier: 'high-potential', icon: '↗', symbol: 'STX',  body: 'Short · enter at <strong>$586.66</strong> · <strong>38.5%</strong> potential' },
-  { tier: 'setup',          icon: '↗', symbol: 'AMD',  body: 'Short · enter at <strong>$348.84</strong> · setup intact' },
-  { tier: 'setup',          icon: '↗', symbol: 'DELL', body: 'Short · enter at <strong>$216.15</strong> · setup intact' },
-  { tier: 'setup',          icon: '↗', symbol: 'NVDA', body: 'Short · enter at <strong>$208.10</strong> · setup intact' },
-];
-
-// ── Open equity positions ────────────────────────────────────────────────────
-// Fields: symbol, cat (Long|Short), entered, entry, stop (null=n/a), current,
-//         target (null=n/a), plPct, plDol, toStop (null=n/a), toTarget (null=n/a),
-//         progressW (bar width %), progressV (display value), tier (null|'warning'|'high-potential'|'setup')
-const POSITIONS_DATA = [
-  { symbol: 'Q',     cat: 'Long',  entered: "Apr 21 '26", entry: 136.76, stop: 132.00, current: 144.60, target: 165.00, plPct: '+5.7%',  plDol: '+$31',    toStop: '8.7%',  toTarget: '14.1%', progressW: 28, progressV: '+28%', tier: null },
-  { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 498.36, stop: null,   current: 494.32, target: null,   plPct: '+0.8%',  plDol: '+$53',    toStop: null,    toTarget: null,    progressW: 0,  progressV: 'n/a',  tier: 'warning' },
-  { symbol: 'PANW',  cat: 'Long',  entered: "Apr 23 '26", entry: 170.28, stop: 159.00, current: 178.40, target: 210.00, plPct: '+4.8%',  plDol: '+$81',    toStop: '10.9%', toTarget: '17.7%', progressW: 20, progressV: '+20%', tier: null },
-  { symbol: 'KMB',   cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null,   current:  98.15, target: 132.00, plPct: '+2.2%',  plDol: '+$118',   toStop: null,    toTarget: '34.5%', progressW:  6, progressV: '+6%',  tier: null },
-  { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  16.60, target:  20.00, plPct: '+5.2%',  plDol: '+$135',   toStop: '12.7%', toTarget: '20.5%', progressW: 19, progressV: '+19%', tier: null },
-  { symbol: 'NBIS',  cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null,   current: 146.00, target: 128.39, plPct: '+10.8%', plDol: '+$373',   toStop: null,    toTarget: '12.1%', progressW: 50, progressV: '+50%', tier: null },
-  { symbol: 'NXT',   cat: 'Long',  entered: "Apr 24 '26", entry: 124.70, stop: 113.50, current: 121.63, target: 160.00, plPct: '-2.5%',  plDol: '-$25',    toStop: '6.7%',  toTarget: '31.5%', progressW:  0, progressV: '-9%',  tier: null },
-  { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 415.98, stop: null,   current: 420.10, target: null,   plPct: '-1.0%',  plDol: '-$82',    toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
-  { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 334.85, stop: null,   current: 343.59, target: null,   plPct: '-2.6%',  plDol: '-$114',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
-  { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 216.15, target: null,   plPct: '-2.7%',  plDol: '-$135',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
-  { symbol: 'TXN',   cat: 'Short', entered: "Apr 23 '26", entry: 273.35, stop: null,   current: 277.20, target: 257.00, plPct: '-1.4%',  plDol: '-$135',   toStop: null,    toTarget: '7.3%',  progressW:  0, progressV: '-24%', tier: null },
-  { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 586.66, target: 361.00, plPct: '-12.5%', plDol: '-$1,368', toStop: null,    toTarget: '38.5%', progressW:  0, progressV: '-41%', tier: 'high-potential' },
-  { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 232.50, target: 185.00, plPct: '-4.0%',  plDol: '-$375',   toStop: null,    toTarget: '20.4%', progressW:  0, progressV: '-23%', tier: 'high-potential' },
-  { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 208.10, target: null,   plPct: '-3.9%',  plDol: '-$368',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
-  { symbol: 'SOFI',  cat: 'Long',  entered: "Jan 30 '26", entry:  23.14, stop: null,   current:  18.49, target: null,   plPct: '-20.1%', plDol: '-$279',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
-  { symbol: 'NET',   cat: 'Long',  entered: "Apr 27 '26", entry: 205.52, stop: 189.00, current: 205.46, target: 240.00, plPct: '-0.0%',  plDol: '-$0',     toStop: '8.0%',  toTarget: '16.8%', progressW:  0, progressV: '0%',   tier: null },
-];
-
-// ── Second positions table ────────────────────────────────────────────────────
-const POSITIONS_DATA_2 = [
-  { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 348.84, target: 285.00, plPct: '-13.3%', plDol: '-$1,186', toStop: null, toTarget: '18.3%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
-  { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 163.06, target: null,   plPct: '-2.1%',  plDol: '-$57',    toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
-  { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 234.53, target: 174.00, plPct: '-13.8%', plDol: '-$909',   toStop: null, toTarget: '25.8%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
-];
-
-// ── Options positions ────────────────────────────────────────────────────────
-const OPTIONS_DATA = [
-  { symbol: 'GDX',  type: 'Long Put',  typeCls: 'long-put',  strike: '$89.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.83', current: '$2.10', plPct: '-25.8%', plDol: '-$73'  },
-  { symbol: 'SOXS', type: 'Long Call', typeCls: 'long-call', strike: '$16.50', expiry: "May 8 '26",  contracts: 1, avgPrice: '$1.82', current: '$0.62', plPct: '-65.9%', plDol: '-$120' },
-  { symbol: 'SOXS', type: 'Long Call', typeCls: 'long-call', strike: '$21.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.84', current: '$0.41', plPct: '-85.6%', plDol: '-$243' },
-  { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$46.00', expiry: "May 1 '26",  contracts: 2, avgPrice: '$1.80', current: '$0.40', plPct: '-77.8%', plDol: '-$280' },
-  { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$45.00', expiry: "May 15 '26", contracts: 2, avgPrice: '$2.80', current: '$1.30', plPct: '-53.6%', plDol: '-$300' },
-];
-
-// ── Closed trades ────────────────────────────────────────────────────────────
-const CLOSED_TRADES_DATA = [
-  { symbol: 'CRDO', closeDate: 'Apr 27', result: 'gain', returnPct: '+8.6%',  plDol: '+$33'    },
-  { symbol: 'CIEN', closeDate: 'Apr 27', result: 'gain', returnPct: '+4.5%',  plDol: '+$232'   },
-  { symbol: 'COHR', closeDate: 'Apr 27', result: 'gain', returnPct: '+9.6%',  plDol: '+$328'   },
-  { symbol: 'POET', closeDate: 'Apr 27', result: 'gain', returnPct: '+35.4%', plDol: '+$1,012' },
-];
-
-// ── Trade alerts table ────────────────────────────────────────────────────────
-const ALERTS_DATA = [
-  { date: "Apr 27 '26", symbol: 'NET',  tier: 'warning', cat: 'Long', entry: '$209.00', stop: '$189.00', target: '$240.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/7 close', notes: 'CS software play with strongest EPS growth among major players · buying consolidation pattern up against RTL with fresh MACD buy signal' },
-  { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',   cat: 'Long', entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
-  { date: "Apr 17 '26", symbol: 'ONDS', tier: 'setup',   cat: 'Long', entry: '$10.40',  stop: '$9.80',   target: '$14.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
-  { date: "Mar 26 '26", symbol: 'BWA',  tier: 'warning', cat: 'Long', entry: '$55.50',  stop: '$53.70',  target: '$70.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Raise Stop', outcomeDetail: null,            notes: 'Raise stop' },
+// ── Trade setups ────────────────────────────────────────────────────────────
+// Each setup describes a planned trade. Trigger detection, daily P&L, and
+// "if held to today" P&L are all computed from prices.js historical OHLC.
+//
+// Fields:
+//   id              unique slug
+//   symbol          ticker
+//   direction       'Long' | 'Short'
+//   entryTrigger    price that, once hit, triggers entry (null = not set)
+//   stop            protective stop price (null = none yet)
+//   target          profit target price (null = none yet)
+//   setupType       'Breakout' | 'Pullback' | 'Reversal' | 'Earnings' | …
+//   tier            null | 'warning' | 'high-potential' | 'setup'
+//   addedDate       ISO date when the setup was added (YYYY-MM-DD)
+//   notes           freeform text
+//   status          'watching' | 'cancelled' | 'closed'
+//                   (a 'watching' setup whose entry was hit becomes 'open'
+//                    automatically — set 'closed' only after the manual exit)
+//   triggeredDate   manual override (YYYY-MM-DD) or null = auto-detect
+//   closedDate      ISO date the trade was manually closed (null = still open)
+//   closePrice      closing price (null = use that day's close)
+//   closeReason     'target' | 'stop' | 'manual' | 'time' | null
+const SETUPS = [
+  // ── May 1 setups ─────────────────────────────────────────────────────────
+  {
+    id: 'googl-swing-2026-05-01', symbol: 'GOOGL', direction: 'Short',
+    entryTrigger: 390.00, stop: null, target: null,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-01',
+    notes: 'Hidden upswing trend line retest zone $388.36–$390.00 · day trade or swing short entry at upper end of zone · zone touched May 5 (H=392.82) but price continued to $400 — watch for reversal',
+    status: 'watching', triggeredDate: '2026-05-05', closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'team-short-2026-05-01', symbol: 'TEAM', direction: 'Short',
+    entryTrigger: 92.93, stop: null, target: null,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Bouncing from deep lows ($55.91), currently drawing down · short into resistance at $92.93 · resistance hit May 4 (H=96.32)',
+    status: 'watching', triggeredDate: '2026-05-04', closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'team-long-2026-05-01', symbol: 'TEAM', direction: 'Long',
+    entryTrigger: 75.00, stop: null, target: null,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Pierce of $75.00 expected to bring buyers in · bouncing from deep lows ($55.91)',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'nvda-2026-05-01', symbol: 'NVDA', direction: 'Long',
+    entryTrigger: 195.55, stop: null, target: null,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Sharp sell-off · support zone $194.37–$195.55 (gap fill) · long on pierce into zone · dipped to 194.74 on May 4, then rallied to $211',
+    status: 'watching', triggeredDate: '2026-05-04', closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'amzn-2026-05-01', symbol: 'AMZN', direction: 'Short',
+    entryTrigger: 258.74, stop: 275.00, target: 238.10,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Negative RSI divergence at top of parallel channel · break below $258.74 targets midline $238.10 · psych resistance $275 / $300',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'msft-short-2026-05-01', symbol: 'MSFT', direction: 'Short',
+    entryTrigger: 424.06, stop: 433.12, target: 393.11,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Day trade short level · stop above bull line-in-sand $433.12 · support target $393.11 · level reached May 7 (H=427.98)',
+    status: 'watching', triggeredDate: '2026-05-07', closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'msft-long-2026-05-01', symbol: 'MSFT', direction: 'Long',
+    entryTrigger: 433.12, stop: 393.11, target: 438.37,
+    setupType: 'Breakout', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Buyers recaptured downswing trend line · bull line-in-sand $433.12 · next resistance $438.37 · support $393.11',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'intc-short-2026-05-01', symbol: 'INTC', direction: 'Short',
+    entryTrigger: 100.00, stop: null, target: 87.53,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'RSI 87.56 — severely overextended · rejected at $100 psych level · targets $87.53 → $67.95 → $54.37 on major pullback · CANCELLED: price broke out above $100 on May 5',
+    status: 'cancelled', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'intc-long-2026-05-01', symbol: 'INTC', direction: 'Long',
+    entryTrigger: 100.00, stop: null, target: 110.00,
+    setupType: 'Breakout', tier: null,
+    addedDate: '2026-05-01',
+    notes: 'Breakout above $100 psych level targets $110 · only valid on confirmed close above $100 · broke out May 5, hit target same day',
+    status: 'closed',
+    triggeredDate: '2026-05-05',
+    closedDate: '2026-05-05',
+    closePrice: 110.00,
+    closeReason: 'target',
+  },
+  // ── 2026-05-05 batch ─────────────────────────────────────────────────────
+  {
+    id: 'googl-2026-05-05', symbol: 'GOOGL', direction: 'Short',
+    entryTrigger: 390.10, stop: null, target: null,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-05',
+    notes: 'Cleared all-time highs and broke below upswing trend line · swing short entry $390.10 · close above → next resistance $400 · DCA every $40 (10%) higher',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'nvda-2026-05-05', symbol: 'NVDA', direction: 'Long',
+    entryTrigger: 195.56, stop: 189.31, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-05',
+    notes: 'Selling off toward long entry levels · day-trade pierce of $195.56 (target $194.92–$194.21) · conservative gap fill $189.31',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'sndk-2026-05-05', symbol: 'SNDK', direction: 'Short',
+    entryTrigger: 1454.00, stop: null, target: null,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-05',
+    notes: 'SanDisk · overextended on log chart · shortable swing target $1,454 · DCA short every $100 higher',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'mu-2026-05-05', symbol: 'MU', direction: 'Short',
+    entryTrigger: 600.00, stop: null, target: null,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-05',
+    notes: 'Massive overextension (up 93% since 2026-03-31) · swing short pierce of $600 (aggressive $595) · day-trade short any level above $590',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'chrw-2026-05-05', symbol: 'CHRW', direction: 'Long',
+    entryTrigger: 159.96, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-05',
+    notes: 'Drawing down · aggressive day-trade long $159.96 · 15-min close below → re-enter at $150 pierce or gap $148.44',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'ups-2026-05-05', symbol: 'UPS', direction: 'Long',
+    entryTrigger: 97.51, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-05',
+    notes: 'Hitting a gap in the charts · aggressive long $97.51 · conservative pierce $95.00 · deeper gap $84.93',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'fdx-2026-05-05', symbol: 'FDX', direction: 'Long',
+    entryTrigger: 357.00, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-05',
+    notes: 'Following UPS lower after breaking upswing trend line · long at $357 round number · 15-min close below → next long $341.81 · swing short alt on retrace to $386.23',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  // ── 2026-05-06 batch ─────────────────────────────────────────────────────
+  {
+    id: 'lulu-scalp-2026-05-06', symbol: 'LULU', direction: 'Long',
+    entryTrigger: 923.20, stop: 900.00, target: null,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-06',
+    notes: 'Quick-scalp long at gap fill $923.20 · psychological support at $900 · separate from swing level at $815.75',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'tmdx-2026-05-06', symbol: 'TMDX', direction: 'Long',
+    entryTrigger: 68.58, stop: null, target: null,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Pre-market drop to $68.58 = aggressive long · conservative gap fill $64.19 · DCA down toward low pivots',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'nice-2026-05-06', symbol: 'NICE', direction: 'Long',
+    entryTrigger: 97.00, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Aggressive long at prior gap fill $97.00 · conservative entry on pierce of $94.65 for technical bounce',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'cpng-2026-05-06', symbol: 'CPNG', direction: 'Long',
+    entryTrigger: 17.43, stop: 16.79, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Long at gap fill $17.43 · if it consolidates into a bear flag there, next support $16.79',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'anet-2026-05-06', symbol: 'ANET', direction: 'Long',
+    entryTrigger: 141.18, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Aggressive long at $141.18 · more significant support $138.78 · ultra-conservative gap fill $133.70',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'shop-2026-05-06', symbol: 'SHOP', direction: 'Long',
+    entryTrigger: 104.90, stop: 100.05, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Aggressive long at $104.90 · 15-min close fail → support $100.05–$101.35 · deeper long-term support $91.77',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'pltr-2026-05-06', symbol: 'PLTR', direction: 'Long',
+    entryTrigger: 122.86, stop: 122.67, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Long entries $122.86 and swing $122.55 · daily close below $122.67 = stop-out',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'intc-2026-05-06', symbol: 'INTC', direction: 'Short',
+    entryTrigger: 111.00, stop: 112.00, target: 88.00,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-06',
+    notes: 'Resistance $111–$112 · up 176% from lows, overextended · pullback target $88, long-term $54.73',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'amd-long-2026-05-06', symbol: 'AMD', direction: 'Long',
+    entryTrigger: 426.47, stop: null, target: 444.50,
+    setupType: 'Breakout', tier: 'setup',
+    addedDate: '2026-05-06',
+    notes: 'Resistance at $426.47 post-earnings caused 5% pullback · if bullish momentum continues, breaks trend lines to $444.50, possibly $500.00',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  // ── 2026-05-07 batch ─────────────────────────────────────────────────────
+  {
+    id: 'ddog-2026-05-07', symbol: 'DDOG', direction: 'Short',
+    entryTrigger: 202.00, stop: 210.00, target: 175.20,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-07',
+    notes: 'Earnings rip · triple-top resistance at $202 · short into the level · target support $175.20, then $161.24',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'ftnt-2026-05-07', symbol: 'FTNT', direction: 'Short',
+    entryTrigger: 114.82, stop: 118.50, target: 100.00,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Earnings ripped 32% · pierced double-top at $114.82 then retreated · target psychological $100, gap fill $90',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'mdb-2026-05-07', symbol: 'MDB', direction: 'Long',
+    entryTrigger: 302.90, stop: 279.83, target: null,
+    setupType: 'Breakout', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Gapped up out of bearish consolidation · tagged resistance $302.90 and retreated · need hold above $279.83 to keep momentum',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'axon-2026-05-07', symbol: 'AXON', direction: 'Long',
+    entryTrigger: null, stop: 414.53, target: 471.00,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Up 10% post-earnings · V-shaped recovery · roadmap to $471 then $493.12 if it holds $414.53',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'googl-2026-05-07', symbol: 'GOOGL', direction: 'Long',
+    entryTrigger: 381.00, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Vying with NVDA for top market cap · overbought · expecting retrace to top of parallel channel ~$381 for buy',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'nvda-2026-05-07', symbol: 'NVDA', direction: 'Long',
+    entryTrigger: 217.37, stop: null, target: null,
+    setupType: 'Breakout', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Bounced off long-term trend line · double-layer barrier at $216.50 / $217.37 · clear both to regain bullish parallel',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'nvda-short-2026-05-07', symbol: 'NVDA', direction: 'Short',
+    entryTrigger: 212.00, stop: null, target: null,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'Day-trade short · previous double top around $212',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'net-2026-05-07', symbol: 'NET', direction: 'Long',
+    entryTrigger: 205.00, stop: 198.00, target: 220.00,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Sold off post-earnings despite sector strength · near-term support $220 · buy gap fill at $205, psychological $200',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'crwv-2026-05-07', symbol: 'CRWV', direction: 'Short',
+    entryTrigger: 15.30, stop: null, target: null,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'CoreWeave · flat AH after post-earnings pop · overbought · resistance $14.31 / $15.30',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'coin-2026-05-07', symbol: 'COIN', direction: 'Long',
+    entryTrigger: 174.53, stop: 148.45, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Dropped to $184 after earnings · approaching cliff · gap-fill supports $174.53 then $161 · long-term support $148.45',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'shak-2026-05-07', symbol: 'SHAK', direction: 'Long',
+    entryTrigger: 67.47, stop: 64.16, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Broke below pre-market low · filled gap at $67.47 = good long entry · conservative range $66.05–$66.69 · max downside $64.16',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'vitl-2026-05-07', symbol: 'VITL', direction: 'Long',
+    entryTrigger: 7.85, stop: null, target: 12.00,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-07',
+    notes: 'Huge pre-market sell-off to $7.85 then bounced 18% · day & swing buyer at $7.85 · target $12.00 (~52% move)',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'pltr-2026-05-07', symbol: 'PLTR', direction: 'Long',
+    entryTrigger: 122.86, stop: null, target: null,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'Downside target for long entry $122.86 · swing trade level $122.55 · need to clear & confirm above downward trend line off recent pivot tops to turn bullish',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'mu-reshort-2026-05-07', symbol: 'MU', direction: 'Short',
+    entryTrigger: 671.56, stop: 683.12, target: 660.00,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'Topping tail on 10-min at $683.12 led to $20 drop to $660 · re-short at 50%/61.8% fib retrace ($671.56 / $674.29)',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'anet-2026-05-07', symbol: 'ANET', direction: 'Long',
+    entryTrigger: 133.70, stop: null, target: null,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'Hit $141.18 multiple times · expected to break lower · next major long entry $133.70',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'intc-2026-05-07', symbol: 'INTC', direction: 'Short',
+    entryTrigger: null, stop: null, target: null,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'Negative RSI divergence — buying pressure weakening despite higher prices · resistance at daily upward trend line · rollover expected',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'shop-2026-05-07', symbol: 'SHOP', direction: 'Short',
+    entryTrigger: 104.90, stop: null, target: 91.77,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Bounced off $104.90 and pushing higher · short on return to $104.90 · breakdown target $91.77',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'bros-2026-05-07', symbol: 'BROS', direction: 'Long',
+    entryTrigger: 50.60, stop: 48.40, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Long entry at $50.60 · stop on 15-min close below — do not average down · next gap support $48.40',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'arm-2026-05-07', symbol: 'ARM', direction: 'Long',
+    entryTrigger: 228.84, stop: 187.34, target: null,
+    setupType: 'Pullback', tier: null,
+    addedDate: '2026-05-07',
+    notes: 'First long level at gap fill $228.84 · day-trade only (high end of chart) · secondary support $187.34',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'lulu-2026-05-07', symbol: 'LULU', direction: 'Long',
+    entryTrigger: 815.75, stop: 791.37, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Bounce at $92.32 broke lower · major support at upward trend line $815.75 · daily close below $791.37 = stop-out',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'avav-2026-05-07', symbol: 'AVAV', direction: 'Long',
+    entryTrigger: 150.19, stop: null, target: 169.07,
+    setupType: 'Breakout', tier: 'high-potential',
+    addedDate: '2026-05-07',
+    notes: 'Consolidating near support · pierce of $150 ($150.19) for day & swing entry · resistance target $169.07',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'qcom-2026-05-07', symbol: 'QCOM', direction: 'Long',
+    entryTrigger: 209.64, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-07',
+    notes: 'Aggressive long at gap fill $209.64 · conservative alt is short higher up at $212.53 gap fill',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  // ── 2026-05-08 batch ─────────────────────────────────────────────────────
+  {
+    id: 'intc-2026-05-08', symbol: 'INTC', direction: 'Short',
+    entryTrigger: 113.36, stop: 114.52, target: null,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Topping tail May 6 · short day trade $113.36 · conservative wait for $112.46 · stop on daily close above $114.52',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'pltr-2026-05-08', symbol: 'PLTR', direction: 'Short',
+    entryTrigger: null, stop: null, target: 128.60,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-08',
+    notes: 'Broke below upswing trend line — looking weaker · downside $128.60 then $125.00 · consolidation there could set up breakout · close below $125.00 → drop to $97.70',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'stx-2026-05-08', symbol: 'STX', direction: 'Short',
+    entryTrigger: 800.00, stop: null, target: 700.00,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-08',
+    notes: 'Extended move to upside · short at $800 round number · if breaks upswing trend line, first support just below $700 · deeper gap fill $580',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'soxx-2026-05-08', symbol: 'SOXX', direction: 'Short',
+    entryTrigger: null, stop: 550.00, target: null,
+    setupType: 'Reversal', tier: null,
+    addedDate: '2026-05-08',
+    notes: 'Uptrend with minor 6% pullbacks · watch for break/confirmation below upswing trend line · resistance $525 and $550 if momentum continues',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'fig-2026-05-08', symbol: 'FIG', direction: 'Long',
+    entryTrigger: 21.41, stop: null, target: 26.83,
+    setupType: 'Breakout', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Down-sloping trend line · break above $21.41 line-in-the-sand targets $26.83 then $32.61 · buying opportunity at gap fill $17.70 or pivot low $16.71',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'nflx-2026-05-08', symbol: 'NFLX', direction: 'Long',
+    entryTrigger: 84.59, stop: null, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Day-trade range $82.47–$84.59 · aggressive swing entries in this range · additional support $77.13 and $74.87',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'path-2026-05-08', symbol: 'PATH', direction: 'Long',
+    entryTrigger: 11.30, stop: null, target: 15.00,
+    setupType: 'Breakout', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Bullish consolidation · needs to clear $11.30 to target $15.00 · major resistance $12.47 · gap fill $14.12',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'tln-2026-05-08', symbol: 'TLN', direction: 'Long',
+    entryTrigger: 424.87, stop: null, target: 450.00,
+    setupType: 'Breakout', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Bull flag · clearing $424.87 targets resistance $450 then $500 · $450 is potential swing short entry',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'pwr-2026-05-08', symbol: 'PWR', direction: 'Short',
+    entryTrigger: 800.00, stop: null, target: 623.00,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Through $750 signals potential top · conservative short $800 · long re-entry swing at $623 or upswing trend line · aggressive long $556',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'ibm-2026-05-08', symbol: 'IBM', direction: 'Short',
+    entryTrigger: 223.35, stop: null, target: 214.53,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Needs to hold $223.35 · daily close below targets $214.53 · crash below $214 → pickup just under $200',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'rgti-2026-05-08', symbol: 'RGTI', direction: 'Long',
+    entryTrigger: 15.80, stop: 11.35, target: null,
+    setupType: 'Pullback', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Starter swing position at $15.80 · next support $15.00 and $12.72 · major support $11.35',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'now-2026-05-08', symbol: 'NOW', direction: 'Long',
+    entryTrigger: 60.93, stop: null, target: null,
+    setupType: 'Reversal', tier: 'setup',
+    addedDate: '2026-05-08',
+    notes: 'Bearish after failing to hold $68.16 · first long play $60.93 · deeper support $53.23 · break below → $42.55',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
+  {
+    id: 'sats-2026-05-08', symbol: 'SATS', direction: 'Short',
+    entryTrigger: 140.00, stop: null, target: 104.84,
+    setupType: 'Reversal', tier: 'high-potential',
+    addedDate: '2026-05-08',
+    notes: 'Short pierce of $140 all-time high trap · support $104.84, $85.35, $65.00',
+    status: 'watching', triggeredDate: null, closedDate: null, closePrice: null, closeReason: null,
+  },
 ];

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SwingTrader 2026 - A responsive web application for swing trading">
+    <meta name="description" content="SwingTrader 2026 — trade setup tracker">
     <meta name="theme-color" content="#4f46e5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -11,333 +11,57 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="icon-192.svg">
     <link rel="apple-touch-icon" href="icon-192.svg">
-    <title>SwingTrader 2026</title>
+    <title>SwingTrader 2026 — Setups</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">SwingTrader 2026</div>
+            <div class="navbar-tagline">Trade Setups</div>
             <button id="installBtn" class="install-btn" hidden aria-label="Install app">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Install
             </button>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </button>
-            <ul class="nav-menu" id="navMenu">
-                <li class="nav-item">
-                    <a href="#portfolio" class="nav-link active" data-tab="portfolio">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-                        Portfolio
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#dashboard" class="nav-link" data-tab="dashboard">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                        Trade History
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#monthly" class="nav-link" data-tab="monthly">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        Monthly
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#alerts" class="nav-link" data-tab="alerts">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        Trade Alerts
-                        <span class="nav-alert-dot" aria-label="New alerts"></span>
-                    </a>
-                </li>
-            </ul>
         </div>
     </nav>
 
-    <!-- Alert Ticker -->
-    <div class="alert-ticker">
-        <div class="ticker-badge">ALERTS</div>
-        <div class="ticker-viewport">
-            <div class="ticker-track"></div>
-        </div>
-    </div>
-
     <main class="main-content">
-        <!-- Portfolio Page -->
-        <section id="portfolio" class="page active" data-page="portfolio">
-            <div class="page-container">
-                <h1 class="section-title portfolio-toggle" id="portfolioSummaryTitle"
-                    role="button" tabindex="0" aria-expanded="false" aria-controls="metricsGrid">
-                    Portfolio Summary
-                    <span class="metrics-arrow" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                    </span>
-                </h1>
+        <div class="page-container">
 
-                <!-- Performance Metrics -->
-                <div class="metrics-grid" id="metricsGrid" aria-hidden="true">
-                    <div class="metric-card">
-                        <div class="metric-label">Total Trades</div>
-                        <div class="metric-value">n/a</div>
-                        <div class="metric-sub">wins · losses</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Win Rate</div>
-                        <div class="metric-value blue">n/a</div>
-                        <div class="metric-sub">YTD 2026</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Avg Gain</div>
-                        <div class="metric-value">n/a</div>
-                        <div class="metric-sub">per winning trade</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Avg Loss</div>
-                        <div class="metric-value">n/a</div>
-                        <div class="metric-sub">per losing trade</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Expectancy</div>
-                        <div class="metric-value">n/a</div>
-                        <div class="metric-sub">per trade</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Best Trade</div>
-                        <div class="metric-value">n/a</div>
-                        <div class="metric-sub">&nbsp;</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Worst Trade</div>
-                        <div class="metric-value">n/a</div>
-                        <div class="metric-sub">&nbsp;</div>
+            <!-- Active setups -->
+            <section class="setups-section">
+                <div class="setups-header">
+                    <h2 class="section-title">
+                        Active Setups
+                        <span class="section-title-sub" id="activeCountLabel">(0)</span>
+                    </h2>
+                    <div class="setups-filters" role="group" aria-label="Filter setups">
+                        <button class="filter-btn active" data-status-filter="all">All</button>
+                        <button class="filter-btn" data-status-filter="watching">Watching</button>
+                        <button class="filter-btn" data-status-filter="open">Open</button>
+                        <span class="filter-sep"></span>
+                        <button class="filter-btn active" data-dir-filter="all">All</button>
+                        <button class="filter-btn filter-btn-long" data-dir-filter="long">▲ Long</button>
+                        <button class="filter-btn filter-btn-short" data-dir-filter="short">▼ Short</button>
                     </div>
                 </div>
-
-                <!-- Open Positions Table -->
-                <div class="positions-section">
-                    <div class="positions-header">
-                        <h3 class="positions-title">Open Positions <span class="position-count">(20)</span></h3>
-                        <div class="view-toggle" role="group" aria-label="Positions view">
-                            <button class="view-btn active" id="tableViewBtn" title="Table view" aria-label="Table view" aria-pressed="true">
-                                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="1" width="16" height="3" rx="1"/><rect x="0" y="6.5" width="16" height="3" rx="1"/><rect x="0" y="12" width="16" height="3" rx="1"/></svg>
-                            </button>
-                            <button class="view-btn" id="cardViewBtn" title="Card view" aria-label="Card view" aria-pressed="false">
-                                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="7" height="7" rx="1.5"/><rect x="9" y="0" width="7" height="7" rx="1.5"/><rect x="0" y="9" width="7" height="7" rx="1.5"/><rect x="9" y="9" width="7" height="7" rx="1.5"/></svg>
-                            </button>
-                        </div>
+                <div class="setups-split">
+                    <div class="setups-list-pane">
+                        <div class="setups-list" id="activeSetups"></div>
+                        <div class="empty-state" id="activeEmpty" hidden>No active setups match this filter.</div>
                     </div>
-                    <div class="table-container">
-                        <table class="positions-table" aria-label="Open trading positions">
-                            <thead>
-                                <tr>
-                                    <th>SYMBOL <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>CATEGORY <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>P/L % <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>P/L $ <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>CURRENT <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>TARGET <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>ENTRY <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>STOP <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>ALLOC % <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>ENTERED <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>TO STOP <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>TO TARGET <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>PROGRESS <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="positionsCardGrid" class="positions-card-grid" hidden></div>
-                </div>
-
-                <!-- Second Positions Table -->
-                <div class="positions-section positions-section-2">
-                    <div class="positions-header">
-                        <h3 class="positions-title" id="table2Title"></h3>
-                    </div>
-                    <div class="table-container">
-                        <table class="positions-table positions-table-2" aria-label="Additional trading positions">
-                            <thead>
-                                <tr>
-                                    <th>SYMBOL <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>CATEGORY <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>P/L % <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>P/L $ <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>CURRENT <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>TARGET <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>ENTRY <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>STOP <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>ALLOC % <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>ENTERED <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>TO STOP <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>TO TARGET <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                    <th>PROGRESS <span class="sort-icon" aria-hidden="true">↕</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <div class="setups-detail-pane" id="setupDetail">
+                        <div class="detail-empty">Select a setup from the list to see its details.</div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Options Positions -->
-                <div class="options-section">
-                    <div class="options-header">
-                        <h3 class="options-title">Options <span class="position-count">(5)</span></h3>
-                    </div>
-                    <div class="table-container">
-                        <table class="options-table" aria-label="Open options positions">
-                            <thead>
-                                <tr>
-                                    <th>SYMBOL</th>
-                                    <th>TYPE</th>
-                                    <th>STRIKE</th>
-                                    <th>EXPIRY</th>
-                                    <th>CONTRACTS</th>
-                                    <th>AVG PRICE</th>
-                                    <th>CURRENT</th>
-                                    <th>P/L %</th>
-                                    <th>P/L $</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Portfolio Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Portfolio Value</div>
-                        <div class="stat-value">—</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Buying Power</div>
-                        <div class="stat-value">n/a</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Total P&amp;L $</div>
-                        <div class="stat-value">—</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Total P&amp;L %</div>
-                        <div class="stat-value">—</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trade History Page -->
-        <section id="dashboard" class="page" data-page="dashboard">
-            <div class="page-container">
-                <h1 class="section-title">Trade History</h1>
-
-                <div class="trades-controls">
-                    <div class="filter-btns" role="group" aria-label="Filter trades">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="gain">Gains only</button>
-                        <button class="filter-btn" data-filter="loss">Losses only</button>
-                    </div>
-                    <div class="search-wrap">
-                        <input type="search" class="symbol-search" placeholder="Search symbol..." aria-label="Search by symbol">
-                    </div>
-                </div>
-
-                <div class="trades-section">
-                    <div class="table-container">
-                        <table class="trades-table" aria-label="Closed trades">
-                            <thead>
-                                <tr>
-                                    <th>SYMBOL <span class="sort-icon">↕</span></th>
-                                    <th>CLOSE DATE <span class="sort-icon">↓</span></th>
-                                    <th>RESULT <span class="sort-icon">↕</span></th>
-                                    <th class="text-right">RETURN % <span class="sort-icon">↕</span></th>
-                                    <th class="text-right">P&amp;L $ <span class="sort-icon">↕</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Monthly Performance Page -->
-        <section id="monthly" class="page" data-page="monthly">
-            <div class="page-container">
-                <h1 class="section-title">Monthly Performance<span class="monthly-subtitle">sum of returns, trades, win rate</span></h1>
-
-                <!-- Bar Chart Card -->
-                <div class="monthly-chart-card">
-                    <div class="chart-bars">
-                    </div>
-                    <div class="chart-month-row">
-                    </div>
-                </div>
-
-                <!-- Monthly Stats Table -->
-                <div class="monthly-table-card">
-                    <div class="table-container">
-                        <table class="monthly-table" aria-label="Monthly performance summary">
-                            <thead>
-                                <tr>
-                                    <th>MONTH</th>
-                                    <th class="text-right">TRADES</th>
-                                    <th class="text-right">GAINS</th>
-                                    <th class="text-right">LOSSES</th>
-                                    <th class="text-right">WIN RATE</th>
-                                    <th class="text-right">AVG RETURN</th>
-                                    <th class="text-right">SUM RETURNS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trade Alerts Page -->
-        <section id="alerts" class="page" data-page="alerts">
-            <div class="page-container">
-                <h1 class="section-title">Trade Alerts</h1>
-
-                <div class="alerts-table-card">
-                    <div class="table-container">
-                        <table class="alerts-table" aria-label="Trade alerts and picks">
-                            <thead>
-                                <tr>
-                                    <th>DATE</th>
-                                    <th>SYMBOL</th>
-                                    <th>TYPE</th>
-                                    <th class="text-right">ENTRY</th>
-                                    <th class="text-right">STOP</th>
-                                    <th class="text-right">TARGET</th>
-                                    <th>OUTCOME</th>
-                                    <th>NOTES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        </div>
     </main>
 
     <script src="data.js"></script>
+    <script src="prices.js"></script>
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
