@@ -10,6 +10,7 @@
 //   signal     one-line verdict shown on the tile
 //   verdict    'buy' | 'caution' | 'avoid'  → colors the tile chip
 //   accent     'purple' | 'pink'            → tile accent glow
+//   date       ISO date the plan was posted (YYYY-MM-DD) — gallery sorts newest first
 //   story      path to the interactive presentation HTML
 //
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
@@ -19,6 +20,23 @@ const STOCKS = [
     price: '$175.18', change: '+2% today',
     signal: 'Wait for the pullback — don’t chase',
     verdict: 'caution', accent: 'purple',
+    date: '2026-06-27',
     story: 'stories/sezl.html',
+  },
+  {
+    symbol: 'NBIS', exchange: 'NASDAQ',
+    price: '~$229', change: '−17% · Jul 1',
+    signal: 'Wait for oversold + a reversal — don’t catch the knife',
+    verdict: 'caution', accent: 'pink',
+    date: '2026-07-01',
+    story: 'stories/nbis.html',
+  },
+  {
+    symbol: 'AMAT', exchange: 'NASDAQ',
+    price: '$650.91', change: '−9.97% · Jul 1',
+    signal: 'Upper rail rejected — buy the pullback, don’t chase',
+    verdict: 'caution', accent: 'purple',
+    date: '2026-07-02',
+    story: 'stories/amat.html',
   },
 ];

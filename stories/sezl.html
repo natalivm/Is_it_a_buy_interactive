@@ -4,11 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SEZL — Story</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
 <style>
+  /* ── SEZL palette + unique "phone story" chrome ── */
   :root{
+    --page-bg:#070410;
     --ink:#0C0714; --panel:#1A1030; --panel2:#22183C; --hair:#2E2145;
     --purple:#B57BFF; --purple-deep:#8B5CF6; --pink:#FF5DA2; --pink-soft:#FF89BE;
     --yellow:#FFD24A; --txt:#F2ECFA; --mut:#A99CC2;
@@ -17,15 +21,12 @@
     --mono:'JetBrains Mono',ui-monospace,monospace;
     --grad:linear-gradient(92deg,var(--purple),var(--pink));
   }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
-  body{ background:#070410; font-family:var(--body); color:var(--txt);
-    display:flex; align-items:center; justify-content:center;
-    min-height:100dvh; overflow:hidden; -webkit-font-smoothing:antialiased }
+  body{ color:var(--txt); }
   body::before{ content:""; position:fixed; inset:0; pointer-events:none;
     background:
       radial-gradient(120% 55% at 50% -8%, rgba(181,123,255,.14), transparent 60%),
       radial-gradient(120% 55% at 50% 108%, rgba(255,93,162,.12), transparent 60%) }
+
   .phone{ --w:400px; position:relative;
     width:min(440px,100vw); height:min(calc(440px*16/9),100dvh);
     max-height:100dvh; aspect-ratio:9/16; background:var(--ink);
@@ -52,10 +53,8 @@
   .ticker .meta b{ color:var(--yellow); font-weight:700 }
 
   .slides{ position:absolute; inset:0; z-index:10 }
-  .slide{ position:absolute; inset:0;
-    padding:calc(var(--w)*.26) calc(var(--w)*.085) calc(var(--w)*.12);
-    display:flex; flex-direction:column; opacity:0; visibility:hidden; transition:opacity .35s ease }
-  .slide.active{ opacity:1; visibility:visible }
+  /* base .slide styles come from story.css; SEZL only sets the phone padding */
+  .slide{ padding:calc(var(--w)*.26) calc(var(--w)*.085) calc(var(--w)*.12) }
   .spacer{ flex:1 1 auto; min-height:calc(var(--w)*.03) }
 
   .eyebrow{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.032);
@@ -72,12 +71,6 @@
   .big{ font-family:var(--disp); font-weight:700; line-height:.85; letter-spacing:-.01em; font-size:calc(var(--w)*.30) }
   .big.p{ color:var(--purple) }
 
-  .rise{ opacity:0; transform:translateY(14px) }
-  .slide.active .rise{ animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards }
-  .slide.active .d1{animation-delay:.05s}.slide.active .d2{animation-delay:.14s}
-  .slide.active .d3{animation-delay:.24s}.slide.active .d4{animation-delay:.34s}
-  @keyframes rise{ to{opacity:1;transform:none} }
-
   .viz{ margin-top:calc(var(--w)*.05) }
   .candles{ display:flex; align-items:flex-end; gap:calc(var(--w)*.022); height:calc(var(--w)*.4) }
   .candle{ position:relative; width:calc(var(--w)*.05); border-radius:2px; height:var(--h);
@@ -86,6 +79,7 @@
   .candle::before{ content:""; position:absolute; left:50%; top:calc(var(--w)*-.03);
     width:2px; height:calc(var(--w)*.05); background:inherit; transform:translateX(-50%); opacity:.8 }
   .slide.active .candle{ animation:grow .5s cubic-bezier(.2,.7,.2,1) both }
+  .candle.hl{ box-shadow:0 0 14px color-mix(in srgb, var(--yellow) 60%, transparent) }
   @keyframes grow{ from{transform:scaleY(0)} to{transform:scaleY(1)} }
 
   .gauge{ position:relative; height:calc(var(--w)*.075); border-radius:99px;
@@ -121,7 +115,7 @@
   .ladder{ display:flex; flex-direction:column; gap:calc(var(--w)*.026) }
   .rung{ display:flex; align-items:center; gap:calc(var(--w)*.035);
     padding:calc(var(--w)*.028) calc(var(--w)*.04); border-radius:10px; background:var(--panel) }
-  .rung.hi{ background:rgba(255,210,74,.14); box-shadow:inset 0 0 0 1.5px var(--yellow) }
+  .rung.hi{ background:rgba(255,210,74,.14) }
   .rung .dot{ width:calc(var(--w)*.026); height:calc(var(--w)*.026); border-radius:99px; flex:none }
   .rung .p{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.042); width:calc(var(--w)*.22) }
   .rung .t{ font-size:calc(var(--w)*.036); color:var(--mut) }
@@ -136,8 +130,6 @@
   .foot{ font-family:var(--mono); font-size:calc(var(--w)*.026); letter-spacing:.05em; color:var(--mut); margin-top:calc(var(--w)*.05) }
   .foot.warn{ color:var(--pink) }
 
-  .tap{ position:absolute; top:0; bottom:0; width:38%; z-index:30; cursor:pointer }
-  .tap.left{left:0} .tap.right{right:0}
   .hint{ position:absolute; bottom:calc(var(--w)*.05); left:0; right:0; z-index:35; text-align:center;
     font-family:var(--mono); font-size:calc(var(--w)*.03); letter-spacing:.12em; color:var(--mut);
     text-transform:uppercase; pointer-events:none; animation:pulse 2s ease-in-out infinite }
@@ -147,7 +139,7 @@
   .chev.r{right:calc(var(--w)*.09)} .chev.l{left:calc(var(--w)*.09)}
 
   @media (prefers-reduced-motion: reduce){
-    .rise,.slide.active .rise,.slide.active .candle{ animation:none!important; opacity:1!important; transform:none!important }
+    .slide.active .candle{ animation:none } .candle{ transform:none }
     .bar .fill{ transition:none } .hint{ animation:none }
   }
 </style>
@@ -160,10 +152,11 @@
   <div class="slides" id="slides">
 
     <section class="slide active" data-accent="purple">
-      <h1 class="rise d1">×2.5<br>за 90 днів.</h1>
-      <p class="sub rise d2">То чи варто заходити зараз? Розбираємо <b>ризик</b> і потенційний <b>прибуток</b>.</p>
+      <h1 class="rv">×2.5<br>за 90 днів.</h1>
+      <p class="sub rv">То чи варто заходити зараз? Розбираємо <b>ризик</b> і потенційний <b>прибуток</b>.</p>
+      <div class="posted rv" style="margin-top:calc(var(--w)*.03)">Опубліковано · 27 червня 2026</div>
       <div class="spacer"></div>
-      <div class="viz candles rise d4">
+      <div class="viz candles rv">
         <div class="candle" style="--h:14%"></div><div class="candle dn" style="--h:20%"></div>
         <div class="candle" style="--h:26%"></div><div class="candle" style="--h:24%"></div>
         <div class="candle dn" style="--h:36%"></div><div class="candle" style="--h:52%"></div>
@@ -173,41 +166,41 @@
     </section>
 
     <section class="slide" data-accent="purple">
-      <div class="eyebrow rise d1">Ситуація</div>
-      <h1 class="rise d2">Історичні<br>максимуми.</h1>
-      <p class="sub rise d3">Ціна йде по верхній межі всіх діапазонів. Графік чистий — і саме тоді <b>всі хочуть купити</b>.</p>
+      <div class="eyebrow rv">Ситуація</div>
+      <h1 class="rv">Історичні<br>максимуми.</h1>
+      <p class="sub rv">Ціна йде по верхній межі всіх діапазонів. Графік чистий — і саме тоді <b>всі хочуть купити</b>.</p>
       <div class="spacer"></div>
-      <div class="viz rise d4" style="font-family:var(--mono)">
-        <div style="font-size:calc(var(--w)*.14);font-weight:700;color:var(--yellow)">$175 <span style="color:var(--pink)">▲</span></div>
+      <div class="viz rv" style="font-family:var(--mono)">
+        <div class="big y" style="font-size:calc(var(--w)*.14);color:var(--yellow)">$175 <span style="color:var(--pink)">▲</span></div>
         <div style="font-size:calc(var(--w)*.04);color:var(--mut);margin-top:calc(var(--w)*.02)">+2% today</div>
       </div>
     </section>
 
     <section class="slide" data-accent="purple">
-      <div class="eyebrow rise d1">Мрія</div>
-      <h1 class="rise d2">Простір до<br><span class="y">$188.</span></h1>
-      <p class="sub rise d3">Стеля денного діапазону. А з <b>~23% шортів</b> будь-який ривок угору змушує їх закриватися — паливо для сквізу. Ось вона, спокуса.</p>
+      <div class="eyebrow rv">Мрія</div>
+      <h1 class="rv">Простір до<br><span class="y">$188.</span></h1>
+      <p class="sub rv">Стеля денного діапазону. А з <b>~23% шортів</b> будь-який ривок угору змушує їх закриватися — паливо для сквізу. Ось вона, спокуса.</p>
       <div class="spacer"></div>
-      <div class="viz rise d4"><span class="big p">+8%</span></div>
+      <div class="viz rv"><span class="big p">+8%</span></div>
     </section>
 
     <section class="slide" data-accent="pink">
-      <div class="eyebrow rise d1">Пастка</div>
-      <h1 class="rise d2">Бак майже<br><span class="k">порожній.</span></h1>
-      <p class="sub rise d3">Денний RSI 76. Стохастик розвертається. Тренд ще цілий — але <b>імпульс видихається</b>.</p>
+      <div class="eyebrow rv">Пастка</div>
+      <h1 class="rv">Бак майже<br><span class="k">порожній.</span></h1>
+      <p class="sub rv">Денний RSI 76. Стохастик розвертається. Тренд ще цілий — але <b>імпульс видихається</b>.</p>
       <div class="spacer"></div>
-      <div class="viz rise d4">
+      <div class="viz rv">
         <div class="gauge"><div class="needle" style="left:76%"></div><div class="tag" style="left:76%">RSI 76</div></div>
         <div class="gscale"><span>0</span><span>50</span><span>OVERBOUGHT</span></div>
       </div>
     </section>
 
     <section class="slide" data-accent="pink">
-      <div class="eyebrow rise d1">Ризик 1 · Оцінка</div>
-      <h1 class="rise d2">Вже<br><span class="k">дорого.</span></h1>
-      <p class="sub rise d3">Усі цілі аналітиків — <b>нижчі за поточну ціну</b>. Модель каже «тримати», а не «купувати».</p>
+      <div class="eyebrow rv">Ризик 1 · Оцінка</div>
+      <h1 class="rv">Вже<br><span class="k">дорого.</span></h1>
+      <p class="sub rv">Усі цілі аналітиків — <b>нижчі за поточну ціну</b>. Модель каже «тримати», а не «купувати».</p>
       <div class="spacer"></div>
-      <div class="viz bars rise d4">
+      <div class="viz bars rv">
         <div class="priceline" style="left:87.5%"><span class="pl">Price $175</span></div>
         <div class="bar"><span class="lab">HIGH</span><div class="track"><div class="fill" style="--f:82.5%"></div></div><span class="val">$165</span></div>
         <div class="bar soft"><span class="lab">MEDIAN</span><div class="track"><div class="fill" style="--f:69%"></div></div><span class="val">$138</span></div>
@@ -216,11 +209,11 @@
     </section>
 
     <section class="slide" data-accent="pink">
-      <div class="eyebrow rise d1">Ризик 2 · Форма руху</div>
-      <h1 class="rise d2">Параболи<br><span class="k">ламаються.</span></h1>
-      <p class="sub rise d3">Вертикальні рухи не сповзають плавно — вони різко розвертаються і роблять <b>геп уночі</b>. М'якого виходу не буде.</p>
+      <div class="eyebrow rv">Ризик 2 · Форма руху</div>
+      <h1 class="rv">Параболи<br><span class="k">ламаються.</span></h1>
+      <p class="sub rv">Вертикальні рухи не сповзають плавно — вони різко розвертаються і роблять <b>геп уночі</b>. М'якого виходу не буде.</p>
       <div class="spacer"></div>
-      <div class="viz rise d4">
+      <div class="viz rv">
         <svg class="snap" viewBox="0 0 300 130" preserveAspectRatio="none">
           <path d="M4,120 L46,110 L84,96 L120,70 L150,44 L178,20 L196,8" stroke="#B57BFF"/>
           <path d="M196,8 L214,60 L232,118" stroke="#FF5DA2"/>
@@ -229,22 +222,22 @@
     </section>
 
     <section class="slide" data-accent="pink">
-      <div class="eyebrow rise d1">Ризик 3 · Плече</div>
-      <h1 class="rise d2">Працює в<br><span class="k">обидва боки.</span></h1>
-      <p class="sub rise d3">Геп крізь твій стоп, помножений на плече, може знищити депозит. А сквіз спалює й <b>тих, хто зайшов пізно</b>.</p>
+      <div class="eyebrow rv">Ризик 3 · Плече</div>
+      <h1 class="rv">Працює в<br><span class="k">обидва боки.</span></h1>
+      <p class="sub rv">Геп крізь твій стоп, помножений на плече, може знищити депозит. А сквіз спалює й <b>тих, хто зайшов пізно</b>.</p>
       <div class="spacer"></div>
-      <div class="viz lev rise d4">
+      <div class="viz lev rv">
         <span class="x">×3</span>
         <span class="arrows"><span style="color:var(--purple)">▲</span><span style="color:var(--pink)">▼</span></span>
       </div>
     </section>
 
     <section class="slide" data-accent="purple">
-      <div class="eyebrow rise d1">Розумний хід</div>
-      <h1 class="rise d2">Не жени.<br><span class="p">Купуй відкат.</span></h1>
-      <p class="sub rise d3">Чекай на відкат до трендової рейки біля <b>$165</b>. Стоп на $157. Краща ціна — менший ризик.</p>
+      <div class="eyebrow rv">Розумний хід</div>
+      <h1 class="rv">Не жени.<br><span class="p">Купуй відкат.</span></h1>
+      <p class="sub rv">Чекай на відкат до трендової рейки біля <b>$165</b>. Стоп на $157. Краща ціна — менший ризик.</p>
       <div class="spacer"></div>
-      <div class="viz ladder rise d4">
+      <div class="viz ladder rv">
         <div class="rung"><span class="dot" style="background:var(--purple)"></span><span class="p" style="color:var(--purple)">$188</span><span class="t">target</span></div>
         <div class="rung"><span class="dot" style="background:var(--mut)"></span><span class="p" style="color:var(--mut)">$175</span><span class="t">now — too high to chase</span></div>
         <div class="rung hi"><span class="dot" style="background:var(--yellow)"></span><span class="p" style="color:var(--yellow)">$165</span><span class="t"><b>buy the rail</b></span></div>
@@ -253,58 +246,38 @@
     </section>
 
     <section class="slide" data-accent="purple">
-      <div class="eyebrow rise d1">Математика</div>
-      <h1 class="rise d2">Ризикуй <span class="k">$8</span>,<br>щоб взяти <span class="p">$15–23.</span></h1>
-      <p class="sub rise d3">Співвідношення прибуток/ризик від рейки. Малий контрольований ризик — за реальний шанс на профіт. <b>Ось у чому перевага.</b></p>
+      <div class="eyebrow rv">Математика</div>
+      <h1 class="rv">Ризикуй <span class="k">$8</span>,<br>щоб взяти <span class="p">$15–23.</span></h1>
+      <p class="sub rv">Співвідношення прибуток/ризик від рейки. Малий контрольований ризик — за реальний шанс на профіт. <b>Ось у чому перевага.</b></p>
       <div class="spacer"></div>
-      <div class="viz rise d4">
+      <div class="viz rv">
         <div class="meter"><div class="risk"><span>–$8</span></div><div class="rew"><span>+$15 to +$23</span></div></div>
         <div class="rr">≈ 2–3 : 1</div>
       </div>
     </section>
 
     <section class="slide" data-accent="purple">
-      <div class="eyebrow rise d1">Підсумок</div>
-      <h1 class="rise d2">Плануй угоду.<br><span class="p">Торгуй за планом.</span></h1>
-      <p class="sub rise d3">Це угода на <b>імпульсі</b> — не інвестиція за вартістю. Гарний вхід, технічна ціль, чіткий стоп. Не закохуйся в позицію.</p>
+      <div class="eyebrow rv">Підсумок</div>
+      <h1 class="rv">Плануй угоду.<br><span class="p">Торгуй за планом.</span></h1>
+      <p class="sub rv">Це угода на <b>імпульсі</b> — не інвестиція за вартістю. Гарний вхід, технічна ціль, чіткий стоп. Не закохуйся в позицію.</p>
       <div class="spacer"></div>
-      <div class="foot warn rise d4">Не є фінансовою порадою · лише для навчання</div>
+      <div class="foot warn rv">Не є фінансовою порадою · лише для навчання</div>
     </section>
 
   </div>
 
-  <div class="tap left" id="tapL"></div>
-  <div class="tap right" id="tapR"></div>
   <div class="chev l">‹</div>
   <div class="chev r">›</div>
   <div class="hint" id="hint">Тапни, щоб гортати ›</div>
 </div>
 
+<script src="engine.js"></script>
 <script>
-  const slides=Array.from(document.querySelectorAll('.slide'));
-  const N=slides.length;
-  const prog=document.getElementById('progress');
-  const hint=document.getElementById('hint');
-  let i=0;
-  for(let k=0;k<N;k++){ const s=document.createElement('div'); s.className='seg'; s.innerHTML='<i></i>'; prog.appendChild(s); }
-  const segs=Array.from(prog.children);
-  function go(n){
-    n=Math.max(0,Math.min(N-1,n));
-    slides[i].classList.remove('active'); i=n;
-    const cur=slides[i]; void cur.offsetWidth; cur.classList.add('active');
-    segs.forEach((s,k)=>{ s.classList.toggle('done',k<i); s.classList.toggle('active',k===i); });
-    hint.style.display=(i===0)?'block':'none';
-  }
-  const next=()=>{ if(i<N-1) go(i+1); };
-  const prev=()=>{ if(i>0) go(i-1); };
-  document.getElementById('tapR').addEventListener('click',next);
-  document.getElementById('tapL').addEventListener('click',prev);
-  document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();} if(e.key==='ArrowLeft')prev(); });
-  let x0=null; const phone=document.getElementById('phone');
-  phone.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
-  phone.addEventListener('touchend',e=>{ if(x0===null)return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40){dx<0?next():prev();} x0=null; },{passive:true});
-  function sync(){ phone.style.setProperty('--w',phone.clientWidth+'px'); }
-  window.addEventListener('resize',sync); sync(); go(0);
+  const phone = document.getElementById('phone');
+  function syncW(){ phone.style.setProperty('--w', phone.clientWidth + 'px'); }
+  window.addEventListener('resize', syncW);
+  syncW();
+  createStory({ stage:'.phone', deck:'.slides', progress:'#progress', hint:'#hint', tap:true, swipe:'.phone' });
 </script>
 </body>
 </html>

@@ -18,6 +18,14 @@ function esc(s) {
     ));
 }
 
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function fmtDate(iso) {
+    if (!iso) return '';
+    const [y, m, d] = iso.split('-').map(Number);
+    if (!y || !m || !d) return '';
+    return `${MONTHS[m - 1]} ${d}, ${y}`;
+}
+
 // ── Tile rendering ─────────────────────────────────────────────────────────
 function tileHtml(stock) {
     const accent = stock.accent === 'pink' ? 'pink' : 'purple';
@@ -27,29 +35,42 @@ function tileHtml(stock) {
     const signal = stock.signal
         ? `<p class="tile-signal">${esc(stock.signal)}</p>` : '';
 
-    // Decorative candle motif — purely visual, fixed heights.
-    const HEIGHTS = [30, 46, 38, 64, 52, 78, 90];
-    const candles = HEIGHTS.map((h, i) =>
-        `<span class="tile-candle${i === HEIGHTS.length - 1 ? ' hl' : (i % 3 === 1 ? ' dn' : '')}" style="height:${h}%"></span>`
-    ).join('');
+    // Live preview of the story's first (cover) slide. The iframe is
+    // non-interactive (pointer-events off, not focusable) — the whole tile is
+    // the button. loading="lazy" keeps off-screen previews cheap.
+    const previewSrc = stock.story
+        ? stock.story + (stock.story.includes('?') ? '&' : '?') + 'preview=1'
+        : '';
+    const preview = stock.story
+        ? `<div class="tile-preview" aria-hidden="true">
+               <iframe src="${esc(previewSrc)}" title="" tabindex="-1"
+                       loading="lazy" scrolling="no"></iframe>
+               <span class="tile-preview-badge">Preview</span>
+           </div>`
+        : '';
 
     return `
         <article class="tile tile-${accent}" data-story="${esc(stock.story)}"
                  tabindex="0" role="button" aria-label="Open ${esc(stock.symbol)} story">
-            <div class="tile-top">
-                <div class="tile-id">
-                    <span class="tile-symbol">${esc(stock.symbol)}</span>
-                    <span class="tile-exchange">${esc(stock.exchange || '')}</span>
+            ${preview}
+            <div class="tile-body">
+                <div class="tile-top">
+                    <div class="tile-id">
+                        <span class="tile-symbol">${esc(stock.symbol)}</span>
+                        <span class="tile-exchange">${esc(stock.exchange || '')}</span>
+                    </div>
+                    <span class="tile-chip chip-${verdict}">${VERDICT_LABEL[verdict]}</span>
                 </div>
-                <span class="tile-chip chip-${verdict}">${VERDICT_LABEL[verdict]}</span>
+                <div class="tile-price-row">
+                    <span class="tile-price">${esc(stock.price || '')}</span>
+                    ${change}
+                </div>
+                ${signal}
+                <div class="tile-foot">
+                    ${stock.date ? `<span class="tile-date">Posted ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
+                    <span class="tile-cta">View story <span aria-hidden="true">›</span></span>
+                </div>
             </div>
-            <div class="tile-candles" aria-hidden="true">${candles}</div>
-            <div class="tile-price-row">
-                <span class="tile-price">${esc(stock.price || '')}</span>
-                ${change}
-            </div>
-            ${signal}
-            <div class="tile-cta">View story <span aria-hidden="true">›</span></div>
         </article>
     `;
 }
@@ -66,7 +87,9 @@ function renderGallery() {
     }
     if (empty) empty.hidden = true;
 
-    container.innerHTML = STOCK_LIST.map(tileHtml).join('');
+    // Newest presentations first.
+    const ordered = [...STOCK_LIST].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    container.innerHTML = ordered.map(tileHtml).join('');
     container.querySelectorAll('.tile').forEach(el => {
         const story = el.dataset.story;
         el.addEventListener('click', () => openStory(story));

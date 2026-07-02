@@ -11,7 +11,11 @@ const ASSETS = [
   BASE + 'icon-512.png',
   BASE + 'icon-192.svg',
   BASE + 'icon-512.svg',
+  BASE + 'stories/story.css',
+  BASE + 'stories/engine.js',
   BASE + 'stories/sezl.html',
+  BASE + 'stories/nbis.html',
+  BASE + 'stories/amat.html',
 ];
 
 self.addEventListener('install', event => {
