@@ -47,4 +47,12 @@ const STOCKS = [
     date: '2026-07-02',
     story: 'stories/amat.html',
   },
+  {
+    symbol: 'BE', exchange: 'NYSE',
+    price: '$289.50', change: '−4.36% · Jul 1',
+    signal: 'Bear flag — short the fail; the bounce is a trap, not a buy',
+    verdict: 'avoid', accent: 'red',
+    date: '2026-07-02',
+    story: 'stories/be.html',
+  },
 ];
