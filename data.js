@@ -34,7 +34,7 @@ const STOCKS = [
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
     price: '$650.91', change: '−9.97% · Jul 1',
-    signal: 'Upper rail rejected — buy the pullback, don’t chase',
+    signal: 'Overextended · HOLD — fair value ~$430; wait for the pullback',
     verdict: 'caution', accent: 'purple',
     date: '2026-07-02',
     story: 'stories/amat.html',
