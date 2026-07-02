@@ -157,29 +157,38 @@ body.story-open { overflow: hidden; }
 
 /* ── Tile ────────────────────────────────────────────────────────────────── */
 .tile {
+    --tile-a: #B57BFF;
+    --tile-b: #FF5DA2;
     position: relative;
     display: flex;
     flex-direction: column;
     border-radius: 18px;
-    background: linear-gradient(180deg, var(--panel), var(--ink));
+    background: linear-gradient(180deg, color-mix(in srgb, var(--tile-a) 12%, var(--panel)), var(--ink));
     border: 1px solid var(--hair);
     box-shadow: var(--shadow);
     cursor: pointer;
     overflow: hidden;
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
+.tile::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tile-a), var(--tile-b));
+    z-index: 1;
+}
 .tile:hover, .tile:focus-visible {
     transform: translateY(-5px);
     outline: none;
+    border-color: var(--tile-a);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 34px color-mix(in srgb, var(--tile-a) 42%, transparent);
 }
-.tile-purple:hover, .tile-purple:focus-visible {
-    border-color: var(--purple);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 30px rgba(181, 123, 255, 0.28);
-}
-.tile-pink:hover, .tile-pink:focus-visible {
-    border-color: var(--pink);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 30px rgba(255, 93, 162, 0.28);
-}
+/* per-stock accent themes */
+.tile-violet  { --tile-a: #B57BFF; --tile-b: #FF5DA2; }
+.tile-blue    { --tile-a: #4EA8FF; --tile-b: #8B5CF6; }
+.tile-amber   { --tile-a: #FF9F45; --tile-b: #FF5D6E; }
+.tile-emerald { --tile-a: #2FD9A0; --tile-b: #22D3EE; }
 
 .tile-body {
     flex: 1;
@@ -201,7 +210,7 @@ body.story-open { overflow: hidden; }
     font-size: 28px;
     line-height: 1;
     letter-spacing: 0.01em;
-    background: var(--grad);
+    background: linear-gradient(92deg, var(--tile-a), var(--tile-b));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -236,8 +245,8 @@ body.story-open { overflow: hidden; }
 .tile-change { font-family: var(--mono); font-size: 12px; color: var(--mut); }
 .tile-signal {
     font-size: 13px;
-    line-height: 1.4;
-    color: var(--mut);
+    line-height: 1.45;
+    color: #CBC0E4;
 }
 .tile-foot {
     margin-top: auto;
@@ -260,10 +269,9 @@ body.story-open { overflow: hidden; }
     font-size: 12px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--purple);
+    color: var(--tile-a);
     white-space: nowrap;
 }
-.tile-pink .tile-cta { color: var(--pink); }
 .tile-cta span { transition: margin-left 0.18s ease; }
 .tile:hover .tile-cta span { margin-left: 4px; }
 
