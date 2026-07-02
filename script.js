@@ -38,21 +38,9 @@ function tileHtml(stock) {
     // Live preview of the story's first (cover) slide. The iframe is
     // non-interactive (pointer-events off, not focusable) — the whole tile is
     // the button. loading="lazy" keeps off-screen previews cheap.
-    const previewSrc = stock.story
-        ? stock.story + (stock.story.includes('?') ? '&' : '?') + 'preview=1'
-        : '';
-    const preview = stock.story
-        ? `<div class="tile-preview" aria-hidden="true">
-               <iframe src="${esc(previewSrc)}" title="" tabindex="-1"
-                       loading="lazy" scrolling="no"></iframe>
-               <span class="tile-preview-badge">Preview</span>
-           </div>`
-        : '';
-
     return `
         <article class="tile tile-${accent}" data-story="${esc(stock.story)}"
                  tabindex="0" role="button" aria-label="Open ${esc(stock.symbol)} story">
-            ${preview}
             <div class="tile-body">
                 <div class="tile-top">
                     <div class="tile-id">
