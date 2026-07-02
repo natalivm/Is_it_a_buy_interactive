@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'ASTS', exchange: 'NASDAQ',
+    price: '~$86', change: '+30% off the $66 low',
+    signal: 'Bounce done — now a breakout bet; $107 is the wall',
+    verdict: 'caution', accent: 'purple',
+    date: '2026-07-03',
+    story: 'stories/asts.html',
+  },
+  {
     symbol: 'SEZL', exchange: 'NASDAQ',
     price: '$175.18', change: '+2% today',
     signal: 'Wait for the pullback — don’t chase',

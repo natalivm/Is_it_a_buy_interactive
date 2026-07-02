@@ -107,11 +107,6 @@
   .snap{ width:100%; height:calc(var(--w)*.4) }
   .snap path{ fill:none; stroke-width:calc(var(--w)*.012); stroke-linecap:round; stroke-linejoin:round }
 
-  .lev{ display:flex; align-items:center; gap:calc(var(--w)*.05) }
-  .lev .x{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.32); color:var(--yellow); line-height:.8 }
-  .lev .arrows{ display:flex; flex-direction:column; gap:calc(var(--w)*.02); font-family:var(--disp);
-    font-weight:700; font-size:calc(var(--w)*.11); line-height:1 }
-
   .ladder{ display:flex; flex-direction:column; gap:calc(var(--w)*.026) }
   .rung{ display:flex; align-items:center; gap:calc(var(--w)*.035);
     padding:calc(var(--w)*.028) calc(var(--w)*.04); border-radius:10px; background:var(--panel) }
@@ -172,16 +167,15 @@
       <div class="spacer"></div>
       <div class="viz rv" style="font-family:var(--mono)">
         <div class="big y" style="font-size:calc(var(--w)*.14);color:var(--yellow)">$175 <span style="color:var(--pink)">▲</span></div>
-        <div style="font-size:calc(var(--w)*.04);color:var(--mut);margin-top:calc(var(--w)*.02)">+2% today</div>
+        <div style="font-size:calc(var(--w)*.04);color:var(--mut);margin-top:calc(var(--w)*.02)">+2% сьогодні</div>
       </div>
     </section>
 
     <section class="slide" data-accent="purple">
       <div class="eyebrow rv">Мрія</div>
       <h1 class="rv">Простір до<br><span class="y">$188.</span></h1>
-      <p class="sub rv">Стеля денного діапазону. А з <b>~23% шортів</b> будь-який ривок угору змушує їх закриватися — паливо для сквізу. Ось вона, спокуса.</p>
+      <p class="sub rv">Стеля денного діапазону — ціль <b>$188</b>. А з <b>~23% шортів</b> будь-який ривок угору змушує їх закриватися — паливо для сквізу. Ось вона, спокуса.</p>
       <div class="spacer"></div>
-      <div class="viz rv"><span class="big p">+8%</span></div>
     </section>
 
     <section class="slide" data-accent="pink">
@@ -191,7 +185,7 @@
       <div class="spacer"></div>
       <div class="viz rv">
         <div class="gauge"><div class="needle" style="left:76%"></div><div class="tag" style="left:76%">RSI 76</div></div>
-        <div class="gscale"><span>0</span><span>50</span><span>OVERBOUGHT</span></div>
+        <div class="gscale"><span>0</span><span>50</span><span>ПЕРЕКУП.</span></div>
       </div>
     </section>
 
@@ -201,10 +195,10 @@
       <p class="sub rv">Усі цілі аналітиків — <b>нижчі за поточну ціну</b>. Модель каже «тримати», а не «купувати».</p>
       <div class="spacer"></div>
       <div class="viz bars rv">
-        <div class="priceline" style="left:87.5%"><span class="pl">Price $175</span></div>
-        <div class="bar"><span class="lab">HIGH</span><div class="track"><div class="fill" style="--f:82.5%"></div></div><span class="val">$165</span></div>
-        <div class="bar soft"><span class="lab">MEDIAN</span><div class="track"><div class="fill" style="--f:69%"></div></div><span class="val">$138</span></div>
-        <div class="bar"><span class="lab">LOW</span><div class="track"><div class="fill" style="--f:50%"></div></div><span class="val">$100</span></div>
+        <div class="priceline" style="left:87.5%"><span class="pl">Ціна $175</span></div>
+        <div class="bar"><span class="lab">МАКС</span><div class="track"><div class="fill" style="--f:82.5%"></div></div><span class="val">$165</span></div>
+        <div class="bar soft"><span class="lab">МЕД</span><div class="track"><div class="fill" style="--f:69%"></div></div><span class="val">$138</span></div>
+        <div class="bar"><span class="lab">МІН</span><div class="track"><div class="fill" style="--f:50%"></div></div><span class="val">$100</span></div>
       </div>
     </section>
 
@@ -221,34 +215,23 @@
       </div>
     </section>
 
-    <section class="slide" data-accent="pink">
-      <div class="eyebrow rv">Ризик 3 · Плече</div>
-      <h1 class="rv">Працює в<br><span class="k">обидва боки.</span></h1>
-      <p class="sub rv">Геп крізь твій стоп, помножений на плече, може знищити депозит. А сквіз спалює й <b>тих, хто зайшов пізно</b>.</p>
-      <div class="spacer"></div>
-      <div class="viz lev rv">
-        <span class="x">×3</span>
-        <span class="arrows"><span style="color:var(--purple)">▲</span><span style="color:var(--pink)">▼</span></span>
-      </div>
-    </section>
-
     <section class="slide" data-accent="purple">
       <div class="eyebrow rv">Розумний хід</div>
       <h1 class="rv">Не жени.<br><span class="p">Купуй відкат.</span></h1>
-      <p class="sub rv">Чекай на відкат до трендової рейки біля <b>$165</b>. Стоп на $157. Краща ціна — менший ризик.</p>
+      <p class="sub rv">Чекай на відкат до трендової зони біля <b>$165</b>. Стоп на $157. Краща ціна — менший ризик.</p>
       <div class="spacer"></div>
       <div class="viz ladder rv">
-        <div class="rung"><span class="dot" style="background:var(--purple)"></span><span class="p" style="color:var(--purple)">$188</span><span class="t">target</span></div>
-        <div class="rung"><span class="dot" style="background:var(--mut)"></span><span class="p" style="color:var(--mut)">$175</span><span class="t">now — too high to chase</span></div>
-        <div class="rung hi"><span class="dot" style="background:var(--yellow)"></span><span class="p" style="color:var(--yellow)">$165</span><span class="t"><b>buy the rail</b></span></div>
-        <div class="rung"><span class="dot" style="background:var(--pink)"></span><span class="p" style="color:var(--pink)">$157</span><span class="t">stop</span></div>
+        <div class="rung"><span class="dot" style="background:var(--purple)"></span><span class="p" style="color:var(--purple)">$188</span><span class="t">ціль</span></div>
+        <div class="rung"><span class="dot" style="background:var(--mut)"></span><span class="p" style="color:var(--mut)">$175</span><span class="t">зараз — задорого гнатися</span></div>
+        <div class="rung hi"><span class="dot" style="background:var(--yellow)"></span><span class="p" style="color:var(--yellow)">$165</span><span class="t"><b>купуй зону</b></span></div>
+        <div class="rung"><span class="dot" style="background:var(--pink)"></span><span class="p" style="color:var(--pink)">$157</span><span class="t">стоп</span></div>
       </div>
     </section>
 
     <section class="slide" data-accent="purple">
       <div class="eyebrow rv">Математика</div>
       <h1 class="rv">Ризикуй <span class="k">$8</span>,<br>щоб взяти <span class="p">$15–23.</span></h1>
-      <p class="sub rv">Співвідношення прибуток/ризик від рейки. Малий контрольований ризик — за реальний шанс на профіт. <b>Ось у чому перевага.</b></p>
+      <p class="sub rv">Співвідношення прибуток/ризик від зони. Малий контрольований ризик — за реальний шанс на профіт. <b>Ось у чому перевага.</b></p>
       <div class="spacer"></div>
       <div class="viz rv">
         <div class="meter"><div class="risk"><span>–$8</span></div><div class="rew"><span>+$15 to +$23</span></div></div>
