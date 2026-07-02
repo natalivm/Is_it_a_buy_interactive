@@ -1,0 +1,128 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   Shared story foundation — used by every deck in /stories.
+   Each deck links this first, then adds its own <style> for its unique
+   palette (--page-bg, --purple, --pink, --yellow, fonts) and hero components.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: var(--body, system-ui, sans-serif);
+  color: var(--ink, #fff);
+  background: var(--page-bg, #0B0616);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Slide system ─────────────────────────────────────────────────────────
+   Position + transition are shared; each deck sets its own padding/justify. */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity .4s ease, transform .4s ease, visibility 0s .4s;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+/* ── Staggered content reveal ─────────────────────────────────────────────
+   Add class "rv" to any element that should rise in when its slide activates. */
+.rv { opacity: 0; transform: translateY(14px); }
+.slide.active .rv { animation: storyRise .5s cubic-bezier(.22,.9,.3,1) forwards; }
+.slide.active .rv:nth-of-type(1) { animation-delay: .05s; }
+.slide.active .rv:nth-of-type(2) { animation-delay: .14s; }
+.slide.active .rv:nth-of-type(3) { animation-delay: .23s; }
+.slide.active .rv:nth-of-type(4) { animation-delay: .32s; }
+.slide.active .rv:nth-of-type(5) { animation-delay: .41s; }
+.slide.active .rv:nth-of-type(6) { animation-delay: .50s; }
+.slide.active .rv:nth-of-type(7) { animation-delay: .59s; }
+@keyframes storyRise { to { opacity: 1; transform: none; } }
+
+/* ── Tap navigation zones (engine creates these on request) ───────────────── */
+.story-tap { position: absolute; top: 0; bottom: 0; width: 40%; z-index: 20; cursor: pointer; }
+.story-tap.left { left: 0; }
+.story-tap.right { right: 0; }
+
+/* ── Posted date (shown on story covers) ──────────────────────────────────── */
+.posted {
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted, var(--mut, #9a93b5));
+}
+
+/* ── Preview mode (tile thumbnails) ───────────────────────────────────────
+   Loaded with ?preview: freeze on the cover, force content visible (off-screen
+   iframes suppress animations), and hide interactive chrome. The .preview class
+   is set on <html> by an inline head script so it applies even if fonts/engine
+   are slow to load. */
+.preview .rv { opacity: 1 !important; transform: none !important; animation: none !important; }
+.preview .nav,
+.preview .hint,
+.preview .chev,
+.preview .posted,
+.preview .progress,
+.preview .story-tap { display: none !important; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   GLOW SYSTEM — make the key data pop and feel alive.
+   Uses each element's own color (currentColor) so numbers glow in their hue.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Static neon sheen on every data readout across all decks */
+.big, .big-num, .rr, .rung .px, .tc-row .r, .gauge .tag, .lev .x, .stat .v, .v {
+  text-shadow: 0 0 8px color-mix(in srgb, currentColor 32%, transparent);
+}
+/* Headline accent words carry a soft colored halo */
+h1 .p, h1 .k, h1 .y {
+  text-shadow: 0 0 10px color-mix(in srgb, currentColor 40%, transparent);
+}
+
+/* Animated throb on the marquee numbers — the hero stat of each slide */
+.big, .big-num, .rr, .gauge .tag, .lev .x,
+.cover h1 .p, .cover h1 .k, .cover h1 .y {
+  animation: dataThrob 2.8s ease-in-out infinite;
+}
+@keyframes dataThrob {
+  0%, 100% { text-shadow: 0 0 7px color-mix(in srgb, currentColor 45%, transparent); }
+  50%      { text-shadow: 0 0 18px color-mix(in srgb, currentColor 85%, transparent),
+                          0 0 38px color-mix(in srgb, currentColor 40%, transparent); }
+}
+
+/* Highlighter marks glow in brand yellow */
+.hl { filter: drop-shadow(0 0 10px color-mix(in srgb, var(--yellow, #FFD24A) 55%, transparent)); }
+
+/* "You are here" / key trade level rows pulse to draw the eye */
+.rung.now, .rung.hi { animation: rowThrob 2.8s ease-in-out infinite; }
+@keyframes rowThrob {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--yellow, #FFD24A) 40%, transparent),
+                         0 0 12px color-mix(in srgb, var(--yellow, #FFD24A) 22%, transparent); }
+  50%      { box-shadow: 0 0 0 1.5px var(--yellow, #FFD24A),
+                         0 0 26px color-mix(in srgb, var(--yellow, #FFD24A) 55%, transparent); }
+}
+
+/* Opt-in helpers a deck can drop on any element */
+.glow-p { text-shadow: 0 0 10px color-mix(in srgb, var(--purple, #B57BFF) 70%, transparent), 0 0 24px color-mix(in srgb, var(--purple, #B57BFF) 40%, transparent); }
+.glow-k { text-shadow: 0 0 10px color-mix(in srgb, var(--pink, #FF5DA2) 70%, transparent), 0 0 24px color-mix(in srgb, var(--pink, #FF5DA2) 40%, transparent); }
+.glow-y { text-shadow: 0 0 10px color-mix(in srgb, var(--yellow, #FFD24A) 70%, transparent), 0 0 24px color-mix(in srgb, var(--yellow, #FFD24A) 40%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide, .slide .rv { transition: none !important; animation: none !important; opacity: 1 !important; transform: none !important; }
+  .slide { visibility: hidden; }
+  .slide.active { visibility: visible; }
+  .big, .big-num, .rr, .gauge .tag, .lev .x,
+  .cover h1 .p, .cover h1 .k, .cover h1 .y,
+  .rung.now, .rung.hi { animation: none !important; }
+}

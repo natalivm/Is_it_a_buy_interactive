@@ -1,53 +1,44 @@
-# SwingTrader 2026 — Trade Setups
+# Is It a BUY interactive
 
-A static, single-page web app for tracking planned trade setups: when did the
-entry trigger, how is the trade tracking day-by-day, and where would I be if I
-were still holding it today?
+A static, single-page web app: a gallery of stock tiles where each tile opens
+an interactive "story" — a tap-through slideshow that walks you through the
+trade thesis for that stock (the setup, the risk, the reward, and the smart
+move right now).
 
 ## Files
 
-- `index.html` — page shell (alert ticker, year heatmap, active setups, history)
-- `styles.css` — dark theme
-- `script.js` — trigger detection, daily P&L, heatmap rendering
-- `data.js` — `SETUPS` array (the only file you edit by hand)
-- `prices.js` — auto-generated OHLC history (regenerate with `fetch_setups.py`)
-- `fetch_setups.py` — pulls daily OHLC from Yahoo Finance for every symbol in
-  `data.js`, from each setup's `addedDate` through today
+- `index.html` — page shell: gallery grid + full-screen story overlay
+- `styles.css` — dark purple/pink theme and tile styling
+- `script.js` — renders tiles from `STOCKS` and opens each story in an iframe overlay
+- `data.js` — the `STOCKS` array (the only file you edit by hand to add tiles)
+- `stories/` — one self-contained HTML slideshow per stock (e.g. `stories/sezl.html`)
+- `manifest.json`, `sw.js`, `icon-*` — PWA/offline support
+- `fetch_setups.py`, `prices.js`, `requirements.txt` — legacy price fetcher, no
+  longer used by the gallery (kept for reference)
 
-## Workflow
+## Add a stock
 
-1. Add a setup to `SETUPS` in `data.js` with at minimum `symbol`, `direction`,
-   `entryTrigger`, `addedDate`, `notes`.
-2. Run `python3 fetch_setups.py` to refresh `prices.js`.
-3. Open `index.html`. The app auto-detects whether each setup's entry was
-   triggered (Long: high ≥ entry; Short: low ≤ entry), renders daily P&L from
-   trigger day forward, and shows "if held to today" P&L.
-4. When you exit a trade manually, edit the setup in `data.js`: set `status:
-   'closed'`, `closedDate`, optional `closePrice`, and `closeReason`.
-5. Run `fetch_setups.py` again to pick up the latest prices.
+1. Create the story slideshow at `stories/<symbol>.html`. Use an existing story
+   (e.g. `stories/sezl.html`) as a template — each is a fully self-contained
+   HTML file with its own styles and tap/swipe navigation.
+2. Add an entry to `STOCKS` in `data.js`:
 
-## Heatmap
-
-GitHub-style 7×52 grid for the configured `heatmapYear`. Click any active
-setup card to filter the heatmap to just that stock; click the "All" button to
-clear. Trigger days are blue; close days purple; in-between days are colored
-by daily P&L magnitude.
-
-## Setup → close
-
-Closes are manual — edit the setup in `data.js`. Until then, an open setup
-shows the running daily P&L in the heatmap and modal, and the current "if held
-to today" return on the card.
-
-## Python setup
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python3 fetch_setups.py
-```
+   ```js
+   {
+     symbol: 'SEZL', exchange: 'NASDAQ',
+     price: '$175.18', change: '+2% today',
+     signal: 'Wait for the pullback — don’t chase',
+     verdict: 'caution',        // 'buy' | 'caution' | 'avoid'  → tile chip color
+     accent: 'purple',          // 'purple' | 'pink'            → tile accent
+     story: 'stories/sezl.html',
+   }
+   ```
+3. Open `index.html`. The tile appears in the gallery; clicking it opens the
+   story in a full-screen overlay (Esc or the ✕ closes it).
 
 ## Deploy
 
-Drop the repo on GitHub Pages — everything is static.
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which minifies the
+assets, copies `stories/` verbatim, and publishes to GitHub Pages. Paths are
+relative, so the site works from any project subpath
+(`https://<user>.github.io/<repo>/`).

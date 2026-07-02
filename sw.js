@@ -1,17 +1,21 @@
-const CACHE_NAME = 'swingtrader-v20';
+const CACHE_NAME = 'isitabuy-v1';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
   BASE + 'index.html',
   BASE + 'styles.css',
   BASE + 'data.js',
-  BASE + 'prices.js',
   BASE + 'script.js',
   BASE + 'manifest.json',
   BASE + 'icon-192.png',
   BASE + 'icon-512.png',
   BASE + 'icon-192.svg',
   BASE + 'icon-512.svg',
+  BASE + 'stories/story.css',
+  BASE + 'stories/engine.js',
+  BASE + 'stories/sezl.html',
+  BASE + 'stories/nbis.html',
+  BASE + 'stories/amat.html',
 ];
 
 self.addEventListener('install', event => {
@@ -32,9 +36,8 @@ self.addEventListener('activate', event => {
       );
 
       // 2. Prune stale entries from the current cache: anything that isn't
-      // a precached asset and no longer matches a same-origin URL we'd
-      // serve. Anything we still need will be re-fetched and re-cached on
-      // first request.
+      // a precached asset. Anything we still need will be re-fetched and
+      // re-cached on first request.
       const cache = await caches.open(CACHE_NAME);
       const assetSet = new Set(ASSETS);
       const requests = await cache.keys();
@@ -63,7 +66,7 @@ self.addEventListener('fetch', event => {
     }).catch(() =>
       caches.match(event.request).then(cached =>
         cached ||
-        new Response('You are offline. Please reconnect to use SwingTrader 2026.', {
+        new Response('You are offline. Please reconnect to use Is It a BUY interactive.', {
           status: 503,
           headers: { 'Content-Type': 'text/plain' },
         })

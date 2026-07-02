@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$NBIS — Повна історія</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  /* ── NBIS palette + unique "9:16 deck" chrome ── */
+  :root{
+    --page-bg:#0B0616;
+    --bg:#150C26;
+    --panel:#1F1438;
+    --panel2:#1A102F;
+    --line:#2F2152;
+    --ink:#FFFFFF;
+    --muted:#A99CC9;
+    --purple:#A78BFA;
+    --pink:#F45FA8;
+    --yellow:#FFD335;
+    --yellow-deep:#FFD335;
+    --deep:#170E2A;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+
+  /* ---- 9:16 stage ---- */
+  .stage{
+    position:relative;
+    width:min(100vw, calc(100dvh * 9 / 16));
+    height:100dvh;
+    max-height:calc(100vw * 16 / 9);
+    background:var(--bg);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    container-type:inline-size;
+  }
+  .stage::before{ /* soft brand grid */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;
+    opacity:.28;
+  }
+
+  /* ---- top tape: price-path progress ---- */
+  .tape{
+    position:relative;z-index:3;
+    padding:calc(env(safe-area-inset-top, 0px) + 14px) 18px 8px;
+    display:flex;flex-direction:column;gap:6px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(21,12,38,.95), rgba(21,12,38,.72));
+  }
+  .tape-row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
+  .tape-row .tkr{color:var(--yellow);font-weight:600;text-shadow:0 0 10px color-mix(in srgb,var(--yellow) 45%,transparent);}
+  .spark{width:100%;height:34px;display:block;}
+  .spark path.line{fill:none;stroke:#40306E;stroke-width:1.5;}
+  .spark path.lit{fill:none;stroke:var(--purple);stroke-width:2;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--purple) 60%,transparent));}
+  .spark circle{fill:var(--pink);stroke:var(--bg);stroke-width:2;transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--pink) 70%,transparent));}
+
+  /* ---- slides (base position/transition from story.css) ---- */
+  .deck{position:relative;flex:1;z-index:2;min-height:0;}
+  .slide{justify-content:center;overflow:hidden;}
+  .slide-inner{
+    width:100%;
+    padding:20px 22px 40px;
+    transform-origin:center center;
+    display:flex;flex-direction:column;
+  }
+  .slide.cover .slide-inner{justify-content:center;}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--purple);
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
+  .eyebrow.pink{color:var(--pink);}
+
+  h1{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(34px, 10.5cqw, 54px);
+    line-height:1.04;letter-spacing:.005em;text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);}
+  /* signature: highlighter mark in brand yellow */
+  h1 .hl{
+    color:var(--deep);
+    background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+  .sub{font-size:15px;line-height:1.55;color:#CFC5E6;margin-bottom:18px;max-width:36ch;}
+  .sub strong{color:var(--ink);font-weight:700;}
+
+  /* data blocks */
+  .stat-wall{display:flex;flex-direction:column;gap:10px;}
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:12px;
+    box-shadow:0 1px 0 rgba(167,139,250,.08) inset;
+  }
+  .stat .k{font-size:13px;color:var(--muted);line-height:1.35;}
+  .stat .k b{color:var(--ink);font-weight:600;display:block;font-size:14px;}
+  .stat .v{font-family:var(--mono);font-size:17px;font-weight:600;white-space:nowrap;}
+  .v.p{color:var(--purple)} .v.k{color:var(--pink)} .v.y{color:var(--yellow-deep)}
+
+  .big-num{
+    font-family:var(--mono);font-weight:600;
+    font-size:clamp(50px,15cqw,80px);line-height:1;letter-spacing:-.02em;
+  }
+  .big-num small{font-size:.3em;color:var(--muted);font-weight:500;letter-spacing:.05em;}
+
+  /* level ladder */
+  .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35);}
+  .rung{
+    display:flex;align-items:center;gap:12px;padding:11px 14px;
+    background:var(--panel2);border-bottom:1px solid var(--line);
+  }
+  .rung:last-child{border-bottom:0}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:16px;width:92px;flex-shrink:0;}
+  .rung .lbl{font-size:12.5px;color:var(--muted);line-height:1.35;}
+  .rung.res .px{color:var(--pink)}
+  .rung.sup .px{color:var(--purple)}
+  .rung.now{background:var(--yellow);}
+  .rung.now .px{color:var(--deep)}
+  .rung.now .lbl{color:var(--deep);font-weight:700;}
+
+  /* trade card */
+  .trade-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);box-shadow:0 6px 18px rgba(0,0,0,.35);}
+  .tc-head{padding:12px 16px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;}
+  .tc-head.long{background:rgba(167,139,250,.16);color:var(--purple);}
+  .tc-head.short{background:rgba(244,95,168,.16);color:var(--pink);}
+  .tc-body{padding:6px 0;}
+  .tc-row{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;border-top:1px solid var(--line);font-size:13.5px;}
+  .tc-row .l{color:var(--muted);}
+  .tc-row .r{font-family:var(--mono);font-weight:600;text-align:right;}
+
+  .note{
+    margin-top:14px;font-size:12px;line-height:1.55;color:#CFC5E6;
+    border-left:3px solid var(--yellow);padding-left:10px;
+  }
+
+  .pill{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;
+    padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin:0 6px 8px 0;text-transform:uppercase;background:var(--panel);}
+  .pill.hot{border-color:var(--pink);color:var(--pink);background:rgba(244,95,168,.1);box-shadow:0 0 14px color-mix(in srgb,var(--pink) 30%,transparent);}
+
+  /* ---- navigation ---- */
+  .nav{
+    position:absolute;left:0;right:0;bottom:0;z-index:5;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);
+    pointer-events:none;
+  }
+  .nav button{
+    pointer-events:auto;
+    width:34px;height:34px;border-radius:50%;
+    background:transparent;border:1px solid rgba(255,255,255,.14);
+    color:rgba(255,255,255,.42);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;
+  }
+  .nav button:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.3);}
+  .nav button:active{transform:scale(.9);color:var(--yellow);}
+  .nav button:focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
+  .nav button svg{width:16px;height:16px;}
+  .nav button[disabled]{opacity:0;pointer-events:none;}
+  .nav .count{
+    pointer-events:none;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);
+  }
+  .nav .count b{color:rgba(255,255,255,.55);font-weight:600;}
+
+  /* cover slide */
+  .cover{justify-content:center;}
+  .cover .ticker-chip{
+    display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+    font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.1em;
+    border:1.5px solid var(--purple);color:var(--purple);background:var(--panel);
+    padding:8px 14px;border-radius:9px;margin-bottom:22px;
+  }
+  .cover .ticker-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--pink);animation:blink 1.1s infinite;box-shadow:0 0 8px var(--pink);}
+  @keyframes blink{50%{opacity:.25}}
+  .swipe-hint{margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <!-- price-path progress tape -->
+  <div class="tape">
+    <div class="tape-row">
+      <span class="tkr">$NBIS · NASDAQ</span>
+      <span id="tape-label">ІСТОРІЯ</span>
+    </div>
+    <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
+      <path class="line" id="spark-line" d=""></path>
+      <path class="lit" id="spark-lit" d=""></path>
+      <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
+    </svg>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · ОБКЛАДИНКА -->
+    <section class="slide cover active" data-label="ІСТОРІЯ">
+      <div class="ticker-chip rv"><span class="dot"></span> РОЗБІР НАЖИВО</div>
+      <h1 class="rv">Від <span class="p">+449%</span><br>до <span class="k">−17%</span><br>за <span class="hl">один день</span></h1>
+      <p class="sub rv"><strong>Nebius Group ($NBIS)</strong> — як AI-хмарна ракета досягла піку, що її зламало, і на яких рівнях я торгую далі.</p>
+      <div class="rv">
+        <span class="pill hot">AI-інфраструктура</span><span class="pill">Neocloud</span><span class="pill">Свінг-сетап</span>
+      </div>
+      <div class="posted rv" style="margin-top:16px">Опубліковано · 1 липня 2026</div>
+      <div class="swipe-hint rv">Натисни ▶ щоб почати</div>
+    </section>
+
+    <!-- 2 · РАЛІ -->
+    <section class="slide" data-label="01 · РАЛІ">
+      <div class="eyebrow rv">01 · Чому акція вибухнула</div>
+      <h1 class="rv">Продавець <span class="hl">лопат</span> AI-лихоманки</h1>
+      <p class="sub rv">Nebius здає в оренду GPU-потужності найбільшим гравцям AI. Коли всьому ринку бракує чипів — «неохмара» стає найгарячішою акцією на біржі.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Партнерство з Meta</b>багаторічний AI-контракт</span><span class="v p">$27 млрд</span></div>
+        <div class="stat"><span class="k"><b>Угода з Microsoft</b>якірний GPU-контракт (2025)</span><span class="v p">$17 млрд+</span></div>
+        <div class="stat"><span class="k"><b>Включення в Nasdaq-100</b>індексні покупки, 22 червня</span><span class="v y">NDX</span></div>
+        <div class="stat"><span class="k"><b>Зростання за рік</b>від ~$44 до ~$300</span><span class="v p">+449%</span></div>
+      </div>
+    </section>
+
+    <!-- 3 · ПІК -->
+    <section class="slide" data-label="02 · ПІК">
+      <div class="eyebrow rv">02 · Пік</div>
+      <h1 class="rv">Ціна <span class="hl">без права</span> на помилку</h1>
+      <p class="sub rv">Наприкінці червня графік показав історичний максимум біля <strong>$300</strong> — але «розумні гроші» вже тихо виходили.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Інсайдерські угоди у 2026</b>17 продажів · 0 покупок</span><span class="v k">17 / 0</span></div>
+        <div class="stat"><span class="k"><b>Оцінка</b>price-to-sales, перегріта</span><span class="v k">~125x</span></div>
+        <div class="stat"><span class="k"><b>Короткі позиції</b>ведмеді накопичують</span><span class="v y">~24%</span></div>
+      </div>
+      <p class="note rv">Коли акція оцінена «за ідеал», у неї немає запасу міцності на погані новини. І вони прийшли.</p>
+    </section>
+
+    <!-- 4 · ОБВАЛ -->
+    <section class="slide" data-label="03 · ОБВАЛ">
+      <div class="eyebrow pink rv">03 · 1 липня — чому впала</div>
+      <h1 class="rv">Найбільший клієнт став <span class="k">конкурентом</span></h1>
+      <p class="sub rv">Bloomberg повідомив: Meta будує <strong>«Meta Compute»</strong> — продаж надлишкових AI-потужностей напряму розробникам. А це і є бізнес Nebius.</p>
+      <div class="rv" style="text-align:center;padding:14px 0 6px;">
+        <div class="big-num" style="color:var(--pink)">−17%<br><small>ЗА ОДНУ СЕСІЮ</small></div>
+      </div>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Проблема</b>Meta = клієнт на $27 млрд</span><span class="v k">КОНФЛІКТ</span></div>
+        <div class="stat"><span class="k"><b>Другий удар</b>обережний звіт Bernstein по сектору</span><span class="v k">ТИСК</span></div>
+        <div class="stat"><span class="k"><b>Не сама</b>CoreWeave того ж дня</span><span class="v k">−13.9%</span></div>
+      </div>
+    </section>
+
+    <!-- 5 · ШУМ ЧИ ЗЛАМ -->
+    <section class="slide" data-label="04 · ШУМ ЧИ ЗЛАМ">
+      <div class="eyebrow rv">04 · Головне питання</div>
+      <h1 class="rv">Шум чи <span class="hl">зламана теза</span>?</h1>
+      <p class="sub rv">Це не випадковий червоний день. Заголовок б'є в саму <strong>бізнес-модель</strong> — і це змінює те, як торгувати цю просадку.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Ведмежий сценарій</b>гіперскейлери з'їдають ринок неохмар</span><span class="v k">СТРУКТУРНО</span></div>
+        <div class="stat"><span class="k"><b>Бичачий сценарій</b>один звіт ≠ готовий продукт; аналітики вже кажуть — розпродаж надмірний</span><span class="v p">ПЕРЕРЕАКЦІЯ</span></div>
+        <div class="stat"><span class="k"><b>Джокер</b>24% шортів = паливо для сквізу на будь-якому спростуванні</span><span class="v y">СКВІЗ</span></div>
+      </div>
+      <p class="note rv">Бінарний ризик заголовків у обидва боки. Менший розмір позиції. Рівні важливіші за думки.</p>
+    </section>
+
+    <!-- 6 · РІВНІ -->
+    <section class="slide" data-label="05 · РІВНІ">
+      <div class="eyebrow rv">05 · Карта</div>
+      <h1 class="rv">Рівні, які я <span class="hl">відстежую</span></h1>
+      <p class="sub rv">Осцилятор <strong>наближається до перепроданості — але ще не там</strong>. Перший дотик після параболічного зростання — зазвичай відскок, а не фінальне дно.</p>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">300–316</span><span class="lbl">Зона історичного максимуму</span></div>
+        <div class="rung res"><span class="px">270</span><span class="lbl">Пропозиція червня — бикам треба повернути</span></div>
+        <div class="rung res"><span class="px">250–260</span><span class="lbl">Спадна 20-денна / зламаний тренд — зона шорту</span></div>
+        <div class="rung res"><span class="px">240–246</span><span class="lbl">Зона гепа · перша ціль відскоку</span></div>
+        <div class="rung now"><span class="px">~229</span><span class="lbl">ТИ ТУТ</span></div>
+        <div class="rung sup"><span class="px">224</span><span class="lbl">Нижня смуга відхилення</span></div>
+        <div class="rung sup"><span class="px">215</span><span class="lbl">Мінімуми червня — нижче тренд ламається</span></div>
+        <div class="rung sup"><span class="px">200–205</span><span class="lbl">Полиця пробою травня · ключова підтримка</span></div>
+      </div>
+    </section>
+
+    <!-- 7 · СЕТАП A -->
+    <section class="slide" data-label="06 · СЕТАП A">
+      <div class="eyebrow rv">06 · Сетап A — відскок</div>
+      <h1 class="rv">Лонг на повернення до <span class="p">середнього</span></h1>
+      <p class="sub rv">Не лови ніж. Дочекайся, поки осцилятор реально дійде до перепроданості, і чекай <strong>сигнал розвороту</strong>.</p>
+      <div class="trade-card rv">
+        <div class="tc-head long"><span>ТАКТИЧНИЙ ЛОНГ</span><span>ОРЕНДА, НЕ ШЛЮБ</span></div>
+        <div class="tc-body">
+          <div class="tc-row"><span class="l">Зона входу</span><span class="r" style="color:var(--purple)">$215 – 224</span></div>
+          <div class="tc-row"><span class="l">Тригер</span><span class="r">розворотний день / пробій хаю вчора</span></div>
+          <div class="tc-row"><span class="l">Стоп</span><span class="r" style="color:var(--pink)">нижче $212</span></div>
+          <div class="tc-row"><span class="l">Ціль 1</span><span class="r">$240 – 246</span></div>
+          <div class="tc-row"><span class="l">Ціль 2</span><span class="r">$255 – 260</span></div>
+          <div class="tc-row"><span class="l">Прибуток : ризик</span><span class="r" style="color:var(--yellow-deep)">≈ 3 : 1</span></div>
+        </div>
+      </div>
+      <p class="note rv">Бонусне паливо: ~24% шортів. Один позитивний заголовок — і полетить. Фіксуй частину на Цілі 1.</p>
+    </section>
+
+    <!-- 8 · СЕТАП B -->
+    <section class="slide" data-label="07 · СЕТАП B">
+      <div class="eyebrow pink rv">07 · Сетап B — фейд</div>
+      <h1 class="rv">Шорт <span class="k">відскоку</span></h1>
+      <p class="sub rv">Якщо навис Meta не знято, перше ралі в зламаний опір — чистіше співвідношення ризик/прибуток.</p>
+      <div class="trade-card rv">
+        <div class="tc-head short"><span>СВІНГ-ШОРТ</span><span>НЕВДАЛИЙ РЕТЕСТ</span></div>
+        <div class="tc-body">
+          <div class="tc-row"><span class="l">Зона входу</span><span class="r" style="color:var(--pink)">$250 – 260</span></div>
+          <div class="tc-row"><span class="l">Тригер</span><span class="r">відбій від спадної 20-денної</span></div>
+          <div class="tc-row"><span class="l">Стоп / інвалідація</span><span class="r" style="color:var(--purple)">закріплення над $270</span></div>
+          <div class="tc-row"><span class="l">Ціль 1</span><span class="r">$224</span></div>
+          <div class="tc-row"><span class="l">Ціль 2</span><span class="r">$200 – 205</span></div>
+        </div>
+      </div>
+      <p class="note rv">Вище $270 ринок відкинув загрозу Meta — теза мертва, відходимо вбік.</p>
+    </section>
+
+    <!-- 9 · ПЛЕЙБУК -->
+    <section class="slide" data-label="ПЛЕЙБУК">
+      <div class="eyebrow rv">Плейбук</div>
+      <h1 class="rv">Терпіння — це <span class="hl">перевага</span></h1>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Правило 1</b>чекай перепроданість + тригер — без ловлі ножів</span><span class="v p">ЧЕКАЙ</span></div>
+        <div class="stat"><span class="k"><b>Правило 2</b>$215 має втриматися — інакше висхідний тренд закінчено</span><span class="v y">$215</span></div>
+        <div class="stat"><span class="k"><b>Правило 3</b>ризик заголовків у обидва боки — зменшуй позицію</span><span class="v k">РОЗМІР</span></div>
+      </div>
+      <p class="sub rv" style="margin-top:18px">Підписуйся — повний розбір у <strong>Trend Trade Letter</strong>: рівні, графіки та свінг-план щотижня.</p>
+      <p class="note rv">Освітній контент — не фінансова порада. Торгуй за власним планом.</p>
+    </section>
+
+  </div>
+
+  <!-- nav -->
+  <div class="nav">
+    <button id="btn-back" aria-label="Попередній слайд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="count"><b id="cur">1</b> / <span id="tot">9</span></span>
+    <button id="btn-next" aria-label="Наступний слайд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script>
+  // NBIS signature: the top "tape" is a live sparkline of the price path
+  // (run-up → ATH → crash → ?) that lights up as you advance the deck.
+  const total = document.querySelectorAll('#deck .slide').length;
+  const yNorm = [0.88, 0.70, 0.42, 0.16, 0.10, 0.62, 0.70, 0.58, 0.64];
+  const W = 340, H = 34, PAD = 8;
+  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
+
+  function pathThrough(points) {
+    let d = `M ${points[0][0]} ${points[0][1]}`;
+    for (let i = 1; i < points.length; i++) {
+      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+      const mx = (x0 + x1) / 2;
+      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
+    }
+    return d;
+  }
+  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
+  const litPath = document.getElementById('spark-lit');
+  const dot = document.getElementById('spark-dot');
+  function updateTape(i) {
+    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
+    dot.setAttribute('cx', pts[i][0]);
+    dot.setAttribute('cy', pts[i][1]);
+  }
+
+  createStory({
+    stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
+    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
+    label: '#tape-label', onShow: i => updateTape(i),
+  });
+</script>
+</body>
+</html>
