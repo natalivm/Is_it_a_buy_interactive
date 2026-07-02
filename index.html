@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SwingTrader 2026 — trade setup tracker">
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="description" content="Is It a BUY interactive — tap a stock to walk through its trade story: the risk, the reward, and whether it's a buy right now.">
+    <meta name="theme-color" content="#070410">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="SwingTrader">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Is It a BUY">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="icon-192.svg">
     <link rel="apple-touch-icon" href="icon-192.svg">
-    <title>SwingTrader 2026 — Setups</title>
+    <title>Is It a BUY interactive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
-            <div class="navbar-logo">SwingTrader 2026</div>
-            <div class="navbar-tagline">Trade Setups</div>
+            <div class="navbar-logo">Is It a BUY<span class="navbar-logo-q">?</span></div>
+            <div class="navbar-tagline">interactive</div>
             <button id="installBtn" class="install-btn" hidden aria-label="Install app">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Install
@@ -28,46 +31,33 @@
 
     <main class="main-content">
         <div class="page-container">
+            <header class="intro">
+                <h1 class="intro-title">Is it a <span class="grad">BUY</span>?</h1>
+                <p class="intro-sub">Tap a stock to walk through its story — the risk, the reward, and the smart move right now.</p>
+            </header>
 
-            <!-- Active setups -->
-            <section class="setups-section">
-                <div class="setups-header">
-                    <h2 class="section-title">
-                        Active Setups
-                        <span class="section-title-sub" id="activeCountLabel">(0)</span>
-                    </h2>
-                    <div class="setups-filters" role="group" aria-label="Filter setups">
-                        <button class="filter-btn active" data-status-filter="all">All</button>
-                        <button class="filter-btn" data-status-filter="watching">Watching</button>
-                        <button class="filter-btn" data-status-filter="open">Open</button>
-                        <span class="filter-sep"></span>
-                        <button class="filter-btn active" data-dir-filter="all">All</button>
-                        <button class="filter-btn filter-btn-long" data-dir-filter="long">▲ Long</button>
-                        <button class="filter-btn filter-btn-short" data-dir-filter="short">▼ Short</button>
-                    </div>
-                </div>
-                <div class="setups-split">
-                    <div class="setups-list-pane">
-                        <div class="setups-list" id="activeSetups"></div>
-                        <div class="empty-state" id="activeEmpty" hidden>No active setups match this filter.</div>
-                    </div>
-                    <div class="setups-detail-pane" id="setupDetail">
-                        <div class="detail-empty">Select a setup from the list to see its details.</div>
-                    </div>
-                </div>
+            <section class="gallery-section">
+                <div class="gallery" id="gallery"></div>
+                <div class="empty-state" id="galleryEmpty" hidden>No stories yet. Add one to <code>data.js</code>.</div>
             </section>
-
         </div>
     </main>
 
+    <!-- Story overlay -->
+    <div class="story-overlay" id="storyOverlay" hidden role="dialog" aria-modal="true" aria-label="Stock story">
+        <button class="story-close" id="storyClose" aria-label="Close story">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <iframe class="story-frame" id="storyFrame" title="Stock story" allowfullscreen></iframe>
+    </div>
+
     <script src="data.js"></script>
-    <script src="prices.js"></script>
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registered'))
+                    .then(() => console.log('Service Worker registered'))
                     .catch(err => console.log('Service Worker registration failed:', err));
             });
         }

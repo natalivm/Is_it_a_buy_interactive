@@ -1,13 +1,13 @@
 {
-  "name": "SwingTrader 2026",
-  "short_name": "SwingTrader",
-  "description": "Trade setup tracker",
-  "start_url": "/SwingTrader2026/",
-  "scope": "/SwingTrader2026/",
+  "name": "Is It a BUY interactive",
+  "short_name": "Is It a BUY",
+  "description": "Tap a stock to walk through its trade story — risk, reward, and the smart move.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0b0f1a",
-  "theme_color": "#4f46e5",
+  "background_color": "#070410",
+  "theme_color": "#070410",
   "icons": [
     {
       "src": "icon-192.png",
@@ -40,5 +40,5 @@
       "purpose": "any"
     }
   ],
-  "categories": ["finance", "business"]
+  "categories": ["finance", "education"]
 }

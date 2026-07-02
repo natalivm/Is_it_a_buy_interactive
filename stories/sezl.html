@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SEZL — Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0C0714; --panel:#1A1030; --panel2:#22183C; --hair:#2E2145;
+    --purple:#B57BFF; --purple-deep:#8B5CF6; --pink:#FF5DA2; --pink-soft:#FF89BE;
+    --yellow:#FFD24A; --txt:#F2ECFA; --mut:#A99CC2;
+    --disp:'Oswald',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --grad:linear-gradient(92deg,var(--purple),var(--pink));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{ background:#070410; font-family:var(--body); color:var(--txt);
+    display:flex; align-items:center; justify-content:center;
+    min-height:100dvh; overflow:hidden; -webkit-font-smoothing:antialiased }
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none;
+    background:
+      radial-gradient(120% 55% at 50% -8%, rgba(181,123,255,.14), transparent 60%),
+      radial-gradient(120% 55% at 50% 108%, rgba(255,93,162,.12), transparent 60%) }
+  .phone{ --w:400px; position:relative;
+    width:min(440px,100vw); height:min(calc(440px*16/9),100dvh);
+    max-height:100dvh; aspect-ratio:9/16; background:var(--ink);
+    overflow:hidden; isolation:isolate;
+    box-shadow:0 30px 90px rgba(0,0,0,.6), inset 0 0 0 1px rgba(181,123,255,.08) }
+  @media(min-width:560px){ .phone{ border-radius:26px; outline:1px solid #241834 } }
+  .phone::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:0; opacity:.4;
+    background-image:linear-gradient(rgba(181,123,255,.05) 1px, transparent 1px);
+    background-size:100% calc(var(--w)*.11) }
+
+  .progress{ position:absolute; top:calc(var(--w)*.035); left:calc(var(--w)*.05);
+    right:calc(var(--w)*.05); z-index:40; display:flex; gap:calc(var(--w)*.014) }
+  .seg{ flex:1; height:calc(var(--w)*.008); border-radius:99px; background:rgba(255,255,255,.16); overflow:hidden }
+  .seg i{ display:block; height:100%; width:0; background:var(--grad); border-radius:99px }
+  .seg.done i,.seg.active i{ width:100% }
+
+  .ticker{ position:absolute; top:calc(var(--w)*.075); left:calc(var(--w)*.085);
+    right:calc(var(--w)*.085); z-index:38; display:flex; align-items:baseline; gap:calc(var(--w)*.04);
+    padding-bottom:calc(var(--w)*.035); border-bottom:1px solid var(--hair) }
+  .ticker .name{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.15); line-height:.9;
+    letter-spacing:.01em; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent }
+  .ticker .meta{ font-family:var(--mono); font-size:calc(var(--w)*.032); color:var(--mut);
+    letter-spacing:.08em; margin-left:auto; text-align:right; line-height:1.5 }
+  .ticker .meta b{ color:var(--yellow); font-weight:700 }
+
+  .slides{ position:absolute; inset:0; z-index:10 }
+  .slide{ position:absolute; inset:0;
+    padding:calc(var(--w)*.26) calc(var(--w)*.085) calc(var(--w)*.12);
+    display:flex; flex-direction:column; opacity:0; visibility:hidden; transition:opacity .35s ease }
+  .slide.active{ opacity:1; visibility:visible }
+  .spacer{ flex:1 1 auto; min-height:calc(var(--w)*.03) }
+
+  .eyebrow{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.032);
+    letter-spacing:.18em; text-transform:uppercase; color:var(--purple) }
+  .slide[data-accent=pink] .eyebrow{ color:var(--pink) }
+
+  h1{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.135);
+    line-height:1.0; letter-spacing:.005em; text-transform:uppercase; margin-top:calc(var(--w)*.035) }
+  h1 .p{ color:var(--purple) } h1 .k{ color:var(--pink) } h1 .y{ color:var(--yellow) }
+  .sub{ font-size:calc(var(--w)*.046); line-height:1.4; color:var(--txt); opacity:.92;
+    margin-top:calc(var(--w)*.045); max-width:96% }
+  .sub b{ color:var(--yellow); font-weight:600 }
+
+  .big{ font-family:var(--disp); font-weight:700; line-height:.85; letter-spacing:-.01em; font-size:calc(var(--w)*.30) }
+  .big.p{ color:var(--purple) }
+
+  .rise{ opacity:0; transform:translateY(14px) }
+  .slide.active .rise{ animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards }
+  .slide.active .d1{animation-delay:.05s}.slide.active .d2{animation-delay:.14s}
+  .slide.active .d3{animation-delay:.24s}.slide.active .d4{animation-delay:.34s}
+  @keyframes rise{ to{opacity:1;transform:none} }
+
+  .viz{ margin-top:calc(var(--w)*.05) }
+  .candles{ display:flex; align-items:flex-end; gap:calc(var(--w)*.022); height:calc(var(--w)*.4) }
+  .candle{ position:relative; width:calc(var(--w)*.05); border-radius:2px; height:var(--h);
+    background:var(--purple); transform-origin:bottom }
+  .candle.dn{ background:var(--pink) } .candle.hl{ background:var(--yellow) }
+  .candle::before{ content:""; position:absolute; left:50%; top:calc(var(--w)*-.03);
+    width:2px; height:calc(var(--w)*.05); background:inherit; transform:translateX(-50%); opacity:.8 }
+  .slide.active .candle{ animation:grow .5s cubic-bezier(.2,.7,.2,1) both }
+  @keyframes grow{ from{transform:scaleY(0)} to{transform:scaleY(1)} }
+
+  .gauge{ position:relative; height:calc(var(--w)*.075); border-radius:99px;
+    background:linear-gradient(90deg,var(--purple-deep),var(--purple) 32%,var(--yellow) 62%,var(--pink) 100%);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08) }
+  .gauge .needle{ position:absolute; top:calc(var(--w)*-.03); bottom:calc(var(--w)*-.03);
+    width:3px; background:#fff; border-radius:2px; box-shadow:0 0 12px rgba(255,255,255,.7) }
+  .gauge .tag{ position:absolute; top:calc(var(--w)*-.12); transform:translateX(-50%);
+    font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.05); color:#fff; white-space:nowrap }
+  .gscale{ display:flex; justify-content:space-between; margin-top:calc(var(--w)*.03);
+    font-family:var(--mono); font-size:calc(var(--w)*.028); color:var(--mut) }
+
+  .bars{ display:flex; flex-direction:column; gap:calc(var(--w)*.03); position:relative; padding-top:calc(var(--w)*.06) }
+  .priceline{ position:absolute; top:0; bottom:0; width:2px; background:var(--yellow); opacity:.9 }
+  .priceline .pl{ position:absolute; top:calc(var(--w)*-.045); left:6px; font-family:var(--mono);
+    font-size:calc(var(--w)*.03); color:var(--yellow); white-space:nowrap }
+  .bar{ display:flex; align-items:center; gap:calc(var(--w)*.03) }
+  .bar .lab{ font-family:var(--mono); font-size:calc(var(--w)*.03); color:var(--mut); width:calc(var(--w)*.16) }
+  .bar .track{ flex:1; height:calc(var(--w)*.05); background:var(--panel2); border-radius:4px; overflow:hidden }
+  .bar .fill{ height:100%; width:0; border-radius:4px; background:var(--pink); transition:width .7s ease .1s }
+  .bar.soft .fill{ background:var(--pink-soft) }
+  .slide.active .bar .fill{ width:var(--f) }
+  .bar .val{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.032); width:calc(var(--w)*.12); text-align:right }
+
+  .snap{ width:100%; height:calc(var(--w)*.4) }
+  .snap path{ fill:none; stroke-width:calc(var(--w)*.012); stroke-linecap:round; stroke-linejoin:round }
+
+  .lev{ display:flex; align-items:center; gap:calc(var(--w)*.05) }
+  .lev .x{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.32); color:var(--yellow); line-height:.8 }
+  .lev .arrows{ display:flex; flex-direction:column; gap:calc(var(--w)*.02); font-family:var(--disp);
+    font-weight:700; font-size:calc(var(--w)*.11); line-height:1 }
+
+  .ladder{ display:flex; flex-direction:column; gap:calc(var(--w)*.026) }
+  .rung{ display:flex; align-items:center; gap:calc(var(--w)*.035);
+    padding:calc(var(--w)*.028) calc(var(--w)*.04); border-radius:10px; background:var(--panel) }
+  .rung.hi{ background:rgba(255,210,74,.14); box-shadow:inset 0 0 0 1.5px var(--yellow) }
+  .rung .dot{ width:calc(var(--w)*.026); height:calc(var(--w)*.026); border-radius:99px; flex:none }
+  .rung .p{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.042); width:calc(var(--w)*.22) }
+  .rung .t{ font-size:calc(var(--w)*.036); color:var(--mut) }
+  .rung .t b{ color:var(--txt) }
+
+  .meter{ display:flex; height:calc(var(--w)*.13); border-radius:10px; overflow:hidden; box-shadow:inset 0 0 0 1px var(--hair) }
+  .meter .risk{ flex:0 0 30%; background:linear-gradient(180deg,var(--pink),#c23e79); display:flex; align-items:center; justify-content:center }
+  .meter .rew{ flex:1; background:linear-gradient(180deg,var(--purple),var(--purple-deep)); display:flex; align-items:center; justify-content:center }
+  .meter span{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.044); color:#0c0714 }
+  .rr{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.15); color:var(--yellow); margin-top:calc(var(--w)*.05) }
+
+  .foot{ font-family:var(--mono); font-size:calc(var(--w)*.026); letter-spacing:.05em; color:var(--mut); margin-top:calc(var(--w)*.05) }
+  .foot.warn{ color:var(--pink) }
+
+  .tap{ position:absolute; top:0; bottom:0; width:38%; z-index:30; cursor:pointer }
+  .tap.left{left:0} .tap.right{right:0}
+  .hint{ position:absolute; bottom:calc(var(--w)*.05); left:0; right:0; z-index:35; text-align:center;
+    font-family:var(--mono); font-size:calc(var(--w)*.03); letter-spacing:.12em; color:var(--mut);
+    text-transform:uppercase; pointer-events:none; animation:pulse 2s ease-in-out infinite }
+  @keyframes pulse{ 0%,100%{opacity:.35} 50%{opacity:.85} }
+  .chev{ position:absolute; bottom:calc(var(--w)*.045); z-index:36; color:var(--mut);
+    font-size:calc(var(--w)*.06); font-family:var(--mono); pointer-events:none; opacity:.5 }
+  .chev.r{right:calc(var(--w)*.09)} .chev.l{left:calc(var(--w)*.09)}
+
+  @media (prefers-reduced-motion: reduce){
+    .rise,.slide.active .rise,.slide.active .candle{ animation:none!important; opacity:1!important; transform:none!important }
+    .bar .fill{ transition:none } .hint{ animation:none }
+  }
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="progress" id="progress"></div>
+  <div class="ticker"><span class="name">SEZL</span><span class="meta">NASDAQ<br><b>$175.18</b></span></div>
+
+  <div class="slides" id="slides">
+
+    <section class="slide active" data-accent="purple">
+      <h1 class="rise d1">×2.5<br>за 90 днів.</h1>
+      <p class="sub rise d2">То чи варто заходити зараз? Розбираємо <b>ризик</b> і потенційний <b>прибуток</b>.</p>
+      <div class="spacer"></div>
+      <div class="viz candles rise d4">
+        <div class="candle" style="--h:14%"></div><div class="candle dn" style="--h:20%"></div>
+        <div class="candle" style="--h:26%"></div><div class="candle" style="--h:24%"></div>
+        <div class="candle dn" style="--h:36%"></div><div class="candle" style="--h:52%"></div>
+        <div class="candle" style="--h:66%"></div><div class="candle dn" style="--h:60%"></div>
+        <div class="candle" style="--h:82%"></div><div class="candle hl" style="--h:100%"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="purple">
+      <div class="eyebrow rise d1">Ситуація</div>
+      <h1 class="rise d2">Історичні<br>максимуми.</h1>
+      <p class="sub rise d3">Ціна йде по верхній межі всіх діапазонів. Графік чистий — і саме тоді <b>всі хочуть купити</b>.</p>
+      <div class="spacer"></div>
+      <div class="viz rise d4" style="font-family:var(--mono)">
+        <div style="font-size:calc(var(--w)*.14);font-weight:700;color:var(--yellow)">$175 <span style="color:var(--pink)">▲</span></div>
+        <div style="font-size:calc(var(--w)*.04);color:var(--mut);margin-top:calc(var(--w)*.02)">+2% today</div>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="purple">
+      <div class="eyebrow rise d1">Мрія</div>
+      <h1 class="rise d2">Простір до<br><span class="y">$188.</span></h1>
+      <p class="sub rise d3">Стеля денного діапазону. А з <b>~23% шортів</b> будь-який ривок угору змушує їх закриватися — паливо для сквізу. Ось вона, спокуса.</p>
+      <div class="spacer"></div>
+      <div class="viz rise d4"><span class="big p">+8%</span></div>
+    </section>
+
+    <section class="slide" data-accent="pink">
+      <div class="eyebrow rise d1">Пастка</div>
+      <h1 class="rise d2">Бак майже<br><span class="k">порожній.</span></h1>
+      <p class="sub rise d3">Денний RSI 76. Стохастик розвертається. Тренд ще цілий — але <b>імпульс видихається</b>.</p>
+      <div class="spacer"></div>
+      <div class="viz rise d4">
+        <div class="gauge"><div class="needle" style="left:76%"></div><div class="tag" style="left:76%">RSI 76</div></div>
+        <div class="gscale"><span>0</span><span>50</span><span>OVERBOUGHT</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="pink">
+      <div class="eyebrow rise d1">Ризик 1 · Оцінка</div>
+      <h1 class="rise d2">Вже<br><span class="k">дорого.</span></h1>
+      <p class="sub rise d3">Усі цілі аналітиків — <b>нижчі за поточну ціну</b>. Модель каже «тримати», а не «купувати».</p>
+      <div class="spacer"></div>
+      <div class="viz bars rise d4">
+        <div class="priceline" style="left:87.5%"><span class="pl">Price $175</span></div>
+        <div class="bar"><span class="lab">HIGH</span><div class="track"><div class="fill" style="--f:82.5%"></div></div><span class="val">$165</span></div>
+        <div class="bar soft"><span class="lab">MEDIAN</span><div class="track"><div class="fill" style="--f:69%"></div></div><span class="val">$138</span></div>
+        <div class="bar"><span class="lab">LOW</span><div class="track"><div class="fill" style="--f:50%"></div></div><span class="val">$100</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="pink">
+      <div class="eyebrow rise d1">Ризик 2 · Форма руху</div>
+      <h1 class="rise d2">Параболи<br><span class="k">ламаються.</span></h1>
+      <p class="sub rise d3">Вертикальні рухи не сповзають плавно — вони різко розвертаються і роблять <b>геп уночі</b>. М'якого виходу не буде.</p>
+      <div class="spacer"></div>
+      <div class="viz rise d4">
+        <svg class="snap" viewBox="0 0 300 130" preserveAspectRatio="none">
+          <path d="M4,120 L46,110 L84,96 L120,70 L150,44 L178,20 L196,8" stroke="#B57BFF"/>
+          <path d="M196,8 L214,60 L232,118" stroke="#FF5DA2"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="pink">
+      <div class="eyebrow rise d1">Ризик 3 · Плече</div>
+      <h1 class="rise d2">Працює в<br><span class="k">обидва боки.</span></h1>
+      <p class="sub rise d3">Геп крізь твій стоп, помножений на плече, може знищити депозит. А сквіз спалює й <b>тих, хто зайшов пізно</b>.</p>
+      <div class="spacer"></div>
+      <div class="viz lev rise d4">
+        <span class="x">×3</span>
+        <span class="arrows"><span style="color:var(--purple)">▲</span><span style="color:var(--pink)">▼</span></span>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="purple">
+      <div class="eyebrow rise d1">Розумний хід</div>
+      <h1 class="rise d2">Не жени.<br><span class="p">Купуй відкат.</span></h1>
+      <p class="sub rise d3">Чекай на відкат до трендової рейки біля <b>$165</b>. Стоп на $157. Краща ціна — менший ризик.</p>
+      <div class="spacer"></div>
+      <div class="viz ladder rise d4">
+        <div class="rung"><span class="dot" style="background:var(--purple)"></span><span class="p" style="color:var(--purple)">$188</span><span class="t">target</span></div>
+        <div class="rung"><span class="dot" style="background:var(--mut)"></span><span class="p" style="color:var(--mut)">$175</span><span class="t">now — too high to chase</span></div>
+        <div class="rung hi"><span class="dot" style="background:var(--yellow)"></span><span class="p" style="color:var(--yellow)">$165</span><span class="t"><b>buy the rail</b></span></div>
+        <div class="rung"><span class="dot" style="background:var(--pink)"></span><span class="p" style="color:var(--pink)">$157</span><span class="t">stop</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="purple">
+      <div class="eyebrow rise d1">Математика</div>
+      <h1 class="rise d2">Ризикуй <span class="k">$8</span>,<br>щоб взяти <span class="p">$15–23.</span></h1>
+      <p class="sub rise d3">Співвідношення прибуток/ризик від рейки. Малий контрольований ризик — за реальний шанс на профіт. <b>Ось у чому перевага.</b></p>
+      <div class="spacer"></div>
+      <div class="viz rise d4">
+        <div class="meter"><div class="risk"><span>–$8</span></div><div class="rew"><span>+$15 to +$23</span></div></div>
+        <div class="rr">≈ 2–3 : 1</div>
+      </div>
+    </section>
+
+    <section class="slide" data-accent="purple">
+      <div class="eyebrow rise d1">Підсумок</div>
+      <h1 class="rise d2">Плануй угоду.<br><span class="p">Торгуй за планом.</span></h1>
+      <p class="sub rise d3">Це угода на <b>імпульсі</b> — не інвестиція за вартістю. Гарний вхід, технічна ціль, чіткий стоп. Не закохуйся в позицію.</p>
+      <div class="spacer"></div>
+      <div class="foot warn rise d4">Не є фінансовою порадою · лише для навчання</div>
+    </section>
+
+  </div>
+
+  <div class="tap left" id="tapL"></div>
+  <div class="tap right" id="tapR"></div>
+  <div class="chev l">‹</div>
+  <div class="chev r">›</div>
+  <div class="hint" id="hint">Тапни, щоб гортати ›</div>
+</div>
+
+<script>
+  const slides=Array.from(document.querySelectorAll('.slide'));
+  const N=slides.length;
+  const prog=document.getElementById('progress');
+  const hint=document.getElementById('hint');
+  let i=0;
+  for(let k=0;k<N;k++){ const s=document.createElement('div'); s.className='seg'; s.innerHTML='<i></i>'; prog.appendChild(s); }
+  const segs=Array.from(prog.children);
+  function go(n){
+    n=Math.max(0,Math.min(N-1,n));
+    slides[i].classList.remove('active'); i=n;
+    const cur=slides[i]; void cur.offsetWidth; cur.classList.add('active');
+    segs.forEach((s,k)=>{ s.classList.toggle('done',k<i); s.classList.toggle('active',k===i); });
+    hint.style.display=(i===0)?'block':'none';
+  }
+  const next=()=>{ if(i<N-1) go(i+1); };
+  const prev=()=>{ if(i>0) go(i-1); };
+  document.getElementById('tapR').addEventListener('click',next);
+  document.getElementById('tapL').addEventListener('click',prev);
+  document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();} if(e.key==='ArrowLeft')prev(); });
+  let x0=null; const phone=document.getElementById('phone');
+  phone.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
+  phone.addEventListener('touchend',e=>{ if(x0===null)return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40){dx<0?next():prev();} x0=null; },{passive:true});
+  function sync(){ phone.style.setProperty('--w',phone.clientWidth+'px'); }
+  window.addEventListener('resize',sync); sync(); go(0);
+</script>
+</body>
+</html>

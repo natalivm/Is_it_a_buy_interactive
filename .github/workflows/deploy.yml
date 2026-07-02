@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir dist
           cp manifest.json icon-192.png icon-512.png icon-192.svg icon-512.svg dist/
+          cp -r stories dist/
           html-minifier-terser \
             --collapse-whitespace \
             --remove-comments \
@@ -38,7 +39,7 @@ jobs:
           terser data.js   -o dist/data.js   --compress --mangle
           terser script.js -o dist/script.js --compress --mangle
           CACHE_VER=$(git rev-parse --short HEAD)
-          sed "s/swingtrader-v[0-9]*/swingtrader-${CACHE_VER}/" sw.js > /tmp/sw_ver.js
+          sed "s/isitabuy-v[0-9]*/isitabuy-${CACHE_VER}/" sw.js > /tmp/sw_ver.js
           terser /tmp/sw_ver.js -o dist/sw.js --compress --mangle
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
