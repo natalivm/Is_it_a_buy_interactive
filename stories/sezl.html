@@ -7,7 +7,7 @@
 <script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="story.css">
 <style>
   /* ── SEZL palette + unique "phone story" chrome ── */
@@ -16,7 +16,7 @@
     --ink:#0C0714; --panel:#1A1030; --panel2:#22183C; --hair:#2E2145;
     --purple:#B57BFF; --purple-deep:#8B5CF6; --pink:#FF5DA2; --pink-soft:#FF89BE;
     --yellow:#FFD24A; --txt:#F2ECFA; --mut:#A99CC2;
-    --disp:'Oswald',system-ui,sans-serif;
+    --disp:'Space Grotesk',system-ui,sans-serif;
     --body:'Inter',system-ui,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,monospace;
     --grad:linear-gradient(92deg,var(--purple),var(--pink));
@@ -37,11 +37,21 @@
     background-image:linear-gradient(rgba(181,123,255,.05) 1px, transparent 1px);
     background-size:100% calc(var(--w)*.11) }
 
-  .progress{ position:absolute; top:calc(var(--w)*.035); left:calc(var(--w)*.05);
-    right:calc(var(--w)*.05); z-index:40; display:flex; gap:calc(var(--w)*.014) }
-  .seg{ flex:1; height:calc(var(--w)*.008); border-radius:99px; background:rgba(255,255,255,.16); overflow:hidden }
-  .seg i{ display:block; height:100%; width:0; background:var(--grad); border-radius:99px }
-  .seg.done i,.seg.active i{ width:100% }
+  .spark{ position:absolute; top:calc(var(--w)*.25); left:calc(var(--w)*.085);
+    right:calc(var(--w)*.085); height:calc(var(--w)*.06); z-index:37; display:block }
+  .spark path.line{ fill:none; stroke:#3a2c5e; stroke-width:1.5 }
+  .spark path.lit{ fill:none; stroke:var(--purple); stroke-width:2;
+    filter:drop-shadow(0 0 5px color-mix(in srgb,var(--purple) 60%,transparent)) }
+  .spark circle{ fill:var(--pink); stroke:var(--ink); stroke-width:2;
+    transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);
+    filter:drop-shadow(0 0 5px color-mix(in srgb,var(--pink) 70%,transparent)) }
+  .ticker-chip{ display:inline-flex; align-items:center; gap:calc(var(--w)*.02); align-self:flex-start;
+    font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.028); letter-spacing:.14em;
+    border:1.5px solid var(--yellow); color:var(--yellow); background:var(--panel);
+    padding:calc(var(--w)*.018) calc(var(--w)*.035); border-radius:9px; text-transform:uppercase;
+    margin-bottom:calc(var(--w)*.02) }
+  .ticker-chip .dot{ width:calc(var(--w)*.02); height:calc(var(--w)*.02); border-radius:50%;
+    background:var(--yellow); box-shadow:0 0 8px var(--yellow) }
 
   .ticker{ position:absolute; top:calc(var(--w)*.075); left:calc(var(--w)*.085);
     right:calc(var(--w)*.085); z-index:38; display:flex; align-items:baseline; gap:calc(var(--w)*.04);
@@ -54,7 +64,7 @@
 
   .slides{ position:absolute; inset:0; z-index:10 }
   /* base .slide styles come from story.css; SEZL only sets the phone padding */
-  .slide{ padding:calc(var(--w)*.26) calc(var(--w)*.085) calc(var(--w)*.12) }
+  .slide{ padding:calc(var(--w)*.32) calc(var(--w)*.085) calc(var(--w)*.12) }
   .spacer{ flex:1 1 auto; min-height:calc(var(--w)*.03) }
 
   .eyebrow{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.032);
@@ -143,15 +153,20 @@
 <div class="phone" id="phone">
   <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
   <div class="story-shine" aria-hidden="true"></div>
-  <div class="progress" id="progress"></div>
   <div class="ticker"><span class="name">SEZL</span><span class="meta">NASDAQ<br><b>$175.18</b></span></div>
+  <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
+    <path class="line" id="spark-line" d=""></path>
+    <path class="lit" id="spark-lit" d=""></path>
+    <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
+  </svg>
 
   <div class="slides" id="slides">
 
     <section class="slide active" data-accent="purple">
+      <div class="ticker-chip rv"><span class="dot"></span> SWING SETUP</div>
       <h1 class="rv">×2.5<br>за 90 днів.</h1>
       <p class="sub rv">То чи варто заходити зараз? Розбираємо <b>ризик</b> і потенційний <b>прибуток</b>.</p>
-      <div class="posted rv" style="margin-top:calc(var(--w)*.03)">Опубліковано · 27 червня 2026</div>
+      <div class="cover-meta rv" style="margin-top:calc(var(--w)*.03)"><span class="cm-price">$175.18</span><span class="cm-sep">·</span><span class="cm-date">27 червня 2026</span></div>
       <div class="spacer"></div>
       <div class="viz candles rv">
         <div class="candle" style="--h:14%"></div><div class="candle dn" style="--h:20%"></div>
@@ -262,7 +277,27 @@
   function syncW(){ phone.style.setProperty('--w', phone.clientWidth + 'px'); }
   window.addEventListener('resize', syncW);
   syncW();
-  createStory({ stage:'.phone', deck:'.slides', progress:'#progress', hint:'#hint', tap:true, swipe:'.phone' });
+  // Sparkline tape: SEZL's ×2.5 run to the highs
+  const total = document.querySelectorAll('.slides .slide').length;
+  const yNorm = [0.90, 0.78, 0.64, 0.52, 0.42, 0.34, 0.28, 0.24, 0.30];
+  const W = 340, H = 34, PAD = 8;
+  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
+  function pathThrough(points) {
+    let d = `M ${points[0][0]} ${points[0][1]}`;
+    for (let i = 1; i < points.length; i++) {
+      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+      const mx = (x0 + x1) / 2;
+      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
+    }
+    return d;
+  }
+  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
+  const litPath = document.getElementById('spark-lit'), dot = document.getElementById('spark-dot');
+  function updateTape(i) {
+    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
+    dot.setAttribute('cx', pts[i][0]); dot.setAttribute('cy', pts[i][1]);
+  }
+  createStory({ stage:'.phone', deck:'.slides', hint:'#hint', tap:true, swipe:'.phone', onShow:i=>updateTape(i) });
 </script>
 </body>
 </html>

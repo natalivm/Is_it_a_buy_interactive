@@ -63,6 +63,21 @@ body {
   color: var(--muted, var(--mut, #9a93b5));
 }
 
+/* ── Cover meta: current price · posted date (same slot on every cover) ────── */
+.cover-meta { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+.cover-meta .cm-price {
+  font-family: var(--mono, monospace);
+  font-weight: 700; font-size: 15px;
+  color: var(--yellow, #FFD24A);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--yellow, #FFD24A) 45%, transparent);
+}
+.cover-meta .cm-sep { color: var(--muted, var(--mut, #9a93b5)); }
+.cover-meta .cm-date {
+  font-family: var(--mono, monospace);
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted, var(--mut, #9a93b5));
+}
+
 /* ── Preview mode (tile thumbnails) ───────────────────────────────────────
    Loaded with ?preview: freeze on the cover, force content visible (off-screen
    iframes suppress animations), and hide interactive chrome. The .preview class
