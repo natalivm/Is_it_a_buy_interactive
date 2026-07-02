@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'ASTS', exchange: 'NASDAQ',
+    price: '~$86', change: '+30% off the $66 low',
+    signal: 'Bounce done — now a breakout bet; $107 is the wall',
+    verdict: 'caution', accent: 'purple',
+    date: '2026-07-03',
+    story: 'stories/asts.html',
+  },
+  {
     symbol: 'SEZL', exchange: 'NASDAQ',
     price: '$175.18', change: '+2% today',
     signal: 'Wait for the pullback — don’t chase',
@@ -34,7 +42,7 @@ const STOCKS = [
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
     price: '$650.91', change: '−9.97% · Jul 1',
-    signal: 'Upper rail rejected — buy the pullback, don’t chase',
+    signal: 'Overextended · HOLD — fair value ~$430; wait for the pullback',
     verdict: 'caution', accent: 'purple',
     date: '2026-07-02',
     story: 'stories/amat.html',

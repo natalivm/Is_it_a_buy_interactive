@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$ASTS — Повна історія</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  /* ── ASTS palette + 9:16 deck chrome ── */
+  :root{
+    --page-bg:#0B0616;
+    --bg:#150C26;
+    --panel:#1F1438;
+    --panel2:#1A102F;
+    --line:#2F2152;
+    --ink:#FFFFFF;
+    --muted:#A99CC9;
+    --purple:#A78BFA;
+    --pink:#F45FA8;
+    --yellow:#FFD335;
+    --yellow-deep:#FFD335;
+    --deep:#170E2A;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+
+  .stage{
+    position:relative;
+    width:min(100vw, calc(100dvh * 9 / 16));
+    height:100dvh;
+    max-height:calc(100vw * 16 / 9);
+    background:var(--bg);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    container-type:inline-size;
+  }
+  .stage::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;opacity:.28;
+  }
+
+  .tape{
+    position:relative;z-index:3;
+    padding:calc(env(safe-area-inset-top, 0px) + 14px) 18px 8px;
+    display:flex;flex-direction:column;gap:6px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(21,12,38,.95), rgba(21,12,38,.72));
+  }
+  .tape-row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
+  .tape-row .tkr{color:var(--yellow);font-weight:600;text-shadow:0 0 10px color-mix(in srgb,var(--yellow) 45%,transparent);}
+  .spark{width:100%;height:34px;display:block;}
+  .spark path.line{fill:none;stroke:#40306E;stroke-width:1.5;}
+  .spark path.lit{fill:none;stroke:var(--purple);stroke-width:2;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--purple) 60%,transparent));}
+  .spark circle{fill:var(--pink);stroke:var(--bg);stroke-width:2;transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--pink) 70%,transparent));}
+
+  .deck{position:relative;flex:1;z-index:2;min-height:0;}
+  .slide{justify-content:center;overflow:hidden;}
+  .slide-inner{width:100%;padding:20px 22px 40px;transform-origin:center center;display:flex;flex-direction:column;}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--purple);
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
+  .eyebrow.pink{color:var(--pink);}
+
+  h1{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(34px, 10.5cqw, 54px);
+    line-height:1.04;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;
+  }
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);}
+  h1 .hl{color:var(--deep);
+    background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .sub{font-size:15px;line-height:1.55;color:#CFC5E6;margin-bottom:18px;max-width:36ch;}
+  .sub strong{color:var(--ink);font-weight:700;}
+
+  .stat-wall{display:flex;flex-direction:column;gap:10px;}
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:12px;
+    box-shadow:0 1px 0 rgba(167,139,250,.08) inset;
+  }
+  .stat .k{font-size:13px;color:var(--muted);line-height:1.35;}
+  .stat .k b{color:var(--ink);font-weight:600;display:block;font-size:14px;}
+  .stat .v{font-family:var(--mono);font-size:17px;font-weight:600;white-space:nowrap;}
+  .v.p{color:var(--purple)} .v.k{color:var(--pink)} .v.y{color:var(--yellow-deep)}
+
+  .big-num{font-family:var(--mono);font-weight:600;font-size:clamp(50px,15cqw,80px);line-height:1;letter-spacing:-.02em;}
+  .big-num small{font-size:.3em;color:var(--muted);font-weight:500;letter-spacing:.05em;}
+
+  .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35);}
+  .rung{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
+  .rung:last-child{border-bottom:0}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:16px;width:92px;flex-shrink:0;}
+  .rung .lbl{font-size:12.5px;color:var(--muted);line-height:1.35;}
+  .rung.res .px{color:var(--pink)}
+  .rung.sup .px{color:var(--purple)}
+  .rung.now{background:var(--yellow);}
+  .rung.now .px{color:var(--deep)}
+  .rung.now .lbl{color:var(--deep);font-weight:700;}
+
+  .trade-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);box-shadow:0 6px 18px rgba(0,0,0,.35);}
+  .tc-head{padding:12px 16px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;}
+  .tc-head.long{background:rgba(167,139,250,.16);color:var(--purple);}
+  .tc-head.short{background:rgba(244,95,168,.16);color:var(--pink);}
+  .tc-body{padding:6px 0;}
+  .tc-row{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;border-top:1px solid var(--line);font-size:13.5px;}
+  .tc-row .l{color:var(--muted);}
+  .tc-row .r{font-family:var(--mono);font-weight:600;text-align:right;}
+
+  .note{margin-top:14px;font-size:12px;line-height:1.55;color:#CFC5E6;border-left:3px solid var(--yellow);padding-left:10px;}
+
+  .pill{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;
+    padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin:0 6px 8px 0;text-transform:uppercase;background:var(--panel);}
+  .pill.hot{border-color:var(--pink);color:var(--pink);background:rgba(244,95,168,.1);box-shadow:0 0 14px color-mix(in srgb,var(--pink) 30%,transparent);}
+
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);pointer-events:none;}
+  .nav button{pointer-events:auto;width:34px;height:34px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.14);
+    color:rgba(255,255,255,.42);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
+  .nav button:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.3);}
+  .nav button:active{transform:scale(.9);color:var(--yellow);}
+  .nav button:focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
+  .nav button svg{width:16px;height:16px;}
+  .nav button[disabled]{opacity:0;pointer-events:none;}
+  .nav .count{pointer-events:none;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);}
+  .nav .count b{color:rgba(255,255,255,.55);font-weight:600;}
+
+  .cover{justify-content:flex-start;}
+  .slide.cover .slide-inner{justify-content:flex-start;padding-top:32px;}
+  .cover-ticker{
+    font-family:var(--display);font-weight:700;color:#fff;
+    font-size:clamp(72px, 26cqw, 148px);line-height:.9;
+    letter-spacing:.02em;text-transform:uppercase;margin-bottom:20px;align-self:flex-start;
+  }
+  .cover .ticker-chip{
+    display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+    font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.14em;
+    border:1.5px solid var(--yellow);color:var(--yellow);background:var(--panel);
+    padding:8px 14px;border-radius:9px;margin-bottom:22px;
+  }
+  .cover .ticker-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 8px var(--yellow);}
+  .swipe-hint{margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
+  <div class="story-shine" aria-hidden="true"></div>
+
+  <div class="tape">
+    <div class="tape-row">
+      <span class="tkr">$ASTS · NASDAQ</span>
+      <span id="tape-label">ІСТОРІЯ</span>
+    </div>
+    <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
+      <path class="line" id="spark-line" d=""></path>
+      <path class="lit" id="spark-lit" d=""></path>
+      <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
+    </svg>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · ОБКЛАДИНКА -->
+    <section class="slide cover active" data-label="ІСТОРІЯ">
+      <div class="cover-ticker rv">ASTS</div>
+      <div class="ticker-chip rv"><span class="dot"></span> SWING SETUP</div>
+      <h1 class="rv">Від <span class="p">$134</span><br>до <span class="k">$66</span><br>і <span class="hl">назад?</span></h1>
+      <p class="sub rv"><strong>AST SpaceMobile ($ASTS)</strong> — 4G/5G прямо зі супутника на звичайний телефон. Як мрія обвалилась удвічі, чому відбиває, і два рівні, що вирішать усе.</p>
+      <div class="rv">
+        <span class="pill hot">Космос</span><span class="pill">Супутники</span><span class="pill">Свінг-сетап</span>
+      </div>
+      <div class="posted rv" style="margin-top:16px">Опубліковано · 3 липня 2026</div>
+      <div class="swipe-hint rv">Натисни ▶ щоб почати</div>
+    </section>
+
+    <!-- 2 · ЩО ЦЕ ВЗАГАЛІ -->
+    <section class="slide" data-label="01 · ІСТОРІЯ">
+      <div class="eyebrow rv">01 · Що це за компанія</div>
+      <h1 class="rv">Вежа зв'язку <span class="hl">на орбіті</span></h1>
+      <p class="sub rv">ASTS будує стільникову мережу в космосі — широкосмуговий інтернет напряму на звичайний смартфон, без вишок. Ринок платить за мрію, не за прибуток.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Контракти операторів</b>угоди по всьому світу</span><span class="v p">~60</span></div>
+        <div class="stat"><span class="k"><b>Законтрактована виручка</b>зобов'язання під мережу</span><span class="v p">$1.2 млрд+</span></div>
+        <div class="stat"><span class="k"><b>Готівка на балансі</b>запас на будівництво</span><span class="v p">~$3.5 млрд</span></div>
+        <div class="stat"><span class="k"><b>СП з Rakuten</b>Японія, сервіс з кінця 2026</span><span class="v y">50 / 50</span></div>
+      </div>
+    </section>
+
+    <!-- 3 · РАЛІ ТА ОБВАЛ -->
+    <section class="slide" data-label="02 · ГІРКА">
+      <div class="eyebrow pink rv">02 · Ралі та обвал</div>
+      <h1 class="rv">Подвоїлась, потім <span class="k">−50%</span></h1>
+      <p class="sub rv">Пік ~$134 наприкінці травня — і різкий обвал до ~$66–67 у середині червня. Це акція диких свінгів, де рулить роздрібний натовп.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Пік (кінець травня)</b>ейфорія</span><span class="v p">~$134</span></div>
+        <div class="stat"><span class="k"><b>Дно (середина червня)</b>капітуляція</span><span class="v k">~$66</span></div>
+        <div class="stat"><span class="k"><b>Просадка від піку</b>за кілька тижнів</span><span class="v k">≈ −50%</span></div>
+        <div class="stat"><span class="k"><b>P/S</b>заплачено за мрію</span><span class="v k">перегрів</span></div>
+      </div>
+    </section>
+
+    <!-- 4 · ЧОМУ ВІДБИВАЄ -->
+    <section class="slide" data-label="03 · ВІДСКОК">
+      <div class="eyebrow rv">03 · Чому відбиває</div>
+      <h1 class="rv">Мрія стала <span class="hl">залізом</span></h1>
+      <p class="sub rv">Супутники BlueBird 8–10 успішно вивели на орбіту на Falcon 9. Це вже не «космічний SPAC», а реальна мережа, що будується.</p>
+      <div class="rv" style="text-align:center;padding:12px 0 6px;">
+        <div class="big-num" style="color:var(--purple)">~$86<br><small>+2.4% · ~$20 ВІД ДНА</small></div>
+      </div>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Виконання</b>BlueBird 8–10 на орбіті</span><span class="v p">ЗАПУЩЕНО</span></div>
+        <div class="stat"><span class="k"><b>Настрій</b>розворот на позитиві</span><span class="v p">BULLISH</span></div>
+        <div class="stat"><span class="k"><b>Але</b>досі глибоко нижче піку</span><span class="v k">НЕ ВІДНОВИВСЬ</span></div>
+      </div>
+    </section>
+
+    <!-- 5 · ДАТА-КАТАЛІЗАТОР -->
+    <section class="slide" data-label="04 · КАТАЛІЗАТОР">
+      <div class="eyebrow rv">04 · Наступний тригер</div>
+      <h1 class="rv">Дата, обведена в <span class="hl">календарі</span></h1>
+      <p class="sub rv">Наступний запуск — <strong>BlueBird 11–13, вікно початку серпня</strong>. Чіткий, датований каталізатор, від якого залежить рух. Кожен успішний старт знижує ризик виконання.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Подія</b>запуск BlueBird 11–13</span><span class="v y">поч. СЕРПНЯ</span></div>
+        <div class="stat"><span class="k"><b>Ризик</b>затримка / погода / вартість</span><span class="v k">ВОЛАТИЛЬНІСТЬ</span></div>
+        <div class="stat"><span class="k"><b>Характер</b>подвійні % рухи за день</span><span class="v k">РОЗДРІБ</span></div>
+      </div>
+      <p class="note rv">Датований каталізатор = передбачувана волатильність. Знай дату — і не тримай зайвий розмір у неї наосліп.</p>
+    </section>
+
+    <!-- 6 · РІВНІ -->
+    <section class="slide" data-label="05 · РІВНІ">
+      <div class="eyebrow rv">05 · Карта опору</div>
+      <h1 class="rv">Драбина <span class="hl">до цілі</span></h1>
+      <p class="sub rv">Відскок реальний — але й опір реальний. Я дивлюсь <strong>послідовно</strong>: рівень за рівнем угору.</p>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$120</span><span class="lbl">Ціль — стрейч-зона біля попереднього піку</span></div>
+        <div class="rung res"><span class="px">$106–107</span><span class="lbl">СТІНА · геп + тижнева/денна BB — головний рубіж</span></div>
+        <div class="rung res"><span class="px">$98.10</span><span class="lbl">Півот-хай — тут ціна вже розвернулась раніше</span></div>
+        <div class="rung now"><span class="px">~$86</span><span class="lbl">ТИ ТУТ · ~$12 до першого опору</span></div>
+        <div class="rung sup"><span class="px">~$67</span><span class="lbl">Дно червня — база відскоку (BUY вже спрацював)</span></div>
+      </div>
+      <p class="note rv">Легкий відскок $67 → $86 уже позаду. Тепер це ставка на пробій, а не купівля дна.</p>
+    </section>
+
+    <!-- 6b · ЦІЛЬ $120 -->
+    <section class="slide" data-label="06 · ЦІЛЬ $120">
+      <div class="eyebrow rv">06 · Ціль $120 — реально?</div>
+      <h1 class="rv">Реально, але <span class="hl">умовно</span></h1>
+      <p class="sub rv">$120 — це ~+40% від $86. Для ASTS не фантастика: п'ять тижнів тому було ~$134. Але шлях вирішує все.</p>
+      <div class="ladder rv">
+        <div class="rung sup"><span class="px">$98</span><span class="lbl">Ймовірно — перший тест на відновленні</span></div>
+        <div class="rung now"><span class="px">$106–107</span><span class="lbl">РУБІЖ · усе залежить від закриття вище</span></div>
+        <div class="rung res"><span class="px">$120</span><span class="lbl">Тільки ПІСЛЯ пробою $107 — стрейч, не база</span></div>
+      </div>
+      <p class="note rv">Реаліті-чек Street (12 міс): медіана $70 — це <strong>нижче поточної ціни</strong>, максимум $137. $120 — у верхній половині діапазону: агресивно, але в межах бичачих оцінок.</p>
+    </section>
+
+    <!-- 6c · ДВА ГОРИЗОНТИ -->
+    <section class="slide" data-label="06 · ГОРИЗОНТИ">
+      <div class="eyebrow rv">06 · Свінг проти інвестиції</div>
+      <h1 class="rv">Два різні <span class="hl">горизонти</span></h1>
+      <p class="sub rv">$120 як свінг — стрейч. Але наша <strong>5-річна модель</strong> дивиться далеко за нього.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Вердикт моделі</b>довгий горизонт</span><span class="v p">HOLD</span></div>
+        <div class="stat"><span class="k"><b>Базова ціль (5р)</b>+94% від ~$86</span><span class="v p">$167</span></div>
+        <div class="stat"><span class="k"><b>Зважена оцінка</b>справедлива вартість</span><span class="v p">$213</span></div>
+        <div class="stat"><span class="k"><b>CAGR (5р)</b>річний темп</span><span class="v y">~20%</span></div>
+      </div>
+      <p class="note rv">Примирення: $120 — це ~2-річна точка на шляху моделі, тобто <strong>нижче базового сценарію</strong>. Стрейч для свінгу — рядовий орієнтир для інвестора. Різні годинники, не конфлікт.</p>
+    </section>
+
+    <!-- 6d · ЩО ГОВОРЯТЬ ГРАФІКИ -->
+    <section class="slide" data-label="06 · СИГНАЛИ">
+      <div class="eyebrow rv">06 · Що кажуть таймфрейми</div>
+      <h1 class="rv">Відновлення є, <span class="hl">імпульсу — ще ні</span></h1>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Тижневий тренд</b>9>50>200 — не зламався</span><span class="v p">BULLISH</span></div>
+        <div class="stat"><span class="k"><b>TA-Miles осцилятор</b>BUY від дна вже відпрацював</span><span class="v p">ВІДСКОК</span></div>
+        <div class="stat"><span class="k"><b>4h ціна</b>уперлась у 200-MA (~$87)</span><span class="v y">В ОПІР</span></div>
+        <div class="stat"><span class="k"><b>RSI</b>50–55, є куди рости, але без тяги</span><span class="v y">НЕЙТРАЛЬНО</span></div>
+        <div class="stat"><span class="k"><b>Тижневий OBV</b>досі спадає — розподіл згори</span><span class="v k">ЗАСТЕРЕЖЕННЯ</span></div>
+      </div>
+      <p class="note rv">Одне паливо для пробою: успішний запуск BlueBird 11–13 у серпні. Без нього $120 лишається мрією.</p>
+    </section>
+
+    <!-- 7 · ПЛАН -->
+    <section class="slide" data-label="07 · ПЛАН">
+      <div class="eyebrow rv">07 · Сетап — по кроках</div>
+      <h1 class="rv">Підтвердження, <span class="hl">не надія</span></h1>
+      <p class="sub rv">Контроль не повертається однією зеленою свічкою. Дій за секвенцією, а не за емоцією.</p>
+      <div class="trade-card rv">
+        <div class="tc-head long"><span>ПЛАН НА ВІДНОВЛЕННЯ</span><span>ПО ЗАКРИТТЯХ</span></div>
+        <div class="tc-body">
+          <div class="tc-row"><span class="l">Крок 1 — тригер</span><span class="r" style="color:var(--purple)">закриття > $98</span></div>
+          <div class="tc-row"><span class="l">Крок 2 — рубіж</span><span class="r" style="color:var(--purple)">закриття > $107</span></div>
+          <div class="tc-row"><span class="l">Стрейч-ціль</span><span class="r" style="color:var(--yellow-deep)">$120 (після $107)</span></div>
+          <div class="tc-row"><span class="l">Каталізатор</span><span class="r">запуск, поч. серпня</span></div>
+          <div class="tc-row"><span class="l">Інвалідація</span><span class="r" style="color:var(--pink)">відбій від $98 / $107</span></div>
+          <div class="tc-row"><span class="l">Дно / стоп-орієнтир</span><span class="r" style="color:var(--pink)">втрата ~$67</span></div>
+        </div>
+      </div>
+      <p class="note rv">$120 не «з $86 напряму». Спершу $98, потім головне — закриття вище $107. Без пробою рубежу ціль не в грі.</p>
+    </section>
+
+    <!-- 8 · ПЛЕЙБУК -->
+    <section class="slide" data-label="ПЛЕЙБУК">
+      <div class="eyebrow rv">Плейбук</div>
+      <h1 class="rv">Терпіння — це <span class="hl">перевага</span></h1>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Правило 1</b>ти вже пропустив дно — це ставка на пробій</span><span class="v p">ПРОБІЙ</span></div>
+        <div class="stat"><span class="k"><b>Правило 2</b>$107 — рубіж; без нього $120 не в грі</span><span class="v y">$107</span></div>
+        <div class="stat"><span class="k"><b>Правило 3</b>запуск у серпні + дикі свінги — зменшуй розмір</span><span class="v k">РОЗМІР</span></div>
+      </div>
+      <p class="sub rv" style="margin-top:18px">Повний розбір <strong>щодня</strong> у нашій телеграм-групі: рівні, графіки та свінг-плани. <a href="https://t.me/market_predictions" style="color:var(--yellow);text-decoration:none;font-weight:700">t.me/market_predictions</a></p>
+      <p class="note rv">Освітній контент — не фінансова порада. Торгуй за власним планом.</p>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <button id="btn-back" aria-label="Попередній слайд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="count"><b id="cur">1</b> / <span id="tot">11</span></span>
+    <button id="btn-next" aria-label="Наступний слайд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script>
+  // Sparkline tape: peak → crash → recovery → target ladder
+  const total = document.querySelectorAll('#deck .slide').length;
+  const yNorm = [0.55, 0.40, 0.90, 0.58, 0.52, 0.46, 0.42, 0.40, 0.32, 0.38, 0.30];
+  const W = 340, H = 34, PAD = 8;
+  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
+  function pathThrough(points) {
+    let d = `M ${points[0][0]} ${points[0][1]}`;
+    for (let i = 1; i < points.length; i++) {
+      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+      const mx = (x0 + x1) / 2;
+      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
+    }
+    return d;
+  }
+  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
+  const litPath = document.getElementById('spark-lit');
+  const dot = document.getElementById('spark-dot');
+  function updateTape(i) {
+    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
+    dot.setAttribute('cx', pts[i][0]);
+    dot.setAttribute('cy', pts[i][1]);
+  }
+
+  createStory({
+    stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
+    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
+    label: '#tape-label', onShow: i => updateTape(i),
+  });
+</script>
+</body>
+</html>
