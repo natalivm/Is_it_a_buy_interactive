@@ -63,6 +63,21 @@ body {
   color: var(--muted, var(--mut, #9a93b5));
 }
 
+/* ── Cover meta: current price · posted date (same slot on every cover) ────── */
+.cover-meta { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+.cover-meta .cm-price {
+  font-family: var(--mono, monospace);
+  font-weight: 700; font-size: 15px;
+  color: var(--yellow, #FFD24A);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--yellow, #FFD24A) 45%, transparent);
+}
+.cover-meta .cm-sep { color: var(--muted, var(--mut, #9a93b5)); }
+.cover-meta .cm-date {
+  font-family: var(--mono, monospace);
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted, var(--mut, #9a93b5));
+}
+
 /* ── Preview mode (tile thumbnails) ───────────────────────────────────────
    Loaded with ?preview: freeze on the cover, force content visible (off-screen
    iframes suppress animations), and hide interactive chrome. The .preview class
@@ -130,20 +145,7 @@ h1 .p, h1 .k, h1 .y {
   padding: 0 3px; pointer-events: none; user-select: none;
 }
 
-/* One-time diagonal light sweep across the stage when the story opens */
-.story-shine { position: absolute; inset: 0; z-index: 25; pointer-events: none; overflow: hidden; }
-.story-shine::before {
-  content: "";
-  position: absolute; top: -40%; left: -75%;
-  width: 55%; height: 180%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .12), transparent);
-  transform: skewX(-16deg);
-  animation: storyShine 1.5s cubic-bezier(.4, 0, .2, 1) .25s 1 both;
-}
-@keyframes storyShine { from { left: -75%; } to { left: 160%; } }
-
-.preview .story-brand,
-.preview .story-shine { display: none !important; }
+.preview .story-brand { display: none !important; }
 
 /* Opt-in helpers a deck can drop on any element */
 .glow-p { text-shadow: 0 0 10px color-mix(in srgb, var(--purple, #B57BFF) 70%, transparent), 0 0 24px color-mix(in srgb, var(--purple, #B57BFF) 40%, transparent); }
@@ -157,5 +159,4 @@ h1 .p, h1 .k, h1 .y {
   .big, .big-num, .rr, .gauge .tag, .lev .x,
   .cover h1 .p, .cover h1 .k, .cover h1 .y,
   .rung.now, .rung.hi { animation: none !important; }
-  .story-shine { display: none !important; }
 }
