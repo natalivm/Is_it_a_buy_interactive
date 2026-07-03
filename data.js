@@ -33,8 +33,8 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '~$86', change: '+30% off the $66 low',
-    signal: 'Bounce done — now a breakout bet; $107 is the wall',
+    price: '$85.13', change: '−1.13% · Jul 2',
+    signal: 'Base firming, daily turning up — still a breakout bet; $107 is the wall',
     verdict: 'caution', accent: 'emerald',
     date: '2026-07-03',
     story: 'stories/asts.html',
