@@ -18,7 +18,7 @@ const STOCKS = [
   {
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$820.16', change: '−10.38% · Jul 2',
-    signal: 'Flat — 880 is the trade: short the rejection to 705–720, long only on a 880 reclaim',
+    signal: '2-sided setup — wait for the $880 reaction: short the rejection or long the reclaim',
     verdict: 'caution', accent: 'cyan',
     date: '2026-07-03',
     story: 'stories/stx.html',
