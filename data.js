@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'STX', exchange: 'NASDAQ',
+    price: '$820.16', change: '−10.38% · Jul 2',
+    signal: 'Flat — 880 is the trade: short the rejection to 705–720, long only on a 880 reclaim',
+    verdict: 'caution', accent: 'cyan',
+    date: '2026-07-03',
+    story: 'stories/stx.html',
+  },
+  {
     symbol: 'ASTS', exchange: 'NASDAQ',
     price: '~$86', change: '+30% off the $66 low',
     signal: 'Bounce done — now a breakout bet; $107 is the wall',
@@ -25,10 +33,10 @@ const STOCKS = [
   },
   {
     symbol: 'SEZL', exchange: 'NASDAQ',
-    price: '$175.18', change: '+2% today',
-    signal: 'Wait for the pullback — don’t chase',
+    price: '$183.24', change: 'T1 $180 hit · Jul 2',
+    signal: 'T1 $180 hit — don’t chase $183; buy the $178–180 pullback, manage if long',
     verdict: 'caution', accent: 'violet',
-    date: '2026-06-27',
+    date: '2026-07-03',
     story: 'stories/sezl.html',
   },
   {
@@ -41,10 +49,10 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$650.91', change: '−9.97% · Jul 1',
-    signal: 'Overextended · HOLD — fair value ~$430; wait for the pullback',
-    verdict: 'caution', accent: 'amber',
-    date: '2026-07-02',
+    price: '$603.04', change: '−7.35% · Jul 2',
+    signal: 'Momentum flipped — SHORT the failed bounce into $620–650 (not the hole); targets $555/$510/$470',
+    verdict: 'avoid', accent: 'amber',
+    date: '2026-07-03',
     story: 'stories/amat.html',
   },
   {

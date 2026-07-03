@@ -28,7 +28,7 @@ function fmtDate(iso) {
 
 // ── Tile rendering ─────────────────────────────────────────────────────────
 function tileHtml(stock) {
-    const accent = ['violet', 'blue', 'amber', 'emerald', 'red'].includes(stock.accent) ? stock.accent : 'violet';
+    const accent = ['violet', 'blue', 'amber', 'emerald', 'red', 'cyan'].includes(stock.accent) ? stock.accent : 'violet';
     const verdict = ['buy', 'caution', 'avoid'].includes(stock.verdict) ? stock.verdict : 'caution';
     const change = stock.change
         ? `<span class="tile-change">${esc(stock.change)}</span>` : '';

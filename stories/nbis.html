@@ -213,7 +213,7 @@
 
   <div class="deck" id="deck">
 
-    <!-- 1 · ОБКЛАДИНКА -->
+    <!-- 1 · COVER -->
     <section class="slide cover active" data-label="STORY">
       <div class="cover-ticker rv">NBIS</div>
       <div class="ticker-chip rv"><span class="dot"></span> SWING SETUP</div>
@@ -226,130 +226,81 @@
       <div class="swipe-hint rv">Натисни ▶ щоб почати</div>
     </section>
 
-    <!-- 2 · РАЛІ -->
-    <section class="slide" data-label="01 · RALLY">
-      <div class="eyebrow rv">01 · Чому акція вибухнула</div>
-      <h1 class="rv">Продавець <span class="hl">лопат</span> AI-лихоманки</h1>
-      <p class="sub rv">Nebius здає в оренду GPU-потужності найбільшим гравцям AI. Коли всьому ринку бракує чипів — «неохмара» стає найгарячішою акцією на біржі.</p>
+    <!-- 2 · STORY (rally + peak + crash, high-level) -->
+    <section class="slide" data-label="01 · STORY">
+      <div class="eyebrow rv">01 · Що сталося</div>
+      <h1 class="rv">Ракета, тоді <span class="k">−17% за день</span></h1>
+      <p class="sub rv"><strong>Nebius</strong> — «продавець лопат» AI: здає GPU в оренду. На контрактах з Meta ($27B) і Microsoft ($17B+) злетів <strong>+449%</strong> до ~$300 — ціна «без права на помилку». Потім Meta оголосила власну хмару: найбільший клієнт став конкурентом — і за день <strong>−17%</strong>.</p>
       <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Партнерство з Meta</b>багаторічний AI-контракт</span><span class="v p">$27 млрд</span></div>
-        <div class="stat"><span class="k"><b>Угода з Microsoft</b>якірний GPU-контракт (2025)</span><span class="v p">$17 млрд+</span></div>
-        <div class="stat"><span class="k"><b>Включення в Nasdaq-100</b>індексні покупки, 22 червня</span><span class="v y">NDX</span></div>
-        <div class="stat"><span class="k"><b>Зростання за рік</b>вертикальне rally до peak ~$300</span><span class="v p">+449%</span></div>
+        <div class="stat"><span class="k"><b>Run-up</b>Meta/MS deals + Nasdaq-100</span><span class="v p">+449%</span></div>
+        <div class="stat"><span class="k"><b>Priced for perfection</b>~125x P/S · insiders 17 sells / 0 buys · ~24% short</span><span class="v k">$300</span></div>
+        <div class="stat"><span class="k"><b>Crash 1 липня</b>Meta = конкурент; CoreWeave теж −13.9%</span><span class="v k">−17%</span></div>
       </div>
+      <p class="note rv">Це не випадковий червоний день — заголовок бʼє в саму бізнес-модель. Тому питання не «купити діп», а «шум це чи злам».</p>
     </section>
 
-    <!-- 3 · ПІК -->
-    <section class="slide" data-label="02 · PEAK">
-      <div class="eyebrow rv">02 · Peak</div>
-      <h1 class="rv">Ціна <span class="hl">без права</span> на помилку</h1>
-      <p class="sub rv">Наприкінці червня графік показав історичний high біля <strong>$300</strong> — але «smart money» вже тихо виходили.</p>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Інсайдерські угоди у 2026</b>17 продажів · 0 покупок</span><span class="v k">17 / 0</span></div>
-        <div class="stat"><span class="k"><b>Valuation</b>price-to-sales, перегріта</span><span class="v k">~125x</span></div>
-        <div class="stat"><span class="k"><b>Short interest</b>ведмеді накопичують</span><span class="v y">~24%</span></div>
-      </div>
-      <p class="note rv">Коли акція оцінена «за ідеал», у неї немає запасу міцності на погані новини. І вони прийшли.</p>
-    </section>
-
-    <!-- 4 · ОБВАЛ -->
-    <section class="slide" data-label="03 · CRASH">
-      <div class="eyebrow pink rv">03 · 1 липня — чому впала</div>
-      <h1 class="rv">Найбільший клієнт став <span class="k">конкурентом</span></h1>
-      <p class="sub rv">Bloomberg повідомив: Meta будує <strong>«Meta Compute»</strong> — продаж надлишкових AI-потужностей напряму розробникам. А це і є бізнес Nebius.</p>
-      <div class="rv" style="text-align:center;padding:14px 0 6px;">
-        <div class="big-num" style="color:var(--pink)">−17%<br><small>ЗА ОДНУ СЕСІЮ</small></div>
-      </div>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Проблема</b>Meta = клієнт на $27 млрд</span><span class="v k">CONFLICT</span></div>
-        <div class="stat"><span class="k"><b>Другий удар</b>обережний звіт Bernstein по сектору</span><span class="v k">PRESSURE</span></div>
-        <div class="stat"><span class="k"><b>Не сама</b>CoreWeave того ж дня</span><span class="v k">−13.9%</span></div>
-      </div>
-    </section>
-
-    <!-- 5 · ШУМ ЧИ ЗЛАМ -->
-    <section class="slide" data-label="04 · NOISE OR BREAK">
-      <div class="eyebrow rv">04 · Головне питання</div>
+    <!-- 3 · NOISE OR BREAK -->
+    <section class="slide" data-label="02 · NOISE OR BREAK">
+      <div class="eyebrow rv">02 · Головне питання</div>
       <h1 class="rv">Шум чи <span class="hl">зламана теза</span>?</h1>
-      <p class="sub rv">Це не випадковий червоний день. Заголовок б'є в саму <strong>бізнес-модель</strong> — і це змінює те, як торгувати цю просадку.</p>
       <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Bearish scenario</b>гіперскейлери з'їдають ринок неохмар</span><span class="v k">STRUCTURAL</span></div>
-        <div class="stat"><span class="k"><b>Bullish scenario</b>один звіт ≠ готовий продукт; аналітики вже кажуть — selloff надмірний</span><span class="v p">OVERDONE</span></div>
-        <div class="stat"><span class="k"><b>Джокер</b>24% shorts = паливо для squeeze на будь-якому спростуванні</span><span class="v y">SQUEEZE</span></div>
+        <div class="stat"><span class="k"><b>Bearish</b>гіперскейлери зʼїдають ринок neocloud</span><span class="v k">STRUCTURAL</span></div>
+        <div class="stat"><span class="k"><b>Bullish</b>один звіт ≠ продукт; аналітики: розпродаж надмірний</span><span class="v p">OVERDONE</span></div>
+        <div class="stat"><span class="k"><b>Joker</b>~24% shorts = squeeze fuel на будь-якому спростуванні</span><span class="v y">SQUEEZE</span></div>
       </div>
-      <p class="note rv">Бінарний ризик заголовків у обидва боки. Менший розмір позиції. Levels важливіші за думки.</p>
+      <p class="note rv">Бінарний headline-ризик у обидва боки. Менший розмір позиції. Levels важливіші за наратив — тому торгуємо рівні, а не думки.</p>
     </section>
 
-    <!-- 6 · РІВНІ -->
-    <section class="slide" data-label="05 · LEVELS">
-      <div class="eyebrow rv">05 · Карта</div>
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="03 · LEVELS">
+      <div class="eyebrow rv">03 · Карта рівнів</div>
       <h1 class="rv">Levels, які я <span class="hl">відстежую</span></h1>
-      <p class="sub rv">Oscillator <strong>наближається до oversold — але ще не там</strong>. Перший дотик після parabolic зростання — зазвичай bounce, а не фінальне bottom.</p>
       <div class="ladder rv">
         <div class="rung res"><span class="px">300–316</span><span class="lbl">All-time-high zone</span></div>
-        <div class="rung res"><span class="px">270</span><span class="lbl">Червнева supply — бикам треба повернути</span></div>
         <div class="rung res"><span class="px">250–260</span><span class="lbl">Спадна 20-day · broken trend — short zone</span></div>
         <div class="rung res"><span class="px">240–246</span><span class="lbl">Gap zone · перший bounce target</span></div>
         <div class="rung now"><span class="px">~229</span><span class="lbl">YOU ARE HERE</span></div>
-        <div class="rung sup"><span class="px">224</span><span class="lbl">Lower band</span></div>
-        <div class="rung sup"><span class="px">215</span><span class="lbl">June lows — нижче trend ламається</span></div>
+        <div class="rung sup"><span class="px">215–224</span><span class="lbl">Червневі low + lower band — long zone</span></div>
         <div class="rung sup"><span class="px">200–205</span><span class="lbl">May breakout shelf · key support</span></div>
       </div>
     </section>
 
-    <!-- 7 · СЕТАП A -->
-    <section class="slide" data-label="06 · SETUP A">
-      <div class="eyebrow rv">06 · Setup A — bounce</div>
-      <h1 class="rv">Long на повернення до <span class="p">середнього</span></h1>
-      <p class="sub rv">Не лови knife. Дочекайся, поки oscillator реально дійде до oversold, і чекай <strong>reversal signal</strong>.</p>
+    <!-- 5 · SETUP (long + short, condensed) -->
+    <section class="slide" data-label="04 · SETUP">
+      <div class="eyebrow rv">04 · Два плани — по рівнях</div>
+      <h1 class="rv">Long діп, <span class="k">short ралі</span></h1>
       <div class="trade-card rv">
-        <div class="tc-head long"><span>TACTICAL LONG</span><span>ОРЕНДА, НЕ ШЛЮБ</span></div>
+        <div class="tc-head long"><span>A · TACTICAL LONG</span><span>R:R ≈ 3 : 1</span></div>
         <div class="tc-body">
-          <div class="tc-row"><span class="l">Entry zone</span><span class="r" style="color:var(--purple)">$215 – 224</span></div>
-          <div class="tc-row"><span class="l">Trigger</span><span class="r">reversal day / breakout учорашнього high</span></div>
-          <div class="tc-row"><span class="l">Stop</span><span class="r" style="color:var(--pink)">нижче $212</span></div>
-          <div class="tc-row"><span class="l">Target 1</span><span class="r">$240 – 246</span></div>
-          <div class="tc-row"><span class="l">Target 2</span><span class="r">$255 – 260</span></div>
-          <div class="tc-row"><span class="l">R:R</span><span class="r" style="color:var(--yellow-deep)">≈ 3 : 1</span></div>
+          <div class="tc-row"><span class="l">Entry / trigger</span><span class="r" style="color:var(--purple)">$215–224 + reversal</span></div>
+          <div class="tc-row"><span class="l">Stop → targets</span><span class="r">&lt;$212 → $240 → $260</span></div>
         </div>
       </div>
-      <p class="note rv">Бонусне паливо: ~24% shorts. Один позитивний заголовок — і полетить. Фіксуй частину на Target 1.</p>
-    </section>
-
-    <!-- 8 · СЕТАП B -->
-    <section class="slide" data-label="07 · SETUP B">
-      <div class="eyebrow pink rv">07 · Setup B — fade</div>
-      <h1 class="rv">Short <span class="k">the bounce</span></h1>
-      <p class="sub rv">Якщо загрозу Meta не знято, перше rally в broken resistance — чистіше risk/reward.</p>
-      <div class="trade-card rv">
-        <div class="tc-head short"><span>SWING SHORT</span><span>FAILED RETEST</span></div>
+      <div class="trade-card rv" style="margin-top:12px">
+        <div class="tc-head short"><span>B · FADE THE BOUNCE</span><span>failed retest</span></div>
         <div class="tc-body">
-          <div class="tc-row"><span class="l">Entry zone</span><span class="r" style="color:var(--pink)">$250 – 260</span></div>
-          <div class="tc-row"><span class="l">Trigger</span><span class="r">rejection від спадної 20-day</span></div>
-          <div class="tc-row"><span class="l">Stop / invalidation</span><span class="r" style="color:var(--purple)">закріплення над $270</span></div>
-          <div class="tc-row"><span class="l">Target 1</span><span class="r">$224</span></div>
-          <div class="tc-row"><span class="l">Target 2</span><span class="r">$200 – 205</span></div>
+          <div class="tc-row"><span class="l">Entry / trigger</span><span class="r" style="color:var(--pink)">$250–260, rejection off 20-day</span></div>
+          <div class="tc-row"><span class="l">Stop → targets</span><span class="r">&gt;$270 → $224 → $200</span></div>
         </div>
       </div>
-      <p class="note rv">Вище $270 ринок відкинув загрозу Meta — теза мертва, відходимо вбік.</p>
+      <p class="note rv">Не лови ніж: чекай oversold + trigger. Менший розмір — headline-ризик у обидва боки.</p>
     </section>
 
-    <!-- 9 · ПЛЕЙБУК -->
-    <section class="slide" data-label="PLAYBOOK">
-      <div class="eyebrow rv">Playbook</div>
-      <h1 class="rv">Терпіння — це <span class="hl">перевага</span></h1>
+    <!-- 6 · PLAYBOOK / CLOSER -->
+    <section class="slide" data-label="05 · PLAYBOOK">
+      <div class="eyebrow rv">05 · Playbook</div>
+      <h1 class="rv">$215 тримає — <span class="hl">тренд живий</span></h1>
+      <p class="sub rv">Чекай oversold + trigger (без ловлі ножів). <strong>$215 має втриматися</strong> — інакше uptrend закінчено. Headline-ризик у обидва боки → зменшуй розмір.</p>
       <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Rule 1</b>чекай oversold + trigger — не лови knife</span><span class="v p">WAIT</span></div>
-        <div class="stat"><span class="k"><b>Rule 2</b>$215 має втриматися — інакше uptrend закінчено</span><span class="v y">$215</span></div>
-        <div class="stat"><span class="k"><b>Rule 3</b>ризик заголовків у обидва боки — зменшуй позицію</span><span class="v k">SIZE</span></div>
+        <div class="stat"><span class="k"><b>Kill line</b>втрата $215 = uptrend done</span><span class="v k">$215</span></div>
+        <div class="stat"><span class="k"><b>Squeeze fuel</b>~24% shorts на будь-якому спростуванні</span><span class="v y">~24%</span></div>
       </div>
-      <p class="sub rv" style="margin-top:18px">Підписуйся — повний розбір у <strong>Trend Trade Letter</strong>: levels, графіки та swing plan щотижня.</p>
+      <p class="sub rv" style="margin-top:14px">Повний розбір щодня — рівні, графіки, плани — у нашій телеграм-групі: <a href="https://t.me/market_predictions" style="color:var(--yellow);text-decoration:none;font-weight:700">t.me/market_predictions</a></p>
       <p class="note rv">Освітній контент — не фінансова порада. Торгуй за власним планом.</p>
     </section>
 
   </div>
 
-  <!-- nav -->
   <div class="nav">
     <button id="btn-back" aria-label="Попередній слайд">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -366,7 +317,7 @@
   // NBIS signature: the top "tape" is a live sparkline of the price path
   // (run-up → ATH → crash → ?) that lights up as you advance the deck.
   const total = document.querySelectorAll('#deck .slide').length;
-  const yNorm = [0.88, 0.70, 0.42, 0.16, 0.10, 0.62, 0.70, 0.58, 0.64];
+  const yNorm = [0.85, 0.28, 0.20, 0.34, 0.42, 0.38];
   const W = 340, H = 34, PAD = 8;
   const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
 
