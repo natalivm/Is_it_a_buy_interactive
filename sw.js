@@ -18,6 +18,7 @@ const ASSETS = [
   BASE + 'stories/amat.html',
   BASE + 'stories/asts.html',
   BASE + 'stories/be.html',
+  BASE + 'stories/stx.html',
 ];
 
 self.addEventListener('install', event => {
