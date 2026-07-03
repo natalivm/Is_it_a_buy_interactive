@@ -20,7 +20,7 @@
 
 📊 Головне
 • Зараз ~$215.62 — на базі (червневі low), 4h глибоко oversold (Stoch ~8.6)
-• Long: тримає $215 + reversal → $240 → $260 (stop <$212)
+• Long: тримає $215 + reversal → $240 → $260 (stop нижче $212)
 • Short: fade $250–260 → $224 / $200
 • Kill line: втрата $215 → $200–205, uptrend під питанням
 • Паливо: ~24% shorts (squeeze); частина semi/tech flush (SMH)
