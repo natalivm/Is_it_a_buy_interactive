@@ -25,10 +25,10 @@ const STOCKS = [
   },
   {
     symbol: 'SEZL', exchange: 'NASDAQ',
-    price: '$175.18', change: '+2% today',
-    signal: 'Wait for the pullback — don’t chase',
+    price: '$183.24', change: 'T1 $180 hit · Jul 2',
+    signal: 'T1 $180 hit — don’t chase $183; buy the $178–180 pullback, manage if long',
     verdict: 'caution', accent: 'violet',
-    date: '2026-06-27',
+    date: '2026-07-03',
     story: 'stories/sezl.html',
   },
   {
