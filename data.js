@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'SMH', exchange: 'NASDAQ',
+    price: '$592.29', change: '−4.54% · Jul 2',
+    signal: 'Semis sector ETF — rolling over; a deeper leg drags AMAT/STX (direct), then NBIS & momentum names',
+    verdict: 'caution', accent: 'indigo',
+    date: '2026-07-03',
+    story: 'stories/smh.html',
+  },
+  {
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$820.16', change: '−10.38% · Jul 2',
     signal: '2-sided setup — wait for the $880 reaction: short the rejection or long the reclaim',

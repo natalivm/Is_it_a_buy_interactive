@@ -191,6 +191,7 @@ body.story-open { overflow: hidden; }
 .tile-emerald { --tile-a: #2FD9A0; --tile-b: #22D3EE; }
 .tile-red     { --tile-a: #FF4D6D; --tile-b: #FF8FA6; }
 .tile-cyan    { --tile-a: #22D3EE; --tile-b: #3B82F6; }
+.tile-indigo  { --tile-a: #818CF8; --tile-b: #38BDF8; }
 
 .tile-body {
     flex: 1;
