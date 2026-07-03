@@ -42,8 +42,8 @@ const STOCKS = [
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
     price: '$603.04', change: '−7.35% · Jul 2',
-    signal: 'Crashed to $603 (−17% in 2 days) — 4h oversold bounce setup; $620 weekly close is the pivot',
-    verdict: 'caution', accent: 'amber',
+    signal: 'Momentum flipped — SHORT the failed bounce into $620–650 (not the hole); targets $555/$510/$470',
+    verdict: 'avoid', accent: 'amber',
     date: '2026-07-03',
     story: 'stories/amat.html',
   },
