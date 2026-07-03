@@ -33,8 +33,8 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '~$86', change: '+30% off the $66 low',
-    signal: 'Bounce done — now a breakout bet; $107 is the wall',
+    price: '$85.13', change: '−1.13% · Jul 2',
+    signal: 'Base firming, daily turning up — still a breakout bet; $107 is the wall',
     verdict: 'caution', accent: 'emerald',
     date: '2026-07-03',
     story: 'stories/asts.html',
@@ -49,10 +49,10 @@ const STOCKS = [
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '~$229', change: '−17% · Jul 1',
-    signal: 'Wait for oversold + a reversal — don’t catch the knife',
+    price: '$215.62', change: '−5.92% · Jul 2',
+    signal: 'At the $215 base, 4h oversold — long the hold to $240; lose $215 → $200–205',
     verdict: 'caution', accent: 'blue',
-    date: '2026-07-01',
+    date: '2026-07-03',
     story: 'stories/nbis.html',
   },
   {
