@@ -18,7 +18,7 @@ const STOCKS = [
   {
     symbol: 'SMH', exchange: 'NASDAQ',
     price: '$592.29', change: '−4.54% · Jul 2',
-    signal: 'Sector barometer — semis rolling over; a deeper leg drags AMAT/STX (direct), then NBIS & momentum names',
+    signal: 'Semis sector ETF — rolling over; a deeper leg drags AMAT/STX (direct), then NBIS & momentum names',
     verdict: 'caution', accent: 'indigo',
     date: '2026-07-03',
     story: 'stories/smh.html',
