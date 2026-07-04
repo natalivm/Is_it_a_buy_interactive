@@ -145,6 +145,21 @@
   .rung.air .px{color:var(--muted);font-style:italic;font-size:12px;}
   .rung.air .lbl{color:var(--muted);font-style:italic;}
 
+  /* Levels slide: the yellow "you are here" tab drops from the top and bounces into place */
+  .rung.now{position:relative;z-index:2;}
+  @keyframes dropTab{
+    0%{transform:translateY(-190px);opacity:0;}
+    55%{transform:translateY(0);opacity:1;}
+    70%{transform:translateY(-15px);}
+    83%{transform:translateY(0);}
+    92%{transform:translateY(-5px);}
+    100%{transform:translateY(0);}
+  }
+  .slide.active .ladder .rung.now{
+    animation: dropTab 1s cubic-bezier(.32,.86,.44,1) .35s both, rowThrob 2.8s ease-in-out 1.5s infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .slide.active .ladder .rung.now{animation:none;} }
+
   /* Reversion R:R boxes */
   .rr-wall{display:flex;gap:8px;}
   .rr-box{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 10px;text-align:center;}
