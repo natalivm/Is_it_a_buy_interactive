@@ -18,7 +18,7 @@ const STOCKS = [
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
     price: '$1,715', change: '$1,731 lost · Jul 3',
-    signal: 'Thesis broken, bias down — wait for the fib flush at $1,394–1,420 to buy; fade bounces into $1,850–1,945',
+    signal: 'Sector memory rout, not SNDK — $1,731 lost, descent underway; fade bounces into $1,850–1,945, buy only the fib flush at $1,394–1,420',
     verdict: 'caution', accent: 'red',
     date: '2026-07-03',
     story: 'stories/sndk.html',
