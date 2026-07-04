@@ -104,6 +104,7 @@ body.story-open { overflow: hidden; }
     transition: background 0.15s ease, transform 0.15s ease;
 }
 .install-btn:hover { background: var(--purple); transform: translateY(-1px); }
+.install-btn[hidden] { display: none; }   /* class selector would otherwise override the hidden attribute */
 
 /* ── Layout ──────────────────────────────────────────────────────────────── */
 .main-content { padding: 40px 0 80px; }
@@ -255,9 +256,29 @@ body.story-open { overflow: hidden; }
     margin-top: auto;
     padding-top: 12px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
+}
+.tile-actions { display: inline-flex; align-items: center; gap: 10px; }
+.tile-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    border: 1px solid var(--hair);
+    background: transparent;
+    color: var(--mut);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.tile-link:hover, .tile-link:focus-visible {
+    color: var(--tile-a);
+    border-color: var(--tile-a);
+    background: rgba(255, 255, 255, 0.03);
+    outline: none;
 }
 .tile-date {
     font-family: var(--mono);
@@ -319,6 +340,52 @@ body.story-open { overflow: hidden; }
 }
 .story-close:hover { background: var(--panel2); transform: scale(1.05); }
 
+.story-link {
+    position: absolute;
+    top: 16px;
+    right: 66px;
+    z-index: 1010;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--hair);
+    background: rgba(21, 12, 40, 0.8);
+    color: var(--txt);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+.story-link:hover { background: var(--panel2); transform: scale(1.05); }
+.story-link[hidden] { display: none; }
+
+/* ── Copy toast ──────────────────────────────────────────────────────────── */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 12px);
+    z-index: 1100;
+    max-width: min(90vw, 480px);
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--panel2);
+    border: 1px solid var(--hair);
+    color: var(--txt);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
 @media (prefers-reduced-motion: reduce) {
-    .tile, .tile::before, .tile-cta span, .install-btn, .story-close, .story-overlay { transition: none; animation: none; }
+    .tile, .tile::before, .tile-cta span, .install-btn, .story-close, .story-link, .story-overlay, .toast { transition: none; animation: none; }
 }
