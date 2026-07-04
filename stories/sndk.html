@@ -145,12 +145,54 @@
   .rung.air .px{color:var(--muted);font-style:italic;font-size:12px;}
   .rung.air .lbl{color:var(--muted);font-style:italic;}
 
+  /* Levels slide: the yellow "you are here" tab drops from the top and bounces into place */
+  .rung.now{position:relative;z-index:2;}
+  @keyframes dropTab{
+    0%{transform:translateY(-190px);opacity:0;}
+    55%{transform:translateY(0);opacity:1;}
+    70%{transform:translateY(-15px);}
+    83%{transform:translateY(0);}
+    92%{transform:translateY(-5px);}
+    100%{transform:translateY(0);}
+  }
+  .slide.active .ladder .rung.now{
+    animation: dropTab 1s cubic-bezier(.32,.86,.44,1) .35s both, rowThrob 2.8s ease-in-out 1.5s infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .slide.active .ladder .rung.now{animation:none;} }
+
   /* Reversion R:R boxes */
   .rr-wall{display:flex;gap:8px;}
   .rr-box{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 10px;text-align:center;}
   .rr-box .rr-tp{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
   .rr-box .rr{font-family:var(--display);font-weight:700;font-size:26px;color:var(--purple);line-height:1;}
   .rr-box .rr-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px;}
+
+  /* R:R take-profit ladder (page 5) — green, targets stacked, highlight rises up */
+  .tpl{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2);box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .tpl .rg{position:relative;z-index:2;flex:1;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 15px;border-bottom:1px solid var(--line);}
+  .tpl .rg:last-child{border-bottom:0;}
+  .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
+  .tpl .rg .cap2{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--purple);}
+  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--purple);}
+  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .rg.stop .px{color:var(--pink);} .tpl .rg.stop .cap2{color:var(--pink);} .tpl .rg.stop .r{color:var(--pink);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(300%);
+    background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
+    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);
+    box-shadow:0 0 26px rgba(52,211,153,.4);}
+  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
+  @keyframes riseUp{
+    0%{transform:translateY(300%);opacity:0;}
+    12%{opacity:1;}
+    62%{transform:translateY(0);}
+    74%{transform:translateY(9%);}
+    86%{transform:translateY(0);}
+    94%{transform:translateY(3%);}
+    100%{transform:translateY(0);}
+  }
+  .preview .tpl .riser{transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(0);} }
 
   .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#F0D8DE;border-left:3px solid var(--yellow);padding-left:11px;}
   .note.p{border-left-color:var(--purple);}
@@ -314,14 +356,17 @@
     <!-- 5 · REVERSION R:R -->
     <section class="slide" data-label="SNDK · R:R">
       <div class="eyebrow p rv">REVERSION LONG · якщо спрацює</div>
-      <h1 class="rv">Entry <span class="p">$1,407</span> · stop $1,340</h1>
-      <p class="sub rv">Це <strong>план на потім</strong>, не зараз. Вхід у fib buy-зону $1,394–1,420 — тільки коли осцилятор тегає −0.50…−1.00 <strong>і гачить вгору</strong>. Цілі лесенкою: 1,544 → 1,731 → 1,850.</p>
-      <div class="rr-wall rv">
-        <div class="rr-box"><div class="rr-tp">TP1 · $1,544</div><div class="rr">2.0R</div><div class="rr-sub">+$137 / sh</div></div>
-        <div class="rr-box"><div class="rr-tp">TP2 · $1,731</div><div class="rr">4.8R</div><div class="rr-sub">+$324 / sh</div></div>
-        <div class="rr-box"><div class="rr-tp">TP3 · $1,850</div><div class="rr">6.6R</div><div class="rr-sub">+$443 / sh</div></div>
+      <h1 class="rv">План <span class="hl">на потім</span></h1>
+      <p class="sub rv">Вхід тільки коли ціна у fib <strong>$1,394–1,420</strong> і осцилятор <strong>гачить угору</strong>. Тоді цілі складаються вгору:</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg tp"><span class="l"><span class="cap2">TP3</span><span class="px">$1,850</span></span><span class="r">6.6R</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">TP2</span><span class="px">$1,731</span></span><span class="r">4.8R</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">TP1</span><span class="px">$1,544</span></span><span class="r">2.0R</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$1,407</span></span><span class="r">старт</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$1,340</span></span><span class="r">−$67</span></div>
       </div>
-      <p class="note p rv" style="margin-top:16px">Осцилятор може довго сидіти в oversold (це стан, не дно), а sector-rout може пройти крізь band-логіку. Тому вхід — на реверсний сигнал у зоні, а не лімітом.</p>
+      <p class="note p rv">Осцилятор може довго сидіти в oversold (це стан, не дно). Вхід — на реверсний сигнал у зоні, а не лімітом.</p>
       <p class="tg rv">Щоденні розбори — рівні, графіки, плани — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
