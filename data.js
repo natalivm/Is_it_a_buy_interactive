@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'SNDK', exchange: 'NASDAQ',
+    price: '$1,745', change: '−14.13% · Jul 2',
+    signal: 'Double bottom failed — thesis void, bias down; fade bounces into $1,850–1,945, reversion long only near $1,544',
+    verdict: 'caution', accent: 'red',
+    date: '2026-07-03',
+    story: 'stories/sndk.html',
+  },
+  {
     symbol: 'SMH', exchange: 'NASDAQ',
     price: '$592.29', change: '−4.54% · Jul 2',
     signal: 'Semis sector ETF — rolling over; a deeper leg drags AMAT/STX (direct), then NBIS & momentum names',

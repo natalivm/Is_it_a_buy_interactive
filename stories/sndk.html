@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$SNDK — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  /* ── SNDK palette (breakdown crimson/charcoal) + 9:16 deck chrome ── */
+  :root{
+    --page-bg:#120409;
+    --bg:#1A0810;
+    --panel:#2A0F19;
+    --panel2:#230B14;
+    --line:#4A1E2B;
+    --ink:#FFFFFF;
+    --muted:#CB98A4;
+    --purple:#34D399;   /* long / reversion / positive */
+    --pink:#FB5D74;     /* short / danger */
+    --yellow:#F5A524;   /* current / now / pivot */
+    --yellow-deep:#F5A524;
+    --deep:#12040A;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+
+  .stage{position:relative;width:min(100vw, calc(100dvh * 9 / 16));height:100dvh;max-height:calc(100vw * 16 / 9);
+    background:var(--bg);overflow:hidden;display:flex;flex-direction:column;container-type:inline-size;}
+  .stage::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;opacity:.20;}
+
+  .tape{position:relative;z-index:3;padding:calc(env(safe-area-inset-top, 0px) + 14px) 18px 8px;
+    display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(26,8,16,.95), rgba(26,8,16,.72));}
+  .tape-row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
+  .tape-row .tkr{color:var(--yellow);font-weight:600;text-shadow:0 0 10px color-mix(in srgb,var(--yellow) 45%,transparent);}
+  .spark{width:100%;height:34px;display:block;}
+  .spark path.line{fill:none;stroke:#5A2A38;stroke-width:1.5;}
+  .spark path.lit{fill:none;stroke:var(--pink);stroke-width:2;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--pink) 60%,transparent));}
+  .spark circle{fill:var(--yellow);stroke:var(--bg);stroke-width:2;transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--yellow) 70%,transparent));}
+
+  .deck{position:relative;flex:1;z-index:2;min-height:0;}
+  .slide{justify-content:center;overflow:hidden;}
+  .slide-inner{width:100%;padding:20px 22px 40px;transform-origin:center center;display:flex;flex-direction:column;}
+  .slide.cover .slide-inner{justify-content:flex-start;padding-top:24px;}
+
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
+  .eyebrow.g{color:var(--purple);}
+
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(32px, 10cqw, 52px);line-height:1.04;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;}
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);}
+  h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .sub{font-size:15px;line-height:1.55;color:#F0D8DE;margin-bottom:18px;max-width:38ch;}
+  .sub strong{color:var(--ink);font-weight:700;}
+
+  .cover{justify-content:flex-start;}
+  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(64px, 24cqw, 140px);line-height:.9;
+    letter-spacing:.02em;text-transform:uppercase;margin-bottom:18px;align-self:flex-start;}
+  .cover .ticker-chip{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.14em;
+    border:1.5px solid var(--pink);color:var(--pink);background:var(--panel);padding:8px 14px;border-radius:9px;margin-bottom:22px;}
+  .cover .ticker-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--pink);animation:blink 1.1s infinite;box-shadow:0 0 8px var(--pink);}
+  @keyframes blink{50%{opacity:.25}}
+  .swipe-hint{margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+
+  .stat-wall{display:flex;flex-direction:column;gap:10px;}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 1px 0 rgba(251,93,116,.08) inset;}
+  .stat .k{font-size:13px;color:var(--muted);line-height:1.35;}
+  .stat .k b{color:var(--ink);font-weight:600;display:block;font-size:14px;}
+  .stat .v{font-family:var(--mono);font-size:17px;font-weight:600;white-space:nowrap;}
+  .v.p{color:var(--purple)} .v.k{color:var(--pink)} .v.y{color:var(--yellow-deep)}
+
+  .mgrid{display:flex;flex-direction:column;gap:10px;}
+  .mcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:9px;}
+  .mhead{display:flex;justify-content:space-between;align-items:baseline;}
+  .mtf{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--ink);text-transform:uppercase;}
+  .mtag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;}
+  .mtag.k{color:var(--pink)} .mtag.p{color:var(--purple)} .mtag.y{color:var(--yellow-deep)}
+  .mgauge{position:relative;height:9px;border-radius:99px;background:linear-gradient(90deg,var(--purple) 0%,#8a8a44 40%,#b06a44 70%,var(--pink) 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+  .mgauge i{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 9px rgba(255,255,255,.85);}
+  .mrow2{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+  .mrow2 b{font-weight:700;} .mrow2 b.k{color:var(--pink)} .mrow2 b.p{color:var(--purple)} .mrow2 b.y{color:var(--yellow-deep)}
+
+  .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
+  .rung:last-child{border-bottom:0}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:118px;flex-shrink:0;}
+  .rung .lbl{font-size:12px;color:var(--muted);line-height:1.3;}
+  .rung.res .px{color:var(--pink)}
+  .rung.sup .px{color:var(--purple)}
+  .rung.piv{background:rgba(245,165,36,.12);}
+  .rung.piv .px{color:var(--yellow)}
+  .rung.piv .lbl{color:#F1DBB0;}
+  .rung.now{background:var(--yellow);}
+  .rung.now .px{color:var(--deep)}
+  .rung.now .lbl{color:var(--deep);font-weight:700;}
+
+  .trade-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .tc-head{padding:11px 15px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;}
+  .tc-head.short{background:rgba(251,93,116,.16);color:var(--pink);}
+  .tc-head.long{background:rgba(52,211,153,.16);color:var(--purple);}
+  .tc-head.wait{background:rgba(245,165,36,.14);color:var(--yellow);}
+  .tc-body{padding:5px 0;}
+  .tc-row{display:flex;justify-content:space-between;gap:10px;padding:8px 15px;border-top:1px solid var(--line);font-size:12.5px;}
+  .tc-row .l{color:var(--muted);}
+  .tc-row .r{font-family:var(--mono);font-weight:600;text-align:right;}
+
+  .rr-wall{display:flex;gap:8px;}
+  .rr-box{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 10px;text-align:center;}
+  .rr-box .rr-tp{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+  .rr-box .rr{font-family:var(--display);font-weight:700;font-size:26px;color:var(--purple);line-height:1;}
+  .rr-box .rr-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px;}
+
+  .note{margin-top:14px;font-size:12px;line-height:1.55;color:#F0D8DE;border-left:3px solid var(--yellow);padding-left:10px;}
+  .note.k{border-left-color:var(--pink);}
+  .note.p{border-left-color:var(--purple);}
+
+  .pill{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin:0 6px 8px 0;text-transform:uppercase;background:var(--panel);}
+  .pill.hot{border-color:var(--pink);color:var(--pink);background:rgba(251,93,116,.1);box-shadow:0 0 14px color-mix(in srgb,var(--pink) 26%,transparent);}
+
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);pointer-events:none;}
+  .nav button{pointer-events:auto;width:34px;height:34px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.42);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
+  .nav button:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.3);}
+  .nav button:active{transform:scale(.9);color:var(--yellow);}
+  .nav button:focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
+  .nav button svg{width:16px;height:16px;}
+  .nav button[disabled]{opacity:0;pointer-events:none;}
+  .nav .count{pointer-events:none;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);}
+  .nav .count b{color:rgba(255,255,255,.55);font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
+
+  <div class="tape">
+    <div class="tape-row">
+      <span class="tkr">$SNDK · NASDAQ</span>
+      <span id="tape-label">PLAN</span>
+    </div>
+    <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
+      <path class="line" id="spark-line" d=""></path>
+      <path class="lit" id="spark-lit" d=""></path>
+      <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
+    </svg>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · COVER -->
+    <section class="slide cover active" data-label="PLAN">
+      <div class="cover-ticker rv">SNDK</div>
+      <div class="ticker-chip rv"><span class="dot"></span> DOUBLE BOTTOM FAILED</div>
+      <h1 class="rv">Теза <span class="k">зламана</span> —<br><span class="hl">чекаємо</span></h1>
+      <p class="sub rv"><strong>SanDisk ($SNDK)</strong> пробив подвійне дно: зрізав вхід, інвалідацію $1,847 і стоп $1,820, закрився <strong>−14%</strong> на $1,745. Це той самий kill-switch, який картка позначала. Тепер <strong>bias вниз</strong> — чистого long тут немає.</p>
+      <div class="rv">
+        <span class="pill hot">Range-breakdown</span><span class="pill">Bias ↓</span><span class="pill">Wait for reversion</span>
+      </div>
+      <div class="cover-meta rv" style="margin-top:16px"><span class="cm-price">$1,745</span><span class="cm-sep">·</span><span class="cm-date">2 липня 2026</span></div>
+      <div class="swipe-hint rv">Натисни ▶ щоб почати</div>
+    </section>
+
+    <!-- 2 · SITUATION -->
+    <section class="slide" data-label="01 · SITUATION">
+      <div class="eyebrow rv">01 · Що зламалось</div>
+      <h1 class="rv">Крізь стоп на <span class="k">−14%</span></h1>
+      <p class="sub rv">Подвійне дно не втримало $1,850–1,880. Ціна пройшла крізь вхід, крізь інвалідацію $1,847 і крізь стоп $1,820, закрившись на <strong>$1,745</strong>. Хто взяв primary entry — мав бути вибитий на $1,820. План зробив свою роботу: лінія була визначена. Теза void, ресет.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Close 2 липня</b>range-breakdown case · AH $1,762</span><span class="v k">−14.13%</span></div>
+        <div class="stat"><span class="k"><b>2-денний рух</b>з ~$2,300 → $1,745 · ймовірно news-driven</span><span class="v k">≈ −24%</span></div>
+        <div class="stat"><span class="k"><b>Стоп спрацював</b>$1,820 — план визначив лінію</span><span class="v y">$1,820</span></div>
+      </div>
+      <p class="note k rv">Два дні ~−24% — майже напевно news-driven. Каталізатор змінює вагу відскоку: зламана теза на downgrade поводиться інакше, ніж на guidance cut чи sector-selloff. Варто підтвердити драйвер.</p>
+    </section>
+
+    <!-- 3 · MOMENTUM (3 timeframes) -->
+    <section class="slide" data-label="02 · MOMENTUM">
+      <div class="eyebrow rv">02 · Momentum · 4h / D / W</div>
+      <h1 class="rv">Розворот <span class="hl">характеру</span></h1>
+      <div class="mgrid rv">
+        <div class="mcard">
+          <div class="mhead"><span class="mtf">4h</span><span class="mtag y">support test, не reversal</span></div>
+          <div class="mgauge"><i style="left:38%"></i></div>
+          <div class="mrow2"><span>RSI <b class="y">38</b></span><span>Stoch <b class="y">~28 ↻</b></span><span>MACD hist <b class="k">−77</b></span><span>OBV <b class="k">194m</b></span></div>
+        </div>
+        <div class="mcard">
+          <div class="mhead"><span class="mtf">Daily</span><span class="mtag k">character change</span></div>
+          <div class="mgauge"><i style="left:47%"></i></div>
+          <div class="mrow2"><span>RSI <b class="k">47</b></span><span>MACD <b class="k">bear cross</b></span><span>&lt; basis <b class="k">~1,914</b></span><span>OBV <b class="k">528m ↓ off highs</b></span></div>
+        </div>
+        <div class="mcard">
+          <div class="mhead"><span class="mtf">Weekly</span><span class="mtag k">blow-off-top rejection</span></div>
+          <div class="mgauge"><i style="left:65%"></i></div>
+          <div class="mrow2"><span>RSI <b class="k">70+ → 65</b></span><span>велика ведмежа свічка від <b class="k">~2,340</b></span></div>
+        </div>
+      </div>
+      <p class="note k rv">Ключове: OBV. Минула картка спиралась на «OBV біля highs, великі не скидають» — це вже не так. Розподіл почався. Ралі трактуємо як винні, поки не доведено протилежне.</p>
+    </section>
+
+    <!-- 4 · OSCILLATOR -->
+    <section class="slide" data-label="03 · OSCILLATOR">
+      <div class="eyebrow rv">03 · Adaptive Mean · «ще не розтягнуто»</div>
+      <h1 class="rv"><span class="hl">Не</span> oversold. Ще ні.</h1>
+      <p class="sub rv">Осцилятор на <strong>−0.31</strong> — нижче нуля, але oversold-смуга внизу на <strong>−0.50…−1.00</strong>. Головне — форма: blue падає прямою лінією, <strong>без гачка</strong>. Reversion-long тут потребує двох речей: ціна біля смуги + осцилятор розвертається вгору. Зараз немає ні того, ні іншого.</p>
+      <div class="mgrid rv">
+        <div class="mcard">
+          <div class="mhead"><span class="mtf">Осцилятор</span><span class="mtag k">падає, без curl</span></div>
+          <div class="mrow2"><span>now <b class="k">−0.31</b></span><span>oversold band <b class="y">−0.50…−1.00</b></span></div>
+        </div>
+        <div class="mcard">
+          <div class="mhead"><span class="mtf">Ціна vs band</span><span class="mtag y">лише до mean</span></div>
+          <div class="mrow2"><span>відкат до mean/тренду <b class="y">~1,743</b></span><span>lower band — <b class="k">ще нижче</b></span></div>
+        </div>
+      </div>
+      <p class="note rv">−14% свічка лише повернула ціну до висхідного mean (~$1,743) — не до нижньої deviation band. На band-системі reversion-buy буває на overshoot нижньої смуги, а не на mean. Тригера тут немає — «let it come to you».</p>
+    </section>
+
+    <!-- 5 · LEVELS -->
+    <section class="slide" data-label="04 · LEVELS">
+      <div class="eyebrow rv">04 · Levels · structure flipped</div>
+      <h1 class="rv">Рівні <span class="hl">перевернулись</span></h1>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$2,045</span><span class="lbl">Resistance · верхній supply</span></div>
+        <div class="rung piv"><span class="px">$1,945</span><span class="lbl">ПІВОТ · daily basis · reclaim = shakeout, bias нейтралізується</span></div>
+        <div class="rung res"><span class="px">$1,850–1,880</span><span class="lbl">Стара підтримка → тепер supply · fade-short зона</span></div>
+        <div class="rung now"><span class="px">$1,745</span><span class="lbl">YOU ARE HERE · close 2 липня · AH відскок $1,762</span></div>
+        <div class="rung sup"><span class="px">$1,731</span><span class="lbl">4h 200-MA + висхідний тренд · тримає в AH</span></div>
+        <div class="rung sup"><span class="px">~$1,544</span><span class="lbl">Daily 50-MA · reversion zone · ~11% нижче</span></div>
+      </div>
+      <p class="note rv">Support: $1,731 (тримається в AH) → якщо втрачено, $1,544 (daily 50-MA, головний). Після параболи перший тач 50-day — класичний магніт. Resistance: $1,850–1,880 → $1,945 → $2,045.</p>
+    </section>
+
+    <!-- 6 · SETUP (posture inverted) -->
+    <section class="slide" data-label="05 · SETUP">
+      <div class="eyebrow rv">05 · Постура інвертувалась</div>
+      <h1 class="rv"><span class="k">Не</span> ловимо ніж</h1>
+      <p class="sub rv">Чистого long тут немає — не ловиш ніж, що зламав структуру на зростаючому розподілі. Чекаємо одне з двох: fade-short у resistance, або справжня база біля $1,544 перед тим, як думати про long.</p>
+      <div class="trade-card rv">
+        <div class="tc-head wait"><span>0 · ЗАРАЗ — WAIT</span><span>no trade</span></div>
+        <div class="tc-body">
+          <div class="tc-row"><span class="l">Чому</span><span class="r" style="color:var(--yellow)">осц −0.31, не oversold, без upturn</span></div>
+          <div class="tc-row"><span class="l">Відскок $1,743</span><span class="r" style="color:var(--yellow)">fade-кандидат, не buy</span></div>
+        </div>
+      </div>
+      <div class="trade-card rv" style="margin-top:11px">
+        <div class="tc-head short"><span>A · FADE SHORT (lower-high)</span><span>bias ↓</span></div>
+        <div class="tc-body">
+          <div class="tc-row"><span class="l">Trigger / stop</span><span class="r" style="color:var(--pink)">rejection у $1,850–1,945 / &gt; $1,945</span></div>
+          <div class="tc-row"><span class="l">Target</span><span class="r">назад до $1,544</span></div>
+        </div>
+      </div>
+      <div class="trade-card rv" style="margin-top:11px">
+        <div class="tc-head long"><span>B · REVERSION LONG (тільки на тригер)</span><span>ENTRY ~$1,544</span></div>
+        <div class="tc-body">
+          <div class="tc-row"><span class="l">Trigger / stop</span><span class="r" style="color:var(--purple)">overshoot lower band + осц гак ↑ / &lt; $1,485</span></div>
+          <div class="tc-row"><span class="l">Ризик</span><span class="r">$59 / sh</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · REVERSION R:R -->
+    <section class="slide" data-label="06 · REVERSION R:R">
+      <div class="eyebrow g rv">06 · Reversion long · якщо спрацює</div>
+      <h1 class="rv">Entry <span class="p">$1,544</span> · stop $1,485</h1>
+      <p class="sub rv">Це <strong>план на потім</strong>, не зараз. Спрацьовує тільки коли ціна на/нижче нижньої deviation band <strong>і</strong> осцилятор тегає −0.50…−1.00 <strong>та гачить вгору</strong> — найкраще біля $1,544 (daily 50-MA).</p>
+      <div class="rr-wall rv">
+        <div class="rr-box"><div class="rr-tp">TP1 · $1,731</div><div class="rr">3.2R</div><div class="rr-sub">+$187 / sh</div></div>
+        <div class="rr-box"><div class="rr-tp">TP2 · $1,850</div><div class="rr">5.2R</div><div class="rr-sub">+$306 / sh</div></div>
+        <div class="rr-box"><div class="rr-tp">TP3 · $1,945</div><div class="rr">6.8R</div><div class="rr-sub">+$401 / sh</div></div>
+      </div>
+      <p class="note p rv" style="margin-top:16px">Дві чесні засторóги: осцилятор може довго сидіти в oversold у жорсткому зламі тренду (oversold — це стан, не дно), і news-driven gap може пройти крізь band-логіку. Oversold сам по собі — не сигнал на купівлю.</p>
+    </section>
+
+    <!-- 8 · PLAYBOOK / CLOSER -->
+    <section class="slide" data-label="07 · KEY LINES">
+      <div class="eyebrow rv">07 · Key lines + що змінилось</div>
+      <h1 class="rv"><span class="hl">$1,731</span> та <span class="hl">$1,945</span></h1>
+      <p class="sub rv">Дві лінії вирішують усе. Втрать <strong>$1,731</strong> на об'ємі → шлях відкритий до $1,544 reversion zone. Reclaim <strong>$1,945</strong> → breakdown був shakeout, bias нейтралізується — стоп на shorts.</p>
+      <div class="stat-wall rv">
+        <div class="stat"><span class="k"><b>Double bottom failed</b>стоп $1,820 — теза void</span><span class="v k">✗</span></div>
+        <div class="stat"><span class="k"><b>OBV зійшов з highs</b>528m — розподіл почався</span><span class="v k">✗</span></div>
+        <div class="stat"><span class="k"><b>Weekly rejection</b>від ~$2,340 — blow-off shape</span><span class="v k">!</span></div>
+        <div class="stat"><span class="k"><b>Ще не oversold</b>осц −0.31 vs −0.50/−1.00, без curl</span><span class="v y">!</span></div>
+      </div>
+      <p class="sub rv" style="margin-top:14px">Повний розбір щодня — рівні, графіки, плани — у нашій телеграм-групі: <a href="https://t.me/market_predictions" style="color:var(--yellow);text-decoration:none;font-weight:700">t.me/market_predictions</a></p>
+      <p class="note rv">Освітній контент — не фінансова порада. Торгуй за власним планом.</p>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <button id="btn-back" aria-label="Попередній слайд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="count"><b id="cur">1</b> / <span id="tot">8</span></span>
+    <button id="btn-next" aria-label="Наступний слайд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script>
+  // Sparkline tape: SNDK broke the double bottom → knifed down to 1,745, testing the 200-MA
+  const total = document.querySelectorAll('#deck .slide').length;
+  const yNorm = [0.16, 0.30, 0.50, 0.60, 0.78, 0.84, 0.80, 0.82];
+  const W = 340, H = 34, PAD = 8;
+  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
+  function pathThrough(points) {
+    let d = `M ${points[0][0]} ${points[0][1]}`;
+    for (let i = 1; i < points.length; i++) {
+      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+      const mx = (x0 + x1) / 2;
+      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
+    }
+    return d;
+  }
+  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
+  const litPath = document.getElementById('spark-lit');
+  const dot = document.getElementById('spark-dot');
+  function updateTape(i) {
+    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
+    dot.setAttribute('cx', pts[i][0]);
+    dot.setAttribute('cy', pts[i][1]);
+  }
+
+  createStory({
+    stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
+    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
+    label: '#tape-label', onShow: i => updateTape(i),
+  });
+</script>
+</body>
+</html>
