@@ -80,6 +80,27 @@
   .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
   .brk{stroke-width:2;}
 
+  /* ── Chart entrance animations (replay each time a slide becomes active) ── */
+  .chart .draw{stroke-dasharray:1;stroke-dashoffset:1;}
+  .chart .fade{opacity:0;}
+  .chart .pop{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);}
+  .chart .fill{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);}
+  .slide.active .chart .draw{animation:cDraw 1.2s cubic-bezier(.4,0,.2,1) forwards;}
+  .slide.active .chart .fade{animation:cFade .5s ease forwards;}
+  .slide.active .chart .pop{animation:cPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
+  .slide.active .chart .fill{animation:cFill .9s cubic-bezier(.22,.9,.3,1) forwards;}
+  @keyframes cDraw{to{stroke-dashoffset:0;}}
+  @keyframes cFade{to{opacity:1;}}
+  @keyframes cPop{to{opacity:1;transform:scale(1);}}
+  @keyframes cFill{to{transform:scaleY(1);}}
+  .preview .chart .draw{stroke-dashoffset:0;} .preview .chart .fade{opacity:1;}
+  .preview .chart .pop{opacity:1;transform:scale(1);} .preview .chart .fill{transform:scaleY(1);}
+  @media (prefers-reduced-motion: reduce){
+    .chart .draw{stroke-dashoffset:0;} .chart .fade{opacity:1;}
+    .chart .pop{opacity:1;transform:scale(1);} .chart .fill{transform:scaleY(1);}
+    .slide.active .chart *{animation:none !important;}
+  }
+
   /* Big candle (weekly slide) */
   .candle-body{fill:var(--pink);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--pink) 45%,transparent));}
   .candle-wick{stroke:var(--pink);stroke-width:5;stroke-linecap:round;}
@@ -169,31 +190,31 @@
       <div class="chart rv">
         <svg viewBox="0 0 420 300" role="img" aria-label="Double top measured move">
           <!-- peaks / neckline / target dashed levels -->
-          <line class="dash s-k" x1="150" y1="51" x2="360" y2="51"/>
-          <line class="dash s-w" x1="72"  y1="99" x2="360" y2="99"/>
-          <line class="dash s-p" x1="150" y1="277" x2="360" y2="277"/>
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="150" y1="51" x2="360" y2="51"/>
+          <line class="dash s-w fade" style="animation-delay:.12s" x1="72"  y1="99" x2="360" y2="99"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="150" y1="277" x2="360" y2="277"/>
           <!-- axis labels -->
-          <text class="ax f-k" x="60" y="55" text-anchor="end">2,354</text>
-          <text class="ax f-m" x="60" y="103" text-anchor="end">2,150</text>
-          <text class="ax f-p" x="60" y="281" text-anchor="end">1,394</text>
-          <text class="capm" x="158" y="93">NECKLINE — 2,150</text>
-          <!-- price path -->
-          <path class="price" d="M72,150 L155,51 L200,99 L248,53 L352,277"/>
-          <!-- peaks dots + labels -->
-          <circle class="dot-k" cx="155" cy="51" r="6"/>
-          <circle class="dot-k" cx="248" cy="53" r="6"/>
-          <text class="cap f-k" x="150" y="38" text-anchor="middle">peak 1</text>
-          <text class="cap f-k" x="252" y="40" text-anchor="middle">peak 2</text>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="60" y="55" text-anchor="end">2,354</text>
+          <text class="ax f-m fade" style="animation-delay:.3s" x="60" y="103" text-anchor="end">2,150</text>
+          <text class="ax f-p fade" style="animation-delay:.35s" x="60" y="281" text-anchor="end">1,394</text>
+          <text class="capm fade" style="animation-delay:.3s" x="158" y="93">NECKLINE — 2,150</text>
+          <!-- price path (draws in) -->
+          <path class="price draw" pathLength="1" style="animation-delay:.4s" d="M72,150 L155,51 L200,99 L248,53 L352,277"/>
+          <!-- peaks dots + labels (pop as the line passes) -->
+          <circle class="dot-k pop" style="animation-delay:.95s" cx="155" cy="51" r="6"/>
+          <circle class="dot-k pop" style="animation-delay:1.3s" cx="248" cy="53" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1s" x="150" y="38" text-anchor="middle">peak 1</text>
+          <text class="cap f-k fade" style="animation-delay:1.35s" x="252" y="40" text-anchor="middle">peak 2</text>
           <!-- break -->
-          <text class="capm" x="238" y="172" text-anchor="end">break →</text>
+          <text class="capm fade" style="animation-delay:1.55s" x="238" y="172" text-anchor="end">break →</text>
           <!-- target -->
-          <text class="cap f-p" x="352" y="293" text-anchor="middle">target</text>
+          <text class="cap f-p fade" style="animation-delay:1.7s" x="352" y="293" text-anchor="middle">target</text>
           <!-- height bracket (peaks → neckline) -->
-          <path class="s-k brk" fill="none" d="M116,51 L110,51 L110,99 L116,99"/>
-          <text class="cap f-k" x="103" y="79" text-anchor="middle" transform="rotate(-90 103 79)">height 204</text>
+          <path class="s-k brk fade" style="animation-delay:.9s" fill="none" d="M116,51 L110,51 L110,99 L116,99"/>
+          <text class="cap f-k fade" style="animation-delay:.95s" x="103" y="79" text-anchor="middle" transform="rotate(-90 103 79)">height 204</text>
           <!-- move bracket (neckline → target) -->
-          <path class="s-p brk" fill="none" d="M366,99 L372,99 L372,277 L366,277"/>
-          <text class="cap f-p" x="387" y="188" text-anchor="middle" transform="rotate(-90 387 188)">move = 756</text>
+          <path class="s-p brk fade" style="animation-delay:1.8s" fill="none" d="M366,99 L372,99 L372,277 L366,277"/>
+          <text class="cap f-p fade" style="animation-delay:1.85s" x="387" y="188" text-anchor="middle" transform="rotate(-90 387 188)">move = 756</text>
         </svg>
       </div>
     </section>
@@ -205,29 +226,29 @@
       <div class="chart rv">
         <svg viewBox="0 0 420 330" role="img" aria-label="Weekly candle anatomy">
           <!-- level dashes to the candle -->
-          <line class="dash s-k" x1="60"  y1="40"  x2="120" y2="40"/>
-          <line class="dash s-m" x1="60"  y1="55"  x2="120" y2="55" stroke="#CB98A4"/>
-          <line class="dash s-y" x1="60"  y1="270" x2="120" y2="270"/>
-          <line class="dash s-p" x1="60"  y1="300" x2="120" y2="300"/>
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60"  y1="40"  x2="120" y2="40"/>
+          <line class="dash s-m fade" style="animation-delay:.1s" x1="60"  y1="55"  x2="120" y2="55" stroke="#CB98A4"/>
+          <line class="dash s-y fade" style="animation-delay:.15s" x1="60"  y1="270" x2="120" y2="270"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60"  y1="300" x2="120" y2="300"/>
           <!-- axis labels -->
-          <text class="ax f-k" x="54" y="44"  text-anchor="end">2,280 H</text>
-          <text class="ax f-m" x="54" y="59"  text-anchor="end">~2,250 O</text>
-          <text class="ax f-y" x="54" y="274" text-anchor="end">1,745 C</text>
-          <text class="ax f-p" x="54" y="304" text-anchor="end">1,693 L</text>
-          <!-- candle -->
-          <line class="candle-wick" x1="150" y1="40" x2="150" y2="300"/>
-          <rect class="candle-body" x="120" y="55" width="60" height="215" rx="7"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">2,280 H</text>
+          <text class="ax f-m fade" style="animation-delay:.3s" x="54" y="59"  text-anchor="end">~2,250 O</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="54" y="274" text-anchor="end">1,745 C</text>
+          <text class="ax f-p fade" style="animation-delay:.4s" x="54" y="304" text-anchor="end">1,693 L</text>
+          <!-- candle: wick draws top→bottom, body fills up -->
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="40" x2="150" y2="300"/>
+          <rect class="candle-body fill" style="animation-delay:.6s" x="120" y="55" width="60" height="215" rx="7"/>
           <!-- connectors + annotations -->
-          <line class="s-line" x1="150" y1="47" x2="210" y2="47" stroke-width="1"/>
-          <text class="anno f-m" x="216" y="43"><tspan class="h">Верхня тінь</tspan></text>
-          <text class="anno f-m" x="216" y="60">тест 2,280 — <tspan class="f-k" font-weight="700">REJECTED</tspan></text>
-          <line class="s-line" x1="180" y1="162" x2="210" y2="162" stroke-width="1"/>
-          <text class="anno f-m" x="216" y="150"><tspan class="h">Тіло</tspan> — велике й червоне</text>
-          <text class="anno f-k" x="216" y="167" font-weight="700">продавці контролюють</text>
-          <text class="anno f-m" x="216" y="184">весь тиждень</text>
-          <line class="s-line" x1="150" y1="286" x2="210" y2="286" stroke-width="1"/>
-          <text class="anno f-m" x="216" y="282"><tspan class="h">Нижня тінь</tspan></text>
-          <text class="anno f-p" x="216" y="299" font-weight="700">покупці відбили 1,693</text>
+          <line class="s-line fade" style="animation-delay:1s" x1="150" y1="47" x2="210" y2="47" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="43"><tspan class="h">Верхня тінь</tspan></text>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="60">тест 2,280 — <tspan class="f-k" font-weight="700">REJECTED</tspan></text>
+          <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="162" x2="210" y2="162" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="150"><tspan class="h">Тіло</tspan> — велике й червоне</text>
+          <text class="anno f-k fade" style="animation-delay:1.2s" x="216" y="167" font-weight="700">продавці контролюють</text>
+          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="184">весь тиждень</text>
+          <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="286" x2="210" y2="286" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="282"><tspan class="h">Нижня тінь</tspan></text>
+          <text class="anno f-p fade" style="animation-delay:1.35s" x="216" y="299" font-weight="700">покупці відбили 1,693</text>
         </svg>
       </div>
       <div class="verdict rv">
@@ -248,28 +269,28 @@
       <div class="chart rv">
         <svg viewBox="0 0 470 300" role="img" aria-label="Daily two legs down">
           <!-- levels -->
-          <line class="dash s-k" x1="90" y1="54"  x2="360" y2="54"/>
-          <line class="dash s-y" x1="90" y1="133" x2="360" y2="133"/>
-          <line class="dash s-p" x1="90" y1="225" x2="360" y2="225"/>
-          <text class="ax f-k" x="80" y="58"  text-anchor="end">1,952</text>
-          <text class="ax f-y" x="80" y="137" text-anchor="end">1,745</text>
-          <text class="ax f-p" x="80" y="229" text-anchor="end">1,505</text>
-          <text class="cap f-k" x="366" y="58">↑ resistance</text>
-          <text class="cap f-y" x="366" y="137">now</text>
-          <text class="cap f-p" x="366" y="222">↓ launchpad</text>
-          <text class="capm" x="366" y="236">lower band</text>
-          <!-- structure: leg 1 down, reflex bounce up, leg 2 down -->
-          <path class="legdn" d="M90,133 L175,225"/>
-          <path class="bounce" d="M175,225 L255,60"/>
-          <path class="legdn" d="M255,60 L350,286"/>
-          <circle class="dot-y" cx="90"  cy="133" r="6"/>
-          <circle class="dot-p" cx="255" cy="60"  r="6"/>
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="54"  x2="360" y2="54"/>
+          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="133" x2="360" y2="133"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="225" x2="360" y2="225"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="58"  text-anchor="end">1,952</text>
+          <text class="ax f-y fade" style="animation-delay:.3s" x="80" y="137" text-anchor="end">1,745</text>
+          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="229" text-anchor="end">1,505</text>
+          <text class="cap f-k fade" style="animation-delay:.3s" x="366" y="58">↑ resistance</text>
+          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="137">now</text>
+          <text class="cap f-p fade" style="animation-delay:.4s" x="366" y="222">↓ launchpad</text>
+          <text class="capm fade" style="animation-delay:.45s" x="366" y="236">lower band</text>
+          <!-- structure: leg 1 draws, reflex bounce fades, leg 2 draws -->
+          <circle class="dot-y pop" style="animation-delay:.4s" cx="90"  cy="133" r="6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.7s" d="M90,133 L175,225"/>
+          <path class="bounce fade" style="animation-delay:1.25s" d="M175,225 L255,60"/>
+          <circle class="dot-p pop" style="animation-delay:1.55s" cx="255" cy="60"  r="6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.7s;animation-duration:.8s" d="M255,60 L350,286"/>
           <!-- labels -->
-          <text class="cap f-k" x="118" y="192">leg 1</text>
-          <text class="cap f-p" x="205" y="150" text-anchor="middle">reflex bounce</text>
-          <text class="cap f-k" x="322" y="176">leg 2</text>
-          <text class="capm" x="255" y="48" text-anchor="middle">fails into supply</text>
-          <text class="cap f-p" x="340" y="278" text-anchor="end">→ 1,394</text>
+          <text class="cap f-k fade" style="animation-delay:1s" x="118" y="192">leg 1</text>
+          <text class="cap f-p fade" style="animation-delay:1.35s" x="205" y="150" text-anchor="middle">reflex bounce</text>
+          <text class="capm fade" style="animation-delay:1.55s" x="255" y="48" text-anchor="middle">fails into supply</text>
+          <text class="cap f-k fade" style="animation-delay:2s" x="322" y="176">leg 2</text>
+          <text class="cap f-p fade" style="animation-delay:2.3s" x="340" y="278" text-anchor="end">→ 1,394</text>
         </svg>
       </div>
     </section>
