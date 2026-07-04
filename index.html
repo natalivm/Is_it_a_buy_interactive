@@ -60,9 +60,30 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(() => console.log('Service Worker registered'))
+                // Was a SW already controlling this page when it loaded? If so, a
+                // later controllerchange means a NEW version just took over.
+                const hadController = !!navigator.serviceWorker.controller;
+
+                // updateViaCache:'none' → the browser never serves sw.js from its
+                // HTTP cache, so a freshly deployed worker is always detected.
+                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+                    .then(reg => {
+                        reg.update();
+                        // Re-check for a new worker when the tab regains focus.
+                        document.addEventListener('visibilitychange', () => {
+                            if (document.visibilityState === 'visible') reg.update();
+                        });
+                    })
                     .catch(err => console.log('Service Worker registration failed:', err));
+
+                // When a new worker activates and claims the page, reload once so
+                // the user immediately sees the freshly deployed version.
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing || !hadController) return;
+                    refreshing = true;
+                    window.location.reload();
+                });
             });
         }
     </script>
