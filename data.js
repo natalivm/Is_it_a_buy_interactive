@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'GLW', exchange: 'NYSE',
+    price: '$196.79', change: '−10.81% · Jul 2',
+    signal: 'Weekly blow-off rejection — huge upper wick, close near the low; bias down unless it reclaims $200, mean-reversion targets $180 → $167 → $150',
+    verdict: 'avoid', accent: 'red',
+    date: '2026-07-04',
+    story: 'stories/glw.html',
+  },
+  {
     symbol: 'SNDK', exchange: 'NASDAQ',
     price: '$1,715', change: '$1,731 lost · Jul 3',
     signal: 'Sector memory rout, not SNDK — $1,731 lost, descent underway; fade bounces into $1,850–1,945, buy only the fib flush at $1,394–1,420',
