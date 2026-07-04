@@ -1,4 +1,4 @@
-const CACHE_NAME = 'isitabuy-v1';
+const CACHE_NAME = 'isitabuy-v2';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
@@ -20,6 +20,7 @@ const ASSETS = [
   BASE + 'stories/be.html',
   BASE + 'stories/stx.html',
   BASE + 'stories/smh.html',
+  BASE + 'stories/sndk.html',
 ];
 
 self.addEventListener('install', event => {
