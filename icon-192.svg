@@ -1,4 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
-  <rect fill="#4f46e5" width="192" height="192" rx="32"/>
-  <text x="96" y="130" font-size="100" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif">ST</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2A1A4E"/>
+      <stop offset="1" stop-color="#0A0614"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#B57BFF"/>
+      <stop offset="1" stop-color="#FF5DA2"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g fill="url(#ink)">
+    <rect x="121" y="286" width="14" height="122" rx="7"/>
+    <rect x="241" y="216" width="14" height="150" rx="7"/>
+    <rect x="361" y="132" width="14" height="150" rx="7"/>
+    <rect x="96"  y="312" width="64" height="70" rx="16"/>
+    <rect x="216" y="244" width="64" height="90" rx="16"/>
+    <rect x="336" y="160" width="64" height="98" rx="16"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M112 300 L 236 236 L 400 132"/>
+    <path d="M341 136 L 400 132 L 373 185"/>
+  </g>
 </svg>
