@@ -39,7 +39,7 @@ function tileHtml(stock) {
     // non-interactive (pointer-events off, not focusable) — the whole tile is
     // the button. loading="lazy" keeps off-screen previews cheap.
     return `
-        <article class="tile tile-${accent}" data-story="${esc(stock.story)}"
+        <article class="tile tile-${accent}" data-story="${esc(stock.story)}" data-symbol="${esc(stock.symbol)}"
                  tabindex="0" role="button" aria-label="Open ${esc(stock.symbol)} story">
             <div class="tile-body">
                 <div class="tile-top">
@@ -56,7 +56,12 @@ function tileHtml(stock) {
                 ${signal}
                 <div class="tile-foot">
                     ${stock.date ? `<span class="tile-date">Posted ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
-                    <span class="tile-cta">View story <span aria-hidden="true">›</span></span>
+                    <span class="tile-actions">
+                        <button class="tile-link" type="button" aria-label="Copy link to ${esc(stock.symbol)} story" title="Copy link">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </button>
+                        <span class="tile-cta">View story <span aria-hidden="true">›</span></span>
+                    </span>
                 </div>
             </div>
         </article>
@@ -79,42 +84,129 @@ function renderGallery() {
     const ordered = [...STOCK_LIST].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
     container.innerHTML = ordered.map(tileHtml).join('');
     container.querySelectorAll('.tile').forEach(el => {
-        const story = el.dataset.story;
-        el.addEventListener('click', () => openStory(story));
+        const symbol = el.dataset.symbol;
+        el.addEventListener('click', () => openStory(symbol));
         el.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(story); }
+            if (e.target.closest('.tile-link')) return;   // let the copy button handle its own keys
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
         });
+        const linkBtn = el.querySelector('.tile-link');
+        if (linkBtn) {
+            linkBtn.addEventListener('click', e => {
+                e.stopPropagation();                       // don't open the story
+                copyDeckLink(slugify(symbol));
+            });
+        }
     });
 }
 
-// ── Story overlay ──────────────────────────────────────────────────────────
+// ── Story overlay (deep-linkable) ───────────────────────────────────────────
+// Each deck has a stable URL: index.html#<symbol> (e.g. #sndk). Opening a tile
+// writes that hash; loading a hashed URL opens the matching deck; back/forward
+// and the copy-link buttons all flow through the hash so links are shareable.
 let lastFocused = null;
+let currentSlug = null;
 
-function openStory(src) {
-    if (!src) return;
+function slugify(sym) { return String(sym == null ? '' : sym).trim().toLowerCase(); }
+function hashSlug() { return slugify(decodeURIComponent((location.hash || '').replace(/^#/, ''))); }
+function findStock(slug) { return STOCK_LIST.find(s => slugify(s.symbol) === slug); }
+function deckUrl(slug) { return location.origin + location.pathname + location.search + '#' + slug; }
+
+// ── Copy-to-clipboard + toast ────────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg) {
+    let t = document.getElementById('toast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'toast';
+        t.className = 'toast';
+        t.setAttribute('role', 'status');
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.remove('show');
+    void t.offsetWidth;               // restart the transition on repeat copies
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 1600);
+}
+
+async function copyDeckLink(slug) {
+    if (!slug || !findStock(slug)) return;
+    const url = deckUrl(slug);
+    let ok = false;
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(url);
+            ok = true;
+        }
+    } catch (e) { ok = false; }
+    if (!ok) {                        // fallback for non-secure contexts (e.g. file://)
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        ta.remove();
+    }
+    showToast(ok ? 'Link copied' : url);
+}
+
+// ── Open / close (DOM), reconciled against the URL hash ──────────────────────
+function openDeckDom(slug) {
+    const stock = findStock(slug);
     const overlay = document.getElementById('storyOverlay');
     const frame = document.getElementById('storyFrame');
-    if (!overlay || !frame) return;
+    const link = document.getElementById('storyLink');
+    if (!stock || !overlay || !frame) return;
 
-    lastFocused = document.activeElement;
-    frame.src = src;
+    if (currentSlug !== slug) lastFocused = document.activeElement;
+    frame.src = stock.story;
     overlay.hidden = false;
     document.body.classList.add('story-open');
-    // Move focus into the overlay for keyboard/escape handling.
+    currentSlug = slug;
+    if (link) link.hidden = false;
     const close = document.getElementById('storyClose');
     if (close) close.focus();
 }
 
-function closeStory() {
+function closeDeckDom() {
     const overlay = document.getElementById('storyOverlay');
     const frame = document.getElementById('storyFrame');
+    const link = document.getElementById('storyLink');
+    currentSlug = null;
+    if (link) link.hidden = true;
     if (!overlay || overlay.hidden) return;
-
     overlay.hidden = true;
     document.body.classList.remove('story-open');
-    // Clearing src stops the story and resets it for next time.
-    if (frame) frame.src = 'about:blank';
+    if (frame) frame.src = 'about:blank';   // stop + reset the story
     if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+}
+
+// Make the overlay match the URL hash.
+function reconcileStory() {
+    const slug = hashSlug();
+    if (slug && findStock(slug)) {
+        if (slug !== currentSlug) openDeckDom(slug);
+    } else if (currentSlug) {
+        closeDeckDom();
+    }
+}
+
+// Open by symbol (from a tile) — routes through the hash so the URL is shareable.
+function openStory(symbol) {
+    const slug = slugify(symbol);
+    if (!findStock(slug)) return;
+    if (hashSlug() === slug) reconcileStory();   // hash unchanged → open directly
+    else location.hash = slug;                    // hashchange → reconcile → open
+}
+
+function closeStory() {
+    if (location.hash) location.hash = '';        // hashchange → reconcile → close
+    else closeDeckDom();
 }
 
 // ── PWA install ────────────────────────────────────────────────────────────
@@ -152,7 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const overlay = document.getElementById('storyOverlay');
     const close = document.getElementById('storyClose');
+    const link = document.getElementById('storyLink');
     if (close) close.addEventListener('click', closeStory);
+    if (link) link.addEventListener('click', () => copyDeckLink(currentSlug));
     if (overlay) {
         // Click on the backdrop (not the iframe) closes.
         overlay.addEventListener('click', e => { if (e.target === overlay) closeStory(); });
@@ -160,4 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') closeStory();
     });
+
+    // Deep linking: keep the overlay in sync with the URL hash, and honor a
+    // hash present on first load (e.g. someone opened a shared deck link).
+    window.addEventListener('hashchange', reconcileStory);
+    reconcileStory();
 });
