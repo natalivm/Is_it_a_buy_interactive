@@ -152,12 +152,6 @@
 <body>
 <div class="phone" id="phone">
   <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
-  <div class="ticker"><span class="name">SEZL</span><span class="meta">NASDAQ<br><b>$183.24</b></span></div>
-  <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
-    <path class="line" id="spark-line" d=""></path>
-    <path class="lit" id="spark-lit" d=""></path>
-    <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
-  </svg>
 
   <div class="slides" id="slides">
 
@@ -246,27 +240,7 @@
   function syncW(){ phone.style.setProperty('--w', phone.clientWidth + 'px'); }
   window.addEventListener('resize', syncW);
   syncW();
-  // Sparkline tape: SEZL's ×2.5 run to the highs
-  const total = document.querySelectorAll('.slides .slide').length;
-  const yNorm = [0.90, 0.70, 0.50, 0.40, 0.32, 0.26];
-  const W = 340, H = 34, PAD = 8;
-  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
-  function pathThrough(points) {
-    let d = `M ${points[0][0]} ${points[0][1]}`;
-    for (let i = 1; i < points.length; i++) {
-      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
-      const mx = (x0 + x1) / 2;
-      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
-    }
-    return d;
-  }
-  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
-  const litPath = document.getElementById('spark-lit'), dot = document.getElementById('spark-dot');
-  function updateTape(i) {
-    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
-    dot.setAttribute('cx', pts[i][0]); dot.setAttribute('cy', pts[i][1]);
-  }
-  createStory({ stage:'.phone', deck:'.slides', hint:'#hint', tap:true, swipe:'.phone', onShow:i=>updateTape(i) });
+  createStory({ stage:'.phone', deck:'.slides', hint:'#hint', tap:true, swipe:'.phone' });
 </script>
 </body>
 </html>

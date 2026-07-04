@@ -174,17 +174,6 @@
 <div class="stage" id="stage">
   <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
-  <div class="tape">
-    <div class="tape-row">
-      <span class="tkr">$AMAT · NASDAQ</span>
-      <span id="tape-label">PLAN</span>
-    </div>
-    <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
-      <path class="line" id="spark-line" d=""></path>
-      <path class="lit" id="spark-lit" d=""></path>
-      <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
-    </svg>
-  </div>
 
   <div class="deck" id="deck">
 
@@ -301,33 +290,9 @@
 
 <script src="engine.js"></script>
 <script>
-  // Sparkline tape: AMAT's price path — grind up → parabolic top rail → −10% smack → pullback.
-  const total = document.querySelectorAll('#deck .slide').length;
-  const yNorm = [0.85, 0.55, 0.28, 0.18, 0.34, 0.40];
-  const W = 340, H = 34, PAD = 8;
-  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
-  function pathThrough(points) {
-    let d = `M ${points[0][0]} ${points[0][1]}`;
-    for (let i = 1; i < points.length; i++) {
-      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
-      const mx = (x0 + x1) / 2;
-      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
-    }
-    return d;
-  }
-  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
-  const litPath = document.getElementById('spark-lit');
-  const dot = document.getElementById('spark-dot');
-  function updateTape(i) {
-    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
-    dot.setAttribute('cx', pts[i][0]);
-    dot.setAttribute('cy', pts[i][1]);
-  }
-
   createStory({
     stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
     prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#tape-label', onShow: i => updateTape(i),
   });
 </script>
 </body>
