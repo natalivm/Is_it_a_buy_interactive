@@ -1,6 +1,6 @@
 {
-  "name": "Is It a BUY interactive",
-  "short_name": "Is It a BUY",
+  "name": "Trades",
+  "short_name": "Trades",
   "description": "Tap a stock to walk through its trade story — risk, reward, and the smart move.",
   "start_url": "./",
   "scope": "./",
