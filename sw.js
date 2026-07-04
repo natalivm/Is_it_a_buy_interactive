@@ -1,4 +1,4 @@
-const CACHE_NAME = 'isitabuy-v3';
+const CACHE_NAME = 'isitabuy-v4';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
@@ -56,26 +56,33 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (!event.request.url.startsWith(self.location.origin)) return;
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  if (!req.url.startsWith(self.location.origin)) return;
 
-  // Network-first: always fetch fresh from network, update cache, fall back to
-  // cache only when offline so deployed changes are visible immediately.
+  // Network-first with `cache: 'no-store'` so we bypass the browser's HTTP
+  // cache and always pull the freshly deployed bytes — the network-first
+  // policy is worthless if fetch() can still hand back an HTTP-cached copy.
+  // The Cache Storage copy is only a fallback for when the network is down.
   event.respondWith(
-    fetch(event.request).then(response => {
-      if (!response || response.status !== 200 || response.type !== 'basic') {
-        return response;
+    fetch(req, { cache: 'no-store' }).then(response => {
+      if (response && response.status === 200 && response.type === 'basic') {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
       }
-      const clone = response.clone();
-      caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
       return response;
-    }).catch(() =>
-      caches.match(event.request).then(cached =>
-        cached ||
-        new Response('You are offline. Please reconnect to use Is It a BUY interactive.', {
-          status: 503,
-          headers: { 'Content-Type': 'text/plain' },
-        })
-      )
-    )
+    }).catch(async () => {
+      const cached = await caches.match(req);
+      if (cached) return cached;
+      // For navigations, fall back to the cached shell so the app still opens.
+      if (req.mode === 'navigate') {
+        const shell = await caches.match(BASE) || await caches.match(BASE + 'index.html');
+        if (shell) return shell;
+      }
+      return new Response('You are offline. Please reconnect to use the app.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain' },
+      });
+    })
   );
 });
