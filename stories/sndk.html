@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="story.css">
 <style>
-  /* ── SNDK palette (breakdown crimson/charcoal) + 9:16 deck chrome ── */
+  /* ── SNDK palette (breakdown crimson/charcoal) ── */
   :root{
     --page-bg:#120409;
     --bg:#1A0810;
@@ -19,10 +19,9 @@
     --line:#4A1E2B;
     --ink:#FFFFFF;
     --muted:#CB98A4;
-    --purple:#34D399;   /* long / reversion / positive */
-    --pink:#FB5D74;     /* short / danger */
-    --yellow:#F5A524;   /* current / now / pivot */
-    --yellow-deep:#F5A524;
+    --purple:#34D399;   /* green · buy / target / launchpad */
+    --pink:#FB5D74;     /* red · sellers / resistance / bearish */
+    --yellow:#F5A524;   /* amber · current / close / now */
     --deep:#12040A;
     --display:'Oswald',sans-serif;
     --body:'Inter',sans-serif;
@@ -33,69 +32,85 @@
     background:var(--bg);overflow:hidden;display:flex;flex-direction:column;container-type:inline-size;}
   .stage::before{content:"";position:absolute;inset:0;pointer-events:none;
     background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:56px 56px;opacity:.20;}
-
-  .tape{position:relative;z-index:3;padding:calc(env(safe-area-inset-top, 0px) + 14px) 18px 8px;
-    display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(26,8,16,.95), rgba(26,8,16,.72));}
-  .tape-row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
-  .tape-row .tkr{color:var(--yellow);font-weight:600;text-shadow:0 0 10px color-mix(in srgb,var(--yellow) 45%,transparent);}
-  .spark{width:100%;height:34px;display:block;}
-  .spark path.line{fill:none;stroke:#5A2A38;stroke-width:1.5;}
-  .spark path.lit{fill:none;stroke:var(--pink);stroke-width:2;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--pink) 60%,transparent));}
-  .spark circle{fill:var(--yellow);stroke:var(--bg);stroke-width:2;transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--yellow) 70%,transparent));}
+    background-size:64px 64px;opacity:.14;}
 
   .deck{position:relative;flex:1;z-index:2;min-height:0;}
   .slide{justify-content:center;overflow:hidden;}
-  .slide-inner{width:100%;padding:20px 22px 40px;transform-origin:center center;display:flex;flex-direction:column;}
-  .slide.cover .slide-inner{justify-content:flex-start;padding-top:24px;}
+  .slide-inner{width:100%;padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 86px;transform-origin:center center;display:flex;flex-direction:column;}
 
-  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);
-    display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
-  .eyebrow.g{color:var(--purple);}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);
+    display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
+    padding:7px 12px;border-radius:8px;margin-bottom:18px;}
+  .eyebrow.p{color:var(--purple);} .eyebrow.y{color:var(--yellow);}
 
-  h1{font-family:var(--display);font-weight:700;font-size:clamp(32px, 10cqw, 52px);line-height:1.04;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;}
-  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);} h1 .y{color:var(--yellow);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-  .sub{font-size:15px;line-height:1.55;color:#F0D8DE;margin-bottom:18px;max-width:38ch;}
+  .sub{font-size:15.5px;line-height:1.55;color:#F0D8DE;margin-bottom:14px;max-width:40ch;}
   .sub strong{color:var(--ink);font-weight:700;}
+  .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
 
-  .cover{justify-content:flex-start;}
-  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(64px, 24cqw, 140px);line-height:.9;
-    letter-spacing:.02em;text-transform:uppercase;margin-bottom:18px;align-self:flex-start;}
-  .cover .ticker-chip{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.14em;
-    border:1.5px solid var(--pink);color:var(--pink);background:var(--panel);padding:8px 14px;border-radius:9px;margin-bottom:22px;}
-  .cover .ticker-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--pink);animation:blink 1.1s infinite;box-shadow:0 0 8px var(--pink);}
-  @keyframes blink{50%{opacity:.25}}
-  .swipe-hint{margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+  /* Indicator strip (daily slide) */
+  .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
+  .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
+  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--yellow);white-space:nowrap;}
+  .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
+  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;}
 
-  .stat-wall{display:flex;flex-direction:column;gap:10px;}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 1px 0 rgba(251,93,116,.08) inset;}
-  .stat .k{font-size:13px;color:var(--muted);line-height:1.35;}
-  .stat .k b{color:var(--ink);font-weight:600;display:block;font-size:14px;}
-  .stat .v{font-family:var(--mono);font-size:17px;font-weight:600;white-space:nowrap;}
-  .v.p{color:var(--purple)} .v.k{color:var(--pink)} .v.y{color:var(--yellow-deep)}
+  /* Chart wrapper */
+  .chart{width:100%;margin:6px 0 2px;}
+  .chart svg{width:100%;height:auto;display:block;overflow:visible;}
+  svg text{font-family:var(--mono);}
+  svg .ax{font-size:13px;font-weight:600;}
+  svg .cap{font-size:12px;font-weight:600;}
+  svg .capm{font-size:11px;fill:var(--muted);}
+  .f-k{fill:var(--pink);} .f-p{fill:var(--purple);} .f-y{fill:var(--yellow);} .f-w{fill:#fff;} .f-m{fill:var(--muted);}
+  .s-k{stroke:var(--pink);} .s-p{stroke:var(--purple);} .s-y{stroke:var(--yellow);} .s-w{stroke:#fff;} .s-line{stroke:var(--line);}
+  .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
+  .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;
+    filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
+  .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;
+    filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
+  .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;
+    filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
+  .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
+  .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
+  .brk{stroke-width:2;}
 
-  .mgrid{display:flex;flex-direction:column;gap:10px;}
-  .mcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:9px;}
-  .mhead{display:flex;justify-content:space-between;align-items:baseline;}
-  .mtf{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--ink);text-transform:uppercase;}
-  .mtag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;}
-  .mtag.k{color:var(--pink)} .mtag.p{color:var(--purple)} .mtag.y{color:var(--yellow-deep)}
-  .mgauge{position:relative;height:9px;border-radius:99px;background:linear-gradient(90deg,var(--purple) 0%,#8a8a44 40%,#b06a44 70%,var(--pink) 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
-  .mgauge i{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 9px rgba(255,255,255,.85);}
-  .mrow2{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--mono);font-size:11.5px;color:var(--muted);}
-  .mrow2 b{font-weight:700;} .mrow2 b.k{color:var(--pink)} .mrow2 b.p{color:var(--purple)} .mrow2 b.y{color:var(--yellow-deep)}
+  /* Big candle (weekly slide) */
+  .candle-body{fill:var(--pink);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--pink) 45%,transparent));}
+  .candle-wick{stroke:var(--pink);stroke-width:5;stroke-linecap:round;}
+  .anno{font-size:12.5px;}
+  .anno .h{fill:var(--ink);font-weight:700;}
 
+  /* Verdict / note card */
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 40%,var(--line));border-radius:14px;
+    background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
+  .verdict.p .vh{color:var(--purple);}
+  .verdict p{font-size:13px;line-height:1.55;color:#F0D8DE;}
+  .verdict p strong{color:var(--ink);font-weight:700;}
+  .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
+
+  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:#F0D8DE;}
+  .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
+  .disc{margin-top:14px;font-size:12px;line-height:1.55;color:var(--muted);border-left:3px solid var(--line);padding-left:11px;}
+
+  /* Cover wordmark */
+  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+
+  /* Level ladder (fib grid) */
   .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
-  .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
+  .rung{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
   .rung:last-child{border-bottom:0}
-  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:118px;flex-shrink:0;}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:120px;flex-shrink:0;}
   .rung .lbl{font-size:12px;color:var(--muted);line-height:1.3;}
   .rung.res .px{color:var(--pink)}
-  .rung.sup .px{color:var(--purple)}
+  .rung.sup .px{color:var(--muted)}
   .rung.piv{background:rgba(245,165,36,.12);}
   .rung.piv .px{color:var(--yellow)}
   .rung.piv .lbl{color:#F1DBB0;}
@@ -109,47 +124,33 @@
   .rung.air .px{color:var(--muted);font-style:italic;font-size:12px;}
   .rung.air .lbl{color:var(--muted);font-style:italic;}
 
-  .trade-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);box-shadow:0 6px 18px rgba(0,0,0,.4);}
-  .tc-head{padding:11px 15px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;}
-  .tc-head.short{background:rgba(251,93,116,.16);color:var(--pink);}
-  .tc-head.long{background:rgba(52,211,153,.16);color:var(--purple);}
-  .tc-head.wait{background:rgba(245,165,36,.14);color:var(--yellow);}
-  .tc-body{padding:5px 0;}
-  .tc-row{display:flex;justify-content:space-between;gap:10px;padding:8px 15px;border-top:1px solid var(--line);font-size:12.5px;}
-  .tc-row .l{color:var(--muted);}
-  .tc-row .r{font-family:var(--mono);font-weight:600;text-align:right;}
-
+  /* Reversion R:R boxes */
   .rr-wall{display:flex;gap:8px;}
   .rr-box{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 10px;text-align:center;}
   .rr-box .rr-tp{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
   .rr-box .rr{font-family:var(--display);font-weight:700;font-size:26px;color:var(--purple);line-height:1;}
   .rr-box .rr-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px;}
 
-  .counter{display:flex;gap:8px;}
-  .cbox{flex:1;border-radius:12px;padding:11px 12px;border:1px solid var(--line);background:var(--panel2);}
-  .cbox.bull{border-color:color-mix(in srgb,var(--purple) 45%,var(--line));}
-  .cbox.bear{border-color:color-mix(in srgb,var(--pink) 45%,var(--line));}
-  .cbox .ct{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
-  .cbox.bull .ct{color:var(--purple);} .cbox.bear .ct{color:var(--pink);}
-  .cbox .cv{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--ink);line-height:1.3;}
-  .cbox .cn{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.35;}
-
-  .note{margin-top:14px;font-size:12px;line-height:1.55;color:#F0D8DE;border-left:3px solid var(--yellow);padding-left:10px;}
-  .note.k{border-left-color:var(--pink);}
+  .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#F0D8DE;border-left:3px solid var(--yellow);padding-left:11px;}
   .note.p{border-left-color:var(--purple);}
 
-  .pill{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin:0 6px 8px 0;text-transform:uppercase;background:var(--panel);}
-  .pill.hot{border-color:var(--pink);color:var(--pink);background:rgba(251,93,116,.1);box-shadow:0 0 14px color-mix(in srgb,var(--pink) 26%,transparent);}
-
-  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);pointer-events:none;}
-  .nav button{pointer-events:auto;width:34px;height:34px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.42);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
-  .nav button:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.3);}
+  /* Footer nav — SNDK · TF (left) · counter + arrows (right) */
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;
+    background:linear-gradient(0deg, rgba(18,4,10,.85), transparent);}
+  .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
+  .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
+  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
+  .count b{color:rgba(255,255,255,.72);font-weight:600;}
+  .nav button{pointer-events:auto;width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.16);
+    color:rgba(255,255,255,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
+  .nav button:hover{color:#fff;border-color:rgba(255,255,255,.35);}
   .nav button:active{transform:scale(.9);color:var(--yellow);}
   .nav button:focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
   .nav button svg{width:16px;height:16px;}
-  .nav button[disabled]{opacity:0;pointer-events:none;}
-  .nav .count{pointer-events:none;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);}
-  .nav .count b{color:rgba(255,255,255,.55);font-weight:600;}
+  .nav button[disabled]{opacity:.22;pointer-events:none;}
+  .preview .nav{display:none;}
 </style>
 </head>
 <body>
@@ -157,107 +158,129 @@
 <div class="stage" id="stage">
   <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
-  <div class="tape">
-    <div class="tape-row">
-      <span class="tkr">$SNDK · NASDAQ</span>
-      <span id="tape-label">PLAN</span>
-    </div>
-    <svg class="spark" viewBox="0 0 340 34" preserveAspectRatio="none" aria-hidden="true">
-      <path class="line" id="spark-line" d=""></path>
-      <path class="lit" id="spark-lit" d=""></path>
-      <circle id="spark-dot" r="4" cx="0" cy="0"></circle>
-    </svg>
-  </div>
-
   <div class="deck" id="deck">
 
-    <!-- 1 · COVER -->
-    <section class="slide cover active" data-label="PLAN">
+    <!-- 1 · 4H STRUCTURE — double top / measured move -->
+    <section class="slide active" data-label="SNDK · 4H">
       <div class="cover-ticker rv">SNDK</div>
-      <div class="ticker-chip rv"><span class="dot"></span> BREAKDOWN · DESCENT UNDERWAY</div>
-      <h1 class="rv"><span class="hl">Друге дно</span> в подарунок</h1>
-      <p class="sub rv"><strong>SanDisk ($SNDK)</strong> пробив подвійне дно (стоп $1,820), а тепер здав і <strong>$1,731</strong>. Ціна $1,715, <strong>−26%</strong> за два дні від ~$2,320. Причина — <strong>sector memory rout</strong>, не проблема компанії. Bias вниз; long тільки на fib-flush у $1,394–1,420.</p>
-      <div class="rv">
-        <span class="pill hot">Memory rout</span><span class="pill">$1,731 lost</span><span class="pill">Buy the fib flush</span>
+      <div class="eyebrow rv">4H STRUCTURE</div>
+      <h1 class="rv">Дві вершини.<br><span class="k">Один measured move.</span></h1>
+      <p class="sub rv">Тижнева свічка — це праве плече <strong>подвійної вершини</strong>. Патерн дає математичну ціль вниз. Ось як він малюється:</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 300" role="img" aria-label="Double top measured move">
+          <!-- peaks / neckline / target dashed levels -->
+          <line class="dash s-k" x1="150" y1="51" x2="360" y2="51"/>
+          <line class="dash s-w" x1="72"  y1="99" x2="360" y2="99"/>
+          <line class="dash s-p" x1="150" y1="277" x2="360" y2="277"/>
+          <!-- axis labels -->
+          <text class="ax f-k" x="60" y="55" text-anchor="end">2,354</text>
+          <text class="ax f-m" x="60" y="103" text-anchor="end">2,150</text>
+          <text class="ax f-p" x="60" y="281" text-anchor="end">1,394</text>
+          <text class="capm" x="158" y="93">NECKLINE — 2,150</text>
+          <!-- price path -->
+          <path class="price" d="M72,150 L155,51 L200,99 L248,53 L352,277"/>
+          <!-- peaks dots + labels -->
+          <circle class="dot-k" cx="155" cy="51" r="6"/>
+          <circle class="dot-k" cx="248" cy="53" r="6"/>
+          <text class="cap f-k" x="150" y="38" text-anchor="middle">peak 1</text>
+          <text class="cap f-k" x="252" y="40" text-anchor="middle">peak 2</text>
+          <!-- break -->
+          <text class="capm" x="238" y="172" text-anchor="end">break →</text>
+          <!-- target -->
+          <text class="cap f-p" x="352" y="293" text-anchor="middle">target</text>
+          <!-- height bracket (peaks → neckline) -->
+          <path class="s-k brk" fill="none" d="M116,51 L110,51 L110,99 L116,99"/>
+          <text class="cap f-k" x="103" y="79" text-anchor="middle" transform="rotate(-90 103 79)">height 204</text>
+          <!-- move bracket (neckline → target) -->
+          <path class="s-p brk" fill="none" d="M366,99 L372,99 L372,277 L366,277"/>
+          <text class="cap f-p" x="387" y="188" text-anchor="middle" transform="rotate(-90 387 188)">move = 756</text>
+        </svg>
       </div>
-      <div class="cover-meta rv" style="margin-top:16px"><span class="cm-price">$1,715</span><span class="cm-sep">·</span><span class="cm-date">3 липня 2026</span></div>
-      <div class="swipe-hint rv">Натисни ▶ щоб почати</div>
     </section>
 
-    <!-- 2 · CATALYST -->
-    <section class="slide" data-label="01 · CATALYST">
-      <div class="eyebrow rv">01 · Каталізатор</div>
-      <h1 class="rv">Sector rout, <span class="hl">не SNDK</span></h1>
-      <p class="sub rv">Це не новина по компанії — це <strong>memory-rout по всьому сектору</strong>. Тригер: Morningstar (Lorraine Tan, Bloomberg TV) — AI-імена можуть віддати <strong>20–30%</strong>, найрозігнаніші memory-назви найвразливіші. Під низом — страх надлишку пам'яті: нові потужності Samsung + SK Hynix здешевлять чипи, коли пропозиція наздожене попит; AI-capex пік у 2026. Profit-taking + research catalyst, не зламаний бізнес.</p>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>SK Hynix</b>епіцентр розпродажу</span><span class="v k">−14%</span></div>
-        <div class="stat"><span class="k"><b>Samsung Electronics</b>Micron · Seagate · WDC — усі вниз</span><span class="v k">−9%</span></div>
+    <!-- 2 · WEEKLY CANDLE — anatomy -->
+    <section class="slide" data-label="SNDK · 1W">
+      <div class="eyebrow rv">WEEKLY CANDLE</div>
+      <h1 class="rv">Одна свічка.<br><span class="hl">Уся історія.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 330" role="img" aria-label="Weekly candle anatomy">
+          <!-- level dashes to the candle -->
+          <line class="dash s-k" x1="60"  y1="40"  x2="120" y2="40"/>
+          <line class="dash s-m" x1="60"  y1="55"  x2="120" y2="55" stroke="#CB98A4"/>
+          <line class="dash s-y" x1="60"  y1="270" x2="120" y2="270"/>
+          <line class="dash s-p" x1="60"  y1="300" x2="120" y2="300"/>
+          <!-- axis labels -->
+          <text class="ax f-k" x="54" y="44"  text-anchor="end">2,280 H</text>
+          <text class="ax f-m" x="54" y="59"  text-anchor="end">~2,250 O</text>
+          <text class="ax f-y" x="54" y="274" text-anchor="end">1,745 C</text>
+          <text class="ax f-p" x="54" y="304" text-anchor="end">1,693 L</text>
+          <!-- candle -->
+          <line class="candle-wick" x1="150" y1="40" x2="150" y2="300"/>
+          <rect class="candle-body" x="120" y="55" width="60" height="215" rx="7"/>
+          <!-- connectors + annotations -->
+          <line class="s-line" x1="150" y1="47" x2="210" y2="47" stroke-width="1"/>
+          <text class="anno f-m" x="216" y="43"><tspan class="h">Верхня тінь</tspan></text>
+          <text class="anno f-m" x="216" y="60">тест 2,280 — <tspan class="f-k" font-weight="700">REJECTED</tspan></text>
+          <line class="s-line" x1="180" y1="162" x2="210" y2="162" stroke-width="1"/>
+          <text class="anno f-m" x="216" y="150"><tspan class="h">Тіло</tspan> — велике й червоне</text>
+          <text class="anno f-k" x="216" y="167" font-weight="700">продавці контролюють</text>
+          <text class="anno f-m" x="216" y="184">весь тиждень</text>
+          <line class="s-line" x1="150" y1="286" x2="210" y2="286" stroke-width="1"/>
+          <text class="anno f-m" x="216" y="282"><tspan class="h">Нижня тінь</tspan></text>
+          <text class="anno f-p" x="216" y="299" font-weight="700">покупці відбили 1,693</text>
+        </svg>
       </div>
-      <div class="counter rv" style="margin-top:10px">
-        <div class="cbox bull"><div class="ct">Бики · story intact</div><div class="cv">BofA &amp; Citi ціль $2,500</div><div class="cn">NAND shortage до 2027 · BofA $2,100→$2,500</div></div>
-        <div class="cbox bear"><div class="ct">Ведмеді · risk intact</div><div class="cv">MS $1,750 ≈ де ціна</div><div class="cn">прогноз корекції $1,500 · обрамляє $1,544</div></div>
+      <div class="verdict rv">
+        <div class="vh">✗ Хто виграв тиждень</div>
+        <p>Мала нижня тінь <strong>не стирає</strong> розпродаж — покупці зʼявились біля 1,693, але тренд <strong>не розвернувся</strong>. Невдалий тест 2,280, закриття 1,745: <span class="k">продавці виграли</span>.</p>
       </div>
-      <p class="note rv">Історія (NAND shortage) ціла за биками; ризик (надлишок пам'яті + перегріта оцінка) цілий за ведмедями. Саме тому глибокий flush у fib support — buy-зона, а не падаючий ніж. Але тільки з oversold-сигналом.</p>
     </section>
 
-    <!-- 3 · SITUATION -->
-    <section class="slide" data-label="02 · SITUATION">
-      <div class="eyebrow rv">02 · Що зламалось</div>
-      <h1 class="rv">Крізь стоп, тепер крізь <span class="k">$1,731</span></h1>
-      <p class="sub rv">Подвійне дно не втримало $1,850–1,880 — ціна пройшла крізь вхід, інвалідацію $1,847 і стоп $1,820. Тепер зданий і <strong>$1,731</strong> (4h 200-MA). Хто взяв primary entry — мав бути вибитий на $1,820. План зробив роботу: лінія була визначена. Теза void, спуск триває.</p>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Ціна · descent</b>$1,731 support зданий</span><span class="v k">$1,715</span></div>
-        <div class="stat"><span class="k"><b>2-денний рух</b>від ~$2,320 · sector memory rout</span><span class="v k">≈ −26%</span></div>
-        <div class="stat"><span class="k"><b>Стоп спрацював</b>$1,820 — план визначив лінію</span><span class="v y">$1,820</span></div>
+    <!-- 3 · DAILY — fresh break, two legs down -->
+    <section class="slide" data-label="SNDK · 1D">
+      <div class="eyebrow y rv">DAILY · 1D</div>
+      <h1 class="rv">Свіжий злам.<br><span class="y">Дві ноги вниз.</span></h1>
+      <p class="sub rv">Daily показує те, чого не видно на weekly — <strong>звідки стартує перший відскок</strong> перед глибшим flush. Три підказки складають карту:</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Індикатори не згодні</span><span class="v">RSI 47 · Stoch 64 · MACD −38</span></div>
+        <p>Справжні washout-и <strong>синхронні</strong> — усі oversold, усі гачать угору. Мішані сигнали = <span class="k">flush ще не завершено</span>.</p>
       </div>
-      <p class="note k rv">Ціни реальні: SNDK пройшов ~$37 → $2,000+ у 2026 (≈ +4,000%). Тож $1,715 — легітимний принт, а падіння — sector-driven, не проблема бізнесу. Це робить глибокий flush потенційно buyable, а не автоматичним шортом.</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 300" role="img" aria-label="Daily two legs down">
+          <!-- levels -->
+          <line class="dash s-k" x1="90" y1="54"  x2="360" y2="54"/>
+          <line class="dash s-y" x1="90" y1="133" x2="360" y2="133"/>
+          <line class="dash s-p" x1="90" y1="225" x2="360" y2="225"/>
+          <text class="ax f-k" x="80" y="58"  text-anchor="end">1,952</text>
+          <text class="ax f-y" x="80" y="137" text-anchor="end">1,745</text>
+          <text class="ax f-p" x="80" y="229" text-anchor="end">1,505</text>
+          <text class="cap f-k" x="366" y="58">↑ resistance</text>
+          <text class="cap f-y" x="366" y="137">now</text>
+          <text class="cap f-p" x="366" y="222">↓ launchpad</text>
+          <text class="capm" x="366" y="236">lower band</text>
+          <!-- structure: leg 1 down, reflex bounce up, leg 2 down -->
+          <path class="legdn" d="M90,133 L175,225"/>
+          <path class="bounce" d="M175,225 L255,60"/>
+          <path class="legdn" d="M255,60 L350,286"/>
+          <circle class="dot-y" cx="90"  cy="133" r="6"/>
+          <circle class="dot-p" cx="255" cy="60"  r="6"/>
+          <!-- labels -->
+          <text class="cap f-k" x="118" y="192">leg 1</text>
+          <text class="cap f-p" x="205" y="150" text-anchor="middle">reflex bounce</text>
+          <text class="cap f-k" x="322" y="176">leg 2</text>
+          <text class="capm" x="255" y="48" text-anchor="middle">fails into supply</text>
+          <text class="cap f-p" x="340" y="278" text-anchor="end">→ 1,394</text>
+        </svg>
+      </div>
+      <div class="verdict p rv">
+        <div class="vh">◆ Daily verdict</div>
+        <p>Свіжий злам, індикатори не синхронні, launchpad формується на <strong>1,505–1,545</strong>. Чекай там відскок — <span class="p">reflex, не розворот</span> — далі leg 2 до попиту.</p>
+      </div>
     </section>
 
-    <!-- 4 · MOMENTUM (3 timeframes) -->
-    <section class="slide" data-label="03 · MOMENTUM">
-      <div class="eyebrow rv">03 · Momentum · 4h / D / W</div>
-      <h1 class="rv">Розворот <span class="hl">характеру</span></h1>
-      <div class="mgrid rv">
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">4h</span><span class="mtag k">$1,731 lost · descent</span></div>
-          <div class="mgauge"><i style="left:38%"></i></div>
-          <div class="mrow2"><span>RSI <b class="y">~38</b></span><span>Stoch <b class="y">~28</b></span><span>MACD hist <b class="k">−77</b></span><span>OBV <b class="k">off highs</b></span></div>
-        </div>
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">Daily</span><span class="mtag k">character change</span></div>
-          <div class="mgauge"><i style="left:47%"></i></div>
-          <div class="mrow2"><span>RSI <b class="k">47</b></span><span>MACD <b class="k">bear cross</b></span><span>&lt; basis <b class="k">~1,914</b></span><span>OBV <b class="k">528m ↓</b></span></div>
-        </div>
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">Weekly</span><span class="mtag k">blow-off-top rejection</span></div>
-          <div class="mgauge"><i style="left:65%"></i></div>
-          <div class="mrow2"><span>RSI <b class="k">70+ → 65</b></span><span>велика ведмежа свічка від <b class="k">~2,340</b></span></div>
-        </div>
-      </div>
-      <p class="note k rv">Ключове: OBV. Минула картка спиралась на «OBV біля highs, великі не скидають» — це вже не так. Розподіл почався. Ралі трактуємо як винні, поки не доведено протилежне.</p>
-    </section>
-
-    <!-- 5 · OSCILLATOR -->
-    <section class="slide" data-label="04 · OSCILLATOR">
-      <div class="eyebrow rv">04 · Adaptive Mean · «ще не розтягнуто»</div>
-      <h1 class="rv"><span class="hl">Не</span> oversold. Ще ні.</h1>
-      <p class="sub rv">Осцилятор на <strong>−0.31</strong> — нижче нуля, але oversold-смуга внизу на <strong>−0.50…−1.00</strong>. Головне — форма: blue падає прямою лінією, <strong>без гачка</strong>. Reversion-long тут потребує двох речей: ціна на нижній deviation band + осцилятор розвертається вгору. Зараз немає ні того, ні іншого.</p>
-      <div class="mgrid rv">
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">Осцилятор</span><span class="mtag k">падає, без curl</span></div>
-          <div class="mrow2"><span>now <b class="k">−0.31</b></span><span>oversold band <b class="y">−0.50…−1.00</b></span></div>
-        </div>
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">Ціна vs band</span><span class="mtag y">до нижньої band = fib</span></div>
-          <div class="mrow2"><span>lower deviation band ≈ <b class="p">1,394–1,420</b></span><span>1.618 fib — <b class="p">той самий рівень</b></span></div>
-        </div>
-      </div>
-      <p class="note rv">На band-системі reversion-buy буває на overshoot нижньої смуги, а не на mean. Нижня band збігається з 1.618 fib ($1,394–1,420) — дві системи вказують на одну «ось де реально купувати» зону. Тригера тут ще немає — «let it come to you».</p>
-    </section>
-
-    <!-- 6 · LEVELS -->
-    <section class="slide" data-label="05 · LEVELS">
-      <div class="eyebrow rv">05 · Levels · fib grid + structure</div>
+    <!-- 4 · LEVELS (fib grid) -->
+    <section class="slide" data-label="SNDK · РІВНІ">
+      <div class="eyebrow rv">РІВНІ · fib grid + structure</div>
       <h1 class="rv">Рівні <span class="hl">перевернулись</span></h1>
       <div class="ladder rv">
         <div class="rung res"><span class="px">$2,045</span><span class="lbl">Resistance · верхній supply</span></div>
@@ -268,107 +291,47 @@
         <div class="rung air"><span class="px">air pocket</span><span class="lbl">нижче ~$1,600 тонкий об'єм — ціна проходить швидко</span></div>
         <div class="rung buy"><span class="px">$1,394–1,420</span><span class="lbl">BUY ZONE · 1.618 fib · reversion-long</span></div>
       </div>
-      <p class="note rv">$1,544 (50-MA) — тепер проміжна полиця, не ціль. Між нею і fib — air pocket: тонкий об'єм пропускає ціну швидко до $1,394–1,420. Стеля — $1,937–1,945 (2.618 fib + daily basis). Дві системи (fib + MA) сходяться на стелі й на цілі — це кістяк плану.</p>
+      <p class="note rv">Між $1,544 і fib — air pocket: тонкий об'єм пропускає ціну швидко до $1,394–1,420. Стеля — $1,937–1,945. Дві системи (fib + MA) сходяться на цілі — це кістяк плану.</p>
     </section>
 
-    <!-- 7 · SETUP (posture inverted) -->
-    <section class="slide" data-label="06 · SETUP">
-      <div class="eyebrow rv">06 · Постура інвертувалась</div>
-      <h1 class="rv"><span class="k">Не</span> ловимо ніж</h1>
-      <p class="sub rv">Чистого long тут немає — не ловиш ніж, що зламав структуру на зростаючому розподілі. Чекаємо одне з двох: fade-short у resistance, або fib-flush у $1,394–1,420 з oversold-сигналом перед long.</p>
-      <div class="trade-card rv">
-        <div class="tc-head wait"><span>0 · ЗАРАЗ — WAIT</span><span>no trade</span></div>
-        <div class="tc-body">
-          <div class="tc-row"><span class="l">Чому</span><span class="r" style="color:var(--yellow)">осц −0.31, не oversold, без upturn</span></div>
-          <div class="tc-row"><span class="l">Будь-який відскок</span><span class="r" style="color:var(--yellow)">fade-кандидат, не buy</span></div>
-        </div>
-      </div>
-      <div class="trade-card rv" style="margin-top:11px">
-        <div class="tc-head short"><span>A · FADE SHORT (lower-high)</span><span>bias ↓</span></div>
-        <div class="tc-body">
-          <div class="tc-row"><span class="l">Trigger / stop</span><span class="r" style="color:var(--pink)">rejection у $1,850–1,945 / &gt; $1,945</span></div>
-          <div class="tc-row"><span class="l">Target</span><span class="r">назад до fib $1,394–1,420</span></div>
-        </div>
-      </div>
-      <div class="trade-card rv" style="margin-top:11px">
-        <div class="tc-head long"><span>B · REVERSION LONG (тільки на тригер)</span><span>ENTRY ~$1,407</span></div>
-        <div class="tc-body">
-          <div class="tc-row"><span class="l">Trigger / stop</span><span class="r" style="color:var(--purple)">fib-flush + осц −0.50/−1.00 та гак ↑ / &lt; $1,340</span></div>
-          <div class="tc-row"><span class="l">Ризик</span><span class="r">$67 / sh · зона, не ліміт</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8 · REVERSION R:R -->
-    <section class="slide" data-label="07 · REVERSION R:R">
-      <div class="eyebrow g rv">07 · Reversion long · якщо спрацює</div>
+    <!-- 5 · REVERSION R:R -->
+    <section class="slide" data-label="SNDK · R:R">
+      <div class="eyebrow p rv">REVERSION LONG · якщо спрацює</div>
       <h1 class="rv">Entry <span class="p">$1,407</span> · stop $1,340</h1>
-      <p class="sub rv">Це <strong>план на потім</strong>, не зараз. Вхід у fib buy-зону $1,394–1,420 (1.618) — тільки коли осцилятор нарешті тегає −0.50…−1.00 <strong>і гачить вгору</strong>. Цілі лесенкою назад через 1,544 → 1,731 → 1,850.</p>
+      <p class="sub rv">Це <strong>план на потім</strong>, не зараз. Вхід у fib buy-зону $1,394–1,420 — тільки коли осцилятор тегає −0.50…−1.00 <strong>і гачить вгору</strong>. Цілі лесенкою: 1,544 → 1,731 → 1,850.</p>
       <div class="rr-wall rv">
         <div class="rr-box"><div class="rr-tp">TP1 · $1,544</div><div class="rr">2.0R</div><div class="rr-sub">+$137 / sh</div></div>
         <div class="rr-box"><div class="rr-tp">TP2 · $1,731</div><div class="rr">4.8R</div><div class="rr-sub">+$324 / sh</div></div>
         <div class="rr-box"><div class="rr-tp">TP3 · $1,850</div><div class="rr">6.6R</div><div class="rr-sub">+$443 / sh</div></div>
       </div>
-      <p class="note p rv" style="margin-top:16px">Дві чесні засторóги: осцилятор може довго сидіти в oversold у жорсткому зламі тренду (oversold — це стан, не дно), і sector-rout може пройти крізь band-логіку. Тому вхід — на реверсний сигнал у зоні, а не лімітом.</p>
-    </section>
-
-    <!-- 9 · KEY LINES + CONTEXT -->
-    <section class="slide" data-label="08 · KEY LINES">
-      <div class="eyebrow rv">08 · Key lines + обидві сторони</div>
-      <h1 class="rv"><span class="hl">$1,544</span> полиця · <span class="hl">$1,945</span> reclaim</h1>
-      <p class="sub rv"><strong>$1,544</strong> (50-MA) — проміжна полиця: чекай реакцію, але це не пункт призначення. <strong>Reclaim $1,945</strong> → breakdown був shakeout, bias нейтралізується — стоп на shorts.</p>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Sector rout</b>memory-група продана як одне, не SNDK news</span><span class="v k">✗</span></div>
-        <div class="stat"><span class="k"><b>Story intact</b>BofA/Citi $2,500 · NAND tight до 2027</span><span class="v p">✓</span></div>
-        <div class="stat"><span class="k"><b>Valuation reset</b>після ~+4,000% — мало місця на промах</span><span class="v y">!</span></div>
-        <div class="stat"><span class="k"><b>Air pocket</b>нижче ~$1,600 тонкий профіль → швидко до fib</span><span class="v y">!</span></div>
-      </div>
-      <p class="sub rv" style="margin-top:14px">Повний розбір щодня — рівні, графіки, плани — у нашій телеграм-групі: <a href="https://t.me/market_predictions" style="color:var(--yellow);text-decoration:none;font-weight:700">t.me/market_predictions</a></p>
-      <p class="note rv">Освітній контент — не фінансова порада. Торгуй за власним планом.</p>
+      <p class="note p rv" style="margin-top:16px">Осцилятор може довго сидіти в oversold (це стан, не дно), а sector-rout може пройти крізь band-логіку. Тому вхід — на реверсний сигнал у зоні, а не лімітом.</p>
+      <p class="tg rv">Щоденні розбори — рівні, графіки, плани — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
   </div>
 
   <div class="nav">
-    <button id="btn-back" aria-label="Попередній слайд">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <span class="count"><b id="cur">1</b> / <span id="tot">9</span></span>
-    <button id="btn-next" aria-label="Наступний слайд">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
+    <div class="nav-l">
+      <button id="btn-back" aria-label="Попередній слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="foot-tag" id="foot-tag">SNDK</span>
+    </div>
+    <div class="nav-r">
+      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
+      <button id="btn-next" aria-label="Наступний слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  // Sparkline tape: SNDK broke the double bottom, then lost 1,731 → descent underway toward the fib
-  const total = document.querySelectorAll('#deck .slide').length;
-  const yNorm = [0.14, 0.26, 0.40, 0.52, 0.60, 0.72, 0.80, 0.84, 0.82];
-  const W = 340, H = 34, PAD = 8;
-  const pts = yNorm.map((y, i) => [PAD + i * ((W - 2 * PAD) / (total - 1)), 4 + y * (H - 8)]);
-  function pathThrough(points) {
-    let d = `M ${points[0][0]} ${points[0][1]}`;
-    for (let i = 1; i < points.length; i++) {
-      const [x0, y0] = points[i - 1], [x1, y1] = points[i];
-      const mx = (x0 + x1) / 2;
-      d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
-    }
-    return d;
-  }
-  document.getElementById('spark-line').setAttribute('d', pathThrough(pts));
-  const litPath = document.getElementById('spark-lit');
-  const dot = document.getElementById('spark-dot');
-  function updateTape(i) {
-    litPath.setAttribute('d', pathThrough(pts.slice(0, i + 1)));
-    dot.setAttribute('cx', pts[i][0]);
-    dot.setAttribute('cy', pts[i][1]);
-  }
-
   createStory({
     stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
     prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#tape-label', onShow: i => updateTape(i),
+    label: '#foot-tag',
   });
 </script>
 </body>
