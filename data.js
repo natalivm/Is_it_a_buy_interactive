@@ -19,7 +19,7 @@ const STOCKS = [
     symbol: 'GLW', exchange: 'NYSE',
     price: '$196.79', change: '−10.81% · Jul 2',
     signal: 'Weekly blow-off rejection — huge upper wick, close near the low; relief bounce likely but sold, bias down unless it reclaims $217–220; targets $180 → $167 → $150',
-    verdict: 'avoid', accent: 'red',
+    verdict: 'avoid', accent: 'blue',
     date: '2026-07-04',
     story: 'stories/glw.html',
   },
