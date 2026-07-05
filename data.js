@@ -88,3 +88,33 @@ const STOCKS = [
     story: 'stories/be.html',
   },
 ];
+
+// ── Articles ──────────────────────────────────────────────────────────────
+// Long-form written pieces (not tap-through decks). Each renders as an article
+// tile in the same gallery and opens as a single, responsive one-page read.
+//
+// Fields:
+//   type     'article' (marks the tile + overlay as a scrolling article)
+//   symbol   slug used for the shareable URL hash (index.html#<symbol>)
+//   kicker   small eyebrow label on the tile
+//   tag      chip label (topic)
+//   title    headline shown on the tile
+//   excerpt  one-paragraph teaser
+//   readTime freeform read-length label (e.g. '8 хв')
+//   accent   'purple' | 'blue' | 'amber' | 'emerald' | 'red' | 'cyan' | 'indigo' | 'violet'
+//   date     ISO date (YYYY-MM-DD) — gallery sorts newest first
+//   story    path to the article HTML
+const ARTICLES = [
+  {
+    type: 'article',
+    symbol: 'ai-dumping',
+    kicker: 'Стаття',
+    tag: 'AI · Волл-стріт',
+    title: 'Демпінг інтелекту',
+    excerpt: 'Китай демпінгує не сталь, а інтелект. Дешеві open-weight моделі підривають логіку оцінки всього AI-трейду — від Nvidia до пам’яті, сховища й дата-центрів. Хто в епіцентрі та яким каналом їх б’є.',
+    readTime: '10 хв',
+    accent: 'violet',
+    date: '2026-07-05',
+    story: 'stories/articles/ai-dumping.html',
+  },
+];

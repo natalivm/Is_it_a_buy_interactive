@@ -9,6 +9,9 @@
 // ──────────────────────────────────────────────────────────────────────────
 
 const STOCK_LIST = (typeof STOCKS !== 'undefined') ? STOCKS : [];
+const ARTICLE_LIST = (typeof ARTICLES !== 'undefined') ? ARTICLES : [];
+// Everything the gallery shows: stock decks + written articles, one list.
+const ITEMS = [...STOCK_LIST, ...ARTICLE_LIST];
 
 const VERDICT_LABEL = { buy: 'Buy', caution: 'Caution', avoid: 'Avoid' };
 
@@ -27,7 +30,42 @@ function fmtDate(iso) {
 }
 
 // ── Tile rendering ─────────────────────────────────────────────────────────
-function tileHtml(stock) {
+function tileHtml(item) {
+    return item && item.type === 'article' ? articleTileHtml(item) : stockTileHtml(item);
+}
+
+function articleTileHtml(article) {
+    const accent = ['violet', 'blue', 'amber', 'emerald', 'red', 'cyan', 'indigo'].includes(article.accent) ? article.accent : 'violet';
+    const tag = article.tag ? `<span class="tile-chip chip-article">${esc(article.tag)}</span>` : '';
+    const excerpt = article.excerpt ? `<p class="tile-excerpt">${esc(article.excerpt)}</p>` : '';
+    const meta = article.readTime
+        ? `<span class="tile-date">Читати · ${esc(article.readTime)}</span>`
+        : (article.date ? `<span class="tile-date">Posted ${esc(fmtDate(article.date))}</span>` : '<span></span>');
+    return `
+        <article class="tile tile-article tile-${accent}" data-story="${esc(article.story)}" data-symbol="${esc(article.symbol)}"
+                 tabindex="0" role="button" aria-label="Open article ${esc(article.title || article.symbol)}">
+            <div class="tile-body">
+                <div class="tile-top">
+                    <span class="tile-kicker">${esc(article.kicker || 'Стаття')}</span>
+                    ${tag}
+                </div>
+                <h3 class="tile-title">${esc(article.title || '')}</h3>
+                ${excerpt}
+                <div class="tile-foot">
+                    ${meta}
+                    <span class="tile-actions">
+                        <button class="tile-link" type="button" aria-label="Copy link to ${esc(article.title || article.symbol)}" title="Copy link">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </button>
+                        <span class="tile-cta">Читати <span aria-hidden="true">›</span></span>
+                    </span>
+                </div>
+            </div>
+        </article>
+    `;
+}
+
+function stockTileHtml(stock) {
     const accent = ['violet', 'blue', 'amber', 'emerald', 'red', 'cyan', 'indigo'].includes(stock.accent) ? stock.accent : 'violet';
     const verdict = ['buy', 'caution', 'avoid'].includes(stock.verdict) ? stock.verdict : 'caution';
     const change = stock.change
@@ -73,7 +111,7 @@ function renderGallery() {
     const empty = document.getElementById('galleryEmpty');
     if (!container) return;
 
-    if (!STOCK_LIST.length) {
+    if (!ITEMS.length) {
         container.innerHTML = '';
         if (empty) empty.hidden = false;
         return;
@@ -81,7 +119,7 @@ function renderGallery() {
     if (empty) empty.hidden = true;
 
     // Newest presentations first.
-    const ordered = [...STOCK_LIST].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const ordered = [...ITEMS].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
     container.innerHTML = ordered.map(tileHtml).join('');
     container.querySelectorAll('.tile').forEach(el => {
         const symbol = el.dataset.symbol;
@@ -109,7 +147,7 @@ let currentSlug = null;
 
 function slugify(sym) { return String(sym == null ? '' : sym).trim().toLowerCase(); }
 function hashSlug() { return slugify(decodeURIComponent((location.hash || '').replace(/^#/, ''))); }
-function findStock(slug) { return STOCK_LIST.find(s => slugify(s.symbol) === slug); }
+function findStock(slug) { return ITEMS.find(s => slugify(s.symbol) === slug); }
 function deckUrl(slug) { return location.origin + location.pathname + location.search + '#' + slug; }
 
 // ── Copy-to-clipboard + toast ────────────────────────────────────────────────

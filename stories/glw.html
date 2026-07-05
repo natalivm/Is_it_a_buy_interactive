@@ -157,18 +157,22 @@
   .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
 
   /* Footer nav */
-  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;
     padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, rgba(8,7,17,.85), transparent);}
   .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
   .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
   .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
   .count b{color:rgba(255,255,255,.72);font-weight:600;}
-  .nav button{pointer-events:auto;width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
-  .nav button:hover{color:#fff;border-color:rgba(255,255,255,.35);}
-  .nav button:active{transform:scale(.9);color:var(--yellow);}
-  .nav button:focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
-  .nav button svg{width:16px;height:16px;}
-  .nav button[disabled]{opacity:.22;pointer-events:none;}
+  .nav button{pointer-events:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.55);
+    color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s, background .2s, filter .2s;}
+  .nav-r button{background:var(--yellow);border-color:var(--yellow);color:#160d10;box-shadow:0 4px 16px color-mix(in srgb,var(--yellow) 40%,transparent);}
+  .nav button:hover{background:rgba(255,255,255,.18);border-color:#fff;}
+  .nav-r button:hover{filter:brightness(1.08);background:var(--yellow);}
+  .nav button:active{transform:scale(.9);}
+  .nav button:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;}
+  .nav button svg{width:22px;height:22px;}
+  .nav button[disabled]{opacity:.26;pointer-events:none;box-shadow:none;}
   .preview .nav{display:none;}
 </style>
 </head>
@@ -322,7 +326,7 @@
 <script src="engine.js"></script>
 <script>
   createStory({
-    stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
+    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
     prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
     label: '#foot-tag',
   });
