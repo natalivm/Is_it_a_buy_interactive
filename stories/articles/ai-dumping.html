@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Демпінг інтелекту · IS IT A BUY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070410; --ink:#0C0714; --panel:#150C28; --panel2:#1C1236; --hair:#2E2145;
+    --purple:#B57BFF; --purple-deep:#8B5CF6; --pink:#FF5DA2; --pink-soft:#FF89BE;
+    --yellow:#FFD24A; --green:#57E8A0; --txt:#F2ECFA; --mut:#A99CC2;
+    --disp:'Oswald',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+    --grad:linear-gradient(92deg,var(--purple),var(--pink));
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--body);
+    line-height:1.65;font-size:17px;
+    background-image:
+      radial-gradient(1200px 600px at 15% -5%, rgba(181,123,255,.10), transparent 60%),
+      radial-gradient(1000px 500px at 100% 8%, rgba(255,93,162,.09), transparent 55%);
+    background-attachment:fixed;}
+  .wrap{max-width:820px;margin:0 auto;padding:34px 20px calc(env(safe-area-inset-bottom,0px) + 72px);}
+  @media (min-width:640px){ body{font-size:18px;} .wrap{padding:44px 32px 96px;} }
+
+  a{color:var(--pink-soft);}
+  strong,b{color:#fff;font-weight:700;}
+  .hl{color:var(--pink);font-weight:700;}
+  .hlp{color:var(--purple);font-weight:700;}
+  .hly{color:var(--yellow);font-weight:700;}
+  .hg{color:var(--green);font-weight:700;}
+
+  /* Masthead */
+  .mast{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;
+    padding-right:96px;border-bottom:1px solid var(--hair);padding-bottom:14px;}
+  .brand{font-family:var(--disp);font-weight:700;letter-spacing:.14em;font-size:15px;color:#fff;}
+  .brand b{color:var(--pink);}
+  .mast-meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--mut);text-transform:uppercase;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--pink);text-transform:uppercase;margin:26px 0 10px;}
+
+  h1{font-family:var(--disp);font-weight:700;line-height:.98;letter-spacing:.005em;
+    font-size:clamp(48px,13vw,96px);margin:0 0 20px;text-transform:uppercase;}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(17px,2.4vw,20px);color:#E6DDF6;margin:0 0 4px;}
+
+  /* Section headings with the signature left bar */
+  h2{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.01em;
+    font-size:clamp(24px,5vw,34px);line-height:1.05;margin:52px 0 16px;padding-left:16px;
+    border-left:5px solid var(--pink);}
+  h2.p{border-left-color:var(--purple);}
+  p{margin:0 0 16px;}
+  .muted{color:var(--mut);}
+
+  /* Figure */
+  figure{margin:26px 0;}
+  figure img{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--hair);
+    box-shadow:0 20px 60px rgba(0,0,0,.5);background:#000;}
+  figcaption{font-size:13.5px;line-height:1.5;color:var(--mut);margin-top:12px;
+    border-left:3px solid var(--hair);padding-left:12px;}
+
+  /* Pull-quote / statement boxes */
+  .quote{margin:30px 0;padding:22px 24px;border-radius:16px;
+    background:linear-gradient(180deg, rgba(255,93,162,.10), rgba(21,12,40,.6));
+    border:1px solid rgba(255,93,162,.35);}
+  .quote p{margin:0;font-family:var(--disp);font-weight:600;text-transform:uppercase;
+    font-size:clamp(18px,3.4vw,26px);line-height:1.16;letter-spacing:.005em;color:#fff;}
+  .quote.p{background:linear-gradient(180deg, rgba(181,123,255,.10), rgba(21,12,40,.6));border-color:rgba(181,123,255,.35);}
+
+  /* Callout (Coinbase) */
+  .callout{margin:26px 0;padding:20px 22px;border-radius:14px;background:var(--panel);border:1px solid var(--hair);}
+  .callout h3{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(16px,3vw,20px);
+    letter-spacing:.02em;margin:0 0 10px;line-height:1.15;}
+  .callout p{margin:0;font-size:15.5px;color:#E0D6F2;}
+
+  /* Card grids */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin:22px 0;}
+  .card{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:18px 18px 16px;
+    display:flex;flex-direction:column;}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;}
+  .tk{font-family:var(--disp);font-weight:700;font-size:22px;line-height:1;letter-spacing:.01em;color:#fff;}
+  .tk small{display:block;font-family:var(--body);font-weight:500;font-size:12px;letter-spacing:.02em;
+    color:var(--mut);text-transform:none;margin-top:5px;}
+  .chip{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--purple);border:1px solid rgba(181,123,255,.4);border-radius:999px;padding:4px 9px;white-space:nowrap;flex-shrink:0;}
+  .row{display:flex;gap:9px;margin:0 0 9px;font-size:14px;line-height:1.5;}
+  .row .lab{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.08em;flex-shrink:0;
+    padding-top:2px;width:58px;}
+  .bull .lab{color:var(--green);}
+  .bear .lab{color:var(--pink);}
+  .row p{margin:0;color:#DED4F0;}
+  .stat{margin-top:auto;padding-top:12px;border-top:1px solid var(--hair);
+    font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--mut);letter-spacing:.01em;}
+
+  /* Numbered buckets */
+  .bucket .num{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--yellow);letter-spacing:.1em;margin-bottom:8px;}
+  .bucket h3{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.02em;margin:0 0 8px;}
+  .bucket p{margin:0 0 12px;font-size:14px;color:#DED4F0;}
+
+  /* Channel table */
+  .tbl-wrap{overflow-x:auto;margin:22px 0;-webkit-overflow-scrolling:touch;
+    border:1px solid var(--hair);border-radius:14px;}
+  table{width:100%;border-collapse:collapse;min-width:520px;}
+  th,td{text-align:left;padding:12px 16px;vertical-align:top;border-bottom:1px solid var(--hair);}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
+    background:var(--panel2);position:sticky;top:0;}
+  tr:last-child td{border-bottom:0;}
+  td.k{font-family:var(--mono);font-weight:700;font-size:12.5px;color:#fff;white-space:nowrap;}
+  td.v{font-size:14px;color:#DED4F0;}
+
+  /* Fact check */
+  .facts{margin:34px 0 0;padding:24px 22px;border-radius:16px;background:var(--panel);border:1px solid var(--hair);}
+  .facts-h{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;text-transform:uppercase;
+    font-size:19px;letter-spacing:.02em;margin:0 0 6px;}
+  .facts-h .dot{width:9px;height:9px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink);}
+  .facts .sub{font-size:13px;color:var(--mut);margin:0 0 20px;}
+  .fgroup{margin:0 0 18px;padding-left:14px;border-left:3px solid var(--green);}
+  .fgroup.warn{border-left-color:var(--yellow);}
+  .fgroup h4{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--green);margin:0 0 8px;}
+  .fgroup.warn h4{color:var(--yellow);}
+  .fgroup p{font-size:13.5px;line-height:1.6;color:#D6CCE8;margin:0 0 10px;}
+  .src{color:var(--mut);font-size:12.5px;}
+
+  .disc{margin-top:30px;padding-top:18px;border-top:1px solid var(--hair);
+    font-size:12px;line-height:1.6;color:#8578A0;}
+  .footer{margin-top:26px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    font-family:var(--disp);font-weight:700;letter-spacing:.14em;font-size:12px;color:var(--mut);text-transform:uppercase;}
+  .footer b{color:var(--pink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <span class="brand">IS IT A <b>BUY</b></span>
+    <span class="mast-meta">Ринкова аналітика · Липень 2026</span>
+  </header>
+
+  <p class="eyebrow">Торгова війна · AI · Волл-стріт</p>
+  <h1>Демпінг <span class="g">інтелекту</span></h1>
+  <p class="lede">Китай починає демпінгувати не сталь, не сонячні панелі й не дешеві електрокари. <strong>Він демпінгує інтелект.</strong> І це б'є не по заводах — а по логіці оцінки всього AI-трейду: від моделей до пам'яті, сховища й дата-центрів.</p>
+
+  <figure>
+    <img src="chinese-models.png" alt="Західні компанії переходять на китайські моделі: Lindy → DeepSeek V4, Cursor → Kimi K2.5, Coinbase → GLM-5.2 + Kimi 2.7, Shopify / Airbnb / Uber Eats → Qwen, Siemens → DeepSeek + Qwen, ChapsVision → Qwen, Microsoft → DeepSeek V4">
+    <figcaption><strong>Що на картинці:</strong> західні компанії переносять AI-навантаження на китайські open-weight моделі. Більшість пунктів підтверджені (див. «Перевірка фактів»). <strong>Виняток:</strong> Microsoft модель не «переключив», а тестує DeepSeek V4; Uber Eats, Siemens і ChapsVision — з вірусного списку в X, задокументовані слабше.</figcaption>
+  </figure>
+
+  <h2>Теза, яку ринок ще не заклав у ціну</h2>
+  <p>Якби я був Сі Цзіньпіном, мені не треба було б вторгатися на Тайвань, щоб вдарити по американському ринку. Я зробив би дещо дешевше й елегантніше: залив би економіку США дешевим AI.</p>
+  <p>Хвиля китайських open-weight моделей — <span class="hlp">DeepSeek, Qwen, Kimi, GLM</span> — заходить на глобальний ринок за цінами, від яких американська бізнес-модель AI виглядає крихкою. Це вже не низькоякісні копії з відставанням на п'ять років. Вони <strong>достатньо добрі</strong> для реального бізнесу: код, автоматизація, підтримка, внутрішні інструменти, агентні воркфлоу.</p>
+  <p>Нехай кожен фіндиректор поставить очевидне питання: <span class="hl">«Навіщо платити преміум, якщо дешева модель — достатньо добра?»</span></p>
+
+  <div class="quote">
+    <p>Увесь американський AI-трейд побудований на одному припущенні: AI буде <span class="hl">дорогим, дефіцитним і монетизованим</span>. А що, як він стане дешевим, безмежним і сировинним?</p>
+  </div>
+
+  <h2 class="p">Ринок, надто сконцентрований в одній історії</h2>
+  <p>S&amp;P 500 сьогодні небезпечно сконцентрований навколо AI-наративу. <span class="hlp">Nvidia, Microsoft, Meta, Alphabet, Amazon, Broadcom, Oracle</span>, дата-центри, енергетика, мережі, охолодження, обладнання для чипів — величезна частина індексу оцінена так, ніби попит на AI зростатиме вічно й хтось на цьому заробить величезну маржу.</p>
+  <p>І це вже не просто технологічна тема, а частина макрокартини. <span class="hlp">St. Louis Fed</span> оцінив, що AI-інвестиції дали <strong>0.97 п.п.</strong> реального росту ВВП США за 9 місяців 2025 року — це <strong>~39%</strong> усього приросту, більше за внесок IT під час доткомівського буму. <span class="muted">(Хоча є й дискусія: Goldman Sachs каже, що прямий внесок AI був «практично нульовим». Навіть макродані — предмет суперечки.)</span></p>
+
+  <h2>Ланцюг припущень, який ламається</h2>
+  <p>Американський AI-бум тримається на ланцюгу: мільярди на чипи → гігантські дата-центри → преміум-ціни лабораторій → дорогі контракти → інвестори виправдовують оцінки, бо вірять, що все це стане високомаржинальним доходом.</p>
+  <p>Дешеві open-weight моделі <strong>розривають цей ланцюг.</strong> Якщо компанія покриває більшість AI-задач через Qwen, DeepSeek, Kimi чи GLM, дорога американська модель стає інструментом лише для найскладнішого. OpenAI й Anthropic не зникають — але їхня <span class="hl">цінова влада</span> ставиться під сумнів. А щойно під сумнів цінова влада, під сумнів і оцінка.</p>
+
+  <div class="callout">
+    <h3>Coinbase — ідеальний приклад тиску: <span class="hl">більше AI, менший рахунок</span></h3>
+    <p>CEO Coinbase Браян Армстронг переключив інженерів за замовчуванням на <span class="hlp">GLM 5.2</span> (Zhipu) і <span class="hlp">Kimi 2.7</span> (Moonshot) через внутрішній LLM-шлюз — і <strong>урізав AI-витрати майже вдвічі</strong>, попри рекордне споживання токенів. GLM 5.2 ≈ $1.40 за млн вхідних токенів проти ~$5 у Anthropic Opus 4.8.</p>
+  </div>
+
+  <h2 class="p">Саме так працює комодитизація</h2>
+  <p>Ось чому теза «китайський AI-демпінг» така небезпечна: <strong>китайським моделям не треба бути кращими. Достатньо бути достатньо добрими — і значно дешевшими.</strong> Дешевому продукту не треба бути ідеальним — йому треба лише вдарити по пулу прибутку. Щойно є дешева альтернатива, кожен преміум-провайдер мусить пояснювати, чому його ціна досі виправдана.</p>
+
+  <h2>Чи може США це заблокувати?</h2>
+  <p>Частково — так. Держпристрої, федеральні агенції, оборонні підрядники, критична інфраструктура, регульовані галузі. Дехто вже рухається в цей бік.</p>
+  <p>Але повна заборона в приватній економіці — набагато складніша. <strong>Open-weight моделі — це не TikTok.</strong> Щойно ваги опубліковані, їх можна завантажити, дзеркалити, дотренувати, хостити локально й маршрутизувати через треті платформи. Можна заборонити офіційний китайський API й тиснути на хмари — але не можна легко зупинити кожен стартап чи середній бізнес від дешевшого інтелекту, коли він доступний глобально.</p>
+
+  <div class="quote">
+    <p>Заборона захищає оцінки американського AI — але може вбити його <span class="hl">впровадження</span></p>
+  </div>
+
+  <p>Це і є пастка. Заборона не вирішує економічну проблему — вона змушує компанії США платити за AI більше, ніж їхні іноземні конкуренти. Вибір потворний з обох боків: <strong>впустити дешевий китайський AI</strong> й ризикнути стисненням маржі лідерів — <strong>або обмежити його</strong> й зробити американські компанії менш конкурентними. У будь-якому разі фантазія про безмежний AI-прибуток пошкоджена.</p>
+
+  <h2 class="p">Що це означає для роздрібного інвестора</h2>
+  <p>Небезпека не в тому, що кожна AI-акція піде в нуль — це маячня. AI реальний. Але ринок уже оцінив багато імен так, ніби переможці очевидні, а пули прибутку захищені. Це не так. Якщо інтелект стає сировиною, головними бенефіціарами можуть виявитися не власники моделей, а компанії, які <strong>використовують</strong> AI. Тепер є щонайменше три відра:</p>
+
+  <div class="grid">
+    <div class="card bucket">
+      <div class="num">01</div>
+      <h3>Дорога інфраструктура</h3>
+      <p>Nvidia, чипи, дата-центри, енергетика, охолодження, мережі. Виграють від AI-capex — але вразливі, якщо очікування щодо capex надто агресивні.</p>
+      <div class="stat">Cycle-ризик</div>
+    </div>
+    <div class="card bucket">
+      <div class="num">02</div>
+      <h3>Моделі та платформи</h3>
+      <p>Екосистеми OpenAI й Anthropic, хмари, enterprise-софт. Найвразливіші до стиснення цін, щойно дешеві моделі стануть достатньо добрими.</p>
+      <div class="stat">Тиск на маржу</div>
+    </div>
+    <div class="card bucket">
+      <div class="num">03</div>
+      <h3>Користувачі AI</h3>
+      <p>Компанії, що не продають AI, а застосовують його для зниження витрат. Можуть тихо стати кращими довгостроковими переможцями.</p>
+      <div class="stat">Тихі переможці</div>
+    </div>
+  </div>
+
+  <p>Роздрібна пастка — купувати найочевидніші AI-імена вже після того, як ринок заклав у ціну досконалість. І ця загроза не абстрактна. Нижче — конкретні акції в епіцентрі та канал, яким дешевий китайський AI може їх ударити.</p>
+
+  <p class="eyebrow">Частина 2 · Ланцюг напівпровідників</p>
+  <h2>Найвразливіші акції</h2>
+  <p>Від Nvidia до Micron, SanDisk, Seagate й трейду дата-центрів — усі ці імена пов'язані однією вірою: <strong>попит на AI вибухатиме, а capex зростатиме.</strong> Дешевий китайський AI створює дві протилежні сили:</p>
+  <p><span class="hg">Сила 1 — бичача:</span> дешевший інтелект може <strong>збільшити</strong> використання. Більше компуту, пам'яті, сховища. <span class="hl">Сила 2 — ведмежа:</span> дешевший інтелект <strong>руйнує ціновий парасоль</strong> — якщо «достатньо добре» дешевше, зникає потреба в найагресивнішому capex і найдорожчих frontier-моделях. Ринок оцінює не «AI існуватиме», а «AI вимагатиме нескінченних преміум-витрат на інфраструктуру». Це не одне й те саме.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="tk">MU<small>Micron</small></span><span class="chip">DRAM / HBM</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Кожен AI-прискорювач потребує HBM. Пам'ять зі «сплячого» товару стала найгарячішим кутком ринку.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Пам'ять досі циклічна. Щойно ринок повірить, що AI-capex на піку — переоцінка буде брутальною.</p></div>
+      <div class="stat">#2 S&amp;P 2026 ~+300% · Q3 виручка $41.46B (+346% р/р), GM 84.6% · HBM розпродано на весь 2026 · fwd P/E ~8×</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">SNDK<small>SanDisk</small></span><span class="chip">NAND / STORAGE</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Більше інференсу, агентів, датасетів і логів → більше NAND. Дефіцит структурний.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Уже став символом AI-трейду — торгується на продовженні наративу, не лише на фундаменталі. Після +800% простору для розчарувань обмаль.</p></div>
+      <div class="stat">#1 S&amp;P 2026 ~+800–858% · 17× виручки, GM ~78–81% · саппорт ~$2 045, формується подвійна вершина</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">STX<small>Seagate</small></span><span class="chip">HDD / NEARLINE</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>AI-дата-центрам потрібне масове холодне сховище. Nearline-потужність розпродана.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Оцінено так, ніби дефіцит вічний. Уповільнення capex швидко перетворює «продано на роки» на «пік циклу».</p></div>
+      <div class="stat">Розпродано до 2027, обговорюють 2028 · HDD-ціни +50% за рік · Q4 EPS $5.00 (~+26% vs консенсус), рекордна маржа</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">NVDA<small>Nvidia</small></span><span class="chip">GPU</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Дешевший AI = більше інференсу = потенційно більше GPU. Король лишається незамінним.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Оцінка тримається на припущенні, що всі купують найдорожчий frontier і будують максимально агресивно. Комодитизація моделей ставить це під сумнів.</p></div>
+      <div class="stat">~+5% YTD 2026 · fwd P/E ~21× · $2B інвестиції в CoreWeave — приклад циркулярного фінансування</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">AVGO<small>Broadcom</small></span><span class="chip">ASIC / NETWORK</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Кастомні ASIC-и стають привабливішими, коли компанії ріжуть вартість компуту. Оборонніший за чистий GPU.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Усе ще ланка capex-ланцюга. Якщо гіперскейлери гальмують чи переносять розгортання — Broadcom не імунний.</p></div>
+      <div class="stat">Ризик радше «перетравлення capex», ніж «колапсу цін на моделі»</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">CRWV·NBIS<small>Neoclouds</small></span><span class="chip">GPU-CLOUD</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Якщо GPU не вистачає — неохмари цінні: дають орендовану потужність швидко.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Борг, циркулярне фінансування, ставки оренди впали. Meta заходить у ринок оренди — конкуренти нещодавно різко «просіли».</p></div>
+      <div class="stat">CRWV борг &gt;$21B (з &lt;$8B у 2024), пік погашень 2026 ~$4.2B · оренда GPU −50–70% від піків · NBIS виручка +684% р/р</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">IREN<small>IREN</small></span><span class="chip">POWER / INFRA</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Виграє, коли ринок вірить, що попит на компут переповнить доступні потужності.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Вкрай наративо-чутлива: фінансування, ціни на енергію, виконання, концентрація клієнтів. Це не «безпечна AI-акція» — це важільна ставка на наратив.</p></div>
+      <div class="stat">Мікс: дата-центри / енергія / bitcoin / AI</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">INTC<small>Intel</small></span><span class="chip">CONTRARIAN</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Не кожен інференс потребує топового GPU — частина йде на CPU / edge / дешеві прискорювачі. Це підтримує релевантність Intel.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Власні проблеми з виконанням, foundry й конкуренцією. Радше реструктуризаційно-геополітичний трейд, ніж чистий AI-capex.</p></div>
+      <div class="stat">#3 S&amp;P 2026 ~+278% · 18A-P у risk production</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">SMH<small>ETF семісів</small></span><span class="chip">BROAD BASKET</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Широка експозиція на весь AI-чиповий комплекс: NVDA, AVGO, пам'ять, обладнання.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Якщо AI-трейд де-рейтиться — кошик падає разом з усіма.</p></div>
+      <div class="stat">Philadelphia SOX +88% у Q2 2026</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">SOXL<small>3× семіси</small></span><span class="chip">LEVERAGED</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>Важільна ставка, що семіси-вечірка триває.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Важіль ріже в обидва боки. Різке падіння семісів руйнує SOXL швидше, ніж очікуєш. Найнебезпечніше місце бути casually long.</p></div>
+      <div class="stat">Не звичайний інструмент — 3× важіль на волатильний сектор</div>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="tk">DRAM<small>Трейд пам'яті</small></span><span class="chip">PICKS &amp; SHOVELS</span></div>
+      <div class="row bull"><span class="lab">БИК</span><p>AI-серверам потрібна пам'ять. HBM у дефіциті, DRAM/NAND ціни зросли, повернулась цінова влада.</p></div>
+      <div class="row bear"><span class="lab">ВЕДМІДЬ</span><p>Інвестори в пам'ять завжди зрештою заново відкривають ту саму істину: пропозиція наздоганяє, цикл розвертається швидше, ніж здається.</p></div>
+      <div class="stat">DRAM-контракти +55–60% (TrendForce) · ~70% high-end DRAM піде на AI у 2026 · capex росте у 2026</div>
+    </div>
+  </div>
+
+  <h2 class="p">Як саме це б'є — канал за каналом</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Акція / тема</th><th>Через що отримує удар</th></tr></thead>
+      <tbody>
+        <tr><td class="k">MU · DRAM / HBM</td><td class="v">Якщо очікування щодо AI-capex сповільняться або ціни на пам'ять досягнуть піку</td></tr>
+        <tr><td class="k">SNDK · NAND</td><td class="v">Якщо storage-момент перегріється і переоціниться</td></tr>
+        <tr><td class="k">STX · HDD</td><td class="v">Якщо попит на сховище дата-центрів побачать як «пік циклу»</td></tr>
+        <tr><td class="k">NVDA · GPU</td><td class="v">Якщо під сумнів стане ріст попиту на GPU або цінова влада</td></tr>
+        <tr><td class="k">AVGO · ASIC</td><td class="v">Якщо capex гіперскейлерів на кастомні чипи / мережу сповільниться</td></tr>
+        <tr><td class="k">CRWV · NBIS · Neocloud</td><td class="v">Якщо попит на GPU-оренду, утилізація чи фінансування ослабнуть</td></tr>
+        <tr><td class="k">IREN · Power / Infra</td><td class="v">Якщо наратив дефіциту AI-інфраструктури згасне</td></tr>
+        <tr><td class="k">INTC · Contrarian</td><td class="v">Змішано: може виграти від дешевшого інференсу, але ризик виконання лишається</td></tr>
+        <tr><td class="k">SMH · ETF</td><td class="v">Широкий де-рейтинг напівпровідників</td></tr>
+        <tr><td class="k">SOXL · 3×</td><td class="v">Важільний даунсайд, якщо семіси коригуються</td></tr>
+        <tr><td class="k">DRAM-трейд</td><td class="v">Сильний зараз, але вкрай циклічний, коли пропозиція наздожене попит</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quote">
+    <p>Дешевий китайський AI не мусить убити попит на AI, щоб ударити по AI-акціях. Йому достатньо змусити ринок засумніватися в ціні, яку він платить за <span class="hl">майбутні прибутки</span></p>
+  </div>
+
+  <p>AI може бути реальним, корисним і революційним — а акції все одно можуть різко скоригуватися, якщо ринок усвідомить, що пул прибутку менший, конкурентніший або циклічніший, ніж закладено. Ринок падає не тому, що щось <strong>фальшиве</strong> — а коли щось <strong>реальне</strong> оцінили надто ідеально. Найнебезпечніша фраза на цьому ринку: <span class="hl">«Але попит на AI реальний».</span> Так. Реальний. Саме тому це небезпечно.</p>
+
+  <div class="facts">
+    <div class="facts-h"><span class="dot"></span>Перевірка фактів</div>
+    <p class="sub">Ключові твердження звірені з джерелами станом на липень 2026. Зелене — підтверджено, бурштинове — з застереженням.</p>
+
+    <div class="fgroup">
+      <h4>✓ Підтверджено — моделі та впровадження</h4>
+      <p>Airbnb → Qwen (Ческі: «швидко і дешево»; розслідування Конгресу). Coinbase → GLM 5.2 + Kimi 2.7 (−~50% рахунок). Lindy → DeepSeek V4; Cursor → Kimi K2.5 (Composer 2); Shopify → Qwen3 (−75× вартості). <span class="src">(Bloomberg, BI, Rest of World, Quartz, Tech Startups)</span></p>
+      <p>St. Louis Fed: AI-інвестиції = 0.97 п.п. росту реального ВВП за 9 міс. 2025 = ~39% приросту. <span class="src">(stlouisfed.org)</span></p>
+    </div>
+
+    <div class="fgroup">
+      <h4>✓ Підтверджено — напівпровідники</h4>
+      <p>SNDK — #1 акція S&amp;P 500 у 2026 (~+800–858% YTD); MU #2 (~+300%), Q3 виручка $41.46B; INTC #3 (~+278%). <span class="src">(Motley Fool, TradingKey, 24/7 Wall St)</span></p>
+      <p>Seagate і Western Digital розпродали HDD-потужність на 2026 (Seagate — до 2027, WD ~89–95% гіперскейлерам); HDD-ціни +50%. DRAM-контракти +55–60% (TrendForce); ~70% high-end DRAM піде на AI. <span class="src">(The Register, Trefis, Avnet/TrendForce)</span></p>
+      <p>Циркулярне фінансування: Nvidia інвестувала $2B у CoreWeave; борг CoreWeave &gt;$21B (з &lt;$8B у 2024), пік погашень 2026 ~$4.2B; ставки оренди GPU впали 50–70%. <span class="src">(Seeking Alpha, Quartz, TECHi)</span></p>
+    </div>
+
+    <div class="fgroup warn">
+      <h4>⚠ Застереження</h4>
+      <p>Microsoft → DeepSeek V4: не «переключив», а тестує / оцінює (Azure Foundry хостить; можливий fine-tune для Copilot Cowork). Uber Eats, Siemens, ChapsVision — з вірусного списку в X, слабше задокументовані.</p>
+      <p>Це теза, а не вирок. Внесок AI у ВВП оспорюється (Goldman: «практично нуль»). Усі картки — двосторонні (бик/ведмідь): дешевий AI може й підняти попит на компут. Числа — миттєвий зріз і швидко змінюються.</p>
+    </div>
+  </div>
+
+  <p class="disc">Матеріал має освітньо-аналітичний характер і не є індивідуальною інвестиційною рекомендацією. Напрям руху окремих акцій залежить від багатьох факторів; важільні інструменти (SOXL) несуть підвищений ризик. Ринки несуть ризик; рішення — за вами. Цифри й цитати актуальні на дату публікації та можуть змінюватися.</p>
+
+  <div class="footer">
+    <span>IS IT A <b>BUY</b></span>
+    <span>Демпінг інтелекту · Дешевий AI і напівпровідники</span>
+  </div>
+
+</div>
+</body>
+</html>

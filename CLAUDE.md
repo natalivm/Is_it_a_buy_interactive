@@ -31,6 +31,18 @@ chip), `accent` (`purple` | `pink`), and `story` (path to the slideshow HTML).
 No build step is needed locally — open `index.html`. Stories are plain static
 HTML and are copied verbatim by the deploy workflow.
 
+## Articles (long-form)
+
+Besides tap-through decks, the gallery also renders written articles: entries in
+the `ARTICLES` array in `data.js` with `type: 'article'`. They share the same
+tile grid, deep-link hash, and overlay iframe, but a) render a distinct article
+tile (`kicker`, `tag`, `title`, `excerpt`, `readTime`) and b) open a single
+scrolling, responsive one-page read instead of a slideshow. Article pages live
+in `stories/articles/` (self-contained HTML + any embedded images) and use
+`symbol` as their URL slug (`index.html#<symbol>`). To add one: author
+`stories/articles/<slug>.html` and add an `ARTICLES` entry pointing `story` at
+it. Precache new article files in `sw.js` (and bump `CACHE_NAME`).
+
 ## Deploy
 
 `.github/workflows/deploy.yml` runs on push to `main`: minifies HTML/CSS/JS,
