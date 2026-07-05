@@ -2,245 +2,316 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SEZL — Story</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$SEZL — Торговий план</title>
 <script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="story.css">
 <style>
-  /* ── SEZL palette + unique "phone story" chrome ── */
+  /* ── SEZL palette (cyan-teal — fintech momentum) ── */
   :root{
-    --page-bg:#070410;
-    --ink:#0C0714; --panel:#1A1030; --panel2:#22183C; --hair:#2E2145;
-    --purple:#B57BFF; --purple-deep:#8B5CF6; --pink:#FF5DA2; --pink-soft:#FF89BE;
-    --yellow:#FFD24A; --txt:#F2ECFA; --mut:#A99CC2;
-    --disp:'Oswald',system-ui,sans-serif;
-    --body:'Inter',system-ui,sans-serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
-    --grad:linear-gradient(92deg,var(--purple),var(--pink));
+    --page-bg:#04121A;
+    --bg:#0A1E2A;
+    --panel:#123449;
+    --panel2:#0E2838;
+    --line:#1F4C63;
+    --ink:#FFFFFF;
+    --muted:#8FB6C8;
+    --purple:#34D399;
+    --pink:#FB5D74;
+    --yellow:#F5A524;
+    --deep:#04121A;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
   }
-  body{ color:var(--txt); }
-  body::before{ content:""; position:fixed; inset:0; pointer-events:none;
-    background:
-      radial-gradient(120% 55% at 50% -8%, rgba(181,123,255,.14), transparent 60%),
-      radial-gradient(120% 55% at 50% 108%, rgba(255,93,162,.12), transparent 60%) }
 
-  .phone{ --w:400px; position:relative;
-    width:min(440px,100vw); height:min(calc(440px*16/9),100dvh);
-    max-height:100dvh; aspect-ratio:9/16; background:var(--ink);
-    overflow:hidden; isolation:isolate;
-    box-shadow:0 30px 90px rgba(0,0,0,.6), inset 0 0 0 1px rgba(181,123,255,.08) }
-  @media(min-width:560px){ .phone{ border-radius:26px; outline:1px solid #241834 } }
-  .phone::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:0; opacity:.4;
-    background-image:linear-gradient(rgba(181,123,255,.05) 1px, transparent 1px);
-    background-size:100% calc(var(--w)*.11) }
+  .stage{position:relative;width:min(100vw, calc(100dvh * 9 / 16));height:100dvh;max-height:calc(100vw * 16 / 9);
+    background:var(--bg);overflow:hidden;display:flex;flex-direction:column;container-type:inline-size;}
+  .stage::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;opacity:.14;}
 
-  .spark{ position:absolute; top:calc(var(--w)*.25); left:calc(var(--w)*.085);
-    right:calc(var(--w)*.085); height:calc(var(--w)*.06); z-index:37; display:block }
-  .spark path.line{ fill:none; stroke:#3a2c5e; stroke-width:1.5 }
-  .spark path.lit{ fill:none; stroke:var(--purple); stroke-width:2;
-    filter:drop-shadow(0 0 5px color-mix(in srgb,var(--purple) 60%,transparent)) }
-  .spark circle{ fill:var(--pink); stroke:var(--ink); stroke-width:2;
-    transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);
-    filter:drop-shadow(0 0 5px color-mix(in srgb,var(--pink) 70%,transparent)) }
-  .ticker-chip{ display:inline-flex; align-items:center; gap:calc(var(--w)*.02); align-self:flex-start;
-    font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.028); letter-spacing:.14em;
-    border:1.5px solid var(--yellow); color:var(--yellow); background:var(--panel);
-    padding:calc(var(--w)*.018) calc(var(--w)*.035); border-radius:9px; text-transform:uppercase;
-    margin-bottom:calc(var(--w)*.02) }
-  .ticker-chip .dot{ width:calc(var(--w)*.02); height:calc(var(--w)*.02); border-radius:50%;
-    background:var(--yellow); box-shadow:0 0 8px var(--yellow) }
+  .deck{position:relative;flex:1;z-index:2;min-height:0;}
+  .slide{justify-content:center;overflow:hidden;}
+  .slide-inner{width:100%;padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 86px;transform-origin:center center;display:flex;flex-direction:column;}
 
-  .ticker{ position:absolute; top:calc(var(--w)*.075); left:calc(var(--w)*.085);
-    right:calc(var(--w)*.085); z-index:38; display:flex; align-items:baseline; gap:calc(var(--w)*.04);
-    padding-bottom:calc(var(--w)*.035); border-bottom:1px solid var(--hair) }
-  .ticker .name{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.15); line-height:.9;
-    letter-spacing:.01em; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent }
-  .ticker .meta{ font-family:var(--mono); font-size:calc(var(--w)*.032); color:var(--mut);
-    letter-spacing:.08em; margin-left:auto; text-align:right; line-height:1.5 }
-  .ticker .meta b{ color:var(--yellow); font-weight:700 }
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--purple);
+    display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
+    padding:7px 12px;border-radius:8px;margin-bottom:18px;}
+  .eyebrow.k{color:var(--pink);} .eyebrow.y{color:var(--yellow);}
 
-  .slides{ position:absolute; inset:0; z-index:10 }
-  /* base .slide styles come from story.css; SEZL only sets the phone padding */
-  .slide{ padding:calc(var(--w)*.32) calc(var(--w)*.085) calc(var(--w)*.12) }
-  .spacer{ flex:1 1 auto; min-height:calc(var(--w)*.03) }
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);} h1 .y{color:var(--yellow);}
+  h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .sub{font-size:15.5px;line-height:1.55;color:#DEEEF6;margin-bottom:14px;max-width:40ch;}
+  .sub strong{color:var(--ink);font-weight:700;}
+  .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
 
-  .eyebrow{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.032);
-    letter-spacing:.18em; text-transform:uppercase; color:var(--purple) }
-  .slide[data-accent=pink] .eyebrow{ color:var(--pink) }
+  .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
+  .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
+  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--yellow);white-space:nowrap;}
+  .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
+  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;}
 
-  h1{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.135);
-    line-height:1.0; letter-spacing:.005em; text-transform:uppercase; margin-top:calc(var(--w)*.035) }
-  h1 .p{ color:var(--purple) } h1 .k{ color:var(--pink) } h1 .y{ color:var(--yellow) }
-  .sub{ font-size:calc(var(--w)*.046); line-height:1.4; color:var(--txt); opacity:.92;
-    margin-top:calc(var(--w)*.045); max-width:96% }
-  .sub b{ color:var(--yellow); font-weight:600 }
+  .chart{width:100%;margin:6px 0 2px;}
+  .chart svg{width:100%;height:auto;display:block;overflow:visible;}
+  svg text{font-family:var(--mono);}
+  svg .ax{font-size:13px;font-weight:600;}
+  svg .cap{font-size:12px;font-weight:600;}
+  svg .capm{font-size:11px;fill:var(--muted);}
+  .f-k{fill:var(--pink);} .f-p{fill:var(--purple);} .f-y{fill:var(--yellow);} .f-w{fill:#fff;} .f-m{fill:var(--muted);}
+  .s-k{stroke:var(--pink);} .s-p{stroke:var(--purple);} .s-y{stroke:var(--yellow);} .s-w{stroke:#fff;} .s-line{stroke:var(--line);}
+  .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
+  .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
+  .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
+  .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
 
-  .big{ font-family:var(--disp); font-weight:700; line-height:.85; letter-spacing:-.01em; font-size:calc(var(--w)*.30) }
-  .big.p{ color:var(--purple) }
-
-  .viz{ margin-top:calc(var(--w)*.05) }
-  .candles{ display:flex; align-items:flex-end; gap:calc(var(--w)*.022); height:calc(var(--w)*.4) }
-  .candle{ position:relative; width:calc(var(--w)*.05); border-radius:2px; height:var(--h);
-    background:var(--purple); transform-origin:bottom }
-  .candle.dn{ background:var(--pink) } .candle.hl{ background:var(--yellow) }
-  .candle::before{ content:""; position:absolute; left:50%; top:calc(var(--w)*-.03);
-    width:2px; height:calc(var(--w)*.05); background:inherit; transform:translateX(-50%); opacity:.8 }
-  .slide.active .candle{ animation:grow .5s cubic-bezier(.2,.7,.2,1) both }
-  .candle.hl{ box-shadow:0 0 14px color-mix(in srgb, var(--yellow) 60%, transparent) }
-  @keyframes grow{ from{transform:scaleY(0)} to{transform:scaleY(1)} }
-
-  .gauge{ position:relative; height:calc(var(--w)*.075); border-radius:99px;
-    background:linear-gradient(90deg,var(--purple-deep),var(--purple) 32%,var(--yellow) 62%,var(--pink) 100%);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08) }
-  .gauge .needle{ position:absolute; top:calc(var(--w)*-.03); bottom:calc(var(--w)*-.03);
-    width:3px; background:#fff; border-radius:2px; box-shadow:0 0 12px rgba(255,255,255,.7) }
-  .gauge .tag{ position:absolute; top:calc(var(--w)*-.12); transform:translateX(-50%);
-    font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.05); color:#fff; white-space:nowrap }
-  .gscale{ display:flex; justify-content:space-between; margin-top:calc(var(--w)*.03);
-    font-family:var(--mono); font-size:calc(var(--w)*.028); color:var(--mut) }
-
-  .bars{ display:flex; flex-direction:column; gap:calc(var(--w)*.03); position:relative; padding-top:calc(var(--w)*.06) }
-  .priceline{ position:absolute; top:0; bottom:0; width:2px; background:var(--yellow); opacity:.9 }
-  .priceline .pl{ position:absolute; top:calc(var(--w)*-.045); left:6px; font-family:var(--mono);
-    font-size:calc(var(--w)*.03); color:var(--yellow); white-space:nowrap }
-  .bar{ display:flex; align-items:center; gap:calc(var(--w)*.03) }
-  .bar .lab{ font-family:var(--mono); font-size:calc(var(--w)*.03); color:var(--mut); width:calc(var(--w)*.16) }
-  .bar .track{ flex:1; height:calc(var(--w)*.05); background:var(--panel2); border-radius:4px; overflow:hidden }
-  .bar .fill{ height:100%; width:0; border-radius:4px; background:var(--pink); transition:width .7s ease .1s }
-  .bar.soft .fill{ background:var(--pink-soft) }
-  .slide.active .bar .fill{ width:var(--f) }
-  .bar .val{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.032); width:calc(var(--w)*.12); text-align:right }
-
-  .snap{ width:100%; height:calc(var(--w)*.4) }
-  .snap path{ fill:none; stroke-width:calc(var(--w)*.012); stroke-linecap:round; stroke-linejoin:round }
-
-  .ladder{ display:flex; flex-direction:column; gap:calc(var(--w)*.026) }
-  .rung{ display:flex; align-items:center; gap:calc(var(--w)*.035);
-    padding:calc(var(--w)*.028) calc(var(--w)*.04); border-radius:10px; background:var(--panel) }
-  .rung.hi{ background:rgba(255,210,74,.14) }
-  .rung .dot{ width:calc(var(--w)*.026); height:calc(var(--w)*.026); border-radius:99px; flex:none }
-  .rung .p{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.042); width:calc(var(--w)*.22) }
-  .rung .t{ font-size:calc(var(--w)*.036); color:var(--mut) }
-  .rung .t b{ color:var(--txt) }
-
-  .meter{ display:flex; height:calc(var(--w)*.13); border-radius:10px; overflow:hidden; box-shadow:inset 0 0 0 1px var(--hair) }
-  .meter .risk{ flex:0 0 30%; background:linear-gradient(180deg,var(--pink),#c23e79); display:flex; align-items:center; justify-content:center }
-  .meter .rew{ flex:1; background:linear-gradient(180deg,var(--purple),var(--purple-deep)); display:flex; align-items:center; justify-content:center }
-  .meter span{ font-family:var(--mono); font-weight:700; font-size:calc(var(--w)*.044); color:#0c0714 }
-  .rr{ font-family:var(--disp); font-weight:700; font-size:calc(var(--w)*.15); color:var(--yellow); margin-top:calc(var(--w)*.05) }
-
-  .foot{ font-family:var(--mono); font-size:calc(var(--w)*.026); letter-spacing:.05em; color:var(--mut); margin-top:calc(var(--w)*.05) }
-  .foot.warn{ color:var(--pink) }
-
-  .hint{ position:absolute; bottom:calc(var(--w)*.05); left:0; right:0; z-index:35; text-align:center;
-    font-family:var(--mono); font-size:calc(var(--w)*.03); letter-spacing:.12em; color:var(--mut);
-    text-transform:uppercase; pointer-events:none; animation:pulse 2s ease-in-out infinite }
-  @keyframes pulse{ 0%,100%{opacity:.35} 50%{opacity:.85} }
-  .chev{ position:absolute; bottom:calc(var(--w)*.045); z-index:36; color:var(--mut);
-    font-size:calc(var(--w)*.06); font-family:var(--mono); pointer-events:none; opacity:.5 }
-  .chev.r{right:calc(var(--w)*.09)} .chev.l{left:calc(var(--w)*.09)}
-
+  .chart .draw{stroke-dasharray:1;stroke-dashoffset:1;}
+  .chart .fade{opacity:0;}
+  .chart .pop{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);}
+  .chart .fill{transform-box:fill-box;transform-origin:top;transform:scaleY(0);}
+  .slide.active .chart .draw{animation:cDraw 1.2s cubic-bezier(.4,0,.2,1) forwards;}
+  .slide.active .chart .fade{animation:cFade .5s ease forwards;}
+  .slide.active .chart .pop{animation:cPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
+  .slide.active .chart .fill{animation:cFill .9s cubic-bezier(.22,.9,.3,1) forwards;}
+  @keyframes cDraw{to{stroke-dashoffset:0;}}
+  @keyframes cFade{to{opacity:1;}}
+  @keyframes cPop{to{opacity:1;transform:scale(1);}}
+  @keyframes cFill{to{transform:scaleY(1);}}
+  .preview .chart .draw{stroke-dashoffset:0;} .preview .chart .fade{opacity:1;}
+  .preview .chart .pop{opacity:1;transform:scale(1);} .preview .chart .fill{transform:scaleY(1);}
   @media (prefers-reduced-motion: reduce){
-    .slide.active .candle{ animation:none } .candle{ transform:none }
-    .bar .fill{ transition:none } .hint{ animation:none }
+    .chart .draw{stroke-dashoffset:0;} .chart .fade{opacity:1;}
+    .chart .pop{opacity:1;transform:scale(1);} .chart .fill{transform:scaleY(1);}
+    .slide.active .chart *{animation:none !important;}
   }
+
+  /* Green (up) candle */
+  .candle-body{fill:var(--purple);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--purple) 45%,transparent));}
+  .candle-wick{stroke:var(--purple);stroke-width:5;stroke-linecap:round;}
+  .anno{font-size:12.5px;} .anno .h{fill:var(--ink);font-weight:700;}
+
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--purple) 40%,var(--line));border-radius:14px;background:rgba(52,211,153,.07);padding:13px 15px;}
+  .verdict.k{border-color:color-mix(in srgb,var(--pink) 40%,var(--line));background:rgba(251,93,116,.07);}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--purple);display:flex;align-items:center;gap:7px;}
+  .verdict.k .vh{color:var(--pink);}
+  .verdict p{font-size:13px;line-height:1.55;color:#DEEEF6;}
+  .verdict p strong{color:var(--ink);font-weight:700;}
+  .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
+
+  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:#DEEEF6;}
+  .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
+
+  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+
+  .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
+  .rung:last-child{border-bottom:0}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:120px;flex-shrink:0;}
+  .rung .lbl{font-size:12px;color:var(--muted);line-height:1.3;}
+  .rung.res .px{color:var(--pink)}
+  .rung.sup .px{color:var(--purple)}
+  .rung.now{background:var(--yellow);}
+  .rung.now .px{color:var(--deep)}
+  .rung.now .lbl{color:var(--deep);font-weight:700;}
+
+  /* Green target ladder (up) */
+  .tpl{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2);box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .tpl .rg{position:relative;z-index:2;flex:1;min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 15px;border-bottom:1px solid var(--line);}
+  .tpl .rg:last-child{border-bottom:0;}
+  .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
+  .tpl .rg .cap2{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--purple);}
+  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--purple);}
+  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .rg.stop .px{color:var(--muted);} .tpl .rg.stop .cap2{color:var(--muted);} .tpl .rg.stop .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(300%);
+    background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
+    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
+  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
+  @keyframes riseUp{
+    0%{transform:translateY(300%);opacity:0;}
+    12%{opacity:1;}
+    62%{transform:translateY(0);}
+    74%{transform:translateY(9%);}
+    86%{transform:translateY(0);}
+    94%{transform:translateY(3%);}
+    100%{transform:translateY(0);}
+  }
+  .preview .tpl .riser{transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(0);} }
+
+  .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#DEEEF6;border-left:3px solid var(--yellow);padding-left:11px;}
+  .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
+
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, rgba(4,18,26,.85), transparent);}
+  .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
+  .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
+  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
+  .count b{color:rgba(255,255,255,.72);font-weight:600;}
+  .nav button{pointer-events:auto;width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
+  .nav button:hover{color:#fff;border-color:rgba(255,255,255,.35);}
+  .nav button:active{transform:scale(.9);color:var(--yellow);}
+  .nav button:focus-visible{outline:2px solid var(--purple);outline-offset:3px;}
+  .nav button svg{width:16px;height:16px;}
+  .nav button[disabled]{opacity:.22;pointer-events:none;}
+  .preview .nav{display:none;}
 </style>
 </head>
 <body>
-<div class="phone" id="phone">
+
+<div class="stage" id="stage">
   <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
-  <div class="slides" id="slides">
+  <div class="deck" id="deck">
 
-    <section class="slide active" data-accent="purple">
-      <div class="ticker-chip rv"><span class="dot"></span> SWING SETUP</div>
-      <h1 class="rv">×2.5<br>за 90 днів.</h1>
-      <p class="sub rv">План спрацював: breakout узяв <b>T1 $180</b>. Але зараз $183, а daily ще гарячіший — чи варто ще заходити?</p>
-      <div class="cover-meta rv" style="margin-top:calc(var(--w)*.03)"><span class="cm-price">$183.24</span><span class="cm-sep">·</span><span class="cm-date">2 липня 2026</span></div>
-      <div class="spacer"></div>
-      <div class="viz candles rv">
-        <div class="candle" style="--h:14%"></div><div class="candle dn" style="--h:20%"></div>
-        <div class="candle" style="--h:26%"></div><div class="candle" style="--h:24%"></div>
-        <div class="candle dn" style="--h:36%"></div><div class="candle" style="--h:52%"></div>
-        <div class="candle" style="--h:66%"></div><div class="candle dn" style="--h:60%"></div>
-        <div class="candle" style="--h:82%"></div><div class="candle hl" style="--h:100%"></div>
+    <!-- 1 · 4H -->
+    <section class="slide active" data-label="SEZL · 4H">
+      <div class="cover-ticker rv">SEZL</div>
+      <div class="eyebrow rv">4H STRUCTURE</div>
+      <h1 class="rv">Розтягнуто<br><span class="hl">над BB.</span></h1>
+      <p class="sub rv">Ціна над верхньою 4h Bollinger, <strong>RSI 72, Stoch 90</strong>. Дуже сильно — але перекуп. Це <strong>не місце, щоб chase</strong>.</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="SEZL 4h extended">
+          <line class="dash s-y fade" style="animation-delay:.05s" x1="90" y1="60"  x2="360" y2="60"/>
+          <line class="dash s-p fade" style="animation-delay:.12s" x1="90" y1="125" x2="360" y2="125"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="185" x2="360" y2="185"/>
+          <text class="ax f-y fade" style="animation-delay:.25s" x="80" y="64"  text-anchor="end">$183</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="80" y="129" text-anchor="end">$165</text>
+          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="189" text-anchor="end">$153</text>
+          <text class="cap f-y fade" style="animation-delay:.3s"  x="366" y="64">now · над BB</text>
+          <text class="cap f-p fade" style="animation-delay:.35s" x="366" y="129">upper BB · відкат</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="189">4h BB mid</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M92,205 L200,150 L300,95 L352,62"/>
+          <circle class="dot-y pop" style="animation-delay:1.5s" cx="352" cy="62" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="220" y="240" text-anchor="middle">розтягнуто → не chase</text>
+        </svg>
       </div>
     </section>
 
-    <section class="slide" data-accent="purple">
-      <div class="eyebrow rv">Ситуація</div>
-      <h1 class="rv">T1 взято.<br>Тепер <span class="y">$188.</span></h1>
-      <p class="sub rv">Deep dip до $165 не прийшов — акція просто пішла, breakout узяв <b>T1 $180</b>. Це <b>relative strength</b>: 2 липня chips −10%, а SEZL тримався. Далі $188 (~3% угору) — там кластер опціонів, де momentum глохне.</p>
-      <div class="spacer"></div>
-      <div class="viz rv" style="font-family:var(--mono)">
-        <div class="big y" style="font-size:calc(var(--w)*.14);color:var(--yellow)">$183 <span style="color:var(--pink)">▲</span></div>
-        <div style="font-size:calc(var(--w)*.04);color:var(--mut);margin-top:calc(var(--w)*.02)">T1 $180 hit · next $188</div>
+    <!-- 2 · WEEKLY CANDLE -->
+    <section class="slide" data-label="SEZL · 1W">
+      <div class="eyebrow p rv">WEEKLY CANDLE</div>
+      <h1 class="rv">Сила. Але<br><span class="hl">перекуп.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 340" role="img" aria-label="SEZL weekly strong green candle">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
+          <line class="dash s-p fade" style="animation-delay:.1s"  x1="60" y1="60"  x2="120" y2="60"/>
+          <line class="dash fade" stroke="#8FB6C8" style="animation-delay:.15s" x1="60" y1="238" x2="120" y2="238"/>
+          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="300" x2="120" y2="300"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">184.84 H</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="58"  text-anchor="end">183.24 C</text>
+          <text class="ax f-m fade" style="animation-delay:.35s" x="54" y="242" text-anchor="end">168.69 O</text>
+          <text class="ax f-m fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">163.68 L</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="40" x2="150" y2="300"/>
+          <rect class="candle-body fill" x="120" y="60" width="60" height="178" rx="7" style="animation-delay:.6s"/>
+          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="120" x2="210" y2="120" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="110"><tspan class="h">Тіло</tspan> — зелене,</text>
+          <text class="anno f-p fade" style="animation-delay:1.05s" x="216" y="127" font-weight="700">закриття біля highs</text>
+          <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="270" x2="210" y2="270" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="264"><tspan class="h">Нижня тінь</tspan> — покупці</text>
+          <text class="anno f-p fade" style="animation-delay:1.2s" x="216" y="281" font-weight="700">тримають тренд</text>
+        </svg>
+      </div>
+      <div class="verdict k rv">
+        <div class="vh">! Сила, але перекуп</div>
+        <p>Зелена свічка, закриття біля highs — тренд сильний. Але <strong>weekly RSI 84, Stoch 99</strong> — екстремальний перекуп. Це <span class="k">не reversal-сигнал</span>, а причина чекати відкат, а не chase.</p>
       </div>
     </section>
 
-    <section class="slide" data-accent="pink">
-      <div class="eyebrow rv">Пастка</div>
-      <h1 class="rv">Бак майже<br><span class="k">порожній.</span></h1>
-      <p class="sub rv">Daily RSI знову біля <b>80</b>, Stochastic ~94 — ще гарячіше, ніж на $175. Гнатися за $183 — гірша версія «не гони $175».</p>
-      <div class="spacer"></div>
-      <div class="viz rv">
-        <div class="gauge"><div class="needle" style="left:80%"></div><div class="tag" style="left:80%">RSI ~80</div></div>
-        <div class="gscale"><span>0</span><span>50</span><span>OVERBOUGHT</span></div>
+    <!-- 3 · DAILY -->
+    <section class="slide" data-label="SEZL · 1D">
+      <div class="eyebrow y rv">DAILY · 1D</div>
+      <h1 class="rv">Парабола. <span class="hl">RSI 80.</span></h1>
+      <p class="sub rv">Ціна над верхньою daily Bollinger, RSI <strong>80</strong>, Stoch <strong>95</strong>. Тренд бичачий і чистий — але параболічний та розтягнутий. Здоровий відкат назрів.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Trend strong, stretched</span><span class="v">RSI 80 · Stoch 95 · MACD +</span></div>
+        <p>MACD ще росте, OBV на highs — <strong>тренд цілий</strong>. Але RSI 80 <span class="k">кричить «розтягнуто»</span>.</p>
+      </div>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="SEZL daily parabola">
+          <line class="dash s-y fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
+          <line class="dash s-p fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="235" x2="360" y2="235"/>
+          <text class="ax f-y fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$184</text>
+          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="154" text-anchor="end">$141</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="239" text-anchor="end">$114</text>
+          <text class="cap f-y fade" style="animation-delay:.3s"  x="366" y="59">ATH · now</text>
+          <text class="cap f-p fade" style="animation-delay:.35s" x="366" y="154">daily BB mid</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="239">50-day</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.2s" d="M90,235 L200,175 L300,100 L352,58"/>
+          <circle class="dot-y pop" style="animation-delay:1.85s" cx="352" cy="58" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:2s" x="230" y="200" text-anchor="middle">parabola · стрімко вгору</text>
+        </svg>
       </div>
     </section>
 
-    <section class="slide" data-accent="pink">
-      <div class="eyebrow rv">Ризики</div>
-      <h1 class="rv">Дорого —<br>і <span class="k">parabola.</span></h1>
-      <p class="sub rv">Усі analyst targets <b>нижчі за $183</b>. Сила реальна, але ідіосинкратична (гайденс 30–35%, Q1 +29%/+42%, squeeze) — це не rate-story: SEZL — <b>BNPL</b>, тому вищі ставки бʼють, а не тягнуть.</p>
-      <div class="spacer"></div>
-      <div class="viz bars rv">
-        <div class="priceline" style="left:92%"><span class="pl">Ціна $183</span></div>
-        <div class="bar"><span class="lab">MAX</span><div class="track"><div class="fill" style="--f:82.5%"></div></div><span class="val">$165</span></div>
-        <div class="bar soft"><span class="lab">MED</span><div class="track"><div class="fill" style="--f:69%"></div></div><span class="val">$138</span></div>
-        <div class="bar"><span class="lab">MIN</span><div class="track"><div class="fill" style="--f:50%"></div></div><span class="val">$100</span></div>
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="SEZL · РІВНІ">
+      <div class="eyebrow rv">РІВНІ · structure</div>
+      <h1 class="rv">Де <span class="hl">купувати</span></h1>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$200</span><span class="lbl">Кругла ціль розширення</span></div>
+        <div class="rung now"><span class="px">$183–185</span><span class="lbl">ТУТ / ATH · не chase</span></div>
+        <div class="rung sup"><span class="px">$178–180</span><span class="lbl">Дрібний відкат · перший buy</span></div>
+        <div class="rung sup"><span class="px">$165</span><span class="lbl">4h upper BB · buy-зона</span></div>
+        <div class="rung sup"><span class="px">$153</span><span class="lbl">4h BB mid · глибший buy</span></div>
+        <div class="rung sup"><span class="px">$141</span><span class="lbl">Daily BB mid</span></div>
+        <div class="rung sup"><span class="px">$114</span><span class="lbl">50-day · тренд-лінія</span></div>
       </div>
+      <p class="note p rv">Тренд бичачий. Купуй <strong>відкати</strong>, не highs: $178–180 → $165 → $153. Втратить $141 (daily mid) — тренд під питанням.</p>
     </section>
 
-    <section class="slide" data-accent="purple">
-      <div class="eyebrow rv">Розумний хід</div>
-      <h1 class="rv">Не гони $183.<br><span class="p">Manage або чекай.</span></h1>
-      <p class="sub rv">У позиції з breakout — <b>manage-mode</b>: partials $188/$190, trail stop $173–174. Fresh entry — тільки на pullback (глибше $174–176, stop $168). З $183 угору тонко — R:R вже не той.</p>
-      <div class="spacer"></div>
-      <div class="viz ladder rv">
-        <div class="rung"><span class="dot" style="background:var(--purple)"></span><span class="p" style="color:var(--purple)">$188</span><span class="t">T2 · option cluster</span></div>
-        <div class="rung"><span class="dot" style="background:var(--mut)"></span><span class="p" style="color:var(--mut)">$183</span><span class="t">now — chase = слабкий R:R</span></div>
-        <div class="rung hi"><span class="dot" style="background:var(--yellow)"></span><span class="p" style="color:var(--yellow)">$178–180</span><span class="t"><b>buy zone</b> (pullback)</span></div>
-        <div class="rung"><span class="dot" style="background:var(--pink)"></span><span class="p" style="color:var(--pink)">$172–173</span><span class="t">stop</span></div>
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="SEZL · LONG">
+      <div class="eyebrow p rv">ПЛАН · не chase</div>
+      <h1 class="rv">Купуй <span class="hl">відкат</span></h1>
+      <p class="sub rv">Тренд сильний, але перекуп (RSI 84). <strong>Не chase $183</strong> — чекай відкат у $178–180 (або глибше $165), тоді long. Manage, якщо вже в позиції.</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$230</span></span><span class="r">+29%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$210</span></span><span class="r">+17%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$200</span></span><span class="r">+12%</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$179</span></span><span class="r">відкат</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$164</span></span><span class="r">4h upper BB</span></div>
       </div>
-    </section>
-
-    <section class="slide" data-accent="purple">
-      <div class="eyebrow rv">Підсумок</div>
-      <h1 class="rv">Momentum-угода.<br><span class="p">Не інвестиція.</span></h1>
-      <p class="sub rv">First crack — <b>втрата $174–176</b> / rising rail до $170 (старий $157 stale). Не закохуйся в позицію: це trade на momentum, керуй ризиком.</p>
-      <div class="spacer"></div>
-      <p class="sub rv" style="margin-top:calc(var(--w)*.02)">Повний розбір щодня — у нашій телеграм-групі: <a href="https://t.me/market_predictions" style="color:var(--yellow);text-decoration:none;font-weight:700">t.me/market_predictions</a></p>
-      <div class="foot warn rv">Не є фінансовою порадою · лише для навчання</div>
+      <p class="note p rv">RSI 84 / Stoch 99 — розтягнуто, відкат здоровий. Купуй слабкість, не силу. Втратить <strong>$153</strong> — тренд під питанням.</p>
+      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
   </div>
 
-  <div class="chev l">‹</div>
-  <div class="chev r">›</div>
-  <div class="hint" id="hint">Тапни, щоб гортати ›</div>
+  <div class="nav">
+    <div class="nav-l">
+      <button id="btn-back" aria-label="Попередній слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="foot-tag" id="foot-tag">SEZL</span>
+    </div>
+    <div class="nav-r">
+      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
+      <button id="btn-next" aria-label="Наступний слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  const phone = document.getElementById('phone');
-  function syncW(){ phone.style.setProperty('--w', phone.clientWidth + 'px'); }
-  window.addEventListener('resize', syncW);
-  syncW();
-  createStory({ stage:'.phone', deck:'.slides', hint:'#hint', tap:true, swipe:'.phone' });
+  createStory({
+    stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
+    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
+    label: '#foot-tag',
+  });
 </script>
 </body>
 </html>

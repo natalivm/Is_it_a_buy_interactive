@@ -10,20 +10,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="story.css">
 <style>
-  /* ── STX palette (steel/teal, two-sided) + 9:16 deck chrome ── */
+  /* ── STX palette (bronze / sepia — storage) ── */
   :root{
-    --page-bg:#04121A;
-    --bg:#07202C;
-    --panel:#0E3140;
-    --panel2:#0B2836;
-    --line:#1B4B5A;
+    --page-bg:#120C05;
+    --bg:#1B1209;
+    --panel:#2C1E10;
+    --panel2:#251A0D;
+    --line:#48331A;
     --ink:#FFFFFF;
-    --muted:#8FB6C4;
-    --purple:#2DD4BF;
-    --pink:#FB7185;
-    --yellow:#F5C543;
-    --yellow-deep:#F5C543;
-    --deep:#04141B;
+    --muted:#C6AA82;
+    --purple:#34D399;
+    --pink:#FB5D74;
+    --yellow:#F5A524;
+    --deep:#120C05;
     --display:'Oswald',sans-serif;
     --body:'Inter',sans-serif;
     --mono:'IBM Plex Mono',monospace;
@@ -33,100 +32,137 @@
     background:var(--bg);overflow:hidden;display:flex;flex-direction:column;container-type:inline-size;}
   .stage::before{content:"";position:absolute;inset:0;pointer-events:none;
     background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:56px 56px;opacity:.22;}
-
-  .tape{position:relative;z-index:3;padding:calc(env(safe-area-inset-top, 0px) + 14px) 18px 8px;
-    display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(7,32,44,.95), rgba(7,32,44,.72));}
-  .tape-row{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
-  .tape-row .tkr{color:var(--yellow);font-weight:600;text-shadow:0 0 10px color-mix(in srgb,var(--yellow) 45%,transparent);}
-  .spark{width:100%;height:34px;display:block;}
-  .spark path.line{fill:none;stroke:#2B5A6A;stroke-width:1.5;}
-  .spark path.lit{fill:none;stroke:var(--purple);stroke-width:2;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--purple) 60%,transparent));}
-  .spark circle{fill:var(--yellow);stroke:var(--bg);stroke-width:2;transition:cx .45s cubic-bezier(.22,.9,.3,1), cy .45s cubic-bezier(.22,.9,.3,1);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--yellow) 70%,transparent));}
+    background-size:64px 64px;opacity:.13;}
 
   .deck{position:relative;flex:1;z-index:2;min-height:0;}
   .slide{justify-content:center;overflow:hidden;}
-  .slide-inner{width:100%;padding:20px 22px 40px;transform-origin:center center;display:flex;flex-direction:column;}
-  .slide.cover .slide-inner{justify-content:flex-start;padding-top:24px;}
+  .slide-inner{width:100%;padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 86px;transform-origin:center center;display:flex;flex-direction:column;}
 
-  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);
-    display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
-  .eyebrow.k{color:var(--pink);}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);
+    display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
+    padding:7px 12px;border-radius:8px;margin-bottom:18px;}
+  .eyebrow.p{color:var(--purple);} .eyebrow.y{color:var(--yellow);}
 
-  h1{font-family:var(--display);font-weight:700;font-size:clamp(32px, 10cqw, 52px);line-height:1.04;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;}
-  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);} h1 .y{color:var(--yellow);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-  .sub{font-size:15px;line-height:1.55;color:#D6E7EC;margin-bottom:18px;max-width:38ch;}
+  .sub{font-size:15.5px;line-height:1.55;color:#F3E8D6;margin-bottom:14px;max-width:40ch;}
   .sub strong{color:var(--ink);font-weight:700;}
+  .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
 
-  .cover{justify-content:flex-start;}
-  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(64px, 24cqw, 140px);line-height:.9;
-    letter-spacing:.02em;text-transform:uppercase;margin-bottom:18px;align-self:flex-start;}
-  .cover .ticker-chip{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.14em;
-    border:1.5px solid var(--yellow);color:var(--yellow);background:var(--panel);padding:8px 14px;border-radius:9px;margin-bottom:22px;}
-  .cover .ticker-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);animation:blink 1.1s infinite;box-shadow:0 0 8px var(--yellow);}
-  @keyframes blink{50%{opacity:.25}}
-  .swipe-hint{margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+  .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
+  .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
+  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--yellow);white-space:nowrap;}
+  .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
+  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;}
 
-  .stat-wall{display:flex;flex-direction:column;gap:10px;}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 1px 0 rgba(45,212,191,.08) inset;}
-  .stat .k{font-size:13px;color:var(--muted);line-height:1.35;}
-  .stat .k b{color:var(--ink);font-weight:600;display:block;font-size:14px;}
-  .stat .v{font-family:var(--mono);font-size:17px;font-weight:600;white-space:nowrap;}
-  .v.p{color:var(--purple)} .v.k{color:var(--pink)} .v.y{color:var(--yellow-deep)}
+  .chart{width:100%;margin:6px 0 2px;}
+  .chart svg{width:100%;height:auto;display:block;overflow:visible;}
+  svg text{font-family:var(--mono);}
+  svg .ax{font-size:13px;font-weight:600;}
+  svg .cap{font-size:12px;font-weight:600;}
+  svg .capm{font-size:11px;fill:var(--muted);}
+  .f-k{fill:var(--pink);} .f-p{fill:var(--purple);} .f-y{fill:var(--yellow);} .f-w{fill:#fff;} .f-m{fill:var(--muted);}
+  .s-k{stroke:var(--pink);} .s-p{stroke:var(--purple);} .s-y{stroke:var(--yellow);} .s-w{stroke:#fff;} .s-line{stroke:var(--line);}
+  .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
+  .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
+  .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
+  .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
+  .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
+  .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
 
-  .mgrid{display:flex;flex-direction:column;gap:10px;}
-  .mcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;gap:9px;}
-  .mhead{display:flex;justify-content:space-between;align-items:baseline;}
-  .mtf{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.04em;color:var(--ink);text-transform:uppercase;}
-  .mtag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;}
-  .mtag.k{color:var(--pink)} .mtag.p{color:var(--purple)} .mtag.y{color:var(--yellow-deep)}
-  .mgauge{position:relative;height:9px;border-radius:99px;background:linear-gradient(90deg,var(--pink) 0%,#8a6a44 40%,#5a8a6a 70%,var(--purple) 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
-  .mgauge i{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 9px rgba(255,255,255,.85);}
-  .mrow2{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--mono);font-size:11.5px;color:var(--muted);}
-  .mrow2 b{font-weight:700;} .mrow2 b.k{color:var(--pink)} .mrow2 b.p{color:var(--purple)} .mrow2 b.y{color:var(--yellow-deep)}
+  .chart .draw{stroke-dasharray:1;stroke-dashoffset:1;}
+  .chart .fade{opacity:0;}
+  .chart .pop{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);}
+  .chart .fill{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);}
+  .slide.active .chart .draw{animation:cDraw 1.2s cubic-bezier(.4,0,.2,1) forwards;}
+  .slide.active .chart .fade{animation:cFade .5s ease forwards;}
+  .slide.active .chart .pop{animation:cPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
+  .slide.active .chart .fill{animation:cFill .9s cubic-bezier(.22,.9,.3,1) forwards;}
+  @keyframes cDraw{to{stroke-dashoffset:0;}}
+  @keyframes cFade{to{opacity:1;}}
+  @keyframes cPop{to{opacity:1;transform:scale(1);}}
+  @keyframes cFill{to{transform:scaleY(1);}}
+  .preview .chart .draw{stroke-dashoffset:0;} .preview .chart .fade{opacity:1;}
+  .preview .chart .pop{opacity:1;transform:scale(1);} .preview .chart .fill{transform:scaleY(1);}
+  @media (prefers-reduced-motion: reduce){
+    .chart .draw{stroke-dashoffset:0;} .chart .fade{opacity:1;}
+    .chart .pop{opacity:1;transform:scale(1);} .chart .fill{transform:scaleY(1);}
+    .slide.active .chart *{animation:none !important;}
+  }
+
+  .candle-body{fill:var(--pink);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--pink) 45%,transparent));}
+  .candle-wick{stroke:var(--pink);stroke-width:5;stroke-linecap:round;}
+  .anno{font-size:12.5px;} .anno .h{fill:var(--ink);font-weight:700;}
+
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 40%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
+  .verdict.p .vh{color:var(--purple);}
+  .verdict p{font-size:13px;line-height:1.55;color:#F3E8D6;}
+  .verdict p strong{color:var(--ink);font-weight:700;}
+  .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
+
+  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:#F3E8D6;}
+  .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
+
+  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
 
   .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
   .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
   .rung:last-child{border-bottom:0}
-  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:110px;flex-shrink:0;}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:120px;flex-shrink:0;}
   .rung .lbl{font-size:12px;color:var(--muted);line-height:1.3;}
   .rung.res .px{color:var(--pink)}
   .rung.sup .px{color:var(--purple)}
-  .rung.piv{background:rgba(245,197,67,.12);}
-  .rung.piv .px{color:var(--yellow)}
-  .rung.piv .lbl{color:#EEDFAE;}
   .rung.now{background:var(--yellow);}
   .rung.now .px{color:var(--deep)}
   .rung.now .lbl{color:var(--deep);font-weight:700;}
 
-  .trade-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);box-shadow:0 6px 18px rgba(0,0,0,.4);}
-  .tc-head{padding:11px 15px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;}
-  .tc-head.short{background:rgba(251,113,133,.16);color:var(--pink);}
-  .tc-head.long{background:rgba(45,212,191,.16);color:var(--purple);}
-  .tc-body{padding:5px 0;}
-  .tc-row{display:flex;justify-content:space-between;gap:10px;padding:8px 15px;border-top:1px solid var(--line);font-size:12.5px;}
-  .tc-row .l{color:var(--muted);}
-  .tc-row .r{font-family:var(--mono);font-weight:600;text-align:right;}
+  .tpl{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2);box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .tpl .rg{position:relative;z-index:2;flex:1;min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 15px;border-bottom:1px solid var(--line);}
+  .tpl .rg:last-child{border-bottom:0;}
+  .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
+  .tpl .rg .cap2{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--pink);}
+  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--pink);}
+  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .rg.stop .px{color:var(--muted);} .tpl .rg.stop .cap2{color:var(--muted);} .tpl .rg.stop .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(100%);
+    background:linear-gradient(90deg, rgba(251,93,116,.30), rgba(251,93,116,.12));
+    border-top:1px solid rgba(251,93,116,.55);border-bottom:1px solid rgba(251,93,116,.55);box-shadow:0 0 26px rgba(251,93,116,.4);}
+  .slide.active .tpl .riser{animation:sinkDown 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
+  @keyframes sinkDown{
+    0%{transform:translateY(100%);opacity:0;}
+    12%{opacity:1;}
+    62%{transform:translateY(400%);}
+    74%{transform:translateY(391%);}
+    86%{transform:translateY(400%);}
+    94%{transform:translateY(397%);}
+    100%{transform:translateY(400%);}
+  }
+  .preview .tpl .riser{transform:translateY(400%);}
+  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
 
-  .note{margin-top:14px;font-size:12px;line-height:1.55;color:#D6E7EC;border-left:3px solid var(--yellow);padding-left:10px;}
-  .note.k{border-left-color:var(--pink);}
+  .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#F3E8D6;border-left:3px solid var(--yellow);padding-left:11px;}
+  .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
 
-  .pill{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin:0 6px 8px 0;text-transform:uppercase;background:var(--panel);}
-  .pill.hot{border-color:var(--yellow);color:var(--yellow);background:rgba(245,197,67,.1);box-shadow:0 0 14px color-mix(in srgb,var(--yellow) 26%,transparent);}
-
-  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);pointer-events:none;}
-  .nav button{pointer-events:auto;width:34px;height:34px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.42);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
-  .nav button:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.3);}
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, rgba(18,12,5,.85), transparent);}
+  .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
+  .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
+  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
+  .count b{color:rgba(255,255,255,.72);font-weight:600;}
+  .nav button{pointer-events:auto;width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s;}
+  .nav button:hover{color:#fff;border-color:rgba(255,255,255,.35);}
   .nav button:active{transform:scale(.9);color:var(--yellow);}
-  .nav button:focus-visible{outline:2px solid var(--purple);outline-offset:3px;}
+  .nav button:focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
   .nav button svg{width:16px;height:16px;}
-  .nav button[disabled]{opacity:0;pointer-events:none;}
-  .nav .count{pointer-events:none;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);}
-  .nav .count b{color:rgba(255,255,255,.55);font-weight:600;}
+  .nav button[disabled]{opacity:.22;pointer-events:none;}
+  .preview .nav{display:none;}
 </style>
 </head>
 <body>
@@ -134,118 +170,143 @@
 <div class="stage" id="stage">
   <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
-
   <div class="deck" id="deck">
 
-    <!-- 1 · COVER -->
-    <section class="slide cover active" data-label="PLAN">
+    <!-- 1 · 4H -->
+    <section class="slide active" data-label="STX · 4H">
       <div class="cover-ticker rv">STX</div>
-      <div class="ticker-chip rv"><span class="dot"></span> 2-SIDED SETUP</div>
-      <h1 class="rv">$880 —<br><span class="hl">це трейд</span></h1>
-      <p class="sub rv"><strong>Seagate ($STX)</strong> вибило довгу тезу на зламі $880. Зараз <strong>flat</strong> — не long, не short. Oversold bounce на 4h імовірний, але справжнє рішення — це реакція ціни на $880.</p>
-      <div class="rv">
-        <span class="pill hot">Post-breakdown</span><span class="pill">Flat · watching</span><span class="pill">SMH-driven</span>
+      <div class="eyebrow rv">4H STRUCTURE</div>
+      <h1 class="rv">Зрізало.<br><span class="hl">Перепродано.</span></h1>
+      <p class="sub rv">Ціна впала далеко під усі 4h MA. Перепродано (<strong>Stoch 11, RSI 31, MACD −6</strong>) → відскок можливий, але опір далеко: <strong>$871–875</strong> (200-MA / lower BB).</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="STX 4h deeply oversold">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
+          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="200" x2="360" y2="200"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$996</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$875</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="204" text-anchor="end">$828</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">4h BB mid</text>
+          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="154">200-MA / lower BB</text>
+          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="204">now</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,48 L300,198"/>
+          <circle class="dot-y pop" style="animation-delay:1.35s" cx="300" cy="198" r="6"/>
+          <path class="bounce fade" style="animation-delay:1.55s" d="M300,198 L358,156"/>
+          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="252" text-anchor="middle">oversold → bounce у опір $875</text>
+        </svg>
       </div>
-      <div class="cover-meta rv" style="margin-top:16px"><span class="cm-price">$820.16</span><span class="cm-sep">·</span><span class="cm-date">2 липня 2026</span></div>
-      <div class="swipe-hint rv">Натисни ▶ щоб почати</div>
     </section>
 
-    <!-- 2 · SITUATION -->
-    <section class="slide" data-label="01 · SITUATION">
-      <div class="eyebrow k rv">01 · Що сталося</div>
-      <h1 class="rv">Зламав <span class="k">$880</span> на −10%</h1>
-      <p class="sub rv">880 base не втримався — денне закриття <strong>−10.38%</strong> на breakdown volume (6.29M). Схоже на wide-market / SMH move, не STX-specific. Стару довгу тезу вибило; тепер ми flat і чекаємо сетап у будь-який бік.</p>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Close 2 липня</b>breakdown volume 6.29M · AH $827.94</span><span class="v k">−10.38%</span></div>
-        <div class="stat"><span class="k"><b>Broken base</b>$880 тепер flip у resistance</span><span class="v k">$880</span></div>
-        <div class="stat"><span class="k"><b>SMH tell</b>ймовірно shared move, не STX-specific</span><span class="v y">SMH</span></div>
+    <!-- 2 · WEEKLY CANDLE -->
+    <section class="slide" data-label="STX · 1W">
+      <div class="eyebrow rv">WEEKLY CANDLE</div>
+      <h1 class="rv">Одна свічка.<br><span class="hl">Blow-off.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 340" role="img" aria-label="STX weekly blow-off candle">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
+          <line class="dash fade" stroke="#C6AA82" style="animation-delay:.1s" x1="60" y1="146" x2="120" y2="146"/>
+          <line class="dash s-y fade" style="animation-delay:.15s" x1="60" y1="269" x2="120" y2="269"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="300" x2="120" y2="300"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">998.49 H</text>
+          <text class="ax f-m fade" style="animation-delay:.3s"  x="54" y="150" text-anchor="end">915.99 O</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="54" y="273" text-anchor="end">820.16 C</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">795.66 L</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="40" x2="150" y2="300"/>
+          <rect class="candle-body fill" x="120" y="146" width="60" height="123" rx="7" style="animation-delay:.6s"/>
+          <line class="s-line fade" style="animation-delay:1s" x1="150" y1="92" x2="210" y2="92" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="82"><tspan class="h">Верхня тінь</tspan> — рвонули</text>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="99">до 998, <tspan class="f-k" font-weight="700">ВІДКИНУТО</tspan></text>
+          <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="207" x2="210" y2="207" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="201"><tspan class="h">Тіло</tspan> — величезне, −18%</text>
+          <text class="anno f-k fade" style="animation-delay:1.2s" x="216" y="218" font-weight="700">продавці захопили</text>
+          <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="286" x2="210" y2="286" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="290"><tspan class="h">Нижня тінь</tspan> — ледь відбили</text>
+        </svg>
       </div>
-      <p class="note rv">Перше питання — чи це sector move? Підтвердь: чи SMH теж зламав свій swing low. Як і в AMAT, це радше sector trade, ніж історія однієї акції.</p>
+      <div class="verdict rv">
+        <div class="vh">✗ Blow-off від ~$1000</div>
+        <p>Спайк до 998, закриття 820 — величезне червоне тіло, close &lt; open. Класичний <strong>blow-off top</strong> у зв'язці з sector-rout напівпровідників. Reclaim $950 потрібен, щоб довести shakeout.</p>
+      </div>
     </section>
 
-    <!-- 3 · MOMENTUM -->
-    <section class="slide" data-label="02 · MOMENTUM">
-      <div class="eyebrow rv">02 · Momentum · 4h vs daily</div>
-      <h1 class="rv">4h oversold, <span class="hl">daily — ні</span></h1>
-      <div class="mgrid rv">
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">4h RSI / MACD</span><span class="mtag k">approaching oversold</span></div>
-          <div class="mgauge"><i style="left:31%"></i></div>
-          <div class="mrow2"><span>RSI <b class="k">31.4</b></span><span>MACD <b class="k">−29.8</b></span><span>напрям <b class="k">↓</b></span></div>
-        </div>
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">4h dev band</span><span class="mtag p">нижче mid → reversion</span></div>
-          <div class="mrow2"><span>upper <b class="p">973</b></span><span>price <b class="y">~820</b></span><span>lower <b class="k">705</b></span></div>
-        </div>
-        <div class="mcard">
-          <div class="mhead"><span class="mtf">Daily</span><span class="mtag y">ще біля highs</span></div>
-          <div class="mgauge"><i style="left:78%"></i></div>
-          <div class="mrow2"><span>mean-revert <b class="y">−0.5…−1.0</b></span><span>long <b class="k">не заслужений</b></span></div>
-        </div>
+    <!-- 3 · DAILY -->
+    <section class="slide" data-label="STX · 1D">
+      <div class="eyebrow y rv">DAILY · 1D</div>
+      <h1 class="rv">Зламав <span class="hl">50-day.</span></h1>
+      <p class="sub rv">Велика червона денна свічка закрилась під 50-day (<strong>$840</strong>). <strong>MACD bear cross</strong> (−26), RSI 41. Наступна зупинка — daily lower BB $778, далі 20-week $648.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Rolled over hard</span><span class="v">RSI 41 · MACD −26 · Stoch 27 ↘</span></div>
+        <p>Momentum злам: MACD глибокий ведмежий крос, Stoch падає. <span class="k">Mean-reversion відкрито</span>.</p>
       </div>
-      <p class="note rv">4h перепроданий і нижче mid dev-band → reversion bounce — вищоймовірний near-term рух. Але daily ледь зійшов з максимумів: long ще не заслужений.</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="STX daily broke 50-day">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
+          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="82"  x2="360" y2="82"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="155" x2="360" y2="155"/>
+          <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="245" x2="360" y2="245"/>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$840</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="86"  text-anchor="end">$820</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="159" text-anchor="end">$778</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="249" text-anchor="end">$648</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">50-day · зламано</text>
+          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="86">now</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="159">lower BB</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="249">20-week mean</text>
+          <circle class="dot-y pop" style="animation-delay:.5s" cx="90" cy="82" r="6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.6s;animation-duration:1.2s" d="M90,82 L210,155 L352,245"/>
+          <text class="cap f-p fade" style="animation-delay:1.9s" x="352" y="267" text-anchor="end">→ mean</text>
+        </svg>
+      </div>
     </section>
 
     <!-- 4 · LEVELS -->
-    <section class="slide" data-label="03 · LEVELS">
-      <div class="eyebrow rv">03 · Levels</div>
-      <h1 class="rv">Level <span class="hl">map</span></h1>
+    <section class="slide" data-label="STX · РІВНІ">
+      <div class="eyebrow rv">РІВНІ · structure</div>
+      <h1 class="rv">Рівні <span class="hl">перевернулись</span></h1>
       <div class="ladder rv">
-        <div class="rung sup"><span class="px">$1015–1030</span><span class="lbl">T3 · 50-day MA cluster (reclaim only)</span></div>
-        <div class="rung sup"><span class="px">$935–950</span><span class="lbl">T2 · 200-day MA / BB mid · upper band ~973</span></div>
-        <div class="rung piv"><span class="px">$880</span><span class="lbl">ПІВОТ · reclaim = long · reject = short</span></div>
-        <div class="rung res"><span class="px">$839–850</span><span class="lbl">Механічний bounce · mid-band reversion</span></div>
-        <div class="rung now"><span class="px">~$820</span><span class="lbl">YOU ARE HERE · close 2 липня (AH 828)</span></div>
-        <div class="rung res"><span class="px">$795</span><span class="lbl">STOP · bounce fails below</span></div>
-        <div class="rung res"><span class="px">$705–720</span><span class="lbl">DOWNSIDE · measured move + daily lower band</span></div>
+        <div class="rung res"><span class="px">$998</span><span class="lbl">Weekly high · blow-off пік</span></div>
+        <div class="rung res"><span class="px">$950</span><span class="lbl">Daily BB mid · reclaim = shakeout</span></div>
+        <div class="rung res"><span class="px">$871–875</span><span class="lbl">4h 200-MA / lower BB · fade</span></div>
+        <div class="rung res"><span class="px">$840</span><span class="lbl">50-day · зламано</span></div>
+        <div class="rung now"><span class="px">$820</span><span class="lbl">ТУТ · тримай $795 або падай</span></div>
+        <div class="rung sup"><span class="px">$795</span><span class="lbl">Weekly low · перша підтримка</span></div>
+        <div class="rung sup"><span class="px">$648</span><span class="lbl">20-week mean · велика підтримка</span></div>
       </div>
+      <p class="note rv">Під <strong>$840</strong> — bias вниз. Втратить $795 → daily lower BB $778, далі <strong>$648</strong> (20-week). Reclaim $950 знімає топ-ризик.</p>
     </section>
 
-    <!-- 5 · SETUP (two-sided) -->
-    <section class="slide" data-label="04 · SETUP">
-      <div class="eyebrow rv">04 · Setup — обидва боки</div>
-      <h1 class="rv">$880 вирішує: <span class="k">short</span> чи <span class="p">long</span></h1>
-      <p class="sub rv">Bounce $820 → $839–880 — майже механічний (oversold 4h). Не chase як свіжий long — daily не заслужив. Справжній трейд — реакція на $880.</p>
-      <div class="trade-card rv">
-        <div class="tc-head short"><span>A · FADE $880 (base case)</span><span>R:R rich</span></div>
-        <div class="tc-body">
-          <div class="tc-row"><span class="l">Trigger / stop</span><span class="r" style="color:var(--pink)">rejection $880 (+SMH fails) / reclaim $880</span></div>
-          <div class="tc-row"><span class="l">Target</span><span class="r">705–720 (measured move)</span></div>
-        </div>
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="STX · SHORT">
+      <div class="eyebrow rv">ПЛАН · bias вниз</div>
+      <h1 class="rv">Поки під <span class="hl">$875</span></h1>
+      <p class="sub rv">Blow-off від ~$1000, daily зламав 50-day. 4h перепроданий → bounce = <strong>fade</strong> у $871–875. Downside складається вниз:</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$876</span></span><span class="r">4h 200-MA</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">NOW</span><span class="px">$820</span></span><span class="r">старт</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$795</span></span><span class="r">−3%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$778</span></span><span class="r">−5%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$648</span></span><span class="r">−21%</span></div>
       </div>
-      <div class="trade-card rv" style="margin-top:12px">
-        <div class="tc-head long"><span>B · LONG (reclaim only)</span><span>R:R до T2 ≈ 3.8 : 1</span></div>
-        <div class="tc-body">
-          <div class="tc-row"><span class="l">Trigger / stop</span><span class="r" style="color:var(--purple)">daily reclaim &amp; hold $880 / &lt; $795</span></div>
-          <div class="tc-row"><span class="l">Targets</span><span class="r">935–950 → 1015–1030</span></div>
-        </div>
-      </div>
-      <p class="note rv">Bounce у $839–880 — механічна частина. Що станеться на $880 — це і є трейд. SMH — головний tell в обидва боки.</p>
-    </section>
-
-    <!-- 6 · PLAYBOOK / CLOSER -->
-    <section class="slide" data-label="05 · PLAYBOOK">
-      <div class="eyebrow rv">05 · Playbook + confirmation</div>
-      <h1 class="rv">$880 — <span class="hl">лінія рішення</span></h1>
-      <p class="sub rv">Три підтвердження, перш ніж брати long: (1) hold above $795, (2) reclaim $880 на 4h volume, (3) 4h MACD bull cross. Даунсайд-теза жива, поки $880 — resistance.</p>
-      <div class="stat-wall rv">
-        <div class="stat"><span class="k"><b>Long-триггери</b>$795 hold → $880 reclaim vol → 4h MACD bull cross</span><span class="v p">3 ✓</span></div>
-        <div class="stat"><span class="k"><b>Short-триггер</b>rejection $880, ще й SMH нижче swing low</span><span class="v k">705–720</span></div>
-      </div>
-      <p class="sub rv" style="margin-top:14px">Повний розбір щодня — рівні, графіки, плани — у нашій телеграм-групі: <a href="https://t.me/market_predictions" style="color:var(--yellow);text-decoration:none;font-weight:700">t.me/market_predictions</a></p>
-      <p class="note rv">Освітній контент — не фінансова порада. Торгуй за власним планом.</p>
+      <p class="note k rv">Rout напівпровідників / пам'яті — у зв'язці з SNDK, GLW, SMH. Reclaim <strong>$950</strong> знімає ведмежу тезу.</p>
+      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
   </div>
 
   <div class="nav">
-    <button id="btn-back" aria-label="Попередній слайд">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <span class="count"><b id="cur">1</b> / <span id="tot">6</span></span>
-    <button id="btn-next" aria-label="Наступний слайд">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
+    <div class="nav-l">
+      <button id="btn-back" aria-label="Попередній слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="foot-tag" id="foot-tag">STX</span>
+    </div>
+    <div class="nav-r">
+      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
+      <button id="btn-next" aria-label="Наступний слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -254,6 +315,7 @@
   createStory({
     stage: '.stage', deck: '#deck', fit: true, tap: false, swipe: '#deck',
     prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
+    label: '#foot-tag',
   });
 </script>
 </body>

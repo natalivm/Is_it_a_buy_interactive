@@ -10,19 +10,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="story.css">
 <style>
-  /* ── GLW palette (blow-off crimson/charcoal) ── */
+  /* ── GLW palette (blow-off slate/indigo) ── */
   :root{
-    --page-bg:#120409;
-    --bg:#1A0810;
-    --panel:#2A0F19;
-    --panel2:#230B14;
-    --line:#4A1E2B;
+    --page-bg:#080711;
+    --bg:#0F0E1C;
+    --panel:#191730;
+    --panel2:#151327;
+    --line:#2E2B4A;
     --ink:#FFFFFF;
-    --muted:#CB98A4;
+    --muted:#9F9AC4;
     --purple:#34D399;   /* green · support / target */
     --pink:#FB5D74;     /* red · sellers / resistance / bearish */
     --yellow:#F5A524;   /* amber · current / now */
-    --deep:#12040A;
+    --deep:#080711;
     --display:'Oswald',sans-serif;
     --body:'Inter',sans-serif;
     --mono:'IBM Plex Mono',monospace;
@@ -47,7 +47,7 @@
   h1 .p{color:var(--purple);} h1 .k{color:var(--pink);} h1 .y{color:var(--yellow);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-  .sub{font-size:15.5px;line-height:1.55;color:#F0D8DE;margin-bottom:14px;max-width:40ch;}
+  .sub{font-size:15.5px;line-height:1.55;color:#E8E5F6;margin-bottom:14px;max-width:40ch;}
   .sub strong{color:var(--ink);font-weight:700;}
   .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
 
@@ -106,11 +106,11 @@
   .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
   .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
   .verdict.p .vh{color:var(--purple);}
-  .verdict p{font-size:13px;line-height:1.55;color:#F0D8DE;}
+  .verdict p{font-size:13px;line-height:1.55;color:#E8E5F6;}
   .verdict p strong{color:var(--ink);font-weight:700;}
   .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
 
-  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:#F0D8DE;}
+  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:#E8E5F6;}
   .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
 
   .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
@@ -153,12 +153,12 @@
   .preview .tpl .riser{transform:translateY(400%);}
   @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
 
-  .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#F0D8DE;border-left:3px solid var(--yellow);padding-left:11px;}
+  .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#E8E5F6;border-left:3px solid var(--yellow);padding-left:11px;}
   .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
 
   /* Footer nav */
   .nav{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
-    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, rgba(18,4,10,.85), transparent);}
+    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, rgba(8,7,17,.85), transparent);}
   .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
   .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
   .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
@@ -212,7 +212,7 @@
       <div class="chart rv">
         <svg viewBox="0 0 420 340" role="img" aria-label="Weekly blow-off candle">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
-          <line class="dash fade" stroke="#CB98A4" style="animation-delay:.1s" x1="60" y1="189" x2="120" y2="189"/>
+          <line class="dash fade" stroke="#9F9AC4" style="animation-delay:.1s" x1="60" y1="189" x2="120" y2="189"/>
           <line class="dash s-y fade" style="animation-delay:.15s" x1="60" y1="289" x2="120" y2="289"/>
           <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="300" x2="120" y2="300"/>
           <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">271.78 H</text>
