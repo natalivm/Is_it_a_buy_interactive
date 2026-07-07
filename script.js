@@ -19,6 +19,10 @@ const SIDE_LABEL = { long: 'Long', short: 'Short' };
 // Order is intentionally non-sequential so the grid reads varied, not a rainbow.
 const TILE_ACCENTS = ['blue', 'amber', 'violet', 'emerald', 'red', 'cyan', 'indigo'];
 
+// symbol → accent, filled by renderGallery so the leaderboard can reuse each
+// stock's tile colour (keeps a ticker the same colour everywhere it appears).
+const accentBySymbol = {};
+
 function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
         { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -127,6 +131,7 @@ function renderLeaderboard() {
     body.innerHTML = ranked.map((s, i) => {
         const L = s.lead;
         const side = ['long', 'short'].includes(s.side) ? s.side : 'short';
+        const accent = accentBySymbol[s.symbol] || TILE_ACCENTS[i % TILE_ACCENTS.length];
         const downside = L.tail
             ? `${esc(L.downside)}<span class="lb-tail">tail ${esc(L.tail)}</span>`
             : esc(L.downside);
@@ -134,7 +139,7 @@ function renderLeaderboard() {
         return `
             <tr${i === 0 ? ' class="lb-top"' : ''}>
                 <td class="lb-rank">${i + 1}</td>
-                <td><span class="lb-tkr"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
+                <td><span class="lb-tkr tile-${accent}"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
                 <td>${esc(L.entry)}</td>
                 <td>${esc(L.stop)}</td>
                 <td>${esc(L.targets)}</td>
@@ -163,8 +168,10 @@ function renderGallery() {
     // colour — keeps the grid varied no matter what `accent` each entry sets.
     let ai = 0;
     container.innerHTML = ordered.map(item => {
-        const it = item.type === 'article' ? item : { ...item, accent: TILE_ACCENTS[ai++ % TILE_ACCENTS.length] };
-        return tileHtml(it);
+        if (item.type === 'article') return tileHtml(item);
+        const accent = TILE_ACCENTS[ai++ % TILE_ACCENTS.length];
+        accentBySymbol[item.symbol] = accent;
+        return tileHtml({ ...item, accent });
     }).join('');
     container.querySelectorAll('.tile').forEach(el => {
         const symbol = el.dataset.symbol;
@@ -323,8 +330,8 @@ function initInstallButton() {
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initInstallButton();
-    renderLeaderboard();
-    renderGallery();
+    renderGallery();       // assigns tile accents (fills accentBySymbol)
+    renderLeaderboard();   // reuses those accents for matching row colours
 
     const overlay = document.getElementById('storyOverlay');
     const close = document.getElementById('storyClose');

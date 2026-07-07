@@ -164,7 +164,7 @@ body.story-open { overflow: hidden; }
 .lb-rank { font-family: var(--disp); font-weight: 700; font-size: 18px; color: var(--mut); width: 1%; }
 .lb-top .lb-rank { color: var(--yellow); }
 .lb-tkr { display: flex; align-items: center; gap: 8px; }
-.lb-sym { font-family: var(--disp); font-weight: 700; font-size: 17px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lb-sym { font-family: var(--disp); font-weight: 700; font-size: 17px; background: linear-gradient(92deg, var(--tile-a, var(--purple)), var(--tile-b, var(--pink))); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .lb-chip { font-size: 9px; padding: 3px 7px; }
 .lb-dn { color: var(--pink); font-weight: 600; }
 .lb-tail { display: block; font-size: 10px; color: var(--mut); font-weight: 400; }
