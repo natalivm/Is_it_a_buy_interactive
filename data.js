@@ -18,7 +18,7 @@ const STOCKS = [
   {
     symbol: 'TER', exchange: 'NASDAQ',
     price: '$339.61', change: '−10.57% · Jul 7',
-    signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $290 → $260',
+    signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $300 → $260',
     verdict: 'caution', accent: 'blue',
     date: '2026-07-07',
     story: 'stories/ter.html',
@@ -89,10 +89,10 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$270.89', change: '−6.43% · Jul 2',
-    signal: 'Weekly shooting star from $320 — re-short the bounce into $279–288 (dies above $312); targets $251 → $225',
+    price: '$268.86', change: '−8.88% · Jul 7',
+    signal: 'Short working — shooting star from $320, now $269 after −8.9%; bank partial at T1 $252 (= daily 50-day), break opens $236 → $225; re-short bounces into $283–288, invalid above $305',
     verdict: 'avoid', accent: 'amber',
-    date: '2026-07-03',
+    date: '2026-07-07',
     story: 'stories/be.html',
   },
 ];
