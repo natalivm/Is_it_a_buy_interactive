@@ -74,10 +74,10 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$85.13', change: '−1.13% · Jul 2',
-    signal: 'Coiling base — uptrend intact above $80; long the base, add on breakout > $92; targets $101 → $125',
+    price: '$77.17', change: '−4.30% · Jul 7',
+    signal: 'Broke the $80 base to $77 — decision point; a bounce to $81–86 is possible but continuation needs a reclaim of $86–87; LOSE $76 and the long is stopped → $66–69, then $57–60',
     side: 'long', accent: 'violet',
-    date: '2026-07-03',
+    date: '2026-07-07',
     story: 'stories/asts.html',
   },
   {

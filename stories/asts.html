@@ -69,6 +69,8 @@
   .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
   .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
   .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
+  .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
   .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
   .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
@@ -181,22 +183,23 @@
     <section class="slide active" data-label="ASTS · 4H">
       <div class="cover-ticker rv">ASTS</div>
       <div class="eyebrow rv">4H STRUCTURE</div>
-      <h1 class="rv">Затискається<br><span class="hl">у діапазоні.</span></h1>
-      <p class="sub rv">4h у діапазоні <strong>$78–93</strong>, ціна біля середини (RSI 54). Це <strong>base-building</strong>, не тренд — чекаємо вихід із діапазону.</p>
+      <h1 class="rv">Тест підтримки<br><span class="hl">$76–77.</span></h1>
+      <p class="sub rv">Пробив низ діапазону — ціна на <strong>$76–77</strong> (daily 200-area / lower BB). Stoch завертає з oversold → відскок можливий, але це ще <strong>не continuation</strong>.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="ASTS 4h range">
+        <svg viewBox="0 0 470 300" role="img" aria-label="ASTS 4h support test">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
-          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="230" x2="360" y2="230"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$93</text>
-          <text class="ax f-y fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$85</text>
-          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="234" text-anchor="end">$78</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">опір · upper BB</text>
-          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">now</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="234">50-MA · lower BB</text>
-          <path class="price draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.2s" d="M92,155 L140,135 L185,170 L235,140 L285,165 L335,150"/>
-          <circle class="dot-y pop" style="animation-delay:1.5s" cx="335" cy="150" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="205" text-anchor="middle">coiling · чекаємо breakout</text>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="140" x2="360" y2="140"/>
+          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="215" x2="360" y2="215"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$86</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="144" text-anchor="end">$81</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="219" text-anchor="end">$77</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">reclaim = trend</text>
+          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="144">first resistance</text>
+          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="219">now · support</text>
+          <path class="price draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.2s" d="M92,120 L140,145 L185,135 L235,175 L285,200 L335,215"/>
+          <circle class="dot-y pop" style="animation-delay:1.5s" cx="335" cy="215" r="6"/>
+          <path class="bounce fade" style="animation-delay:1.7s" d="M335,215 L360,145"/>
+          <text class="cap f-m fade" style="animation-delay:1.9s" x="230" y="255" text-anchor="middle">bounce можливий → потрібен reclaim $86–87</text>
         </svg>
       </div>
     </section>
@@ -234,29 +237,30 @@
     <!-- 3 · DAILY -->
     <section class="slide" data-label="ASTS · 1D">
       <div class="eyebrow y rv">DAILY · 1D</div>
-      <h1 class="rv">База над <span class="hl">$80.</span></h1>
-      <p class="sub rv">Відкат зі <strong>$125</strong> стабілізувався. Daily <strong>Stoch oversold (12)</strong> і завертає вгору, тримає над 200-day ($80). База формується.</p>
+      <h1 class="rv">Зламав <span class="hl">$80.</span></h1>
+      <p class="sub rv">Відкат зі $125 <strong>втратив базу $80</strong> — тепер тест $76–77. Stoch oversold завертає (bounce можливий), але тренд <strong>НЕ повернено</strong>, поки не reclaim $86–87.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Base firming</span><span class="v">RSI 50 · Stoch 12 ↑ · MACD flat</span></div>
-        <p>Stoch внизу й <strong>завертає</strong>, RSI нейтральний. <span class="p">Продавці видихаються</span> — база над $80.</p>
+        <div class="indi-top"><span class="t">Decision point</span><span class="v">RSI 39 · Stoch ↑ з OS · MACD ✗</span></div>
+        <p>Втрата $80 = коротко-строковий тренд під питанням. <span class="k">Bounce ≠ continuation</span> без reclaim $86–87.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="ASTS daily base">
+        <svg viewBox="0 0 470 300" role="img" aria-label="ASTS daily broke base">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="115" x2="360" y2="115"/>
-          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="175" x2="360" y2="175"/>
-          <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="235" x2="360" y2="235"/>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$125</text>
-          <text class="ax f-k fade" style="animation-delay:.35s" x="80" y="119" text-anchor="end">$101</text>
-          <text class="ax f-y fade" style="animation-delay:.4s"  x="80" y="179" text-anchor="end">$85</text>
-          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="239" text-anchor="end">$80</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">June high</text>
-          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="119">BB mid</text>
-          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="179">now</text>
-          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="239">200-day · база</text>
-          <path class="price draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.2s" d="M90,60 L190,135 L290,178 L352,172"/>
-          <circle class="dot-y pop" style="animation-delay:1.85s" cx="352" cy="172" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:2s" x="300" y="205" text-anchor="middle">стабілізація над базою</text>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="110" x2="360" y2="110"/>
+          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="165" x2="360" y2="165"/>
+          <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="240" x2="360" y2="240"/>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$92</text>
+          <text class="ax f-k fade" style="animation-delay:.35s" x="80" y="114" text-anchor="end">$86</text>
+          <text class="ax f-y fade" style="animation-delay:.4s"  x="80" y="169" text-anchor="end">$77</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="244" text-anchor="end">$67</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">$87–92 rejection</text>
+          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="114">reclaim = repair</text>
+          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="169">now · lost $80</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="244">$66–69 if $76 fails</text>
+          <path class="price draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.2s" d="M90,80 L190,120 L290,150 L352,165"/>
+          <circle class="dot-y pop" style="animation-delay:1.85s" cx="352" cy="165" r="6"/>
+          <path class="legdn fade" style="animation-delay:2s" d="M352,165 L372,240"/>
+          <text class="cap f-k fade" style="animation-delay:2.15s" x="300" y="200" text-anchor="middle">втрата $76 → downside</text>
         </svg>
       </div>
     </section>
@@ -264,33 +268,34 @@
     <!-- 4 · LEVELS -->
     <section class="slide" data-label="ASTS · РІВНІ">
       <div class="eyebrow rv">РІВНІ · structure</div>
-      <h1 class="rv">Карта <span class="hl">діапазону</span></h1>
+      <h1 class="rv">Карта <span class="hl">рішення</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$131</span><span class="lbl">Daily upper Bollinger</span></div>
-        <div class="rung res"><span class="px">$125</span><span class="lbl">June high · ціль розширення</span></div>
-        <div class="rung res"><span class="px">$101</span><span class="lbl">Daily BB mid · опір</span></div>
-        <div class="rung res"><span class="px">$92</span><span class="lbl">Upper BB · лінія breakout</span></div>
-        <div class="rung now"><span class="px">$85</span><span class="lbl">ТУТ · середина діапазону</span></div>
-        <div class="rung sup"><span class="px">$79–80</span><span class="lbl">200-day · база · тримай</span></div>
-        <div class="rung sup"><span class="px">$71</span><span class="lbl">Daily lower Bollinger</span></div>
+        <div class="rung res"><span class="px">$92–99</span><span class="lbl">Continuation ціль (після reclaim)</span></div>
+        <div class="rung res"><span class="px">$87–92</span><span class="lbl">Rejection зона · prior high</span></div>
+        <div class="rung res"><span class="px">$86–87</span><span class="lbl">Reclaim = trend repair</span></div>
+        <div class="rung res"><span class="px">$81–82</span><span class="lbl">Перший опір · bounce cap</span></div>
+        <div class="rung now"><span class="px">$77</span><span class="lbl">ТУТ · тест підтримки</span></div>
+        <div class="rung sup"><span class="px">$76</span><span class="lbl">STOP · втрата = setup fails</span></div>
+        <div class="rung sup"><span class="px">$66–69</span><span class="lbl">Наступна підтримка · lower BB</span></div>
+        <div class="rung sup"><span class="px">$57–60</span><span class="lbl">Weekly support · uglier</span></div>
       </div>
-      <p class="note p rv">Uptrend цілий, поки тримає <strong>$79–80</strong>. Breakout &gt; <strong>$92</strong> вмикає continuation до $101, далі $125. Втратить $71 — база зламана.</p>
+      <p class="note k rv">Тримає $76–77 → bounce у $81–86. <strong>Continuation тільки &gt; $86–87</strong> → $92–99. Втрата <strong>$76</strong> = setup fails → $66–69, далі $57–60.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="ASTS · LONG">
-      <div class="eyebrow p rv">ПЛАН · база</div>
-      <h1 class="rv">Long від <span class="hl">бази</span></h1>
-      <p class="sub rv">Uptrend цілий, консолідація над $80. Long база &gt; $80, додавай на <strong>breakout &gt; $92</strong>. Цілі складаються вгору:</p>
+    <section class="slide" data-label="ASTS · DECISION">
+      <div class="eyebrow y rv">ПЛАН · decision point</div>
+      <h1 class="rv">Тримай $76 <span class="hl">або стоп</span></h1>
+      <p class="sub rv">База $80 втрачена. Long тільки на утриманні $76–77 + reclaim $81–82 → <strong>$86–87</strong>. Нижче $76 — стоп, не усереднюй.</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$131</span></span><span class="r">+54%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$125</span></span><span class="r">+47%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$101</span></span><span class="r">+19%</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$85</span></span><span class="r">старт</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$78</span></span><span class="r">база</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$99</span></span><span class="r">+29%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$92</span></span><span class="r">+19%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1 · reclaim</span><span class="px">$86</span></span><span class="r">+12%</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">HOLD</span><span class="px">$77</span></span><span class="r">тест</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$76</span></span><span class="r">fail</span></div>
       </div>
-      <p class="note p rv">Тригер сили — <strong>breakout &gt; $92</strong>. Lose $78 — база зламана, вихід. Головне — чекаємо вихід із діапазону.</p>
+      <p class="note k rv">⚠ Втрата <strong>$76</strong> — база зламана, стоп → $66–69, далі $57–60. Continuation тільки над <strong>$86–87</strong>; нижче — це weak bounce у down-move.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
