@@ -110,6 +110,41 @@ function stockTileHtml(stock) {
     `;
 }
 
+// Builds the "Sharpest shorts" ranking from the `lead` field on STOCK entries,
+// so the table stays in sync with the cards. Hidden if nothing is ranked.
+function renderLeaderboard() {
+    const section = document.getElementById('leaderboard');
+    const body = document.getElementById('leaderboardBody');
+    if (!section || !body) return;
+
+    const ranked = STOCK_LIST
+        .filter(s => s.lead)
+        .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0));
+
+    if (!ranked.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    body.innerHTML = ranked.map((s, i) => {
+        const L = s.lead;
+        const side = ['long', 'short'].includes(s.side) ? s.side : 'short';
+        const downside = L.tail
+            ? `${esc(L.downside)}<span class="lb-tail">tail ${esc(L.tail)}</span>`
+            : esc(L.downside);
+        const rr = `${esc(L.rr)}${L.rrStar ? '<sup>*</sup>' : ''}`;
+        return `
+            <tr${i === 0 ? ' class="lb-top"' : ''}>
+                <td class="lb-rank">${i + 1}</td>
+                <td><span class="lb-tkr"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
+                <td>${esc(L.entry)}</td>
+                <td>${esc(L.stop)}</td>
+                <td>${esc(L.targets)}</td>
+                <td class="lb-dn">${downside}</td>
+                <td class="lb-rr">${rr}</td>
+                <td class="lb-edge">${esc(L.edge)}</td>
+            </tr>`;
+    }).join('');
+}
+
 function renderGallery() {
     const container = document.getElementById('gallery');
     const empty = document.getElementById('galleryEmpty');
@@ -288,6 +323,7 @@ function initInstallButton() {
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initInstallButton();
+    renderLeaderboard();
     renderGallery();
 
     const overlay = document.getElementById('storyOverlay');

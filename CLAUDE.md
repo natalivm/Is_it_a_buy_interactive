@@ -21,8 +21,14 @@ interactive tap-through "story" that explains the trade thesis for that stock.
 
 Each `STOCKS` entry: `symbol`, `exchange`, `price` (freeform label), `change`,
 `signal` (one-line thesis), `side` (`long` | `short`, the setup direction — colors
-the chip green/red), `accent` (`purple` | `pink`), and `story` (path to the
-slideshow HTML).
+the chip green/red), and `story` (path to the slideshow HTML). Tile glow colours
+are auto-varied across the grid, so `accent` is optional.
+
+An entry may also carry a `lead` object (`{ rank, entry, stop, targets, downside,
+tail?, rr, rrStar?, edge }`). Entries with a `lead` render as rows in the
+"Sharpest shorts" ranking table above the gallery (ordered by `rank`); the whole
+table hides itself when nothing is ranked. This keeps the leaderboard in sync
+with the cards — it's built from `data.js`, not hand-written HTML.
 
 ## Adding a stock
 
