@@ -20,6 +20,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'AAOI', exchange: 'NASDAQ',
+    price: '$112.51', change: '−8.80% · Jul 7',
+    signal: 'Breaking down hard — momentum unwind from ~$212, down −8.8% to $112 and walking the 4h lower band below the whole MA stack; MACD negative, Stoch deeply weak. Direct test of the $101–105 major support underway; fade bounces into $124–130, lose $101 → $90–96 then $74; reclaim $130 → $140 repairs it',
+    side: 'short', accent: 'violet',
+    date: '2026-07-07',
+    story: 'stories/aaoi.html',
+  },
+  {
     symbol: 'WDC', exchange: 'NASDAQ',
     price: '$533.66', change: '−7.60% · Jul 7',
     signal: 'Momentum unwind — broke the 21-day $589, testing $530–535 support after −7.6%; oversold so a bounce can come, but short the failed bounce into $560–590, targets $500 → $465 → $440; break $530 → $500 fast; reclaim $589–605 to trust it',
