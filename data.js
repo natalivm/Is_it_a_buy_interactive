@@ -16,6 +16,22 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'INTC', exchange: 'NASDAQ',
+    price: '$111.20', change: '−9.00% · Jul 7',
+    signal: 'Failed breakout — lost the 50-day $115 and the 4h trend support after −9%; oversold so no chase, short the bounce into $115–120, targets $101 → $94 → $86 (gap-fill $82, reset $70); lose $109 → $101 fast; reclaim $123–126 repairs it',
+    side: 'short', accent: 'blue',
+    date: '2026-07-07',
+    story: 'stories/intc.html',
+  },
+  {
+    symbol: 'MU', exchange: 'NASDAQ',
+    price: '$937.30', change: '−4.82% · Jul 7',
+    signal: 'Momentum unwind across 4h/daily/weekly from a huge run — bounced off $920 support into the close but oversold, no chase; short the failed bounce into $970–1,015, targets $860 → $810 → $675; reclaim $1,050 flips it',
+    side: 'short', accent: 'cyan',
+    date: '2026-07-07',
+    story: 'stories/mu.html',
+  },
+  {
     symbol: 'TER', exchange: 'NASDAQ',
     price: '$339.61', change: '−10.57% · Jul 7',
     signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $300 → $260',

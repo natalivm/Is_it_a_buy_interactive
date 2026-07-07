@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$MU — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  /* ── MU palette (deep teal — DRAM / memory) ── */
+  :root{
+    --page-bg:#04110F;
+    --bg:#07201C;
+    --panel:#0F3128;
+    --panel2:#0C2822;
+    --line:#1D4C42;
+    --ink:#FFFFFF;
+    --muted:#8FC9BC;
+    --purple:#34D399;
+    --pink:#FB5D74;
+    --yellow:#F5B841;
+    --deep:#04110F;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+
+  .stage{position:relative;width:min(100vw, calc(100dvh * 9 / 16));height:100dvh;max-height:calc(100vw * 16 / 9);
+    background:var(--bg);overflow:hidden;display:flex;flex-direction:column;container-type:inline-size;}
+  .stage::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;opacity:.15;}
+
+  .deck{position:relative;flex:1;z-index:2;min-height:0;}
+  .slide{justify-content:center;overflow:hidden;}
+  .slide-inner{width:100%;padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 86px;transform-origin:center center;display:flex;flex-direction:column;}
+
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);
+    display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
+    padding:7px 12px;border-radius:8px;margin-bottom:18px;}
+  .eyebrow.p{color:var(--purple);} .eyebrow.y{color:var(--yellow);}
+
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
+  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);} h1 .y{color:var(--yellow);}
+  h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .sub{font-size:15.5px;line-height:1.55;color:#DCE4FA;margin-bottom:14px;max-width:40ch;}
+  .sub strong{color:var(--ink);font-weight:700;}
+  .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
+
+  .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
+  .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
+  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--yellow);white-space:nowrap;}
+  .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
+  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;}
+
+  .chart{width:100%;margin:6px 0 2px;}
+  .chart svg{width:100%;height:auto;display:block;overflow:visible;}
+  svg text{font-family:var(--mono);}
+  svg .ax{font-size:13px;font-weight:600;}
+  svg .cap{font-size:12px;font-weight:600;}
+  svg .capm{font-size:11px;fill:var(--muted);}
+  .f-k{fill:var(--pink);} .f-p{fill:var(--purple);} .f-y{fill:var(--yellow);} .f-w{fill:#fff;} .f-m{fill:var(--muted);}
+  .s-k{stroke:var(--pink);} .s-p{stroke:var(--purple);} .s-y{stroke:var(--yellow);} .s-w{stroke:#fff;} .s-line{stroke:var(--line);}
+  .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
+  .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
+  .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
+  .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
+  .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
+
+  .chart .draw{stroke-dasharray:1;stroke-dashoffset:1;}
+  .chart .fade{opacity:0;}
+  .chart .pop{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);}
+  .chart .fill{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);}
+  .slide.active .chart .draw{animation:cDraw 1.2s cubic-bezier(.4,0,.2,1) forwards;}
+  .slide.active .chart .fade{animation:cFade .5s ease forwards;}
+  .slide.active .chart .pop{animation:cPop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
+  .slide.active .chart .fill{animation:cFill .9s cubic-bezier(.22,.9,.3,1) forwards;}
+  @keyframes cDraw{to{stroke-dashoffset:0;}}
+  @keyframes cFade{to{opacity:1;}}
+  @keyframes cPop{to{opacity:1;transform:scale(1);}}
+  @keyframes cFill{to{transform:scaleY(1);}}
+  .preview .chart .draw{stroke-dashoffset:0;} .preview .chart .fade{opacity:1;}
+  .preview .chart .pop{opacity:1;transform:scale(1);} .preview .chart .fill{transform:scaleY(1);}
+  @media (prefers-reduced-motion: reduce){
+    .chart .draw{stroke-dashoffset:0;} .chart .fade{opacity:1;}
+    .chart .pop{opacity:1;transform:scale(1);} .chart .fill{transform:scaleY(1);}
+    .slide.active .chart *{animation:none !important;}
+  }
+
+  /* Red (down) candle */
+  .candle-body{fill:var(--pink);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--pink) 45%,transparent));}
+  .candle-wick{stroke:var(--pink);stroke-width:5;stroke-linecap:round;}
+  .anno{font-size:12.5px;} .anno .h{fill:var(--ink);font-weight:700;}
+
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--yellow) 40%,var(--line));border-radius:14px;background:rgba(245,165,36,.07);padding:13px 15px;}
+  .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);display:flex;align-items:center;gap:7px;}
+  .verdict.p .vh{color:var(--purple);}
+  .verdict p{font-size:13px;line-height:1.55;color:#DCE4FA;}
+  .verdict p strong{color:var(--ink);font-weight:700;}
+  .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
+
+  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:#DCE4FA;}
+  .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
+
+  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+
+  .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
+  .rung:last-child{border-bottom:0}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:15px;width:120px;flex-shrink:0;}
+  .rung .lbl{font-size:12px;color:var(--muted);line-height:1.3;}
+  .rung.res .px{color:var(--pink)}
+  .rung.sup .px{color:var(--purple)}
+  .rung.now{background:var(--yellow);}
+  .rung.now .px{color:var(--deep)}
+  .rung.now .lbl{color:var(--deep);font-weight:700;}
+
+  /* Red target ladder (down) */
+  .tpl{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2);box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .tpl .rg{position:relative;z-index:2;flex:1;min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 15px;border-bottom:1px solid var(--line);}
+  .tpl .rg:last-child{border-bottom:0;}
+  .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
+  .tpl .rg .cap2{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--pink);}
+  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--pink);}
+  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .rg.stop .px{color:var(--muted);} .tpl .rg.stop .cap2{color:var(--muted);} .tpl .rg.stop .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
+  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(100%);
+    background:linear-gradient(90deg, rgba(251,93,116,.30), rgba(251,93,116,.12));
+    border-top:1px solid rgba(251,93,116,.55);border-bottom:1px solid rgba(251,93,116,.55);box-shadow:0 0 26px rgba(251,93,116,.4);}
+  .slide.active .tpl .riser{animation:sinkDown 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
+  @keyframes sinkDown{
+    0%{transform:translateY(100%);opacity:0;}
+    12%{opacity:1;}
+    62%{transform:translateY(400%);}
+    74%{transform:translateY(391%);}
+    86%{transform:translateY(400%);}
+    94%{transform:translateY(397%);}
+    100%{transform:translateY(400%);}
+  }
+  .preview .tpl .riser{transform:translateY(400%);}
+  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
+
+  .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#DCE4FA;border-left:3px solid var(--yellow);padding-left:11px;}
+  .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
+
+  .nav{position:absolute;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;
+    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, rgba(5,10,24,.85), transparent);}
+  .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
+  .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
+  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
+  .count b{color:rgba(255,255,255,.72);font-weight:600;}
+  .nav button{pointer-events:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.55);
+    color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s, background .2s, filter .2s;}
+  .nav-r button{background:var(--yellow);border-color:var(--yellow);color:#160d10;box-shadow:0 4px 16px color-mix(in srgb,var(--yellow) 40%,transparent);}
+  .nav button:hover{background:rgba(255,255,255,.18);border-color:#fff;}
+  .nav-r button:hover{filter:brightness(1.08);background:var(--yellow);}
+  .nav button:active{transform:scale(.9);}
+  .nav button:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;}
+  .nav button svg{width:22px;height:22px;}
+  .nav button[disabled]{opacity:.26;pointer-events:none;box-shadow:none;}
+  .preview .nav{display:none;}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · 4H -->
+    <section class="slide active" data-label="MU · 4H">
+      <div class="cover-ticker rv">MU</div>
+      <div class="eyebrow rv">4H STRUCTURE</div>
+      <h1 class="rv">Даунтренд.<br><span class="hl">Bounce = short.</span></h1>
+      <p class="sub rv">4h — нижчі low/high, <strong>RSI 31, Stoch 12, MACD −40</strong>. Oversold над support $920 → відскок можливий, але це в <strong>опір $970–1,015</strong>, звідки short.</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="MU 4h downtrend">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="135" x2="360" y2="135"/>
+          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="195" x2="360" y2="195"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$1,015</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="139" text-anchor="end">$970</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="199" text-anchor="end">$933</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">reclaim → bull</text>
+          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="139">short зона</text>
+          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="199">now · support $920</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,50 L300,195"/>
+          <circle class="dot-y pop" style="animation-delay:1.35s" cx="300" cy="195" r="6"/>
+          <path class="bounce fade" style="animation-delay:1.55s" d="M300,195 L358,140"/>
+          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="245" text-anchor="middle">oversold → bounce у $970–1,015 = short</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · WEEKLY -->
+    <section class="slide" data-label="MU · 1W">
+      <div class="eyebrow rv">WEEKLY · structure</div>
+      <h1 class="rv">Розтягнуто. <span class="hl">Room вниз.</span></h1>
+      <p class="sub rv">Величезний вертикальний run, тепер <strong>−20% від піку</strong>. Weekly Stoch 83 скидається з overbought. Простір до weekly mid <strong>$675</strong> — навіть після −5% дня.</p>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="MU weekly extended rolling over">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
+          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="200" x2="360" y2="200"/>
+          <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="240" x2="360" y2="240"/>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$1,168</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="154" text-anchor="end">$933</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="204" text-anchor="end">$810</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="244" text-anchor="end">$675</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">June ATH</text>
+          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">now · −20%</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="204">breakout base</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="244">weekly mid · 50-area</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.55s;animation-duration:1s" d="M90,255 L250,58"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.7s" d="M250,58 L352,150"/>
+          <circle class="dot-y pop" style="animation-delay:2.15s" cx="352" cy="150" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:.8s" x="150" y="98" text-anchor="middle">vertical run</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 3 · DAILY -->
+    <section class="slide" data-label="MU · 1D">
+      <div class="eyebrow y rv">DAILY · 1D</div>
+      <h1 class="rv">MACD крос.<br><span class="hl">Rolling over.</span></h1>
+      <p class="sub rv">Ціна під короткостроковим трендом і daily mid-band (<strong>$1,044</strong>). <strong>MACD перехрестився вниз</strong>, Stoch 23 падає. Перший відскок — relief, поки не reclaim $1,015+.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Rolling over</span><span class="v">RSI 46 · MACD ✗ · Stoch 23 ↘</span></div>
+        <p>Під short-term трендом. <span class="k">Відскоки — relief</span>, поки не reclaim $1,015–1,050.</p>
+      </div>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="MU daily rolling over">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
+          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="82"  x2="360" y2="82"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="155" x2="360" y2="155"/>
+          <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="245" x2="360" y2="245"/>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$1,044</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="86"  text-anchor="end">$933</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="159" text-anchor="end">$860</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="249" text-anchor="end">$810</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">mid-band · reclaim</text>
+          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="86">now</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="159">daily lower BB · T1</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="249">breakout base</text>
+          <circle class="dot-y pop" style="animation-delay:.5s" cx="90" cy="82" r="6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.6s;animation-duration:1.2s" d="M90,82 L210,155 L352,245"/>
+          <text class="cap f-p fade" style="animation-delay:1.9s" x="352" y="267" text-anchor="end">→ mean</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="MU · РІВНІ">
+      <div class="eyebrow rv">РІВНІ · structure</div>
+      <h1 class="rv">Карта <span class="hl">рівнів</span></h1>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$1,168</span><span class="lbl">June ATH · weekly high</span></div>
+        <div class="rung res"><span class="px">$1,050</span><span class="lbl">Bull reclaim · daily mid</span></div>
+        <div class="rung res"><span class="px">$970–1,015</span><span class="lbl">Short зона · failed bounce</span></div>
+        <div class="rung now"><span class="px">$933</span><span class="lbl">ТУТ · відскок = short</span></div>
+        <div class="rung sup"><span class="px">$920</span><span class="lbl">Втратити = вниз швидко</span></div>
+        <div class="rung sup"><span class="px">$860</span><span class="lbl">Daily lower BB · T1</span></div>
+        <div class="rung sup"><span class="px">$810</span><span class="lbl">Breakout base · T2</span></div>
+        <div class="rung sup"><span class="px">$675</span><span class="lbl">Weekly mean · T3</span></div>
+      </div>
+      <p class="note rv">Не chase у $920–930 (oversold). Short відскок у <strong>$970–1,015</strong>. Пробій $920 → $860. Reclaim <strong>$1,050</strong> = бичачий розворот.</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="MU · SHORT">
+      <div class="eyebrow rv">ПЛАН · bias вниз</div>
+      <h1 class="rv">Short відскок у <span class="hl">$970–1,015</span></h1>
+      <p class="sub rv">Momentum завертає 4h/daily/weekly. Не chase тут (oversold на support) — short слабкий відскок у $970–1,015. Downside складається вниз:</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$1,050</span></span><span class="r">bull reclaim</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$990</span></span><span class="r">failed bounce</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$860</span></span><span class="r">−13%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$810</span></span><span class="r">−18%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$675</span></span><span class="r">−32%</span></div>
+      </div>
+      <p class="note k rv">Альтернатива: чистий пробій <strong>$920</strong> → $860. Reclaim <strong>$1,015</strong> → $1,050 = short off. Weekly каже: dip не безневинний.</p>
+      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="nav-l">
+      <button id="btn-back" aria-label="Попередній слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="foot-tag" id="foot-tag">MU</span>
+    </div>
+    <div class="nav-r">
+      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
+      <button id="btn-next" aria-label="Наступний слайд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory({
+    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
+    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
+    label: '#foot-tag',
+  });
+</script>
+</body>
+</html>
