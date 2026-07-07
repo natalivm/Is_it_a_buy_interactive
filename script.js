@@ -15,6 +15,10 @@ const ITEMS = [...STOCK_LIST, ...ARTICLE_LIST];
 
 const SIDE_LABEL = { long: 'Long', short: 'Short' };
 
+// Tile accent palette, spread across the gallery so adjacent tiles differ.
+// Order is intentionally non-sequential so the grid reads varied, not a rainbow.
+const TILE_ACCENTS = ['blue', 'amber', 'violet', 'emerald', 'red', 'cyan', 'indigo'];
+
 function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
         { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -120,7 +124,13 @@ function renderGallery() {
 
     // Newest presentations first.
     const ordered = [...ITEMS].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-    container.innerHTML = ordered.map(tileHtml).join('');
+    // Spread the accent palette across stock tiles so neighbours never share a
+    // colour — keeps the grid varied no matter what `accent` each entry sets.
+    let ai = 0;
+    container.innerHTML = ordered.map(item => {
+        const it = item.type === 'article' ? item : { ...item, accent: TILE_ACCENTS[ai++ % TILE_ACCENTS.length] };
+        return tileHtml(it);
+    }).join('');
     container.querySelectorAll('.tile').forEach(el => {
         const symbol = el.dataset.symbol;
         el.addEventListener('click', () => openStory(symbol));

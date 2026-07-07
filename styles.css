@@ -133,6 +133,46 @@ body.story-open { overflow: hidden; }
     color: var(--mut);
 }
 
+/* ── Leaderboard (curated short ranking) ─────────────────────────────────── */
+.leaderboard { margin-bottom: 40px; }
+.lb-head { text-align: center; margin-bottom: 18px; }
+.lb-title {
+    font-family: var(--disp); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(22px, 4.4vw, 34px); line-height: 1; letter-spacing: 0.02em;
+}
+.lb-title .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lb-sub { margin-top: 8px; font-size: 14px; color: var(--mut); }
+.lb-scroll {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--hair); border-radius: 18px;
+    background: linear-gradient(180deg, var(--panel), var(--panel2));
+    box-shadow: var(--shadow);
+}
+.lb-table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.lb-table th, .lb-table td {
+    padding: 12px 13px; text-align: left; white-space: nowrap;
+    border-bottom: 1px solid var(--hair);
+}
+.lb-table thead th {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--mut);
+}
+.lb-table tbody td { font-family: var(--mono); font-size: 13px; color: var(--txt); }
+.lb-table tbody tr:last-child td { border-bottom: 0; }
+.lb-table tbody tr:hover { background: rgba(181, 123, 255, 0.06); }
+.lb-top { background: rgba(255, 210, 74, 0.05); }
+.lb-rank { font-family: var(--disp); font-weight: 700; font-size: 18px; color: var(--mut); width: 1%; }
+.lb-top .lb-rank { color: var(--yellow); }
+.lb-tkr { display: flex; align-items: center; gap: 8px; }
+.lb-sym { font-family: var(--disp); font-weight: 700; font-size: 17px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lb-chip { font-size: 9px; padding: 3px 7px; }
+.lb-dn { color: var(--pink); font-weight: 600; }
+.lb-tail { display: block; font-size: 10px; color: var(--mut); font-weight: 400; }
+.lb-rr { color: var(--green); font-weight: 600; }
+.lb-edge { font-family: var(--body); font-size: 12px; line-height: 1.35; color: var(--mut); white-space: normal; min-width: 170px; }
+.lb-foot { margin: 10px 4px 0; font-size: 11px; line-height: 1.5; color: var(--mut); }
+@media (max-width: 560px) { .lb-table th, .lb-table td { padding: 11px 13px; } }
+
 /* ── Gallery grid ────────────────────────────────────────────────────────── */
 .gallery {
     display: grid;

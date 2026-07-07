@@ -9,7 +9,8 @@
 //   change     short change label (e.g. '+2% today') or null
 //   signal     one-line thesis shown on the tile
 //   side       'long' | 'short'             → setup direction; colors the tile chip
-//   accent     'purple' | 'pink'            → tile accent glow
+//   accent     (optional) tile glow colour — the gallery now auto-varies tile
+//              colours across the grid, so this field is no longer required
 //   date       ISO date the plan was posted (YYYY-MM-DD) — gallery sorts newest first
 //   story      path to the interactive presentation HTML
 //
