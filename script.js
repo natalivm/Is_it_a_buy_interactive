@@ -13,7 +13,7 @@ const ARTICLE_LIST = (typeof ARTICLES !== 'undefined') ? ARTICLES : [];
 // Everything the gallery shows: stock decks + written articles, one list.
 const ITEMS = [...STOCK_LIST, ...ARTICLE_LIST];
 
-const VERDICT_LABEL = { buy: 'Buy', caution: 'Caution', avoid: 'Avoid' };
+const SIDE_LABEL = { long: 'Long', short: 'Short' };
 
 function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
@@ -67,7 +67,7 @@ function articleTileHtml(article) {
 
 function stockTileHtml(stock) {
     const accent = ['violet', 'blue', 'amber', 'emerald', 'red', 'cyan', 'indigo'].includes(stock.accent) ? stock.accent : 'violet';
-    const verdict = ['buy', 'caution', 'avoid'].includes(stock.verdict) ? stock.verdict : 'caution';
+    const side = ['long', 'short'].includes(stock.side) ? stock.side : 'long';
     const change = stock.change
         ? `<span class="tile-change">${esc(stock.change)}</span>` : '';
     const signal = stock.signal
@@ -85,7 +85,7 @@ function stockTileHtml(stock) {
                         <span class="tile-symbol">${esc(stock.symbol)}</span>
                         <span class="tile-exchange">${esc(stock.exchange || '')}</span>
                     </div>
-                    <span class="tile-chip chip-${verdict}">${VERDICT_LABEL[verdict]}</span>
+                    <span class="tile-chip chip-${side}">${SIDE_LABEL[side]}</span>
                 </div>
                 <div class="tile-price-row">
                     <span class="tile-price">${esc(stock.price || '')}</span>

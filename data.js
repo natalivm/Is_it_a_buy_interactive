@@ -7,8 +7,8 @@
 //   exchange   listing venue (NASDAQ, NYSE, …)
 //   price      last-price label, freeform string (e.g. '$175.18')
 //   change     short change label (e.g. '+2% today') or null
-//   signal     one-line verdict shown on the tile
-//   verdict    'buy' | 'caution' | 'avoid'  → colors the tile chip
+//   signal     one-line thesis shown on the tile
+//   side       'long' | 'short'             → setup direction; colors the tile chip
 //   accent     'purple' | 'pink'            → tile accent glow
 //   date       ISO date the plan was posted (YYYY-MM-DD) — gallery sorts newest first
 //   story      path to the interactive presentation HTML
@@ -19,7 +19,7 @@ const STOCKS = [
     symbol: 'TER', exchange: 'NASDAQ',
     price: '$339.61', change: '−10.57% · Jul 7',
     signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $300 → $260',
-    verdict: 'caution', accent: 'blue',
+    side: 'short', accent: 'blue',
     date: '2026-07-07',
     story: 'stories/ter.html',
   },
@@ -27,7 +27,7 @@ const STOCKS = [
     symbol: 'GLW', exchange: 'NYSE',
     price: '$196.79', change: '−10.81% · Jul 2',
     signal: 'Weekly blow-off rejection — huge upper wick, close near the low; relief bounce likely but sold, bias down unless it reclaims $217–220; targets $180 → $167 → $150',
-    verdict: 'avoid', accent: 'blue',
+    side: 'short', accent: 'blue',
     date: '2026-07-04',
     story: 'stories/glw.html',
   },
@@ -35,7 +35,7 @@ const STOCKS = [
     symbol: 'SNDK', exchange: 'NASDAQ',
     price: '$1,715', change: '$1,731 lost · Jul 3',
     signal: 'Sector memory rout, not SNDK — $1,731 lost, descent underway; fade bounces into $1,850–1,945, buy only the fib flush at $1,394–1,420',
-    verdict: 'caution', accent: 'red',
+    side: 'short', accent: 'red',
     date: '2026-07-03',
     story: 'stories/sndk.html',
   },
@@ -43,7 +43,7 @@ const STOCKS = [
     symbol: 'SMH', exchange: 'NASDAQ',
     price: '$592.29', change: '−4.54% · Jul 2',
     signal: 'Sector barometer rolling over — weekly rejection + daily bear cross; bias down under $599, targets $533 → $500; drags all semis',
-    verdict: 'caution', accent: 'cyan',
+    side: 'short', accent: 'cyan',
     date: '2026-07-03',
     story: 'stories/smh.html',
   },
@@ -51,7 +51,7 @@ const STOCKS = [
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$820.16', change: '−10.38% · Jul 2',
     signal: 'Blow-off top from ~$1,000 — weekly rejection, daily broke the 50-day; bias down under $875, targets $795 → $778 → $648',
-    verdict: 'avoid', accent: 'amber',
+    side: 'short', accent: 'amber',
     date: '2026-07-03',
     story: 'stories/stx.html',
   },
@@ -59,7 +59,7 @@ const STOCKS = [
     symbol: 'ASTS', exchange: 'NASDAQ',
     price: '$85.13', change: '−1.13% · Jul 2',
     signal: 'Coiling base — uptrend intact above $80; long the base, add on breakout > $92; targets $101 → $125',
-    verdict: 'caution', accent: 'violet',
+    side: 'long', accent: 'violet',
     date: '2026-07-03',
     story: 'stories/asts.html',
   },
@@ -67,23 +67,23 @@ const STOCKS = [
     symbol: 'SEZL', exchange: 'NASDAQ',
     price: '$183.24', change: '+4.60% · Jul 2',
     signal: 'Parabolic but overbought (RSI 84) — don’t chase $183; buy the $178–180 pullback, targets $200+',
-    verdict: 'caution', accent: 'emerald',
+    side: 'long', accent: 'emerald',
     date: '2026-07-03',
     story: 'stories/sezl.html',
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$215.62', change: '−5.92% · Jul 2',
-    signal: 'On the $215 50-day support, 4h deeply oversold — long the hold to $230/$249; lose $215 → $200',
-    verdict: 'caution', accent: 'indigo',
-    date: '2026-07-03',
+    price: '$203.56', change: '−4.44% · Jul 7',
+    signal: 'Lost the 50-day $213 — daily MACD accelerating down; 4h oversold (Stoch 8) so no chase here, short the failed bounce into $212–217; below $200 opens $192 → $174 → $157; reclaim $217→$232 negates',
+    side: 'short', accent: 'indigo',
+    date: '2026-07-07',
     story: 'stories/nbis.html',
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
     price: '$603.04', change: '−7.35% · Jul 2',
     signal: 'Blow-off top (spike $739, closed −18%) — fade bounces into $640–672; targets $555 → $510 → $470',
-    verdict: 'avoid', accent: 'red',
+    side: 'short', accent: 'red',
     date: '2026-07-03',
     story: 'stories/amat.html',
   },
@@ -91,7 +91,7 @@ const STOCKS = [
     symbol: 'BE', exchange: 'NYSE',
     price: '$268.86', change: '−8.88% · Jul 7',
     signal: 'Short working — shooting star from $320, now $269 after −8.9%; bank partial at T1 $252 (= daily 50-day), break opens $236 → $225; re-short bounces into $283–288, invalid above $305',
-    verdict: 'avoid', accent: 'amber',
+    side: 'short', accent: 'amber',
     date: '2026-07-07',
     story: 'stories/be.html',
   },

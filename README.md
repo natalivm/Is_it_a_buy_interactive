@@ -27,8 +27,8 @@ move right now).
    {
      symbol: 'SEZL', exchange: 'NASDAQ',
      price: '$175.18', change: '+2% today',
-     signal: 'Wait for the pullback — don’t chase',
-     verdict: 'caution',        // 'buy' | 'caution' | 'avoid'  → tile chip color
+     signal: 'Buy the pullback — don’t chase',
+     side: 'long',              // 'long' | 'short'  → setup direction, tile chip color
      accent: 'purple',          // 'purple' | 'pink'            → tile accent
      story: 'stories/sezl.html',
    }

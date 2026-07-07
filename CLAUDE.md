@@ -20,8 +20,9 @@ interactive tap-through "story" that explains the trade thesis for that stock.
 ## Stock tile data model
 
 Each `STOCKS` entry: `symbol`, `exchange`, `price` (freeform label), `change`,
-`signal` (one-line verdict), `verdict` (`buy` | `caution` | `avoid`, colors the
-chip), `accent` (`purple` | `pink`), and `story` (path to the slideshow HTML).
+`signal` (one-line thesis), `side` (`long` | `short`, the setup direction — colors
+the chip green/red), `accent` (`purple` | `pink`), and `story` (path to the
+slideshow HTML).
 
 ## Adding a stock
 
