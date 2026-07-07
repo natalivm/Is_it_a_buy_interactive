@@ -57,10 +57,10 @@ const STOCKS = [
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$196.79', change: '−10.81% · Jul 2',
-    signal: 'Weekly blow-off rejection — huge upper wick, close near the low; relief bounce likely but sold, bias down unless it reclaims $217–220; targets $180 → $167 → $150',
+    price: '$185.36', change: '−4.85% · Jul 7',
+    signal: 'Blow-off follow-through — lost the 4h 200-EMA $194, down to $185 closing on T1 $180; deeply oversold (RSI 28, Stoch Mtm −73) so a bounce can come but sold into $194 → $205; targets $180 → $167 → $150; reclaim $217 negates',
     side: 'short', accent: 'blue',
-    date: '2026-07-04',
+    date: '2026-07-07',
     story: 'stories/glw.html',
   },
   {
@@ -97,10 +97,10 @@ const STOCKS = [
   },
   {
     symbol: 'SEZL', exchange: 'NASDAQ',
-    price: '$183.24', change: '+4.60% · Jul 2',
-    signal: 'Parabolic but overbought (RSI 84) — don’t chase $183; buy the $178–180 pullback, targets $200+',
+    price: '$179.60', change: '+0.30% · Jul 7',
+    signal: 'Pulled back into the buy zone — $179.60, into the $178–180 dip the plan named; RSI cooled 84→76, still parabolic above the 10-EMA $170; buy dips $170–178, targets $195 → $200+; lose $170 cracks it',
     side: 'long', accent: 'emerald',
-    date: '2026-07-03',
+    date: '2026-07-07',
     story: 'stories/sezl.html',
   },
   {
