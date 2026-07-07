@@ -32,25 +32,25 @@
 
     <main class="main-content">
         <div class="page-container">
-            <!-- "Sharpest shorts" ranking — rows are rendered from the `lead`
+            <!-- "Sharpest trades" ranking — rows are rendered from the `lead`
                  field on STOCK entries in data.js (see renderLeaderboard).
                  The whole section is hidden if no entry has a `lead`. -->
-            <section class="leaderboard" id="leaderboard" aria-label="Sharpest shorts right now" hidden>
+            <section class="leaderboard" id="leaderboard" aria-label="Sharpest trades right now" hidden>
                 <div class="lb-head">
-                    <h2 class="lb-title">Sharpest shorts <span class="grad">right now</span></h2>
+                    <h2 class="lb-title">Sharpest trades <span class="grad">right now</span></h2>
                     <p class="lb-sub">Ranked by setup quality × reward. Tap a card below for the full plan.</p>
                 </div>
                 <div class="lb-scroll">
                     <table class="lb-table">
                         <thead>
                             <tr>
-                                <th>#</th><th>Setup</th><th>Short entry</th><th>Stop</th><th>Targets</th><th>Downside</th><th>R:R</th><th>Edge</th>
+                                <th>#</th><th>Setup</th><th>Entry</th><th>Stop</th><th>Targets</th><th>Move</th><th>R:R</th><th>Edge</th>
                             </tr>
                         </thead>
                         <tbody id="leaderboardBody"></tbody>
                     </table>
                 </div>
-                <p class="lb-foot"><sup>*</sup> R:R only if price bounces to the entry zone. Downside measured from the short entry to the deepest target; “tail” is the full-failure extension.</p>
+                <p class="lb-foot"><sup>*</sup> R:R only if price bounces to the entry zone. Move measured from entry to the deepest target; “tail” is the full-failure extension.</p>
             </section>
 
             <section class="gallery-section">

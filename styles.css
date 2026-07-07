@@ -167,6 +167,7 @@ body.story-open { overflow: hidden; }
 .lb-sym { font-family: var(--disp); font-weight: 700; font-size: 17px; background: linear-gradient(92deg, var(--tile-a, var(--purple)), var(--tile-b, var(--pink))); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .lb-chip { font-size: 9px; padding: 3px 7px; }
 .lb-dn { color: var(--pink); font-weight: 600; }
+.lb-dn.lb-up { color: var(--green); }
 .lb-tail { display: block; font-size: 10px; color: var(--mut); font-weight: 400; }
 .lb-rr { color: var(--green); font-weight: 600; }
 .lb-edge { font-family: var(--body); font-size: 12px; line-height: 1.35; color: var(--mut); white-space: normal; min-width: 170px; }
