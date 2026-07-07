@@ -16,6 +16,14 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'TER', exchange: 'NASDAQ',
+    price: '$339.61', change: '−10.57% · Jul 7',
+    signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $290 → $260',
+    verdict: 'caution', accent: 'blue',
+    date: '2026-07-07',
+    story: 'stories/ter.html',
+  },
+  {
     symbol: 'GLW', exchange: 'NYSE',
     price: '$196.79', change: '−10.81% · Jul 2',
     signal: 'Weekly blow-off rejection — huge upper wick, close near the low; relief bounce likely but sold, bias down unless it reclaims $217–220; targets $180 → $167 → $150',
