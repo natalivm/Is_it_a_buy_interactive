@@ -18,7 +18,7 @@ const STOCKS = [
   {
     symbol: 'TER', exchange: 'NASDAQ',
     price: '$339.61', change: '−10.57% · Jul 7',
-    signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $290 → $260',
+    signal: 'Blow-off from $494 — knife onto the daily 50-day $337, 4h deeply oversold (RSI 23, Stoch 6); bounce likely but fade into $383–390, bias down; targets $318 → $300 → $260',
     verdict: 'caution', accent: 'blue',
     date: '2026-07-07',
     story: 'stories/ter.html',
