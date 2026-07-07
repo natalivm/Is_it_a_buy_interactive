@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>$NBIS — Торговий план</title>
+<title>$INTC — Торговий план</title>
 <script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="story.css">
 <style>
-  /* ── NBIS palette (royal blue — AI cloud) ── */
+  /* ── INTC palette (steel navy — Intel blue) ── */
   :root{
-    --page-bg:#050A18;
-    --bg:#0A1330;
-    --panel:#16224A;
-    --panel2:#111A3C;
-    --line:#293A6B;
+    --page-bg:#060B16;
+    --bg:#0C1526;
+    --panel:#1A2740;
+    --panel2:#141F34;
+    --line:#2E3E5E;
     --ink:#FFFFFF;
-    --muted:#9AA9D6;
+    --muted:#9FADC8;
     --purple:#34D399;
     --pink:#FB5D74;
-    --yellow:#F5A524;
-    --deep:#050A18;
+    --yellow:#F5B03A;
+    --deep:#060B16;
     --display:'Oswald',sans-serif;
     --body:'Inter',sans-serif;
     --mono:'IBM Plex Mono',monospace;
@@ -180,80 +180,80 @@
   <div class="deck" id="deck">
 
     <!-- 1 · 4H -->
-    <section class="slide active" data-label="NBIS · 4H">
-      <div class="cover-ticker rv">NBIS</div>
+    <section class="slide active" data-label="INTC · 4H">
+      <div class="cover-ticker rv">INTC</div>
       <div class="eyebrow rv">4H STRUCTURE</div>
-      <h1 class="rv">Перепродано.<br><span class="hl">Але зламано.</span></h1>
-      <p class="sub rv">4h розчавлено — <strong>RSI 31, Stoch 8, MACD −8</strong> — на нижній Bollinger $200. Oversold → відскок можливий, але це в <strong>опір $212–217</strong>, звідки short. Не buy.</p>
+      <h1 class="rv">Зламаний тренд.<br><span class="hl">Bounce = short.</span></h1>
+      <p class="sub rv">4h пробив 200-EMA trend support — <strong>RSI 28, Stoch −69, MACD −2.8</strong>. Oversold над $109 → відскок можливий, але це в <strong>опір $115–120</strong>, звідки short.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="NBIS 4h oversold but broken">
+        <svg viewBox="0 0 470 300" role="img" aria-label="INTC 4h broken trend">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
           <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="135" x2="360" y2="135"/>
           <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="195" x2="360" y2="195"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$232</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="139" text-anchor="end">$217</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="199" text-anchor="end">$203</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">4h 200-MA</text>
-          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="139">VWAP · short зона</text>
-          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="199">now · lower BB</text>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$123</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="139" text-anchor="end">$118</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="199" text-anchor="end">$111</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">reclaim → bull</text>
+          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="139">short зона $115–120</text>
+          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="199">now · support $109</text>
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,50 L300,195"/>
           <circle class="dot-y pop" style="animation-delay:1.35s" cx="300" cy="195" r="6"/>
           <path class="bounce fade" style="animation-delay:1.55s" d="M300,195 L358,140"/>
-          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="245" text-anchor="middle">oversold → bounce у $212–217 = short</text>
+          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="245" text-anchor="middle">oversold → bounce у $115–120 = short</text>
         </svg>
       </div>
     </section>
 
     <!-- 2 · WEEKLY -->
-    <section class="slide" data-label="NBIS · 1W">
+    <section class="slide" data-label="INTC · 1W">
       <div class="eyebrow rv">WEEKLY · structure</div>
-      <h1 class="rv">Розтягнуто. <span class="hl">Room вниз.</span></h1>
-      <p class="sub rv">Тренд ~$90 → ~$290, тепер <strong>−30% від ATH</strong> і завертає. Weekly ще над MA (не крах), але простір для mean-reversion до <strong>$173</strong> шельфу відкритий.</p>
+      <h1 class="rv">Розтягнуто. <span class="hl">Rejection.</span></h1>
+      <p class="sub rv">Вертикальний run з ~$18 до ~$154, тепер <strong>rejection від upper band</strong>. Weekly RSI ще сильний (тренд не мертвий), але корекція різка. Глибокі опори: gap-fill $82, prior support $70.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="NBIS weekly extended rolling over">
+        <svg viewBox="0 0 470 300" role="img" aria-label="INTC weekly rejection">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
           <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
           <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="200" x2="360" y2="200"/>
           <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="240" x2="360" y2="240"/>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$290</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="154" text-anchor="end">$203</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="204" text-anchor="end">$174</text>
-          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="244" text-anchor="end">$157</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">June ATH</text>
-          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">now · −30%</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="204">base / major</text>
-          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="244">deeper flush</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$154</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="154" text-anchor="end">$111</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="204" text-anchor="end">$82</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="244" text-anchor="end">$70</text>
+          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">ATH · upper band</text>
+          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">now · rejection</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="204">gap-fill top</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="244">prior support · 200-day</text>
           <path class="legup draw" pathLength="1" style="animation-delay:.55s;animation-duration:1s" d="M90,255 L250,58"/>
           <path class="legdn draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.7s" d="M250,58 L352,150"/>
           <circle class="dot-y pop" style="animation-delay:2.15s" cx="352" cy="150" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:.8s" x="150" y="98" text-anchor="middle">+220% run</text>
+          <text class="cap f-p fade" style="animation-delay:.8s" x="150" y="98" text-anchor="middle">vertical run</text>
         </svg>
       </div>
     </section>
 
     <!-- 3 · DAILY -->
-    <section class="slide" data-label="NBIS · 1D">
+    <section class="slide" data-label="INTC · 1D">
       <div class="eyebrow y rv">DAILY · 1D</div>
-      <h1 class="rv">Зламав <span class="hl">50-day.</span></h1>
-      <p class="sub rv">Ціна закрилась <strong>під 50-day ($213)</strong>, MACD прискорюється вниз. Stoch 19 — oversold, але ще не bullish; відскоки продаються, поки momentum не скинеться.</p>
+      <h1 class="rv">Під 50-day.<br><span class="hl">Rolling over.</span></h1>
+      <p class="sub rv">Ціна під 10/21 EMA і <strong>50-day ($115)</strong>. Daily MACD перехрестився вниз, Stoch падає. Bullish тренд зламано — відскоки suspect, поки не reclaim $115–120.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Rolling hard</span><span class="v">RSI 40 · MACD ↓↓ · Stoch 19</span></div>
-        <p>Втрата 50-day = тренд-структура зламана. <span class="k">Відскоки — на продаж</span> у $212–217.</p>
+        <div class="indi-top"><span class="t">Rolling over</span><span class="v">RSI 44 · MACD ✗ · Stoch ↘</span></div>
+        <p>Втрата 50-day + 10/21 EMA = short-term тренд зламано. <span class="k">Відскоки suspect</span> під $115–120.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="NBIS daily broke 50-day">
+        <svg viewBox="0 0 470 300" role="img" aria-label="INTC daily rolling over">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
           <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="82"  x2="360" y2="82"/>
           <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="155" x2="360" y2="155"/>
           <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="245" x2="360" y2="245"/>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$213</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="86"  text-anchor="end">$203</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="159" text-anchor="end">$192</text>
-          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="249" text-anchor="end">$174</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$115</text>
+          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="86"  text-anchor="end">$111</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="159" text-anchor="end">$101</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="249" text-anchor="end">$94</text>
           <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">50-day · зламано</text>
           <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="86">now</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="159">перша ціль</text>
-          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="249">major support</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="159">daily lower BB · T1</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="249">4h MA cluster</text>
           <circle class="dot-y pop" style="animation-delay:.5s" cx="90" cy="82" r="6"/>
           <path class="legdn draw" pathLength="1" style="animation-delay:.6s;animation-duration:1.2s" d="M90,82 L210,155 L352,245"/>
           <text class="cap f-p fade" style="animation-delay:1.9s" x="352" y="267" text-anchor="end">→ mean</text>
@@ -262,36 +262,36 @@
     </section>
 
     <!-- 4 · LEVELS -->
-    <section class="slide" data-label="NBIS · РІВНІ">
+    <section class="slide" data-label="INTC · РІВНІ">
       <div class="eyebrow rv">РІВНІ · structure</div>
       <h1 class="rv">Карта <span class="hl">рівнів</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$290</span><span class="lbl">June ATH</span></div>
-        <div class="rung res"><span class="px">$232</span><span class="lbl">4h 200-MA · опір</span></div>
-        <div class="rung res"><span class="px">$217</span><span class="lbl">VWAP · short зона</span></div>
-        <div class="rung res"><span class="px">$213</span><span class="lbl">50-day · зламано</span></div>
-        <div class="rung now"><span class="px">$203</span><span class="lbl">ТУТ · відскок = short</span></div>
-        <div class="rung sup"><span class="px">$192</span><span class="lbl">Перша ціль · $190–195</span></div>
-        <div class="rung sup"><span class="px">$174</span><span class="lbl">Major support · breakout base</span></div>
-        <div class="rung sup"><span class="px">$157</span><span class="lbl">Deeper flush · $155–160</span></div>
+        <div class="rung res"><span class="px">$154</span><span class="lbl">ATH · upper band rejection</span></div>
+        <div class="rung res"><span class="px">$123–126</span><span class="lbl">Bull reclaim · trend repair</span></div>
+        <div class="rung res"><span class="px">$115–120</span><span class="lbl">Short зона · broken 50-day</span></div>
+        <div class="rung now"><span class="px">$111</span><span class="lbl">ТУТ · відскок = short</span></div>
+        <div class="rung sup"><span class="px">$109</span><span class="lbl">Втратити = вниз швидко</span></div>
+        <div class="rung sup"><span class="px">$101</span><span class="lbl">Daily lower BB · T1</span></div>
+        <div class="rung sup"><span class="px">$94</span><span class="lbl">4h MA cluster · T2</span></div>
+        <div class="rung sup"><span class="px">$86</span><span class="lbl">Deeper · $82 gap-fill · T3</span></div>
       </div>
-      <p class="note rv">Втрата <strong>$200</strong> → $190–195 швидко; під $190 → <strong>$173–175</strong>. Reclaim $217 → $232 знімає short. Не chase — short відскок у опір.</p>
+      <p class="note rv">Не chase у $109–111 (oversold). Short відскок у <strong>$115–120</strong>. Втрата $109 → $101 швидко. Reclaim $123–126 = тренд-repair. Panic reset <strong>$70</strong>.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="NBIS · SHORT">
+    <section class="slide" data-label="INTC · SHORT">
       <div class="eyebrow rv">ПЛАН · bias вниз</div>
-      <h1 class="rv">Short відскок у <span class="hl">$212–217</span></h1>
-      <p class="sub rv">Daily зламав 50-day, MACD прискорюється. Не chase тут (oversold) — short слабкий відскок у $212–217. Downside складається вниз:</p>
+      <h1 class="rv">Short відскок у <span class="hl">$115–120</span></h1>
+      <p class="sub rv">Failed breakout — тренд зламано 4h/daily. Не chase тут (oversold після −9%) — short слабкий відскок у $115–120. Downside складається вниз:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$233</span></span><span class="r">reclaim → $232</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$215</span></span><span class="r">failed bounce</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$192</span></span><span class="r">−11%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$174</span></span><span class="r">−19%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$157</span></span><span class="r">−27%</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$124</span></span><span class="r">bull reclaim</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$118</span></span><span class="r">failed bounce</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$101</span></span><span class="r">−14%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$94</span></span><span class="r">−20%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$86</span></span><span class="r">−27%</span></div>
       </div>
-      <p class="note k rv">Чистий пробій <strong>$200</strong> — альтернативний вхід, шлях на $190–195. Reclaim <strong>$217</strong> → $232 = short off. Oversold ≠ buy.</p>
+      <p class="note k rv">Альтернатива: втрата <strong>$109</strong> → $101 швидко. Reclaim $115–120 послаблює, <strong>$123–126</strong> = тренд-repair. Глибше: gap-fill $82, panic reset $70.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
@@ -302,7 +302,7 @@
       <button id="btn-back" aria-label="Попередній слайд">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <span class="foot-tag" id="foot-tag">NBIS</span>
+      <span class="foot-tag" id="foot-tag">INTC</span>
     </div>
     <div class="nav-r">
       <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>

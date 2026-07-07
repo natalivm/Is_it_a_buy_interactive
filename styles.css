@@ -235,9 +235,8 @@ body.story-open { overflow: hidden; }
     border-radius: 999px;
     white-space: nowrap;
 }
-.chip-buy { background: rgba(87, 232, 160, 0.14); color: var(--green); box-shadow: inset 0 0 0 1px rgba(87, 232, 160, 0.4); }
-.chip-caution { background: rgba(255, 210, 74, 0.14); color: var(--yellow); box-shadow: inset 0 0 0 1px rgba(255, 210, 74, 0.4); }
-.chip-avoid { background: rgba(255, 93, 162, 0.14); color: var(--pink); box-shadow: inset 0 0 0 1px rgba(255, 93, 162, 0.4); }
+.chip-long { background: rgba(87, 232, 160, 0.14); color: var(--green); box-shadow: inset 0 0 0 1px rgba(87, 232, 160, 0.4); }
+.chip-short { background: rgba(255, 93, 162, 0.14); color: var(--pink); box-shadow: inset 0 0 0 1px rgba(255, 93, 162, 0.4); }
 
 .tile-price-row { display: flex; align-items: baseline; gap: 10px; }
 .tile-price {
