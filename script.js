@@ -114,7 +114,7 @@ function stockTileHtml(stock) {
     `;
 }
 
-// Builds the "Sharpest shorts" ranking from the `lead` field on STOCK entries,
+// Builds the "Sharpest trades" ranking from the `lead` field on STOCK entries,
 // so the table stays in sync with the cards. Hidden if nothing is ranked.
 function renderLeaderboard() {
     const section = document.getElementById('leaderboard');
@@ -143,7 +143,7 @@ function renderLeaderboard() {
                 <td>${esc(L.entry)}</td>
                 <td>${esc(L.stop)}</td>
                 <td>${esc(L.targets)}</td>
-                <td class="lb-dn">${downside}</td>
+                <td class="lb-dn${side === 'long' ? ' lb-up' : ''}">${downside}</td>
                 <td class="lb-rr">${rr}</td>
                 <td class="lb-edge">${esc(L.edge)}</td>
             </tr>`;
