@@ -107,14 +107,6 @@ const STOCKS = [
     story: 'stories/asts.html',
   },
   {
-    symbol: 'SEZL', exchange: 'NASDAQ',
-    price: '$167.40', change: '−5.76% · Jul 8',
-    signal: 'Long stopped out — the parabola cracked, losing the $170 buy zone and the $168 stop (−5.8% to $167) as RSI rolled 76→38 and Stoch collapsed; stand aside, no fresh long until a reclaim of $175–178; below $167 opens $150, then the 50-day $122 far below',
-    side: 'long', accent: 'emerald',
-    date: '2026-07-08',
-    story: 'stories/sezl.html',
-  },
-  {
     symbol: 'NBIS', exchange: 'NASDAQ',
     price: '$214.98', change: '+10.14% · Jul 8',
     signal: 'Ripped into the re-short zone — +10% to $215 straight back into the $212–217 supply, capped by the 4h 200-EMA $225; short the failed bounce, stop $233; below $200 → $192 → $174 → $157; reclaim $233 negates',
