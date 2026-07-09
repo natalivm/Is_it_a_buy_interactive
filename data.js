@@ -84,7 +84,7 @@ const STOCKS = [
   {
     symbol: 'SMH', exchange: 'NASDAQ',
     price: '$593.00', change: '+1.99% · Jul 8',
-    signal: 'Not confirming the semis bounce — closed $593 (+2.0%) but printed a lower LOW beneath the $660 lower high; the pre-mkt pop to $604 is a lower-high retest into the $599–608 supply to fade, not a reclaim. Reject there and the map points to ~$540 → $500; only a daily close above $608 flips it. Still bearish = the red flag under STX’s long',
+    signal: 'At the decision line, but show-me — closed $593 (+2.0%) and pre-market is pushing $604 into the $599–608 supply (4h 200-MA $600 / VWAP $608) with 4h Stochastics curling up. Catch: the bounce isn’t drawing volume (daily OBV rolling over from lower highs), so a reclaim of $608 only counts if it comes with a volume expansion — that breaks the $660 lower high and confirms STX; a stall on this light tape resumes down toward $540 → $500. Watch the open',
     side: 'short', accent: 'cyan',
     date: '2026-07-08',
     story: 'stories/smh.html',
