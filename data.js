@@ -83,10 +83,10 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$593.00', change: '+1.99% · Jul 8',
-    signal: 'At the decision line, but show-me — closed $593 (+2.0%) and pre-market is pushing $604 into the $599–608 supply (4h 200-MA $600 / VWAP $608) with 4h Stochastics curling up. Catch: the bounce isn’t drawing volume (daily OBV rolling over from lower highs), so a reclaim of $608 only counts if it comes with a volume expansion — that breaks the $660 lower high and confirms STX; a stall on this light tape resumes down toward $540 → $500. Watch the open',
+    price: '$607.73', change: '+2.48% · Jul 9',
+    signal: 'Reclaimed the zone, at the flip line — closed $607.73 (+2.5%, AH $608) back above the $599–608 supply, but stalled right under the 4h 50-EMA / VWAP $609–612 and OBV still isn’t thrusting; a daily hold above $612 breaks the $660 lower-high structure and confirms STX, a rejection back under $595 revives the $540 → $500 downside. Tilting up — but not confirmed until $612 clears on volume',
     side: 'short', accent: 'cyan',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/smh.html',
   },
   {
@@ -116,10 +116,10 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$569.34', change: '+2.68% · Jul 8',
-    signal: 'Blow-off unwinding, bouncing — +2.7% to $569 off the rising 200-day $525; still capped under the 21/50-day, re-short the bounce into $580–595; targets $525 → $510 → $470; reclaim $620 negates',
+    price: '$588.66', change: '+3.18% · Jul 9',
+    signal: 'Bounced into the re-short zone — +3.2% to $589 (AH $592), pushing into the $580–595 fade with the 9-EMA $595 / BB mid $608 above; MACD histogram green and OBV rising, so respect a poke to $608, but this is the failed-push fade — re-short here; targets $525 → $510 → $470; reclaim $620 negates',
     side: 'short', accent: 'red',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/amat.html',
   },
   {
