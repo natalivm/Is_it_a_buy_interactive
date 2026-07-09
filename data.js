@@ -47,11 +47,11 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$946.54', change: '+0.87% · Jul 8',
-    signal: 'Oversold bounce — reclaimed the 4h 200-EMA $936, +0.9% to $947 with MACD ticking up off the $920 support; bounce not trend, short the failed push into $967–1,015 (BB mid / 21-EMA); below $920 → $860 → $810 → $675; reclaim $1,050 flips it',
-    lead: { rank: 2, entry: '$967–1,015', stop: '$1,050', targets: '$860 → $810 → $675', downside: '−31%', rr: '2.1:1', edge: 'Most extended → furthest to fall' },
+    price: '$990.58', change: '+4.40% · Jul 9',
+    signal: 'Bounced into the re-short zone — +4.4% to $990 (AH $990), pushing into the $967–1,015 supply and testing the 4h 50-EMA $1,021 overhead; MACD histogram green and OBV curling up, so respect a poke to $1,015–1,037, but this is the failed-push fade — short it, stop $1,050, below → $860 → $810 → $675; reclaim $1,050 flips it',
+    lead: { rank: 2, entry: '$967–1,015', stop: '$1,050', targets: '$860 → $810 → $675', downside: '−31%', rr: '2.1:1', edge: 'In the re-short zone; furthest to fall' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/mu.html',
   },
   {
@@ -74,11 +74,11 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,727', change: '+6.77% · Jul 8',
-    signal: 'Powerful close into the 200-day — ripped +6.77% to close $1,727 (AH $1,736), right into the rising daily 200-day and the $1,733–1,850 re-short zone; fade a rejection here for $1,544 → $1,420 → $1,394, but a daily close/hold above $1,750 reclaims the 200-day and opens a squeeze to the 50-day $1,915 — respect it',
-    lead: { rank: 7, entry: '$1,733–1,850', stop: '$1,900', targets: '$1,544 → $1,420 → $1,394', downside: '−22%', rr: '~3:1', edge: 'Fade the 200-day rejection — but a strong close' },
+    price: '$1,858', change: '+7.59% · Jul 9',
+    signal: 'Squeeze then rejection — ran +13% to $1,952 intraday (blew through the $1,733–1,850 fade and the old $1,900 stop), then reversed to close +7.6% at $1,858 (AH $1,850): a fat upper-wick candle right at the daily BB mid $1,953. Re-fade the failed push into $1,900–1,950 with a tight stop over $1,952, targets $1,738 (4h 200-EMA) → $1,650 → $1,544; but OBV and 4h momentum are curling up, so a daily close back above $1,950 resumes the squeeze toward ~$2,100 — two-sided',
+    lead: { rank: 7, entry: '$1,900–1,950', stop: '$1,960', targets: '$1,738 → $1,650 → $1,544', downside: '−20%', rr: '~5:1', edge: 'Fade the $1,950 rejection; tight stop but strong bid' },
     side: 'short', accent: 'red',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/sndk.html',
   },
   {
@@ -91,10 +91,10 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$881.98', change: '+2.55% · Jul 8',
-    signal: 'Confirmed bounce — double-bottom breakout, reclaimed and holding $880 (+2.6% into the close, pre-mkt $884); daily Stoch turning up from oversold, 4h MACD bullish cross, OBV never broke down, weekly trend intact; add $850–870 on a hold, targets $934–950 (200-day) → $1,015+ → $1,107–1,120; trim on a daily close below $850, out below $795 — and watch SMH to confirm',
+    price: '$890.09', change: '+3.50% · Jul 9',
+    signal: 'Long working — follow-through +3.5% to $890 (AH $888), holding above the breakout and the rising 4h 200-EMA $865 with OBV pushing higher highs (real accumulation — the confirmation that was missing); above the $850–870 add zone, next the $911 shelf then T1 $934–950 (200-day); trim on a daily close below $850, out below $795',
     side: 'long', accent: 'emerald',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/stx.html',
   },
   {
@@ -124,10 +124,10 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$250.30', change: '−7.14% · Jul 8',
-    signal: 'Short paying — shooting star from $320 now $250 (−7.1%), tagged T1 $252 (daily 50-day) and sitting on the 4h lower band $246; RSI 37 not yet washed out, so bank partial, break $246 opens $236 → $225; re-short bounces into $264–277 (10-EMA/200-EMA/BB mid), invalid above $305',
+    price: '$256.85', change: '+1.01% · Jul 9',
+    signal: 'Bounce stalling under resistance — nudged +1.0% to $257 but still capped below the 4h 9-EMA $264 / 200-EMA $276 with OBV grinding to fresh lower lows (distribution); re-short bounces into $264–277, below $246 opens $236 → $225; reclaim $281 weakens it, $305 negates',
     side: 'short', accent: 'amber',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/be.html',
   },
 ];
