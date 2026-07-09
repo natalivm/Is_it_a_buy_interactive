@@ -65,11 +65,11 @@ const STOCKS = [
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$183.25', change: '−1.15% · Jul 8',
-    signal: 'Churning at T1 — chopping around $183 just above T1 $180, capped by the 4h 200-EMA $193; RSI 33 / Stoch −62 oversold but no reclaim; fade bounces into $193–205 (200-EMA → 50-day); lose $180 → $167 → $150; reclaim $217 negates',
-    lead: { rank: 4, entry: '$193–205', stop: '$217', targets: '$180 → $167 → $150', downside: '−25%', rr: '2.4:1', edge: 'Capped by the 200-EMA; fade the bounce' },
+    price: '$192.43', change: '+4.56% · Jul 9',
+    signal: 'Bounced into the fade zone — +4.6% to $192, back into the bottom of the $193–205 re-short (9-EMA $192), but OBV is rolling over hard (490m→408m) and the MACD histogram flipped red — no volume behind the pop; fade here, stop $217; lose $180 → $167 → $150; reclaim $217 negates',
+    lead: { rank: 4, entry: '$193–205', stop: '$217', targets: '$180 → $167 → $150', downside: '−25%', rr: '2.4:1', edge: 'Weak bounce into the fade zone' },
     side: 'short', accent: 'blue',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/glw.html',
   },
   {
