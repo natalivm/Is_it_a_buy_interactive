@@ -29,11 +29,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$536.93', change: '+0.91% · Jul 8',
-    signal: 'Oversold bounce off support — held the $527 lower band, +0.9% to $537 but still pinned under the 10/21-EMA and 200-EMA stack; short the failed bounce into $560–592, targets $500 → $465 → $440; lose $527 → $500 fast; reclaim $606 negates',
-    lead: { rank: 6, entry: '$560–592', stop: '$606', targets: '$500 → $465 → $440', downside: '−22%', rr: '2.4:1', edge: 'Bounce into the MA stack = re-short' },
+    price: '$578.05', change: '+5.04% · Jul 9',
+    signal: 'Bounced into the re-short zone — +5.0% to $578, up into the $560–592 fade with the 9-EMA $608 / BB mid $611 and the $606 negate line just above; still under the MA stack and daily MACD histogram red, so short the failed push here, stop $606; lose $527 → $500 → $465 → $440; reclaim $606 negates',
+    lead: { rank: 6, entry: '$560–592', stop: '$606', targets: '$500 → $465 → $440', downside: '−22%', rr: '2.4:1', edge: 'In the re-short zone; capped under $606' },
     side: 'short',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/wdc.html',
   },
   {
