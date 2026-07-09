@@ -56,7 +56,7 @@
   .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
   .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--yellow);white-space:nowrap;}
   .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
-  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;}
+  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;} .indi p .p{color:var(--purple);font-weight:700;}
 
   .chart{width:100%;margin:6px 0 2px;}
   .chart svg{width:100%;height:auto;display:block;overflow:visible;}
@@ -69,6 +69,7 @@
   .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
   .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
   .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
   .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
@@ -127,25 +128,25 @@
   .tpl .rg:last-child{border-bottom:0;}
   .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
   .tpl .rg .cap2{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--pink);}
-  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--pink);}
+  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--purple);}
+  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--purple);}
   .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
   .tpl .rg.stop .px{color:var(--muted);} .tpl .rg.stop .cap2{color:var(--muted);} .tpl .rg.stop .r{color:var(--muted);font-family:var(--mono);font-size:12px;font-weight:600;}
-  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(100%);
-    background:linear-gradient(90deg, rgba(251,93,116,.30), rgba(251,93,116,.12));
-    border-top:1px solid rgba(251,93,116,.55);border-bottom:1px solid rgba(251,93,116,.55);box-shadow:0 0 26px rgba(251,93,116,.4);}
-  .slide.active .tpl .riser{animation:sinkDown 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
-  @keyframes sinkDown{
-    0%{transform:translateY(100%);opacity:0;}
+  .tpl .riser{position:absolute;left:0;right:0;bottom:0;height:20%;z-index:1;transform:translateY(0);
+    background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
+    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
+  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
+  @keyframes riseUp{
+    0%{transform:translateY(0);opacity:0;}
     12%{opacity:1;}
-    62%{transform:translateY(400%);}
-    74%{transform:translateY(391%);}
-    86%{transform:translateY(400%);}
-    94%{transform:translateY(397%);}
-    100%{transform:translateY(400%);}
+    62%{transform:translateY(-400%);}
+    74%{transform:translateY(-391%);}
+    86%{transform:translateY(-400%);}
+    94%{transform:translateY(-397%);}
+    100%{transform:translateY(-400%);}
   }
-  .preview .tpl .riser{transform:translateY(400%);}
-  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
+  .preview .tpl .riser{transform:translateY(-400%);}
+  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(-400%);} }
 
   .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:#F3E8D6;border-left:3px solid var(--yellow);padding-left:11px;}
   .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
@@ -179,87 +180,88 @@
     <!-- 1 · 4H -->
     <section class="slide active" data-label="STX · 4H">
       <div class="cover-ticker rv">STX</div>
-      <div class="eyebrow rv">4H STRUCTURE</div>
-      <h1 class="rv">Bounce.<br><span class="hl">Фейдимо.</span></h1>
-      <p class="sub rv">Перепроданий відскок <strong>+1.3%</strong> до <strong>$838</strong> — повзе назад у 4h 200-EMA <strong>$869</strong> / supply $850–875. Досі під MA-стеком, bear-cross (<strong>RSI 43, Stoch −35</strong>) → відскок, який продаємо до T1 $795.</p>
+      <div class="eyebrow p rv">4H STRUCTURE</div>
+      <h1 class="rv">Відскок.<br><span class="hl">Підтверджено.</span></h1>
+      <p class="sub rv">Підтверджений відскок <strong>+2.55%</strong> до <strong>$881.98</strong> (pre-market $883.90) — double-bottom breakout, <strong>повернув і тримає $880</strong>. Стек MA цілий, 4H MACD <strong>+10.8</strong> бичачий крос, daily Stoch <strong>~19.7</strong> розвертається з перепроданості → купуємо до T1 $934–950.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="STX 4h oversold bounce into supply">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
-          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="210" x2="360" y2="210"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$973</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$869</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="214" text-anchor="end">$818</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">4h BB mid</text>
-          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="154">200-EMA / supply</text>
-          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="214">lower BB</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,48 L280,214"/>
-          <path class="bounce fade" style="animation-delay:1.35s" d="M280,214 L352,178"/>
-          <circle class="dot-y pop" style="animation-delay:1.55s" cx="352" cy="178" r="6"/>
-          <text class="cap f-y fade" style="animation-delay:1.6s" x="340" y="172" text-anchor="end">now $838</text>
-          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="255" text-anchor="middle">перепроданий відскок → фейдимо у supply</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="STX 4h confirmed bounce breakout">
+          <line class="dash s-p fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
+          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="210" x2="360" y2="210"/>
+          <text class="ax f-p fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$950</text>
+          <text class="ax f-y fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$880</text>
+          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="214" text-anchor="end">$850</text>
+          <text class="cap f-p fade" style="animation-delay:.3s"  x="366" y="74">200-day MA · T1</text>
+          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">reclaim · тримає</text>
+          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="214">double-bottom / add</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,168 L132,210 L165,188 L200,213 L245,158 L300,142"/>
+          <path class="bounce fade" style="animation-delay:1.35s" d="M300,142 L352,80"/>
+          <circle class="dot-p pop" style="animation-delay:1.55s" cx="300" cy="142" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.6s" x="296" y="132" text-anchor="end">now $882</text>
+          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="255" text-anchor="middle">double-bottom breakout → тримаємо → лонг у ціль</text>
         </svg>
       </div>
     </section>
 
     <!-- 2 · WEEKLY CANDLE -->
     <section class="slide" data-label="STX · 1W">
-      <div class="eyebrow rv">WEEKLY CANDLE</div>
-      <h1 class="rv">Одна свічка.<br><span class="hl">Blow-off.</span></h1>
+      <div class="eyebrow p rv">WEEKLY CANDLE</div>
+      <h1 class="rv">Одна свічка.<br><span class="hl">Викуплено.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="STX weekly blow-off candle">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
+        <svg viewBox="0 0 420 340" role="img" aria-label="STX weekly pullback defended low">
+          <line class="dash s-y fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
           <line class="dash fade" stroke="#C6AA82" style="animation-delay:.1s" x1="60" y1="146" x2="120" y2="146"/>
           <line class="dash s-y fade" style="animation-delay:.15s" x1="60" y1="269" x2="120" y2="269"/>
           <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="300" x2="120" y2="300"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">998.49 H</text>
+          <text class="ax f-y fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">998.49 H</text>
           <text class="ax f-m fade" style="animation-delay:.3s"  x="54" y="150" text-anchor="end">915.99 O</text>
           <text class="ax f-y fade" style="animation-delay:.35s" x="54" y="273" text-anchor="end">820.16 C</text>
           <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">795.66 L</text>
           <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="40" x2="150" y2="300"/>
           <rect class="candle-body fill" x="120" y="146" width="60" height="123" rx="7" style="animation-delay:.6s"/>
           <line class="s-line fade" style="animation-delay:1s" x1="150" y1="92" x2="210" y2="92" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="82"><tspan class="h">Верхня тінь</tspan> — рвонули</text>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="99">до 998, <tspan class="f-k" font-weight="700">ВІДКИНУТО</tspan></text>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="82"><tspan class="h">Верхня тінь</tspan> — пік 998,</text>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="99"><tspan class="f-y" font-weight="700">ЦІЛЬ ПОПЕРЕДУ</tspan></text>
           <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="207" x2="210" y2="207" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="201"><tspan class="h">Тіло</tspan> — величезне, −18%</text>
-          <text class="anno f-k fade" style="animation-delay:1.2s" x="216" y="218" font-weight="700">продавці захопили</text>
+          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="201"><tspan class="h">Тіло</tspan> — відкат −18%,</text>
+          <text class="anno f-p fade" style="animation-delay:1.2s" x="216" y="218" font-weight="700">структура ціла</text>
           <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="286" x2="210" y2="286" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="290"><tspan class="h">Нижня тінь</tspan> — ледь відбили</text>
+          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="290"><tspan class="h">Нижня тінь</tspan> — 795 <tspan class="f-p" font-weight="700">викуплено</tspan></text>
         </svg>
       </div>
-      <div class="verdict rv">
-        <div class="vh">✗ Blow-off від ~$1000</div>
-        <p>Спайк до 998, закриття 820 — величезне червоне тіло, close &lt; open. Класичний <strong>blow-off top</strong> у зв'язці з sector-rout напівпровідників. Reclaim $900 потрібен, щоб довести shakeout.</p>
+      <div class="verdict p rv">
+        <div class="vh">✓ Відкат у висхідному тренді</div>
+        <p>Спайк до 998, відкат до 820 — різко, але <strong>тижневий тренд цілий</strong>: RSI <strong>65.4</strong>, OBV біля максимумів, low <strong>795.66</strong> захищено. Це pullback, не blow-off. Тримає $880 → лонг активний.</p>
       </div>
     </section>
 
     <!-- 3 · DAILY -->
     <section class="slide" data-label="STX · 1D">
       <div class="eyebrow y rv">DAILY · 1D</div>
-      <h1 class="rv">Зламав <span class="hl">50-day.</span></h1>
-      <p class="sub rv">50-day (<strong>$840</strong>) зламано; тепер відскок повзе назад у нього знизу. <strong>MACD bear cross</strong> тримається, RSI 43, Stoch −35. Наступна зупинка — daily lower BB $778, далі 20-week $648.</p>
+      <h1 class="rv">Повернув <span class="hl">$880.</span></h1>
+      <p class="sub rv">$880 повернуто і тримається; daily Stoch <strong>~19.7</strong> розвертається з перепроданості, 4H MACD <strong>+10.8</strong> бичачий крос. OBV біля максимумів — <strong>ніколи не ламався</strong>. Ціль — 200-day MA $934–950, далі 50-day $1,015+.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Rolled over hard</span><span class="v">RSI 43 · MACD −33 · Stoch −35 ↘</span></div>
-        <p>Momentum злам: MACD ведмежий крос тримається під нулем, Stoch у ведмежій зоні. <span class="k">Відскок у стек — фейд</span>.</p>
+        <div class="indi-top"><span class="t">Розворот угору</span><span class="v">Stoch 19.7 ↗ · MACD +10.8 · OBV ↑</span></div>
+        <p>Momentum розворот: daily Stoch виходить з перепроданості, 4H MACD бичачий крос, OBV біля максимумів. <span class="p">Тримає $880 → лонг</span>.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="STX daily broke 50-day">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
-          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="82"  x2="360" y2="82"/>
-          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="155" x2="360" y2="155"/>
+        <svg viewBox="0 0 470 300" role="img" aria-label="STX daily reclaimed 880">
+          <line class="dash s-p fade" style="animation-delay:.05s" x1="90" y1="55"  x2="360" y2="55"/>
+          <line class="dash s-p fade" style="animation-delay:.12s" x1="90" y1="88"  x2="360" y2="88"/>
+          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="155" x2="360" y2="155"/>
           <line class="dash s-p fade" style="animation-delay:.26s" x1="90" y1="245" x2="360" y2="245"/>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$840</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="86"  text-anchor="end">$838</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="80" y="159" text-anchor="end">$778</text>
-          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="249" text-anchor="end">$648</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="59">50-day · зламано</text>
-          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="86">now</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="159">lower BB</text>
-          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="249">20-week mean</text>
-          <circle class="dot-y pop" style="animation-delay:.5s" cx="90" cy="82" r="6"/>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.6s;animation-duration:1.2s" d="M90,82 L210,155 L352,245"/>
-          <text class="cap f-p fade" style="animation-delay:1.9s" x="352" y="267" text-anchor="end">→ mean</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="80" y="59"  text-anchor="end">$1,015</text>
+          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="92"  text-anchor="end">$950</text>
+          <text class="ax f-y fade" style="animation-delay:.4s"  x="80" y="159" text-anchor="end">$880</text>
+          <text class="ax f-p fade" style="animation-delay:.45s" x="80" y="249" text-anchor="end">$850</text>
+          <text class="cap f-p fade" style="animation-delay:.3s"  x="366" y="59">50-day MA · T2</text>
+          <text class="cap f-p fade" style="animation-delay:.35s" x="366" y="92">200-day MA · T1</text>
+          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="159">now · reclaim</text>
+          <text class="cap f-p fade" style="animation-delay:.45s" x="366" y="249">add zone</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.6s;animation-duration:1.2s" d="M90,240 L200,196 L300,152"/>
+          <path class="bounce fade" style="animation-delay:1.85s" d="M300,152 L352,92"/>
+          <circle class="dot-p pop" style="animation-delay:1.7s" cx="300" cy="152" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.9s" x="352" y="84" text-anchor="end">→ MA</text>
         </svg>
       </div>
     </section>
@@ -269,32 +271,34 @@
       <div class="eyebrow rv">РІВНІ · structure</div>
       <h1 class="rv">Рівні <span class="hl">перевернулись</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$998</span><span class="lbl">Weekly high · blow-off пік</span></div>
-        <div class="rung res"><span class="px">$900</span><span class="lbl">STOP · reclaim негує тезу</span></div>
-        <div class="rung res"><span class="px">$850–875</span><span class="lbl">Supply / 4h 200-EMA $869 · re-short зона</span></div>
-        <div class="rung now"><span class="px">$838</span><span class="lbl">ТУТ · відскок фейдимо</span></div>
-        <div class="rung sup"><span class="px">$818</span><span class="lbl">4h lower BB · втратив → прискорює</span></div>
-        <div class="rung sup"><span class="px">$795</span><span class="lbl">Weekly low · T1</span></div>
-        <div class="rung sup"><span class="px">$778</span><span class="lbl">daily lower BB · T2</span></div>
-        <div class="rung sup"><span class="px">$648</span><span class="lbl">20-week mean · T3</span></div>
+        <div class="rung sup"><span class="px">$1,107–1,120</span><span class="lbl">Upper band · T3</span></div>
+        <div class="rung sup"><span class="px">$1,015–1,030</span><span class="lbl">50-day MA · T2</span></div>
+        <div class="rung sup"><span class="px">$934–950</span><span class="lbl">200-day MA · T1</span></div>
+        <div class="rung now"><span class="px">$882</span><span class="lbl">ТУТ · повернув, тримає $880</span></div>
+        <div class="rung sup"><span class="px">$850–870</span><span class="lbl">Neckline · add зона на утриманні</span></div>
+        <div class="rung res"><span class="px">&lt; $850</span><span class="lbl">Перша тріщина · trim ½</span></div>
+        <div class="rung res"><span class="px">&lt; $795</span><span class="lbl">Патерн зламано · повний вихід</span></div>
+        <div class="rung res"><span class="px">$736</span><span class="lbl">Перша полиця підтримки</span></div>
+        <div class="rung res"><span class="px">$705–720</span><span class="lbl">Measured move + dev band</span></div>
+        <div class="rung res"><span class="px">$597</span><span class="lbl">Головна підлога</span></div>
       </div>
-      <p class="note rv">Під <strong>$900</strong> — bias вниз. Відскок у $850–875 фейдимо. Втратить <strong>$818</strong> → прискорює до $795 / $778, далі <strong>$648</strong> (20-week). Reclaim $900 негує тезу.</p>
+      <p class="note p rv">Над <strong>$880</strong> — bias вгору. Утримання $850–870 <strong>докуповуємо</strong>. Daily close &lt; <strong>$850</strong> → trim ½; &lt; <strong>$795</strong> → повний вихід, далі $736 / $705–720 / $597.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="STX · SHORT">
-      <div class="eyebrow rv">ПЛАН · bias вниз</div>
-      <h1 class="rv">Поки під <span class="hl">$900</span></h1>
-      <p class="sub rv">Blow-off від ~$1000, під MA-стеком. Перепроданий відскок повзе у $850–875 (200-EMA $869) — <strong>фейдимо</strong>. Downside складається вниз:</p>
+    <section class="slide" data-label="STX · LONG">
+      <div class="eyebrow p rv">ПЛАН · bias вгору</div>
+      <h1 class="rv">Поки над <span class="hl">$880</span></h1>
+      <p class="sub rv">Double-bottom breakout, повернув і тримає $880. Стек MA цілий, momentum розвертається — <strong>докуповуємо</strong> на утриманні $850–870. Upside складається вгору:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$900</span></span><span class="r">reclaim негує</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$862</span></span><span class="r">fade $850–875</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$795</span></span><span class="r">−8%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$778</span></span><span class="r">−10%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$648</span></span><span class="r">−25%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$1,107–1,120</span></span><span class="r">+26%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$1,015–1,030</span></span><span class="r">+16%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$934–950</span></span><span class="r">+7%</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$882</span></span><span class="r">in / add $850–870</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">&lt; $850 / $795</span></span><span class="r">trim ½ / вихід</span></div>
       </div>
-      <p class="note k rv">Rout напівпровідників / пам'яті — у зв'язці з SNDK, GLW, SMH. Reclaim <strong>$900</strong> знімає ведмежу тезу.</p>
+      <p class="note p rv">Реклейм і утримання <strong>$880</strong> = лонг активний; R:R до T1 ≈ <strong>2.7:1</strong>. <strong>SMH</strong> має теж повернути свій рівень пробою — якщо ні, це попередження, не підтвердження.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
