@@ -83,8 +83,8 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$591.87', change: '+1.79% · Jul 8',
-    signal: 'Sector barometer bouncing — +1.8% off the $582 weekly-low pivot to $592, but still capped under $599–608 (BB mid / 50-day) with the daily bear cross intact; reclaim $599 relieves it, lose $565 → $533 → $500; drags all semis',
+    price: '$593.00', change: '+1.99% · Jul 8',
+    signal: 'Not confirming the semis bounce — closed $593 (+2.0%) but printed a lower LOW beneath the $660 lower high; the pre-mkt pop to $604 is a lower-high retest into the $599–608 supply to fade, not a reclaim. Reject there and the map points to ~$540 → $500; only a daily close above $608 flips it. Still bearish = the red flag under STX’s long',
     side: 'short', accent: 'cyan',
     date: '2026-07-08',
     story: 'stories/smh.html',
