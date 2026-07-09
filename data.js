@@ -21,10 +21,10 @@
 const STOCKS = [
   {
     symbol: 'AAOI', exchange: 'NASDAQ',
-    price: '$113.00', change: '−1.24% · Jul 8',
-    signal: 'Stabilizing on support — the plunge from ~$212 is resting just above the $101–105 shelf / 4h lower band ($104), −1.2% to $113 with MACD flattening; still under the whole MA stack, so fade bounces into $121–130 (21-EMA/mid-band → 50-day); lose $101 → $90–96 then $74; reclaim $134 repairs it',
+    price: '$122.21', change: '+6.79% · Jul 9',
+    signal: 'Bounced into the fade zone — +6.8% to $122, up into the $121–130 re-short (9-EMA $122, 50-EMA $131 / 200-EMA $152 above) but OBV is still making lower lows (no accumulation behind the pop); fade the failed push, targets $101 → $90–96 → $74; reclaim $134 repairs it',
     side: 'short', accent: 'violet',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/aaoi.html',
   },
   {
