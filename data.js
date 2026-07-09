@@ -38,11 +38,11 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$107.61', change: '−2.52% · Jul 8',
-    signal: 'Grinding to target — lost the 50-day, now $108 (−2.5%) a hair above the 4h lower band $104 and closing on T1 $101; RSI 26 / Stoch −66 deeply oversold so no chase; fade the bounce into $112–116, lose $103 → $101 → $94 → $86; reclaim $123–126 repairs it',
-    lead: { rank: 5, entry: '$112–116', stop: '$124', targets: '$101 → $94 → $86', downside: '−25%', tail: '−39%', rr: '2.6:1', edge: 'Cleanest break; nearly at T1' },
+    price: '$112.54', change: '+2.09% · Jul 9',
+    signal: 'Bounced into the fade zone — +2.1% to $113 (AH $113), right into the $112–116 re-short and still under the 9/21-EMA $119–123; RSI back to 45 from oversold, so fade it here, stop $124; lose $108 → $103 → $101 → $94 → $86; reclaim $123–126 repairs it',
+    lead: { rank: 5, entry: '$112–116', stop: '$124', targets: '$101 → $94 → $86', downside: '−25%', tail: '−39%', rr: '2.6:1', edge: 'Bounced into the fade zone' },
     side: 'short', accent: 'blue',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/intc.html',
   },
   {
@@ -56,11 +56,11 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$349.08', change: '+1.74% · Jul 8',
-    signal: 'Oversold bounce off the 50-day — blow-off from $494 found the daily 50-day $337 / $345 lower band and turned up +1.7% to $349; RSI still ~33, deep under the MA stack; fade the bounce into $383–393 (50-day/200-EMA), bias down; targets $318 → $300 → $260',
-    lead: { rank: 1, entry: '$383–393', stop: '$402', targets: '$318 → $300 → $260', downside: '−32%', rr: '~9:1', rrStar: true, edge: 'Blow-off bouncing off the 50-day' },
+    price: '$362.75', change: '+3.18% · Jul 9',
+    signal: 'Grinding toward the fade zone — bounced +3.2% to $363 (AH $364) but still below the $383–393 re-short (4h 200-EMA $392 / 50-EMA $410), and OBV keeps making lower lows (no volume behind the bounce); fade into $383–393, stop $402, bias down; targets $318 → $300 → $260',
+    lead: { rank: 1, entry: '$383–393', stop: '$402', targets: '$318 → $300 → $260', downside: '−32%', rr: '~9:1', rrStar: true, edge: 'Weak bounce; fade into the MA stack' },
     side: 'short', accent: 'blue',
-    date: '2026-07-08',
+    date: '2026-07-09',
     story: 'stories/ter.html',
   },
   {
