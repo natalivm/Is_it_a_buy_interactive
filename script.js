@@ -121,9 +121,16 @@ function renderLeaderboard() {
     const body = document.getElementById('leaderboardBody');
     if (!section || !body) return;
 
+    // Board deferred: hidden while decks are being re-read one stock at a time.
+    // Re-enable (flip to false) and re-rank every `lead` once all stocks have a
+    // fresh Jul-10 read — then it shows the 5 best setups, long or short.
+    const DEFER_BOARD = true;
+    if (DEFER_BOARD) { section.hidden = true; return; }
+
     const ranked = STOCK_LIST
         .filter(s => s.lead)
-        .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0));
+        .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0))
+        .slice(0, 5);   // only the 5 best setups make the board (long or short)
 
     if (!ranked.length) { section.hidden = true; return; }
     section.hidden = false;
