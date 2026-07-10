@@ -139,8 +139,12 @@ function renderLeaderboard() {
             ? `${esc(L.downside)}<span class="lb-tail">tail ${esc(L.tail)}</span>`
             : esc(L.downside);
         const rr = `${esc(L.rr)}${L.rrStar ? '<sup>*</sup>' : ''}`;
+        const topCls = i === 0 ? ' lb-top' : '';
+        const trigRow = L.trigger
+            ? `<tr class="lb-trig-row${topCls}"><td colspan="8" class="lb-trig"><b>🎯 Trigger</b> ${esc(L.trigger)}</td></tr>`
+            : '';
         return `
-            <tr${i === 0 ? ' class="lb-top"' : ''}>
+            <tr class="${L.trigger ? 'lb-main' : ''}${topCls}">
                 <td class="lb-rank">${i + 1}</td>
                 <td><span class="lb-tkr tile-${accent}"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
                 <td>${esc(L.entry)}</td>
@@ -149,7 +153,7 @@ function renderLeaderboard() {
                 <td class="lb-dn${side === 'long' ? ' lb-up' : ''}">${downside}</td>
                 <td class="lb-rr">${rr}</td>
                 <td class="lb-edge">${esc(L.edge)}</td>
-            </tr>`;
+            </tr>${trigRow}`;
     }).join('');
 }
 

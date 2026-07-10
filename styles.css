@@ -171,6 +171,10 @@ body.story-open { overflow: hidden; }
 .lb-tail { display: block; font-size: 10px; color: var(--mut); font-weight: 400; }
 .lb-rr { color: var(--green); font-weight: 600; }
 .lb-edge { font-family: var(--body); font-size: 12px; line-height: 1.35; color: var(--mut); white-space: normal; min-width: 170px; }
+.lb-table tbody tr.lb-main td { border-bottom: 0; }
+.lb-trig-row td { padding-top: 3px; padding-bottom: 12px; }
+.lb-trig { font-family: var(--body); font-size: 12px; line-height: 1.4; color: var(--mut); white-space: normal; }
+.lb-trig b { color: var(--txt); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-right: 6px; }
 .lb-foot { margin: 10px 4px 0; font-size: 11px; line-height: 1.5; color: var(--mut); }
 @media (max-width: 560px) { .lb-table th, .lb-table td { padding: 11px 13px; } }
 
