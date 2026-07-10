@@ -121,6 +121,9 @@ function renderLeaderboard() {
     const body = document.getElementById('leaderboardBody');
     if (!section || !body) return;
 
+    // Every stock carrying a `lead` renders as a row, ranked by `lead.rank`
+    // (setup quality × reward) — long or short, no fixed cap. Two-sided /
+    // no-edge names simply omit `lead` and stay off the board.
     const ranked = STOCK_LIST
         .filter(s => s.lead)
         .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0));
