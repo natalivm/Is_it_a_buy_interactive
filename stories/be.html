@@ -43,16 +43,7 @@
       <h1 class="rv">Зону не втримали.<br><span class="hl">Розподіл.</span></h1>
       <p class="sub rv">Закрились <strong>−4.83% на $244.61</strong>, близько до лоу дня — <span class="k">жодного захисту</span>. Під усім MA-стеком (9-EMA $256 / 50-200-EMA $275), <strong>OBV свіжі lower lows</strong> = розподіл. RSI 4h <strong>~38</strong>. Це не молот, як у TER — це продовження вниз.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="BE 4h breakdown under MA stack">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="120" x2="360" y2="120"/>
-          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="205" x2="360" y2="205"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$276</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="124" text-anchor="end">$256</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="209" text-anchor="end">$245</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">50/200-EMA · опір</text>
-          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="124">9-EMA · re-short</text>
-          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="209">now $245</text>
+        <svg data-lv='[["k",70,"$276","50/200-EMA · опір",0.05],["k",120,"$256","9-EMA · re-short",0.12],["y",205,"$245","now $245",0.19]]' viewBox="0 0 470 300" role="img" aria-label="BE 4h breakdown under MA stack">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,55 L200,120 L300,175 L358,205"/>
           <circle class="dot-k pop" style="animation-delay:1.55s" cx="358" cy="205" r="6"/>
           <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="255" text-anchor="middle">close near low → продовження вниз</text>
@@ -149,29 +140,11 @@
 
   </div>
 
-  <div class="nav">
-    <div class="nav-l">
-      <button id="btn-back" aria-label="Попередній слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="foot-tag" id="foot-tag">BE</span>
-    </div>
-    <div class="nav-r">
-      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
-      <button id="btn-next" aria-label="Наступний слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-    </div>
-  </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  createStory({
-    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
-    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#foot-tag',
-  });
+  createStory();
 </script>
 </body>
 </html>

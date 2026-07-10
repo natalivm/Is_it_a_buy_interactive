@@ -11,7 +11,8 @@
 //   side       'long' | 'short'             → setup direction; colors the tile chip
 //   lead       (optional) leaderboard row: { rank, entry, stop, targets,
 //              downside, tail?, rr, rrStar?, edge } — entries with a `lead`
-//              render in the "Sharpest shorts" table, ordered by rank
+//              render in the "Sharpest trades" table (long or short, no cap),
+//              ordered by rank; omit `lead` to keep a name off the board
 //   accent     (optional) tile glow colour — the gallery now auto-varies tile
 //              colours across the grid, so this field is no longer required
 //   date       ISO date the plan was posted (YYYY-MM-DD) — gallery sorts newest first

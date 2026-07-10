@@ -43,16 +43,7 @@
       <h1 class="rv">Зелений день.<br><span class="hl">Стеля $618–631.</span></h1>
       <p class="sub rv">Закрились <strong>+2.35% на $602.50</strong>, біля хаю (AH $605) — над <strong>daily 50-EMA</strong>, defended $574. Але капнуті під 4h <strong>9-EMA $618 / 50-EMA $631</strong>. RSI ~52. <span class="y">Двобічно</span>: fade у стелю, long на reclaim $631.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="AMAT 4h bounce capped under stack">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="65"  x2="360" y2="65"/>
-          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="215" x2="360" y2="215"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="69"  text-anchor="end">$631</text>
-          <text class="ax f-y fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$602</text>
-          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="219" text-anchor="end">$574</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="69">4h 9/50-EMA $618–631 · fade</text>
-          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">now $602</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="219">лоу дня / 4h 200-EMA</text>
+        <svg data-lv='[["k",65,"$631","4h 9/50-EMA $618–631 · fade",0.05],["y",150,"$602","now $602",0.12],["p",215,"$574","лоу дня / 4h 200-EMA",0.19]]' viewBox="0 0 470 300" role="img" aria-label="AMAT 4h bounce capped under stack">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,60 L250,215"/>
           <circle class="dot-y pop" style="animation-delay:1.35s" cx="250" cy="215" r="6"/>
           <path class="bounce fade" style="animation-delay:1.55s" d="M250,215 L356,150"/>
@@ -75,8 +66,8 @@
           <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="110" text-anchor="end">602.50 C</text>
           <text class="ax f-m fade" style="animation-delay:.35s" x="54" y="276" text-anchor="end">577.91 O</text>
           <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">573.80 L</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s;stroke:var(--purple)" x1="150" y1="60" x2="150" y2="300"/>
-          <rect class="candle-body fill" x="120" y="106" width="60" height="166" rx="7" style="animation-delay:.6s;fill:var(--purple);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--purple) 45%,transparent))"/>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="60" x2="150" y2="300"/>
+          <rect class="candle-body up fill" x="120" y="106" width="60" height="166" rx="7" style="animation-delay:.6s"/>
           <line class="s-line fade" style="animation-delay:1s" x1="150" y1="83" x2="210" y2="83" stroke-width="1"/>
           <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="78"><tspan class="h">Мала тінь</tspan> — close біля хаю 609</text>
           <line class="s-line fade" style="animation-delay:1.2s" x1="180" y1="185" x2="210" y2="185" stroke-width="1"/>
@@ -153,29 +144,11 @@
 
   </div>
 
-  <div class="nav">
-    <div class="nav-l">
-      <button id="btn-back" aria-label="Попередній слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="foot-tag" id="foot-tag">AMAT</span>
-    </div>
-    <div class="nav-r">
-      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
-      <button id="btn-next" aria-label="Наступний слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-    </div>
-  </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  createStory({
-    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
-    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#foot-tag',
-  });
+  createStory();
 </script>
 </body>
 </html>

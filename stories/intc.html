@@ -47,16 +47,7 @@
       <h1 class="rv">Під усім стеком.<br><span class="hl">Розподіл.</span></h1>
       <p class="sub rv">Закрились <strong>−2.40% на $109.84</strong> — під <strong>усіма MA</strong> (9-EMA $123 / 50-EMA $128 / 200-EMA $116) і навіть під нижньою BB. RSI <strong>~37</strong> (oversold), але <strong>OBV −527m</strong> — найважчий розподіл у групі. Відскок у $118–128 = short.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="INTC 4h under the whole stack">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="90" y1="120" x2="360" y2="120"/>
-          <line class="dash s-y fade" style="animation-delay:.19s" x1="90" y1="205" x2="360" y2="205"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$128</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="80" y="124" text-anchor="end">$118</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="80" y="209" text-anchor="end">$110</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">9/50-EMA · fade</text>
-          <text class="cap f-k fade" style="animation-delay:.35s" x="366" y="124">BB mid / VWAP · re-short</text>
-          <text class="cap f-y fade" style="animation-delay:.4s"  x="366" y="209">now $110 · під стеком</text>
+        <svg data-lv='[["k",70,"$128","9/50-EMA · fade",0.05],["k",120,"$118","BB mid / VWAP · re-short",0.12],["y",205,"$110","now $110 · під стеком",0.19]]' viewBox="0 0 470 300" role="img" aria-label="INTC 4h under the whole stack">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,55 L200,120 L300,180 L358,205"/>
           <circle class="dot-k pop" style="animation-delay:1.55s" cx="358" cy="205" r="6"/>
           <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="255" text-anchor="middle">без бід · OBV −527m</text>
@@ -154,29 +145,11 @@
 
   </div>
 
-  <div class="nav">
-    <div class="nav-l">
-      <button id="btn-back" aria-label="Попередній слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="foot-tag" id="foot-tag">INTC</span>
-    </div>
-    <div class="nav-r">
-      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
-      <button id="btn-next" aria-label="Наступний слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-    </div>
-  </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  createStory({
-    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
-    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#foot-tag',
-  });
+  createStory();
 </script>
 </body>
 </html>

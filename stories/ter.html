@@ -43,16 +43,7 @@
       <h1 class="rv">Зливали.<br><span class="hl">Зону втримали.</span></h1>
       <p class="sub rv">Продавали до <strong>$345</strong> — і викупили: close <strong>$359.60</strong> біля хаю дня (AH $361), <strong>не закрились під зоною попиту</strong>. На 4h <strong>MACD-гістограма зеленіє</strong> (+3.6), ціна відбила <strong>VWAP $358 / BB mid $356</strong>. Але вперлась під <strong>MA-стек $381–389</strong> — це відскок, не розворот.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="TER 4h defended demand, bounce into resistance">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
-          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="215" x2="360" y2="215"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$389</text>
-          <text class="ax f-y fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$358</text>
-          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="219" text-anchor="end">$345</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">MA-стек $381–389 · fade</text>
-          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">VWAP $358 · reclaimed · now</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="219">зона попиту · втримали</text>
+        <svg data-lv='[["k",70,"$389","MA-стек $381–389 · fade",0.05],["y",150,"$358","VWAP $358 · reclaimed · now",0.12],["p",215,"$345","зона попиту · втримали",0.19]]' viewBox="0 0 470 300" role="img" aria-label="TER 4h defended demand, bounce into resistance">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,52 L250,215"/>
           <circle class="dot-p pop" style="animation-delay:1.35s" cx="250" cy="215" r="6"/>
           <path class="bounce fade" style="animation-delay:1.55s" d="M250,215 L356,150"/>
@@ -154,29 +145,11 @@
 
   </div>
 
-  <div class="nav">
-    <div class="nav-l">
-      <button id="btn-back" aria-label="Попередній слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="foot-tag" id="foot-tag">TER</span>
-    </div>
-    <div class="nav-r">
-      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
-      <button id="btn-next" aria-label="Наступний слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-    </div>
-  </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  createStory({
-    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
-    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#foot-tag',
-  });
+  createStory();
 </script>
 </body>
 </html>
