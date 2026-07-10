@@ -90,8 +90,8 @@ const STOCKS = [
   {
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$910.34', change: '+2.28% · Jul 10',
-    signal: 'Leader, long working — closed +2.28% at $910.34 (AH $912), above all its EMAs (9 $895 / 50 $839 / 200 $539) at the $911 shelf with OBV making higher highs (real accumulation). Leads the spread — above its averages while SMH only holds its 50-day. Add on holds of $850–870; targets $934–950 → $1,015 → $1,120; trim below $850, out below $795',
-    lead: { rank: 2, entry: '$895–905 / >$915', stop: '$865', targets: '$934–950 → $1,015 → $1,120', downside: '+24%', rr: '~3:1', edge: 'Shallow dip to 9-EMA or breakout — may not revisit lows' },
+    signal: 'Leader, long working — closed +2.28% at $910.34 (AH $912), above all its EMAs (9 $895 / 50 $839 / 200 $539) at the $911 shelf with OBV making higher highs. In long from $910; stop $878 (loss of the shelf / 4H 9-EMA — ~3.5% risk), add on a dip to $895–905 or a break > $915; targets $934–950 → $1,015 → $1,120; trim part at T1, out below $865',
+    lead: { rank: 2, entry: '$910 · add $895', stop: '$878', targets: '$934–950 → $1,015 → $1,120', downside: '+22%', rr: '~3:1', edge: 'In long from $910 — leader above all EMAs; swing stop $865' },
     side: 'long', accent: 'emerald',
     date: '2026-07-10',
     story: 'stories/stx.html',
