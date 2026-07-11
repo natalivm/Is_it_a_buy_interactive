@@ -140,7 +140,8 @@ function renderLeaderboard() {
             : esc(L.downside);
         const rr = `${esc(L.rr)}${L.rrStar ? '<sup>*</sup>' : ''}`;
         return `
-            <tr${i === 0 ? ' class="lb-top"' : ''}>
+            <tr class="lb-row${i === 0 ? ' lb-top' : ''}" data-symbol="${esc(s.symbol)}"
+                tabindex="0" role="button" aria-label="Open ${esc(s.symbol)} story">
                 <td class="lb-rank">${i + 1}</td>
                 <td><span class="lb-tkr tile-${accent}"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
                 <td>${esc(L.entry)}</td>
@@ -151,6 +152,15 @@ function renderLeaderboard() {
                 <td class="lb-edge">${esc(L.edge)}</td>
             </tr>`;
     }).join('');
+
+    // Each row opens its deck (routes through the hash, like the tiles).
+    body.querySelectorAll('tr[data-symbol]').forEach(el => {
+        const symbol = el.dataset.symbol;
+        el.addEventListener('click', () => openStory(symbol));
+        el.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
+        });
+    });
 }
 
 function renderGallery() {
