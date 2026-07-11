@@ -159,7 +159,9 @@ body.story-open { overflow: hidden; }
 }
 .lb-table tbody td { font-family: var(--mono); font-size: 13px; color: var(--txt); }
 .lb-table tbody tr:last-child td { border-bottom: 0; }
+.lb-table tbody tr.lb-row { cursor: pointer; }
 .lb-table tbody tr:hover { background: rgba(181, 123, 255, 0.06); }
+.lb-table tbody tr.lb-row:focus-visible { outline: 2px solid var(--purple); outline-offset: -2px; }
 .lb-top { background: rgba(255, 210, 74, 0.05); }
 .lb-rank { font-family: var(--disp); font-weight: 700; font-size: 18px; color: var(--mut); width: 1%; }
 .lb-top .lb-rank { color: var(--yellow); }

@@ -48,7 +48,7 @@ function articleTileHtml(article) {
     const excerpt = article.excerpt ? `<p class="tile-excerpt">${esc(article.excerpt)}</p>` : '';
     const meta = article.readTime
         ? `<span class="tile-date">Читати · ${esc(article.readTime)}</span>`
-        : (article.date ? `<span class="tile-date">Posted ${esc(fmtDate(article.date))}</span>` : '<span></span>');
+        : (article.date ? `<span class="tile-date">Опубліковано ${esc(fmtDate(article.date))}</span>` : '<span></span>');
     return `
         <article class="tile tile-article tile-${accent}" data-story="${esc(article.story)}" data-symbol="${esc(article.symbol)}"
                  tabindex="0" role="button" aria-label="Open article ${esc(article.title || article.symbol)}">
@@ -101,12 +101,12 @@ function stockTileHtml(stock) {
                 </div>
                 ${signal}
                 <div class="tile-foot">
-                    ${stock.date ? `<span class="tile-date">Posted ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
+                    ${stock.date ? `<span class="tile-date">Опубліковано ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
                     <span class="tile-actions">
                         <button class="tile-link" type="button" aria-label="Copy link to ${esc(stock.symbol)} story" title="Copy link">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         </button>
-                        <span class="tile-cta">View story <span aria-hidden="true">›</span></span>
+                        <span class="tile-cta">Дивитись розбір <span aria-hidden="true">›</span></span>
                     </span>
                 </div>
             </div>
@@ -140,7 +140,8 @@ function renderLeaderboard() {
             : esc(L.downside);
         const rr = `${esc(L.rr)}${L.rrStar ? '<sup>*</sup>' : ''}`;
         return `
-            <tr${i === 0 ? ' class="lb-top"' : ''}>
+            <tr class="lb-row${i === 0 ? ' lb-top' : ''}" data-symbol="${esc(s.symbol)}"
+                tabindex="0" role="button" aria-label="Open ${esc(s.symbol)} story">
                 <td class="lb-rank">${i + 1}</td>
                 <td><span class="lb-tkr tile-${accent}"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
                 <td>${esc(L.entry)}</td>
@@ -151,6 +152,15 @@ function renderLeaderboard() {
                 <td class="lb-edge">${esc(L.edge)}</td>
             </tr>`;
     }).join('');
+
+    // Each row opens its deck (routes through the hash, like the tiles).
+    body.querySelectorAll('tr[data-symbol]').forEach(el => {
+        const symbol = el.dataset.symbol;
+        el.addEventListener('click', () => openStory(symbol));
+        el.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
+        });
+    });
 }
 
 function renderGallery() {

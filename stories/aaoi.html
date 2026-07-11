@@ -48,16 +48,7 @@
       <h1 class="rv">Відскок.<br><span class="hl">Розподіл триває.</span></h1>
       <p class="sub rv">Даунтренд: закрились <strong>−1.87% на $119.92</strong>, відбились від $113, але <span class="k">без обсягу</span>. Під MA-стеком (9-EMA $140 / 50-EMA $155), RSI <strong>~39</strong>, а <strong>OBV — найгірший у групі</strong> (250m → 123m). Rally продають — fade <strong>$128–140</strong>.</p>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="AAOI 4h bounce into fade zone">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="90" y1="70"  x2="360" y2="70"/>
-          <line class="dash s-y fade" style="animation-delay:.12s" x1="90" y1="150" x2="360" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.19s" x1="90" y1="215" x2="360" y2="215"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="80" y="74"  text-anchor="end">$140</text>
-          <text class="ax f-y fade" style="animation-delay:.3s"  x="80" y="154" text-anchor="end">$120</text>
-          <text class="ax f-p fade" style="animation-delay:.35s" x="80" y="219" text-anchor="end">$110–113</text>
-          <text class="cap f-k fade" style="animation-delay:.3s"  x="366" y="74">9-EMA / 50-EMA · fade</text>
-          <text class="cap f-y fade" style="animation-delay:.35s" x="366" y="154">now $120</text>
-          <text class="cap f-p fade" style="animation-delay:.4s"  x="366" y="219">лоу дня · відскочив</text>
+        <svg data-lv='[["k",70,"$140","9-EMA / 50-EMA · fade",0.05],["y",150,"$120","now $120",0.12],["p",215,"$110–113","лоу дня · відскочив",0.19]]' viewBox="0 0 470 300" role="img" aria-label="AAOI 4h bounce into fade zone">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,55 L190,140 L275,215"/>
           <path class="bounce fade" style="animation-delay:1.35s" d="M275,215 L350,150"/>
           <circle class="dot-y pop" style="animation-delay:1.75s" cx="350" cy="150" r="6"/>
@@ -80,8 +71,8 @@
           <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="164" text-anchor="end">119.92 C</text>
           <text class="ax f-m fade" style="animation-delay:.35s" x="54" y="189" text-anchor="end">118.71 O</text>
           <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">113.10 L</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s;stroke:var(--purple)" x1="150" y1="60" x2="150" y2="300"/>
-          <rect class="candle-body fill" x="120" y="160" width="60" height="25" rx="5" style="animation-delay:.6s;fill:var(--purple);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--purple) 45%,transparent))"/>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="60" x2="150" y2="300"/>
+          <rect class="candle-body up fill" x="120" y="160" width="60" height="25" rx="5" style="animation-delay:.6s"/>
           <line class="s-line fade" style="animation-delay:1s" x1="150" y1="100" x2="210" y2="100" stroke-width="1"/>
           <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="95"><tspan class="h">Верхня тінь</tspan> — до 124</text>
           <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="172" x2="210" y2="172" stroke-width="1"/>
@@ -158,29 +149,11 @@
 
   </div>
 
-  <div class="nav">
-    <div class="nav-l">
-      <button id="btn-back" aria-label="Попередній слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="foot-tag" id="foot-tag">AAOI</span>
-    </div>
-    <div class="nav-r">
-      <span class="count"><b id="cur">1</b> / <span id="tot">5</span></span>
-      <button id="btn-next" aria-label="Наступний слайд">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-    </div>
-  </div>
 </div>
 
 <script src="engine.js"></script>
 <script>
-  createStory({
-    stage: '.stage', deck: '#deck', fit: true, tap: true, swipe: '#deck',
-    prev: '#btn-back', next: '#btn-next', counter: '#cur', total: '#tot',
-    label: '#foot-tag',
-  });
+  createStory();
 </script>
 </body>
 </html>
