@@ -22,11 +22,11 @@
 const STOCKS = [
   {
     symbol: 'AAOI', exchange: 'NASDAQ',
-    price: '$119.92', change: '−1.87% · Jul 10',
-    signal: 'Weak doji bounce, distribution rolling — closed −1.87% at $119.92, bounced off $113 but on no volume; under the MA stack (9-EMA $140 / 50-EMA $155), RSI 39, and the worst OBV in the group (250m → 123m). Fade the bounce into $128–140, stop $141; targets $110 → $101 (200-EMA) → $90; reclaim $141 repairs it',
-    lead: { rank: 6, entry: '$128–140', stop: '$141', targets: '$110 → $101 → $90', downside: '−33%', rr: '3:1', edge: 'Heaviest OBV distribution in the group' },
+    price: '$111.88', change: '−6.70% · Jul 13',
+    signal: 'Short working, T1 hit — −6.70% to $111.88 (AH $110.66), tagging T1 $110 under the whole 4h stack (9-EMA $117 / 50-EMA $132 / VWAP $115); stochastics oversold (14), near the 4h lower BB $107. Still the heaviest OBV distribution in the group. T1 done — re-short bounces into $116–126, stop $132; targets $101 → $90 → $82. Reclaim $132 negates',
+    lead: { rank: 6, entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV distribution — short working, T1 $110 hit' },
     side: 'short', accent: 'violet',
-    date: '2026-07-10',
+    date: '2026-07-13',
     story: 'stories/aaoi.html',
   },
   {
