@@ -48,10 +48,10 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$979.30', change: '−1.24% · Jul 10',
-    signal: 'Defended $954, capped under the stack — recovered to close $979 (green candle, AH $980) holding the 4h 200-EMA $942 with 4h MACD greening, but still under the 9-EMA $1,005 / 50-EMA $1,012 / BB mid $1,045. Two-sided and thin: fade the bounce into $1,005–1,045, stop $1,050 (reclaim = long); targets $942 → $900 → $870 — not a top-5 setup, R:R too thin',
+    price: '$921.31', change: '−5.92% · Jul 13',
+    signal: 'Broke $954, short working — dumped −5.92% to $921.31 (AH bounced to $929), losing the $942 line that held it last week; now under the whole 4h stack ($936–963: 200-EMA/VWAP/9-EMA/BB mid) and deeply oversold (daily stoch 8, 4h 21). The fade worked — don’t chase down here. Re-short bounces into $940–963, stop $985; targets $900 → $885 → $860. Reclaim $963 relieves; still two-sided, respect the oversold bounce',
     side: 'short', accent: 'cyan',
-    date: '2026-07-10',
+    date: '2026-07-13',
     story: 'stories/mu.html',
   },
   {
@@ -123,11 +123,11 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$244.61', change: '−4.83% · Jul 10',
-    signal: 'Broke down, no defense — closed −4.83% at $244.61 near the low, under the whole MA stack ($256 / $275) with OBV making fresh lower lows (active distribution); the weakest name in the group, closing red while the sector bounced. Re-short bounces into $256–276, stop $283; targets $226 → $210 → $183; reclaim $283 negates',
-    lead: { rank: 4, entry: '$256–276', stop: '$283', targets: '$226 → $210 → $183', downside: '−31%', rr: '3.2:1', edge: 'Closed red near the low — worst RS, active distribution' },
+    price: '$236.53', change: '−3.30% · Jul 13',
+    signal: 'Short working, near T1 — another red day, closed −3.30% at $236.53 (AH $232.37), broke below the 4h lower BB ($240) and is basically at T1 $226; deeply oversold after a super-volatile session (4h stoch 9, daily 15, RSI 40). The thesis played out — trim/cover into $226–229, don’t chase new shorts down here. Re-short bounces into the broken stack $256–280 (9-EMA $279 / 200-EMA $275 / VWAP $275), stop $296; targets $210 → $183. Reclaim $296 negates',
+    lead: { rank: 4, entry: '$256–280', stop: '$296', targets: '$226 → $210 → $183', downside: '−32%', rr: '3:1', edge: 'Short working — at T1 $226, oversold; re-short the broken stack' },
     side: 'short', accent: 'amber',
-    date: '2026-07-10',
+    date: '2026-07-13',
     story: 'stories/be.html',
   },
 ];
