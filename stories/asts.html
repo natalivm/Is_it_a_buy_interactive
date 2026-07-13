@@ -27,37 +27,6 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#EFE7FB;
   }
-
-  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--purple);
-    display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
-    padding:7px 12px;border-radius:8px;margin-bottom:18px;}
-  .eyebrow.k{color:var(--pink);}
-  .indi p .p{color:var(--purple);font-weight:700;}
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .chart .fill{transform-box:fill-box;transform-origin:top;transform:scaleY(0);}
-  .candle-body{fill:var(--purple);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--purple) 45%,transparent));}
-  .candle-wick{stroke:var(--purple);stroke-width:5;stroke-linecap:round;}
-  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--purple) 40%,var(--line));border-radius:14px;background:rgba(52,211,153,.07);padding:13px 15px;}
-  .verdict.k{border-color:color-mix(in srgb,var(--pink) 40%,var(--line));background:rgba(251,93,116,.07);}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--purple);display:flex;align-items:center;gap:7px;}
-  .verdict.k .vh{color:var(--pink);}
-  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--purple);}
-  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--purple);}
-  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(300%);
-    background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
-    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
-  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
-  @keyframes riseUp{
-    0%{transform:translateY(300%);opacity:0;}
-    12%{opacity:1;}
-    62%{transform:translateY(0);}
-    74%{transform:translateY(9%);}
-    86%{transform:translateY(0);}
-    94%{transform:translateY(3%);}
-    100%{transform:translateY(0);}
-  }
-  .preview .tpl .riser{transform:translateY(0);}
-  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(0);} }
 </style>
 </head>
 <body>
@@ -70,63 +39,66 @@
     <!-- 1 · 4H -->
     <section class="slide active" data-label="ASTS · 4H">
       <div class="cover-ticker rv">ASTS</div>
-      <div class="eyebrow rv">4H STRUCTURE</div>
-      <h1 class="rv">Нікуди не йде.<br><span class="hl">Діапазон $70–80.</span></h1>
-      <p class="sub rv">Чопить <strong>$70–80</strong> — закрилась <strong>$73.32 (−0.76%, AH $73)</strong>. Тепер <strong>під усіма EMA</strong> (9 $77 / 50 $85 / 200 $79), RSI ~40, OBV котиться вниз. <strong>Немає угоди</strong>, поки ціна не обере бік — але нахил слабкий.</p>
+      <div class="eyebrow rv">4H · ПРОБІЙ ВНИЗ</div>
+      <h1 class="rv">Діапазон зламано.<br><span class="hl">Вниз.</span></h1>
+      <p class="sub rv">Діапазон $70–80 нарешті вирішився — <strong>вниз</strong>: <strong>−7.83% до $67.58</strong> (AH $67.50), під нижньою 4h BB $71 і <strong>під усіма EMA</strong> (4h 9/50 $73/$78, daily 9/200 $78). 4h RSI <strong>29</strong> — екстрим-oversold, тож не chase: фейд відскоку в $73–78.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",70,"$88","200-EMA · стек",0.05],["k",125,"$80","база · 50-EMA $79",0.12],["y",190,"$74","now · −1.4%",0.19],["p",245,"$70","низ діапазону",0.24]]' viewBox="0 0 470 300" role="img" aria-label="ASTS 4h range-bound chop">
-          <path class="price draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.2s" d="M92,150 L140,200 L185,165 L230,215 L285,175 L340,200"/>
-          <circle class="dot-y pop" style="animation-delay:1.85s" cx="340" cy="200" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:2.15s" x="215" y="282" text-anchor="middle">чопить $70–80 → чекай вибір боку</text>
+        <svg data-lv='[["k",55,"$78","4h 50-EMA / daily 9 · fade",0.05],["k",100,"$73","4h 9-EMA / VWAP · re-short",0.12],["y",185,"$67","now $67",0.19],["p",235,"$60","daily BB lower · ціль",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ASTS 4h broke range down">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,55 L200,110 L300,165 L358,190"/>
+          <circle class="dot-y pop" style="animation-delay:1.55s" cx="358" cy="190" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="270" text-anchor="middle">пробили $70 → під усім стеком, перепродано</text>
         </svg>
       </div>
     </section>
 
-    <!-- 2 · WEEKLY CANDLE -->
-    <section class="slide" data-label="ASTS · 1W">
-      <div class="eyebrow p rv">WEEKLY CANDLE</div>
-      <h1 class="rv">Зелена свічка.<br><span class="hl">Травлення.</span></h1>
-      <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS weekly green candle">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
-          <line class="dash s-p fade" style="animation-delay:.1s"  x1="60" y1="150" x2="120" y2="150"/>
-          <line class="dash fade" stroke="#B29AD0" style="animation-delay:.15s" x1="60" y1="290" x2="120" y2="290"/>
-          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="300" x2="120" y2="300"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">91.82 H</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">85.13 C</text>
-          <text class="ax f-m fade" style="animation-delay:.35s" x="54" y="288" text-anchor="end">76.13 O</text>
-          <text class="ax f-m fade" style="animation-delay:.4s"  x="54" y="312" text-anchor="end">75.98 L</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="40" x2="150" y2="300"/>
-          <rect class="candle-body fill" x="120" y="150" width="60" height="147" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1s" x1="150" y1="95" x2="210" y2="95" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="85"><tspan class="h">Верхня тінь</tspan> — faded</text>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="102">від 91.82 — травлення</text>
-          <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="223" x2="210" y2="223" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="217"><tspan class="h">Тіло</tspan> — зелене,</text>
-          <text class="anno f-p fade" style="animation-delay:1.2s" x="216" y="234" font-weight="700">close &gt; open</text>
-        </svg>
-      </div>
-      <div class="verdict p rv">
-        <div class="vh">◆ Uptrend цілий</div>
-        <p>Це <strong>не rejection</strong> — зелена свічка, close &gt; open, над усіма weekly MA. Faded від $91.82 — <span class="p">травлення</span> після ралі, а не розворот. База тримається.</p>
-      </div>
-    </section>
-
-    <!-- 3 · DAILY -->
+    <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="ASTS · 1D">
-      <div class="eyebrow y rv">DAILY · 1D</div>
-      <h1 class="rv">Ні туди, <span class="hl">ні сюди.</span></h1>
-      <p class="sub rv">Відкат зі $125 втратив базу $80. Тепер чопить <strong>$70–80</strong> — <strong>$73</strong>, <strong>під усіма EMA</strong> (9 $77 / 50 $85 / 200 $79). Тренд <strong>НЕ повернено</strong> без reclaim $80 → $86.</p>
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Одна свічка.<br><span class="hl">−7.83%.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS daily big red breakdown candle">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="95" x2="120" y2="95"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="292" x2="120" y2="292"/>
+          <text class="ax f-m fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">73.00 H</text>
+          <text class="ax f-m fade" style="animation-delay:.3s"  x="54" y="99" text-anchor="end">72.20 O</text>
+          <text class="ax f-k fade" style="animation-delay:.35s" x="54" y="255" text-anchor="end">67.58 C</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="296" text-anchor="end">67.30 L</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="70" x2="150" y2="292"/>
+          <rect class="candle-body fill" x="120" y="95" width="60" height="155" rx="7" style="animation-delay:.6s"/>
+          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="165" x2="210" y2="165" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="160"><tspan class="h">Велике червоне тіло</tspan></text>
+          <text class="anno f-k fade" style="animation-delay:1.05s" x="216" y="177" font-weight="700">день −7.83%</text>
+          <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="285" x2="210" y2="285" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="290">close на лоу, під усіма EMA</text>
+        </svg>
+      </div>
+      <div class="verdict rv">
+        <div class="vh">✗ Діапазон вирішився вниз</div>
+        <p>Величезне червоне тіло <strong>−7.83%</strong>, close на лоу — діапазон $70–80 зламано <strong>вниз</strong>. Ціна під усіма EMA обох таймфреймів (навіть під daily 200-EMA $78) = тренд <span class="k">розвернуто вниз</span>. Перепродано (RSI 29), тож фейд відскоку, не chase.</p>
+      </div>
+    </section>
+
+    <!-- 3 · RELATIVE STRENGTH -->
+    <section class="slide" data-label="ASTS vs SMH">
+      <div class="eyebrow y rv">RELATIVE STRENGTH</div>
+      <h1 class="rv">High-beta,<br><span class="hl">зламалась.</span></h1>
+      <p class="sub rv">SMH утримав 50-day; ASTS — <strong>−7.83%</strong>, високобета-ім’я, пробило діапазон і всі EMA. Найслабший профіль у списку: під daily 200-EMA, OBV вниз. Це вже <span class="k">шорт-сторона</span> — фейд відскоку, розмір малий.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Діапазон, нахил слабкий</span><span class="v">RSI 40 · під усіма EMA · OBV ↘</span></div>
-        <p>Ні bull, ні bear. <span class="k">Немає угоди</span>, поки ціна не обере бік — reclaim $80 або втрата $70.</p>
+        <div class="indi-top"><span class="t">Зламано вниз</span><span class="v">RSI 29 · під усіма EMA · high-beta</span></div>
+        <p>Під 4h/daily стеком. <span class="k">Fade у $73–78 (стоп $80); ціль $63 → $60 → $57</span>. Reclaim $80 знімає шорт (назад у діапазон).</p>
       </div>
       <div class="chart rv">
-        <svg data-lv='[["k",55,"$88","200-EMA · reclaim = repair",0.05],["k",110,"$80","база · 50-EMA $79",0.12],["y",175,"$74","now · $74 range",0.19],["p",245,"$67","9-EMA · $66–69 if lost",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ASTS daily range-bound">
-          <path class="price draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.2s" d="M90,95 L165,145 L235,190 L295,165 L345,185"/>
-          <circle class="dot-y pop" style="animation-delay:1.85s" cx="345" cy="185" r="6"/>
-          <path class="legdn fade" style="animation-delay:2s" d="M345,185 L372,245"/>
-          <text class="cap f-k fade" style="animation-delay:2.15s" x="200" y="282" text-anchor="middle">втрата $68–70 → $66–69</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="ASTS broke down vs SMH">
+          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="120" x2="400" y2="120"/>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="110">діапазон $70</text>
+          <path class="bounce fade" style="animation-delay:.4s;stroke-dasharray:none" d="M80,120 L170,130 L260,150 L360,160" stroke="#34D399" stroke-width="3"/>
+          <circle class="dot-p pop" style="animation-delay:1.2s" cx="360" cy="160" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.3s" x="366" y="156">SMH · тримає</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,110 L170,130 L260,205 L360,240"/>
+          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="240" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.5s" x="366" y="244">ASTS −7.8%</text>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="282" text-anchor="middle">пробила діапазон, коли SMH тримав</text>
         </svg>
       </div>
     </section>
@@ -134,35 +106,35 @@
     <!-- 4 · LEVELS -->
     <section class="slide" data-label="ASTS · РІВНІ">
       <div class="eyebrow rv">РІВНІ · structure</div>
-      <h1 class="rv">Карта <span class="hl">рішення</span></h1>
+      <h1 class="rv">Карта <span class="hl">рівнів</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$92–99</span><span class="lbl">Continuation ціль (після repair)</span></div>
-        <div class="rung res"><span class="px">$88</span><span class="lbl">200-EMA · верх стеку</span></div>
-        <div class="rung res"><span class="px">$86</span><span class="lbl">Reclaim → оживляє long</span></div>
-        <div class="rung res"><span class="px">$80</span><span class="lbl">База · 50-EMA $79 · reclaim #1</span></div>
-        <div class="rung now"><span class="px">$74</span><span class="lbl">ТУТ · діапазон $70–80 (−1.4%)</span></div>
-        <div class="rung sup"><span class="px">$70</span><span class="lbl">Низ діапазону · 9-EMA $67 нижче</span></div>
-        <div class="rung sup"><span class="px">$66–69</span><span class="lbl">Втрата $68–70 → сюди</span></div>
-        <div class="rung sup"><span class="px">$57–60</span><span class="lbl">Weekly support · uglier</span></div>
+        <div class="rung res"><span class="px">$84–88</span><span class="lbl">4h/daily 200-EMA · вищий опір</span></div>
+        <div class="rung res"><span class="px">$80</span><span class="lbl">Stop · reclaim = назад у діапазон</span></div>
+        <div class="rung res"><span class="px">$78</span><span class="lbl">4h 50-EMA / daily 9-EMA · fade верх</span></div>
+        <div class="rung res"><span class="px">$73</span><span class="lbl">4h 9-EMA / VWAP / прорваний $70 · re-short</span></div>
+        <div class="rung now"><span class="px">$67</span><span class="lbl">ТУТ · під усім стеком</span></div>
+        <div class="rung sup"><span class="px">$63</span><span class="lbl">T1 · перша ціль</span></div>
+        <div class="rung sup"><span class="px">$60</span><span class="lbl">Daily BB lower · T2</span></div>
+        <div class="rung sup"><span class="px">$57</span><span class="lbl">Weekly support · T3</span></div>
       </div>
-      <p class="note k rv">Чопить <strong>$70–80</strong> — жодної угоди, поки ціна не обере бік. <strong>Reclaim $80 → $86</strong> оживляє long → $92–99. Втрата <strong>$68–70</strong> → $66–69, далі $57–60.</p>
+      <p class="note rv">Діапазон зламано вниз. Fade відскок у <strong>$73–78</strong>, стоп $80. Ціль $63 → $60 → $57. Reclaim <strong>$80</strong> = назад у діапазон, шорт off.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="ASTS · DECISION">
-      <div class="eyebrow y rv">ПЛАН · без угоди</div>
-      <h1 class="rv">Нікуди не йде.<br><span class="hl">Стій осторонь.</span></h1>
-      <p class="sub rv">Long зупинено — ціна чопить <strong>$70–80</strong> (<strong>$74</strong>). Назад над 9-EMA $67, але під $80 / 50-EMA $79 / 200-EMA $88. <strong>Немає угоди</strong>, поки не обере бік: reclaim $80 → <strong>$86</strong> оживляє long; втрата $68–70 → $66–69, далі $57–60.</p>
+    <section class="slide" data-label="ASTS · SHORT">
+      <div class="eyebrow rv">ПЛАН · bias вниз</div>
+      <h1 class="rv">Fade у <span class="hl">$73–78</span></h1>
+      <p class="sub rv">Діапазон $70–80 зламано вниз (−7.83%, close $67.58), під усіма EMA — тепер шорт-сторона. Але RSI 29 = перепродано, тож не chase: фейд відскоку. Downside складається вниз:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$92</span></span><span class="r">+24%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2 · repair</span><span class="px">$86</span></span><span class="r">+16%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1 · reclaim</span><span class="px">$80</span></span><span class="r">+8%</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ДІАПАЗОН · now</span><span class="px">$74</span></span><span class="r">range</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$70</span></span><span class="r">→ 57</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$80</span></span><span class="r">reclaim = діапазон</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$74</span></span><span class="r">fade $73–78</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$63</span></span><span class="r">−15%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$60</span></span><span class="r">−19%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$57</span></span><span class="r">−23%</span></div>
       </div>
-      <p class="note k rv">⚠ Діапазон <strong>$70–80</strong> — немає угоди, поки ціна не обере бік. Reclaim $80 → <strong>$86</strong> оживляє long → $92. Втрата <strong>$68–70</strong> → $66–69, далі $57–60. Не вгадуй напрям.</p>
-      <p class="note rv">🎯 <strong>Тригер від сьогодні ($73):</strong> немає угоди в діапазоні. Long лише на reclaim <strong>&gt; $80</strong> → $86; шорт лише на втрату <strong>&lt; $70</strong>. Не вгадуй бік.</p>
+      <p class="note k rv">Високобета — <strong>розмір малий</strong>. Reclaim <strong>$80</strong> = назад у діапазон, шорт off. RSI 29 → можливий різкий відскок, тож не в діру.</p>
+      <p class="note rv">🎯 <strong>Тригер від сьогодні ($67):</strong> не шорти в діру — фейд відскок у <strong>$73–78</strong> (стоп $80); або пробій $67 на обʼємі. Ціль $63 → $60.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
