@@ -28,23 +28,15 @@
     --sub:#F3E8D6;
   }
 
-  .indi p .p{color:var(--purple);font-weight:700;}
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--purple);}
-  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:22px;color:var(--purple);}
-  .tpl .riser{position:absolute;left:0;right:0;bottom:0;height:20%;z-index:1;transform:translateY(0);
-    background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
+  /* long deck — targets stack up, riser rises */
+  .tpl .rg .px, .tpl .rg .r{color:var(--purple);}
+  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);}
+  .tpl .rg.stop .px, .tpl .rg.stop .cap2, .tpl .rg.stop .r{color:var(--pink);}
+  .tpl .riser{top:auto;bottom:0;transform:translateY(0);
+    background:linear-gradient(90deg,rgba(52,211,153,.30),rgba(52,211,153,.12));
     border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
   .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
-  @keyframes riseUp{
-    0%{transform:translateY(0);opacity:0;}
-    12%{opacity:1;}
-    62%{transform:translateY(-400%);}
-    74%{transform:translateY(-391%);}
-    86%{transform:translateY(-400%);}
-    94%{transform:translateY(-397%);}
-    100%{transform:translateY(-400%);}
-  }
+  @keyframes riseUp{0%{transform:translateY(0);opacity:0;}12%{opacity:1;}62%{transform:translateY(-400%);}74%{transform:translateY(-391%);}86%{transform:translateY(-400%);}100%{transform:translateY(-400%);}}
   .preview .tpl .riser{transform:translateY(-400%);}
   @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(-400%);} }
 </style>
@@ -56,70 +48,71 @@
 
   <div class="deck" id="deck">
 
-    <!-- 1 · 4H -->
-    <section class="slide active" data-label="STX · 4H">
+    <!-- 1 · 1H -->
+    <section class="slide active" data-label="STX · 1H">
       <div class="cover-ticker rv">STX</div>
-      <div class="eyebrow p rv">4H STRUCTURE</div>
-      <h1 class="rv">Відскок.<br><span class="hl">Підтверджено.</span></h1>
-      <p class="sub rv">Follow-through <strong>+2.28%</strong> до <strong>$910.34</strong> (AH $912) — double-bottom breakout <strong>відпрацьовує</strong>: закриття <strong>над усіма EMA</strong> (9 $895 / 50 $839 / 200 $539), біля полиці <strong>$911</strong>. OBV робить <strong>вищі максимуми</strong> — акумуляція підтверджена, RSI <strong>~51</strong> → лонг до T1 $934–950.</p>
+      <div class="eyebrow p rv">1H · ВІДКАТ У ТРЕНДІ</div>
+      <h1 class="rv">Відкат до 50-EMA.<br><span class="hl">Тренд цілий.</span></h1>
+      <p class="sub rv">Волатильний день дав <strong>−6.30% до $853</strong> (AH $856.50) — але low <strong>$840 торкнувся зростаючої daily 50-EMA $842 і відскочив</strong> (close off low). Daily тренд <span class="p">цілий</span>: над 50/200-EMA, daily stoch 26 (перепродано). Це дип у тренді, не розворот — <span class="p">купуємо дип</span>.</p>
       <div class="chart rv">
-        <svg data-lv='[["p",70,"$950","200-day MA · T1",0.05],["y",150,"$880","reclaim · тримає",0.12],["p",210,"$850","double-bottom / add",0.19]]' viewBox="0 0 470 300" role="img" aria-label="STX 4h confirmed bounce breakout">
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,168 L132,210 L165,188 L200,213 L245,158 L300,142"/>
-          <path class="bounce fade" style="animation-delay:1.35s" d="M300,142 L352,80"/>
-          <circle class="dot-p pop" style="animation-delay:1.55s" cx="300" cy="142" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.6s" x="296" y="132" text-anchor="end">now $890</text>
-          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="255" text-anchor="middle">double-bottom breakout → тримаємо → лонг у ціль</text>
+        <svg data-lv='[["p",60,"$910","полиця · reclaim → тренд назад",0.05],["p",100,"$889","daily 9-EMA · ціль",0.12],["y",185,"$856","now $856",0.19],["p",235,"$842","daily 50-EMA · buy-dip",0.26]]' viewBox="0 0 470 300" role="img" aria-label="STX pullback to 50-EMA held">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,60 L200,110 L300,175 L340,215"/>
+          <path class="bounce fade" style="animation-delay:1.35s" d="M340,215 L352,185"/>
+          <circle class="dot-p pop" style="animation-delay:1.55s" cx="340" cy="215" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="270" text-anchor="middle">торкнулись 50-EMA $840 → відскок → buy-dip</text>
         </svg>
       </div>
     </section>
 
-    <!-- 2 · WEEKLY CANDLE -->
-    <section class="slide" data-label="STX · 1W">
-      <div class="eyebrow p rv">WEEKLY CANDLE</div>
-      <h1 class="rv">Одна свічка.<br><span class="hl">Викуплено.</span></h1>
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-label="STX · 1D">
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Одна свічка.<br><span class="hl">Відкат.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="STX weekly pullback defended low">
-          <line class="dash s-y fade" style="animation-delay:.05s" x1="60" y1="40"  x2="120" y2="40"/>
-          <line class="dash fade" stroke="#C6AA82" style="animation-delay:.1s" x1="60" y1="146" x2="120" y2="146"/>
-          <line class="dash s-y fade" style="animation-delay:.15s" x1="60" y1="269" x2="120" y2="269"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="300" x2="120" y2="300"/>
-          <text class="ax f-y fade" style="animation-delay:.25s" x="54" y="44"  text-anchor="end">998.49 H</text>
-          <text class="ax f-m fade" style="animation-delay:.3s"  x="54" y="150" text-anchor="end">915.99 O</text>
-          <text class="ax f-y fade" style="animation-delay:.35s" x="54" y="273" text-anchor="end">820.16 C</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">795.66 L</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="40" x2="150" y2="300"/>
-          <rect class="candle-body fill" x="120" y="146" width="60" height="123" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1s" x1="150" y1="92" x2="210" y2="92" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="82"><tspan class="h">Верхня тінь</tspan> — пік 998,</text>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="99"><tspan class="f-y" font-weight="700">ЦІЛЬ ПОПЕРЕДУ</tspan></text>
-          <line class="s-line fade" style="animation-delay:1.15s" x1="180" y1="207" x2="210" y2="207" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.2s" x="216" y="201"><tspan class="h">Тіло</tspan> — відкат −18%,</text>
-          <text class="anno f-p fade" style="animation-delay:1.2s" x="216" y="218" font-weight="700">структура ціла</text>
-          <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="286" x2="210" y2="286" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="290"><tspan class="h">Нижня тінь</tspan> — 795 <tspan class="f-p" font-weight="700">викуплено</tspan></text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="STX daily red candle held 50-EMA">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
+          <line class="dash fade" stroke="#C6AA82" style="animation-delay:.1s" x1="60" y1="108" x2="120" y2="108"/>
+          <line class="dash s-k fade" style="animation-delay:.15s" x1="60" y1="150" x2="120" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="285" x2="120" y2="285"/>
+          <text class="ax f-m fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">877.73 H</text>
+          <text class="ax f-m fade" style="animation-delay:.3s"  x="54" y="112" text-anchor="end">869.36 O</text>
+          <text class="ax f-k fade" style="animation-delay:.35s" x="54" y="154" text-anchor="end">853.00 C</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="289" text-anchor="end">840.01 L</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="70" x2="150" y2="285"/>
+          <rect class="candle-body fill" x="120" y="104" width="60" height="46" rx="7" style="animation-delay:.6s"/>
+          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="127" x2="210" y2="127" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="122"><tspan class="h">Червоне тіло</tspan> −6.30%</text>
+          <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="278" x2="210" y2="278" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="273"><tspan class="h">Нижня тінь</tspan> — low 840</text>
+          <text class="anno f-p fade" style="animation-delay:1.35s" x="216" y="290" font-weight="700">50-EMA $842 захищено</text>
         </svg>
       </div>
       <div class="verdict p rv">
         <div class="vh">✓ Відкат у висхідному тренді</div>
-        <p>Спайк до 998, відкат до 820 — різко, але <strong>тижневий тренд цілий</strong>: RSI <strong>65.4</strong>, OBV робить <strong>вищі максимуми</strong>, low <strong>795.66</strong> захищено. Це pullback, не blow-off. Follow-through над проривом → лонг відпрацьовує.</p>
+        <p>Різкий <strong>−6.30%</strong>, але low <strong>$840</strong> точно на зростаючій daily 50-EMA $842 — і акція відскочила в close. Тренд цілий: над 50/200-EMA, daily stoch 26 перепродано. Це <span class="p">pullback, не blow-off</span>. Buy the dip, доки close &gt; $840.</p>
       </div>
     </section>
 
-    <!-- 3 · DAILY -->
-    <section class="slide" data-label="STX · 1D">
-      <div class="eyebrow y rv">DAILY · 1D</div>
-      <h1 class="rv">Над <span class="hl">проривом.</span></h1>
-      <p class="sub rv">Follow-through до <strong>$910</strong>, над усіма EMA (9 $895 / 50 $839 / 200 $539). OBV робить <strong>вищі максимуми</strong> — реальна акумуляція на самій акції, RSI <strong>~51</strong>. Біля полиці $911, далі 200-day MA $934–950, потім 50-day $1,015+.</p>
+    <!-- 3 · RELATIVE STRENGTH -->
+    <section class="slide" data-label="STX vs SMH">
+      <div class="eyebrow p rv">RELATIVE STRENGTH</div>
+      <h1 class="rv">Тримає 50-EMA.<br><span class="hl">Решта — ні.</span></h1>
+      <p class="sub rv">Волатильний день зніс усю групу — але STX <strong>утримав свою 50-EMA</strong>, тоді як SNDK її пробив, а MU/BE давно під нею. STX і далі <span class="p">структурно найсильніший</span>. Дип у лідері = buy-the-dip, ціль назад до $889 → $910.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Акумуляція</span><span class="v">RSI ~53 · OBV вищі максимуми · MACD ↑</span></div>
-        <p>OBV робить <span class="p">вищі максимуми</span> = реальна акумуляція — підтвердження, що чекали ще вчора. RSI ~53, MACD бичачий. <span class="p">Follow-through над проривом → лонг</span>.</p>
+        <div class="indi-top"><span class="t">Найсильніший у групі</span><span class="v">над 50/200-EMA · stoch 26 · дип</span></div>
+        <p>Тренд цілий, доки &gt; $840. <span class="p">Buy dip $842</span>, стоп $838; ціль $889 → $910 → $948. Втрата $840 (daily close) = тренд під питанням.</p>
       </div>
       <div class="chart rv">
-        <svg data-lv='[["p",55,"$1,015","50-day MA · T2",0.05],["p",88,"$950","200-day MA · T1",0.12],["y",155,"$880","now $890 · над",0.19],["p",245,"$850","add zone",0.26]]' viewBox="0 0 470 300" role="img" aria-label="STX daily reclaimed 880">
-          <path class="legup draw" pathLength="1" style="animation-delay:.6s;animation-duration:1.2s" d="M90,240 L200,196 L300,152"/>
-          <path class="bounce fade" style="animation-delay:1.85s" d="M300,152 L352,92"/>
-          <circle class="dot-p pop" style="animation-delay:1.7s" cx="300" cy="152" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.9s" x="352" y="84" text-anchor="end">→ MA</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="STX holds 50-EMA vs group">
+          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="150" x2="400" y2="150"/>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="140">50-EMA</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,130 L170,150 L260,205 L360,235"/>
+          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="235" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.5s" x="366" y="239">група · під</text>
+          <path class="bounce fade" style="animation-delay:.4s;stroke-dasharray:none" d="M80,140 L170,160 L260,158 L360,142" stroke="#34D399" stroke-width="3"/>
+          <circle class="dot-p pop" style="animation-delay:1.2s" cx="360" cy="142" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.3s" x="366" y="138">STX · тримає</text>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="282" text-anchor="middle">утримав 50-EMA, коли решта пробила</text>
         </svg>
       </div>
     </section>
@@ -127,38 +120,35 @@
     <!-- 4 · LEVELS -->
     <section class="slide" data-label="STX · РІВНІ">
       <div class="eyebrow rv">РІВНІ · structure</div>
-      <h1 class="rv">Рівні <span class="hl">перевернулись</span></h1>
+      <h1 class="rv">Карта <span class="hl">рівнів</span></h1>
       <div class="ladder rv">
-        <div class="rung sup"><span class="px">$1,107–1,120</span><span class="lbl">Upper band · T3</span></div>
-        <div class="rung sup"><span class="px">$1,015–1,030</span><span class="lbl">50-day MA · T2</span></div>
-        <div class="rung sup"><span class="px">$934–950</span><span class="lbl">200-day MA · T1</span></div>
-        <div class="rung res"><span class="px">$911</span><span class="lbl">Полиця · наступний опір</span></div>
-        <div class="rung now"><span class="px">$890</span><span class="lbl">ТУТ · follow-through над проривом</span></div>
-        <div class="rung sup"><span class="px">$850–870</span><span class="lbl">Neckline · add зона на утриманні</span></div>
-        <div class="rung res"><span class="px">&lt; $850</span><span class="lbl">Перша тріщина · trim ½</span></div>
-        <div class="rung res"><span class="px">&lt; $795</span><span class="lbl">Патерн зламано · повний вихід</span></div>
-        <div class="rung res"><span class="px">$736</span><span class="lbl">Перша полиця підтримки</span></div>
-        <div class="rung res"><span class="px">$705–720</span><span class="lbl">Measured move + dev band</span></div>
-        <div class="rung res"><span class="px">$597</span><span class="lbl">Головна підлога</span></div>
+        <div class="rung res"><span class="px">$1,015</span><span class="lbl">50-day MA · T3</span></div>
+        <div class="rung res"><span class="px">$948</span><span class="lbl">BB mid · T2 зона</span></div>
+        <div class="rung res"><span class="px">$910</span><span class="lbl">Полиця · T1 · reclaim = тренд назад</span></div>
+        <div class="rung res"><span class="px">$889</span><span class="lbl">Daily 9-EMA · перший опір</span></div>
+        <div class="rung now"><span class="px">$856</span><span class="lbl">ТУТ · AH, над 50-EMA</span></div>
+        <div class="rung sup"><span class="px">$842</span><span class="lbl">Daily 50-EMA · buy-dip (low $840)</span></div>
+        <div class="rung sup"><span class="px">$838</span><span class="lbl">Stop · daily close нижче = тренд off</span></div>
+        <div class="rung sup"><span class="px">$800</span><span class="lbl">Наступна підтримка нижче</span></div>
       </div>
-      <p class="note p rv">Над проривом — bias вгору; наступний опір полиця <strong>$911</strong>. Утримання $850–870 <strong>докуповуємо</strong>. Daily close &lt; <strong>$850</strong> → trim ½; &lt; <strong>$795</strong> → повний вихід, далі $736 / $705–720 / $597.</p>
+      <p class="note p rv">Тренд цілий, доки &gt; <strong>$840</strong>. Buy dip у <strong>$842</strong> (стоп $838). Ціль $889 → $910 → $948. Daily close &lt; $840 = тренд під питанням, тоді стенд-асайд.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="STX · LONG">
-      <div class="eyebrow p rv">ПЛАН · лонг від $910</div>
-      <h1 class="rv">Старт <span class="hl">$910</span> · стоп $878</h1>
-      <p class="sub rv">У лонгу від сьогоднішніх <strong>$910</strong> (над усіма EMA, біля полиці $911). <strong>Стоп $878</strong> — втрата шелфу / 4H 9-EMA = пробій провалився (свінг-стоп $865 під 4H 200-EMA). Кращий докуп — дип у <strong>$895–905</strong>. Цілі вгору:</p>
+      <div class="eyebrow p rv">ПЛАН · buy the dip</div>
+      <h1 class="rv">Дип <span class="hl">$842</span> · тренд цілий</h1>
+      <p class="sub rv">Відкат −6.30% до зростаючої 50-EMA $842, яка <strong>втрималась</strong> (low $840, close off low). Тренд цілий — купуємо дип, не женемось. Цілі вгору:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$1,107–1,120</span></span><span class="r">+22%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$1,015</span></span><span class="r">+12%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$934–950</span></span><span class="r">+4%</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY · now</span><span class="px">$910</span></span><span class="r">старт</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ДОКУП</span><span class="px">$895–905</span></span><span class="r">дип 9-EMA / >$915</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$878</span></span><span class="r">втрата шелфу · свінг $865</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$1,015</span></span><span class="r">+19%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$948</span></span><span class="r">+11%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$889–910</span></span><span class="r">+4–6%</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$842 дип / $856 now</span></span><span class="r">50-EMA</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$838</span></span><span class="r">daily close нижче</span></div>
       </div>
-      <p class="note p rv">🎯 <strong>Керування (від $910):</strong> ризик до стопа $878 ≈ <strong>3.5%</strong>. Докуп на дипі $895–905 або прориві close &gt; $915. Part на <strong>T1 $934–950</strong>, тримай залишок на <strong>T2 $1,015</strong> / <strong>T3 $1,120</strong> — R:R до T2 ≈ <strong>3:1</strong>. Daily close &lt; $865 = вихід. STX веде спред — над усіма EMA, коли SMH лише тримає 50-day.</p>
+      <p class="note p rv">🎯 <strong>Тригер від сьогодні ($856):</strong> buy дип у <strong>$842</strong> (стоп $838, ризик ~2%); або докуп на reclaim <strong>$889</strong>. Part на T1 $889–910, тримай на $948. R:R до T2 ≈ 4:1.</p>
+      <p class="note rv">Daily close &lt; <strong>$840</strong> ламає тренд → тоді вихід і стенд-асайд. Поки — STX найсильніший у групі, дип купуємо.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
