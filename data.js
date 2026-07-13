@@ -73,11 +73,11 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,915', change: '+3.10% · Jul 10',
-    signal: 'Reclaimed above all EMAs — closed +3.10% at $1,915 (AH $1,924) green near the high, back above the 9-EMA $1,872 and every average after defending $1,773; the strongest name in the group with OBV near highs — a leader, not a short. Buy dips $1,790–1,870, stop $1,760; breakout > $1,950 → $2,000 → ~$2,100. The long side of the spread',
-    lead: { rank: 3, entry: '$1,880 / >$1,950', stop: '$1,835', targets: '$1,950 → $2,000 → $2,100', downside: '+11%', rr: '~3:1', edge: 'Shallow dip to 9-EMA or breakout — may not revisit lows' },
-    side: 'long', accent: 'red',
-    date: '2026-07-10',
+    price: '$1,678.95', change: '−12.37% · Jul 13',
+    signal: 'Leader knifed — flipped to short — −12.37% to $1,678.95 (AH $1,655), a bearish engulfing that closed on the low and blew through the $1,760 stop; the buy-dip long is out. Now under the 4h stack (9-EMA $1,705 / 200-EMA $1,740) and the daily 9-EMA $1,828, with the lower BB $1,572 and $1,536 shelf below. 4h RSI 25 — don’t chase down here; fade the bounce into $1,705–1,790, stop $1,835; targets $1,572 → $1,536 → $1,480. Loss of $1,536 opens $1,222; reclaim $1,835 negates',
+    lead: { rank: 3, entry: '$1,705–1,790', stop: '$1,835', targets: '$1,572 → $1,536 → $1,480', downside: '−15%', rr: '3:1', edge: 'Biggest breakdown in the group −12.4% — fade the dead-cat bounce' },
+    side: 'short', accent: 'red',
+    date: '2026-07-13',
     story: 'stories/sndk.html',
   },
   {
@@ -90,11 +90,11 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$910.34', change: '+2.28% · Jul 10',
-    signal: 'Leader, long working — closed +2.28% at $910.34 (AH $912), above all its EMAs (9 $895 / 50 $839 / 200 $539) at the $911 shelf with OBV making higher highs. In long from $910; stop $878 (loss of the shelf / 4H 9-EMA — ~3.5% risk), add on a dip to $895–905 or a break > $915; targets $934–950 → $1,015 → $1,120; trim part at T1, out below $865',
-    lead: { rank: 2, entry: '$910 · add $895', stop: '$878', targets: '$934–950 → $1,015 → $1,120', downside: '+22%', rr: '~3:1', edge: 'In long from $910 — leader above all EMAs; swing stop $865' },
-    side: 'long', accent: 'emerald',
-    date: '2026-07-10',
+    price: '$853.00', change: '−6.30% · Jul 13',
+    signal: 'Leader cracked — flipped to short — −6.30% to $853 (AH $856.50), losing the $910 shelf and the $865 swing that made it the group leader; now under every 1H EMA (9 $888 / 50 $873 / 200 $905) and the daily 9-EMA $889, holding only the 50-EMA $842 (low $840). Momentum broke — fade the bounce into $875–895, stop $912; targets $842 → $800 → $736. Loss of $840 accelerates; reclaim $912 negates',
+    lead: { rank: 2, entry: '$875–895', stop: '$912', targets: '$842 → $800 → $736', downside: '−14%', rr: '3:1', edge: 'Leader cracked −6.3% — fade the bounce into the broken shelf' },
+    side: 'short', accent: 'emerald',
+    date: '2026-07-13',
     story: 'stories/stx.html',
   },
   {
