@@ -48,8 +48,8 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$960.01', change: '+2.46% · Jul 14',
-    signal: 'Bounce into the ceiling — re-short trigger live — rebounded +2.46% to $960.01 off yesterday’s $921 low, straight back into the $963–973 re-short zone the plan flagged; poked $965 and got rejected, still under the whole stack (VWAP $973 / 9-EMA $965 / 50-EMA $969) with MACD back negative, OBV falling and RSI 40 even on a green day. Fade the rejection at $963–973, stop $985; targets $900 → $885 → $860. Add on a lower-high rejection, not on strength — a close back above VWAP $973 (let alone ~$980, under the $985 stop) relieves toward $985/$1,022, not confirmation; loss of $921 re-accelerates down',
+    price: '$987.97', change: '+5.44% · Jul 14',
+    signal: 'Short stopped — stand aside — squeezed +5.44% to $987.97, clean through the $985 stop and back above the entire stack (VWAP $974 / 9-EMA $983 / 50-EMA $974 / 200-EMA $959) with MACD flipped positive, RSI 64, stoch 93 and OBV recovering; the memory group is being bought back (the same tape confirming the STX long). The re-short thesis is invalidated here — don’t fight the squeeze. Re-short only re-arms on a fresh lower-high that closes back under $973; next resistance $993 (upper BB) → $1,022. Lesson: the close above VWAP $973 (let alone ~$980 under the stop) was the warning, not an add',
     side: 'short', accent: 'cyan',
     date: '2026-07-14',
     story: 'stories/mu.html',
@@ -90,11 +90,11 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$853.00', change: '−6.30% · Jul 13',
-    signal: 'Dip in an intact uptrend — long — −6.30% to $853 (AH $856.50) tagged the rising daily 50-EMA $842 (low $840) and bounced off the low; the daily trend is intact (above the 50/200-EMA, daily stoch 26 oversold) and it held its 50-EMA while the rest of the group lost theirs. Buy the dip $842 (add on a reclaim of $889), stop $838; targets $889 → $910 → $948. A daily close < $840 breaks the trend → stand aside',
-    lead: { rank: 2, entry: '$842 dip · add $889', stop: '$838', targets: '$889 → $910 → $948', downside: '+12%', rr: '~4:1', edge: 'Held the 50-EMA while the group broke — buy the dip in the strongest name' },
+    price: '$885.05', change: '+2.83% · Jul 14',
+    signal: 'Dip bought, long working — +2.83% to $885.05 (tagged ~$908 intraday) off the $842 50-EMA dip; back above VWAP $856.83 with RSI 66, MACD positive and the daily trend intact. It held its 50-EMA while the group broke and is now leading the memory rebound — the same tape that stopped the MU short. The add-on-reclaim of $889 is at hand; targets $889 → $910 → $948, trail the stop up from $838. A close back under $840 breaks the trend → stand aside',
+    lead: { rank: 2, entry: '$842 dip · add $889', stop: '$838', targets: '$889 → $910 → $948', downside: '+7%', rr: '~4:1', edge: 'Held the 50-EMA while the group broke — dip bought, now leading the rebound' },
     side: 'long', accent: 'emerald',
-    date: '2026-07-13',
+    date: '2026-07-14',
     story: 'stories/stx.html',
   },
   {
