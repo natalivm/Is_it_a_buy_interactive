@@ -56,9 +56,9 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$341.11', change: '−5.14% · Jul 13',
-    signal: 'Short working but countertrend on the daily — −5.14% to $341.11 (AH $340.21) broke the demand zone toward T1 $324, under the 4h 50-EMA $378. But the daily is still above ALL its MAs (9/50/200-EMA $300/$285/$206) — this is a pullback-from-highs short, not a daily breakdown, so keep it on a tight leash. Re-short bounces into $358–380, stop $390; targets $324 → $300 → $292. Reclaim $390 negates',
-    lead: { rank: 7, entry: '$358–380', stop: '$390', targets: '$324 → $300 → $292', downside: '−21%', rr: '~6:1', edge: 'Broke the demand zone — working, but countertrend to a daily still above all MAs' },
+    price: '$353.23', change: '+3.55% · Jul 14',
+    signal: 'Bouncing toward the re-short zone — +3.55% to $353.23 (AH $353.48), recovering with the group toward the $358–380 zone (broken demand shelf / 4h 50-EMA). The daily has rolled under the 9/50-EMA (~$380/$406) but still holds well above the 200-EMA (~$293) — a pullback-from-highs short, not a full breakdown. Fade rallies into $358–380, stop $390; targets $324 → $300 → $292. Reclaim $390 negates',
+    lead: { rank: 7, entry: '$358–380', stop: '$390', targets: '$324 → $300 → $292', downside: '−21%', rr: '~6:1', edge: 'Broke the demand shelf — bouncing into the re-short zone; under the fast MAs, above the 200-day' },
     side: 'short', accent: 'blue',
     date: '2026-07-13',
     story: 'stories/ter.html',
@@ -83,8 +83,8 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$585.62', change: '−4.16% · Jul 13',
-    signal: 'Barometer held the 50-day — flushed −4.16% to $585.62 (AH $586.06) on the broad selloff but closed above the daily 50-EMA $580, so the sector uptrend is intact-but-tested (still well above the 200-EMA $457). Now under the 4h 200-EMA $591 and 9-EMA $604 — short-term weak, daily line held. $580 is make-or-break: constructive above it (STX-type dip-buys valid), below it opens $573 → $557 and the group’s longs are in trouble. The tell is relative strength — long what held its 50-EMA (STX), short the laggards (TER, BE, SNDK)',
+    price: '$600.31', change: '+2.51% · Jul 14',
+    signal: 'Barometer bounced — sector bid — +2.51% to $600.31 (AH $599.94), recovering back into its $590–620 range and holding well above the daily 50-EMA (~$564) and 200-EMA (~$405); daily RSI ~49, OBV near its highs. The sector uptrend is intact and just chopping at highs — no breakdown. This is the tape that stopped the MU short and confirmed the STX long: constructive above $580, the group’s dip-buys valid and the whole short book is countertrend to a bid barometer. Only a close back under $580 flips it — not there',
     side: 'long', accent: 'cyan',
     date: '2026-07-13',
     story: 'stories/smh.html',
