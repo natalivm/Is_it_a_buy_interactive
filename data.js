@@ -48,8 +48,8 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$987.97', change: '+5.44% · Jul 14',
-    signal: 'Short stopped — stand aside — squeezed +5.44% to $987.97, clean through the $985 stop and back above the entire stack (VWAP $974 / 9-EMA $983 / 50-EMA $974 / 200-EMA $959) with MACD flipped positive, RSI 64, stoch 93 and OBV recovering; the memory group is being bought back (the same tape confirming the STX long). The re-short thesis is invalidated here — don’t fight the squeeze. Re-short only re-arms on a fresh lower-high that closes back under $973; next resistance $993 (upper BB) → $1,022. Lesson: the close above VWAP $973 (let alone ~$980 under the stop) was the warning, not an add',
+    price: '$983.12', change: '+4.92% · Jul 14',
+    signal: 'Short stopped, closed above the line — stand aside — squeezed +4.92% to a $983.12 close, running the $985 stop intraday and settling back above the stack (VWAP $977 / 9-EMA $970 / BB mid $973), still capped by the 4h 50-EMA $994; 4h MACD histogram flipped positive and curling up, RSI 52. The re-short trigger (a close back under $973) never fired all day — standing aside was right. Next session: a push through $993 → $1,022 extends the relief; only a close back under $973 re-arms the short toward $963 → $955 → $921. The memory group led higher (same tape confirming the STX long)',
     side: 'short', accent: 'cyan',
     date: '2026-07-14',
     story: 'stories/mu.html',
