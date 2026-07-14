@@ -43,14 +43,14 @@
     <!-- 1 · 4H -->
     <section class="slide active" data-label="MU · 4H">
       <div class="cover-ticker rv">MU</div>
-      <div class="eyebrow rv">4H · ВТРАТИЛИ $954</div>
-      <h1 class="rv">Прорвали $942.<br><span class="hl">Стеля $963.</span></h1>
-      <p class="sub rv">Злили <strong>−5.92% до $921</strong> (AH відбій до <strong>$929</strong>) — втратили лінію <strong>$942</strong>, що тримала минулого тижня. Тепер під усім 4h стеком (200-EMA/VWAP/9-EMA/BB mid = <strong>$936–963</strong>), перепроданість екстрим: daily stoch <strong>8</strong>, 4h <strong>21</strong>. Fade відпрацював — не chase, шорти відскок у стелю.</p>
+      <div class="eyebrow rv">4H · ВІДСКОК У СТЕЛЮ</div>
+      <h1 class="rv">Відскок до $960.<br><span class="hl">Стеля тримає.</span></h1>
+      <p class="sub rv">Відскочили <strong>+2.46% до $960</strong> з учорашнього лоу <strong>$921</strong> — рівно в re-short зону, яку давав план. Поколупали $965 і <strong>відбились</strong>: ціна під усім стеком (VWAP <strong>$973</strong> / 9-EMA $965 / 50-EMA $969). MACD знову негативний, OBV донизу, RSI <strong>40</strong>. Відскок = relief, не сила — fade стелю <strong>$963–973</strong>.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",60,"$963","BB mid · re-short стеля",0.05],["k",100,"$941","9-EMA/200/VWAP · опір",0.12],["y",185,"$929","now $929",0.19],["p",235,"$885","нижній BB · ціль",0.26]]' viewBox="0 0 470 300" role="img" aria-label="MU 4h lost 942 under stack">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,55 L240,160 L340,185"/>
-          <circle class="dot-y pop" style="animation-delay:1.35s" cx="340" cy="185" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="270" text-anchor="middle">втратили $942 → під стеком, перепродано</text>
+        <svg data-lv='[["k",55,"$985","стоп · над стелею",0.05],["k",95,"$973","VWAP · re-short стеля",0.12],["y",150,"$960","now $960 · у стелі",0.19],["p",250,"$900","ціль T1",0.26]]' viewBox="0 0 470 300" role="img" aria-label="MU 4h bounce into ceiling rejected">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,250 L200,182 L300,150 L345,170"/>
+          <circle class="dot-y pop" style="animation-delay:1.35s" cx="300" cy="150" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="270" text-anchor="middle">відскок у стелю $960 → rejected, під стеком</text>
         </svg>
       </div>
     </section>
@@ -58,9 +58,9 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="MU · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Одна свічка.<br><span class="hl">Відбій.</span></h1>
+      <h1 class="rv">Червоний пробій.<br><span class="hl">Слабкий retest.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="MU daily big red breakdown candle">
+        <svg viewBox="0 0 420 340" role="img" aria-label="MU daily red breakdown then weak green retest into ceiling">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="120" y2="60"/>
           <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="134" x2="120" y2="134"/>
           <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="300" x2="120" y2="300"/>
@@ -69,17 +69,19 @@
           <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="304" text-anchor="end">919.00 L</text>
           <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="60" x2="150" y2="300"/>
           <rect class="candle-body fill" x="120" y="60" width="60" height="74" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="95" x2="210" y2="95" stroke-width="1"/>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:1.5s" x1="250" y1="82" x2="250" y2="134"/>
+          <rect class="candle-body up fill" x="220" y="88" width="60" height="30" rx="7" style="animation-delay:1.75s"/>
+          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="95" x2="212" y2="95" stroke-width="1"/>
           <text class="anno f-m fade" style="animation-delay:1.05s" x="216" y="90"><tspan class="h">Червоне тіло</tspan></text>
           <text class="anno f-k fade" style="animation-delay:1.05s" x="216" y="107" font-weight="700">close −5.92%</text>
-          <line class="s-line fade" style="animation-delay:1.3s" x1="150" y1="290" x2="210" y2="290" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="285"><tspan class="h">AH $929</tspan> — відскок</text>
-          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="302">від лоу, <tspan class="f-k" font-weight="700">−5.92% день</tspan></text>
+          <line class="s-line fade" style="animation-delay:2s" x1="280" y1="92" x2="330" y2="92" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:2.05s" x="334" y="88"><tspan class="h">Retest $960</tspan></text>
+          <text class="anno f-m fade" style="animation-delay:2.05s" x="334" y="105">+2.46% · <tspan class="f-p" font-weight="700">rejected</tspan></text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">✗ Пробили $954 — розподіл</div>
-        <p>Минулого тижня викупили $954 — цього тижня <strong>прорвали</strong>: −5.92% до <strong>$921</strong>, close під усім стеком. Відскок в AH до $929 є, проте це <span class="y">relief у низхідному тренді</span>, не розворот. Fade відпрацював; тепер перепродано.</p>
+        <div class="vh">✗ Retest пробою — розподіл</div>
+        <p>Учора −5.92% до <strong>$921</strong>, close під усім стеком. Сьогодні відскок до <strong>$960</strong> (+2.46%) — але це <span class="y">retest зламаного рівня знизу</span>, зупинений під $963–973 з OBV донизу. Relief у низхідному тренді, не розворот.</p>
       </div>
     </section>
 
@@ -87,10 +89,10 @@
     <section class="slide" data-label="MU vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
       <h1 class="rv">Прорвали дно.<br><span class="hl">Слабші за SMH.</span></h1>
-      <p class="sub rv">MU втратив <strong>$942</strong>, тоді як SMH тримає свою структуру — відносна слабкість підтвердилась. RSI 4h <strong>40</strong>, MACD глибоко негативний (<strong>−14.7</strong>), OBV вниз. Відбій в AH до $929 — <span class="k">relief</span>, не сила. Fade у стелю $940–963.</p>
+      <p class="sub rv">MU відскочив у стелю, але <strong>не вернув структуру</strong> — під VWAP $973 і стеком, тоді як SMH тримається зверху. RSI 4h <strong>40</strong>, MACD знову негативний, OBV донизу навіть на зеленому дні. Відскок до $960 — <span class="k">relief</span>, не сила. Fade у стелю $963–973.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Втрата ключової лінії</span><span class="v">RSI 40 · MACD −14.7 · під стеком</span></div>
-        <p>Під 4h стеком $936–963, перепродано (stoch 8/21). <span class="y">Двобічно</span>: re-short відскок $940–963 (стоп $985), long лише на reclaim $963. Втрата $921 → $900 → $885.</p>
+        <div class="indi-top"><span class="t">Retest без сили</span><span class="v">RSI 40 · MACD негат. · під VWAP</span></div>
+        <p>Під 4h стеком $963–973, OBV не підтвердив відскок. <span class="y">Двобічно</span>: re-short rejection $963–973 (стоп $985), long лише на close вище VWAP $973. Втрата $921 → $900 → $885.</p>
       </div>
       <div class="chart rv">
         <svg viewBox="0 0 470 300" role="img" aria-label="MU weaker vs SMH">
@@ -114,31 +116,33 @@
       <div class="ladder rv">
         <div class="rung res"><span class="px">$1,022</span><span class="lbl">4h 50-EMA · вищий опір</span></div>
         <div class="rung res"><span class="px">$985</span><span class="lbl">Stop · над стелею</span></div>
-        <div class="rung res"><span class="px">$963</span><span class="lbl">BB mid · re-short верх</span></div>
-        <div class="rung res"><span class="px">$936–941</span><span class="lbl">200-EMA / VWAP / 9-EMA · опір</span></div>
-        <div class="rung now"><span class="px">$929</span><span class="lbl">ТУТ · AH, під стеком, перепродано</span></div>
-        <div class="rung sup"><span class="px">$900</span><span class="lbl">Найближча ціль · T1</span></div>
+        <div class="rung res"><span class="px">$973</span><span class="lbl">VWAP / BB mid · re-short стеля</span></div>
+        <div class="rung res"><span class="px">$963–969</span><span class="lbl">9-EMA / 50-EMA · опір</span></div>
+        <div class="rung now"><span class="px">$960</span><span class="lbl">ТУТ · відскок у стелю, rejected</span></div>
+        <div class="rung sup"><span class="px">$955</span><span class="lbl">200-EMA · тонка підтримка</span></div>
+        <div class="rung sup"><span class="px">$921</span><span class="lbl">Вчорашній лоу · тригер вниз</span></div>
+        <div class="rung sup"><span class="px">$900</span><span class="lbl">Ціль · T1</span></div>
         <div class="rung sup"><span class="px">$885</span><span class="lbl">Нижній BB 4h · T2</span></div>
         <div class="rung sup"><span class="px">$860</span><span class="lbl">Глибша ціль · T3</span></div>
       </div>
-      <p class="note rv">Під стеком <strong>$936–963</strong>, перепродано. Re-short відскок у <strong>$940–963</strong>, стоп $985. Reclaim <strong>$963</strong> = relief у бік $1,022. Втрата <strong>$921</strong> → $900 → <strong>$885</strong>.</p>
+      <p class="note rv">Під стеком <strong>$963–973</strong>. Re-short rejection у <strong>$963–973</strong>, стоп $985. Close вище <strong>VWAP $973</strong> = relief у бік $985 → $1,022. Втрата <strong>$921</strong> → $900 → <strong>$885</strong>.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="MU · SHORT">
       <div class="eyebrow rv">ПЛАН · bias вниз</div>
       <h1 class="rv">Ціль <span class="hl">$900 → $860</span></h1>
-      <p class="sub rv">Прорвали $954/$942 (−5.92%), під усім стеком — fade відпрацював. Але daily stoch 8 = <strong>перепроданість екстрим</strong>, AH вже відбив до $929. Не chase вниз; re-short відскок у стелю. Downside складається вниз:</p>
+      <p class="sub rv">Відскок дав re-short, який чекали: +2.46% до $960 рівно в стелю, poke $965 → rejected. Під VWAP $973, MACD негат., OBV донизу. <strong>Додавай на rejection, не на силі.</strong> Downside складається вниз:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$985</span></span><span class="r">над стелею $963</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$952</span></span><span class="r">відскок · re-short</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$900</span></span><span class="r">−5%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$885</span></span><span class="r">−7%</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$985</span></span><span class="r">над стелею $973</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$963–973</span></span><span class="r">rejection · re-short</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$900</span></span><span class="r">−6%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$885</span></span><span class="r">−8%</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$860</span></span><span class="r">−10%</span></div>
       </div>
-      <p class="note k rv">Перепроданість екстрим (stoch 8) → відскок імовірний, тому <strong>не chase</strong>. Reclaim <strong>$963</strong> дає relief до $1,022; втрата <strong>$921</strong> прискорює вниз.</p>
-      <p class="note rv">🎯 <strong>Тригер від сьогодні ($929):</strong> двобічно — re-short поп у <strong>$940–963</strong> (стоп $985); АБО зачекай reclaim/втрату. Не шорти мід-рейндж на перепроданості.</p>
+      <p class="note k rv">Додаєш <strong>на відмові</strong> — lower high з close під $963. Close вище <strong>VWAP $973</strong> (тим паче ~$980, під стопом $985) = НЕ додавати: це relief до $985 → $1,022, а не підтвердження.</p>
+      <p class="note rv">🎯 <strong>Тригер від сьогодні ($960):</strong> fade rejection у <strong>$963–973</strong> (стоп $985); втрата <strong>$921</strong> прискорює до $900 → $885. Не додавай у шорт на закритті біля стопа.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 

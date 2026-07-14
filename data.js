@@ -48,10 +48,10 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$921.31', change: '−5.92% · Jul 13',
-    signal: 'Broke $954, short working — dumped −5.92% to $921.31 (AH bounced to $929), losing the $942 line that held it last week; now under the whole 4h stack ($936–963: 200-EMA/VWAP/9-EMA/BB mid) and deeply oversold (daily stoch 8, 4h 21). The fade worked — don’t chase down here. Re-short bounces into $940–963, stop $985; targets $900 → $885 → $860. Reclaim $963 relieves; still two-sided, respect the oversold bounce',
+    price: '$960.01', change: '+2.46% · Jul 14',
+    signal: 'Bounce into the ceiling — re-short trigger live — rebounded +2.46% to $960.01 off yesterday’s $921 low, straight back into the $963–973 re-short zone the plan flagged; poked $965 and got rejected, still under the whole stack (VWAP $973 / 9-EMA $965 / 50-EMA $969) with MACD back negative, OBV falling and RSI 40 even on a green day. Fade the rejection at $963–973, stop $985; targets $900 → $885 → $860. Add on a lower-high rejection, not on strength — a close back above VWAP $973 (let alone ~$980, under the $985 stop) relieves toward $985/$1,022, not confirmation; loss of $921 re-accelerates down',
     side: 'short', accent: 'cyan',
-    date: '2026-07-13',
+    date: '2026-07-14',
     story: 'stories/mu.html',
   },
   {
