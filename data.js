@@ -100,8 +100,8 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$67.58', change: '−7.83% · Jul 13',
-    signal: 'Range broke — flip to short — the $70–80 chop finally resolved down: −7.83% to $67.58 (AH $67.50), knifing below the 4h lower BB ($71) and every EMA on both timeframes (4h 9/50 $73/$78, daily 9/200 $78) — now under its daily 200-EMA. 4h RSI 29 is deeply oversold, so don’t chase: fade the bounce into $73–78, stop $80; targets $63 → $60 → $57. Reclaim $80 puts it back in the range. High-beta — size small',
+    price: '$68.82', change: '+1.83% · Jul 14',
+    signal: 'Broke the range, weak bounce — short working — +1.83% to $68.82 (AH $69.05), a shallow bounce that stayed UNDER the $73–78 re-short zone after the $70–80 range resolved down. One of the genuinely broken names: below its daily 200-EMA (~$78) and every fast EMA, MACD negative (~−4), OBV collapsing (June ~1,000m → 706m), RSI ~40, down from ~$140 June highs. Fade the bounce into $73–78, stop $80; targets $63 → $60 → $57. Reclaim $80 puts it back in the range. High-beta — size small',
     side: 'short', accent: 'violet',
     date: '2026-07-13',
     story: 'stories/asts.html',
