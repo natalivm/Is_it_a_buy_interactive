@@ -139,11 +139,17 @@ function renderLeaderboard() {
             ? `${esc(L.downside)}<span class="lb-tail">tail ${esc(L.tail)}</span>`
             : esc(L.downside);
         const rr = `${esc(L.rr)}${L.rrStar ? '<sup>*</sup>' : ''}`;
+        const status = L.status === 'live'
+            ? '<span class="lb-status lb-live">🎯 at trigger</span>'
+            : L.status === 'wait'
+                ? '<span class="lb-status lb-wait">⏳ wait for level</span>'
+                : '';
         return `
             <tr class="lb-row${i === 0 ? ' lb-top' : ''}" data-symbol="${esc(s.symbol)}"
                 tabindex="0" role="button" aria-label="Open ${esc(s.symbol)} story">
                 <td class="lb-rank">${i + 1}</td>
                 <td><span class="lb-tkr tile-${accent}"><span class="lb-sym">${esc(s.symbol)}</span><span class="tile-chip chip-${side} lb-chip">${SIDE_LABEL[side]}</span></span></td>
+                <td>${status}</td>
                 <td>${esc(L.entry)}</td>
                 <td>${esc(L.stop)}</td>
                 <td>${esc(L.targets)}</td>
