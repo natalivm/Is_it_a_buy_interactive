@@ -29,20 +29,18 @@ const STOCKS = [
   //    Each is tagged inline below with:  ⏳ TODO revisit → Jul 15 close
   // ───────────────────────────────────────────────────────────────────────────
   {
-    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'AAOI', exchange: 'NASDAQ',
-    price: '$119.31', change: '−4.89% · Jul 15',
-    signal: 'Re-short working — rolling over in the fade zone — −4.89% to $119.31 on the Jul 15 open, breaking down from the top of the $116–126 fade zone and losing the whole intraday stack (9/50/200-EMA $126.74/$126.10/$122.44, VWAP $123.03) plus the lower BB $125.31. OBV rolling to new lows, MACD negative, RSI 28 / Stochastics 20 (oversold but trending down). The re-short into resistance is paying: still inside the $116–126 zone, working toward $101 → $90 → $82. Reclaim $132 negates',
-    lead: { rank: 1, status: 'live', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Deep daily downtrend + heaviest OBV — now rolling over in the fade zone, short working' },
+    price: '$109.09', change: '−13.04% · Jul 15 close',
+    signal: 'Parabola fade paid in full — bought its dip at the 200-day — AAOI closed −13.04% at $109.09 Jul 15 (AH flat ~$109.30), the re-short from $116–126 paying big as the whole stack rolled over. Now just above the daily 200-EMA $102 and lower BB $94, deeply oversold (1h RSI 31, daily Stoch 16) — the dip got bought into the close, so don’t chase $109. Fade a bounce into $116–126, stop $132; targets $101 → $90 → $82. 🕳️ Potential bottom on a deeper correction: the weekly 21-week MA ~$58 → the 50-week EMA ~$47 (a full parabola unwind). Reclaim $132 negates',
+    lead: { rank: 1, status: 'live', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — parabola fade paid; deep-correction bottom ~$58–47 (weekly MAs)' },
     side: 'short', accent: 'violet',
     date: '2026-07-15',
     story: 'stories/aaoi.html',
   },
   {
-    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$521.32', change: '−7.46% · Jul 15',
-    signal: 'Clean breakdown — −7.46% to $521.32 on the Jul 15 session, the hardest drop in the group: knifed through the whole stack (VWAP $571 / 9/50/200-EMA ~$563) and blew clean past the $540 fade target, now between T1 $540 and T2 $513. MACD negative, OBV crashing to new lows, RSI 16 / Stochastics 10 — deeply oversold. The range short paid in full — but it is extended here, so don’t chase $521; next levels $513 → $491. A bounce back toward $558–571 is the spot to re-engage; reclaim $580 neutralizes',
+    price: '$513.84', change: '−8.78% · Jul 15 close',
+    signal: 'Range short paid — hit T1 $513, dip bought — WDC closed −8.78% at $513.84 Jul 15 (AH ~$512), reaching the $513 first target as the whole stack rolled over. Deeply oversold — extended below the 1h lower BB $553, 1h RSI 32, daily Stoch 22 — and the dip got bought after hours, so don’t chase $514; next $491. A bounce back toward $558–571 is the spot to re-engage, stop $580. 🕳️ Potential bottom on a deeper correction: the daily lower BB / weekly 21-week MA ~$440–460 → the deep 200-day / 50-week ~$326–334. Reclaim $580 neutralizes',
     side: 'short',
     date: '2026-07-15',
     story: 'stories/wdc.html',
