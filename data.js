@@ -167,18 +167,6 @@ const ARTICLES = [
   },
   {
     type: 'article',
-    symbol: 'tsmc-chokepoint',
-    kicker: 'Стаття',
-    tag: 'Напівпровідники · AI',
-    title: 'Одна фабрика',
-    excerpt: 'HSBC зрізав ARM через вузьке горло на фабриці — але це історія не про ARM. Це про одну залежність, крізь яку проходить увесь AI-трейд: TSMC. Чому це системний ризик — і чому пам’ять та обладнання, навпаки, стійкіші.',
-    readTime: '8 хв',
-    accent: 'cyan',
-    date: '2026-07-15',
-    story: 'stories/articles/tsmc-chokepoint.html',
-  },
-  {
-    type: 'article',
     symbol: 'ai-dumping',
     kicker: 'Стаття',
     tag: 'AI · Волл-стріт',
