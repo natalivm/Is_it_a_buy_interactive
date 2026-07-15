@@ -337,9 +337,16 @@ body.story-open { overflow: hidden; }
 }
 .tile-change { font-family: var(--mono); font-size: 12px; color: var(--mut); }
 .tile-signal {
-    font-size: 13px;
-    line-height: 1.45;
+    font-size: 14.5px;
+    line-height: 1.5;
     color: #CBC0E4;
+    /* Keep tiles compact and uniform: one tight key thesis, clamped as a
+       safety so an occasional longer line never blows out the card height. */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
 }
 .tile-foot {
     margin-top: auto;
