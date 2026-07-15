@@ -31,7 +31,6 @@ const ASSETS = [
   BASE + 'stories/dell.html',
   BASE + 'stories/articles/ai-dumping.html',
   BASE + 'stories/articles/chinese-models.png',
-  BASE + 'stories/articles/tsmc-chokepoint.html',
   BASE + 'stories/articles/warsh-liquidity.html',
 ];
 
