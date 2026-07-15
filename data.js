@@ -50,9 +50,9 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$893.93', change: '−9.07% · Jul 15',
-    signal: 'Re-short paid in full — blew through every target — −9.07% to $893.93 intraday Jul 15, the memory bellwether cratering as the Warsh-speech AI-trade unwind accelerates. Sliced clean through the whole stack (9-EMA $916 / 50-EMA $954 / 200-EMA $971 / VWAP) and blew past all three plan targets ($955 → $921 → $900) in a single session; now pressing the lower BB ~$880, RSI oversold, OBV crashing to fresh lows. The $973-break re-short paid in full — but it is extended here, so don’t chase $894; next $880 → $850. A bounce back into $916–954 is the spot to re-engage; reclaim $954 neutralizes',
-    lead: { rank: 2, status: 'live', entry: '$973 break (filled)', stop: '$954', targets: '$880 → $850 → $820', downside: '−8%', rr: '~4:1', edge: 'Memory bellwether — re-short paid in full, blew through all three targets; fade a bounce to re-engage' },
+    price: '$911.30', change: '−7.30% · Jul 15',
+    signal: 'At the daily 50-EMA — flush being bought — −7.30% to $911.30 intraday Jul 15, but the daily tells the real story: price knifed to $873.63 (tagging the lower daily BB $866) and was bought back to $911 — a bounce off the daily 50-EMA $902, dip-buying at structural support, the signature of a liquidity flush rather than a cycle break. The $973-break re-short already paid; this is now a decision point, and the downside is staged across timeframes: hold here → flush; lose the $866 shelf → the May base $750–800; and only if SMH loses $580 and stays lost does the weekly open its real correction magnet, the 21-week MA ~$665 (−27%), with the 50-week EMA ~$505 the deep-bear level. Don’t chase $911 — re-short a bounce into $955–975; reclaim $1,005 negates',
+    lead: { rank: 2, status: 'live', entry: '$955–975 bounce', stop: '$1,005', targets: '$866 → $800 → $665', downside: '−30%', rr: '~4:1', edge: 'Memory bellwether — weekly rolled over; flush being bought now, 21-week MA ~$665 the correction magnet if $580 breaks' },
     side: 'short', accent: 'cyan',
     date: '2026-07-15',
     story: 'stories/mu.html',
@@ -153,6 +153,18 @@ const STOCKS = [
 //   date     ISO date (YYYY-MM-DD) — gallery sorts newest first
 //   story    path to the article HTML
 const ARTICLES = [
+  {
+    type: 'article',
+    symbol: 'warsh-liquidity',
+    kicker: 'Стаття',
+    tag: 'Макро · Ліквідність',
+    title: 'Промивка ліквідністю',
+    excerpt: 'Уся дошка червона — але це не «AI закінчився». Warsh переоцінив ставку дисконтування для найдовшого за дюрацією активу ринку. Чому це промивка ліквідністю, а не злам циклу — механізм, три драйвери й чек-лист, який покаже різницю.',
+    readTime: '7 хв',
+    accent: 'indigo',
+    date: '2026-07-15',
+    story: 'stories/articles/warsh-liquidity.html',
+  },
   {
     type: 'article',
     symbol: 'tsmc-chokepoint',
