@@ -42,7 +42,7 @@ const STOCKS = [
   {
     symbol: 'INTC', exchange: 'NASDAQ',
     price: '$101.14', change: '−6.14% · Jul 15',
-    signal: 'Cratered out the bottom — −6.14% to $101.14 intraday Jul 15, capitulating with the group as the Warsh AI-trade unwind accelerates. Blew clean out of its range, now pressing the lower BB ~$98.61 with the re-short zone $110–118 far overhead; RSI 29, Stochastics 7, OBV crashing to −109m (the relentless distribution the thesis flagged). The short is paying right into its first target $98 — but it is deeply oversold here, so don’t chase $101; fade a bounce back into $110–118, stop $124; targets $98 → $92 → $85. Reclaim $124 negates',
+    signal: 'Cratered out the bottom — −6.14% to $101.14 intraday Jul 15, capitulating with the group as the Warsh AI-trade unwind accelerates. Blew clean out of its range, now pressing the lower BB ~$98.61 with the re-short zone $110–118 far overhead; RSI 29, Stochastics 7, OBV crashing to −109m (the relentless distribution the thesis flagged). The short is paying right into its first target $98 — but it is deeply oversold here, so don’t chase $101; fade a bounce back into $110–118, stop $124; targets $98 → $92 → $85. Stage 2, if $85 and SMH’s $580 both give way, opens the deeper leg: the daily 200-EMA $73 → the unfilled $68 breakout gap (~−33% from here — a full trend reversion, not the base case). Reclaim $124 negates',
     lead: { rank: 8, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $85', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — cratering into T1, but deeply oversold; fade a bounce to re-engage' },
     side: 'short', accent: 'blue',
     date: '2026-07-15',
@@ -121,7 +121,7 @@ const STOCKS = [
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
     price: '$568.60', change: '−4.55% · Jul 15',
-    signal: 'Fade working — under the whole stack — −4.55% to $568.60 intraday Jul 15, the Warsh AI-trade selloff dragging it clean out of the $590–605 fade zone and under every 1h MA (9-EMA $576 / 50-EMA $585 / 200-EMA $599 / VWAP $578) plus the BB mid $585, now knifing toward the lower BB $559; RSI 35, MACD negative (−4.7), Stochastics 22 and falling, OBV declining. The countertrend fade is paying — but the daily is still a strong uptrend, so treat it as a pullback en route to T1: $559 → $544 → $526 → $510. A bounce back into $590–605 is the cleaner re-entry; reclaim $605 neutralizes',
+    signal: 'Technical fade — not a fundamental short — −4.55% to $568.60 intraday Jul 15, the Warsh AI-trade selloff dragging it out of the $590–605 fade zone and under every 1h MA (9/50/200-EMA $576/$585/$599, VWAP $578) toward the lower BB $559; RSI 35, MACD −4.7, Stochastics 22. The fade is paying in the risk-off tape — but treat it as exactly that: a countertrend momentum trade. AMAT is WFE equipment — a structural beneficiary of the TSMC capacity buildout that has to break the foundry bottleneck — and the daily is still a strong uptrend, so the structural story argues the other way. Take profits into targets and respect the range: $559 → $544 → $526. A bounce into $590–605 is the cleaner re-entry; reclaim $605 neutralizes. Kept off the leaderboard by design — lower conviction than the clean broken-trend shorts',
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/amat.html',
@@ -153,6 +153,18 @@ const STOCKS = [
 //   date     ISO date (YYYY-MM-DD) — gallery sorts newest first
 //   story    path to the article HTML
 const ARTICLES = [
+  {
+    type: 'article',
+    symbol: 'tsmc-chokepoint',
+    kicker: 'Стаття',
+    tag: 'Напівпровідники · AI',
+    title: 'Одна фабрика',
+    excerpt: 'HSBC зрізав ARM через вузьке горло на фабриці — але це історія не про ARM. Це про одну залежність, крізь яку проходить увесь AI-трейд: TSMC. Чому це системний ризик — і чому пам’ять та обладнання, навпаки, стійкіші.',
+    readTime: '8 хв',
+    accent: 'cyan',
+    date: '2026-07-15',
+    story: 'stories/articles/tsmc-chokepoint.html',
+  },
   {
     type: 'article',
     symbol: 'ai-dumping',
