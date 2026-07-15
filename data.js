@@ -7,7 +7,9 @@
 //   exchange   listing venue (NASDAQ, NYSE, …)
 //   price      last-price label, freeform string (e.g. '$175.18')
 //   change     short change label (e.g. '+2% today') or null
-//   signal     one-line thesis shown on the tile
+//   signal     one tight KEY THESIS shown on the tile — keep it to a sentence or
+//              two (setup + trigger + targets). The full analysis lives in the
+//              deck, not the card; long paragraphs here just shrink to unreadable.
 //   side       'long' | 'short'             → setup direction; colors the tile chip
 //   lead       (optional) leaderboard row: { rank, status?, entry, stop,
 //              targets, downside, tail?, rr, rrStar?, edge } — entries with a `lead`
@@ -23,16 +25,16 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
-  // Revisited to the Jul 15 CLOSE: MU, SMH, STX, INTC, AMAT, TER.
+  // Revisited to the Jul 15 CLOSE: MU, SMH, STX, INTC, AMAT, TER, AAOI, WDC, SNDK.
   // ⏳ NOT YET REVISITED (still earlier Jul 15 intraday) — pick up next session:
-  //    AAOI, WDC, GLW, SNDK, ASTS, NBIS, BE.
+  //    GLW, ASTS, NBIS, BE.  (also ALAB, CRDO, DELL — added on main, at intraday)
   //    Each is tagged inline below with:  ⏳ TODO revisit → Jul 15 close
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'AAOI', exchange: 'NASDAQ',
     price: '$109.09', change: '−13.04% · Jul 15 close',
-    signal: 'Parabola fade paid in full — bought its dip at the 200-day — AAOI closed −13.04% at $109.09 Jul 15 (AH flat ~$109.30), the re-short from $116–126 paying big as the whole stack rolled over. Now just above the daily 200-EMA $102 and lower BB $94, deeply oversold (1h RSI 31, daily Stoch 16) — the dip got bought into the close, so don’t chase $109. Fade a bounce into $116–126, stop $132; targets $101 → $90 → $82. 🕳️ Potential bottom on a deeper correction: the weekly 21-week MA ~$58 → the 50-week EMA ~$47 (a full parabola unwind). Reclaim $132 negates',
-    lead: { rank: 1, status: 'live', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — parabola fade paid; deep-correction bottom ~$58–47 (weekly MAs)' },
+    signal: 'Parabola fade paid in full — closed −13.04% at $109.09, bought its dip at the daily 200-EMA $102 (oversold). Fade a bounce $116–126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
+    lead: { rank: 1, status: 'live', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — parabola fade paid; deep bottom ~$58–47 (weekly MAs)' },
     side: 'short', accent: 'violet',
     date: '2026-07-15',
     story: 'stories/aaoi.html',
@@ -40,7 +42,7 @@ const STOCKS = [
   {
     symbol: 'WDC', exchange: 'NASDAQ',
     price: '$513.84', change: '−8.78% · Jul 15 close',
-    signal: 'Range short paid — hit T1 $513, dip bought — WDC closed −8.78% at $513.84 Jul 15 (AH ~$512), reaching the $513 first target as the whole stack rolled over. Deeply oversold — extended below the 1h lower BB $553, 1h RSI 32, daily Stoch 22 — and the dip got bought after hours, so don’t chase $514; next $491. A bounce back toward $558–571 is the spot to re-engage, stop $580. 🕳️ Potential bottom on a deeper correction: the daily lower BB / weekly 21-week MA ~$440–460 → the deep 200-day / 50-week ~$326–334. Reclaim $580 neutralizes',
+    signal: 'Range short paid — hit T1 $513 and bought its dip (oversold). Fade a bounce to $558–571; next $491. 🕳️ Deep-correction bottom: daily lower BB / weekly 21-MA ~$440–460 → 200-day / 50-week ~$326–334. Reclaim $580 negates.',
     side: 'short',
     date: '2026-07-15',
     story: 'stories/wdc.html',
@@ -48,8 +50,8 @@ const STOCKS = [
   {
     symbol: 'INTC', exchange: 'NASDAQ',
     price: '$102.99', change: '−4.43% · Jul 15 close',
-    signal: 'Bought its dip too — closed off the low — INTC closed −4.43% at $102.99 Jul 15, tagging $99.20 intraday (into the lower daily BB $99.03, right at the $98 target) and getting bought back, AH flat — the same day-1 flush pattern as the group. Still deeply oversold (daily Stochastics 8) and below the $110–118 re-short zone, so don’t chase; fade a bounce back into $110–118, stop $124; targets $98 → $92 → the weekly 21-week MA ~$89. Stage 2, only if $85 and SMH’s $580 both give way: the daily 200-EMA $73 → the unfilled $68 breakout gap. Reclaim $124 negates',
-    lead: { rank: 8, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $89', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — bought its dip at the lower BB; weekly 21-MA ~$89 the magnet, then the $68 gap' },
+    signal: 'Worst OBV in the group — tagged $99.20 (lower BB) and bought back, still oversold. Fade a bounce $110–118; targets $98 → $92 → weekly 21-MA $89. 🕳️ Stage-2 bottom: 200-day $73 → the unfilled $68 gap. Reclaim $124 negates.',
+    lead: { rank: 9, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $89', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — bought its dip at the lower BB; weekly 21-MA ~$89, then the $68 gap' },
     side: 'short', accent: 'blue',
     date: '2026-07-15',
     story: 'stories/intc.html',
@@ -57,8 +59,8 @@ const STOCKS = [
   {
     symbol: 'MU', exchange: 'NASDAQ',
     price: '$904.28', change: '−8.02% · Jul 15 close',
-    signal: 'Closed on the daily 50-EMA — flush held the line — MU closed −8.02% at $904.28 Jul 15, and the daily is the tell: it knifed to $873.63 intraday but settled back to close just above the daily 50-EMA ~$902, with after-hours flat (~$903, −0.16%) and no continuation lower — the line held on the close, a flush signature rather than a break. It is a weak hold, though: it gave back most of the intraday bounce and daily Stochastics are at 8 (deeply oversold), so respect both sides. The $973 re-short paid; downside stays staged across timeframes: lose the 50-EMA / $866 daily BB → the May base $750–800; and only if SMH loses $580 and stays lost does the weekly open its correction magnet, the 21-week MA ~$665 (−27%), with the 50-week ~$505 the deep-bear level. Don’t chase — re-short a bounce into $955–975; reclaim $1,005 negates',
-    lead: { rank: 2, status: 'live', entry: '$955–975 bounce', stop: '$1,005', targets: '$866 → $800 → $665', downside: '−30%', rr: '~4:1', edge: 'Memory bellwether — closed on the daily 50-EMA (flush held, barely); 21-week MA ~$665 the correction magnet if $580 breaks' },
+    signal: 'Memory bellwether — closed on the daily 50-EMA $902, the flush held the line (weakly, Stoch 8). Fade the bounce $955–975; targets $866 → $800 → 21-week $665. 🕳️ Deep-correction bottom: weekly 21-MA ~$665 → 50-week ~$505 (if SMH loses $580). Reclaim $1,005 negates.',
+    lead: { rank: 2, status: 'live', entry: '$955–975 bounce', stop: '$1,005', targets: '$866 → $800 → $665', downside: '−30%', rr: '~4:1', edge: 'Memory bellwether — closed on the 50-EMA (flush held); 21-week ~$665 the magnet if $580 breaks' },
     side: 'short', accent: 'cyan',
     date: '2026-07-15',
     story: 'stories/mu.html',
@@ -66,8 +68,8 @@ const STOCKS = [
   {
     symbol: 'TER', exchange: 'NASDAQ',
     price: '$342.12', change: '−3.15% · Jul 15 close',
-    signal: 'Under the re-short zone — bounce is the entry — TER closed −3.15% at $342.12 Jul 15, still below the $358–380 re-short zone and under the daily 50-EMA $367 / every 4h EMA; daily Stochastics 14 (oversold), MACD negative. The pullback-from-highs short is intact and the daily uptrend is still well above its 200-EMA, so treat it as a pullback — a clean fresh entry needs a bounce back into $358–380, stop $390; targets $324 → $300 → $292. Reclaim $390 negates',
-    lead: { rank: 6, status: 'wait', entry: '$358–380', stop: '$390', targets: '$324 → $300 → $292', downside: '−21%', rr: '~6:1', edge: 'Broke the demand shelf and now under it — fade a bounce back into the zone; best R:R on the board' },
+    signal: 'Under the $358–380 demand shelf, oversold (daily Stoch 14) — fade a bounce back into the zone; targets $324 → $300 → $292 (best R:R on the board). Reclaim $390 negates.',
+    lead: { rank: 7, status: 'wait', entry: '$358–380', stop: '$390', targets: '$324 → $300 → $292', downside: '−21%', rr: '~6:1', edge: 'Broke the demand shelf and now under it — fade a bounce back into the zone; best R:R on the board' },
     side: 'short', accent: 'blue',
     date: '2026-07-15',
     story: 'stories/ter.html',
@@ -76,18 +78,17 @@ const STOCKS = [
     // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'GLW', exchange: 'NYSE',
     price: '$187.64', change: '+2.47% · Jul 15',
-    signal: 'Bouncing back toward the broken 50-day — +2.47% to $187.64 (AH $187.76), recovering toward the $189 daily 50-day it lost and the $190–198 re-short zone. Daily uptrend ($100 → $210) in a pullback: at the fast MAs, above the 200-day, MACD rolling negative, OBV declining. A clean, mild pullback short — fade $190–198, stop $207; targets $180 → $167 → $152. Reclaim $198 weakens the thesis',
-    lead: { rank: 7, status: 'wait', entry: '$190–198', stop: '$207', targets: '$180 → $167 → $152', downside: '−19%', rr: '~3:1', edge: 'Lost the 50-day — bouncing into resistance, daily rolling over' },
+    signal: 'Lost the 50-day, bouncing into resistance $190–198 — mild pullback short; targets $180 → $167 → $152. Reclaim $198 weakens the thesis.',
+    lead: { rank: 8, status: 'wait', entry: '$190–198', stop: '$207', targets: '$180 → $167 → $152', downside: '−19%', rr: '~3:1', edge: 'Lost the 50-day — bouncing into resistance, daily rolling over' },
     side: 'short', accent: 'blue',
     date: '2026-07-15',
     story: 'stories/glw.html',
   },
   {
-    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,675.60', change: '−4.68% · Jul 15',
-    signal: 'Parabola fade working — broke down −4.68% to $1,675.60 on the Jul 15 open, blowing clean through the $1,705–1,790 fade zone and losing the entire stack (VWAP $1,766 / 9-EMA $1,754 / 50-EMA $1,753 / 200-EMA $1,767) and the lower BB $1,733. OBV printing new lows, MACD −8.7 and falling, RSI ~32, Stochastics crashed from 80 to ~23. The top-fade the plan flagged is paying — next stop T1 $1,572 → $1,536 → $1,480. Only a reclaim of $1,733 stalls it; back above $1,790 fully negates',
-    lead: { rank: 4, status: 'live', entry: '$1,705–1,790 (filled)', stop: '$1,835', targets: '$1,572 → $1,536 → $1,480', downside: '−15%', rr: '3:1', edge: 'Parabola fade now paying — blew through the fade zone toward T1; highest-risk, size small' },
+    price: '$1,614.99', change: '−8.13% · Jul 15 close',
+    signal: 'Parabola fade paying — closed −8.13% at $1,614.99, under the daily 50-EMA $1,647 and extended (oversold). Next $1,572 → $1,536 → $1,488. 🕳️ Deep-correction bottom: weekly 21-MA ~$1,287 → 50-week ~$880. Reclaim $1,733 stalls it. Size small.',
+    lead: { rank: 4, status: 'live', entry: '$1,705–1,790 (filled)', stop: '$1,835', targets: '$1,572 → $1,536 → $1,488', downside: '−15%', rr: '3:1', edge: 'Parabola fade paying — under the 50-EMA; deep bottom ~$1,287–880 (weekly MAs); highest-risk, size small' },
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/sndk.html',
@@ -95,7 +96,7 @@ const STOCKS = [
   {
     symbol: 'SMH', exchange: 'NASDAQ',
     price: '$590.77', change: '−1.59% · Jul 15 close',
-    signal: 'Held the $580 line — flush, not break (day 1) — SMH closed −1.59% at $590.77 Jul 15, and this is the key tell for the whole complex: after testing toward the $580 regime line intraday it recovered to close back above the daily 50-EMA $581, with after-hours dead flat (~$590.70, −0.01%) and no continuation lower — the barometer bought its dip at the regime line. Per the flush-vs-break checklist that is the liquidity-flush outcome, not a confirmed cycle break. Still constructive only while > $580: a daily close under it (and staying under while the indexes stabilize) flips to full risk-off → $573 → $557 → the weekly 21-week MA ~$513. Reclaim the daily 9-EMA $603 puts strength back. Day 1 held — but it needs follow-through',
+    signal: 'Semis barometer HELD the $580 line — closed $590.77 back above the daily 50-EMA (flush, not break; day 1). A close below → full risk-off → $573 → $557 → weekly 21-MA $513. Reclaim 9-EMA $603 = strength back.',
     side: 'long', accent: 'cyan',
     date: '2026-07-15',
     story: 'stories/smh.html',
@@ -103,8 +104,8 @@ const STOCKS = [
   {
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$828.30', change: '−5.69% · Jul 15 close',
-    signal: 'Short flip holds — bounced back into the re-short zone — STX closed −5.69% at $828.30 Jul 15, recovering off the $801 intraday low but still closing below the $838 trend-stop and the $842 daily 50-EMA it broke — so the long-is-dead, bias-down flip stands, and the bounce carried it right back toward the $842–860 re-short shelf (the entry). After-hours flat (~$829). 1h RSI 39, MACD −16, Stochastics recovering off oversold. Downside is now weekly-mapped: fade $842–860 → $770 → $720 → the weekly 21-week MA ~$681 (−18%, the real correction magnet), with the 50-week ~$516 the deep level. Reclaim $876 repairs the trend and negates',
-    lead: { rank: 9, status: 'wait', entry: '$842–860', stop: '$876', targets: '$770 → $720 → $681', downside: '−20%', rr: '~3:1', edge: 'Long stopped out — flipped short, bounced back into the broken shelf; weekly 21-MA ~$681 the magnet' },
+    signal: 'Long stopped, flipped short — bounced off $801 but closed below the broken $838 stop. Fade $842–860; targets $770 → $720 → weekly 21-MA $681. 🕳️ Deep-correction bottom: 50-week ~$516. Reclaim $876 repairs the trend.',
+    lead: { rank: 10, status: 'wait', entry: '$842–860', stop: '$876', targets: '$770 → $720 → $681', downside: '−20%', rr: '~3:1', edge: 'Long stopped out — flipped short, bounced into the broken shelf; weekly 21-MA ~$681 the magnet' },
     side: 'short', accent: 'amber',
     date: '2026-07-15',
     story: 'stories/stx.html',
@@ -113,7 +114,7 @@ const STOCKS = [
     // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'ASTS', exchange: 'NASDAQ',
     price: '$66.85', change: '−2.87% · Jul 15',
-    signal: 'Grinding lower, short working — −2.87% to $66.85 on the Jul 15 session, extending the breakdown under the $73–78 re-short zone and below every EMA (9/50/200 = $73/$75/$79, VWAP $73) plus the lower BB $73. OBV crashing to new lows, MACD negative; RSI ~33 — getting oversold but not stretched, so there is still room toward the targets. One of the genuinely broken names — bias stays down to $63 → $60 → $57. A bounce into $73–78 is the re-short spot; reclaim $80 puts it back in the range. High-beta, size small',
+    signal: 'Grinding lower under the $73–78 zone — short working to $63 → $60 → $57; fade a bounce into the zone. Reclaim $80 puts it back in range. Size small.',
     side: 'short', accent: 'violet',
     date: '2026-07-15',
     story: 'stories/asts.html',
@@ -122,7 +123,7 @@ const STOCKS = [
     // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'NBIS', exchange: 'NASDAQ',
     price: '$194.09', change: '−7.80% · Jul 15',
-    signal: 'The one still breaking down — −7.80% to $194.09 (AH $194.60), the only name that fell while the group bounced; blew clean through T1 $207 → $200 toward $192. Daily under the 9/50-EMA ($226/$217), MACD negative and accelerating, sitting on the lower BB $188 — a genuine downtrend, not a bounce. The cleanest, only-confirming short in the book. Now extended/oversold, so don’t chase $194 — fade a bounce into $220–228, stop $235; targets $200 → $192 → $183. Reclaim $228 neutralizes',
+    signal: 'The only name still breaking down — through T1, momentum accelerating. Fade a bounce to $220–228; targets $200 → $192 → $183. Reclaim $228 neutralizes.',
     lead: { rank: 3, status: 'wait', entry: '$220–228 bounce', stop: '$235', targets: '$200 → $192 → $183', downside: '−12%', rr: '~3:1', edge: 'The only name still breaking down — blew through T1, momentum accelerating' },
     side: 'short', accent: 'indigo',
     date: '2026-07-15',
@@ -131,7 +132,7 @@ const STOCKS = [
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
     price: '$579.43', change: '−2.73% · Jul 15 close',
-    signal: 'Technical fade — barely even pulled back — AMAT closed −2.73% at $579.43 Jul 15, recovering off the $568 low to close right on its daily 9-EMA $578: the daily uptrend is fully intact (50-EMA $470 far below) and the weekly RSI is still 73. This is a shallow countertrend pullback, not a breakdown — which is exactly why it stays a low-conviction technical fade, not a fundamental short: AMAT is WFE equipment, a structural beneficiary of the TSMC capacity buildout. Take profits into targets and respect the range: $559 → $544 → $526. A bounce into $590–605 is the cleaner re-entry; reclaim $605 neutralizes. Kept off the leaderboard by design — lower conviction than the clean broken-trend shorts',
+    signal: 'Technical fade, not a fundamental short — closed right on the daily 9-EMA $578 (barely pulled back, weekly RSI 73). Targets $559 → $544 → $526; cleaner re-entry a bounce to $590–605. Equipment benefits from the TSMC buildout — kept off the board. Reclaim $605 negates.',
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/amat.html',
@@ -140,11 +141,36 @@ const STOCKS = [
     // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'BE', exchange: 'NYSE',
     price: '$239.13', change: '−1.75% · Jul 15',
-    signal: 'Sliding under the re-short zone — −1.75% to $239.13 on the Jul 15 session, back under the $256–280 re-short stack and under every 4h EMA (9/50/200 = $254/$275/$275, VWAP $242), near the lower BB $235; MACD −8, RSI 38, OBV grinding to new lows. Clean downtrend continuing — re-short a bounce into $256–280, stop $296; targets $226 → $210 → $183. Reclaim $296 negates',
-    lead: { rank: 5, status: 'wait', entry: '$256–280', stop: '$296', targets: '$226 → $210 → $183', downside: '−32%', rr: '3:1', edge: 'Downtrend under the fast MAs — fade a bounce back into the re-short stack, −32% downside' },
+    signal: 'Downtrend under the fast MAs — re-short a bounce into $256–280; targets $226 → $210 → $183 (−32%). Reclaim $296 negates.',
+    lead: { rank: 6, status: 'wait', entry: '$256–280', stop: '$296', targets: '$226 → $210 → $183', downside: '−32%', rr: '3:1', edge: 'Downtrend under the fast MAs — fade a bounce back into the re-short stack, −32% downside' },
     side: 'short', accent: 'amber',
     date: '2026-07-15',
     story: 'stories/be.html',
+  },
+  {
+    symbol: 'ALAB', exchange: 'NASDAQ',
+    price: '$350.62', change: '−3.08% · Jul 15',
+    signal: 'Strongest uptrend in the group flushed onto the 50-day $339 — dip-buy $338–352; targets $380 → $400 → $430. Stop on a close < $330; contingent on SMH holding $580.',
+    side: 'long', accent: 'emerald',
+    date: '2026-07-15',
+    story: 'stories/alab.html',
+  },
+  {
+    symbol: 'CRDO', exchange: 'NASDAQ',
+    price: '$226.74', change: '−4.00% · Jul 15',
+    signal: 'Flushed right onto the 50-day $227 and held the $219 low — dip-buy $219–228; targets $245 → $258 → $290. Stop on a close < $215; contingent on SMH holding $580.',
+    side: 'long', accent: 'cyan',
+    date: '2026-07-15',
+    story: 'stories/crdo.html',
+  },
+  {
+    symbol: 'DELL', exchange: 'NYSE',
+    price: '$412.68', change: '−9.80% · Jul 15',
+    signal: '−9.80% distribution day off the $470 ATH — fade the parabola, don’t chase the hole. Short a bounce into $435–455; targets $407 → $386 → 50-day $324. Reclaim $470 negates.',
+    lead: { rank: 5, status: 'wait', entry: '$435–455 bounce', stop: '$470', targets: '$407 → $386 → $324', downside: '−21%', rr: '~3:1', edge: 'Parabola blow-off — −9.8% distribution day off the ATH on record OBV outflow, ~27% above the rising 50-day; fade the bounce, don’t chase' },
+    side: 'short', accent: 'red',
+    date: '2026-07-15',
+    story: 'stories/dell.html',
   },
 ];
 
