@@ -22,7 +22,14 @@
 //
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
+  // ── Session status · 2026-07-15 ────────────────────────────────────────────
+  // Revisited to the Jul 15 CLOSE: MU, SMH, STX, INTC, AMAT, TER.
+  // ⏳ NOT YET REVISITED (still earlier Jul 15 intraday) — pick up next session:
+  //    AAOI, WDC, GLW, SNDK, ASTS, NBIS, BE.
+  //    Each is tagged inline below with:  ⏳ TODO revisit → Jul 15 close
+  // ───────────────────────────────────────────────────────────────────────────
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'AAOI', exchange: 'NASDAQ',
     price: '$119.31', change: '−4.89% · Jul 15',
     signal: 'Re-short working — rolling over in the fade zone — −4.89% to $119.31 on the Jul 15 open, breaking down from the top of the $116–126 fade zone and losing the whole intraday stack (9/50/200-EMA $126.74/$126.10/$122.44, VWAP $123.03) plus the lower BB $125.31. OBV rolling to new lows, MACD negative, RSI 28 / Stochastics 20 (oversold but trending down). The re-short into resistance is paying: still inside the $116–126 zone, working toward $101 → $90 → $82. Reclaim $132 negates',
@@ -32,6 +39,7 @@ const STOCKS = [
     story: 'stories/aaoi.html',
   },
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'WDC', exchange: 'NASDAQ',
     price: '$521.32', change: '−7.46% · Jul 15',
     signal: 'Clean breakdown — −7.46% to $521.32 on the Jul 15 session, the hardest drop in the group: knifed through the whole stack (VWAP $571 / 9/50/200-EMA ~$563) and blew clean past the $540 fade target, now between T1 $540 and T2 $513. MACD negative, OBV crashing to new lows, RSI 16 / Stochastics 10 — deeply oversold. The range short paid in full — but it is extended here, so don’t chase $521; next levels $513 → $491. A bounce back toward $558–571 is the spot to re-engage; reclaim $580 neutralizes',
@@ -67,6 +75,7 @@ const STOCKS = [
     story: 'stories/ter.html',
   },
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'GLW', exchange: 'NYSE',
     price: '$187.64', change: '+2.47% · Jul 15',
     signal: 'Bouncing back toward the broken 50-day — +2.47% to $187.64 (AH $187.76), recovering toward the $189 daily 50-day it lost and the $190–198 re-short zone. Daily uptrend ($100 → $210) in a pullback: at the fast MAs, above the 200-day, MACD rolling negative, OBV declining. A clean, mild pullback short — fade $190–198, stop $207; targets $180 → $167 → $152. Reclaim $198 weakens the thesis',
@@ -76,6 +85,7 @@ const STOCKS = [
     story: 'stories/glw.html',
   },
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'SNDK', exchange: 'NASDAQ',
     price: '$1,675.60', change: '−4.68% · Jul 15',
     signal: 'Parabola fade working — broke down −4.68% to $1,675.60 on the Jul 15 open, blowing clean through the $1,705–1,790 fade zone and losing the entire stack (VWAP $1,766 / 9-EMA $1,754 / 50-EMA $1,753 / 200-EMA $1,767) and the lower BB $1,733. OBV printing new lows, MACD −8.7 and falling, RSI ~32, Stochastics crashed from 80 to ~23. The top-fade the plan flagged is paying — next stop T1 $1,572 → $1,536 → $1,480. Only a reclaim of $1,733 stalls it; back above $1,790 fully negates',
@@ -102,6 +112,7 @@ const STOCKS = [
     story: 'stories/stx.html',
   },
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'ASTS', exchange: 'NASDAQ',
     price: '$66.85', change: '−2.87% · Jul 15',
     signal: 'Grinding lower, short working — −2.87% to $66.85 on the Jul 15 session, extending the breakdown under the $73–78 re-short zone and below every EMA (9/50/200 = $73/$75/$79, VWAP $73) plus the lower BB $73. OBV crashing to new lows, MACD negative; RSI ~33 — getting oversold but not stretched, so there is still room toward the targets. One of the genuinely broken names — bias stays down to $63 → $60 → $57. A bounce into $73–78 is the re-short spot; reclaim $80 puts it back in the range. High-beta, size small',
@@ -110,6 +121,7 @@ const STOCKS = [
     story: 'stories/asts.html',
   },
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'NBIS', exchange: 'NASDAQ',
     price: '$194.09', change: '−7.80% · Jul 15',
     signal: 'The one still breaking down — −7.80% to $194.09 (AH $194.60), the only name that fell while the group bounced; blew clean through T1 $207 → $200 toward $192. Daily under the 9/50-EMA ($226/$217), MACD negative and accelerating, sitting on the lower BB $188 — a genuine downtrend, not a bounce. The cleanest, only-confirming short in the book. Now extended/oversold, so don’t chase $194 — fade a bounce into $220–228, stop $235; targets $200 → $192 → $183. Reclaim $228 neutralizes',
@@ -127,6 +139,7 @@ const STOCKS = [
     story: 'stories/amat.html',
   },
   {
+    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'BE', exchange: 'NYSE',
     price: '$239.13', change: '−1.75% · Jul 15',
     signal: 'Sliding under the re-short zone — −1.75% to $239.13 on the Jul 15 session, back under the $256–280 re-short stack and under every 4h EMA (9/50/200 = $254/$275/$275, VWAP $242), near the lower BB $235; MACD −8, RSI 38, OBV grinding to new lows. Clean downtrend continuing — re-short a bounce into $256–280, stop $296; targets $226 → $210 → $183. Reclaim $296 negates',
