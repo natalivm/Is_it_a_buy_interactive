@@ -85,10 +85,10 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$600.31', change: '+2.51% · Jul 15',
-    signal: 'Barometer bounced — sector bid — +2.51% to $600.31 (AH $599.94), recovering back into its $590–620 range and holding well above the daily 50-EMA (~$564) and 200-EMA (~$405); daily RSI ~49, OBV near its highs. The sector uptrend is intact and just chopping at highs — no breakdown. This is the tape that stopped the MU short and confirmed the STX long: constructive above $580, the group’s dip-buys valid and the whole short book is countertrend to a bid barometer. Only a close back under $580 flips it — not there',
+    price: '$596.64', change: '−0.61% · Jul 15',
+    signal: 'Barometer rolling over — risk-off intraday — −0.61% to $596.64 on the Jul 15 open, sliding under its whole intraday stack (VWAP $600 / 9-EMA $605 / 50-EMA $602 / 200-EMA $600) and cracking the lower BB $597; OBV crashing to new lows (−2.25m), RSI ~26, Stochastics 24. This is the tape dragging the whole memory/semis group down — the shorts (AAOI/MU/SNDK) are working with it. BUT the key daily 50-EMA $580 still holds: this is a sharp dip in the range, not yet a trend break. Lose $580 → full risk-off (green-light shorts, exit longs); hold it → the group dip-buy still lives',
     side: 'long', accent: 'cyan',
-    date: '2026-07-14',
+    date: '2026-07-15',
     story: 'stories/smh.html',
   },
   {
