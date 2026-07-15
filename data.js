@@ -33,8 +33,8 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$563.32', change: '+1.40% · Jul 15',
-    signal: 'Bounced with the group — lowest-conviction short — +1.40% to $563.32 (AH $561.20), a muted bounce mid-range. Daily is a huge uptrend ($250 → $750) in a pullback: under the 9/50-EMA (~$600–620) but well above the 200-EMA (~$350), MACD rolling, OBV still near highs. A countertrend range short, not a breakdown — fade rallies into $580–607, stop $620; targets $540 → $513 → $491. At $563 it’s mid-range with no edge; reclaim $607 neutralizes',
+    price: '$521.32', change: '−7.46% · Jul 15',
+    signal: 'Clean breakdown — −7.46% to $521.32 on the Jul 15 session, the hardest drop in the group: knifed through the whole stack (VWAP $571 / 9/50/200-EMA ~$563) and blew clean past the $540 fade target, now between T1 $540 and T2 $513. MACD negative, OBV crashing to new lows, RSI 16 / Stochastics 10 — deeply oversold. The range short paid in full — but it is extended here, so don’t chase $521; next levels $513 → $491. A bounce back toward $558–571 is the spot to re-engage; reclaim $580 neutralizes',
     side: 'short',
     date: '2026-07-15',
     story: 'stories/wdc.html',
@@ -103,10 +103,10 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$68.82', change: '+1.83% · Jul 15',
-    signal: 'Broke the range, weak bounce — short working — +1.83% to $68.82 (AH $69.05), a shallow bounce that stayed UNDER the $73–78 re-short zone after the $70–80 range resolved down. One of the genuinely broken names: below its daily 200-EMA (~$78) and every fast EMA, MACD negative (~−4), OBV collapsing (June ~1,000m → 706m), RSI ~40, down from ~$140 June highs. Fade the bounce into $73–78, stop $80; targets $63 → $60 → $57. Reclaim $80 puts it back in the range. High-beta — size small',
+    price: '$66.85', change: '−2.87% · Jul 15',
+    signal: 'Grinding lower, short working — −2.87% to $66.85 on the Jul 15 session, extending the breakdown under the $73–78 re-short zone and below every EMA (9/50/200 = $73/$75/$79, VWAP $73) plus the lower BB $73. OBV crashing to new lows, MACD negative; RSI ~33 — getting oversold but not stretched, so there is still room toward the targets. One of the genuinely broken names — bias stays down to $63 → $60 → $57. A bounce into $73–78 is the re-short spot; reclaim $80 puts it back in the range. High-beta, size small',
     side: 'short', accent: 'violet',
-    date: '2026-07-14',
+    date: '2026-07-15',
     story: 'stories/asts.html',
   },
   {
@@ -120,8 +120,8 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$595.70', change: '+3.53% · Jul 15',
-    signal: 'Bounced back into the fade zone — low-conviction short — +3.53% to $595.70 (AH $595) on the group relief, recovering into the $590–605 zone. Daily is a strong uptrend ($300 → $640) in a shallow pullback: still above every MA, MACD barely negative, OBV near highs. A countertrend fade of a healthy trend — fade $590–605, stop $615; targets $544 → $526 → $510. Lose $544 accelerates; reclaim $605 neutralizes — respect the range',
+    price: '$578.96', change: '−2.81% · Jul 15',
+    signal: 'Rolled out of the fade zone — −2.81% to $578.96 on the Jul 15 session, dropping out of the $590–605 fade zone and back under the 1h stack (VWAP $597 / 9-EMA $596 / 50-EMA $589), now below the BB mid $585 toward the lower BB $560; RSI 36, OBV declining, Stochastics rolling from the highs. The countertrend fade is working — but the daily is still a strong uptrend, so treat it as a pullback: next $544 → $526 → $510. A bounce back into $590–605 is the cleaner re-entry; reclaim $605 neutralizes',
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/amat.html',
