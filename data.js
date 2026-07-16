@@ -122,11 +122,11 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$828.30', change: '−5.69% · Jul 15 close',
-    signal: 'Long stopped, flipped short — bounced off $801 but closed below the broken $838 stop. Fade $842–860; targets $770 → $720 → weekly 21-MA $681. 🕳️ Deep-correction bottom: 50-week ~$516. Reclaim $876 repairs the trend.',
-    lead: { rank: 10, status: 'wait', entry: '$842–860', stop: '$876', targets: '$770 → $720 → $681', downside: '−20%', rr: '~3:1', edge: 'Long stopped out — flipped short same session (lowest conviction on the board); bounced into the broken shelf, weekly 21-MA ~$681 the magnet' },
+    price: '$786.26', change: '−5.08% · Jul 16 pre-market',
+    signal: 'Flip-short working — closed −5.69% $828, pre-market $786.26 under the whole 1h stack and near T1 $770. But oversold (1h RSI 29, Stoch 7.8) at the lower BB, so don’t chase: fade a bounce into $805–825 (broken VWAP $817 / 1h 9-EMA $825), stop $848. Targets $770 → $720 → weekly 21-MA $681. 🕳️ Deep: 50-week ~$516. Reclaim $876 repairs the trend.',
+    lead: { rank: 10, status: 'wait', entry: '$805–825 bounce', stop: '$848', targets: '$770 → $720 → $681', downside: '−16%', rr: '~3.5:1', edge: 'Flip-short following through — broke the trend-stop and pressing new lows near T1; refreshed re-short zone sits at the freshly broken VWAP/9-EMA, weekly 21-MA $681 the magnet' },
     side: 'short', accent: 'amber',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/stx.html',
   },
   {
