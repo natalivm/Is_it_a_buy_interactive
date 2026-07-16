@@ -18,8 +18,8 @@
     --line:#1E4C49;
     --ink:#FFFFFF;
     --muted:#8FC9C4;
-    --purple:#34D399;   /* green · support / target / up */
-    --pink:#FB5D74;     /* red · resistance / stop / down */
+    --purple:#34D399;
+    --pink:#FB5D74;
     --yellow:#F5B841;
     --deep:#04100F;
     --display:'Oswald',sans-serif;
@@ -27,23 +27,8 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#DCF0EC;
   }
-
-  /* Long deck: target rows read green, and the riser rises UP through them. */
-  .tpl .rg.tp .px,.tpl .rg.tp .r{color:var(--purple);}
-  .tpl .riser{background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
-    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
-  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
-  @keyframes riseUp{
-    0%{transform:translateY(400%);opacity:0;}
-    12%{opacity:1;}
-    62%{transform:translateY(0%);}
-    74%{transform:translateY(9%);}
-    86%{transform:translateY(0%);}
-    94%{transform:translateY(3%);}
-    100%{transform:translateY(0%);}
-  }
-  .preview .tpl .riser{transform:translateY(0%);}
-  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(0%);} }
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
@@ -53,17 +38,17 @@
 
   <div class="deck" id="deck">
 
-    <!-- 1 · 1H / DAILY -->
+    <!-- 1 · 1H / DAILY · STOPPED -->
     <section class="slide active" data-label="CRDO · 1H/1D">
       <div class="cover-ticker rv">CRDO</div>
-      <div class="eyebrow p rv">1H/1D · RIGHT ON THE 50-DAY · DIP AT SUPPORT</div>
-      <h1 class="rv">Pullback in the trend.<br><span class="hl">Right on the 50-day.</span></h1>
-      <p class="sub rv">Warsh стягнув і CRDO: <strong>−4.00% до $226.74</strong> intraday 15/07 — але ціна сіла <span class="p">точно на denну 50-EMA $227 / нижній BB $228</span> і <span class="p">втримала лоу $219</span> на годиннику. RSI 45, Stochastics 25, а тренд <strong>цілий, високо над 200-day $166</strong>. Класичний діп на структурі — <span class="k">промивка ліквідністю</span>, не розворот.</p>
+      <div class="eyebrow rv">1H/1D · DIP-BUY STOPPED · FLIP TO A FADE</div>
+      <h1 class="rv">Stopped out.<br><span class="hl">Now a fade.</span></h1>
+      <p class="sub rv">Діп-бай <span class="k">вибито</span>: close 16/07 <strong>−8.28% $207.97</strong> (AH $207.88) — <span class="k">під стопом $215 і лоу $219</span>, а умова SMH $580 зникла. Це вже низхідний тренд: під нижнім denним BB і всім стеком, RSI daily 40 / 1h 35, Stoch 17. Тепер фейд бонсу в $219–230 (зламані $219 low / 50-day $227), стоп $242.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",55,"$253","denna 9-EMA · опір",0.05],["k",100,"$240","1h 50-EMA · reclaim = підтвердження",0.12],["y",160,"$227","now · на denній 50-EMA",0.19],["p",240,"$219","нижній 1h BB · тримає саппорт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="CRDO pulled back exactly to the daily 50-EMA and held the 219 low">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,90 L200,140 L300,245 L352,195"/>
-          <circle class="dot-p pop" style="animation-delay:1.35s" cx="352" cy="195" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">лоу $219 втримано → назад на 50-day $227</text>
+        <svg data-lv='[["k",50,"$245","200-EMA · reclaim = repair",0.05],["k",100,"$219–230","зламаний $219 low / 50-day $227 · re-short",0.12],["y",165,"$208","now · close −8.28%",0.19],["p",245,"$175","квітнева полиця · магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="CRDO stopped out below 215, now in a downtrend">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,95 L190,120 L280,165 L330,190 L352,208"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="352" cy="208" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">close &lt; $215 стоп → фейд бонсу $219–230</text>
         </svg>
       </div>
     </section>
@@ -71,49 +56,47 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="CRDO · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">One red candle.<br><span class="hl">Sitting on the 50-day.</span></h1>
+      <h1 class="rv">Red candle.<br><span class="hl">Через стоп.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="CRDO daily red candle sitting on the daily 50-EMA with a lower wick to 219">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="90"  x2="120" y2="90"/>
-          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="205" x2="120" y2="205"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="255" x2="120" y2="255"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="94"  text-anchor="end">240 open</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="209" text-anchor="end">227 close · 50-day</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="259" text-anchor="end">219 low</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="82" x2="150" y2="255"/>
-          <rect class="candle-body fill" x="120" y="90" width="60" height="115" rx="7" style="animation-delay:.6s"/>
-          <line class="dash s-p fade" style="animation-delay:1.3s" x1="120" y1="205" x2="330" y2="205"/>
-          <text class="anno f-p fade" style="animation-delay:1.4s" x="216" y="200"><tspan class="h">50-day $227</tspan> — сіла рівно на неї</text>
-          <line class="s-line fade" style="animation-delay:1.8s" x1="180" y1="255" x2="330" y2="255" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.85s" x="334" y="251"><tspan class="h">$219</tspan></text>
-          <text class="anno f-p fade" style="animation-delay:1.85s" x="334" y="268" font-weight="700">нижній BB — тінь викуплено</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="CRDO daily red candle closing below the stop and the daily lower band">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="150" x2="120" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="255" x2="330" y2="255"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">227 50-day</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">219 стара лінія</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="259" text-anchor="end">208 close</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="64" x2="150" y2="258"/>
+          <rect class="candle-body fill" x="120" y="72" width="60" height="95" rx="7" style="animation-delay:.6s"/>
+          <line class="dash s-k fade" style="animation-delay:1.3s" x1="120" y1="150" x2="330" y2="150"/>
+          <text class="anno f-k fade" style="animation-delay:1.4s" x="214" y="145"><tspan class="h">Стоп $215 / лоу $219</tspan> — пробито</text>
+          <line class="s-line fade" style="animation-delay:1.8s" x1="180" y1="238" x2="330" y2="238" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.85s" x="334" y="234"><tspan class="h">$207.97</tspan></text>
+          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="251" font-weight="700">−8.28% · під стопом</text>
         </svg>
       </div>
-      <div class="verdict p rv">
-        <div class="vh">↑ Діп на саппорті — не розворот</div>
-        <p>Червоний день, але ціна <strong>сіла точно на denну 50-EMA $227</strong> (нижній BB $228) з тінню до $219, яку викупили. RSI 45, Stochastics 25 — перепроданість у <strong>сильному тренді над 200-day $166</strong>. Доки close &gt; $215, сетап на лонг цілий. Втрата $215 → $200 → denna 200-EMA $166.</p>
+      <div class="verdict rv">
+        <div class="vh">⚠ Діп-бай вибито — тепер низхідний тренд</div>
+        <p>Червоний день <strong>−8.28% до $207.97</strong> закрив <span class="k">під стопом $215 і лоу $219</span> — сетап на лонг мертвий, а умова SMH $580 зникла. Ціна під нижнім denним BB і всім стеком, RSI daily 40 / 1h 35, Stoch 17 — перепродано, тож бонс імовірний, але <strong>двигун вниз</strong>. Фейд бонсу в $219–230; цілі $200 → $190 → <span class="k">квітнева полиця $175</span>.</p>
       </div>
     </section>
 
-    <!-- 3 · RELATIVE STRENGTH -->
-    <section class="slide" data-label="CRDO vs SMH">
-      <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Sector dipped.<br><span class="hl">CRDO holds its base.</span></h1>
-      <p class="sub rv">Уся зв'язка з'єднань/семісів червона, але CRDO <strong>лише повернувся до 50-day</strong> після забігу $50 → $298 — тоді як зламані імʼя роблять нові лоу. Ціну <span class="p">викуповують на структурному саппорті</span>, а не роздають. Це <span class="p">діп-бай сильного трендового лідера</span> — доки SMH тримає лінію $580.</p>
+    <!-- 3 · WHY IT FLIPPED -->
+    <section class="slide" data-label="CRDO · FLIP">
+      <div class="eyebrow y rv">WHY THE LONG IS OFF</div>
+      <h1 class="rv">Leader cracked.<br><span class="hl">Stop hit + gate void.</span></h1>
+      <p class="sub rv">Лонг тримався на <strong>структурі (лоу $219)</strong> й <strong>SMH &gt; $580</strong>. Сьогодні <span class="k">впали обидві</span>: SMH закрив −3.70% $568.92 (повний risk-off), а CRDO закрив під стопом $215. Забіг $50 → $298 цілий на великому таймфреймі, але лідер <span class="k">здав базу</span> — і поки тейп у risk-off, це фейд, а не діп-бай.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Лідер у пулбеку</span><span class="v">RSI 45 · Stoch 25 · тренд &gt; 200-day</span></div>
-        <p>Денно високо над 200-day $166, сів на 50-EMA $227 і втримав $219. <span class="p">Купувати діп $219–228</span> (стоп close &lt; $215); цілі $245 → $258 → $290. <span class="k">Лінія SMH $580</span> вирішує: close нижче = risk-off, стій осторонь.</p>
+        <div class="indi-top"><span class="t">Лонг стоплено</span><span class="v">RSI 35 · MACD −6.6 · SMH &lt; $580</span></div>
+        <p>Під нижнім denним BB і всім стеком, OBV вниз. Перепродано (Stoch 17) → бонс. <span class="k">Bias вниз</span>: фейд бонсу в $219–230 (стоп $242); цілі $200 → $190 → квітнева полиця $175. Reclaim $245 (200-EMA) відновлює й повертає лонг-сценарій.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="CRDO holds its base at the 50-day while broken names make new lows">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="150" x2="400" y2="150"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="140">denna 50-EMA</text>
-          <path class="bounce fade" style="animation-delay:.4s;stroke-dasharray:none" d="M80,120 L170,95 L260,120 L340,150 L365,128" stroke="#34D399" stroke-width="3"/>
-          <circle class="dot-p pop" style="animation-delay:1.3s" cx="365" cy="128" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.4s" x="358" y="120" text-anchor="end">CRDO · тримає 50-day</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.55" d="M80,150 L170,190 L260,225 L360,250"/>
-          <text class="cap f-m fade" style="animation-delay:1.6s" x="360" y="266" text-anchor="end">зламані імʼя · нові лоу</text>
-          <text class="cap f-m fade" style="animation-delay:1.8s" x="235" y="292" text-anchor="middle">лідер тримає базу, поки слабкі падають</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="CRDO breaks its base as SMH loses its line">
+          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="115" x2="400" y2="115"/>
+          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="105">SMH $580 · ПРОБИТО</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,100 L180,118 L270,165 L360,210"/>
+          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="210" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.5s" x="354" y="214" text-anchor="end">CRDO · −8.28%</text>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="286" text-anchor="middle">стоп пробито + умова зникла — лідер здав базу</text>
         </svg>
       </div>
     </section>
@@ -123,34 +106,32 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$290</span><span class="lbl">T3 · ретест зони хаїв</span></div>
-        <div class="rung res"><span class="px">$258</span><span class="lbl">denna 21-BB mid · T2 / опір</span></div>
-        <div class="rung res"><span class="px">$245</span><span class="lbl">Попередній пивот · T1</span></div>
-        <div class="rung res"><span class="px">$240</span><span class="lbl">1h 50-EMA · reclaim = підтвердження</span></div>
-        <div class="rung now"><span class="px">$227</span><span class="lbl">ТУТ · на denній 50-EMA</span></div>
-        <div class="rung sup"><span class="px">$219</span><span class="lbl">Нижній 1h BB · лоу флешу · лінія</span></div>
-        <div class="rung sup"><span class="px">$200</span><span class="lbl">Круглий саппорт</span></div>
-        <div class="rung sup"><span class="px">$166</span><span class="lbl">denna 200-EMA · глибше</span></div>
+        <div class="rung res"><span class="px">$245</span><span class="lbl">Denна 200-EMA · reclaim = repair (повертає лонг)</span></div>
+        <div class="rung res"><span class="px">$242</span><span class="lbl">Стоп re-short · 1h стек</span></div>
+        <div class="rung res"><span class="px">$219–230</span><span class="lbl">Зламаний лоу $219 / 50-day $227 · re-short бонсу</span></div>
+        <div class="rung now"><span class="px">$208</span><span class="lbl">ТУТ · close −8.28% · під стопом $215</span></div>
+        <div class="rung sup"><span class="px">$200</span><span class="lbl">Круглий саппорт · T1</span></div>
+        <div class="rung sup"><span class="px">$190</span><span class="lbl">Проміжна підтримка · T2</span></div>
+        <div class="rung sup"><span class="px">$175</span><span class="lbl">🕳️ Квітнева полиця пробою · T3</span></div>
       </div>
-      <p class="note p rv">Діп-бай на 50-day: купувати <strong>$219–228</strong>, стоп close &lt; $215. Апсайд: $245 → $258 → $290. Втрата <strong>$215</strong> відкриває $200 → denну 200-EMA $166.</p>
-      <p class="note rv"><span class="y">Daily · 15/07:</span> −4.00% до $226.74 — сіла рівно на denну 50-EMA $227, тінь до $219 викуплено. RSI 45, Stochastics 25. Тренд цілий над 200-day $166 — діп лідера, який купують.</p>
+      <p class="note rv">Діп-бай вибито (close &lt; $215, SMH &lt; $580). Перепродано (Stoch 17) — фейд бонсу в <strong>$219–230</strong>, стоп $242. Цілі $200 → $190 → <strong>квітнева полиця $175</strong>. Reclaim $245 (200-EMA) повертає лонг-сценарій.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="CRDO · LONG">
-      <div class="eyebrow p rv">PLAN · BIAS UP · DIP-BUY</div>
-      <h1 class="rv">Buy the dip at <span class="hl">$219–228</span></h1>
-      <p class="sub rv">Від сьогодні ($227): сильний трендовий лідер сів рівно на denну 50-EMA і втримав $219. Не жени — <strong>купуй діп на 50-day / нижній BB</strong>, додавай на reclaim $240, а цілі складаються вгору:</p>
+    <section class="slide" data-label="CRDO · SHORT">
+      <div class="eyebrow rv">PLAN · STOPPED · FADE THE BOUNCE</div>
+      <h1 class="rv">Fade into <span class="hl">$219–230</span></h1>
+      <p class="sub rv">Від сьогодні ($207.97 close): діп-бай вибито (close &lt; $215), умова SMH зникла. Перепродано → бонс імовірний. Фейд того бонсу в зламаний стек, цілі складаються вниз:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$290</span></span><span class="r">+28%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$258</span></span><span class="r">+14%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$245</span></span><span class="r">+8%</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$219–228</span></span><span class="r">купити на 50-day / нижній BB</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">&lt; $215</span></span><span class="r">close нижче = злам сетапу</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$242</span></span><span class="r">1h стек · reclaim $245 = repair</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$219–230</span></span><span class="r">фейд бонсу в зламаний $219 / 50-day</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$200</span></span><span class="r">круглий саппорт</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$190</span></span><span class="r">проміжна підтримка</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$175</span></span><span class="r">🕳️ квітнева полиця</span></div>
       </div>
-      <p class="note p rv">🎯 <strong>Тригер від сьогодні ($227):</strong> ціна вже в зоні — купуй діп <strong>$219–228</strong>, додавай на reclaim $240. Стоп close &lt; $215; цілі $245 → $258 → $290.</p>
-      <p class="note k rv">Контекст: це лонг у risk-off тейпі. <strong>Лінія SMH $580</strong> — вимикач: close нижче = крий/стій осторонь. Втрата $215 переводить у $200 → denну 200-EMA $166.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($208):</strong> стоп пробито — фейд бонсу в <strong>$219–230</strong>, стоп $242. T1 $200 → T2 $190 → T3 квітнева полиця $175. Reclaim $245 (200-EMA) повертає лонг-сценарій.</p>
+      <p class="note rv">Забіг $50 → $298 цілий на великому таймфреймі, тож це поки корекція лідера. Але в risk-off (SMH &lt; $580) фейдимо силу: бонс — це шорт, доки $245 не відвойовано.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
