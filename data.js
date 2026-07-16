@@ -109,7 +109,7 @@ const STOCKS = [
     signal: '✓ Closed for full profit — the short from $1,705–1,790 hit its take-profit at T3 $1,488 (≈ +15%). Now flat and oversold (1h RSI 31), so a bounce is likely. Next trade: fade the bounce into $1,580–1,626 (stop $1,680) for a fresh leg down — $1,488 retest, then the deep parabola-unwind at the weekly 21-MA $1,287 → 50-week $880. Reclaim $1,680 ends the bias.',
     lead: { rank: 9, status: 'wait', entry: '$1,580–1,626 bounce', stop: '$1,680', targets: '$1,488 → $1,287 → $880', downside: '−20%', tail: '−45%', rr: '~4:1', edge: '✓ Booked ≈ +15% (short $1,705–1,790 → TP $1,488). Re-load on the bounce: fade $1,580–1,626 for the deep parabola unwind toward the weekly 21-MA $1,287' },
     side: 'short', accent: 'red',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/sndk.html',
   },
   {
