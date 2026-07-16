@@ -11,22 +11,39 @@
 <link rel="stylesheet" href="story.css">
 <style>
   :root{
-    --page-bg:#0C0709;
-    --bg:#1A1013;
-    --panel:#2A1A1E;
-    --panel2:#241619;
-    --line:#4A2E33;
+    --page-bg:#050D0A;
+    --bg:#0B1A14;
+    --panel:#132A20;
+    --panel2:#0F2119;
+    --line:#1E4535;
     --ink:#FFFFFF;
-    --muted:#C7A0A6;
-    --purple:#34D399;   /* green · support / target */
-    --pink:#FB5D74;     /* red · resistance / sellers / bearish */
+    --muted:#9CC8B4;
+    --purple:#34D399;   /* green · support / target / up */
+    --pink:#FB5D74;     /* red · resistance / stop / down */
     --yellow:#F5A524;
-    --deep:#0C0709;
+    --deep:#050D0A;
     --display:'Oswald',sans-serif;
     --body:'Inter',sans-serif;
     --mono:'IBM Plex Mono',monospace;
-    --sub:#F3E5E7;
+    --sub:#E4F4EC;
   }
+
+  /* Long deck: target rows read green, and the riser rises UP through them. */
+  .tpl .rg.tp .px,.tpl .rg.tp .r{color:var(--purple);}
+  .tpl .riser{background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
+    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
+  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
+  @keyframes riseUp{
+    0%{transform:translateY(400%);opacity:0;}
+    12%{opacity:1;}
+    62%{transform:translateY(0%);}
+    74%{transform:translateY(9%);}
+    86%{transform:translateY(0%);}
+    94%{transform:translateY(3%);}
+    100%{transform:translateY(0%);}
+  }
+  .preview .tpl .riser{transform:translateY(0%);}
+  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(0%);} }
 </style>
 </head>
 <body>
@@ -36,17 +53,17 @@
 
   <div class="deck" id="deck">
 
-    <!-- 1 · 1H -->
-    <section class="slide active" data-label="DELL · 1H">
+    <!-- 1 · 1W/1D · DIP AT RANGE SUPPORT -->
+    <section class="slide active" data-label="DELL · 1W/1D">
       <div class="cover-ticker rv">DELL</div>
-      <div class="eyebrow rv">1H · DISTRIBUTION DAY · PARABOLA</div>
-      <h1 class="rv">Blow-off top.<br><span class="hl">Fade the bounce.</span></h1>
-      <p class="sub rv">Перша велика червона свічка після параболи: <strong>−9.80% до $412.68</strong> (AH $410.67) — ножем крізь увесь 1h стек (9/50/200-EMA 456/441/426, VWAP $454). OBV обвалився до нового лоу, RSI 35, Stochastics 22. Це <span class="k">дистрибуційний день від хаїв $470</span>. Не жени діру — але й повітря вниз багато: <span class="k">до denної 50-EMA $324 ще −21%</span>.</p>
+      <div class="eyebrow p rv">1W/1D · HIGH FLAG · BUY THE DIP</div>
+      <h1 class="rv">Range at the highs.<br><span class="hl">Buy the dip.</span></h1>
+      <p class="sub rv">Після earnings-гепу DELL не зламався — він <strong>консолідується біля хаїв</strong>. Червоний день <strong>−9.80% до $412.68</strong> (пре-маркет $401) лише стягнув ціну в <span class="p">нижню третину діапазону $389–460</span>, на кластер саппорту: нижній denний BB $389 · low тижня $391 · тижнева 9-EMA $377. Тренд цілий далеко над 50/200-EMA. Це <span class="k">діп у флазі на хаях</span>, не розворот.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",55,"$470","хай · дистрибуція · стоп",0.05],["k",100,"$450","зламаний 1h стек $435–455 · ре-шорт",0.12],["y",175,"$412","now · не жени діру (RSI 35)",0.19],["p",250,"$386","нижній BB · перша зона цілей",0.26]]' viewBox="0 0 470 300" role="img" aria-label="DELL knifed 9.8% off its all-time high through the whole 1h stack">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,68 L170,82 L300,250 L352,205"/>
-          <circle class="dot-k pop" style="animation-delay:1.35s" cx="352" cy="205" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">−9.8% від $470 → фейд бонсу $435–455</text>
+        <svg data-lv='[["k",50,"$460","верх діапазону · опір",0.05],["k",100,"$420","denний BB mid / 9-EMA · pivot",0.12],["y",165,"$401","now · діп у саппорт",0.19],["p",245,"$389","нижній BB / low тижня — саппорт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="DELL pulling back into range support after consolidating near its highs">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M70,250 L150,210 L220,120 L280,95 L320,120 L364,165"/>
+          <circle class="dot-p pop" style="animation-delay:1.7s" cx="364" cy="165" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.9s" x="250" y="284" text-anchor="middle">консолідація на хаях → діп у саппорт $389</text>
         </svg>
       </div>
     </section>
@@ -54,44 +71,44 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="DELL · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">One candle.<br><span class="hl">−9.8% distribution.</span></h1>
+      <h1 class="rv">One red candle.<br><span class="hl">Into range support.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="DELL huge daily red distribution candle off the all-time high">
+        <svg viewBox="0 0 420 340" role="img" aria-label="DELL daily red candle pulling back into the range support cluster">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="235" x2="120" y2="235"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="268" x2="120" y2="268"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">470 hi · open</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="239" text-anchor="end">412 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="272" text-anchor="end">395 low</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="64" x2="150" y2="272"/>
-          <rect class="candle-body fill" x="120" y="70" width="60" height="165" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1.3s" x1="180" y1="150" x2="330" y2="150" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.35s" x="216" y="145"><tspan class="h">Величезне тіло</tspan></text>
-          <text class="anno f-k fade" style="animation-delay:1.35s" x="216" y="162" font-weight="700">день −9.80%</text>
-          <line class="s-line fade" style="animation-delay:1.8s" x1="150" y1="90" x2="330" y2="90" stroke-width="1"/>
-          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="86">дистрибуція від ATH $470</text>
+          <line class="dash s-w fade" style="animation-delay:.12s" x1="60" y1="180" x2="120" y2="180"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="255" x2="330" y2="255"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">457 open</text>
+          <text class="ax f-w fade" style="animation-delay:.3s"  x="54" y="184" text-anchor="end">412 close</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="259" text-anchor="end">389 нижній BB</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="64" x2="150" y2="210"/>
+          <rect class="candle-body fill" x="120" y="70" width="60" height="110" rx="7" style="animation-delay:.6s"/>
+          <line class="dash s-p fade" style="animation-delay:1.3s" x1="120" y1="255" x2="330" y2="255"/>
+          <text class="anno f-p fade" style="animation-delay:1.4s" x="216" y="250"><tspan class="h">$389 саппорт</tspan> — низ діапазону</text>
+          <line class="s-line fade" style="animation-delay:1.8s" x1="180" y1="140" x2="330" y2="140" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.85s" x="334" y="136"><tspan class="h">−9.80%</tspan></text>
+          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="153" font-weight="700">пулбек у діапазон</text>
         </svg>
       </div>
-      <div class="verdict rv">
-        <div class="vh">↓ Дистрибуційний день — блоу-оф</div>
-        <p>Величезна червона свічка <strong>−9.80%, close $412</strong> просто від all-time-high $470: OBV на новому лоу, тижнево — ведмежа свічка-відкидання з RSI 74 (перекупленість). Це <span class="k">розподіл на вершині параболи</span>, не звичайний діп. Ціна <strong>висить на ~27% над denною 50-EMA $324</strong> — повітря вниз багато. Але 1h перепроданий (RSI 35) — <span class="k">не жени діру, фейди бонс</span>.</p>
+      <div class="verdict p rv">
+        <div class="vh">↑ Пулбек у саппорт — не злам</div>
+        <p>Червоний день <strong>−9.80% до $412.68</strong> — але це відкат з <strong>верху діапазону $460 у нижню третину</strong>, не пробій. Ціна на кластері саппорту: нижній BB $389 / low тижня $391 / тижнева 9-EMA $377. Denний RSI 49, Stochastics ~54 — нейтрально, є куди відскочити. <span class="k">Доки close &gt; $377 — це діп-бай.</span> Але поважай ризик: <strong>нижче $377 саппорту немає аж до гепу $330</strong> — тож close під $377 = вихід, не надія.</p>
       </div>
     </section>
 
-    <!-- 3 · WEEKLY -->
+    <!-- 3 · WEEKLY · THE FLAG -->
     <section class="slide" data-label="DELL · 1W">
-      <div class="eyebrow y rv">WEEKLY · WHERE THE CORRECTION GOES</div>
-      <h1 class="rv">The parabola broke.<br><span class="hl">Magnet: 50-day $324.</span></h1>
-      <p class="sub rv">На тижневому — перша <strong>червона свічка-відкидання</strong> після вертикального забігу $100 → $470, RSI 74 з перекупленості, MACD histogram <span class="k">завертає вниз</span>. Ціна відірвана високо від усіх середніх — а денна 50-EMA $324 стрімко росте назустріч. Природний магніт mean-reversion після блоу-офу — <span class="p">denna 50-EMA $324 (−21%)</span>, з проміжними $407 → $386 → $360.</p>
+      <div class="eyebrow p rv">WEEKLY · BULL FLAG AT THE HIGHS</div>
+      <h1 class="rv">$100 → $493.<br><span class="hl">Now coiling.</span></h1>
+      <p class="sub rv">На тижневому — забіг <strong>$100 → $493</strong> і кілька тижнів <strong>тісної консолідації просто під ATH</strong>: класичний прапор на хаях. Weekly RSI 71 (сила, не перекупленість-розворот), MACD ще <strong>плюсовий +60</strong>, а <span class="p">OBV на рекордних хаях (1.71b)</span> — розподілу немає. Сильні тренди, що коилять на хаях, зазвичай вирішуються <span class="p">вгору</span>. Опора флагу — тижнева 9-EMA $377.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Парабола видихнулась</span><span class="v">RSI 74↓ · MACD завертає · OBV новий лоу</span></div>
-        <p>Розтягнуто на ~27% над denною 50-EMA. <span class="k">Bias вниз</span>, доки під зламаним стеком $435–455: цілі $407 → $386 → $360 → <span class="p">50-EMA $324</span>. Вхід — фейд бонсу, не гонитва діри.</p>
+        <div class="indi-top"><span class="t">Прапор на хаях</span><span class="v">RSI 71 · MACD +60 · OBV рекорд</span></div>
+        <p>Над тижневою 9-EMA $377 <span class="p">bias угору</span>: діп-бай $389–402, цілі $420 → $460 → ATH $490. Втрата <strong>$377</strong> (close) ламає флаг. <span class="k">Лінія SMH $580</span> — вимикач ризику.</p>
       </div>
       <div class="chart rv">
-        <svg data-lv='[["k",50,"$470","хай · дистрибуція",0.05],["y",90,"$412","now · перша червона свічка",0.12],["p",215,"$324","denna 50-EMA · магніт (−21%)",0.19]]' viewBox="0 0 470 300" role="img" aria-label="DELL weekly rejection off the highs, mean-reversion magnet at the rising 50-day">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.1s" d="M96,95 L180,70 L260,90 L360,215"/>
-          <circle class="dot-p pop" style="animation-delay:1.9s" cx="360" cy="215" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:2s" x="354" y="232" text-anchor="end">магніт корекції → 50-day $324</text>
+        <svg data-lv='[["k",45,"$490","ATH / верхній BB · пробій = T3",0.05],["p",105,"$460","верх флагу · опір",0.12],["y",165,"$401","now",0.19],["p",240,"$377","тижнева 9-EMA · опора флагу",0.26]]' viewBox="0 0 470 300" role="img" aria-label="DELL weekly run from 100 to 493 consolidating in a flag near the highs">
+          <path class="legup draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.2s" d="M60,262 L140,235 L210,150 L275,70 L320,88 L360,72 L400,95"/>
+          <circle class="dot-p pop" style="animation-delay:2s" cx="400" cy="95" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:2.1s" x="394" y="113" text-anchor="end">прапор просто під ATH — коиль на хаях</text>
         </svg>
       </div>
     </section>
@@ -101,34 +118,34 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$470</span><span class="lbl">ATH · дистрибуція · стоп / інвалідація</span></div>
-        <div class="rung res"><span class="px">$435–455</span><span class="lbl">Зламаний 1h стек (VWAP $454 / 50-EMA $441) · ре-шорт</span></div>
-        <div class="rung res"><span class="px">$426</span><span class="lbl">1h 200-EMA · опір</span></div>
-        <div class="rung now"><span class="px">$412</span><span class="lbl">ТУТ · не жени діру (RSI 35)</span></div>
-        <div class="rung sup"><span class="px">$407</span><span class="lbl">denna 21-BB mid · T1</span></div>
-        <div class="rung sup"><span class="px">$386</span><span class="lbl">Нижній denний BB · T2</span></div>
-        <div class="rung sup"><span class="px">$360</span><span class="lbl">Проміжна ціль</span></div>
-        <div class="rung sup"><span class="px">$324</span><span class="lbl">denna 50-EMA · T3 · магніт (−21%)</span></div>
+        <div class="rung res"><span class="px">$490</span><span class="lbl">ATH / верхній тижневий BB · T3 · пробій</span></div>
+        <div class="rung res"><span class="px">$452–460</span><span class="lbl">Верх діапазону / denний верхній BB · T2</span></div>
+        <div class="rung res"><span class="px">$420–423</span><span class="lbl">denний BB mid / 9-EMA · T1 / pivot</span></div>
+        <div class="rung now"><span class="px">$401</span><span class="lbl">ТУТ · пре-маркет · діп у саппорт</span></div>
+        <div class="rung sup"><span class="px">$389–391</span><span class="lbl">Нижній denний BB / low тижня · зона входу</span></div>
+        <div class="rung sup"><span class="px">$377</span><span class="lbl">Тижнева 9-EMA · опора флагу · СТОП-ЛІНІЯ (close нижче = вихід)</span></div>
+        <div class="rung res"><span class="px">$330</span><span class="lbl">⚠️ Заповнення гепу · немає саппорту між $377 і $330 — магніт, якщо флаг зламається</span></div>
       </div>
-      <p class="note rv">Не жени діру: фейд бонсу в <strong>$435–455</strong>, стоп reclaim $470. Downside: $407 → $386 → $360 → <strong>denna 50-EMA $324</strong> (−21%). Reclaim $470 повертає параболу.</p>
-      <p class="note k rv"><span class="y">Daily · 15/07:</span> −9.80% до $412.68 — дистрибуційна свічка від ATH $470, крізь увесь 1h стек, OBV новий лоу. Розтягнуто на ~27% над 50-EMA $324 — повітря вниз багато.</p>
+      <p class="note p rv">Діп-бай у діапазоні: купувати <strong>$389–402</strong>, стоп close &lt; $377 (тижнева 9-EMA). Апсайд: $420 → $460 → ATH $490.</p>
+      <p class="note k rv">⚠️ <strong>Ризик гепу:</strong> нижче $377 <strong>саппорту немає аж до $330</strong> (де почався earnings-стрибок). Тож $377 — не звичайний стоп, а <strong>лінія виходу</strong>: close під нею відкриває −18% повітря до заповнення гепу. Поки тримається — лонг цілий, але тримай стоп жорстко.</p>
+      <p class="note rv"><span class="y">Daily · 15/07 → пре-маркет 16/07:</span> −9.80% до $412.68, пре-маркет $401 — відкат з верху діапазону в нижню третину, на кластер саппорту. Тижневий прапор на хаях цілий, OBV рекорд — діп-бай, не розворот.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="DELL · SHORT">
-      <div class="eyebrow rv">PLAN · BIAS DOWN · FADE THE BOUNCE</div>
-      <h1 class="rv">Fade the bounce into <span class="hl">$435–455</span></h1>
-      <p class="sub rv">Від сьогодні ($412): дистрибуційний день −9.8% від хаїв $470 крізь увесь стек. 1h перепроданий (RSI 35) — <strong>не жени діру</strong>; дай бонс у зламаний стек і фейди, бо повітря вниз багато:</p>
+    <section class="slide" data-label="DELL · LONG">
+      <div class="eyebrow p rv">PLAN · BIAS UP · DIP-BUY</div>
+      <h1 class="rv">Buy the dip at <span class="hl">$389–402</span></h1>
+      <p class="sub rv">Від сьогодні ($401 пре-маркет): earnings-геп консолідується у прапорі на хаях, і пулбек стягнув ціну на кластер саппорту. Не жени — <strong>купуй діп у діапазон</strong>, стоп під опорою флагу, цілі складаються вгору:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">&gt; $470</span></span><span class="r">reclaim ATH знімає</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$435–455</span></span><span class="r">фейд бонсу в зламаний стек</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$407</span></span><span class="r">−1%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$386</span></span><span class="r">−6%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$324</span></span><span class="r">−21%</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$490</span></span><span class="r">+22% · ATH</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$460</span></span><span class="r">+15% · верх діапазону</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$420</span></span><span class="r">+5% · BB mid</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$389–402</span></span><span class="r">діп у саппорт-кластер</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">&lt; $377</span></span><span class="r">close нижче тижневої 9-EMA = флаг зламано</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($412):</strong> не переслідуй діру — дай бонс у <strong>$435–455</strong> і фейди. T1 $407 → T2 $386 → <strong>denna 50-EMA $324</strong> (−21%). Reclaim $470 скасовує.</p>
-      <p class="note rv">Блоу-оф топ від ATH на рекордному відтоку OBV — це найчистіший свіжий шорт зі свіжих імен. День 1, тож ризик відскоку є: фейди бонс, не жени.</p>
+      <p class="note p rv">🎯 <strong>Тригер від сьогодні ($401):</strong> ціна вже в зоні — купуй діп <strong>$389–402</strong>, стоп close &lt; $377. Цілі $420 → $460 → ATH $490 (~3:1 до верху діапазону, ~4.5:1 до ATH).</p>
+      <p class="note k rv">⚠️ <strong>Де виходимо:</strong> нижче $377 саппорту немає до $330 (заповнення earnings-гепу) — тож close під $377 = вихід негайно, не усереднення. Це коштує ~−18%, якщо ловити падаючий ніж. Поки тримається над флагом — сила зберігається. Додатковий вимикач — <strong>SMH $580</strong>: close нижче = risk-off, стій осторонь.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
