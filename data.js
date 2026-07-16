@@ -28,7 +28,7 @@ const STOCKS = [
     symbol: 'COHR', exchange: 'NYSE',
     price: '$285.85', change: '−4.51% · Jul 16 pre-market',
     signal: 'First weekly-structure break of the whole $50 → $450 run — knifed through the 21-week MA $321 and out the daily lower BB; pre-market $285.85 (daily RSI 34). Fade a bounce into $305–320 (broken 1h stack + daily 9-EMA); targets $265 → $247 → $215. 🕳️ Deep-correction bottom: 50-week ~$247 → weekly lower BB ~$215. Reclaim $332 negates.',
-    lead: { rank: 3, status: 'wait', entry: '$305–320', stop: '$332', targets: '$265 → $247 → $215', downside: '−31%', rr: '~3.5:1', edge: 'Freshest weekly-structure break — knifed through the 21-week MA on OBV rolling off record highs; daily 200-EMA $265 the first magnet, then 50-week $247' },
+    lead: { rank: 2, status: 'wait', entry: '$305–320', stop: '$332', targets: '$265 → $247 → $215', downside: '−31%', rr: '~3.5:1', edge: 'Freshest weekly-structure break — knifed through the 21-week MA on OBV rolling off record highs; daily 200-EMA $265 the first magnet, then 50-week $247' },
     side: 'short', accent: 'violet',
     date: '2026-07-16',
     story: 'stories/cohr.html',
@@ -40,6 +40,10 @@ const STOCKS = [
   // refreshed — old targets paid through, plans pulled down to the fresh
   // broken stacks (ASTS carries a tactical bounce-scalp trigger too).
   // GLW promoted 6→4: its break-and-retest completed and paid (−7.05% day).
+  // DELL FLIPPED short→long: it's a bull flag at the highs (ran $100→$493,
+  // consolidating under the ATH), not a distribution top — the −9.8% is a dip
+  // to range support. Removed from the board (dip-buy long like ALAB/CRDO);
+  // ranks below it shifted up one (board is now 1–10).
   //
   // ── Re-rated 2026-07-16 ── ranks now order by setup SOLIDITY (structure
   // quality, freshness, tight invalidation, no outside contingency), NOT by
@@ -50,7 +54,7 @@ const STOCKS = [
     symbol: 'AAOI', exchange: 'NASDAQ',
     price: '$109.09', change: '−13.04% · Jul 15 close',
     signal: 'Parabola fade paid in full — closed −13.04% at $109.09, bought its dip at the daily 200-EMA $102 (oversold). Fade a bounce $116–126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
-    lead: { rank: 7, status: 'wait', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group, but the fade already paid and the dip got bought at the 200-EMA (oversold) — needs the bounce to $116–126 first; deep bottom ~$58–47 (weekly MAs)' },
+    lead: { rank: 6, status: 'wait', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group, but the fade already paid and the dip got bought at the 200-EMA (oversold) — needs the bounce to $116–126 first; deep bottom ~$58–47 (weekly MAs)' },
     side: 'short', accent: 'violet',
     date: '2026-07-15',
     story: 'stories/aaoi.html',
@@ -67,7 +71,7 @@ const STOCKS = [
     symbol: 'INTC', exchange: 'NASDAQ',
     price: '$102.99', change: '−4.43% · Jul 15 close',
     signal: 'Worst OBV in the group — tagged $99.20 (lower BB) and bought back, still oversold. Fade a bounce $110–118; targets $98 → $92 → weekly 21-MA $89. 🕳️ Stage-2 bottom: 200-day $73 → the unfilled $68 gap. Reclaim $124 negates.',
-    lead: { rank: 9, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $89', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — but oversold and bought its dip at the lower BB, so the fade needs the bounce first; weekly 21-MA ~$89, then the $68 gap' },
+    lead: { rank: 8, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $89', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — but oversold and bought its dip at the lower BB, so the fade needs the bounce first; weekly 21-MA ~$89, then the $68 gap' },
     side: 'short', accent: 'blue',
     date: '2026-07-15',
     story: 'stories/intc.html',
@@ -76,7 +80,7 @@ const STOCKS = [
     symbol: 'MU', exchange: 'NASDAQ',
     price: '$904.28', change: '−8.02% · Jul 15 close',
     signal: 'Memory bellwether — closed on the daily 50-EMA $902, the flush held the line (weakly, Stoch 8). Fade the bounce $955–975; targets $866 → $800 → 21-week $665. 🕳️ Deep-correction bottom: weekly 21-MA ~$665 → 50-week ~$505 (if SMH loses $580). Reclaim $1,005 negates.',
-    lead: { rank: 8, status: 'wait', entry: '$955–975 bounce', stop: '$1,005', targets: '$866 → $800 → $665', downside: '−30%', rr: '~4:1', edge: 'Memory bellwether — but the flush HELD the 50-EMA and the deep targets need SMH to lose $580 (it held); wait for the $955–975 bounce' },
+    lead: { rank: 7, status: 'wait', entry: '$955–975 bounce', stop: '$1,005', targets: '$866 → $800 → $665', downside: '−30%', rr: '~4:1', edge: 'Memory bellwether — but the flush HELD the 50-EMA and the deep targets need SMH to lose $580 (it held); wait for the $955–975 bounce' },
     side: 'short', accent: 'cyan',
     date: '2026-07-15',
     story: 'stories/mu.html',
@@ -94,7 +98,7 @@ const STOCKS = [
     symbol: 'GLW', exchange: 'NYSE',
     price: '$169.53', change: '−2.81% · Jul 16 pre-market',
     signal: 'Break-and-retest paid — the $190 bounce got sold for a −7.05% distribution day (low $167.09), T1 $180 done; pre-market $169.53, 1h RSI 29. Re-short a bounce into $174–182 (1h stack); targets $167 → $155 (daily lower BB) → 200-day $141. Reclaim $186 (weekly 9-EMA) negates.',
-    lead: { rank: 4, status: 'wait', entry: '$174–182', stop: '$186', targets: '$167 → $155 → $141', downside: '−21%', rr: '~3.5:1', edge: 'Break-and-retest completed and paid — the retest got sold for a −7.05% distribution day on an OBV low; T1 done, refreshed zone right overhead' },
+    lead: { rank: 3, status: 'wait', entry: '$174–182', stop: '$186', targets: '$167 → $155 → $141', downside: '−21%', rr: '~3.5:1', edge: 'Break-and-retest completed and paid — the retest got sold for a −7.05% distribution day on an OBV low; T1 done, refreshed zone right overhead' },
     side: 'short', accent: 'blue',
     date: '2026-07-16',
     story: 'stories/glw.html',
@@ -103,7 +107,7 @@ const STOCKS = [
     symbol: 'SNDK', exchange: 'NASDAQ',
     price: '$1,614.99', change: '−8.13% · Jul 15 close',
     signal: 'Parabola fade paying — closed −8.13% at $1,614.99, under the daily 50-EMA $1,647 and extended (oversold). Next $1,572 → $1,536 → $1,488. 🕳️ Deep-correction bottom: weekly 21-MA ~$1,287 → 50-week ~$880. Reclaim $1,733 stalls it. Size small.',
-    lead: { rank: 10, status: 'live', entry: '$1,705–1,790 (filled)', stop: '$1,835', targets: '$1,572 → $1,536 → $1,488', downside: '−15%', rr: '3:1', edge: 'Parabola fade paying — under the 50-EMA; deep bottom ~$1,287–880 (weekly MAs); highest-risk name on the board, size small' },
+    lead: { rank: 9, status: 'live', entry: '$1,705–1,790 (filled)', stop: '$1,835', targets: '$1,572 → $1,536 → $1,488', downside: '−15%', rr: '3:1', edge: 'Parabola fade paying — under the 50-EMA; deep bottom ~$1,287–880 (weekly MAs); highest-risk name on the board, size small' },
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/sndk.html',
@@ -120,7 +124,7 @@ const STOCKS = [
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$828.30', change: '−5.69% · Jul 15 close',
     signal: 'Long stopped, flipped short — bounced off $801 but closed below the broken $838 stop. Fade $842–860; targets $770 → $720 → weekly 21-MA $681. 🕳️ Deep-correction bottom: 50-week ~$516. Reclaim $876 repairs the trend.',
-    lead: { rank: 11, status: 'wait', entry: '$842–860', stop: '$876', targets: '$770 → $720 → $681', downside: '−20%', rr: '~3:1', edge: 'Long stopped out — flipped short same session (lowest conviction on the board); bounced into the broken shelf, weekly 21-MA ~$681 the magnet' },
+    lead: { rank: 10, status: 'wait', entry: '$842–860', stop: '$876', targets: '$770 → $720 → $681', downside: '−20%', rr: '~3:1', edge: 'Long stopped out — flipped short same session (lowest conviction on the board); bounced into the broken shelf, weekly 21-MA ~$681 the magnet' },
     side: 'short', accent: 'amber',
     date: '2026-07-15',
     story: 'stories/stx.html',
@@ -137,7 +141,7 @@ const STOCKS = [
     symbol: 'NBIS', exchange: 'NASDAQ',
     price: '$193.30', change: '−3.11% · Jul 16 pre-market',
     signal: 'Breakdown leader — T1 $200 and T2 $192 paid (low $190); the +2.79% bounce stalled right under the 1h 50-EMA and pre-market takes it back. Re-short the bounce into $202–215 (1h 50-EMA → daily 50-EMA); targets $190 → $177 → 200-day $147. Reclaim $219 (1h 200-EMA) neutralizes.',
-    lead: { rank: 5, status: 'wait', entry: '$202–215', stop: '$219', targets: '$190 → $177 → $147', downside: '−29%', rr: '~3:1', edge: 'Breakdown leader — first bounce already failing at the 1h 50-EMA; T1/T2 paid, refreshed re-short zone sits just overhead' },
+    lead: { rank: 4, status: 'wait', entry: '$202–215', stop: '$219', targets: '$190 → $177 → $147', downside: '−29%', rr: '~3:1', edge: 'Breakdown leader — first bounce already failing at the 1h 50-EMA; T1/T2 paid, refreshed re-short zone sits just overhead' },
     side: 'short', accent: 'indigo',
     date: '2026-07-16',
     story: 'stories/nbis.html',
@@ -154,7 +158,7 @@ const STOCKS = [
     symbol: 'BE', exchange: 'NYSE',
     price: '$230.60', change: '−3.66% · Jul 16 pre-market',
     signal: 'Downtrend intact — pre-market tags the old T1 $226 at the lower 1h BB, so the plan pulls down to the fresh broken stack. Re-short a bounce into $235–249 (1h 9/50-EMA + daily 9-EMA); targets $211 → $185 → 50-week $170. Reclaim $263 (daily 50-EMA) negates.',
-    lead: { rank: 6, status: 'wait', entry: '$235–249', stop: '$263', targets: '$211 → $185 → $170', downside: '−30%', rr: '~3:1', edge: 'Established downtrend under the full MA stack — old T1 tagged pre-market, plan refreshed to the near broken stack; re-short the bounce, not the hole' },
+    lead: { rank: 5, status: 'wait', entry: '$235–249', stop: '$263', targets: '$211 → $185 → $170', downside: '−30%', rr: '~3:1', edge: 'Established downtrend under the full MA stack — old T1 tagged pre-market, plan refreshed to the near broken stack; re-short the bounce, not the hole' },
     side: 'short', accent: 'amber',
     date: '2026-07-16',
     story: 'stories/be.html',
@@ -177,11 +181,10 @@ const STOCKS = [
   },
   {
     symbol: 'DELL', exchange: 'NYSE',
-    price: '$412.68', change: '−9.80% · Jul 15',
-    signal: '−9.80% distribution day off the $470 ATH — fade the parabola, don’t chase the hole. Short a bounce into $435–455; targets $407 → $386 → 50-day $324. Reclaim $470 negates.',
-    lead: { rank: 2, status: 'wait', entry: '$435–455 bounce', stop: '$470', targets: '$407 → $386 → $324', downside: '−21%', rr: '~3:1', edge: 'Freshest signal on the board — −9.8% distribution day off the ATH on record OBV outflow, ~27% above the rising 50-day, clean invalidation at the ATH; fade the bounce, don’t chase' },
-    side: 'short', accent: 'red',
-    date: '2026-07-15',
+    price: '$401.00', change: '−2.71% · Jul 16 pre-market',
+    signal: 'Not a short — a bull flag at the highs. Ran $100 → $493, now consolidating just under the ATH (weekly RSI 71, MACD +, OBV record). The −9.8% day is a pullback into range support ($389 lower BB / $391 week low / $377 weekly 9-EMA), not a breakdown. Dip-buy $389–402; targets $420 → $460 → ATH $490. ⚠️ Exit on a close < $377 — no support until the $330 gap-fill (−18% air). Contingent on SMH holding $580.',
+    side: 'long', accent: 'emerald',
+    date: '2026-07-16',
     story: 'stories/dell.html',
   },
 ];
