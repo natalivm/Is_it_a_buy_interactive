@@ -96,9 +96,9 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$328.96', change: '−3.85% · Jul 16 pre-market',
-    signal: 'Broke the $358–380 shelf and fell straight to T1 — pre-market $328.96, basically at $324 and deeply oversold (RSI 27, Stoch 18). The clean retest never came, so the plan pulls down: fade a bounce into $342–356 (broken VWAP $345 / 9-EMA $353), stop $366; targets $324 → $300 → $292 (200-EMA). Reclaim $390 negates.',
-    lead: { rank: 2, status: 'wait', entry: '$342–356 bounce', stop: '$366', targets: '$324 → $300 → $292', downside: '−16%', rr: '~3.5:1', edge: 'Clean shelf-break confirmed and following through — fell straight to T1 without the retest; refreshed re-short zone at the broken VWAP/9-EMA, R:R now compressed since most of the first leg is done' },
+    price: '$322.30', change: '−5.79% · Jul 16 close',
+    signal: 'Shelf-break followed all the way through — closed −5.79% $322.30 (AH $322.87), below the old T1 $324 and the daily lower BB $341. Deeply oversold (daily Stoch 12, 1h RSI 34, Stoch 15). The old $342–356 zone is now overhead — fade a bounce into $332–346 (broken 1h mid-BB $332 / 50-EMA $340 / VWAP $345), stop $358; targets $308 → $292 → 🕳️ 200-EMA $280. Reclaim $358 negates.',
+    lead: { rank: 2, status: 'wait', entry: '$332–346 bounce', stop: '$358', targets: '$308 → $292 → $280', downside: '−9%', tail: '−13%', rr: '~3:1', edge: 'Clean shelf-break followed all the way through T1 to the daily lower BB, deeply oversold (Stoch 12); fade the bounce into the broken $332–346 stack, the 200-EMA $280 the magnet' },
     side: 'short', accent: 'blue',
     date: '2026-07-16',
     story: 'stories/ter.html',
@@ -165,7 +165,7 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$206.03', change: '−13.93% · Jul 16 close',
+    price: '$206.73', change: '−13.64% · Jul 16 close',
     signal: 'Downtrend paid big — closed −13.93% $206.03 (AH bounce $208.63). Blew through T1 $226 and T2 $211; now at the daily lower BB $207.5, deeply oversold (1h RSI 27, Stoch 7; daily Stoch 10). The old $235–249 zone is far overhead — fade the bounce into $219–234 (broken 1h 9-EMA $219 / mid-BB $228 / 50-EMA $234), stop $250; targets $200 → daily 200-EMA $185 → 🕳️ 50-week $170. Reclaim $250 negates.',
     lead: { rank: 5, status: 'wait', entry: '$219–234 bounce', stop: '$250', targets: '$200 → $185 → $170', downside: '−10%', tail: '−17%', rr: '~3:1', edge: 'Established downtrend paid big — −13.93% blew through T1/T2, now at the daily lower BB deeply oversold (1h RSI 27); fade the bounce into the broken $219–234 stack, the 200-EMA $185 → 50-week $170' },
     side: 'short', accent: 'amber',
