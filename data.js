@@ -51,6 +51,15 @@ const STOCKS = [
   // above already-paid fades and shorts leaning on a support that held.
   // ───────────────────────────────────────────────────────────────────────────
   {
+    symbol: 'DRAM', exchange: 'CBOE',
+    price: '$52.16', change: '−9.13% · Jul 16',
+    signal: 'Roundhill Memory ETF — ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, partly via total-return swaps), so it’s driven by Korean *memory* stocks (Samsung/SK Hynix), not the broad KOSPI. A feedback loop: US memory weakens → Samsung/Hynix fall overnight → DRAM gaps down at the US open → weakness feeds back into MU/SNDK/WDC/STX. Full momentum breakdown: −35.5% from $80.90, below every MA on falling OBV. Deeply oversold (4h Stoch 7) so a violent 8–12% bounce is likely — but it’s a lower high, not a bottom. Fade $55.5–58 (50–61% fib + broken stack), stop $61.5; targets $50 → key cluster $47.5–48.5 (61.8% fib + rising 50-day + lower BB $46.5) → $42–44. 🕳️ Washout $38.5–40. A close &gt;$61 + retest flips it neutral.',
+    lead: { rank: 11, status: 'wait', entry: '$55.5–58 bounce', stop: '$61.5', targets: '$50 → $48 → $43', downside: '−8%', tail: '−25%', rr: '~2.8:1', edge: 'Korean-memory basket (≈75% in Micron/Samsung/SK Hynix via swaps) in a full momentum breakdown, −35.5% off the high; oversold bounce likely but no bottom yet — fade the lower high into $55.5–58, the $47.5–48.5 fib/50-day cluster is the magnet, $61 is the regime-change line' },
+    side: 'short', accent: 'indigo',
+    date: '2026-07-16',
+    story: 'stories/dram.html',
+  },
+  {
     symbol: 'AAOI', exchange: 'NASDAQ',
     price: '$104.20', change: '−4.48% · Jul 16 pre-market',
     signal: 'Parabola fade paid in full — pre-market $104.20 is testing the daily 200-EMA $102 / T1 $101, deeply oversold (RSI 24, Stoch 8). Old $116–126 zone is now overhead, so fade a bounce into $112–120 (broken VWAP $112 / 9-EMA $113), stop $126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
