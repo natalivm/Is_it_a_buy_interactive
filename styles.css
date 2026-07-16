@@ -219,7 +219,10 @@ body.story-open { overflow: hidden; }
 .lb-status { display: inline-block; white-space: nowrap; font-family: var(--body); font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 999px; }
 .lb-status.lb-live { background: rgba(87, 232, 160, 0.14); color: var(--green); box-shadow: inset 0 0 0 1px rgba(87, 232, 160, 0.4); }
 .lb-status.lb-wait { background: rgba(255, 210, 74, 0.12); color: var(--yellow); box-shadow: inset 0 0 0 1px rgba(255, 210, 74, 0.35); }
-.lb-edge { font-family: var(--body); font-size: 12px; line-height: 1.35; color: var(--mut); white-space: normal; min-width: 170px; }
+.lb-prog { font-size: 12px; white-space: nowrap; }
+.lb-earned { display: block; color: var(--green); font-weight: 700; }
+.lb-planpct { display: block; font-weight: 600; }
+.lb-left { display: block; font-size: 10px; color: var(--mut); font-weight: 400; }
 .lb-foot { margin: 10px 4px 0; font-size: 11px; line-height: 1.5; color: var(--mut); }
 @media (max-width: 560px) { .lb-table th, .lb-table td { padding: 11px 13px; } }
 
@@ -348,6 +351,27 @@ body.story-open { overflow: hidden; }
     line-clamp: 4;
     overflow: hidden;
 }
+/* The board's one-line edge, shown on the card (removed from the table). */
+.tile-edge {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--yellow);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+/* Plan progress: earned-if-entered · full-plan % · % left (computed in
+   script.js from lead.entry / lead.targets / price — never hand-written). */
+.tile-progress {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--mut);
+}
+.tile-progress .tp-live { color: var(--green); font-weight: 600; }
+.tile-progress .tp-wait { color: var(--yellow); font-weight: 600; }
 .tile-foot {
     margin-top: auto;
     padding-top: 12px;
