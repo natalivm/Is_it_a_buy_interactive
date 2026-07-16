@@ -70,8 +70,8 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$513.84', change: '−8.78% · Jul 15 close',
-    signal: 'Range short paid — hit T1 $513 and bought its dip (oversold). Fade a bounce to $558–571; next $491. 🕳️ Deep-correction bottom: daily lower BB / weekly 21-MA ~$440–460 → 200-day / 50-week ~$326–334. Reclaim $580 negates.',
+    price: '$466.81', change: '−9.15% · Jul 16 close',
+    signal: 'Range short paid big — closed −9.15% $466.81 (AH $467.79), blew through T1 $513 and $491, now at the daily lower BB $464. Deeply oversold (daily Stoch 18, 1h RSI 32, Stoch 13). Fade a bounce into $486–513 (broken 1h 9-EMA / prior support), stop $535; targets $446 → weekly 21-MA $440 → 🕳️ 200-day $333. Reclaim $535 negates.',
     side: 'short',
     date: '2026-07-15',
     story: 'stories/wdc.html',
@@ -157,8 +157,8 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$579.43', change: '−2.73% · Jul 15 close',
-    signal: 'Technical fade, not a fundamental short — closed right on the daily 9-EMA $578 (barely pulled back, weekly RSI 73). Targets $559 → $544 → $526; cleaner re-entry a bounce to $590–605. Equipment benefits from the TSMC buildout — kept off the board. Reclaim $605 negates.',
+    price: '$560.93', change: '−3.19% · Jul 16 close',
+    signal: 'Technical fade, not a fundamental short — closed −3.19% $560.93 (AH $562.50), right at T1 $559 and the lower 1h BB $560. The daily is still holding up (RSI 48, Stoch 27) while the 1h is oversold (Stoch 21). Cleaner re-short a bounce into $575–590 (broken 1h stack), stop $605; targets $544 → $526 → $510. Equipment benefits from the TSMC buildout — kept off the board. Reclaim $605 negates.',
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/amat.html',

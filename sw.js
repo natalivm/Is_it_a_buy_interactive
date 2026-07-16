@@ -1,4 +1,4 @@
-const CACHE_NAME = 'isitabuy-v27';
+const CACHE_NAME = 'isitabuy-v28';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
