@@ -37,6 +37,40 @@ function fmtDate(iso) {
     return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
 
+// ── Plan progress ───────────────────────────────────────────────────────────
+// Computed live from each entry's `lead` (entry zone / targets) + `price`, so
+// the numbers refresh whenever the plan or the price label does. "Earned" is
+// measured from the entry-zone midpoint and only shown once the entry is
+// actually filled (lead.entry contains "filled") — unfilled plans honestly
+// report 0 instead of pretending the move was captured.
+function planNums(str) {
+    const m = String(str == null ? '' : str).replace(/,/g, '').match(/\d+(?:\.\d+)?/g);
+    return m ? m.map(Number) : [];
+}
+
+function planProgress(stock) {
+    const L = stock && stock.lead;
+    if (!L) return null;
+    const price = planNums(stock.price)[0];
+    const entryNums = planNums(L.entry);
+    const targets = planNums(L.targets);
+    if (!price || !entryNums.length || !targets.length) return null;
+    const entry = (Math.min(...entryNums) + Math.max(...entryNums)) / 2;
+    const target = targets[targets.length - 1];
+    // % gain of the trade going from `from` to `to` (sign-aware per side).
+    const gain = (from, to) => (stock.side === 'short' ? (from - to) / from : (to - from) / from) * 100;
+    return {
+        filled: /filled/i.test(L.entry),
+        earned: gain(entry, price),   // entry-zone midpoint → current price
+        target: gain(entry, target),  // entry-zone midpoint → deepest target
+        left: gain(price, target),    // current price → deepest target
+    };
+}
+
+function pct(n) {
+    return `${n < 0 ? '−' : '+'}${Math.abs(n).toFixed(1)}%`;
+}
+
 // ── Tile rendering ─────────────────────────────────────────────────────────
 function tileHtml(item) {
     return item && item.type === 'article' ? articleTileHtml(item) : stockTileHtml(item);
@@ -80,6 +114,10 @@ function stockTileHtml(stock) {
         ? `<span class="tile-change">${esc(stock.change)}</span>` : '';
     const signal = stock.signal
         ? `<p class="tile-signal">${esc(stock.signal)}</p>` : '';
+    const prog = planProgress(stock);
+    const progress = !prog ? '' : prog.filled
+        ? `<p class="tile-progress"><span class="tp-live">✅ Entered as called → ${pct(prog.earned)} so far</span> · full plan ${pct(prog.target)} · ${pct(prog.left)} left to the deepest target</p>`
+        : `<p class="tile-progress"><span class="tp-wait">⏳ Not triggered yet → 0%</span> · plan pays ${pct(prog.target)} from the zone · ${pct(prog.left)} left from here</p>`;
 
     // Live preview of the story's first (cover) slide. The iframe is
     // non-interactive (pointer-events off, not focusable) — the whole tile is
@@ -100,6 +138,7 @@ function stockTileHtml(stock) {
                     ${change}
                 </div>
                 ${signal}
+                ${progress}
                 <div class="tile-foot">
                     ${stock.date ? `<span class="tile-date">Опубліковано ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
                     <span class="tile-actions">
@@ -144,6 +183,10 @@ function renderLeaderboard() {
             : L.status === 'wait'
                 ? '<span class="lb-status lb-wait">⏳ wait for level</span>'
                 : '';
+        const prog = planProgress(s);
+        const progress = !prog ? '—' : prog.filled
+            ? `<span class="lb-earned">${pct(prog.earned)}</span><span class="lb-left">${pct(prog.left)} left</span>`
+            : `<span class="lb-planpct">${pct(prog.target)} plan</span><span class="lb-left">${pct(prog.left)} left</span>`;
         return `
             <tr class="lb-row${i === 0 ? ' lb-top' : ''}" data-symbol="${esc(s.symbol)}"
                 tabindex="0" role="button" aria-label="Open ${esc(s.symbol)} story">
@@ -155,6 +198,7 @@ function renderLeaderboard() {
                 <td>${esc(L.targets)}</td>
                 <td class="lb-dn${side === 'long' ? ' lb-up' : ''}">${downside}</td>
                 <td class="lb-rr">${rr}</td>
+                <td class="lb-prog">${progress}</td>
                 <td class="lb-edge">${esc(L.edge)}</td>
             </tr>`;
     }).join('');

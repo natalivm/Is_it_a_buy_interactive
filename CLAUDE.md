@@ -55,6 +55,14 @@ tail?, rr, rrStar?, edge }`). Entries with a `lead` render as rows in the
 whole table hides itself when nothing is ranked. This keeps the leaderboard in
 sync with the cards — it's built from `data.js`, not hand-written HTML.
 
+Ranked entries also render a computed **progress line** (tile) and a
+**Progress** column (table): earned-% since entry (only when `lead.entry`
+contains "filled" — unfilled plans count 0), full-plan % from the entry-zone
+midpoint to the deepest target, and % left from the current `price`. All three
+are parsed live from `lead.entry` / `lead.targets` / `price` by
+`planProgress()` in `script.js` — never hand-written, so keep those fields
+numeric-parseable.
+
 ## Adding a stock
 
 1. Author `stories/<symbol>.html` (copy an existing story as a template).
