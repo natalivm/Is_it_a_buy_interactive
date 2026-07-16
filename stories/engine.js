@@ -205,6 +205,25 @@ function createStory(cfg) {
     }, { passive: true });
   }
 
+  // Wheel (desktop): advance one slide per scroll gesture. A single lock that
+  // re-arms only after the wheel goes idle (~220ms) means one flick of a
+  // trackpad — which emits a long momentum stream — moves exactly one slide,
+  // while discrete mouse-wheel notches each step once. Vertical or horizontal.
+  const wheelEl = (cfg.tap !== false && stage) ? stage : (swipeEl || stage);
+  if (wheelEl) {
+    let wheelLock = false, wheelTimer = null;
+    wheelEl.addEventListener('wheel', e => {
+      const d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      if (Math.abs(d) < 6) return;         // ignore idle / sub-pixel jitter
+      e.preventDefault();                  // the deck fits the viewport — never scrolls
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => { wheelLock = false; }, 220);
+      if (wheelLock) return;
+      wheelLock = true;
+      d > 0 ? next() : prev();
+    }, { passive: false });
+  }
+
   window.addEventListener('resize', fitAll);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
 

@@ -69,11 +69,11 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$102.99', change: '−4.43% · Jul 15 close',
-    signal: 'Worst OBV in the group — tagged $99.20 (lower BB) and bought back, still oversold. Fade a bounce $110–118; targets $98 → $92 → weekly 21-MA $89. 🕳️ Stage-2 bottom: 200-day $73 → the unfilled $68 gap. Reclaim $124 negates.',
-    lead: { rank: 8, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $89', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — but oversold and bought its dip at the lower BB, so the fade needs the bounce first; weekly 21-MA ~$89, then the $68 gap' },
+    price: '$101.20', change: '−1.74% · Jul 16 pre-market',
+    signal: 'Worst OBV in the group — tagged $99.20 (lower BB) and bought back, pre-market $101.20 under the 50-EMA $106, still oversold (Stoch 8). Fade a bounce $110–118; targets $98 → $92 → weekly 21-MA $89. 🕳️ The $89 weekly 21-MA is the gate: lose it (and SMH $580) and there’s an air pocket to the rising 200-EMA ~$73 → the unfilled $66 gap (~−35%, full round-trip of the $50→$145 rally). Reclaim $124 negates.',
+    lead: { rank: 8, status: 'wait', entry: '$110–118', stop: '$124', targets: '$98 → $92 → $89', downside: '−25%', rr: '~2.9:1', edge: 'Worst OBV in the group — oversold, so the fade needs the bounce first; weekly 21-MA $89 is the gate to the air pocket down to the $66 gap / 200-EMA' },
     side: 'short', accent: 'blue',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/intc.html',
   },
   {
@@ -109,7 +109,7 @@ const STOCKS = [
     signal: '✓ Closed for full profit — the short from $1,705–1,790 hit its take-profit at T3 $1,488 (≈ +15%). Now flat and oversold (1h RSI 31), so a bounce is likely. Next trade: fade the bounce into $1,580–1,626 (stop $1,680) for a fresh leg down — $1,488 retest, then the deep parabola-unwind at the weekly 21-MA $1,287 → 50-week $880. Reclaim $1,680 ends the bias.',
     lead: { rank: 9, status: 'wait', entry: '$1,580–1,626 bounce', stop: '$1,680', targets: '$1,488 → $1,287 → $880', downside: '−20%', tail: '−45%', rr: '~4:1', edge: '✓ Booked ≈ +15% (short $1,705–1,790 → TP $1,488). Re-load on the bounce: fade $1,580–1,626 for the deep parabola unwind toward the weekly 21-MA $1,287' },
     side: 'short', accent: 'red',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/sndk.html',
   },
   {
