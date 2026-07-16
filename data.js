@@ -56,7 +56,7 @@ const STOCKS = [
     signal: 'Parabola fade paid in full — pre-market $104.20 is testing the daily 200-EMA $102 / T1 $101, deeply oversold (RSI 24, Stoch 8). Old $116–126 zone is now overhead, so fade a bounce into $112–120 (broken VWAP $112 / 9-EMA $113), stop $126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
     lead: { rank: 6, status: 'wait', entry: '$112–120 bounce', stop: '$126', targets: '$101 → $90 → $82', downside: '−29%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — fade paid straight to T1, now testing the 200-EMA $102 oversold; refreshed re-short zone at the broken VWAP/9-EMA, deep bottom ~$58–47 (weekly MAs)' },
     side: 'short', accent: 'violet',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/aaoi.html',
   },
   {
