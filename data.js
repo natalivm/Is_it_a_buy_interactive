@@ -52,9 +52,9 @@ const STOCKS = [
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'AAOI', exchange: 'NASDAQ',
-    price: '$109.09', change: '−13.04% · Jul 15 close',
-    signal: 'Parabola fade paid in full — closed −13.04% at $109.09, bought its dip at the daily 200-EMA $102 (oversold). Fade a bounce $116–126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
-    lead: { rank: 6, status: 'wait', entry: '$116–126', stop: '$132', targets: '$101 → $90 → $82', downside: '−32%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group, but the fade already paid and the dip got bought at the 200-EMA (oversold) — needs the bounce to $116–126 first; deep bottom ~$58–47 (weekly MAs)' },
+    price: '$104.20', change: '−4.48% · Jul 16 pre-market',
+    signal: 'Parabola fade paid in full — pre-market $104.20 is testing the daily 200-EMA $102 / T1 $101, deeply oversold (RSI 24, Stoch 8). Old $116–126 zone is now overhead, so fade a bounce into $112–120 (broken VWAP $112 / 9-EMA $113), stop $126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
+    lead: { rank: 6, status: 'wait', entry: '$112–120 bounce', stop: '$126', targets: '$101 → $90 → $82', downside: '−29%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — fade paid straight to T1, now testing the 200-EMA $102 oversold; refreshed re-short zone at the broken VWAP/9-EMA, deep bottom ~$58–47 (weekly MAs)' },
     side: 'short', accent: 'violet',
     date: '2026-07-15',
     story: 'stories/aaoi.html',
@@ -78,11 +78,11 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$904.28', change: '−8.02% · Jul 15 close',
-    signal: 'Memory bellwether — closed on the daily 50-EMA $902, the flush held the line (weakly, Stoch 8). Fade the bounce $955–975; targets $866 → $800 → 21-week $665. 🕳️ Deep-correction bottom: weekly 21-MA ~$665 → 50-week ~$505 (if SMH loses $580). Reclaim $1,005 negates.',
-    lead: { rank: 7, status: 'wait', entry: '$955–975 bounce', stop: '$1,005', targets: '$866 → $800 → $665', downside: '−30%', rr: '~4:1', edge: 'Memory bellwether — but the flush HELD the 50-EMA and the deep targets need SMH to lose $580 (it held); wait for the $955–975 bounce' },
+    price: '$863.21', change: '−4.54% · Jul 16 pre-market',
+    signal: 'Memory bellwether — lost the daily 50-EMA $902 that held Friday; pre-market $863.21 tagging T1 $866, deeply oversold (RSI 25, Stoch 6). Old $955–975 zone is overhead, so fade a bounce into $887–918 (broken 1h 9-EMA $887 / VWAP $911), stop $935; targets $800 → 21-week $665 → 50-week $505 (if SMH loses $580). Reclaim $1,005 negates.',
+    lead: { rank: 7, status: 'wait', entry: '$887–918 bounce', stop: '$935', targets: '$800 → $665 → $505', downside: '−26%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — lost the 50-EMA and tagged T1; refreshed re-short zone at the broken 1h 9-EMA/VWAP, 21-week $665 the magnet, 50-week $505 if SMH loses $580' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/mu.html',
   },
   {
