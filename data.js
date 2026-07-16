@@ -35,12 +35,11 @@ const STOCKS = [
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
   // Revisited to the Jul 15 CLOSE: MU, SMH, STX, INTC, AMAT, TER, AAOI, WDC, SNDK.
-  // ⏳ NOT YET REVISITED (still earlier Jul 15 intraday) — pick up next session:
-  //    GLW.  (also ALAB, CRDO, DELL — added on main, at intraday)
-  //    Each is tagged inline below with:  ⏳ TODO revisit → Jul 15 close
-  // Jul 16 pre-market: COHR added (weekly-structure break); BE, ASTS, NBIS
+  // ⏳ NOT YET REVISITED — ALAB, CRDO, DELL (added on main, at Jul 15 intraday).
+  // Jul 16 pre-market: COHR added (weekly-structure break); BE, ASTS, NBIS, GLW
   // refreshed — old targets paid through, plans pulled down to the fresh
   // broken stacks (ASTS carries a tactical bounce-scalp trigger too).
+  // GLW promoted 6→4: its break-and-retest completed and paid (−7.05% day).
   //
   // ── Re-rated 2026-07-16 ── ranks now order by setup SOLIDITY (structure
   // quality, freshness, tight invalidation, no outside contingency), NOT by
@@ -92,13 +91,12 @@ const STOCKS = [
     story: 'stories/ter.html',
   },
   {
-    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$187.64', change: '+2.47% · Jul 15',
-    signal: 'Lost the 50-day, bouncing into resistance $190–198 — mild pullback short; targets $180 → $167 → $152. Reclaim $198 weakens the thesis.',
-    lead: { rank: 6, status: 'wait', entry: '$190–198', stop: '$207', targets: '$180 → $167 → $152', downside: '−19%', rr: '~3:1', edge: 'Lost the 50-day and already bouncing into the $190–198 retest — defined break-and-retest, daily rolling over' },
+    price: '$169.53', change: '−2.81% · Jul 16 pre-market',
+    signal: 'Break-and-retest paid — the $190 bounce got sold for a −7.05% distribution day (low $167.09), T1 $180 done; pre-market $169.53, 1h RSI 29. Re-short a bounce into $174–182 (1h stack); targets $167 → $155 (daily lower BB) → 200-day $141. Reclaim $186 (weekly 9-EMA) negates.',
+    lead: { rank: 4, status: 'wait', entry: '$174–182', stop: '$186', targets: '$167 → $155 → $141', downside: '−21%', rr: '~3.5:1', edge: 'Break-and-retest completed and paid — the retest got sold for a −7.05% distribution day on an OBV low; T1 done, refreshed zone right overhead' },
     side: 'short', accent: 'blue',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/glw.html',
   },
   {
@@ -139,7 +137,7 @@ const STOCKS = [
     symbol: 'NBIS', exchange: 'NASDAQ',
     price: '$193.30', change: '−3.11% · Jul 16 pre-market',
     signal: 'Breakdown leader — T1 $200 and T2 $192 paid (low $190); the +2.79% bounce stalled right under the 1h 50-EMA and pre-market takes it back. Re-short the bounce into $202–215 (1h 50-EMA → daily 50-EMA); targets $190 → $177 → 200-day $147. Reclaim $219 (1h 200-EMA) neutralizes.',
-    lead: { rank: 4, status: 'wait', entry: '$202–215', stop: '$219', targets: '$190 → $177 → $147', downside: '−29%', rr: '~3:1', edge: 'Breakdown leader — first bounce already failing at the 1h 50-EMA; T1/T2 paid, refreshed re-short zone sits just overhead' },
+    lead: { rank: 5, status: 'wait', entry: '$202–215', stop: '$219', targets: '$190 → $177 → $147', downside: '−29%', rr: '~3:1', edge: 'Breakdown leader — first bounce already failing at the 1h 50-EMA; T1/T2 paid, refreshed re-short zone sits just overhead' },
     side: 'short', accent: 'indigo',
     date: '2026-07-16',
     story: 'stories/nbis.html',
@@ -156,7 +154,7 @@ const STOCKS = [
     symbol: 'BE', exchange: 'NYSE',
     price: '$230.60', change: '−3.66% · Jul 16 pre-market',
     signal: 'Downtrend intact — pre-market tags the old T1 $226 at the lower 1h BB, so the plan pulls down to the fresh broken stack. Re-short a bounce into $235–249 (1h 9/50-EMA + daily 9-EMA); targets $211 → $185 → 50-week $170. Reclaim $263 (daily 50-EMA) negates.',
-    lead: { rank: 5, status: 'wait', entry: '$235–249', stop: '$263', targets: '$211 → $185 → $170', downside: '−30%', rr: '~3:1', edge: 'Established downtrend under the full MA stack — old T1 tagged pre-market, plan refreshed to the near broken stack; re-short the bounce, not the hole' },
+    lead: { rank: 6, status: 'wait', entry: '$235–249', stop: '$263', targets: '$211 → $185 → $170', downside: '−30%', rr: '~3:1', edge: 'Established downtrend under the full MA stack — old T1 tagged pre-market, plan refreshed to the near broken stack; re-short the bounce, not the hole' },
     side: 'short', accent: 'amber',
     date: '2026-07-16',
     story: 'stories/be.html',
