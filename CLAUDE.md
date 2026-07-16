@@ -55,6 +55,9 @@ tail?, rr, rrStar?, edge }`). Entries with a `lead` render as rows in the
 whole table hides itself when nothing is ranked. This keeps the leaderboard in
 sync with the cards — it's built from `data.js`, not hand-written HTML.
 
+`lead.edge` (the one-line why-this-trade) renders on the stock **tile**, not in
+the table — the table carries only the numeric plan.
+
 Ranked entries also render a computed **progress line** (tile) and a
 **Progress** column (table): earned-% since entry (only when `lead.entry`
 contains "filled" — unfilled plans count 0), full-plan % from the entry-zone

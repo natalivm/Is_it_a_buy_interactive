@@ -114,6 +114,9 @@ function stockTileHtml(stock) {
         ? `<span class="tile-change">${esc(stock.change)}</span>` : '';
     const signal = stock.signal
         ? `<p class="tile-signal">${esc(stock.signal)}</p>` : '';
+    // The board's one-line edge lives on the card (the table only ranks).
+    const edge = stock.lead && stock.lead.edge
+        ? `<p class="tile-edge">⚡ ${esc(stock.lead.edge)}</p>` : '';
     const prog = planProgress(stock);
     const progress = !prog ? '' : prog.filled
         ? `<p class="tile-progress"><span class="tp-live">✅ Entered as called → ${pct(prog.earned)} so far</span> · full plan ${pct(prog.target)} · ${pct(prog.left)} left to the deepest target</p>`
@@ -138,6 +141,7 @@ function stockTileHtml(stock) {
                     ${change}
                 </div>
                 ${signal}
+                ${edge}
                 ${progress}
                 <div class="tile-foot">
                     ${stock.date ? `<span class="tile-date">Опубліковано ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
@@ -199,7 +203,6 @@ function renderLeaderboard() {
                 <td class="lb-dn${side === 'long' ? ' lb-up' : ''}">${downside}</td>
                 <td class="lb-rr">${rr}</td>
                 <td class="lb-prog">${progress}</td>
-                <td class="lb-edge">${esc(L.edge)}</td>
             </tr>`;
     }).join('');
 
