@@ -105,9 +105,9 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,614.99', change: '−8.13% · Jul 15 close',
-    signal: 'Parabola fade paying — closed −8.13% at $1,614.99, under the daily 50-EMA $1,647 and extended (oversold). Next $1,572 → $1,536 → $1,488. 🕳️ Deep-correction bottom: weekly 21-MA ~$1,287 → 50-week ~$880. Reclaim $1,733 stalls it. Size small.',
-    lead: { rank: 9, status: 'live', entry: '$1,705–1,790 (filled)', stop: '$1,835', targets: '$1,572 → $1,536 → $1,488', downside: '−15%', rr: '3:1', edge: 'Parabola fade paying — under the 50-EMA; deep bottom ~$1,287–880 (weekly MAs); highest-risk name on the board, size small' },
+    price: '$1,514.00', change: '−6.25% · Jul 16 pre-market',
+    signal: 'Fade paid — T1 $1,572 and T2 $1,536 both hit, pre-market $1,514 nearing T3 $1,488. But oversold here (1h RSI 31, Stoch 23), so manage it: book the core into $1,488, trail the runner toward the weekly 21-MA $1,287 → 50-week $880. New short only on a bounce into $1,580–1,626 (stop $1,680) — don’t chase the hole. Reclaim $1,680 ends the fade.',
+    lead: { rank: 9, status: 'live', entry: '$1,705–1,790 (filled)', stop: '$1,680 (trail)', targets: '$1,572 → $1,536 → $1,488', downside: '−15%', rr: '3:1', edge: 'Fade paid in full — T1/T2 both hit and oversold near T3; managing the winner now: book into $1,488, trail a runner to $1,287, re-short bounces only' },
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/sndk.html',
