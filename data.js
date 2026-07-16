@@ -36,10 +36,11 @@ const STOCKS = [
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
   // Revisited to the Jul 15 CLOSE: MU, SMH, STX, INTC, AMAT, TER, AAOI, WDC, SNDK.
   // ⏳ NOT YET REVISITED (still earlier Jul 15 intraday) — pick up next session:
-  //    GLW, ASTS, NBIS.  (also ALAB, CRDO, DELL — added on main, at intraday)
+  //    GLW.  (also ALAB, CRDO, DELL — added on main, at intraday)
   //    Each is tagged inline below with:  ⏳ TODO revisit → Jul 15 close
-  // Jul 16 pre-market: COHR added (weekly-structure break); BE refined — old
-  // T1 $226 tagged pre-market, plan pulled down to the fresh broken stack.
+  // Jul 16 pre-market: COHR added (weekly-structure break); BE, ASTS, NBIS
+  // refreshed — old targets paid through, plans pulled down to the fresh
+  // broken stacks (ASTS carries a tactical bounce-scalp trigger too).
   //
   // ── Re-rated 2026-07-16 ── ranks now order by setup SOLIDITY (structure
   // quality, freshness, tight invalidation, no outside contingency), NOT by
@@ -127,22 +128,20 @@ const STOCKS = [
     story: 'stories/stx.html',
   },
   {
-    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$66.85', change: '−2.87% · Jul 15',
-    signal: 'Grinding lower under the $73–78 zone — short working to $63 → $60 → $57; fade a bounce into the zone. Reclaim $80 puts it back in range. Size small.',
+    price: '$59.73', change: '−9.92% · Jul 16 pre-market',
+    signal: 'Flushed −9.9% pre-market straight through the plan — T1 $63 and T2 $60 paid, low $57.95, stretched under every band. Bounce scalp only on a reclaim of $61 (stop < $56.5, targets $63 → $66 → $69; skip if the catalyst is dilution). Re-short refreshed lower: $66–70, stop $72; targets $63 → $60 → $57. 🕳️ Deeper: $49 shelf → 200-week $41. Size small.',
     side: 'short', accent: 'violet',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/asts.html',
   },
   {
-    // ⏳ TODO revisit → Jul 15 close (still earlier intraday)
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$194.09', change: '−7.80% · Jul 15',
-    signal: 'The only name still breaking down — through T1, momentum accelerating. Fade a bounce to $220–228; targets $200 → $192 → $183. Reclaim $228 neutralizes.',
-    lead: { rank: 4, status: 'wait', entry: '$220–228 bounce', stop: '$235', targets: '$200 → $192 → $183', downside: '−12%', rr: '~3:1', edge: 'Momentum leader of the breakdown — blew through T1, still accelerating' },
+    price: '$193.30', change: '−3.11% · Jul 16 pre-market',
+    signal: 'Breakdown leader — T1 $200 and T2 $192 paid (low $190); the +2.79% bounce stalled right under the 1h 50-EMA and pre-market takes it back. Re-short the bounce into $202–215 (1h 50-EMA → daily 50-EMA); targets $190 → $177 → 200-day $147. Reclaim $219 (1h 200-EMA) neutralizes.',
+    lead: { rank: 4, status: 'wait', entry: '$202–215', stop: '$219', targets: '$190 → $177 → $147', downside: '−29%', rr: '~3:1', edge: 'Breakdown leader — first bounce already failing at the 1h 50-EMA; T1/T2 paid, refreshed re-short zone sits just overhead' },
     side: 'short', accent: 'indigo',
-    date: '2026-07-15',
+    date: '2026-07-16',
     story: 'stories/nbis.html',
   },
   {
