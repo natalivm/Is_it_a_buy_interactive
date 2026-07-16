@@ -51,6 +51,15 @@ const STOCKS = [
   // above already-paid fades and shorts leaning on a support that held.
   // ───────────────────────────────────────────────────────────────────────────
   {
+    symbol: 'DRAM', exchange: 'CBOE',
+    price: '$52.16', change: '−9.13% · Jul 16',
+    signal: 'Roundhill Memory ETF — a Korea-driven basket (Micron + Samsung + SK Hynix, so it gaps to the overnight KOSPI). The $28→$80 parabola is unwinding: −9.13% today broke the lower 4h BB $55.7 and the daily 50-EMA, deeply oversold (4h RSI 30, Stoch 7). Don’t chase the drop — fade a bounce into $55–58 (broken 4h band), stop $60.5; targets $50 → 200-day $47 → base $42. 🕳️ Full round-trip to the $38 parabola start (−27%). Reclaim $60.5 (4h 200-EMA) repairs.',
+    lead: { rank: 11, status: 'wait', entry: '$55–58 bounce', stop: '$60.5', targets: '$50 → $47 → $42', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Korea-driven memory basket — the $28→$80 parabola broke the 4h band on a −9% day, deeply oversold (Stoch 7) so fade the bounce not the drop; the April shelf / 200-day $47 is the magnet, and it gaps to the overnight Samsung/SK Hynix tape' },
+    side: 'short', accent: 'indigo',
+    date: '2026-07-16',
+    story: 'stories/dram.html',
+  },
+  {
     symbol: 'AAOI', exchange: 'NASDAQ',
     price: '$104.20', change: '−4.48% · Jul 16 pre-market',
     signal: 'Parabola fade paid in full — pre-market $104.20 is testing the daily 200-EMA $102 / T1 $101, deeply oversold (RSI 24, Stoch 8). Old $116–126 zone is now overhead, so fade a bounce into $112–120 (broken VWAP $112 / 9-EMA $113), stop $126; targets $101 → $90 → $82. 🕳️ Deep-correction bottom: weekly 21-MA ~$58 → 50-week ~$47. Reclaim $132 negates.',
