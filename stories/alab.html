@@ -18,8 +18,8 @@
     --line:#2C2C50;
     --ink:#FFFFFF;
     --muted:#A0A0C8;
-    --purple:#34D399;   /* green · support / target / up */
-    --pink:#FB5D74;     /* red · resistance / stop / down */
+    --purple:#34D399;
+    --pink:#FB5D74;
     --yellow:#F5B841;
     --deep:#06070F;
     --display:'Oswald',sans-serif;
@@ -27,23 +27,8 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#E6E7F6;
   }
-
-  /* Long deck: target rows read green, and the riser rises UP through them. */
-  .tpl .rg.tp .px,.tpl .rg.tp .r{color:var(--purple);}
-  .tpl .riser{background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
-    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
-  .slide.active .tpl .riser{animation:riseUp 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
-  @keyframes riseUp{
-    0%{transform:translateY(400%);opacity:0;}
-    12%{opacity:1;}
-    62%{transform:translateY(0%);}
-    74%{transform:translateY(9%);}
-    86%{transform:translateY(0%);}
-    94%{transform:translateY(3%);}
-    100%{transform:translateY(0%);}
-  }
-  .preview .tpl .riser{transform:translateY(0%);}
-  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(0%);} }
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
@@ -53,17 +38,17 @@
 
   <div class="deck" id="deck">
 
-    <!-- 1 · 1H / DAILY -->
+    <!-- 1 · 1H / DAILY · STOPPED -->
     <section class="slide active" data-label="ALAB · 1H/1D">
       <div class="cover-ticker rv">ALAB</div>
-      <div class="eyebrow p rv">1H/1D · FLUSH TO THE 50-DAY · DIP AT SUPPORT</div>
-      <h1 class="rv">Flush in the trend.<br><span class="hl">Dip on the 50-day.</span></h1>
-      <p class="sub rv">Обвал Warsh стягнув і найсильніший імʼя групи: <strong>−3.08% до $350.62</strong> intraday 15/07 — але денний графік каже головне: ціна флешнула просто на <span class="p">denну 50-EMA $339 / нижній BB $338</span> і її вже <span class="p">викуповують назад до $350</span>. RSI 45, Stochastics вимитий до 8, а тренд <strong>цілий над 200-day $225</strong>. Це діп на структурному саппорті — <span class="k">промивка ліквідністю</span>, не злам.</p>
+      <div class="eyebrow rv">1H/1D · DIP-BUY STOPPED · FLIP TO A FADE</div>
+      <h1 class="rv">Stopped out.<br><span class="hl">Now a fade.</span></h1>
+      <p class="sub rv">Найсильніший тренд групи <span class="k">зламався</span>: close 16/07 <strong>−8.81% $319.74</strong> (AH $318) — <span class="k">під стопом $330, 50-day $339 і нижнім denним BB $328</span>, а умова SMH $580 зникла. Глибоко перепродано (daily Stoch 10, 1h RSI 32, Stoch 13) — бонс імовірний, але двигун вниз. Фейд бонсу в $334–350 (зламані 50-day $339 / 1h 50-EMA $349), стоп $362.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",55,"$400","1h 200-EMA · опір",0.05],["k",100,"$365","зламаний 1h стек · опір",0.12],["y",165,"$350","now · викуп від 50-day",0.19],["p",245,"$339","denna 50-EMA · нижній BB $338 — саппорт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ALAB flushed onto the daily 50-EMA and is being bought back">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,90 L200,150 L300,248 L352,200"/>
-          <circle class="dot-p pop" style="animation-delay:1.35s" cx="352" cy="200" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">флеш до 50-day $339 → викуп до $350</text>
+        <svg data-lv='[["k",50,"$362","стоп · reclaim = repair",0.05],["k",100,"$334–350","зламаний 50-day $339 / 1h 50-EMA · re-short",0.12],["y",165,"$320","now · close −8.81%",0.19],["p",245,"$250","травнева база · глибокий магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ALAB stopped out below 330, strongest uptrend broke, deeply oversold">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,90 L190,120 L280,165 L330,192 L352,210"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="352" cy="210" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">close &lt; $330 стоп → фейд бонсу $334–350</text>
         </svg>
       </div>
     </section>
@@ -71,49 +56,47 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="ALAB · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">One red candle.<br><span class="hl">Landing on the 50-day.</span></h1>
+      <h1 class="rv">Red candle.<br><span class="hl">Через 50-day.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="ALAB daily red candle landing on the daily 50-EMA support">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="80"  x2="120" y2="80"/>
-          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="210" x2="120" y2="210"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="248" x2="120" y2="248"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="84"  text-anchor="end">362 open</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="214" text-anchor="end">350 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="252" text-anchor="end">339 50-day</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="72" x2="150" y2="255"/>
-          <rect class="candle-body fill" x="120" y="80" width="60" height="130" rx="7" style="animation-delay:.6s"/>
-          <line class="dash s-p fade" style="animation-delay:1.3s" x1="120" y1="248" x2="330" y2="248"/>
-          <text class="anno f-p fade" style="animation-delay:1.4s" x="216" y="243"><tspan class="h">50-day $339</tspan> — приземлення й викуп</text>
-          <line class="s-line fade" style="animation-delay:1.8s" x1="180" y1="210" x2="330" y2="210" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.85s" x="334" y="206"><tspan class="h">$350</tspan></text>
-          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="223" font-weight="700">−3.08% · на 50-day</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="ALAB daily red candle slicing through the 50-EMA and the daily lower band">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="150" x2="120" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="255" x2="330" y2="255"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">339 50-day</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">328 low-BB</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="259" text-anchor="end">320 close</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="64" x2="150" y2="258"/>
+          <rect class="candle-body fill" x="120" y="72" width="60" height="105" rx="7" style="animation-delay:.6s"/>
+          <line class="dash s-k fade" style="animation-delay:1.3s" x1="120" y1="150" x2="330" y2="150"/>
+          <text class="anno f-k fade" style="animation-delay:1.4s" x="214" y="145"><tspan class="h">50-day $339 / BB $328</tspan> — пробито</text>
+          <line class="s-line fade" style="animation-delay:1.8s" x1="180" y1="240" x2="330" y2="240" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.85s" x="334" y="236"><tspan class="h">$319.74</tspan></text>
+          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="253" font-weight="700">−8.81% · під стопом</text>
         </svg>
       </div>
-      <div class="verdict p rv">
-        <div class="vh">↑ Діп на саппорті — не злам</div>
-        <p>Червоний день з групою, але ціна <strong>флешнула просто на denну 50-EMA $339</strong> (нижній BB $338) і її <span class="p">викуповують</span>. RSI 45, Stochastics вимитий до 8 — перепроданість у <strong>сильному тренді над 200-day $225</strong>. Це діп, який купують на структурі: доки close &gt; $330, сетап на лонг цілий. Втрата $330 → $300 → тижнева 21-MA $247.</p>
+      <div class="verdict rv">
+        <div class="vh">⚠ Діп-бай вибито — найсильніший тренд зламано</div>
+        <p>Червоний день <strong>−8.81% до $319.74</strong> закрив <span class="k">під стопом $330, 50-day $339 і нижнім BB $328</span> — сетап на лонг мертвий, а умова SMH $580 зникла. Глибоко перепродано (daily Stoch 10, 1h RSI 32) — бонс імовірний, але <strong>двигун вниз</strong>. Фейд бонсу в $334–350; цілі $300 (червнева база) → $280 → <span class="k">травнева база $250</span>.</p>
       </div>
     </section>
 
-    <!-- 3 · RELATIVE STRENGTH -->
-    <section class="slide" data-label="ALAB vs SMH">
-      <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Sector dipped.<br><span class="hl">ALAB holds the trend.</span></h1>
-      <p class="sub rv">Warsh обвалив увесь тейп, але ALAB — <strong>один із найсильніших трендів групи</strong>: забіг $50 → $470 і лише перший серйозний пулбек до <span class="p">denної 50-EMA</span>. Поки зламані імʼя (AAOI/NBIS) роблять нові лоу, ALAB <span class="p">викуповують на саппорті</span>. Це <span class="p">діп-бай сильного лідера</span>, а не шорт — доки SMH тримає лінію $580.</p>
+    <!-- 3 · WHY IT FLIPPED -->
+    <section class="slide" data-label="ALAB · FLIP">
+      <div class="eyebrow y rv">WHY THE LONG IS OFF</div>
+      <h1 class="rv">Leader broke.<br><span class="hl">Stop hit + gate void.</span></h1>
+      <p class="sub rv">Лонг тримався на <strong>50-day $339</strong> і <strong>SMH &gt; $580</strong>. Сьогодні <span class="k">впали обидві</span>: SMH закрив −3.70% $568.92 (повний risk-off), а ALAB провалив 50-day і закрив під стопом $330. Забіг $50 → $470 цілий на великому таймфреймі, але навіть <span class="k">найсильніший лідер здав першу ногу</span> — і поки тейп у risk-off, це фейд, а не діп-бай.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Лідер у пулбеку</span><span class="v">RSI 45 · Stoch 8 (вимитий) · тренд &gt; 200-day</span></div>
-        <p>Денно над 200-day $225, флеш до 50-EMA $339 викуповують. <span class="p">Купувати діп у $338–352</span> (стоп close &lt; $330); цілі $380 → $400 → $430. <span class="k">Лінія SMH $580</span> вирішує: close нижче = risk-off, стій осторонь.</p>
+        <div class="indi-top"><span class="t">Лонг стоплено</span><span class="v">daily Stoch 10 · 1h RSI 32 · SMH &lt; $580</span></div>
+        <p>Під 50-day $339 і нижнім denним BB $328, OBV вниз. Глибоко перепродано (Stoch 10) → бонс. <span class="k">Bias вниз</span>: фейд бонсу в $334–350 (стоп $362); цілі $300 → $280 → травнева база $250. Reclaim $362 відновлює й повертає лонг-сценарій.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="ALAB holds its uptrend and is bought at the 50-day while broken names make new lows">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="150" x2="400" y2="150"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="140">denna 50-EMA</text>
-          <path class="bounce fade" style="animation-delay:.4s;stroke-dasharray:none" d="M80,120 L170,90 L260,110 L340,150 L365,120" stroke="#34D399" stroke-width="3"/>
-          <circle class="dot-p pop" style="animation-delay:1.3s" cx="365" cy="120" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.4s" x="358" y="112" text-anchor="end">ALAB · викуп від 50-day</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.55" d="M80,150 L170,190 L260,225 L360,250"/>
-          <text class="cap f-m fade" style="animation-delay:1.6s" x="360" y="266" text-anchor="end">зламані імʼя · нові лоу</text>
-          <text class="cap f-m fade" style="animation-delay:1.8s" x="235" y="292" text-anchor="middle">лідер тримає тренд, поки слабкі падають</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="ALAB breaks the 50-day as SMH loses its line">
+          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="115" x2="400" y2="115"/>
+          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="105">SMH $580 · ПРОБИТО</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,100 L180,118 L270,165 L360,210"/>
+          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="210" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.5s" x="354" y="214" text-anchor="end">ALAB · −8.81%</text>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="286" text-anchor="middle">стоп пробито + умова зникла — лідер здав ногу</text>
         </svg>
       </div>
     </section>
@@ -123,34 +106,32 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$430</span><span class="lbl">T3 · ретест зони хаїв</span></div>
-        <div class="rung res"><span class="px">$400</span><span class="lbl">1h 200-EMA · T2 / опір</span></div>
-        <div class="rung res"><span class="px">$380</span><span class="lbl">1h 50-EMA · T1 / опір</span></div>
-        <div class="rung res"><span class="px">$365</span><span class="lbl">1h 9-EMA · reclaim = підтвердження</span></div>
-        <div class="rung now"><span class="px">$350</span><span class="lbl">ТУТ · викуп від 50-day</span></div>
-        <div class="rung sup"><span class="px">$338–339</span><span class="lbl">denna 50-EMA / нижній BB · лінія</span></div>
-        <div class="rung sup"><span class="px">$300</span><span class="lbl">Попередня консолідація · саппорт</span></div>
-        <div class="rung sup"><span class="px">$247</span><span class="lbl">Тижнева 21-MA / 200-day · глибше</span></div>
+        <div class="rung res"><span class="px">$384</span><span class="lbl">1h 200-EMA · верхній опір</span></div>
+        <div class="rung res"><span class="px">$362</span><span class="lbl">Стоп re-short · reclaim = repair (повертає лонг)</span></div>
+        <div class="rung res"><span class="px">$334–350</span><span class="lbl">Зламаний 50-day $339 / 1h 50-EMA $349 · re-short бонсу</span></div>
+        <div class="rung now"><span class="px">$320</span><span class="lbl">ТУТ · close −8.81% · під стопом $330</span></div>
+        <div class="rung sup"><span class="px">$300</span><span class="lbl">Червнева база / круглий · T1</span></div>
+        <div class="rung sup"><span class="px">$280</span><span class="lbl">Проміжна підтримка · T2</span></div>
+        <div class="rung sup"><span class="px">$250</span><span class="lbl">🕳️ Травнева база / тижнева 21-MA · T3</span></div>
       </div>
-      <p class="note p rv">Діп-бай на 50-day: купувати <strong>$338–352</strong>, стоп close &lt; $330. Апсайд: $380 → $400 → $430. Втрата <strong>$330</strong> відкриває $300 → тижневу 21-MA $247.</p>
-      <p class="note rv"><span class="y">Daily · 15/07:</span> −3.08% до $350.62 — флеш просто на denну 50-EMA $339, RSI 45, Stochastics 8 (вимитий). Тренд цілий над 200-day $225 — діп сильного лідера, який викуповують.</p>
+      <p class="note rv">Діп-бай вибито (close &lt; $330, SMH &lt; $580). Глибоко перепродано (Stoch 10) — фейд бонсу в <strong>$334–350</strong>, стоп $362. Цілі $300 → $280 → <strong>травнева база $250</strong>. Reclaim $362 повертає лонг-сценарій.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="ALAB · LONG">
-      <div class="eyebrow p rv">PLAN · BIAS UP · DIP-BUY</div>
-      <h1 class="rv">Buy the dip at <span class="hl">$338–352</span></h1>
-      <p class="sub rv">Від сьогодні ($350): найсильніший тренд групи флешнув на denну 50-EMA $339 і його викуповують. Не жени — <strong>купуй діп на 50-day</strong>, додавай на reclaim $365, а цілі складаються вгору:</p>
+    <section class="slide" data-label="ALAB · SHORT">
+      <div class="eyebrow rv">PLAN · STOPPED · FADE THE BOUNCE</div>
+      <h1 class="rv">Fade into <span class="hl">$334–350</span></h1>
+      <p class="sub rv">Від сьогодні ($319.74 close): діп-бай вибито (close &lt; $330), умова SMH зникла. Глибоко перепродано → бонс імовірний. Фейд того бонсу в зламаний стек, цілі складаються вниз:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$430</span></span><span class="r">+23%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$400</span></span><span class="r">+14%</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$380</span></span><span class="r">+8%</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ENTRY</span><span class="px">$338–352</span></span><span class="r">купити флеш на 50-day</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">&lt; $330</span></span><span class="r">close нижче = злам сетапу</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$362</span></span><span class="r">reclaim = repair, повертає лонг</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$334–350</span></span><span class="r">фейд бонсу в зламаний 50-day / 1h 50-EMA</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$300</span></span><span class="r">червнева база</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$280</span></span><span class="r">проміжна підтримка</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$250</span></span><span class="r">🕳️ травнева база</span></div>
       </div>
-      <p class="note p rv">🎯 <strong>Тригер від сьогодні ($350):</strong> ціна вже в зоні — купуй діп <strong>$338–352</strong>, додавай на reclaim $365. Стоп close &lt; $330; цілі $380 → $400 → $430.</p>
-      <p class="note k rv">Контекст: це лонг у risk-off тейпі. <strong>Лінія SMH $580</strong> — вимикач: close нижче = крий/стій осторонь. Втрата $330 переводить у $300 → тижневу 21-MA $247.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($320):</strong> стоп пробито — фейд бонсу в <strong>$334–350</strong>, стоп $362. T1 $300 → T2 $280 → T3 травнева база $250. Reclaim $362 повертає лонг-сценарій.</p>
+      <p class="note rv">Забіг $50 → $470 цілий на великому таймфреймі, тож це поки корекція лідера. Але в risk-off (SMH &lt; $580) фейдимо силу: бонс — це шорт, доки $362 не відвойовано.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
