@@ -30,6 +30,16 @@
 
   .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--yellow) 40%,var(--line));border-radius:14px;background:rgba(245,165,36,.07);padding:13px 15px;}
   .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);display:flex;align-items:center;gap:7px;}
+  .verdict.k{border-color:color-mix(in srgb,var(--pink) 42%,var(--line));background:rgba(251,93,116,.07);}
+  .verdict.k .vh{color:var(--pink);}
+  /* two-column weight strip for the Korea slide */
+  .wt{display:flex;gap:8px;margin:6px 0 14px;}
+  .wt .cell{flex:1;border:1px solid var(--line);border-radius:11px;background:var(--panel2);padding:9px 10px;text-align:center;}
+  .wt .cell .n{font-family:var(--mono);font-weight:600;font-size:17px;color:var(--yellow);}
+  .wt .cell .l{font-size:10.5px;color:var(--muted);margin-top:2px;letter-spacing:.02em;}
+  .chk{list-style:none;padding:0;margin:2px 0 0;}
+  .chk li{font-size:12.5px;line-height:1.5;color:var(--sub);padding:3px 0 3px 22px;position:relative;}
+  .chk li::before{content:"✓";position:absolute;left:0;top:2px;color:var(--purple);font-weight:700;}
 </style>
 </head>
 <body>
@@ -42,102 +52,117 @@
     <!-- 1 · 4H / INTRADAY -->
     <section class="slide active" data-label="DRAM · 4H">
       <div class="cover-ticker rv">DRAM</div>
-      <div class="eyebrow rv">4H · ЗЛАМАВ СМУГУ · −9% ДЕНЬ</div>
-      <h1 class="rv">Параболу<br><span class="hl">розвертає.</span></h1>
-      <p class="sub rv">Roundhill Memory ETF пройшов <strong>$28 → $80</strong> за три місяці й тепер <span class="k">віддає ралі</span>: сьогодні <strong>−9.13% $52.16</strong>, провалив нижню 4h-смугу BB $55.7 та денну 50-EMA. RSI 30, Stoch 7 на 4h — <strong>глибоко перепродано</strong>. Двигун (OBV/MACD) вниз, тож не женемось за ціною: фейд бонсу в зламаний стек $55–58, стоп $60.5.</p>
+      <div class="eyebrow rv">4H · MOMENTUM BREAKDOWN · −35.5% ВІД ПІКУ</div>
+      <h1 class="rv">Не пулбек —<br><span class="hl">злам моменту.</span></h1>
+      <p class="sub rv">Roundhill Memory ETF пройшов <strong>$80.90 → $52.16 (−35.5%)</strong>. Це вже <span class="k">не звичайний відкат</span>, а повний злам моменту: нижчі максимуми й мінімуми на 4h, ціна <strong>під усіма ключовими MA</strong>, OBV падає (розподіл триває), MACD негативний. RSI 30, Stoch 7 — глибоко перепродано, тож <span class="p">різкий bounce імовірний</span>, але це ще <strong>падаючий ніж, не дно</strong>. Фейд бонсу в $55.5–58, стоп $61.5.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",46,"$60.5","стоп · 4h 200-EMA · gate",0.05],["k",92,"$55–58","зламана 4h-смуга · re-short",0.12],["y",165,"$52","now · −9% · RSI 30 · Stoch 7",0.19],["p",250,"$47","квітнева полиця · 200-day · магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="DRAM broke the 4H band on a 9 percent day, deeply oversold">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,88 L190,120 L280,168 L330,192 L352,210"/>
+        <svg data-lv='[["k",44,"$61.5","стоп · режимний рівень · 38.2% fib",0.05],["k",90,"$55.5–58","зламаний стек · re-short · lower high",0.12],["y",165,"$52","now · −9% · RSI 30 · Stoch 7",0.19],["p",250,"$47.5–48.5","61.8% fib · rising 50-day · магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="DRAM full momentum breakdown, oversold but no bottom">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,84 L190,118 L280,166 L330,192 L352,210"/>
           <circle class="dot-y pop" style="animation-delay:1.4s" cx="352" cy="210" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">зламав смугу $55.7 → фейд бонсу $55–58, магніт $47</text>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">злам моменту · фейд бонсу $55.5–58 · магніт $47.5–48.5</text>
         </svg>
       </div>
     </section>
 
-    <!-- 2 · DAILY CANDLE -->
+    <!-- 2 · DAILY / BREAKDOWN ANATOMY -->
     <section class="slide" data-label="DRAM · 1D">
-      <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Big red bar.<br><span class="hl">Стоїть у порожнечі.</span></h1>
+      <div class="eyebrow rv">DAILY · ANATOMY OF THE BREAKDOWN</div>
+      <h1 class="rv">Падаючий ніж.<br><span class="hl">Перепродано ≠ дно.</span></h1>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Повний злам моменту</span><span class="v">RSI ~40 · Stoch 12 · OBV нові лоу</span></div>
+        <p>Нижчі максимуми/мінімуми, ціна <span class="k">під усіма важливими MA</span>, OBV падає (розподіл), MACD негативний на denній і 4h. Перепроданість <strong>підвищує шанс різкого bounce, але не ставить дно</strong>. ETF може відскочити на <span class="p">8–12%</span> і все одно зробити лише черговий <strong>нижчий максимум</strong>.</p>
+      </div>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="DRAM daily red candle sitting between the daily mid-band and the April shelf">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="110" y2="70"/>
+        <svg viewBox="0 0 420 320" role="img" aria-label="DRAM daily red candle in the void between mid-band and the fib cluster">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="64"  x2="110" y2="64"/>
           <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="150" x2="110" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="256" x2="110" y2="256"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">59 mid-BB</text>
+          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="250" x2="110" y2="250"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="68"  text-anchor="end">80.90 пік</text>
           <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">52 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="260" text-anchor="end">47 полиця</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="254" text-anchor="end">47.5 fib</text>
           <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="60" x2="150" y2="176"/>
-          <rect class="candle-body fill" x="120" y="72" width="60" height="86" rx="7" style="animation-delay:.6s"/>
-          <line class="dash s-p fade" style="animation-delay:1.3s" x1="120" y1="256" x2="360" y2="256"/>
-          <line class="s-line fade" style="animation-delay:1.6s" x1="182" y1="90" x2="300" y2="90" stroke-width="1"/>
+          <rect class="candle-body fill" x="120" y="74" width="60" height="84" rx="7" style="animation-delay:.6s"/>
+          <line class="dash s-p fade" style="animation-delay:1.3s" x1="120" y1="250" x2="360" y2="250"/>
           <text class="anno f-m fade" style="animation-delay:1.65s" x="306" y="86"><tspan class="h">$52.16</tspan></text>
           <text class="anno f-k fade" style="animation-delay:1.65s" x="306" y="103" font-weight="700">−9.13%</text>
-          <text class="anno f-p fade" style="animation-delay:1.9s" x="200" y="205">квітнева полиця <tspan class="h">$47</tspan></text>
-          <text class="anno f-p fade" style="animation-delay:2.1s" x="200" y="252">= 200-day + нижня денна BB</text>
+          <text class="anno f-p fade" style="animation-delay:1.9s" x="196" y="242">61.8% ретрейс + rising 50-day</text>
         </svg>
       </div>
-      <div class="verdict rv">
-        <div class="vh">⚠ Мало історії — читаємо структуру</div>
-        <p>ETF молодий (лістинг ~квітень), тож немає багаторічних рівнів — торгуємо <span class="k">структуру самого ралі</span>. Свічка закрила під денною 50-EMA й нижньою 4h-смугою, у порожнечі між денним mid-BB $59 та <span class="p">квітневою полицею $47</span>. RSI денний 39, Stoch 12 — перепродано, але тренд-двигун вниз. Downside staged: $50 → <span class="p">$47</span> (200-day) → глибше $42 (база до пробою). Reclaim $60.5 = ремонт.</p>
-      </div>
+      <p class="note rv">ETF лістингувався 2 квітня — мало історії для надійних довгих рівнів, тож читаємо <strong>структуру самого ралі</strong> (fib-ретрейси). Ключова зона стабілізації — <span class="p">$47.5–48.5</span>: 61.8% fib + rising 50-day $47.5 + нижня денна BB $46.5 + зона пробою.</p>
     </section>
 
-    <!-- 3 · KOREA / RELATIVE STRENGTH -->
-    <section class="slide" data-label="DRAM vs Korea">
-      <div class="eyebrow y rv">ДРАЙВЕР · КОРЕЯ</div>
-      <h1 class="rv">Це кошик пам'яті.<br><span class="hl">Гепить під KOSPI.</span></h1>
-      <p class="sub rv">DRAM — це не одна акція, а <strong>кошик виробників пам'яті</strong>: Micron (США) + <span class="k">Samsung та SK Hynix</span>, що домінують у DRAM/HBM і торгуються в <strong>Кореї</strong>. Тому NAV фонду <span class="k">гепить під нічну сесію KOSPI</span> — рух Samsung/Hynix уночі задає розрив на відкритті. Це двосічно: корейський овернайт може як прискорити злив, так і дати різкий bounce.</p>
-      <div class="indi rv">
-        <div class="indi-top"><span class="t">Ризик гепу — обидва боки</span><span class="v">RSI 30 · Stoch 7 · OBV нові лоу</span></div>
-        <p>Провалив нижню 4h-смугу $55.7 — <span class="k">bias вниз</span>, цілі staged: $50 → 200-day $47 → база $42. Перепродано (Stoch 7), тож бонс фейдимо в $55–58, <strong>не переслідуємо ціну вниз</strong>. <span class="y">Тригер:</span> сильний нічний Samsung/Hynix = gap вгору в зону re-short; слабкий = продовження до $47.</p>
+    <!-- 3 · KOREA / FEEDBACK LOOP -->
+    <section class="slide" data-label="DRAM · драйвер">
+      <div class="eyebrow y rv">ДРАЙВЕР · КОРЕЙСЬКА ПАМ'ЯТЬ</div>
+      <h1 class="rv">Не весь KOSPI —<br><span class="hl">пам'ять.</span></h1>
+      <p class="sub rv">DRAM веде <strong>не широкий корейський ринок, а три акції пам'яті</strong>: <span class="k">Samsung ~25% + SK Hynix ~24%</span> (≈49% — корейська пам'ять) плюс <strong>Micron 25.8%</strong> = <span class="k">~75% фонду в трьох іменах</span> (частина ваги — через total-return свопи). Тому це кошик пам'яті, а не ставка на Корею.</p>
+      <div class="wt rv">
+        <div class="cell"><div class="n">25.8%</div><div class="l">Micron · США</div></div>
+        <div class="cell"><div class="n">~25%</div><div class="l">Samsung · KR</div></div>
+        <div class="cell"><div class="n">~24%</div><div class="l">SK Hynix · KR</div></div>
       </div>
-      <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="DRAM tracks Korean memory makers down">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="105" x2="400" y2="105"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="95">пік ралі · $80</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,100 L180,120 L270,175 L360,225"/>
-          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="225" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.5s" x="354" y="229" text-anchor="end">DRAM · −9%</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.7s;animation-duration:1s;opacity:.55" d="M80,108 L180,128 L270,162 L360,190"/>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="366" y="188">Korea memory</text>
-          <text class="cap f-m fade" style="animation-delay:1.9s" x="235" y="288" text-anchor="middle">NAV гепить під Samsung / SK Hynix уночі</text>
-        </svg>
+      <div class="verdict k rv">
+        <div class="vh">🔁 Петля зворотного зв'язку</div>
+        <p>US-пам'ять слабшає → <span class="k">Samsung/SK Hynix падають у корейську сесію</span> → DRAM <strong>гепить на відкритті США</strong> → слабкість повертається в <strong>MU, SNDK, WDC, STX</strong>. Саме це сталося в останньому зливі: KOSPI різко впав разом із Samsung та SK Hynix, а US-пам'ять продавали синхронно.</p>
       </div>
     </section>
 
     <!-- 4 · LEVELS -->
     <section class="slide" data-label="DRAM · РІВНІ">
-      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <div class="eyebrow rv">LEVELS · FIB-МАПА</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$67</span><span class="lbl">Верхня 4h BB · зона пропозиції · тренд назад</span></div>
-        <div class="rung res"><span class="px">$63</span><span class="lbl">4h 9/50 стек · вищий опір</span></div>
-        <div class="rung res"><span class="px">$60.5</span><span class="lbl">4h 200-EMA · денний mid-BB $59 · gate · стоп re-short · reclaim = repair</span></div>
-        <div class="rung res"><span class="px">$55–58</span><span class="lbl">Зламана нижня 4h-смуга $55.7 · re-short бонсу</span></div>
-        <div class="rung now"><span class="px">$52.16</span><span class="lbl">ТУТ · −9.13% · провалив смугу · RSI 30, Stoch 7</span></div>
-        <div class="rung sup"><span class="px">$50</span><span class="lbl">Кругле · перша зупинка · T1</span></div>
-        <div class="rung sup"><span class="px">$47</span><span class="lbl">Квітнева полиця · нижня денна BB $46.5 · 200-day · магніт · T2 (−10%)</span></div>
-        <div class="rung sup"><span class="px">$42</span><span class="lbl">База до пробою · T3 (−19%)</span></div>
-        <div class="rung sup"><span class="px">$38</span><span class="lbl">🕳️ Старт параболи · глибокий round-trip (−27%)</span></div>
+        <div class="rung res"><span class="px">$64–66</span><span class="lbl">Зона пропозиції · вище $68–70 треба Hynix+Samsung+Micron разом</span></div>
+        <div class="rung res"><span class="px">$60.5–61.5</span><span class="lbl">РЕЖИМНИЙ рівень · 38.2% fib + 4h mid-BB + звідки прискорився злам · close >$61 = neutral · стоп</span></div>
+        <div class="rung res"><span class="px">$55.5–58</span><span class="lbl">Перший значущий опір · зламані рівні + спадні MA · re-short (lower high)</span></div>
+        <div class="rung res"><span class="px">$53.8–54.5</span><span class="lbl">Перший півот · VWAP/коротка MA + 50% fib · short-cover, не ремонт</span></div>
+        <div class="rung now"><span class="px">$52.16</span><span class="lbl">ТУТ · −9.13% · shelf $51.5–52 тестується · RSI 30, Stoch 7</span></div>
+        <div class="rung sup"><span class="px">$49.5–50</span><span class="lbl">Психологічний + зона первинного пробою · T1 (−4/−5%)</span></div>
+        <div class="rung sup"><span class="px">$47.5–48.5</span><span class="lbl">НАЙВАЖЛИВІШИЙ кластер · 61.8% fib + rising 50-day $47.5 + пробій · T2 (−7/−9%)</span></div>
+        <div class="rung sup"><span class="px">$46.5</span><span class="lbl">Нижня денна BB · close <$47 = major failure</span></div>
+        <div class="rung sup"><span class="px">$42–44</span><span class="lbl">Попередня консолідація · T3 (−16/−20%)</span></div>
+        <div class="rung sup"><span class="px">$38.5–40</span><span class="lbl">🕳️ Глибокий ретрейс / стара база · washout (−23/−26%)</span></div>
       </div>
-      <p class="note rv">Провалив нижню 4h-смугу $55.7. Перепродано (RSI 30, Stoch 7) — не переслідуй ціну вниз, фейд бонсу в <strong>$55–58</strong>, стоп $60.5. Downside staged: $50 → <strong>квітнева полиця / 200-day $47</strong> (−10%), далі база $42 (−19%). Reclaim $60.5 скасовує.</p>
+      <p class="note rv">Перепродано (RSI 30, Stoch 7) — не переслідуй ціну вниз, фейд бонсу в <strong>$55.5–58</strong>, стоп $61.5. Головна ціль-магніт унизу — <strong>$47.5–48.5</strong> (61.8% fib + rising 50-day). Close &lt;$47 відкриває $42–44 → можливий washout $39. Close &gt;$61 + ретест = зміна режиму на neutral.</p>
     </section>
 
-    <!-- 5 · PLAN -->
+    <!-- 5 · SCENARIOS / WHAT MAKES A BOTTOM -->
+    <section class="slide" data-label="DRAM · сценарії">
+      <div class="eyebrow y rv">ЩО БУДЕ СПРАВЖНІМ ДНОМ?</div>
+      <h1 class="rv">$52 — <span class="hl">ще не дно.</span></h1>
+      <p class="sub rv">Для торгованого розвороту хочу побачити <strong>підтвердження</strong>, а не просто перепроданість:</p>
+      <ul class="chk rv">
+        <li>Кульмінація продажів / сильна розворотна свічка на $50 або $48</li>
+        <li>Вищий мінімум замість чергового прямого зливу</li>
+        <li>OBV вирівнюється, а не падає далі</li>
+        <li>Reclaim $54.5, потім $58</li>
+        <li>Samsung та SK Hynix припиняють нічну серію нижчих мінімумів</li>
+      </ul>
+      <div class="verdict p rv">
+        <div class="vh">🟢 Бичачий сценарій</div>
+        <p>$48–50 тримає → reclaim <strong>$54.5</strong> → пулбек тримається вище $52 → пробій <strong>$58</strong>.</p>
+      </div>
+      <div class="verdict k rv">
+        <div class="vh">🔴 Ведмежий сценарій (base case)</div>
+        <p>Bounce у <strong>$54–56</strong> → реджект → close &lt;$51.5 → рух до <strong>$48</strong>. Проміжний тренд лишається ведмежим, доки не відвойовано $58.</p>
+      </div>
+    </section>
+
+    <!-- 6 · PLAN -->
     <section class="slide" data-label="DRAM · SHORT">
-      <div class="eyebrow rv">PLAN · OVERSOLD · FADE THE BOUNCE</div>
-      <h1 class="rv">Fade into <span class="hl">$55–58</span></h1>
-      <p class="sub rv">Від сьогодні ($52.16): провалив нижню 4h-смугу на −9%, глибоко перепродано (Stoch 7). Гнатися за дном пізно — фейд бонсу в свіжо-зламаний стек, цілі staged:</p>
+      <div class="eyebrow rv">PLAN · OVERSOLD · FADE THE LOWER HIGH</div>
+      <h1 class="rv">Fade into <span class="hl">$55.5–58</span></h1>
+      <p class="sub rv">Від сьогодні ($52.16): повний злам моменту, глибоко перепродано (Stoch 7). Bounce на 8–12% імовірний, але це, найпевніше, <strong>черговий нижчий максимум</strong> — фейдимо його, не женемось за дном:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$60.5</span></span><span class="r">4h 200-EMA · reclaim = repair</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$55–58</span></span><span class="r">фейд бонсу в зламану 4h-смугу</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$50</span></span><span class="r">кругле · перша зупинка</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$47</span></span><span class="r">квітнева полиця · 200-day (−10%)</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$42</span></span><span class="r">база до пробою (−19%)</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$61.5</span></span><span class="r">режимний рівень · close >$61 = neutral</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$55.5–58</span></span><span class="r">фейд lower high у зламаний стек</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$50</span></span><span class="r">зона пробою</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$48</span></span><span class="r">61.8% fib · 50-day</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$43</span></span><span class="r">консолідація</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($52.16):</strong> перепродано — не переслідуй ціну вниз. Фейд бонсу в <strong>$55–58</strong>, стоп $60.5. T1 $50 → T2 <strong>200-day $47</strong> → T3 база $42. Reclaim $60.5 скасовує bias.</p>
-      <p class="note rv">⚠️ Кошик пам'яті — <strong>ризик гепу під Корею</strong>: нічний рух Samsung/SK Hynix задає розрив на відкритті. Тримай позу малою, і не шортай у діру — чекай на бонс.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($52.16):</strong> перепродано — не переслідуй ціну вниз. Фейд бонсу в <strong>$55.5–58</strong> (реджект = нижчий максимум), стоп $61.5. T1 $50 → T2 <strong>$47.5–48.5</strong> → T3 $42–44. Reclaim $61 + ретест скасовує bias.</p>
+      <p class="note rv">⚠️ Кошик пам'яті — <strong>ризик гепу під корейську пам'ять</strong>: нічний рух Samsung/SK Hynix задає розрив на відкритті. Тримай позу малою; шукай кульмінацію на $48–50 як перший сигнал розвороту.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
