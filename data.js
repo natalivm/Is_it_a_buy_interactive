@@ -105,9 +105,9 @@ const STOCKS = [
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$169.53', change: '−2.81% · Jul 16 pre-market',
-    signal: 'Break-and-retest paid — the $190 bounce got sold for a −7.05% distribution day (low $167.09), T1 $180 done; pre-market $169.53, 1h RSI 29. Re-short a bounce into $174–182 (1h stack); targets $167 → $155 (daily lower BB) → 200-day $141. Reclaim $186 (weekly 9-EMA) negates.',
-    lead: { rank: 3, status: 'wait', entry: '$174–182', stop: '$186', targets: '$167 → $155 → $141', downside: '−21%', rr: '~3.5:1', edge: 'Break-and-retest completed and paid — the retest got sold for a −7.05% distribution day on an OBV low; T1 done, refreshed zone right overhead' },
+    price: '$158.39', change: '−9.19% · Jul 16 close',
+    signal: 'Break-and-retest paid big — closed −9.19% $158.39 (AH $158), blew through T1 $180 and $167 toward the daily lower BB. Deeply oversold (daily Stoch 6, 1h RSI 24). The old $174–182 zone is far overhead — fade a bounce into $165–175 (broken 1h stack / prior $167 support), stop $184; targets $151 → daily lower BB $144 → 🕳️ $130. Reclaim $184 negates.',
+    lead: { rank: 3, status: 'wait', entry: '$165–175 bounce', stop: '$184', targets: '$151 → $144 → $130', downside: '−9%', tail: '−18%', rr: '~3:1', edge: 'Break-and-retest paid big — blew through T1 and $167 on an OBV collapse toward the daily lower BB, deeply oversold (1h RSI 24); fade the bounce into the broken $165–175 stack, the daily lower BB $144 the magnet' },
     side: 'short', accent: 'blue',
     date: '2026-07-16',
     story: 'stories/glw.html',
