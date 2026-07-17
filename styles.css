@@ -91,6 +91,17 @@ body.story-open { overflow: hidden; }
 .macro-arrow { color: var(--pink); font-weight: 700; }
 @media (min-width: 640px) { .macro-text { font-size: 15.5px; } }
 
+/* Barometer banner — sits directly under the macro banner, red-accented to
+   flag "read this first". Same layout as .macro-banner, distinct colours. */
+.smh-banner {
+    margin-top: -12px;
+    background: linear-gradient(92deg, rgba(251, 93, 116, 0.16), rgba(245, 165, 36, 0.09));
+    border-color: color-mix(in srgb, var(--pink) 32%, var(--hair));
+}
+.smh-banner:hover,
+.smh-banner:focus-visible { border-color: var(--pink); }
+.smh-tag { color: #fff; background: var(--pink); }
+
 /* ── Navbar ──────────────────────────────────────────────────────────────── */
 .navbar {
     position: sticky;
