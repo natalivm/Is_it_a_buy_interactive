@@ -123,8 +123,8 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$568.92', change: '−3.70% · Jul 16 close',
-    signal: 'Barometer BROKE the $580 line — closed −3.70% $568.92 (AH $568.55), losing the daily 50-EMA $581 and blowing clean through $573. This is the confirmed break the whole board was keyed to: full risk-off is ON, and the “contingent on SMH holding $580” longs (ALAB/CRDO/DELL) are on stop-watch. Next $563 (daily lower BB) → $557 → weekly 21-MA $513 (−9%, the mean-reversion magnet). $580 is now overhead — only a reclaim of $594 (9-EMA)/$607 repairs it. Main uptrend intact only above the 50-week EMA $443.',
+    price: '$548.00', change: '−3.68% · Jul 17 pre-market',
+    signal: 'Barometer BROKE the $580 line and kept going — closed −3.70% $568.92, then pre-market Jul 17 −3.68% to $548, slicing through $563 and $557 into the $540–552 shelf. Full risk-off is ON and the “contingent on SMH holding $580” longs (ALAB/CRDO/DELL) are void. The correction magnet is the $510–515 shelf — a triple confluence: 0.5 fib of the $359→$671 run ($515) + weekly 21-MA (~$513) + an unfilled gap (~$510), ≈ −9% from the close. Deeper break only under 0.618 $478 → 50-week $443. Reclaim 9-EMA $594 repairs.',
     side: 'short', accent: 'red',
     date: '2026-07-16',
     story: 'stories/smh.html',
