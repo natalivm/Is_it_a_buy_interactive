@@ -105,9 +105,9 @@ const STOCKS = [
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$169.53', change: '−2.81% · Jul 16 pre-market',
-    signal: 'Break-and-retest paid — the $190 bounce got sold for a −7.05% distribution day (low $167.09), T1 $180 done; pre-market $169.53, 1h RSI 29. Re-short a bounce into $174–182 (1h stack); targets $167 → $155 (daily lower BB) → 200-day $141. Reclaim $186 (weekly 9-EMA) negates.',
-    lead: { rank: 3, status: 'wait', entry: '$174–182', stop: '$186', targets: '$167 → $155 → $141', downside: '−21%', rr: '~3.5:1', edge: 'Break-and-retest completed and paid — the retest got sold for a −7.05% distribution day on an OBV low; T1 done, refreshed zone right overhead' },
+    price: '$158.39', change: '−9.19% · Jul 16 close',
+    signal: 'Break-and-retest paid big — closed −9.19% $158.39 (AH $158), blew through T1 $180 and $167 toward the daily lower BB. Deeply oversold (daily Stoch 6, 1h RSI 24). The old $174–182 zone is far overhead — fade a bounce into $165–175 (broken 1h stack / prior $167 support), stop $184; targets $151 → daily lower BB $144 → 🕳️ $130. Reclaim $184 negates.',
+    lead: { rank: 3, status: 'wait', entry: '$165–175 bounce', stop: '$184', targets: '$151 → $144 → $130', downside: '−9%', tail: '−18%', rr: '~3:1', edge: 'Break-and-retest paid big — blew through T1 and $167 on an OBV collapse toward the daily lower BB, deeply oversold (1h RSI 24); fade the bounce into the broken $165–175 stack, the daily lower BB $144 the magnet' },
     side: 'short', accent: 'blue',
     date: '2026-07-16',
     story: 'stories/glw.html',
@@ -123,8 +123,8 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$568.92', change: '−3.70% · Jul 16 close',
-    signal: 'Barometer BROKE the $580 line — closed −3.70% $568.92 (AH $568.55), losing the daily 50-EMA $581 and blowing clean through $573. This is the confirmed break the whole board was keyed to: full risk-off is ON, and the “contingent on SMH holding $580” longs (ALAB/CRDO/DELL) are on stop-watch. Next $563 (daily lower BB) → $557 → weekly 21-MA $513 (−9%, the mean-reversion magnet). $580 is now overhead — only a reclaim of $594 (9-EMA)/$607 repairs it. Main uptrend intact only above the 50-week EMA $443.',
+    price: '$548.00', change: '−3.68% · Jul 17 pre-market',
+    signal: 'Barometer BROKE the $580 line and kept going — closed −3.70% $568.92, then pre-market Jul 17 −3.68% to $548, slicing through $563 and $557 into the $540–552 shelf. Full risk-off is ON and the “contingent on SMH holding $580” longs (ALAB/CRDO/DELL) are void. The correction magnet is the $510–515 shelf — a triple confluence: 0.5 fib of the $359→$671 run ($515) + weekly 21-MA (~$513) + an unfilled gap (~$510), ≈ −9% from the close. Deeper break only under 0.618 $478 → 50-week $443. Reclaim 9-EMA $594 repairs.',
     side: 'short', accent: 'red',
     date: '2026-07-16',
     story: 'stories/smh.html',
