@@ -123,8 +123,8 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$548.00', change: '−3.68% · Jul 17 pre-market',
-    signal: 'Barometer BROKE the $580 line and kept going — closed −3.70% $568.92, then pre-market Jul 17 −3.68% to $548, slicing through $563 and $557 into the $540–552 shelf. Full risk-off is ON and the “contingent on SMH holding $580” longs (ALAB/CRDO/DELL) are void. The correction magnet is the $510–515 shelf — a triple confluence: 0.5 fib of the $359→$671 run ($515) + weekly 21-MA (~$513) + an unfilled gap (~$510), ≈ −9% from the close. Deeper break only under 0.618 $478 → 50-week $443. Reclaim 9-EMA $594 repairs.',
+    price: '$556.53', change: '−2.18% · Jul 17 close · AH $554',
+    signal: 'Barometer sliced into the shelf — day low $536.81 (testing toward the $510–515 magnet), then bounced to $567.41 and closed $556.53 (−2.18%), only to fade into the bell and slip to $554 AH: the bounce got sold. Still a confirmed break — the close sits below the $580 line, the daily 50-EMA $579 AND the daily lower BB $568, deeply oversold (daily RSI 41, Stoch curling up from 21; 4H MACD ticking green). This is the oversold dead-cat bounce the whole short board is built to fade. Oil +4.5% (Brent +4.6%) on the Iran development adds a geopolitical risk-off tailwind. The $510–515 confluence magnet stays live; only a reclaim of $580 / 9-EMA $594 repairs.',
     side: 'short', accent: 'red',
     date: '2026-07-17',
     story: 'stories/smh.html',
