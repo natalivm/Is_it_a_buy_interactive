@@ -26,9 +26,9 @@
 const STOCKS = [
   {
     symbol: 'COHR', exchange: 'NYSE',
-    price: '$276.96', change: '−7.49% · Jul 16 close',
-    signal: 'Weekly-structure break following through — closed −7.49% $276.96 (AH $276), knifing further below the 21-week MA $321 toward the daily 200-day. Deeply oversold (daily RSI 33, Stoch 7; 1h RSI 27). The old $305–320 zone is overhead — fade a bounce into $288–302 (broken 1h stack / daily 9-EMA), stop $310; targets $265 (200-day) → 50-week $247 → 🕳️ weekly lower BB $215. Reclaim $321 negates.',
-    lead: { rank: 1, status: 'wait', entry: '$288–302 bounce', stop: '$310', targets: '$265 → $247 → $215', downside: '−11%', tail: '−22%', rr: '~3.5:1', edge: 'Freshest weekly-structure break, following through below the 21-week MA on OBV off record highs; deeply oversold, fade the bounce — the daily 200-day $265 the first magnet, then 50-week $247' },
+    price: '$277.60', change: '+0.23% · Jul 17 close · AH $277.19',
+    signal: 'Weekly-structure break, now basing at T1 — closed flat +0.23% $277.60 (AH $277.19) after the day low $255.14 tagged the daily 200-day / T1 $265 and recovered. Deeply oversold (daily RSI 33, Stoch 8), basing under the 21-week MA $321. The $288–302 zone is overhead — fade a bounce there (broken 1h stack / daily 9-EMA), stop $310; next targets 50-week $247 → 🕳️ weekly lower BB $215. Reclaim $321 negates.',
+    lead: { rank: 1, status: 'wait', entry: '$288–302 bounce', stop: '$310', targets: '$265 → $247 → $215', downside: '−11%', tail: '−22%', rr: '~3.5:1', edge: 'Freshest weekly-structure break below the 21-week MA on OBV off record highs — the day low $255 already tagged the 200-day/T1 $265; deeply oversold, fade the bounce, the 50-week $247 the next magnet' },
     side: 'short', accent: 'violet',
     date: '2026-07-16',
     story: 'stories/cohr.html',
@@ -160,9 +160,9 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$560.93', change: '−3.19% · Jul 16 close',
-    signal: 'Technical fade, not a fundamental short — closed −3.19% $560.93 (AH $562.50), right at T1 $559 and the lower 1h BB $560. The daily is still holding up (RSI 48, Stoch 27) while the 1h is oversold (Stoch 21). Cleaner re-short a bounce into $575–590 (broken 1h stack), stop $605; targets $544 → $526 → $510. Equipment benefits from the TSMC buildout — kept off the board. Reclaim $605 negates.',
-    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — sitting at T1 $559; cleaner re-short a bounce into $575–590, targets $544 → $510',
+    price: '$529.66', change: '−5.57% · Jul 17 close · AH $522.24',
+    signal: 'Technical fade paid in full — closed −5.57% $529.66 (AH $522.24), slicing through T1 $559, T2 $544 and T3 $526 in one move. Now oversold (daily Stoch 22, RSI 44; 1h RSI 33). The $575–590 fade zone is far overhead, nearer resistance $554. The next leg ($510 and below) comes only on a bounce — re-short into $554 → $575–590, stop $605. Equipment benefits from the TSMC buildout, so this is a technical fade, kept off the board. Reclaim $605 negates.',
+    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — sliced through T1–T3 to $530 in one -5.57% move; book the targets, re-short a bounce into $554–590 for the next leg to $510',
     side: 'short', accent: 'red',
     date: '2026-07-15',
     story: 'stories/amat.html',
