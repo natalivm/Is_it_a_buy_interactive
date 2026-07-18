@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$NVDA — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  :root{
+    --page-bg:#04120B;
+    --bg:#08180F;
+    --panel:#0E2418;
+    --panel2:#0B1E14;
+    --line:#1C3A28;
+    --ink:#FFFFFF;
+    --muted:#8FBFA3;
+    --purple:#34D399;
+    --pink:#FB5D74;
+    --yellow:#F5C542;
+    --deep:#04120B;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+    --sub:#DCEFE3;
+  }
+  /* green up-riser + bullish target colours — long deck overrides */
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .tpl .rg.tp .px,.tpl .rg.tp .r{color:var(--purple);}
+  .tpl .riser{background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
+    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · COVER / STRUCTURE -->
+    <section class="slide active" data-label="NVDA · ІГП">
+      <div class="cover-ticker rv">NVDA</div>
+      <div class="eyebrow rv">DAILY · ІНВЕРСНА Г&amp;П — ВІДКИНУЛО ВІД ШИЇ</div>
+      <h1 class="rv">Відкинуло від шиї.<br><span class="hl">Не пробій.</span></h1>
+      <p class="sub rv">NVDA — <span class="p">лідер, що тримається</span>, поки пам’ять ламається. Сформував інверсну голову-плечі (<strong>ліве плече $200–203 · голова $194–196 · праве плече $199–202</strong>) і підійшов до <strong>лінії шиї $211–214</strong> — але великий червоний бар на об’ємі (<strong>−2.21% $202.81</strong>, AH $202.49) відкинув назад. Патерн <span class="p">пошкоджений, але не зламаний</span>. Потрібне підтвердження: денне закриття понад <strong>$214–215</strong> на об’ємі.</p>
+      <div class="chart rv">
+        <svg data-lv='[["k",88,"$214","шия · відкинуло",0.08]]' viewBox="0 0 470 300" role="img" aria-label="Inverse head and shoulders rejected at the neckline">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M55,150 L100,178 L150,96 L210,224 L270,96 L325,172 L363,122"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.6s;animation-duration:.6s" d="M363,122 L400,164"/>
+          <circle class="dot-p pop" style="animation-delay:1.35s" cx="100" cy="178" r="5"/>
+          <circle class="dot-p pop" style="animation-delay:1.45s" cx="210" cy="224" r="5"/>
+          <circle class="dot-p pop" style="animation-delay:1.55s" cx="325" cy="172" r="5"/>
+          <circle class="dot-k pop" style="animation-delay:2.1s" cx="400" cy="164" r="6"/>
+          <text class="capm fade" style="animation-delay:1.9s" x="210" y="245" text-anchor="middle">голова $194–196</text>
+          <text class="cap f-k fade" style="animation-delay:2.25s" x="250" y="290" text-anchor="middle">ІГП відкинуло від шиї $214 — не пробій</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-label="NVDA · 1D">
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Гэп-даун.<br><span class="hl">$198 викупили.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 340" role="img" aria-label="NVDA daily gap-down with a long lower wick bought back at the 198 right-shoulder support">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
+          <line class="dash s-w fade" style="animation-delay:.18s" x1="60" y1="150" x2="120" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.3s"  x1="60" y1="270" x2="120" y2="270"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">214 шия</text>
+          <text class="ax f-w fade" style="animation-delay:.38s" x="54" y="154" text-anchor="end">202.81 close</text>
+          <text class="ax f-p fade" style="animation-delay:.5s"  x="54" y="274" text-anchor="end">197.97 low</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.35s" x1="210" y1="128" x2="210" y2="270"/>
+          <rect class="candle-body up fill" x="182" y="146" width="56" height="12" rx="4" style="animation-delay:.7s"/>
+          <line class="dash s-p fade" style="animation-delay:1.4s" x1="120" y1="270" x2="330" y2="270"/>
+          <text class="anno f-p fade" style="animation-delay:1.5s" x="214" y="264"><tspan class="h">Праве плече $198–200</tspan> — викуплено</text>
+          <text class="anno f-k fade" style="animation-delay:1.9s" x="240" y="150"><tspan class="h">$202.81</tspan> · −2.21%</text>
+        </svg>
+      </div>
+      <div class="verdict rv">
+        <div class="vh">⚠ Відхилення від шиї — але плече встояло</div>
+        <p>Гэп-даун на об’ємі, <strong>−2.21% $202.81</strong> — але денний low <strong>$197.97</strong> торкнувся <span class="p">правого плеча $198–200</span> і його <span class="p">викупили</span> (довгий нижній хвіст). Раніше відхилення від <span class="k">шиї $211–214</span> на об’ємі каже «доведи»: <strong>прямий пробій менш імовірний</strong>, поки NVDA швидко не поверне понад $210. Це лонг з підтвердженням, не гонитва.</p>
+      </div>
+    </section>
+
+    <!-- 3 · RELATIVE STRENGTH -->
+    <section class="slide" data-label="NVDA vs SMH">
+      <div class="eyebrow y rv">ВІДНОСНА СИЛА</div>
+      <h1 class="rv">Лідер тримається.<br><span class="hl">Група ламається.</span></h1>
+      <p class="sub rv">Барометр <strong>SMH продав відскок</strong> (close $556.53, під $580), пам’ять/сховище ламаються — а NVDA <span class="p">тримається над усіма ключовими MA</span> (denна 200-EMA $189, 50-EMA $204), консолідується під максимумами $229. Це <span class="p">найсильніший</span> — але двосічно: якщо група котиться далі, лідер піде останнім. Бичачий патерн, але зараз — <span class="k">очікування</span>.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Лідер — тримається над MA</span><span class="v">daily RSI ~48 · 4H Stoch ~22 · над 200-EMA $189</span></div>
+        <p>Консолідується під $229, над усіма ключовими MA, поки група під водою. <span class="k">Але:</span> ризик-офф тейп живий, доки SMH під $580 — тож лонг-лідер проти тренду потребує підтвердження ($214 пробій) або чіткого утримання плеча ($198–200).</p>
+      </div>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="NVDA holds a range while SMH breaks down">
+          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="150" x2="400" y2="150"/>
+          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="140">SMH · під $580, бонс продали</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,150 L170,140 L260,150 L360,132"/>
+          <circle class="dot-p pop" style="animation-delay:1.4s" cx="360" cy="132" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.5s" x="354" y="124" text-anchor="end">NVDA · тримається</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.7s;animation-duration:1s;opacity:.6" d="M80,178 L170,192 L260,206 L360,220"/>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="285" text-anchor="middle">лідер тримається над MA — група ламається</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="NVDA · РІВНІ">
+      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <h1 class="rv">Level <span class="hl">map</span></h1>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$230–234</span><span class="lbl">🚀 ціль виміру ІГП · тільки після пробою</span></div>
+        <div class="rung res"><span class="px">$214–215</span><span class="lbl">Лінія шиї · денне закриття = підтвердження пробою</span></div>
+        <div class="rung res"><span class="px">$210</span><span class="lbl">Повернення сюди тримає пробій живим</span></div>
+        <div class="rung now"><span class="px">$202.81</span><span class="lbl">ТУТ · close −2.21% · AH $202.49</span></div>
+        <div class="rung sup"><span class="px">$198–200</span><span class="lbl">Праве плече · найближча підтримка · тут купуй утримання</span></div>
+        <div class="rung sup"><span class="px">$194–196</span><span class="lbl">Голова · втрата = злам ІГП</span></div>
+        <div class="rung sup"><span class="px">$189</span><span class="lbl">Denна 200-EMA · проміжна підтримка</span></div>
+        <div class="rung sup"><span class="px">$182</span><span class="lbl">🕳️ наступна велика підтримка нижче</span></div>
+      </div>
+      <p class="note rv">Інверсна голова-плечі <strong>відкинута від шиї $211–214</strong>, але праве плече <strong>$198–200</strong> викупили. Купуй утримання <strong>$198–200</strong> (стоп &lt;$194), або жди <strong>пробою $214–215</strong> на об’ємі. <span class="y">🚀 Ціль:</span> виміру <strong>$230–234</strong> — тільки після підтвердження. Втрата <strong>$194–196</strong> ламає патерн → $182.</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="NVDA · LONG">
+      <div class="eyebrow rv">PLAN · LONG · ОЧІКУВАННЯ</div>
+      <h1 class="rv">Купуй утримання <span class="hl">$198–200</span></h1>
+      <p class="sub rv">Від п’ятниці ($202.81 close): ІГП відкинуло від шиї, але праве плече $198–200 викупили (low $197.97). <span class="p">Лонг з підтвердженням</span> — два входи: утримання плеча <strong>$198–200</strong> (тісний стоп &lt;$194), або пробій-підтвердження <strong>$214–215</strong> на об’ємі:</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3 🚀</span><span class="px">$234</span></span><span class="r">ціль виміру ІГП</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$230</span></span><span class="r">зона виміру</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$214</span></span><span class="r">лінія шиї · пробій</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">BUY</span><span class="px">$198–200</span></span><span class="r">утримання правого плеча</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$194</span></span><span class="r">втрата $194–196 = злам ІГП → $182</span></div>
+      </div>
+      <p class="note p rv">🎯 <strong>Тригер від п’ятниці ($202.81):</strong> або купуй утримання <strong>$198–200</strong> (стоп &lt;$194), або жди денне закриття понад <strong>$214–215</strong> на об’ємі → ціль виміру <strong>$230–234</strong>. Без гонитви — прямий пробій менш імовірний, поки не поверне понад $210.</p>
+      <p class="note rv">SMH <strong>під $580</strong> — тейп ризик-офф. Це лонг-лідер <span class="k">проти тренду</span>: менший розмір, чіткий стоп, і повага до барометра, доки $580 не відвойовано.</p>
+      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory();
+</script>
+</body>
+</html>

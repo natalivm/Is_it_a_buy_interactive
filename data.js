@@ -25,6 +25,15 @@
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
   {
+    symbol: 'NVDA', exchange: 'NASDAQ',
+    price: '$202.81', change: '−2.21% · Jul 17 close · AH $202.49',
+    signal: 'Inverse H&S rejected at the neckline — a “prove-it” long, not a breakout. NVDA carved a left shoulder $200–203 / head $194–196 / right shoulder $199–202 toward the $211–214 neckline, then Friday gapped down (−2.21% $202.81, AH $202.49) — but the day low $197.97 tagged the $198–200 right-shoulder support and got bought back (long lower wick). The leader still holds above every key MA (daily 200-EMA $189, 50-EMA $204) while memory breaks. Damaged, not invalidated: dip-buy the $198–200 hold, stop under $194 (loss of $194–196 breaks the pattern → $182 next), or wait for a daily close over $214–215 on volume to confirm the breakout toward the $230–234 measured target. No chase — a counter-tape long while SMH stays under $580, so size accordingly.',
+    lead: { rank: 12, status: 'wait', entry: '$198–200 hold', stop: '$194', targets: '$214 → $230 → $234', downside: '+8%', tail: '+18%', rr: '~3.5:1', edge: 'The AI leader holding up while the group breaks — an inverse H&S rejected at the $211–214 neckline, but Friday’s low $197.97 bought the $198–200 right shoulder back; dip-buy the $198–200 hold (stop <$194, invalidation $194–196) or wait for a $214–215 breakout on volume, measured target $230–234 only after confirmation' },
+    side: 'long', accent: 'emerald',
+    date: '2026-07-18',
+    story: 'stories/nvda.html',
+  },
+  {
     symbol: 'COHR', exchange: 'NYSE',
     price: '$277.60', change: '+0.23% · Jul 17 close · AH $277.19',
     signal: 'Weekly-structure break, now basing at T1 — closed flat +0.23% $277.60 (AH $277.19) after the day low $255.14 tagged the daily 200-day / T1 $265 and recovered. Deeply oversold (daily RSI 33, Stoch 8), basing under the 21-week MA $321. The $288–302 zone is overhead — fade a bounce there (broken 1h stack / daily 9-EMA), stop $310; next targets 50-week $247 → 🕳️ weekly lower BB $215. Reclaim $321 negates.',
@@ -88,7 +97,7 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$853.20', change: '−5.65% · Jul 16 close',
+    price: '$848.95', change: '−0.50% · Jul 17 close · AH $838.60',
     signal: 'Memory bellwether — the fade worked. Friday spiked from a $804 low straight to $903.93 (into the $880–910 fade zone), got rejected and closed $848.95 (−0.50%), AH $838.60, with the low nearly tapping T1 $800. Deeply oversold (daily Stoch 8) so a reflex bounce is likely first, but the engine points down. Re-short the next bounce into $880–905 (Friday’s rejection high), stop over $904 ($955); targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505. With SMH under $580, the deep leg is live. Reclaim $1,005 negates.',
     lead: { rank: 7, status: 'wait', entry: '$880–905 bounce', stop: '$955', targets: '$800 → $665 → $505', downside: '−22%', tail: '−41%', rr: '~4:1', edge: 'Memory bellwether — Friday’s bounce tagged $903.93 into the fade zone and got sold (close $849, low $804 near T1 $800); re-short the next bounce into $880–905, weekly 21-MA $665 the magnet, 50-week $505 live since SMH lost $580' },
     side: 'short', accent: 'cyan',
@@ -180,7 +189,7 @@ const STOCKS = [
     symbol: 'ALAB', exchange: 'NASDAQ',
     price: '$303.62', change: '−5.04% · Jul 17 close · AH $304',
     signal: 'Dip-buy dead (SMH under $580) and the leader keeps sliding — Friday the low $289.60 undercut T1 $300 before closing back at $303.62 (−5.04%, AH flat $303.61) on a long lower wick, under the daily lower BB $314. Daily Stoch 6 — deeply oversold, so a reflex bounce is likely; fade it into $325–350 (broken 50-day $337 / 1h 50-EMA $358), stop $362; targets $280 → 🕳️ $250 base. Reclaim $362 repairs the long case.',
-    lead: { rank: 13, status: 'wait', entry: '$325–350 bounce', stop: '$362', targets: '$300 → $280 → $250', downside: '−8%', tail: '−18%', rr: '~3:1', edge: 'Dip-buy dead and the SMH gate void — the leader’s low $289.60 undercut T1 $300, deeply oversold (daily Stoch 6); fade the reflex bounce into $325–350, the $250 May base the deep magnet' },
+    lead: { rank: 14, status: 'wait', entry: '$325–350 bounce', stop: '$362', targets: '$300 → $280 → $250', downside: '−8%', tail: '−18%', rr: '~3:1', edge: 'Dip-buy dead and the SMH gate void — the leader’s low $289.60 undercut T1 $300, deeply oversold (daily Stoch 6); fade the reflex bounce into $325–350, the $250 May base the deep magnet' },
     side: 'short', accent: 'emerald',
     date: '2026-07-16',
     story: 'stories/alab.html',
@@ -189,7 +198,7 @@ const STOCKS = [
     symbol: 'CRDO', exchange: 'NASDAQ',
     price: '$202.68', change: '−2.54% · Jul 17 close · AH $201',
     signal: 'Dip-buy long dead (SMH under $580) and no bounce came — CRDO just bled down the lower band: closed −2.54% $202.68 (AH $201.29), under the daily lower BB $204, right on top of T1 $200. Still a downtrend, RSI daily 39 / 1h 44 — not sharply oversold, engine down. Fade any bounce into $212 (1h 50-EMA) → $219–230 (broken $219 low / 50-day $227), stop $242; targets $190 → 🕳️ $175 breakout shelf. Reclaim $245 (200-EMA) repairs the long case.',
-    lead: { rank: 12, status: 'wait', entry: '$212–230 bounce', stop: '$242', targets: '$200 → $190 → $175', downside: '−6%', tail: '−14%', rr: '~2.5:1', edge: 'Dip-buy dead and the SMH gate void — no bounce, bled down the band to T1 $200; fade a bounce into $212–230, targets down to the $175 breakout shelf' },
+    lead: { rank: 13, status: 'wait', entry: '$212–230 bounce', stop: '$242', targets: '$200 → $190 → $175', downside: '−6%', tail: '−14%', rr: '~2.5:1', edge: 'Dip-buy dead and the SMH gate void — no bounce, bled down the band to T1 $200; fade a bounce into $212–230, targets down to the $175 breakout shelf' },
     side: 'short', accent: 'cyan',
     date: '2026-07-16',
     story: 'stories/crdo.html',
@@ -198,7 +207,7 @@ const STOCKS = [
     symbol: 'DELL', exchange: 'NYSE',
     price: '$396.34', change: '+1.27% · Jul 17 close · AH $396',
     signal: 'Bull-flag long still off (SMH under $580) but DELL is basing and grinding back: closed +1.27% $396.34 (AH flat $396.49), creeping up from below toward the $402–421 fade zone but not in it yet. The daily isn’t oversold (RSI 48) and momentum is limp — this is an approach to the re-short, not a dip-buy. Fade into $402–421 (1h stack $411 / daily mid-BB $421), stop $432; targets $377 (weekly 9-EMA) → $365 (daily lower BB) → 🕳️ $330 gap-fill. A close < $377 opens the air pocket. Reclaim $432 repairs the bull case.',
-    lead: { rank: 14, status: 'wait', entry: '$402–421 zone', stop: '$432', targets: '$377 → $365 → $330', downside: '−7%', tail: '−16%', rr: '~2.5:1', edge: 'Bull-flag long off while SMH stays under $580 — basing +1.27% and grinding up toward the $402–421 fade zone from below; fade the approach, a close < $377 opens the air pocket to the $330 gap-fill' },
+    lead: { rank: 15, status: 'wait', entry: '$402–421 zone', stop: '$432', targets: '$377 → $365 → $330', downside: '−7%', tail: '−16%', rr: '~2.5:1', edge: 'Bull-flag long off while SMH stays under $580 — basing +1.27% and grinding up toward the $402–421 fade zone from below; fade the approach, a close < $377 opens the air pocket to the $330 gap-fill' },
     side: 'short', accent: 'amber',
     date: '2026-07-16',
     story: 'stories/dell.html',
