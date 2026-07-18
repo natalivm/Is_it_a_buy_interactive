@@ -115,8 +115,11 @@ function stockTileHtml(stock) {
     const signal = stock.signal
         ? `<p class="tile-signal">${esc(stock.signal)}</p>` : '';
     // The board's one-line edge lives on the card (the table only ranks).
-    const edge = stock.lead && stock.lead.edge
-        ? `<p class="tile-edge">⚡ ${esc(stock.lead.edge)}</p>` : '';
+    // Ranked names carry it on `lead.edge`; unranked ones (barometer,
+    // technical fades) can set a standalone `edge` so every tile has the line.
+    const edgeText = (stock.lead && stock.lead.edge) || stock.edge;
+    const edge = edgeText
+        ? `<p class="tile-edge">⚡ ${esc(edgeText)}</p>` : '';
     const prog = planProgress(stock);
     const progress = !prog ? '' : prog.filled
         ? `<p class="tile-progress"><span class="tp-live">✅ Entered as called → ${pct(prog.earned)} so far</span> · full plan ${pct(prog.target)} · ${pct(prog.left)} left to the deepest target</p>`
