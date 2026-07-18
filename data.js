@@ -88,7 +88,7 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$853.20', change: '−5.65% · Jul 16 close',
+    price: '$848.95', change: '−0.50% · Jul 17 close · AH $838.60',
     signal: 'Memory bellwether — the fade worked. Friday spiked from a $804 low straight to $903.93 (into the $880–910 fade zone), got rejected and closed $848.95 (−0.50%), AH $838.60, with the low nearly tapping T1 $800. Deeply oversold (daily Stoch 8) so a reflex bounce is likely first, but the engine points down. Re-short the next bounce into $880–905 (Friday’s rejection high), stop over $904 ($955); targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505. With SMH under $580, the deep leg is live. Reclaim $1,005 negates.',
     lead: { rank: 7, status: 'wait', entry: '$880–905 bounce', stop: '$955', targets: '$800 → $665 → $505', downside: '−22%', tail: '−41%', rr: '~4:1', edge: 'Memory bellwether — Friday’s bounce tagged $903.93 into the fade zone and got sold (close $849, low $804 near T1 $800); re-short the next bounce into $880–905, weekly 21-MA $665 the magnet, 50-week $505 live since SMH lost $580' },
     side: 'short', accent: 'cyan',
