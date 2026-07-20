@@ -97,9 +97,9 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$848.95', change: '−0.50% · Jul 17 close · AH $838.60',
-    signal: 'Memory bellwether — the fade worked. Friday spiked from a $804 low straight to $903.93 (into the $880–910 fade zone), got rejected and closed $848.95 (−0.50%), AH $838.60, with the low nearly tapping T1 $800. Deeply oversold (daily Stoch 8) so a reflex bounce is likely first, but the engine points down. Re-short the next bounce into $880–905 (Friday’s rejection high), stop over $904 ($955); targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505. With SMH under $580, the deep leg is live. Reclaim $1,005 negates.',
-    lead: { rank: 7, status: 'wait', entry: '$880–905 bounce', stop: '$955', targets: '$800 → $665 → $505', downside: '−22%', tail: '−41%', rr: '~4:1', edge: 'Memory bellwether — Friday’s bounce tagged $903.93 into the fade zone and got sold (close $849, low $804 near T1 $800); re-short the next bounce into $880–905, weekly 21-MA $665 the magnet, 50-week $505 live since SMH lost $580' },
+    price: '$865.46', change: '+1.94% · Jul 20 close · AH $871',
+    signal: 'Memory bellwether — the fade worked and the reflex bounce is now running: after Friday spiked $804→$903.93 into the fade zone and got sold ($849 close), it followed through +1.94% $865.46 (AH $871), climbing back up toward the $880–905 re-short zone but not in it yet. Daily Stoch still low (~15, turning up) so the bounce has room to the zone; stop $955 nowhere near. Re-short the approach into $880–905 (Friday’s rejection high), stop over $904 ($955); targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505. With SMH under $580, the deep leg is live. Reclaim $1,005 negates.',
+    lead: { rank: 7, status: 'wait', entry: '$880–905 bounce', stop: '$955', targets: '$800 → $665 → $505', downside: '−22%', tail: '−41%', rr: '~4:1', edge: 'Memory bellwether — the reflex bounce is running, +1.94% to $865 (AH $871) back up toward the $880–905 fade zone after Friday’s $903.93 got sold; re-short the approach, weekly 21-MA $665 the magnet, 50-week $505 live since SMH lost $580' },
     side: 'short', accent: 'cyan',
     date: '2026-07-16',
     story: 'stories/mu.html',
