@@ -28,6 +28,7 @@
     --sub:#DCE4FA;
   }
 
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--yellow) 40%,var(--line));border-radius:14px;background:rgba(245,165,36,.07);padding:13px 15px;}
   .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);display:flex;align-items:center;gap:7px;}
 </style>
@@ -42,14 +43,14 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="MU · 1H">
       <div class="cover-ticker rv">MU</div>
-      <div class="eyebrow rv">1H · BOUNCE TAGGED $904 · SOLD</div>
-      <h1 class="rv">Tagged $904.<br><span class="hl">Sold to $849.</span></h1>
-      <p class="sub rv">Bellwether пам'яті відскочив з low <strong>$804</strong> прямо у зону фейду <strong>$903.93</strong> — і його <span class="k">відкинули</span>: close <strong>$848.95 (−0.50%)</strong>, AH <strong>$838.60</strong>. Low $804 майже торкнув T1 $800. Daily Stoch <strong>8</strong> — глибоко перепродано (звідси й рефлекс-відскоки), але 1h Stoch 90 перекуплений після стрибка. Фейд працює: re-short наступного бонсу в <strong>$880–905</strong>, стоп над $904.</p>
+      <div class="eyebrow rv">1H · REFLEX BOUNCE +1.94% · BACK TOWARD THE ZONE</div>
+      <h1 class="rv">Bounced +1.94%.<br><span class="hl">Back toward $904.</span></h1>
+      <p class="sub rv">Bellwether пам'яті відпрацював рефлекс-відскок: після п'ятничного відкидання у <strong>$903.93</strong> він <span class="p">продовжив угору</span> — close <strong>$865.46 (+1.94%)</strong>, AH <strong>$871</strong> — повзе назад до зони фейду <strong>$880–905</strong>, ще не в ній. Daily Stoch усе ще низько (<strong>~15</strong>, розвертається) — тож у бонсу є простір до зони; стоп $955 і близько немає. Фейд працює: re-short підходу в <strong>$880–905</strong>, стоп над $904.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",48,"$955","стоп · 1h 200-EMA · над хаєм $904",0.05],["k",95,"$880–905","зона відкидання $904 · re-short",0.12],["y",168,"$849","now · close −0.5% · AH $839",0.19],["p",248,"$800","травнева база · T1 (low $804)",0.26]]' viewBox="0 0 470 300" role="img" aria-label="MU bounced to 904 into the fade zone, rejected, closed 849">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L180,235 L250,95 L320,150 L352,168"/>
-          <circle class="dot-y pop" style="animation-delay:1.5s" cx="352" cy="168" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.85s" x="250" y="284" text-anchor="middle">low $804 → бонс $904 у зону → відкинули → close $849</text>
+        <svg data-lv='[["k",48,"$955","стоп · не зачеплено · над хаєм $904",0.05],["k",95,"$880–905","зона відкидання $904 · re-short",0.12],["y",128,"$865","now · close +1.94% · AH $871",0.19],["p",252,"$800","травнева база · T1 (low $804)",0.26]]' viewBox="0 0 470 300" role="img" aria-label="MU reflex bounce 1.94 percent back up toward the fade zone">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,210 L170,225 L240,195 L310,150 L352,128"/>
+          <circle class="dot-y pop" style="animation-delay:1.5s" cx="352" cy="128" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.85s" x="250" y="284" text-anchor="middle">рефлекс +1.94% назад до зони → фейд підходу $880–905</text>
         </svg>
       </div>
     </section>
@@ -57,29 +58,29 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="MU · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Ran to $904.<br><span class="hl">Sold to $849.</span></h1>
+      <h1 class="rv">Green +1.94%.<br><span class="hl">Toward the zone.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="MU daily candle spiked to 904 then sold back to close 849">
+        <svg viewBox="0 0 420 340" role="img" aria-label="MU green bounce candle running back up toward the 904 fade zone">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="110" y2="60"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="150" x2="110" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="190" x2="110" y2="190"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="130" x2="110" y2="130"/>
+          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="170" x2="110" y2="170"/>
           <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="210" x2="110" y2="210"/>
           <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="64"  text-anchor="end">904 хай</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">849 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="194" text-anchor="end">814 low-BB</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="134" text-anchor="end">865 close</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="174" text-anchor="end">849 п'ятниця</text>
           <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="214" text-anchor="end">804 low</text>
-          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="60" x2="150" y2="210"/>
-          <rect class="candle-body up fill" x="120" y="150" width="60" height="32" rx="7" style="animation-delay:.6s"/>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="118" x2="150" y2="178"/>
+          <rect class="candle-body up fill" x="120" y="130" width="60" height="40" rx="7" style="animation-delay:.6s"/>
           <line class="dash s-k fade" style="animation-delay:1.3s" x1="120" y1="60" x2="360" y2="60"/>
-          <text class="anno f-k fade" style="animation-delay:1.4s" x="214" y="55"><tspan class="h">$903.93</tspan> — зона фейду, відкинуто</text>
-          <line class="s-line fade" style="animation-delay:1.6s" x1="182" y1="150" x2="300" y2="150" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.65s" x="306" y="146"><tspan class="h">$848.95</tspan></text>
-          <text class="anno f-k fade" style="animation-delay:1.65s" x="306" y="163" font-weight="700">−0.50% · AH $839</text>
+          <text class="anno f-k fade" style="animation-delay:1.4s" x="214" y="55"><tspan class="h">$903.93</tspan> — зона фейду, відкинуто в п'ятницю</text>
+          <line class="s-line fade" style="animation-delay:1.6s" x1="182" y1="130" x2="300" y2="130" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.65s" x="306" y="126"><tspan class="h">$865.46</tspan></text>
+          <text class="anno f-k fade" style="animation-delay:1.65s" x="306" y="143" font-weight="700">+1.94% · AH $871</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚠ Бонс у $904 продали — close $848.95, AH $839</div>
-        <p>MU відскочив з low <strong>$804</strong> у <strong>$903.93</strong> — прямо в зону фейду $880–910 — і його <span class="k">відкинули</span>: close $848.95 (−0.50%), AH $838.60. Довгий верхній хвіст = продавці над головою. Daily Stoch <strong>8</strong> глибоко перепродано (звідси рефлекси), але двигун вниз. Фейд відпрацював — re-short наступного бонсу в $880–905. Downside staged: травнева база $800 (low $804 майже торкнув) → тижнева 21-MA $665. <span class="k">SMH під $580</span> — глибока нога до 50-week $505 live.</p>
+        <div class="vh">✓ Рефлекс-бонс триває — close $865.46, AH $871</div>
+        <p>Після п'ятничного відкидання у <strong>$903.93</strong> MU <span class="p">продовжив угору</span>: зелений день <strong>+1.94% до $865.46</strong>, AH $871 — повзе назад до зони фейду $880–910, ще не в ній. Daily Stoch <strong>~15</strong> усе ще низько (розвертається) — у бонсу є простір до зони, стоп $955 і близько немає. Фейд відпрацьовує — re-short <strong>підходу</strong> в $880–905. Downside staged: травнева база $800 (low $804 майже торкнув) → тижнева 21-MA $665. <span class="k">SMH під $580</span> — глибока нога до 50-week $505 live.</p>
       </div>
     </section>
 
@@ -87,10 +88,10 @@
     <section class="slide" data-label="MU vs group">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
       <h1 class="rv">Warsh cracked the tape.<br><span class="hl">MU — the epicenter.</span></h1>
-      <p class="sub rv">Перегрітий AI-трейд <span class="k">посипався</span> — уся зв'язка пам'яті/семіс під тиском, а MU у п'ятницю зробив <strong>гігантський діапазон $804→$904</strong> і бонс <span class="k">роздали</span> назад на $849. Той самий тейп, що тиждень тому викуповував, тепер продає у силу. Це <span class="k">системний risk-off</span> — барометр <strong>SMH під лінією $580</strong> підтверджує.</p>
+      <p class="sub rv">Перегрітий AI-трейд <span class="k">посипався</span> — уся зв'язка пам'яті/семіс під тиском, а MU у п'ятницю зробив <strong>гігантський діапазон $804→$904</strong> і бонс <span class="k">роздали</span> назад на $849. У понеділок рефлекс <span class="p">продовжився +1.94% до $865</span> (AH $871) — назад до зони, ще не в ній. Це <span class="k">системний risk-off</span> — барометр <strong>SMH під лінією $580</strong> підтверджує.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Bellwether · бонс продали</span><span class="v">daily Stoch 8 · 1h Stoch 90 · хай $904 відкинуто</span></div>
-        <p>Відскочив у $903.93 (зона фейду) і <span class="k">закрив $848.95</span>, AH $839. <span class="k">Bias вниз</span>: цілі staged — травнева база $800 (low $804 майже торкнув) → тижнева 21-MA $665 → 50-week $505. Daily Stoch 8 перепродано (рефлекси можливі), але <strong>двигун вниз</strong> — бонс фейдимо в $880–905, не женемось. <span class="y">Daily:</span> SMH під $580 — глибока нога до $665 → $505 live.</p>
+        <div class="indi-top"><span class="t">Bellwether · рефлекс триває</span><span class="v">daily Stoch ~15 · +1.94% · назад до $880–905</span></div>
+        <p>Продовжив угору до <span class="k">$865.46 (+1.94%)</span>, AH $871 — повзе назад до зони. <span class="k">Bias вниз</span>: цілі staged — травнева база $800 (low $804 майже торкнув) → тижнева 21-MA $665 → 50-week $505. Daily Stoch ~15 усе ще низько (простір до зони), але <strong>двигун вниз</strong> — бонс фейдимо в $880–905, не женемось. <span class="y">Daily:</span> SMH під $580 — глибока нога до $665 → $505 live.</p>
       </div>
       <div class="chart rv">
         <svg viewBox="0 0 470 300" role="img" aria-label="MU leads the group down after Warsh">
@@ -112,32 +113,32 @@
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
         <div class="rung res"><span class="px">$1,005</span><span class="lbl">Повна інвалідація · reclaim = repair</span></div>
-        <div class="rung res"><span class="px">$955</span><span class="lbl">1h 200-EMA · стоп re-short · над хаєм $904</span></div>
-        <div class="rung res"><span class="px">$880–905</span><span class="lbl">Зона відкидання $903.93 · re-short бонсу</span></div>
-        <div class="rung res"><span class="px">$866</span><span class="lbl">Стара T1 · тепер опір</span></div>
-        <div class="rung now"><span class="px">$848.95</span><span class="lbl">ТУТ · close −0.50% · AH $839</span></div>
+        <div class="rung res"><span class="px">$955</span><span class="lbl">1h 200-EMA · стоп re-short · не зачеплено</span></div>
+        <div class="rung res"><span class="px">$880–905</span><span class="lbl">Зона відкидання $903.93 · re-short підходу</span></div>
+        <div class="rung sup"><span class="px">$866</span><span class="lbl">Стара T1 · відвойована · тепер найближча підтримка</span></div>
+        <div class="rung now"><span class="px">$865.46</span><span class="lbl">ТУТ · close +1.94% · AH $871 · впритул під зоною</span></div>
         <div class="rung sup"><span class="px">$814</span><span class="lbl">Нижній denний BB</span></div>
         <div class="rung sup"><span class="px">$800</span><span class="lbl">Травнева база · T1 · low $804 майже торкнув</span></div>
         <div class="rung sup"><span class="px">$665</span><span class="lbl">Тижнева 21-MA · магніт корекції · T2 (−22%)</span></div>
         <div class="rung sup"><span class="px">$505</span><span class="lbl">🕳️ Тижнева 50-EMA · deep · T3 · live (SMH < $580)</span></div>
       </div>
-      <p class="note rv">Бонс у <strong>$903.93</strong> продали → close $848.95, AH $839. Daily Stoch 8 перепродано (рефлекси можливі) — не переслідуй ціну вниз, фейд наступного бонсу в <strong>$880–905</strong>, стоп над $904 ($955). Downside staged: травнева база $800 (low $804 майже торкнув) → <strong>тижнева 21-MA $665</strong> (−22%), далі 50-week $505 — <strong>live</strong>, бо SMH під $580. Reclaim $1,005 скасовує.</p>
+      <p class="note rv">Рефлекс триває: після п'ятничного відкидання у <strong>$903.93</strong> → close $865.46 (+1.94%), AH $871, повзе назад до зони. Daily Stoch ~15 усе ще низько (простір до зони) — не переслідуй ціну, фейд <strong>підходу</strong> в <strong>$880–905</strong>, стоп над $904 ($955, не зачеплено). Downside staged: травнева база $800 (low $804 майже торкнув) → <strong>тижнева 21-MA $665</strong> (−22%), далі 50-week $505 — <strong>live</strong>, бо SMH під $580. Reclaim $1,005 скасовує.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="MU · SHORT">
-      <div class="eyebrow rv">PLAN · BOUNCE SOLD · RE-LOAD THE FADE</div>
+      <div class="eyebrow rv">PLAN · REFLEX RUNNING · FADE THE APPROACH</div>
       <h1 class="rv">Re-fade into <span class="hl">$880–905</span></h1>
-      <p class="sub rv">Від п'ятниці ($848.95 close): бонс у <strong>$903.93</strong> (зона фейду) продали → close $848.95, AH $839. Daily Stoch 8 глибоко перепродано, тож наступний рефлекс-бонс імовірний — його й фейдимо. Цілі staged:</p>
+      <p class="sub rv">Від понеділка ($865.46 close, +1.94%): рефлекс після п'ятничного відкидання у <strong>$903.93</strong> триває — AH $871, повзе назад до зони. Daily Stoch ~15 усе ще низько, стоп $955 і близько немає — фейдимо підхід у зону. Цілі staged:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$955</span></span><span class="r">над хаєм $904 · 1h 200-EMA · reclaim $1,005 = repair</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$880–905</span></span><span class="r">фейд бонсу в зону відкидання $904</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$955</span></span><span class="r">над хаєм $904 · не зачеплено · reclaim $1,005 = repair</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$880–905</span></span><span class="r">фейд підходу в зону відкидання $904</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$800</span></span><span class="r">травнева база · low $804 майже торкнув</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$665</span></span><span class="r">тижнева 21-MA (−22%)</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$505</span></span><span class="r">50-week · live (SMH < $580)</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від п'ятниці ($848.95):</strong> бонс у $904 продали, daily Stoch 8 — не переслідуй ціну вниз. Фейд наступного бонсу в <strong>$880–905</strong>, стоп над $904 ($955). T1 $800 → T2 <strong>тижнева 21-MA $665</strong> → T3 50-week $505 (live). Reclaim $1,005 скасовує.</p>
+      <p class="note k rv">🎯 <strong>Тригер від понеділка ($865.46):</strong> рефлекс триває назад до зони, daily Stoch ~15 — не переслідуй ціну. Фейд підходу в <strong>$880–905</strong>, стоп над $904 ($955, не зачеплено). T1 $800 → T2 <strong>тижнева 21-MA $665</strong> → T3 50-week $505 (live). Reclaim $1,005 скасовує.</p>
       <p class="note rv">Low $804 майже торкнув T1 $800 — там фіксуй частину. <strong>SMH під $580</strong> — глибока нога до $665 → $505 live, не умовна.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
