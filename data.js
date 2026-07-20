@@ -160,9 +160,9 @@ const STOCKS = [
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$177.71', change: '+3.46% · Jul 17 close · AH $177.93',
-    signal: 'Breakdown leader — after the −13.90% flush that paid T1 $190 and T2 $177, it bounced +3.46% $177.71 (AH flat $177.93), grinding up from below toward the $185–200 fade zone but not in it yet. Deeply oversold (daily Stoch 5) so the reflex is still running. Fade the approach into $185–200 (broken daily lower BB / round $200), stop $213; targets $160 → 200-day $147 → 🕳️ $130. Reclaim $213 neutralizes.',
-    lead: { rank: 4, status: 'wait', entry: '$185–200 bounce', stop: '$213', targets: '$160 → $147 → $130', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Breakdown leader — the −13.9% flush paid T1/T2, now bouncing +3.46% up toward the $185–200 fade zone from below, deeply oversold; fade the approach, the 200-day $147 the magnet' },
+    price: '$182.62', change: '+2.76% · Jul 20 close · AH $183.02',
+    signal: 'Breakdown leader — after the −13.90% flush that paid T1 $190 and T2 $177, the reflex bounce ran on: closed +2.76% $182.62 (AH $183.02), climbing from below right into the underside of the $185–200 fade zone. Stop $213 never came close — no stop-out, the thesis is intact. Oversold has worked off (daily RSI back ~50, MACD flipped green), so the reflex is maturing into the zone. Fade the approach into $185–200 (broken daily lower BB / round $200), stop $213; targets $160 → 200-day $147 → 🕳️ $130. Reclaim $213 neutralizes.',
+    lead: { rank: 4, status: 'wait', entry: '$185–200 bounce', stop: '$213', targets: '$160 → $147 → $130', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Breakdown leader — the −13.9% flush paid T1/T2, now the bounce has run +2.76% to $182.62, right under the $185–200 fade zone; stop $213 untouched, fade the approach, the 200-day $147 the magnet' },
     side: 'short', accent: 'indigo',
     date: '2026-07-16',
     story: 'stories/nbis.html',
