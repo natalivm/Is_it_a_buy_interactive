@@ -133,11 +133,11 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$556.53', change: '−2.18% · Jul 17 close · AH $554',
-    signal: 'Barometer sliced into the shelf — day low $536.81 (testing toward the $510–515 magnet), then bounced to $567.41 and closed $556.53 (−2.18%), only to fade into the bell and slip to $554 AH: the bounce got sold. Still a confirmed break — the close sits below the $580 line, the daily 50-EMA $579 AND the daily lower BB $568, deeply oversold (daily RSI 41, Stoch curling up from 21; 4H MACD ticking green). This is the oversold dead-cat bounce the whole short board is built to fade. Oil +4.5% (Brent +4.6%) on the Iran development adds a geopolitical risk-off tailwind. The $510–515 confluence magnet stays live; only a reclaim of $580 / 9-EMA $594 repairs.',
-    edge: 'The board’s barometer — Friday’s bounce got sold (close $556.53, still under $580); Monday is a reflex-bounce attempt with high fade risk. It sets the risk-off direction for the whole board until $580 is reclaimed',
+    price: '$558.83', change: '+0.41% · Jul 20 close · AH $558',
+    signal: 'The board’s barometer — still capped under $580. Jul 20 it pushed to a $572.76 high and got sold back to close +0.41% $558.83 (AH $558.00) — another rejection under the $580 line / daily 50-EMA $579–581, holding above the daily lower BB $548. Daily RSI 42, MACD still negative — the bounce that got sold has not repaired. This is the tell for the whole short board: the sector-wide pre-market pump is a reflex against a barometer that keeps getting sold under $580 — fade risk stays high until SMH actually reclaims $580 / 9-EMA $594. The $510–515 confluence magnet stays live below.',
+    edge: 'The board’s barometer — Jul 20 pushed to $572 and got sold back to $558.83, still capped under $580; the sector’s pre-market pump is a reflex against a barometer that has not repaired. It sets the risk-off direction for the whole board until $580 is reclaimed',
     side: 'short', accent: 'red',
-    date: '2026-07-17',
+    date: '2026-07-21',
     story: 'stories/smh.html',
   },
   {
