@@ -88,9 +88,9 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$95.04', change: '−2.00% · Jul 17 close · AH $93.97',
-    signal: 'Worst OBV in the group — closed −2.00% $95.04 (AH $93.97) on the daily lower BB $95.4, with the low $89.59 tagging the $89 weekly-21-MA gate before recovering. Deeply oversold (daily Stoch 8, RSI 36) while the 1h is overbought after the intraday bounce. Fade a bounce into $98 (1h 50-EMA) → $103–111 (broken daily lower BB / 1h 9-EMA), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates.',
-    lead: { rank: 8, status: 'wait', entry: '$98–111 bounce', stop: '$118', targets: '$92 → $89 → $73', downside: '−6%', tail: '−23%', rr: '~3:1', edge: 'Worst OBV in the group — low $89.59 already tagged the $89 gate, deeply oversold; fade the bounce into $98–111, a close under the weekly 21-MA $89 opens the air pocket down to the $66 gap' },
+    price: '$97.06', change: '+2.13% · Jul 20 close · pre-mkt $103',
+    signal: 'Worst OBV in the group — closed +2.13% $97.06, and now the sector risk-on pump has it ripping pre-market +6.09% to $102.97, into the bottom of the $98–111 fade zone. It is extended, not breaking out: overbought on the 1h (RSI 71) and gapping straight into overhead supply — the declining daily 9/50-EMA $108–110 sits right above — while the daily stays deeply oversold (Stoch 9, RSI 37), so the pop can poke higher but has no real breakout energy (worst OBV in the group, daily MACD still negative). Fade the pump into $98–111 (1h 50-EMA / broken daily lower BB), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates — and would be the first real sign of energy.',
+    lead: { rank: 8, status: 'wait', entry: '$98–111 bounce', stop: '$118', targets: '$92 → $89 → $73', downside: '−6%', tail: '−23%', rr: '~3:1', edge: 'Worst OBV in the group — the sector pump has it +6.09% pre-market to $103 into the $98–111 fade zone, extended on the 1h into overhead supply with no breakout energy (negative daily MACD); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap' },
     side: 'short', accent: 'blue',
     date: '2026-07-16',
     story: 'stories/intc.html',
