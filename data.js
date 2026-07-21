@@ -142,9 +142,9 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$584.32', change: '+4.56% · Jul 21 intraday · ABOVE $580',
-    signal: 'The board’s barometer — reclaimed the line, but read it with caution. SMH is +4.56% intraday to $584.32, back ABOVE the $580 line / 50-EMA for the first time since the break. But today is a NARROW rally — concentrated in AI/semis (Micron ≈ +12.7%), a sector rebound / short-covering move riding alongside an inflation-geopolitical hedge bid — not a clean market-wide risk-on all-clear. So even a close above $580 is not yet a confirmed regime change. Plan: HOLD the board’s shorts, don’t cancel into one session’s pump — reassess tomorrow. 1h stretched (Stoch 98), $594–600 (daily 200-EMA) the next wall. A hold above $580 that carries into tomorrow repairs the tape; a fade back under keeps every fade live.',
-    edge: 'The board’s barometer reclaimed $580 intraday (+4.56% to $584.32) — but it is a narrow AI/semis short-covering pump (Micron ≈ +12.7%), not a clean risk-on all-clear; hold the shorts and reassess tomorrow rather than cancel into one session’s move',
+    price: '$584.32', change: '+4.56% · Jul 21 close · ABOVE $580',
+    signal: 'The board’s barometer — closed back above the line, but neither side is clean. SMH closed +4.56% $584.32, reclaiming the $580 line / 50-EMA for the first time since the break. But it was a NARROW move — AI/semis short-covering (Micron ≈ +12.7%) riding alongside an inflation-geopolitical hedge bid — not a market-wide risk-on all-clear. So this is no-man’s-land: no longer a clean short (it closed above $580), but not a long either (the rally is narrow, unconfirmed, and $594–600 daily-200-EMA is right overhead). Stance: HOLD the existing shorts, but don’t add and don’t chase long — stand aside for follow-through. A second close holding >$580 with breadth takes the shorts off; a fade back under $580 puts every fade back on.',
+    edge: 'The board’s barometer closed back above $580 ($584.32, +4.56%) — but on a narrow AI/semis short-covering pump (Micron ≈ +12.7%), not a clean risk-on all-clear; no-man’s-land — hold the shorts, don’t add, don’t chase long, wait for follow-through',
     side: 'short', accent: 'red',
     date: '2026-07-21',
     story: 'stories/smh.html',
