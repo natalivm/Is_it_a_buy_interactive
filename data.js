@@ -106,11 +106,11 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$322.36', change: '+0.02% · Jul 17 close · AH $320.90',
-    signal: 'Shelf-break, now basing — closed flat +0.02% $322.36 (AH $320.90), holding below the old T1 $324 and the daily lower BB $339. Deeply oversold (daily Stoch 10, 1h RSI 39). The $342–356 zone is overhead — fade a bounce into $332–346 (broken 1h mid-BB / 50-EMA $353 / VWAP), stop $358; targets $308 → $292 → 🕳️ 200-EMA $280. Reclaim $358 negates.',
-    lead: { rank: 2, status: 'wait', entry: '$332–346 bounce', stop: '$358', targets: '$308 → $292 → $280', downside: '−9%', tail: '−13%', rr: '~3:1', edge: 'Clean shelf-break, now basing below T1 and the daily lower BB, deeply oversold (Stoch 10); fade the bounce into the broken $332–346 stack, the 200-EMA $280 the magnet' },
+    price: '$333.76', change: '+3.54% · Jul 20 close · pre-mkt $355',
+    signal: 'Shelf-break — and the pump delivered the fade at the stop. Closed +3.54% $333.76 up into the zone, and now pre-market it is ripping +6.36% to $355.00 — into the top of the $332–356 fade zone, right under the $358 stop / 1h 200-EMA $357. Tight fade here against $358, huge room below: 1h overbought (RSI 72, Stoch 95). Targets $308 → $292 → 🕳️ daily 200-EMA $280. A push through $358 stops it; a reclaim of $390 fully repairs.',
+    lead: { rank: 2, status: 'wait', entry: '$346–358 fade', stop: '$358', targets: '$308 → $292 → $280', downside: '−13%', tail: '−21%', rr: '~4:1', edge: 'Clean shelf-break below the daily lower BB — the pump delivered the fade right to the top of the $332–356 zone under a tight $358 stop; short here with room to the 200-EMA $280, a push through $358 stops it' },
     side: 'short', accent: 'blue',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/ter.html',
   },
   {
