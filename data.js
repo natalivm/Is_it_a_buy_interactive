@@ -160,9 +160,9 @@ const STOCKS = [
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$182.62', change: '+2.76% · Jul 20 close · AH $183.02',
-    signal: 'Breakdown leader — after the −13.90% flush that paid T1 $190 and T2 $177, the reflex bounce ran on: closed +2.76% $182.62 (AH $183.02), climbing from below right into the underside of the $185–200 fade zone. Stop $213 never came close — no stop-out, the thesis is intact. Oversold has worked off (daily RSI back ~50, MACD flipped green), so the reflex is maturing into the zone. Fade the approach into $185–200 (broken daily lower BB / round $200), stop $213; targets $160 → 200-day $147 → 🕳️ $130. Reclaim $213 neutralizes.',
-    lead: { rank: 4, status: 'wait', entry: '$185–200 bounce', stop: '$213', targets: '$160 → $147 → $130', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Breakdown leader — the −13.9% flush paid T1/T2, now the bounce has run +2.76% to $182.62, right under the $185–200 fade zone; stop $213 untouched, fade the approach, the 200-day $147 the magnet' },
+    price: '$182.62', change: '+2.76% · Jul 20 close · pre-mkt $196',
+    signal: 'Breakdown leader — and the sector pump has carried it into the fade zone. After the −13.90% flush paid T1 $190 / T2 $177, NBIS closed +2.76% $182.62 and now pre-market it is ripping +7.49% to $196.30 — INTO the $185–200 fade zone. This is the trigger. Extended short-term (15m Stoch 96) but the daily still has room (Stoch 13), and the $213 stop is untouched. Fade the pump into $185–200 (broken daily lower BB / round $200), stop $213; targets $160 → 200-day $147 → 🕳️ $130. Reclaim $213 neutralizes.',
+    lead: { rank: 4, status: 'wait', entry: '$185–200 bounce', stop: '$213', targets: '$160 → $147 → $130', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Breakdown leader — the −13.9% flush paid T1/T2, and the sector pump has run it +7.49% pre-market to $196 into the $185–200 fade zone (the trigger); stop $213 untouched, fade the pump, the 200-day $147 the magnet' },
     side: 'short', accent: 'indigo',
     date: '2026-07-21',
     story: 'stories/nbis.html',
