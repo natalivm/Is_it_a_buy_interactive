@@ -27,6 +27,7 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#EFE7FB;
   }
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
 </style>
 </head>
 <body>
@@ -39,14 +40,14 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="ASTS · 1H">
       <div class="cover-ticker rv">ASTS</div>
-      <div class="eyebrow rv">1H · BOUNCED +5.07% · TOWARD THE ZONE</div>
-      <h1 class="rv">Bounced +5.07%.<br><span class="hl">Toward the zone.</span></h1>
-      <p class="sub rv">Після −17% флешу ASTS <span class="p">відскочив</span>: close <strong>+5.07% $57.80</strong> (AH ще вище $58.35) — повзе знизу до зони фейду <span class="k">$60–66</span>, ще не в ній, під <span class="k">denною 200-day $63</span>. T1 $63 / T2 $60 / $57 уже сплачені. Глибоко перепродано (daily Stoch 11). <span class="k">Не шорти в падіння</span>: фейд підходу в $60–66, стоп $71. Розмір малий (ризик розводнення).</p>
+      <div class="eyebrow rv">1H · POPPED +9.27% · INTO FIRST RESISTANCE</div>
+      <h1 class="rv">Popped +9.27%.<br><span class="hl">First wall ahead.</span></h1>
+      <p class="sub rv">ASTS <span class="p">пробив базу $57–60</span> на реальному OBV: <strong>+9.27% intraday до $62.74</strong> — сильний перепроданий відскок, ще <span class="k">не підтверджений аптренд</span>. Опора B. Riley (Buy, ціль $85) + розширення Midland, але тисне $1B конвертований борг (розводнення). Ймовірно ще нога до <span class="k">$66–70</span> — тож <strong>не chase $62–64</strong>: фейди опір $64.50–67 (верхній BB / пивот / 1h 200-EMA), далі $70–71. Close вище стіни $77–78 = тренд полагоджено, short off.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",48,"$71","стоп шорта · зламаний стек",0.05],["k",95,"$60–66","re-short: зламані бенди / 200-day $63",0.12],["y",170,"$58","now · +5.07% · підходить знизу · AH $58",0.19],["p",248,"$49","полиця · далі 200-week $41",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ASTS bounced 5 percent up toward the fade zone">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L190,225 L270,195 L320,175 L364,170"/>
-          <circle class="dot-y pop" style="animation-delay:1.55s" cx="364" cy="170" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="282" text-anchor="middle">+5.07% знизу до зони → фейд підходу в $60–66</text>
+        <svg data-lv='[["k",42,"$77–78","структурна стіна · close вище = short off",0.05],["k",74,"$70–71","supply з пробою · фейд",0.12],["k",100,"$64.50–67","верхній BB / пивот / 1h 200-EMA · 1-й опір",0.19],["y",132,"$62.74","now · +9.27% · перший опір поруч",0.24],["p",252,"$57","база пробою · нижче = невдалий відскок",0.3]]' viewBox="0 0 470 300" role="img" aria-label="ASTS popped 9 percent up into first resistance, structural wall at 77-78">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L190,195 L270,160 L330,140 L364,132"/>
+          <circle class="dot-y pop" style="animation-delay:1.55s" cx="364" cy="132" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="282" text-anchor="middle">памп +9.27% у 1-й опір → не chase, фейди $65–67 / $70–71</text>
         </svg>
       </div>
     </section>
@@ -54,48 +55,50 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="ASTS · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Green bounce.<br><span class="hl">Under the 200-day.</span></h1>
+      <h1 class="rv">Broke the base.<br><span class="hl">Wall still overhead.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS green bounce candle grinding up under the 200-day">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="90"  x2="330" y2="90"/>
-          <line class="dash s-w fade" style="animation-delay:.12s" x1="60" y1="120" x2="330" y2="120"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="215" x2="120" y2="215"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="94"  text-anchor="end">66 верх зони</text>
-          <text class="ax f-w fade" style="animation-delay:.3s"  x="54" y="124" text-anchor="end">63 200-day</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="219" text-anchor="end">51 T1</text>
-          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="140" x2="150" y2="190"/>
-          <rect class="candle-body up fill" x="120" y="150" width="60" height="30" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="150" x2="330" y2="150" stroke-width="1"/>
-          <text class="anno f-p fade" style="animation-delay:1.05s" x="334" y="146"><tspan class="h">$57.80</tspan> +5.07% · AH $58.35</text>
-          <text class="anno f-m fade" style="animation-delay:1.7s" x="210" y="308" text-anchor="middle">зона фейду $60–66 впритул зверху · під 200-day $63</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS broke out of the base into first resistance, structural wall at 77-78 overhead">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="65"  x2="330" y2="65"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="105" x2="330" y2="105"/>
+          <line class="dash s-w fade" style="animation-delay:.2s" x1="60" y1="150" x2="330" y2="150"/>
+          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="230" x2="120" y2="230"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="69"  text-anchor="end">77–78 стіна</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="109" text-anchor="end">70–71 supply</text>
+          <text class="ax f-w fade" style="animation-delay:.4s"  x="54" y="154" text-anchor="end">64.50–67 1-й опір</text>
+          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="234" text-anchor="end">57 база</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="160" x2="150" y2="225"/>
+          <rect class="candle-body up fill" x="120" y="168" width="60" height="42" rx="7" style="animation-delay:.6s"/>
+          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="168" x2="330" y2="168" stroke-width="1"/>
+          <text class="anno f-p fade" style="animation-delay:1.05s" x="334" y="164"><tspan class="h">$62.74</tspan> +9.27% · під 1-м опором</text>
+          <text class="anno f-m fade" style="animation-delay:1.7s" x="210" y="308" text-anchor="middle">пробив базу $57–60 · велика стіна $77–78 ще вище</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">✓ План відпрацював — тепер відскок під 200-day</div>
-        <p>Після −17% флешу (усі цілі <span class="p">T1 $63 / T2 $60 / $57</span> сплачені) ASTS відскочив <strong>+5.07% до $57.80</strong> (AH $58.35), повзучи знизу до зони $60–66, ще під denною 200-day $63. Daily Stoch 11 жорстко перепродано. <span class="k">Тут не шортять у падіння</span>: жди підхід у $60–66 для нового шорту. Далі полиця $49 → 200-week $41. Розмір малий — в ASTS історія розводнень.</p>
+        <div class="vh">⚡ Пробій бази — сильний відскок, тренд ще не полагоджено</div>
+        <p>ASTS пробив базу $57–60 на реальному OBV: <strong>+9.27% до $62.74</strong> — сильний перепроданий відскок з фунд-підтримкою (B. Riley Buy $85, Midland), але тисне $1B конверт (розводнення). Daily досі під усіма MA, MACD негативний, велика стіна <strong>$77–78</strong>. Ймовірно ще нога до <span class="k">$66–70</span> — <strong>не chase $62–64</strong>: фейди опір $64.50–67, далі $70–71. Bear-цілі, якщо опір тримає: база $57 → $51 → 200-week $41. Розмір малий — історія розводнень.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="ASTS vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">High-beta,<br><span class="hl">the weakest.</span></h1>
-      <p class="sub rv">SMH <span class="k">під лінією $580</span> (бонс продали, close $556.53) — повний risk-off; ASTS же — <strong>найслабше ім'я</strong>: усі цілі сплачені, <strong>−17% флеш під 200-day $63</strong>, а тепер відскок +5.07% знизу до зони. Профіль зламаний, daily RSI 35, OBV валиться. Воно <span class="k">високобета</span> — розмір малий, працюй від рівнів.</p>
+      <h1 class="rv">High-beta,<br><span class="hl">riding the pump.</span></h1>
+      <p class="sub rv">Сектор пампить на risk-on — барометр SMH <span class="k">тестує $580</span> (pre-mkt $577.96, ще під ним). ASTS — <strong>високобета</strong> — летить найшвидше: <strong>+9.27% intraday</strong> у зону $60–66. Але структурно найслабше: усі цілі сплачені, −17% флеш, daily RSI 40, OBV валиться. Памп — рефлекс на секторі, не сила: розмір малий, працюй від рівнів.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Слабша за сектор · відскок</span><span class="v">daily Stoch 11 · під 200-day · +5.07%</span></div>
-        <p>Жорстко перепродано, тепер бонс. <span class="k">Структурний шорт — фейд підходу у $60–66</span> (стоп $71), цілі $51 → $49 → 200-week $41. Не шорти в падіння. 🕳️ Далі: полиця $49 → 200-week $41.</p>
+        <div class="indi-top"><span class="t">Високобета · памп у зону</span><span class="v">1h Stoch 88 · daily Stoch 11 · +9.27%</span></div>
+        <p>Пробій бази $57–60, памп у 1-й опір. <span class="k">Структурний шорт — фейд $64.50–67 / $70–71</span>, стіна $77–78 = short off; цілі база $57 → $51 → 200-week $41. Ймовірно ще нога до $66–70 — не гнись у $62–64. 🕳️ Далі: полиця $49 → 200-week $41.</p>
       </div>
       <div class="chart rv">
         <svg viewBox="0 0 470 300" role="img" aria-label="ASTS weakest, bouncing under the 200-day while SMH stays under its line">
           <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="120" x2="400" y2="120"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="110">200-day</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,105 L170,115 L260,135 L360,128"/>
-          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="128" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="124">SMH · під $580</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,150 L170,210 L260,245 L340,215"/>
-          <circle class="dot-k pop" style="animation-delay:1.5s" cx="340" cy="215" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.6s" x="346" y="219">ASTS · +5.07% з дна</text>
-          <text class="cap f-m fade" style="animation-delay:1.8s" x="235" y="282" text-anchor="middle">найслабше — флеш під 200-day, тепер відскок</text>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="110">SMH лінія $580 (pre-mkt $578)</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,140 L170,128 L260,110 L360,100"/>
+          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="100" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="104">SMH · тестує $580</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,240 L170,215 L260,160 L340,120"/>
+          <circle class="dot-k pop" style="animation-delay:1.5s" cx="340" cy="120" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.6s" x="346" y="124">ASTS · +9.27% у зону</text>
+          <text class="cap f-m fade" style="animation-delay:1.8s" x="235" y="282" text-anchor="middle">високобета — летить найшвидше, памп = рефлекс</text>
         </svg>
       </div>
     </section>
@@ -105,33 +108,35 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$71</span><span class="lbl">Stop шорта · зламаний 1h стек</span></div>
-        <div class="rung res"><span class="px">$63</span><span class="lbl">Denна 200-day · зламана · верх re-short зони</span></div>
-        <div class="rung res"><span class="px">$60–66</span><span class="lbl">Зламані бенди / 200-day · фейд підходу</span></div>
-        <div class="rung now"><span class="px">$57.80</span><span class="lbl">ТУТ · +5.07% · підходить знизу · AH $58.35</span></div>
-        <div class="rung sup"><span class="px">$51</span><span class="lbl">1h нижній BB · T1</span></div>
-        <div class="rung sup"><span class="px">$49</span><span class="lbl">Тижнева полиця ~$49.4 · T2</span></div>
-        <div class="rung sup"><span class="px">$41</span><span class="lbl">🕳️ 200-week EMA · глибоке дно · T3</span></div>
+        <div class="rung res"><span class="px">$77–78</span><span class="lbl">🚨 Структурна стіна · close вище = short off, тренд назад</span></div>
+        <div class="rung res"><span class="px">$70–71</span><span class="lbl">Supply з попереднього пробою · фейд</span></div>
+        <div class="rung res"><span class="px">$66.50–67</span><span class="lbl">Наступний пивот / 1h 200-EMA · фейд</span></div>
+        <div class="rung res"><span class="px">$64.50–65.50</span><span class="lbl">Верхній BB / спадна MA · 1-й опір</span></div>
+        <div class="rung now"><span class="px">$62.74</span><span class="lbl">ТУТ · +9.27% intraday · перший опір поруч · 1h Stoch 88</span></div>
+        <div class="rung sup"><span class="px">$61.50–62</span><span class="lbl">Тримати = продовження · нижче $59 = сумнівно</span></div>
+        <div class="rung sup"><span class="px">$57</span><span class="lbl">База пробою · нижче = невдалий відскок · bear T1</span></div>
+        <div class="rung sup"><span class="px">$51</span><span class="lbl">1h нижній BB · bear T2</span></div>
+        <div class="rung sup"><span class="px">$41</span><span class="lbl">🕳️ 200-week EMA · глибоке дно · bear T3</span></div>
       </div>
-      <p class="note rv">Жорстко перепродано, відскок під 200-day — не шорти в падіння. <strong>Шорт</strong> — фейд підходу в <strong>$60–66</strong>, стоп $71, цілі $51 → $49 → 200-week $41. Reclaim <strong>$71</strong> знімає шорт-тезу.</p>
-      <p class="note k rv"><span class="y">Daily · 17/07 close:</span> +5.07% до $57.80 (AH $58.35) — усі старі цілі сплачені, відскок знизу до зони, під 200-day $63. Розмір малий: в ASTS історія розводнень.</p>
+      <p class="note rv">Ймовірно ще нога до <strong>$66–70</strong> — не chase $62–64. <strong>Шорт</strong> — фейд опору <strong>$64.50–67</strong>, далі <strong>$70–71</strong>; цілі база $57 → $51 → 200-week $41. Close вище <strong>$77–78</strong> = тренд полагоджено, short off.</p>
+      <p class="note k rv"><span class="y">Intraday · 21/07:</span> +9.27% до $62.74, пробій бази $57–60 на реальному OBV. B. Riley Buy $85 + Midland, але $1B конверт тисне. Bull-тел: тримати $61.50 і пробити $65–67. Розмір малий.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="ASTS · SHORT">
-      <div class="eyebrow rv">PLAN · −17% FLUSH · FADE THE BOUNCE</div>
-      <h1 class="rv">Fade into <span class="hl">$60–66</span></h1>
-      <p class="sub rv">Від п'ятниці ($57.80 close, +5.07%): усі старі цілі сплачені, відскок знизу до зони, під 200-day $63. Жорстко перепродано (daily Stoch 11) — <strong>не шорти в падіння</strong>. Новий шорт від зламаного стека:</p>
+      <div class="eyebrow rv">PLAN · STRONG REBOUND · FADE THE RESISTANCE</div>
+      <h1 class="rv">Fade $65–67 / <span class="hl">$70–71</span> — don't chase</h1>
+      <p class="sub rv">Intraday 21/07 ($62.74, +9.27%): сильний перепроданий відскок з фунд-підтримкою (B. Riley Buy $85, Midland), але тренд ще не полагоджено (під усіма MA, стіна $77–78, $1B конверт тисне). Ймовірно ще нога до $66–70 — <strong>не chase $62–64</strong>, фейди опір:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$71</span></span><span class="r">зламаний стек · reclaim = short off</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$60–66</span></span><span class="r">fade підходу в зламані бенди / 200-day</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$51</span></span><span class="r">1h нижній BB</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$49</span></span><span class="r">тижнева полиця</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$77–78</span></span><span class="r">структурна стіна · close вище = short off, тренд назад</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$65–67 / $70–71</span></span><span class="r">фейд опору: верхній BB / пивот, далі supply</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$57</span></span><span class="r">база пробою</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$51</span></span><span class="r">1h нижній BB</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$41</span></span><span class="r">🕳️ 200-week</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від п'ятниці ($57.80):</strong> відскок знизу до зони — не шорти в падіння. Жди підхід у <strong>$60–66</strong> і фейди зі стопом $71. Ціль $51 → $49 → 200-week $41. Reclaim $71 = short off.</p>
-      <p class="note rv">Високобета — <strong>розмір малий</strong>. <strong>SMH під $580</strong> — повний risk-off підсилює. В ASTS історія розводнень: перевір каталізатор перед входом. 🕳️ Глибше: полиця $49 → 200-week $41.</p>
+      <p class="note k rv">🎯 <strong>Тригер (21/07, $62.74):</strong> ще нога до $66–70 ймовірна — не chase. Фейди опір <strong>$64.50–67</strong> → <strong>$70–71</strong>, ціль база $57 → $51 → 200-week $41. Close вище <strong>$77–78</strong> = short off.</p>
+      <p class="note rv"><span class="y">Bull-тел:</span> тримати $61.50 і пробити/закрити $65–67 → відкриває $70–71, потім $77–78. Високобета, <strong>розмір малий</strong> — $1B конверт = ризик розводнення. SMH тестує $580 — барометр ще під ним.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
