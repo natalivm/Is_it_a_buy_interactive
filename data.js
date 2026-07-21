@@ -133,9 +133,9 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$558.83', change: '+0.41% · Jul 20 close · AH $558',
-    signal: 'The board’s barometer — still capped under $580. Jul 20 it pushed to a $572.76 high and got sold back to close +0.41% $558.83 (AH $558.00) — another rejection under the $580 line / daily 50-EMA $579–581, holding above the daily lower BB $548. Daily RSI 42, MACD still negative — the bounce that got sold has not repaired. This is the tell for the whole short board: the sector-wide pre-market pump is a reflex against a barometer that keeps getting sold under $580 — fade risk stays high until SMH actually reclaims $580 / 9-EMA $594. The $510–515 confluence magnet stays live below.',
-    edge: 'The board’s barometer — Jul 20 pushed to $572 and got sold back to $558.83, still capped under $580; the sector’s pre-market pump is a reflex against a barometer that has not repaired. It sets the risk-off direction for the whole board until $580 is reclaimed',
+    price: '$558.83', change: '+0.41% · Jul 20 close · pre-mkt $578',
+    signal: 'The board’s barometer — and it is now testing the line. Jul 20 closed +0.41% $558.83 after a $572.76 high got sold; now pre-market it is pumping +3.42% to $577.96 — right into the $580 line / 50-EMA, the exact decision point for the whole short board. Still under $580 (barely), 1h overbought (Stoch 90). This is the tell: a hold/close ABOVE $580 repairs the tape and takes the board’s shorts off; a rejection here confirms every fade (NBIS/AAOI/INTC/SNDK/MU into their zones). The $510–515 confluence magnet stays live below while $580 caps.',
+    edge: 'The board’s barometer — pumping pre-market +3.42% to $577.96, right into the $580 line, the decision point for the whole board; still capped under $580 (a close above repairs and takes shorts off, a rejection confirms the fades). Sets the risk-off direction until $580 is reclaimed',
     side: 'short', accent: 'red',
     date: '2026-07-21',
     story: 'stories/smh.html',
