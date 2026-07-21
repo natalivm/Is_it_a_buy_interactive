@@ -48,6 +48,13 @@ Each `STOCKS` entry: `symbol`, `exchange`, `price` (freeform label), `change`,
 the chip green/red), and `story` (path to the slideshow HTML). Tile glow colours
 are auto-varied across the grid, so `accent` is optional.
 
+`date` (ISO `YYYY-MM-DD`) is the tile's "Опубліковано" label **and** the
+gallery sort key (newest first). ALWAYS bump `date` to the current date
+whenever you refresh a card — new close, pre-market move, thesis change, any
+edit to `price`/`change`/`signal`/`lead`. Refreshing the numbers without
+bumping `date` leaves the tile mis-dated and mis-sorted; treat the date bump
+as part of every refresh, not an afterthought.
+
 An entry may also carry a `lead` object (`{ rank, entry, stop, targets, downside,
 tail?, rr, rrStar?, edge }`). Entries with a `lead` render as rows in the
 "Sharpest trades" ranking table above the gallery — long or short, ordered by
