@@ -97,9 +97,9 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$865.46', change: '+1.94% · Jul 20 close · AH $871',
-    signal: 'Memory bellwether — the fade worked and the reflex bounce is now running: after Friday spiked $804→$903.93 into the fade zone and got sold ($849 close), it followed through +1.94% $865.46 (AH $871), climbing back up toward the $880–905 re-short zone but not in it yet. Daily Stoch still low (~15, turning up) so the bounce has room to the zone; stop $955 nowhere near. Re-short the approach into $880–905 (Friday’s rejection high), stop over $904 ($955); targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505. With SMH under $580, the deep leg is live. Reclaim $1,005 negates.',
-    lead: { rank: 7, status: 'wait', entry: '$880–905 bounce', stop: '$955', targets: '$800 → $665 → $505', downside: '−22%', tail: '−41%', rr: '~4:1', edge: 'Memory bellwether — the reflex bounce is running, +1.94% to $865 (AH $871) back up toward the $880–905 fade zone after Friday’s $903.93 got sold; re-short the approach, weekly 21-MA $665 the magnet, 50-week $505 live since SMH lost $580' },
+    price: '$865.46', change: '+1.94% · Jul 20 close · pre-mkt $918',
+    signal: 'Memory bellwether — and the sector pump has overrun the re-short zone. After Friday spiked to $903.93 and got sold ($849 close), MU followed through +1.94% $865.46, and now pre-market it is ripping +6.09% to $918.14 — up THROUGH the $880–905 re-short zone and past the $903.93 rejection high. Short-term overbought (1h Stoch 95) but the daily still has room (Stoch 19); the short is alive below the $955 stop / $1,005 negate, but the clean entry is gone. Don’t chase: re-short only on a failure back below $905, or fade a tag of $918–955 into the stop. Targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505, live while SMH stays under $580. Reclaim $1,005 negates.',
+    lead: { rank: 7, status: 'wait', entry: '$905 fail-back', stop: '$955', targets: '$800 → $665 → $505', downside: '−12%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — the sector pump ran it +6.09% pre-market to $918, up through the $880–905 re-short zone (clean entry overrun) toward the $955 stop; still alive below $955/$1,005 but don’t chase — re-short a failure back below $905, weekly 21-MA $665 the magnet' },
     side: 'short', accent: 'cyan',
     date: '2026-07-16',
     story: 'stories/mu.html',
