@@ -142,9 +142,9 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$558.83', change: '+0.41% · Jul 20 close · pre-mkt $578',
-    signal: 'The board’s barometer — and it is now testing the line. Jul 20 closed +0.41% $558.83 after a $572.76 high got sold; now pre-market it is pumping +3.42% to $577.96 — right into the $580 line / 50-EMA, the exact decision point for the whole short board. Still under $580 (barely), 1h overbought (Stoch 90). This is the tell: a hold/close ABOVE $580 repairs the tape and takes the board’s shorts off; a rejection here confirms every fade (NBIS/AAOI/INTC/SNDK/MU into their zones). The $510–515 confluence magnet stays live below while $580 caps.',
-    edge: 'The board’s barometer — pumping pre-market +3.42% to $577.96, right into the $580 line, the decision point for the whole board; still capped under $580 (a close above repairs and takes shorts off, a rejection confirms the fades). Sets the risk-off direction until $580 is reclaimed',
+    price: '$584.32', change: '+4.56% · Jul 21 intraday · ABOVE $580',
+    signal: 'The board’s barometer — and it just reclaimed the line. SMH is +4.56% intraday to $584.32, back ABOVE the $580 line / 50-EMA for the first time since the break — the exact switch the whole short board hangs on. This is the repair trigger: a close that HOLDS above $580 takes the board’s shorts off (NBIS/AAOI/INTC/SNDK/MU/ASTS/COHR/TER); a fade back under $580 into the bell keeps every fade live. Not yet confirmed — it is intraday, the 1h is stretched (Stoch 98), and the $594–600 daily-200-EMA zone is the next wall. Watch the close: hold >$580 = risk-on regained; lose it = another rejection and the fades are back on.',
+    edge: 'The board’s barometer just reclaimed $580 intraday (+4.56% to $584.32) — the switch that takes the short board off if it holds. Not yet confirmed (1h stretched, $594–600 the next wall); a close above $580 = risk-on regained, a fade back under keeps the fades live',
     side: 'short', accent: 'red',
     date: '2026-07-21',
     story: 'stories/smh.html',
