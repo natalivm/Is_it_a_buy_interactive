@@ -88,11 +88,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$477.22', change: '+2.23% · Jul 17 close · AH $475.51',
-    signal: 'Range short — the bounce tagged the zone and got sold. Friday ran +2.23% to $477.22 with a day high $492.93 tagging the lower edge of the $486–513 fade zone, then faded back to close $477.22 (AH $475.51) on the daily lower BB $476. Deeply oversold (daily Stoch 14), but WDC is still far above its 200-day $345 — a pullback in a huge uptrend, not a break. Fade the bounce into $486–513, stop $535; targets $446 → weekly 21-MA $440 → 🕳️ 200-day/50-week $335. Reclaim $535 negates.',
-    edge: 'Range short, healthiest of the group (still above the 200-day $345) — Friday’s bounce tagged the $486–513 fade zone at $493 and got sold; fade the bounce, the weekly 21-MA $440 then $335 the deep targets',
+    price: '$546.49', change: '+12.12% · Jul 21 intraday',
+    signal: 'Short negated — the sector pump reclaimed the stop. WDC ripped +12.12% intraday to $546.49, clean through the $486–513 fade zone AND the $535 stop, so the pullback-short is off (a reclaim of $535 neutralizes, exactly as flagged). It was always the healthiest name — a pullback inside a big uptrend, still far above the 200-day $345 — and this move puts it back near the highs, above the daily upper BB. 1h overbought (Stoch 93) so a pause/backfill is likely, but the bearish thesis is done above $535. No short here: a fresh setup needs a failure back below $513, otherwise it is simply back in trend.',
+    edge: 'Short negated — the +12.12% sector pump reclaimed the $535 stop and blew back through the $486–513 fade zone; the healthiest name (pullback in a big uptrend above the 200-day $345) is back near its highs — no short here, needs a fresh failure below $513 to re-arm',
     side: 'short',
-    date: '2026-07-15',
+    date: '2026-07-21',
     story: 'stories/wdc.html',
   },
   {
