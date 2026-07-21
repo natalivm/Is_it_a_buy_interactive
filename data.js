@@ -124,11 +124,11 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,354.82', change: '−3.99% · Jul 17 close · AH $1,341',
-    signal: '✓ Booked ≈ +15% earlier — and the fade paid again Friday: the bounce tagged $1,501.20 (into the $1,470–1,536 zone), got rejected and closed −3.99% $1,354.82 (AH $1,341), booking T1 $1,363. Now sitting on the daily lower BB $1,351, deeply oversold (daily Stoch 7) so a reflex bounce is likely — re-short the next bounce into $1,470–1,536, stop $1,590; next targets weekly 21-MA $1,287 → 🕳️ 50-week $880. With SMH under $580, the deep unwind is live. Reclaim $1,590 ends the bias.',
-    lead: { rank: 9, status: 'wait', entry: '$1,470–1,536 bounce', stop: '$1,590', targets: '$1,287 → $880', downside: '−5%', tail: '−35%', rr: '~4:1', edge: '✓ Booked ≈ +15%; Friday the bounce tagged $1,501 into the fade zone and got sold, booking T1 $1,363. Re-short the next bounce into $1,470–1,536 — weekly 21-MA $1,287 the magnet, 50-week $880 the deep unwind while SMH stays under $580' },
+    price: '$1,390.95', change: '+2.67% · Jul 20 close · pre-mkt $1,509',
+    signal: '✓ Booked ≈ +15% earlier and T1 $1,363 done — now the sector pump is delivering the next fade: after Friday tagged $1,501 and got sold ($1,355 close), SNDK closed +2.67% $1,390.95 and is gapping pre-market +8.49% to $1,509 — straight INTO the $1,470–1,536 re-short zone. This is the trigger. The 15m/1h are already overbought (Stoch 92 / RSI 80) so it is extended into the zone, not breaking out. Re-short into $1,470–1,536, stop $1,590; next targets weekly 21-MA $1,287 → 🕳️ 50-week $880. With SMH under $580, the deep unwind is live. Reclaim $1,590 ends the bias.',
+    lead: { rank: 9, status: 'wait', entry: '$1,470–1,536 bounce', stop: '$1,590', targets: '$1,287 → $880', downside: '−5%', tail: '−35%', rr: '~4:1', edge: '✓ Booked ≈ +15%, T1 $1,363 done; the sector pump has it gapping +8.49% pre-market to $1,509, straight into the $1,470–1,536 re-short zone (the fade trigger) — extended, not breaking out; re-short it, weekly 21-MA $1,287 the magnet, 50-week $880 the deep unwind while SMH under $580' },
     side: 'short', accent: 'red',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/sndk.html',
   },
   {
