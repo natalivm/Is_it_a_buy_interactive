@@ -26,11 +26,11 @@
 const STOCKS = [
   {
     symbol: 'NVDA', exchange: 'NASDAQ',
-    price: '$202.81', change: '−2.21% · Jul 17 close · AH $202.49',
-    signal: 'Inverse H&S rejected at the neckline — a “prove-it” long, not a breakout. NVDA carved a left shoulder $200–203 / head $194–196 / right shoulder $199–202 toward the $211–214 neckline, then Friday gapped down (−2.21% $202.81, AH $202.49) — but the day low $197.97 tagged the $198–200 right-shoulder support and got bought back (long lower wick). The leader still holds above every key MA (daily 200-EMA $189, 50-EMA $204) while memory breaks. Damaged, not invalidated: dip-buy the $198–200 hold, stop under $194 (loss of $194–196 breaks the pattern → $182 next), or wait for a daily close over $214–215 on volume to confirm the breakout toward the $230–234 measured target. No chase — a counter-tape long while SMH stays under $580, so size accordingly.',
-    lead: { rank: 12, status: 'wait', entry: '$198–200 hold', stop: '$194', targets: '$214 → $230 → $234', downside: '+8%', tail: '+18%', rr: '~3.5:1', edge: 'The AI leader holding up while the group breaks — an inverse H&S rejected at the $211–214 neckline, but Friday’s low $197.97 bought the $198–200 right shoulder back; dip-buy the $198–200 hold (stop <$194, invalidation $194–196) or wait for a $214–215 breakout on volume, measured target $230–234 only after confirmation' },
+    price: '$207.29', change: '+1.97% · Jul 21 close · AH $206.72',
+    signal: 'The bought right shoulder is working — NVDA grinds toward the neckline, still short of the breakout. Friday’s low $197.97 tagged the $198–200 right-shoulder support and got bought; Monday followed through +1.97% to close $207.29 (AH $206.72), reclaiming the 50-EMA $204 and pushing back into the $200–203 shoulder line while the rest of memory bounced on narrow AI/semis short-covering. The inverse H&S is still intact but unconfirmed: price sits under the $211–214 neckline, daily RSI ~52 and MACD flat — momentum neutral, not impulsive. The dip-buy off $198–200 is live (stop under $194 — a loss of $194–196 breaks the pattern → $182), but the trade only pays after a daily close over $214–215 on volume opens the $230–234 measured target. No chase into the neckline; let it prove the breakout while SMH’s $584 reclaim of $580 stays breadth-unconfirmed.',
+    lead: { rank: 12, status: 'wait', entry: '$198–200 filled', stop: '$194', targets: '$214 → $230 → $234', downside: '+8%', tail: '+18%', rr: '~3.5:1', edge: 'The AI leader that held while the group broke — the $198–200 right shoulder was bought Friday and Monday followed +1.97% to $207.29 back over the 50-EMA, but still under the $211–214 neckline with RSI ~52 / MACD flat; the dip-buy is live, though the measured $230–234 target only unlocks on a daily close over $214–215 on volume' },
     side: 'long', accent: 'emerald',
-    date: '2026-07-18',
+    date: '2026-07-21',
     story: 'stories/nvda.html',
   },
   {

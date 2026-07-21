@@ -29,6 +29,7 @@
   }
   .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
   .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
 </style>
 </head>
 <body>
@@ -38,17 +39,17 @@
 
   <div class="deck" id="deck">
 
-    <!-- 1 · 1H / DAILY · STOPPED -->
+    <!-- 1 · 1H / DAILY · BOUNCE TOWARD ZONE -->
     <section class="slide active" data-label="ALAB · 1H/1D">
       <div class="cover-ticker rv">ALAB</div>
-      <div class="eyebrow rv">1H/1D · UNDERCUT T1 $300 · DEEPLY OVERSOLD</div>
-      <h1 class="rv">Undercut $300.<br><span class="hl">Reflex bounce due.</span></h1>
-      <p class="sub rv">Лідер сповзає далі: low дня <strong>$289.60</strong> <span class="k">пробив T1 $300</span>, close <strong>−5.04% $303.62</strong> (AH рівно $303.61), під нижнім denним BB $314. Умова SMH $580 усе ще зникла. Daily Stoch <strong>6</strong> — глибоко перепродано, тож рефлекс-бонс імовірний; фейди його в <strong>$325–350</strong> (зламані 50-day $337 / 1h 50-EMA $358), стоп $362; далі $280 → $250.</p>
+      <div class="eyebrow rv">1H/1D · BOUNCED TOWARD ZONE · STILL UNDER IT</div>
+      <h1 class="rv">Bounced up.<br><span class="hl">Still under the zone.</span></h1>
+      <p class="sub rv">Лідер відскочив: close <strong>+3.46% $319.79</strong> (AH $320) — найм'якший бонс групи, дереться назад, але <span class="k">все ще ПІД зоною $325–350</span> (не перестрелив стоп, на відміну від решти). 4h Stoch <strong>80</strong> — підходить, ще не перекуплено. Стоп <strong>$362</strong> недоторканий, з великим запасом. Дії: фейд <em>підходу</em> в $325–350 (зламані 50-day $337 / 1h 50-EMA $358), стоп $362; цілі $300 → $280 → $250.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",50,"$362","стоп · reclaim = repair",0.05],["k",100,"$325–350","зламаний 50-day $337 / 1h 50-EMA $358 · re-short",0.12],["y",175,"$304","now · close −5.04% · T1 $300 пробито",0.19],["p",245,"$250","травнева база · глибокий магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ALAB undercut T1 300, deeply oversold, fade the bounce">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,110 L190,145 L280,180 L330,200 L352,178"/>
-          <circle class="dot-y pop" style="animation-delay:1.4s" cx="352" cy="178" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">low $289.60 пробив T1 $300 → фейд бонсу $325–350</text>
+        <svg data-lv='[["k",50,"$362","стоп · reclaim = repair",0.05],["k",100,"$325–350","зламаний 50-day $337 / 1h 50-EMA $358 · re-short",0.12],["y",135,"$319.79","now · close +3.46% · ПІД зоною",0.19],["p",245,"$250","травнева база · глибокий магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="ALAB bounced toward the zone, still under it, fade the approach">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,205 L190,185 L280,160 L352,140"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="352" cy="140" r="6"/>
+          <text class="cap f-y fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">бонс +3.46% до $319.79 → підходить до $325–350, ще під нею</text>
         </svg>
       </div>
     </section>
@@ -56,49 +57,49 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="ALAB · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Undercut, recovered.<br><span class="hl">Long lower wick.</span></h1>
+      <h1 class="rv">Green day up.<br><span class="hl">Stops short of the zone.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="ALAB daily candle undercut T1 300 then closed back above with a long lower wick">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
-          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="200" x2="330" y2="200"/>
+        <svg viewBox="0 0 420 340" role="img" aria-label="ALAB green daily candle bouncing up but closing below the 325-350 re-short zone">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="110" x2="330" y2="110"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="200" x2="120" y2="200"/>
           <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="250" x2="120" y2="250"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">337 50-day</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">314 low-BB</text>
-          <text class="ax f-p fade" style="animation-delay:.36s" x="54" y="204" text-anchor="end">304 close · T1 $300</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="254" text-anchor="end">290 low</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="150" x2="150" y2="248"/>
-          <rect class="candle-body fill" x="120" y="188" width="60" height="16" rx="6" style="animation-delay:.6s"/>
-          <line class="dash s-k fade" style="animation-delay:1.3s" x1="120" y1="150" x2="330" y2="150"/>
-          <text class="anno f-k fade" style="animation-delay:1.4s" x="214" y="145"><tspan class="h">Нижній BB $314</tspan> — під ним</text>
-          <line class="s-line fade" style="animation-delay:1.8s" x1="180" y1="240" x2="330" y2="240" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.85s" x="334" y="236"><tspan class="h">low $289.60</tspan></text>
-          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="253" font-weight="700">пробив T1 $300 → close $303.62</text>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">350 zone top</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="114" text-anchor="end">337 50-day</text>
+          <text class="ax f-y fade" style="animation-delay:.36s" x="54" y="204" text-anchor="end">320 close</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="254" text-anchor="end">300 T1</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="150" x2="150" y2="270"/>
+          <rect class="candle-body up fill" x="120" y="192" width="60" height="52" rx="6" style="animation-delay:.6s"/>
+          <line class="dash s-k fade" style="animation-delay:1.3s" x1="120" y1="90" x2="330" y2="90"/>
+          <rect x="120" y="70" width="210" height="40" fill="none" stroke="var(--pink)" stroke-dasharray="4 4" opacity=".5" style="animation-delay:1.35s" class="fade"/>
+          <text class="anno f-k fade" style="animation-delay:1.4s" x="214" y="62"><tspan class="h">Зона $325–350</tspan> — ще над ціною</text>
+          <text class="anno f-y fade" style="animation-delay:1.85s" x="334" y="196"><tspan class="h">close +3.46% $319.79</tspan></text>
+          <text class="anno f-y fade" style="animation-delay:1.85s" x="334" y="213">AH $320 · ПІД зоною</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚠ Пробив T1 $300 і закрив назад — довгий хвіст</div>
-        <p>Червоний день <strong>−5.04% до $303.62</strong> (AH рівно $303.61): low <strong>$289.60</strong> <span class="k">пробив T1 $300</span>, але закрив назад над ним — довгий нижній хвіст. Під нижнім denним BB $314, сетап на лонг мертвий (SMH під $580). Daily Stoch <strong>6</strong> глибоко перепродано → <strong>рефлекс-бонс імовірний</strong>, але двигун вниз. Фейд бонсу в $325–350; цілі $280 → <span class="k">травнева база $250</span>.</p>
+        <div class="vh">⚠ Зелений день — але зупинився під зоною</div>
+        <p>Зелена свічка <strong>+3.46% до $319.79</strong> (AH $320): найм'якший бонс групи, дереться назад, але <span class="k">закрив ПІД зоною $325–350</span> — не перестрелив стоп, на відміну від решти. 4h Stoch <strong>80</strong> підходить, ще не перекуплено. Сетап на лонг мертвий (SMH-реклейм вузький), тож <strong>фейд підходу</strong> в $325–350; цілі $300 → $280 → <span class="k">травнева база $250</span>. Стоп $362 з запасом.</p>
       </div>
     </section>
 
-    <!-- 3 · WHY IT FLIPPED -->
-    <section class="slide" data-label="ALAB · FLIP">
-      <div class="eyebrow y rv">WHY THE LONG IS OFF</div>
-      <h1 class="rv">Leader broke.<br><span class="hl">Stop hit + gate void.</span></h1>
-      <p class="sub rv">Лонг тримався на <strong>50-day $339</strong> і <strong>SMH &gt; $580</strong>. Обидві <span class="k">впали</span>: SMH під $580 (бонс продали, close $556.53), а ALAB провалив 50-day і відтоді сповзає — low $289.60 пробив T1 $300. Забіг $50 → $470 цілий, але навіть <span class="k">найсильніший лідер здає ногу</span> — поки тейп у risk-off, це фейд, а не діп-бай.</p>
+    <!-- 3 · SMH RECLAIM UNCONFIRMED -->
+    <section class="slide" data-label="ALAB · SMH">
+      <div class="eyebrow y rv">SMH RECLAIM · НЕ ПІДТВЕРДЖЕНО</div>
+      <h1 class="rv">Sector popped.<br><span class="hl">Breadth didn't.</span></h1>
+      <p class="sub rv">Діп-бай тримався на <strong>SMH &gt; $580</strong> і 50-day. SMH <span class="k">закрив $584</span> — над $580 назад, але <strong>вузько / short-covering, без підтвердження по breadth</strong>. ALAB усе ще під 50-day $337. Забіг $50 → $470 цілий, тож на великому таймфреймі це корекція лідера — але поки реклейм не підтверджено, це <span class="k">фейд підходу, а не діп-бай</span>: чекаємо/спостерігаємо, не женемось.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Лонг off · глибоко oversold</span><span class="v">daily Stoch 6 · low $289.60 · SMH &lt; $580</span></div>
-        <p>Під 50-day $337 і нижнім denним BB $314, OBV вниз. Глибоко перепродано (Stoch 6) → рефлекс-бонс. <span class="k">Bias вниз</span>: фейд бонсу в $325–350 (стоп $362); цілі $280 → травнева база $250. Reclaim $362 повертає лонг-сценарій.</p>
+        <div class="indi-top"><span class="t">SMH-реклейм вузький · лонг ще off</span><span class="v">SMH $584 &gt; $580 · breadth слабкий · 4h Stoch 80</span></div>
+        <p>Вузький AI/semis short-covering підняв SMH над $580, але без ширини. ALAB під 50-day $337, бонс підходить до зони. <span class="k">Bias вниз</span>: фейд підходу в $325–350 (стоп $362); цілі $300 → $280 → травнева база $250. Reclaim $362 повертає лонг-сценарій.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="ALAB breaks the 50-day as SMH loses its line">
-          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="115" x2="400" y2="115"/>
-          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="105">SMH $580 · під ним</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,100 L180,140 L270,185 L360,205"/>
-          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="205" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.5s" x="354" y="214" text-anchor="end">ALAB · −5.04% → T1 $300 пробито</text>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="286" text-anchor="middle">лідер сповзає — глибоко oversold, лонг off</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="SMH reclaims 580 narrowly while ALAB bounces toward the zone from below">
+          <line class="dash s-p fade" style="animation-delay:.1s" x1="70" y1="130" x2="400" y2="130"/>
+          <text class="cap f-p fade" style="animation-delay:.15s" x="70" y="120">SMH $580 · реклейм $584 (вузько)</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,200 L180,175 L270,150 L360,132"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="360" cy="132" r="6"/>
+          <text class="cap f-y fade" style="animation-delay:1.5s" x="354" y="150" text-anchor="end">ALAB · +3.46% → підходить до зони</text>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="286" text-anchor="middle">реклейм не підтверджено — фейд, не діп-бай</text>
         </svg>
       </div>
     </section>
@@ -111,29 +112,29 @@
         <div class="rung res"><span class="px">$384</span><span class="lbl">1h 200-EMA · верхній опір</span></div>
         <div class="rung res"><span class="px">$362</span><span class="lbl">Стоп re-short · reclaim = repair (повертає лонг)</span></div>
         <div class="rung res"><span class="px">$325–350</span><span class="lbl">Зламаний 50-day $337 / 1h 50-EMA $358 · re-short бонсу</span></div>
-        <div class="rung now"><span class="px">$303.62</span><span class="lbl">ТУТ · close −5.04% · під BB $314 · AH $304</span></div>
-        <div class="rung sup"><span class="px">$300</span><span class="lbl">Червнева база / круглий · T1 · low $289.60 пробив</span></div>
+        <div class="rung now"><span class="px">$319.79</span><span class="lbl">ТУТ · close +3.46% · ПІД зоною · AH $320</span></div>
+        <div class="rung sup"><span class="px">$300</span><span class="lbl">Червнева база / круглий · T1</span></div>
         <div class="rung sup"><span class="px">$280</span><span class="lbl">Проміжна підтримка · T2</span></div>
         <div class="rung sup"><span class="px">$250</span><span class="lbl">🕳️ Травнева база / тижнева 21-MA · T3</span></div>
       </div>
-      <p class="note rv">Діп-бай мертвий (SMH &lt; $580). Low $289.60 пробив T1 $300, закрив назад. Глибоко перепродано (Stoch 6) — рефлекс-бонс імовірний: фейд у <strong>$325–350</strong>, стоп $362. Цілі $280 → <strong>травнева база $250</strong>. Reclaim $362 повертає лонг-сценарій.</p>
+      <p class="note rv">Діп-бай мертвий (SMH-реклейм вузький). Бонс +3.46% до $319.79 підходить знизу, але <strong>ще під зоною $325–350</strong> (не перестрелив стоп). Фейд <em>підходу</em> в <strong>$325–350</strong>, стоп $362 з запасом. Цілі $300 → $280 → <strong>травнева база $250</strong>. Reclaim $362 повертає лонг-сценарій.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="ALAB · SHORT">
-      <div class="eyebrow rv">PLAN · STOPPED · FADE THE BOUNCE</div>
-      <h1 class="rv">Fade into <span class="hl">$334–350</span></h1>
-      <p class="sub rv">Від п'ятниці ($303.62 close, −5.04%): діп-бай мертвий (SMH під $580). Low $289.60 пробив T1 $300 — глибоко перепродано (Stoch 6), рефлекс-бонс імовірний. Фейд того бонсу в зламаний стек, цілі складаються вниз:</p>
+      <div class="eyebrow rv">PLAN · WAIT · FADE THE APPROACH</div>
+      <h1 class="rv">Fade into <span class="hl">$325–350</span></h1>
+      <p class="sub rv">Від закриття ($319.79, +3.46%, AH $320): діп-бай мертвий (SMH-реклейм вузький). Бонс підходить знизу, але <strong>ще під зоною</strong> — не перестрелив стоп. Фейд <em>підходу</em> в зламаний стек, цілі складаються вниз:</p>
       <div class="tpl rv">
         <div class="riser"></div>
         <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$362</span></span><span class="r">reclaim = repair, повертає лонг</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$325–350</span></span><span class="r">фейд бонсу в зламаний 50-day / 1h 50-EMA $358</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$300</span></span><span class="r">червнева база · low $289.60 пробив</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$325–350</span></span><span class="r">фейд підходу в зламаний 50-day $337 / 1h 50-EMA $358</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$300</span></span><span class="r">червнева база · круглий</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$280</span></span><span class="r">проміжна підтримка</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$250</span></span><span class="r">🕳️ травнева база</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від п'ятниці ($303.62):</strong> T1 $300 пробито, глибоко oversold (Stoch 6) — не переслідуй вниз, фейд рефлекс-бонсу в <strong>$325–350</strong>, стоп $362. T2 $280 → T3 травнева база $250. Reclaim $362 повертає лонг-сценарій.</p>
-      <p class="note rv">Забіг $50 → $470 цілий на великому таймфреймі, тож це поки корекція лідера. Але в risk-off (SMH &lt; $580) фейдимо силу: бонс — це шорт, доки $362 не відвойовано.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($319.79):</strong> ще ПІД зоною — не шорти тут, чекай/фейд <em>підходу</em> в <strong>$325–350</strong>, стоп $362 з запасом. T1 $300 → T2 $280 → T3 травнева база $250. Reclaim $362 повертає лонг-сценарій.</p>
+      <p class="note rv">Забіг $50 → $470 цілий на великому таймфреймі, тож це корекція лідера — найм'якший бонс групи. Але поки SMH-реклейм вузький, фейдимо силу: підхід — це шорт, доки $362 не відвойовано.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
