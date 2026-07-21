@@ -70,9 +70,9 @@ const STOCKS = [
   },
   {
     symbol: 'AAOI', exchange: 'NASDAQ',
-    price: '$102.41', change: '+2.16% · Jul 17 close · AH $101.58',
-    signal: 'Held the 200-day and bounced — closed +2.16% $102.41 but faded after-hours to $101.58, clinging to the daily 200-day EMA $102 / old T1 $101. Deeply oversold (daily Stoch 14) so a reflex bounce is live, but the $104–113 fade zone sits right overhead. Fade a bounce into $104–113 (1h mid-BB $104 / 50-EMA $110), stop $120; targets $90 → $82 → 🕳️ weekly 21-MA $58. A loss of $100 opens $90. Reclaim $120 negates.',
-    lead: { rank: 6, status: 'wait', entry: '$104–113 bounce', stop: '$120', targets: '$90 → $82 → $58', downside: '−12%', tail: '−43%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — held the 200-day $102 and bounced +2.16% but faded AH; fade the bounce into the $104–113 stack right overhead, a loss of $100 opens $90, weekly 21-MA $58 the deep bottom' },
+    price: '$103.02', change: '+0.60% · Jul 20 close · pre-mkt $109',
+    signal: 'Held the 200-day and coiled — closed +0.60% $103.02 on the daily 200-day EMA $102, and now the reflex bounce is here: pre-market it is popping +5.90% to $109.10, straight INTO the $104–113 fade zone. This is the fade trigger — the bounce we wanted to sell. Deeply oversold (daily Stoch 7) fuels the pop, but the engine points down and the $104–113 stack is exactly where price is now. Fade the bounce into $104–113 (1h mid-BB $104 / 50-EMA $110), stop $120; targets $90 → $82 → 🕳️ weekly 21-MA $58. A loss of $100 opens $90. Reclaim $120 negates.',
+    lead: { rank: 6, status: 'wait', entry: '$104–113 bounce', stop: '$120', targets: '$90 → $82 → $58', downside: '−12%', tail: '−43%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — held the 200-day $102, and the reflex bounce is now popping pre-market +5.90% to $109 straight into the $104–113 fade zone (the trigger); fade it, a loss of $100 opens $90, weekly 21-MA $58 the deep bottom' },
     side: 'short', accent: 'violet',
     date: '2026-07-16',
     story: 'stories/aaoi.html',
