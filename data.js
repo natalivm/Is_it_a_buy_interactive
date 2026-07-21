@@ -133,11 +133,11 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$556.53', change: '−2.18% · Jul 17 close · AH $554',
-    signal: 'Barometer sliced into the shelf — day low $536.81 (testing toward the $510–515 magnet), then bounced to $567.41 and closed $556.53 (−2.18%), only to fade into the bell and slip to $554 AH: the bounce got sold. Still a confirmed break — the close sits below the $580 line, the daily 50-EMA $579 AND the daily lower BB $568, deeply oversold (daily RSI 41, Stoch curling up from 21; 4H MACD ticking green). This is the oversold dead-cat bounce the whole short board is built to fade. Oil +4.5% (Brent +4.6%) on the Iran development adds a geopolitical risk-off tailwind. The $510–515 confluence magnet stays live; only a reclaim of $580 / 9-EMA $594 repairs.',
-    edge: 'The board’s barometer — Friday’s bounce got sold (close $556.53, still under $580); Monday is a reflex-bounce attempt with high fade risk. It sets the risk-off direction for the whole board until $580 is reclaimed',
+    price: '$558.83', change: '+0.41% · Jul 20 close · pre-mkt $578',
+    signal: 'The board’s barometer — and it is now testing the line. Jul 20 closed +0.41% $558.83 after a $572.76 high got sold; now pre-market it is pumping +3.42% to $577.96 — right into the $580 line / 50-EMA, the exact decision point for the whole short board. Still under $580 (barely), 1h overbought (Stoch 90). This is the tell: a hold/close ABOVE $580 repairs the tape and takes the board’s shorts off; a rejection here confirms every fade (NBIS/AAOI/INTC/SNDK/MU into their zones). The $510–515 confluence magnet stays live below while $580 caps.',
+    edge: 'The board’s barometer — pumping pre-market +3.42% to $577.96, right into the $580 line, the decision point for the whole board; still capped under $580 (a close above repairs and takes shorts off, a rejection confirms the fades). Sets the risk-off direction until $580 is reclaimed',
     side: 'short', accent: 'red',
-    date: '2026-07-17',
+    date: '2026-07-21',
     story: 'stories/smh.html',
   },
   {
@@ -178,11 +178,11 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$214.96', change: '+3.98% · Jul 17 close · AH $216.12',
-    signal: 'Downtrend leader — after the −13.93% flush that paid T1 $226 and T2 $211, it bounced +3.98% $214.96 and held into after-hours ($216.12), with the day high $223.75 tagging the lower edge of the $219–234 fade zone. Deeply oversold (daily Stoch 11) but the engine is down. Fade the bounce into $219–234 (1h mid-BB $228 / 50-EMA $234), stop $250; targets $200 → daily 200-EMA $185 → 🕳️ 50-week $170. Reclaim $250 negates.',
-    lead: { rank: 5, status: 'wait', entry: '$219–234 bounce', stop: '$250', targets: '$200 → $185 → $170', downside: '−7%', tail: '−21%', rr: '~3:1', edge: 'Established downtrend — the −13.93% flush paid T1/T2, now bounced +3.98% and the day high $223.75 tagged the fade zone; fade the bounce into $219–234, the 200-EMA $185 → 50-week $170' },
+    price: '$197.06', change: '−8.33% · Jul 20 close · pre-mkt $207',
+    signal: 'Downtrend leader — flushed through $200, now bouncing back with the sector. After the earlier −13.93% leg (T1 $226 / T2 $211 done), BE dropped another −8.33% Jul 20 to close $197.06, slicing through $200 toward the daily 200-EMA $185. Now pre-market it is bouncing +5.08% to $207.30 on the sector risk-on — climbing from below back toward the $219–234 re-short zone but not in it yet. Deeply oversold (daily Stoch 9) fuels the bounce, the engine still down. Fade the approach into $219–234 (1h mid-BB $228 / 50-EMA $234), stop $250; targets $200 → daily 200-EMA $185 → 🕳️ 50-week $170. Reclaim $250 negates.',
+    lead: { rank: 5, status: 'wait', entry: '$219–234 bounce', stop: '$250', targets: '$200 → $185 → $170', downside: '−7%', tail: '−21%', rr: '~3:1', edge: 'Downtrend leader — the −8.33% flush drove it through $200 toward the 200-EMA $185, now bouncing +5.08% pre-market to $207 back up toward the $219–234 fade zone; fade the approach, the 200-EMA $185 then 50-week $170 the targets' },
     side: 'short', accent: 'amber',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/be.html',
   },
   {
