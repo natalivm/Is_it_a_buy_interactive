@@ -142,9 +142,9 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$787.66', change: '+5.66% · Jul 17 close · AH $787',
-    signal: 'Strongest name on the board — bounced +5.66% off a $700.39 low and closed green $787.66 (AH flat $786.80), the only green name while MU/SNDK sold their bounces. That runs it straight into the $770–790 fade zone, right at the 1h 50-EMA $790 with 1h Stoch overbought at 88. The short is still on — fade the test of $789–798, stop $822 — but respect the relative strength: a reclaim of $822–835 takes the short off. Targets $720 (61.8% fib) → weekly 21-MA $681 → 🕳️ 50-week $516, live while SMH stays under $580.',
-    lead: { rank: 10, status: 'wait', entry: '$789–798 test', stop: '$822', targets: '$720 → $681 → $516', downside: '−9%', tail: '−31%', rr: '~3:1', edge: 'Strongest name — closed green +5.66% into the $770–790 fade zone at the 1h 50-EMA $790; fade the test of $789–798 but respect the strength — reclaim $822–835 takes the short off, weekly 21-MA $681 the magnet' },
+    price: '$802.45', change: '+1.88% · Jul 20 close · overnight $839',
+    signal: 'Strongest name — and now testing the thesis. Closed green +1.88% $802.45, pushing up THROUGH the $770–790 fade zone and past the $789–798 entry (the short never triggered — price ran up, not down). Overnight it is ripping to $839, poking above the $822 stop and into the $822–835 “reclaim takes the short off” line. The short is on the ropes: don’t chase into this strength. Re-short ONLY on a failure back below $790 (loss of the zone); a daily hold above $835 negates it outright. If it rolls back over: targets $720 (61.8% fib) → weekly 21-MA $681 → 🕳️ 50-week $516, live while SMH stays under $580.',
+    lead: { rank: 10, status: 'wait', entry: '$790 fail-back', stop: '$835', targets: '$720 → $681 → $516', downside: '−9%', tail: '−35%', rr: '~2:1', edge: 'Strongest name, now on the ropes — closed +1.88% $802.45 above the fade zone and $839 overnight, poking the $822–835 “short-off” line; don’t chase, re-short only on a failure back below $790, a daily hold above $835 negates' },
     side: 'short', accent: 'amber',
     date: '2026-07-16',
     story: 'stories/stx.html',
