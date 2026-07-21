@@ -42,6 +42,15 @@ const STOCKS = [
     date: '2026-07-21',
     story: 'stories/cohr.html',
   },
+  {
+    symbol: 'IREN', exchange: 'NASDAQ',
+    price: '$41.03', change: '+1.5% · Jul 21 intraday · hi $42.66',
+    signal: 'First long on the board — an oversold bounce with a real catalyst. IREN added ≈$2.8B of multiyear AI-cloud contracts and raised its year-end annualized AI-cloud revenue target above $4B (customer prepayments to fund the GPU buildout) — a quality catalyst, not just Bitcoin or short-covering. It ran ~$33.50→$42.66 in two sessions and is now digesting at ~$41: daily Stoch crossed up from oversold, OBV bouncing, but it is a rebound inside a larger correction (daily RSI <50, MACD <0; weekly still under the $47 average and the $49.40 pivot) and the 4h/1h are stretched. Don’t chase ~$41 — it is a breakout-retest, not a fresh entry: buy a hold of $40.10 that reclaims $41.70, or a confirmed hourly close above $42.80. Targets $44–45 (daily MA/supply) → $47 → 🎯 $49.40. An hourly close below $40.10 resets it to $39/$38.90; below $36 the spike failed.',
+    lead: { rank: 10, status: 'wait', entry: '$40 hold / >$42.80', stop: '$38.90', targets: '$44 → $47 → $49.40', downside: '+9%', tail: '+22%', rr: '~3:1', edge: 'First long on the board — $2.8B of new AI-cloud contracts (year-end AI revenue target raised >$4B) turned the oversold bounce off the 200-day into a catalyst-backed recovery; don’t chase the stretched retest — buy a $40.10 hold reclaiming $41.70 or a breakout >$42.80, the $49.40 pivot the prize, below $36 it failed' },
+    side: 'long', accent: 'emerald',
+    date: '2026-07-21',
+    story: 'stories/iren.html',
+  },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
   // Revisited to the Jul 15 CLOSE: MU, SMH, STX, INTC, AMAT, TER, AAOI, WDC, SNDK.
   // ⏳ NOT YET REVISITED — ALAB, CRDO, DELL (added on main, at Jul 15 intraday).
@@ -63,7 +72,7 @@ const STOCKS = [
     symbol: 'DRAM', exchange: 'CBOE',
     price: '$52.16', change: '−9.13% · Jul 16',
     signal: 'Roundhill Memory ETF — ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, partly via total-return swaps), so it’s driven by Korean *memory* stocks (Samsung/SK Hynix), not the broad KOSPI. A feedback loop: US memory weakens → Samsung/Hynix fall overnight → DRAM gaps down at the US open → weakness feeds back into MU/SNDK/WDC/STX. Full momentum breakdown: −35.5% from $80.90, below every MA on falling OBV. Deeply oversold (4h Stoch 7) so a violent 8–12% bounce is likely — but it’s a lower high, not a bottom. Fade $55.5–58 (50–61% fib + broken stack), stop $61.5; targets $50 → key cluster $47.5–48.5 (61.8% fib + rising 50-day + lower BB $46.5) → $42–44. 🕳️ Washout $38.5–40. A close &gt;$61 + retest flips it neutral.',
-    lead: { rank: 11, status: 'wait', entry: '$55.5–58 bounce', stop: '$61.5', targets: '$50 → $48 → $43', downside: '−8%', tail: '−25%', rr: '~2.8:1', edge: 'Korean-memory basket (≈75% in Micron/Samsung/SK Hynix via swaps) in a full momentum breakdown, −35.5% off the high; oversold bounce likely but no bottom yet — fade the lower high into $55.5–58, the $47.5–48.5 fib/50-day cluster is the magnet, $61 is the regime-change line' },
+    edge: 'Korean-memory basket (≈75% in Micron/Samsung/SK Hynix via swaps) in a full momentum breakdown, −35.5% off the high; oversold bounce likely but no bottom yet — fade the lower high into $55.5–58, the $47.5–48.5 fib/50-day cluster is the magnet, $61 is the regime-change line',
     side: 'short', accent: 'indigo',
     date: '2026-07-16',
     story: 'stories/dram.html',
@@ -90,7 +99,7 @@ const STOCKS = [
     symbol: 'INTC', exchange: 'NASDAQ',
     price: '$97.06', change: '+2.13% · Jul 20 close · pre-mkt $103',
     signal: 'Worst OBV in the group — closed +2.13% $97.06, and now the sector risk-on pump has it ripping pre-market +6.09% to $102.97, into the bottom of the $98–111 fade zone. It is extended, not breaking out: overbought on the 1h (RSI 71) and gapping straight into overhead supply — the declining daily 9/50-EMA $108–110 sits right above — while the daily stays deeply oversold (Stoch 9, RSI 37), so the pop can poke higher but has no real breakout energy (worst OBV in the group, daily MACD still negative). Fade the pump into $98–111 (1h 50-EMA / broken daily lower BB), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates — and would be the first real sign of energy.',
-    lead: { rank: 8, status: 'wait', entry: '$98–111 bounce', stop: '$118', targets: '$92 → $89 → $73', downside: '−6%', tail: '−23%', rr: '~3:1', edge: 'Worst OBV in the group — the sector pump has it +6.09% pre-market to $103 into the $98–111 fade zone, extended on the 1h into overhead supply with no breakout energy (negative daily MACD); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap' },
+    edge: 'Worst OBV in the group — the sector pump has it +6.09% pre-market to $103 into the $98–111 fade zone, extended on the 1h into overhead supply with no breakout energy (negative daily MACD); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap',
     side: 'short', accent: 'blue',
     date: '2026-07-21',
     story: 'stories/intc.html',

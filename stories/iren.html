@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$IREN — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  :root{
+    --page-bg:#03120C;
+    --bg:#072019;
+    --panel:#0E3328;
+    --panel2:#0B2A22;
+    --line:#1C5142;
+    --ink:#FFFFFF;
+    --muted:#8FCBB6;
+    --purple:#34D399;   /* green · target / up / support */
+    --pink:#FB5D74;     /* red · resistance overhead */
+    --yellow:#F5B841;   /* amber · now / entry */
+    --deep:#03120C;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+    --sub:#DBF1E7;
+  }
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--purple) 40%,var(--line));border-radius:14px;background:rgba(52,211,153,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--purple);display:flex;align-items:center;gap:7px;}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · 1H -->
+    <section class="slide active" data-label="IREN · 1H">
+      <div class="cover-ticker rv">IREN</div>
+      <div class="eyebrow p rv">1H · BREAKOUT RETEST · DIGESTING THE RUN</div>
+      <h1 class="rv">Ran $33→$42.<br><span class="hl">Now digesting.</span></h1>
+      <p class="sub rv">Перший <span class="p">лонг на дошці</span>. IREN злетів з ~<strong>$33.50 до $42.66</strong> за дві сесії й тепер <span class="k">перетравлює</span> рух біля ~$41. Це <strong>ретест пробою, не свіжий вхід</strong>: свічка під 9-EMA $41.60–41.70, MACD дав ведмежий крос, стохастик злетів з перекупленості (RSI охолов до ~55). Ключова опора — <span class="p">$40.10–40.30</span> (1h 200-EMA + зона пробою). Не chase $41 — жди утримання $40.10 і реклейм $41.70.</p>
+      <div class="chart rv">
+        <svg data-lv='[["k",48,"$42.80","гейт · hourly close вище → $44–45",0.05],["k",92,"$41.70","9-EMA · реклейм = моментум назад",0.12],["y",128,"$41","now · digesting · hi $42.66",0.19],["p",182,"$40.10","1h 200-EMA + ретест пробою · тримати",0.24],["p",250,"$38.90","50-EMA · глибша опора",0.3]]' viewBox="0 0 470 300" role="img" aria-label="IREN ran from 33 to 42 and is now retesting the breakout at the 40 support cluster">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M96,235 L175,150 L255,95 L320,120 L364,128"/>
+          <circle class="dot-y pop" style="animation-delay:1.7s" cx="364" cy="128" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.9s" x="250" y="282" text-anchor="middle">$33→$42 → ретест $40.10 · тримати + реклейм $41.70 = ще нога</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-label="IREN · 1D">
+      <div class="eyebrow rv">DAILY · RECOVERY STARTED</div>
+      <h1 class="rv">Recovery on.<br><span class="hl">Not yet confirmed.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 340" role="img" aria-label="IREN daily recovering off oversold at the 200-day, not yet a confirmed reversal">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="110" x2="330" y2="110"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="175" x2="330" y2="175"/>
+          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="240" x2="120" y2="240"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">49.40 pivot</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="114" text-anchor="end">44–45 daily MA / supply</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="179" text-anchor="end">41 now</text>
+          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="244" text-anchor="end">37–38 deeper</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="150" x2="150" y2="210"/>
+          <rect class="candle-body up fill" x="120" y="160" width="60" height="30" rx="7" style="animation-delay:.6s"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.9s" d="M180,190 L230,150 L275,120"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="275" cy="120" r="6"/>
+          <text class="anno f-p fade" style="animation-delay:2.05s" x="283" y="116"><tspan class="h">$41</tspan> +1.5% · hi $42.66</text>
+        </svg>
+      </div>
+      <div class="verdict rv">
+        <div class="vh">✓ Покупці повертаються — але ще не контролюють</div>
+        <p>Daily-стохастик <span class="p">перетнувся вгору з перепроданості</span>, OBV відскочив — конструктивно. Але це <span class="k">відскок усередині більшої корекції</span>: daily RSI досі <strong>&lt;50</strong>, MACD <strong>&lt;0</strong>. Ціна повернулась до denної 200-day ~$44 знизу. Покупці повертаються, повного контролю ще нема — тому <strong>не chase</strong>, а купуй з рівня: утримання $39–40 або пробій-ретест &gt;$42.80. Ціль $44–45 → $47 → $49.40.</p>
+      </div>
+    </section>
+
+    <!-- 3 · CATALYST / WEEKLY -->
+    <section class="slide" data-label="IREN · CATALYST">
+      <div class="eyebrow y rv">CATALYST · WHY THIS MOVE IS DIFFERENT</div>
+      <h1 class="rv">Real catalyst.<br><span class="hl">Not just Bitcoin.</span></h1>
+      <p class="sub rv">Ралі підкріплене <span class="p">якісним катастом</span>, а не лише біткоїном чи шорт-сквізом: IREN додала <strong>≈$2.8 млрд</strong> багаторічних AI-cloud контрактів, підняла ціль річної annualized AI-cloud виручки <strong>вище $4 млрд</strong>, і передоплати клієнтів частково фінансуватимуть GPU-білдаут. Це <span class="k">суттєво покращує якість руху</span>.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Weekly · ще лікує</span><span class="v">під ~$47 середньою · під $49.40 pivot · weekly MACD ведмежий</span></div>
+        <p>Тижнево — <span class="k">сильний відскок усередині корекції</span>, ще не відновлений аптренд: під спадною короткою середньою ~$47 і головним пивотом <strong>$49.40</strong>. Фундамент + обсяг дають <span class="p">пальне на $44–47</span>; чисте підтвердження більшого аптренду — тільки close вище <strong>$49.40</strong>.</p>
+      </div>
+      <div class="chart rv">
+        <svg data-lv='[["k",55,"$49.40","weekly pivot · close вище = аптренд назад",0.05],["k",120,"$47","спадна коротка середня · опір",0.12],["y",175,"$41","now · відскок у корекції",0.19],["p",250,"$33.50","база забігу · старт ралі",0.26]]' viewBox="0 0 470 300" role="img" aria-label="IREN weekly rebound inside a larger correction, capped under 47 and the 49.40 pivot">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M80,250 L170,235 L250,150 L300,175 L360,175"/>
+          <circle class="dot-y pop" style="animation-delay:1.6s" cx="360" cy="175" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.8s" x="235" y="284" text-anchor="middle">$2.8B AI-cloud → пальне до $44–47 · пробій $49.40 = аптренд</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="IREN · РІВНІ">
+      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <h1 class="rv">Level <span class="hl">map</span></h1>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$49.40</span><span class="lbl">Головний pivot · close вище = аптренд реасертиться</span></div>
+        <div class="rung res"><span class="px">$47</span><span class="lbl">Спадна коротка середня · головний опір</span></div>
+        <div class="rung res"><span class="px">$44–45</span><span class="lbl">Denna MA / supply · T1</span></div>
+        <div class="rung res"><span class="px">$42.80</span><span class="lbl">Гейт пробою · hourly close вище → $44–45</span></div>
+        <div class="rung res"><span class="px">$41.70</span><span class="lbl">1h 9-EMA · реклейм = моментум назад</span></div>
+        <div class="rung now"><span class="px">$41</span><span class="lbl">ТУТ · digesting · hi $42.66 · ~36M shares</span></div>
+        <div class="rung sup"><span class="px">$40.10–40.30</span><span class="lbl">1h 200-EMA + ретест пробою · головна опора</span></div>
+        <div class="rung sup"><span class="px">$39.30–39.50</span><span class="lbl">VWAP</span></div>
+        <div class="rung sup"><span class="px">$38.80–39.00</span><span class="lbl">Зростаюча 50-EMA · сильніша опора</span></div>
+        <div class="rung sup"><span class="px">$36</span><span class="lbl">🚫 Нижче = спайк-на-новинах, що провалився</span></div>
+      </div>
+      <p class="note rv">Ще нога вгору: тримати <strong>$40.10</strong>, зробити higher low, реклейм <strong>$41.70</strong> → $42.50–42.80 → hourly close &gt;$42.80 = розширення на <strong>$44–45</strong>. Слабшає: hourly close <strong>&lt;$40.10</strong> = пробій 200-EMA провалюється → $39.40, далі $38.80–39.00 (на daily ще ок, але затягує). Нижче <strong>$36</strong> — теза знята.</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="IREN · LONG">
+      <div class="eyebrow p rv">PLAN · LONG · DON'T CHASE, BUY THE LEVEL</div>
+      <h1 class="rv">Buy the hold / <span class="hl">breakout-retest</span></h1>
+      <p class="sub rv">Катаст реальний ($2.8B AI-cloud, ціль виручки &gt;$4B), але 4h/1h розтягнуті — <strong>не chase ~$41</strong>. Два чисті входи: контрольований пулбек, що тримає $39–40, або підтверджений пробій-ретест &gt;$42.80:</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$49.40</span></span><span class="r">pivot · аптренд реасертиться</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$47</span></span><span class="r">головний опір</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$44–45</span></span><span class="r">denna MA / supply</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ВХІД</span><span class="px">$40 hold / &gt;$42.80</span></span><span class="r">утримати $40.10 + реклейм $41.70 · або пробій-ретест</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$38.90</span></span><span class="r">close &lt;$40.10 слабшає · &lt;$36 = теза знята</span></div>
+      </div>
+      <p class="note k rv">🎯 <strong>Тригер:</strong> не chase $41. Купуй утримання <strong>$40.10</strong> з реклеймом $41.70, <em>або</em> hourly close &gt;$42.80. Ціль $44–45 → $47 → $49.40 (пробій = аптренд назад). База: пауза $39–43, тоді нова спроба вгору.</p>
+      <p class="note rv">Перший лонг на дошці серед шортів — <strong>окремий, катаст-бекнутий</strong> сетап. Барометр SMH усе ще тестує $580; ризикуй розміром, поки ширший tape не підтвердив.</p>
+      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory();
+</script>
+</body>
+</html>
