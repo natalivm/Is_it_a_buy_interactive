@@ -160,11 +160,11 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$57.80', change: '+5.07% · Jul 17 close · AH $58.35',
-    signal: 'After the −17% flush that paid every target (T1 $63, T2 $60, $57), it bounced +5.07% $57.80 (AH $58.35), grinding up from below toward the $60–66 fade zone but still under the daily 200-day $63. Deeply oversold (daily Stoch 11). Fade the approach into $60–66 (broken bands), stop $71; targets $51 → $49 shelf → 🕳️ 200-week $41. Size small (dilution risk). Reclaim $71 negates.',
-    edge: 'The −17% flush paid every target to below the 200-day $63; now bounced +5.07% up toward the $60–66 fade zone, deeply oversold — fade the approach small-size (dilution risk), the $49 shelf then 200-week $41 the targets',
+    price: '$62.74', change: '+9.27% · Jul 21 intraday',
+    signal: 'Strong oversold rebound, not yet a confirmed uptrend — and more near-term energy than IREN. Popped +9.27% intraday to $62.74, breaking out of the $57–60 base on real OBV buying, with fundamental support (B. Riley upgraded to Buy, $85 target; Midland manufacturing-expansion approved) — though it is still digesting a $1B convertible-note financing (dilution / convert-arb overhang) and deployment concerns. Structurally still damaged: below all daily MAs, daily MACD negative, the $77–78 wall overhead. Likely another leg toward $66–70, so don’t chase $62–64 — fade the resistance tests at $64.50–67 (upper BB / pivot / 1h 200-EMA) then $70–71 (breakdown supply); a close above $77–78 repairs the trend and takes the short off. Bear targets if resistance holds: $57 base → $51 → 🕳️ 200-week $41. Bullish tell: hold $61.50 and break/close $65–67. Size small (dilution risk).',
+    edge: 'Strong oversold rebound with real support (B. Riley Buy $85, Midland expansion) but a $1B convert-dilution overhang — likely another leg to $66–70, so don’t chase $62–64; fade the $65–67 / $70–71 resistance, a close over the $77–78 wall repairs the trend, the $57 base then 200-week $41 the downside',
     side: 'short', accent: 'violet',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/asts.html',
   },
   {
