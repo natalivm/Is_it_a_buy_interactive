@@ -74,7 +74,7 @@ const STOCKS = [
     signal: 'Held the 200-day and coiled — closed +0.60% $103.02 on the daily 200-day EMA $102, and now the reflex bounce is here: pre-market it is popping +5.90% to $109.10, straight INTO the $104–113 fade zone. This is the fade trigger — the bounce we wanted to sell. Deeply oversold (daily Stoch 7) fuels the pop, but the engine points down and the $104–113 stack is exactly where price is now. Fade the bounce into $104–113 (1h mid-BB $104 / 50-EMA $110), stop $120; targets $90 → $82 → 🕳️ weekly 21-MA $58. A loss of $100 opens $90. Reclaim $120 negates.',
     lead: { rank: 6, status: 'wait', entry: '$104–113 bounce', stop: '$120', targets: '$90 → $82 → $58', downside: '−12%', tail: '−43%', rr: '~3.5:1', edge: 'Heaviest OBV collapse in the group — held the 200-day $102, and the reflex bounce is now popping pre-market +5.90% to $109 straight into the $104–113 fade zone (the trigger); fade it, a loss of $100 opens $90, weekly 21-MA $58 the deep bottom' },
     side: 'short', accent: 'violet',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/aaoi.html',
   },
   {
@@ -92,7 +92,7 @@ const STOCKS = [
     signal: 'Worst OBV in the group — closed +2.13% $97.06, and now the sector risk-on pump has it ripping pre-market +6.09% to $102.97, into the bottom of the $98–111 fade zone. It is extended, not breaking out: overbought on the 1h (RSI 71) and gapping straight into overhead supply — the declining daily 9/50-EMA $108–110 sits right above — while the daily stays deeply oversold (Stoch 9, RSI 37), so the pop can poke higher but has no real breakout energy (worst OBV in the group, daily MACD still negative). Fade the pump into $98–111 (1h 50-EMA / broken daily lower BB), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates — and would be the first real sign of energy.',
     lead: { rank: 8, status: 'wait', entry: '$98–111 bounce', stop: '$118', targets: '$92 → $89 → $73', downside: '−6%', tail: '−23%', rr: '~3:1', edge: 'Worst OBV in the group — the sector pump has it +6.09% pre-market to $103 into the $98–111 fade zone, extended on the 1h into overhead supply with no breakout energy (negative daily MACD); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap' },
     side: 'short', accent: 'blue',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/intc.html',
   },
   {
@@ -101,7 +101,7 @@ const STOCKS = [
     signal: 'Memory bellwether — and the sector pump has overrun the re-short zone. After Friday spiked to $903.93 and got sold ($849 close), MU followed through +1.94% $865.46, and now pre-market it is ripping +6.09% to $918.14 — up THROUGH the $880–905 re-short zone and past the $903.93 rejection high. Short-term overbought (1h Stoch 95) but the daily still has room (Stoch 19); the short is alive below the $955 stop / $1,005 negate, but the clean entry is gone. Don’t chase: re-short only on a failure back below $905, or fade a tag of $918–955 into the stop. Targets $800 → weekly 21-MA $665 → 🕳️ 50-week $505, live while SMH stays under $580. Reclaim $1,005 negates.',
     lead: { rank: 7, status: 'wait', entry: '$905 fail-back', stop: '$955', targets: '$800 → $665 → $505', downside: '−12%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — the sector pump ran it +6.09% pre-market to $918, up through the $880–905 re-short zone (clean entry overrun) toward the $955 stop; still alive below $955/$1,005 but don’t chase — re-short a failure back below $905, weekly 21-MA $665 the magnet' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/mu.html',
   },
   {
@@ -124,11 +124,11 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,354.82', change: '−3.99% · Jul 17 close · AH $1,341',
-    signal: '✓ Booked ≈ +15% earlier — and the fade paid again Friday: the bounce tagged $1,501.20 (into the $1,470–1,536 zone), got rejected and closed −3.99% $1,354.82 (AH $1,341), booking T1 $1,363. Now sitting on the daily lower BB $1,351, deeply oversold (daily Stoch 7) so a reflex bounce is likely — re-short the next bounce into $1,470–1,536, stop $1,590; next targets weekly 21-MA $1,287 → 🕳️ 50-week $880. With SMH under $580, the deep unwind is live. Reclaim $1,590 ends the bias.',
-    lead: { rank: 9, status: 'wait', entry: '$1,470–1,536 bounce', stop: '$1,590', targets: '$1,287 → $880', downside: '−5%', tail: '−35%', rr: '~4:1', edge: '✓ Booked ≈ +15%; Friday the bounce tagged $1,501 into the fade zone and got sold, booking T1 $1,363. Re-short the next bounce into $1,470–1,536 — weekly 21-MA $1,287 the magnet, 50-week $880 the deep unwind while SMH stays under $580' },
+    price: '$1,390.95', change: '+2.67% · Jul 20 close · pre-mkt $1,509',
+    signal: '✓ Booked ≈ +15% earlier and T1 $1,363 done — now the sector pump is delivering the next fade: after Friday tagged $1,501 and got sold ($1,355 close), SNDK closed +2.67% $1,390.95 and is gapping pre-market +8.49% to $1,509 — straight INTO the $1,470–1,536 re-short zone. This is the trigger. The 15m/1h are already overbought (Stoch 92 / RSI 80) so it is extended into the zone, not breaking out. Re-short into $1,470–1,536, stop $1,590; next targets weekly 21-MA $1,287 → 🕳️ 50-week $880. With SMH under $580, the deep unwind is live. Reclaim $1,590 ends the bias.',
+    lead: { rank: 9, status: 'wait', entry: '$1,470–1,536 bounce', stop: '$1,590', targets: '$1,287 → $880', downside: '−5%', tail: '−35%', rr: '~4:1', edge: '✓ Booked ≈ +15%, T1 $1,363 done; the sector pump has it gapping +8.49% pre-market to $1,509, straight into the $1,470–1,536 re-short zone (the fade trigger) — extended, not breaking out; re-short it, weekly 21-MA $1,287 the magnet, 50-week $880 the deep unwind while SMH under $580' },
     side: 'short', accent: 'red',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/sndk.html',
   },
   {
@@ -146,7 +146,7 @@ const STOCKS = [
     signal: 'Strongest name — and now testing the thesis. Closed green +1.88% $802.45, pushing up THROUGH the $770–790 fade zone and past the $789–798 entry (the short never triggered — price ran up, not down). Overnight it is ripping to $839, poking above the $822 stop and into the $822–835 “reclaim takes the short off” line. The short is on the ropes: don’t chase into this strength. Re-short ONLY on a failure back below $790 (loss of the zone); a daily hold above $835 negates it outright. If it rolls back over: targets $720 (61.8% fib) → weekly 21-MA $681 → 🕳️ 50-week $516, live while SMH stays under $580.',
     edge: 'Strongest name — broke UP through the $770–790 fade zone (close +1.88% $802.45, overnight $839), poking the $822–835 “short-off” line; off the ranked board while it leads higher — re-short only on a failure back below $790, a daily hold above $835 negates',
     side: 'short', accent: 'amber',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/stx.html',
   },
   {
@@ -160,11 +160,11 @@ const STOCKS = [
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$182.62', change: '+2.76% · Jul 20 close · AH $183.02',
-    signal: 'Breakdown leader — after the −13.90% flush that paid T1 $190 and T2 $177, the reflex bounce ran on: closed +2.76% $182.62 (AH $183.02), climbing from below right into the underside of the $185–200 fade zone. Stop $213 never came close — no stop-out, the thesis is intact. Oversold has worked off (daily RSI back ~50, MACD flipped green), so the reflex is maturing into the zone. Fade the approach into $185–200 (broken daily lower BB / round $200), stop $213; targets $160 → 200-day $147 → 🕳️ $130. Reclaim $213 neutralizes.',
-    lead: { rank: 4, status: 'wait', entry: '$185–200 bounce', stop: '$213', targets: '$160 → $147 → $130', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Breakdown leader — the −13.9% flush paid T1/T2, now the bounce has run +2.76% to $182.62, right under the $185–200 fade zone; stop $213 untouched, fade the approach, the 200-day $147 the magnet' },
+    price: '$182.62', change: '+2.76% · Jul 20 close · pre-mkt $196',
+    signal: 'Breakdown leader — and the sector pump has carried it into the fade zone. After the −13.90% flush paid T1 $190 / T2 $177, NBIS closed +2.76% $182.62 and now pre-market it is ripping +7.49% to $196.30 — INTO the $185–200 fade zone. This is the trigger. Extended short-term (15m Stoch 96) but the daily still has room (Stoch 13), and the $213 stop is untouched. Fade the pump into $185–200 (broken daily lower BB / round $200), stop $213; targets $160 → 200-day $147 → 🕳️ $130. Reclaim $213 neutralizes.',
+    lead: { rank: 4, status: 'wait', entry: '$185–200 bounce', stop: '$213', targets: '$160 → $147 → $130', downside: '−10%', tail: '−27%', rr: '~3:1', edge: 'Breakdown leader — the −13.9% flush paid T1/T2, and the sector pump has run it +7.49% pre-market to $196 into the $185–200 fade zone (the trigger); stop $213 untouched, fade the pump, the 200-day $147 the magnet' },
     side: 'short', accent: 'indigo',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/nbis.html',
   },
   {
