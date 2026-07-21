@@ -27,6 +27,7 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#EEE9F9;
   }
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
 </style>
 </head>
 <body>
@@ -39,14 +40,14 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="COHR · 1H">
       <div class="cover-ticker rv">COHR</div>
-      <div class="eyebrow rv">1H · BASING · TAGGED THE 200-DAY</div>
-      <h1 class="rv">Tagged the 200-day.<br><span class="hl">Basing at $277.</span></h1>
-      <p class="sub rv">Тижневий злам відпрацював у T1: close <strong>flat +0.23% $277.60</strong> (AH $277.19) — low дня <strong>$255.14</strong> тегнув denну <span class="p">200-day $265</span> і відновив. Глибоко перепродано (daily RSI 33, Stoch 8). Тепер базується під 21-week MA $321; зона фейду $288–302 над головою — фейд бонсу туди, повітря вниз до <span class="p">50-week $247</span>.</p>
+      <div class="eyebrow rv">1H · PUMPED +7.17% TO THE STOP'S DOORSTEP</div>
+      <h1 class="rv">Pumped to $306.<br><span class="hl">Fade at the stop.</span></h1>
+      <p class="sub rv">Памп доставив фейд <span class="k">прямо до стопа</span>: close <strong>+2.81% $285.40</strong>, а pre-market <span class="p">+7.17% до $305.89</span> — у верх зони <strong>$288–302</strong>, впритул під стоп $310. Це <span class="k">найчистіший фейд дошки</span>: шорт тесту $300–310 проти тісного стопа $310, простір униз величезний. 1h перекуплений (RSI 72, Stoch 90), тижнево досі зламано під 21-week MA $321. Ціль 200-day $265 → 50-week $247.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",48,"$310","стоп · зламаний стек вище",0.05],["k",100,"$288–302","зламаний 1h стек / denna 9-EMA · re-short",0.12],["y",180,"$277","now · flat +0.23% · базується",0.19],["p",250,"$265","denna 200-day · T1 · low $255 тегнув",0.26]]' viewBox="0 0 470 300" role="img" aria-label="COHR basing after tagging the daily 200-day">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,90 L180,130 L260,180 L320,205 L364,185"/>
-          <circle class="dot-y pop" style="animation-delay:1.55s" cx="364" cy="185" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">low $255 тегнув 200-day → базується · фейд $288–302</text>
+        <svg data-lv='[["k",48,"$321","21-week MA · reclaim = повний ремонт",0.05],["k",80,"$310","стоп · пробій = шорт off",0.12],["y",100,"$306","pre-mkt +7.17% · верх зони · ТУТ",0.19],["k",128,"$288–302","зона фейду · памп пробив у верх",0.26],["p",255,"$265","denna 200-day · T1 · low $255 тегнув",0.32]]' viewBox="0 0 470 300" role="img" aria-label="COHR pumped 7.17 percent to the top of the fade zone under the 310 stop">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L180,190 L260,150 L320,120 L364,100"/>
+          <circle class="dot-y pop" style="animation-delay:1.55s" cx="364" cy="100" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="284" text-anchor="middle">памп +7.17% у верх зони під $310 → тісний фейд тут</text>
         </svg>
       </div>
     </section>
@@ -54,25 +55,27 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="COHR · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Undercut $255.<br><span class="hl">Recovered to $277.</span></h1>
+      <h1 class="rv">Green +2.81%.<br><span class="hl">Gapped into the zone.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="COHR daily candle undercut the 200-day at 255 then recovered to close 277">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="110"  x2="330" y2="110"/>
-          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="145" x2="330" y2="145"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="180" x2="330" y2="180"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="114"  text-anchor="end">288 зона re-short</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="149" text-anchor="end">277 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="184" text-anchor="end">265 200-day · low $255</text>
-          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="115" x2="150" y2="215"/>
-          <rect class="candle-body up fill" x="120" y="145" width="60" height="35" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1.3s" x1="180" y1="145" x2="330" y2="145" stroke-width="1"/>
-          <text class="anno f-p fade" style="animation-delay:1.35s" x="334" y="141"><tspan class="h">$277.60</tspan> flat +0.23%</text>
-          <text class="anno f-k fade" style="animation-delay:1.85s" x="334" y="211">low $255 тегнув 200-day</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="COHR green close then gapped pre-market into the fade zone under the 310 stop">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="100" x2="330" y2="100"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="175" x2="330" y2="175"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">310 стоп</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="104" text-anchor="end">306 pre-mkt · верх зони</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="179" text-anchor="end">285 close +2.81%</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="168" x2="150" y2="215"/>
+          <rect class="candle-body up fill" x="120" y="175" width="60" height="24" rx="7" style="animation-delay:.6s"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.9s" d="M150,175 L200,135 L235,102"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="235" cy="102" r="6"/>
+          <rect x="120" y="100" width="240" height="26" rx="6" fill="none" stroke="var(--pink)" stroke-dasharray="4 4" opacity=".5" style="animation-delay:1.5s"/>
+          <text class="anno f-k fade" style="animation-delay:1.55s" x="368" y="112"><tspan class="h">$288–302</tspan> зона</text>
+          <text class="anno f-m fade" style="animation-delay:2.05s" x="243" y="102"><tspan class="h">$306</tspan> pre-mkt +7.17%</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">↓ Тегнув 200-day (T1) і базується</div>
-        <p>Свічка з довгим нижнім хвостом: low <strong>$255.14 тегнув denну 200-day / T1 $265</strong> і закрила flat <strong>+0.23% $277.60</strong> (AH $277.19). Перший дотик структури за весь забіг $50 → $450, OBV завертає з рекорду. Глибоко перепродано (daily RSI 33, Stoch 8): <span class="k">не жени ціну вниз, фейди бонс</span> у $288–302. Магніти далі: 50-week $247 → нижній тижневий BB $215.</p>
+        <div class="vh">⚡ Памп у зону — фейд прямо під стопом $310</div>
+        <p>Зелений день <strong>+2.81% $285.40</strong>, а pre-market памп <strong>+7.17% до $305.89</strong> — у верх зони фейду $288–302, впритул під стоп $310. Це той бонс, який фейдимо, і памп доставив його <span class="k">прямо на рівень</span>. Тижневий злам структури ($50 → $450 забіг), OBV з рекорду вниз, тижнево під 21-week MA $321. <span class="k">Тісний фейд тут</span> проти $310, простір униз: 200-day $265 → 50-week $247 → тижневий BB $215.</p>
       </div>
     </section>
 
@@ -80,16 +83,16 @@
     <section class="slide" data-label="COHR · 1W">
       <div class="eyebrow y rv">WEEKLY · WHERE THE CORRECTION GOES</div>
       <h1 class="rv">The run broke.<br><span class="hl">Magnets: $265 → $247.</span></h1>
-      <p class="sub rv">Забіг <strong>$50 → $450 (+800%)</strong> за півтора року — і перший <span class="k">тижневий злам структури</span>: свічка ріже 21-week MA $321, weekly MACD histogram червоніє, OBV котиться з рекорду. RSI 47 — по-тижневому ще <em>не</em> перепродано, тобто <span class="k">повітря вниз є</span>. T1 <span class="p">200-EMA $265</span> уже тегнутий (low $255); далі магніти <span class="p">50-week EMA $247</span> → <span class="p">нижній тижневий BB $215</span>.</p>
+      <p class="sub rv">Забіг <strong>$50 → $450 (+800%)</strong> за півтора року — і перший <span class="k">тижневий злам структури</span>: свічка ріже 21-week MA $321, weekly MACD histogram червоніє, OBV котиться з рекорду. Памп повернув ціну до <strong>$306</strong>, але <span class="k">ще під 21-week MA $321</span> — злам не відремонтовано. T1 <span class="p">200-EMA $265</span> уже тегнутий (low $255); далі магніти <span class="p">50-week EMA $247</span> → <span class="p">нижній тижневий BB $215</span>.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Тижнева структура зламана</span><span class="v">RSI 47 · MACD червоніє · OBV з рекорду вниз</span></div>
-        <p>Під 21-week MA $321 <span class="k">bias вниз</span>: цілі $265 → $247 → $215. Вхід — фейд бонсу у <strong>$288–302</strong>, стоп $310. Reclaim $321 повертає ціну в діапазон.</p>
+        <div class="indi-top"><span class="t">Тижнева структура зламана</span><span class="v">памп до $306, під $321 · MACD червоніє · OBV з рекорду</span></div>
+        <p>Під 21-week MA $321 <span class="k">bias вниз</span>: цілі $265 → $247 → $215. Вхід — фейд пампу у <strong>$300–310</strong>, стоп $310. Reclaim $321 повертає ціну в діапазон.</p>
       </div>
       <div class="chart rv">
-        <svg data-lv='[["k",50,"$450","ATH · червень",0.05],["k",112,"$321","21-week MA · зламана",0.12],["y",158,"$277","now · базується",0.19],["p",222,"$247","50-week EMA · T2",0.26]]' viewBox="0 0 470 300" role="img" aria-label="COHR weekly run from 50 to 450 breaking its 21-week moving average">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.1s" d="M70,255 L150,235 L230,180 L300,95 L335,60 L372,158"/>
-          <circle class="dot-y pop" style="animation-delay:1.95s" cx="372" cy="158" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.05s" x="366" y="176" text-anchor="end">перший тижневий злам після $50 → $450</text>
+        <svg data-lv='[["k",50,"$450","ATH · червень",0.05],["k",112,"$321","21-week MA · зламана · опір",0.12],["y",130,"$306","now · памп · під $321",0.19],["p",222,"$247","50-week EMA · T2",0.26]]' viewBox="0 0 470 300" role="img" aria-label="COHR weekly run from 50 to 450 breaking its 21-week moving average, pumped back to 306 still under it">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.1s" d="M70,255 L150,235 L230,180 L300,95 L335,60 L372,130"/>
+          <circle class="dot-y pop" style="animation-delay:1.95s" cx="372" cy="130" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.05s" x="366" y="148" text-anchor="end">злам $321 не відремонтовано — памп під ним</text>
         </svg>
       </div>
     </section>
@@ -99,33 +102,34 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$321</span><span class="lbl">21-week MA · зламана · reclaim повертає в діапазон</span></div>
-        <div class="rung res"><span class="px">$310</span><span class="lbl">Stop · зламаний 1h стек вище</span></div>
-        <div class="rung res"><span class="px">$288–302</span><span class="lbl">Зламаний 1h стек / denna 9-EMA · re-short на бонсі</span></div>
-        <div class="rung now"><span class="px">$277.60</span><span class="lbl">ТУТ · flat +0.23% · базується · AH $277.19</span></div>
+        <div class="rung res"><span class="px">$321</span><span class="lbl">21-week MA · зламана · reclaim = повний ремонт</span></div>
+        <div class="rung res"><span class="px">$310</span><span class="lbl">🚨 Stop · пробій = шорт off</span></div>
+        <div class="rung now"><span class="px">$306</span><span class="lbl">ТУТ · pre-mkt +7.17% · верх зони · впритул під $310</span></div>
+        <div class="rung key"><span class="px">$288–302</span><span class="lbl">Зона фейду · памп пробив у верх · re-short</span></div>
+        <div class="rung sup"><span class="px">$285</span><span class="lbl">20/07 close +2.81%</span></div>
         <div class="rung sup"><span class="px">$265</span><span class="lbl">denna 200-day · T1 · low $255 тегнув</span></div>
         <div class="rung sup"><span class="px">$247</span><span class="lbl">50-week EMA · T2</span></div>
         <div class="rung sup"><span class="px">$215</span><span class="lbl">Нижній тижневий BB · T3</span></div>
       </div>
-      <p class="note rv">Не жени ціну вниз: фейд бонсу у <strong>$288–302</strong>, стоп <strong>$310</strong>. Downside: T1 $265 тегнуто → $247 → <strong>$215</strong>. Reclaim $321 знімає тезу.</p>
-      <p class="note k rv"><span class="y">Daily · 17/07 close:</span> flat +0.23% $277.60 (AH $277.19) — low $255 тегнув 200-day, базується під 21-week MA. Глибоко перепродано (daily Stoch 8) — жди бонс.</p>
+      <p class="note rv">Памп доставив фейд у верх зони: <strong>тісний шорт $300–310</strong> проти стопа <strong>$310</strong> — простір униз величезний. Downside: T1 $265 (тегнуто) → $247 → <strong>$215</strong>. Пробій $310 стопить, reclaim $321 знімає тезу.</p>
+      <p class="note k rv"><span class="y">Daily · 20/07 close:</span> +2.81% $285.40, pre-mkt +7.17% $305.89 у верх зони. Тижнево під 21-week MA $321 — злам цілий. 1h перекуплений (RSI 72, Stoch 90) — фейди памп.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="COHR · SHORT">
-      <div class="eyebrow rv">PLAN · BIAS DOWN · FADE THE BOUNCE</div>
-      <h1 class="rv">Fade the bounce into <span class="hl">$288–302</span></h1>
-      <p class="sub rv">Від п'ятниці ($277.60 close, flat): тижневий злам відпрацював у T1 (low $255 тегнув 200-day), базується. Глибоко перепродано (daily Stoch 8) — <strong>не жени ціну вниз</strong>, дай бонс у зламаний стек:</p>
+      <div class="eyebrow rv">PLAN · PUMP DELIVERED THE FADE · TIGHT STOP</div>
+      <h1 class="rv">Fade the $300–310 test, <span class="hl">stop $310</span></h1>
+      <p class="sub rv">Від понеділка ($285.40 close, +2.81%): памп доставив бонс <strong>прямо у верх зони — pre-market $305.89</strong>, впритул під стоп $310. Це найчистіший фейд дошки: 1h перекуплений (RSI 72, Stoch 90), тижнево зламано. Шорт тут проти тісного стопа, простір униз величезний:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$310</span></span><span class="r">зламаний стек · reclaim $321 знімає</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$288–302</span></span><span class="r">фейд бонсу в зламаний 1h стек</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$310</span></span><span class="r">впритул · пробій = шорт off · reclaim $321 = ремонт</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$300–310</span></span><span class="r">фейд пампу у верх зони · тісний ризик</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$265</span></span><span class="r">200-day</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$247</span></span><span class="r">50-week EMA</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$215</span></span><span class="r">тижневий BB</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від п'ятниці ($277.60):</strong> базується, T1 тегнуто — жди бонс у <strong>$288–302</strong> (зламаний 1h стек / denna 9-EMA) і фейди зі стопом <strong>$310</strong>. T2 50-week $247 → T3 $215.</p>
-      <p class="note rv">Свіжий злам 21-week MA на OBV з рекорду — але вже −38% від ATH $450: рух зрілий, фейди бонс і фіксуй по цілях, не додавай на падінні.</p>
+      <p class="note k rv">🎯 <strong>Тригер від понеділка ($306 pre-mkt):</strong> памп у верх зони під $310 — фейд <strong>$300–310</strong> зі стопом $310 (тісно). Ціль 200-day $265 → 50-week $247 → $215. Пробій $310 стопить, reclaim $321 знімає тезу.</p>
+      <p class="note rv">Свіжий злам 21-week MA на OBV з рекорду — але вже −32% від ATH $450: рух зрілий, фейди памп і фіксуй по цілях, не додавай на падінні.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
