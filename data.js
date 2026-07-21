@@ -144,7 +144,7 @@ const STOCKS = [
     symbol: 'STX', exchange: 'NASDAQ',
     price: '$802.45', change: '+1.88% · Jul 20 close · overnight $839',
     signal: 'Strongest name — and now testing the thesis. Closed green +1.88% $802.45, pushing up THROUGH the $770–790 fade zone and past the $789–798 entry (the short never triggered — price ran up, not down). Overnight it is ripping to $839, poking above the $822 stop and into the $822–835 “reclaim takes the short off” line. The short is on the ropes: don’t chase into this strength. Re-short ONLY on a failure back below $790 (loss of the zone); a daily hold above $835 negates it outright. If it rolls back over: targets $720 (61.8% fib) → weekly 21-MA $681 → 🕳️ 50-week $516, live while SMH stays under $580.',
-    lead: { rank: 10, status: 'wait', entry: '$790 fail-back', stop: '$835', targets: '$720 → $681 → $516', downside: '−9%', tail: '−35%', rr: '~2:1', edge: 'Strongest name, now on the ropes — closed +1.88% $802.45 above the fade zone and $839 overnight, poking the $822–835 “short-off” line; don’t chase, re-short only on a failure back below $790, a daily hold above $835 negates' },
+    edge: 'Strongest name — broke UP through the $770–790 fade zone (close +1.88% $802.45, overnight $839), poking the $822–835 “short-off” line; off the ranked board while it leads higher — re-short only on a failure back below $790, a daily hold above $835 negates',
     side: 'short', accent: 'amber',
     date: '2026-07-16',
     story: 'stories/stx.html',
