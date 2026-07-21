@@ -35,11 +35,11 @@ const STOCKS = [
   },
   {
     symbol: 'COHR', exchange: 'NYSE',
-    price: '$277.60', change: '+0.23% · Jul 17 close · AH $277.19',
-    signal: 'Weekly-structure break, now basing at T1 — closed flat +0.23% $277.60 (AH $277.19) after the day low $255.14 tagged the daily 200-day / T1 $265 and recovered. Deeply oversold (daily RSI 33, Stoch 8), basing under the 21-week MA $321. The $288–302 zone is overhead — fade a bounce there (broken 1h stack / daily 9-EMA), stop $310; next targets 50-week $247 → 🕳️ weekly lower BB $215. Reclaim $321 negates.',
-    lead: { rank: 1, status: 'wait', entry: '$288–302 bounce', stop: '$310', targets: '$265 → $247 → $215', downside: '−11%', tail: '−22%', rr: '~3.5:1', edge: 'Freshest weekly-structure break below the 21-week MA on OBV off record highs — the day low $255 already tagged the 200-day/T1 $265; deeply oversold, fade the bounce, the 50-week $247 the next magnet' },
+    price: '$285.40', change: '+2.81% · Jul 20 close · pre-mkt $306',
+    signal: 'Weekly-structure break — and the pump delivered the fade right at the stop. Closed +2.81% $285.40 just under the zone, and now pre-market it is ripping +7.17% to $305.89 — into the top of the $288–302 zone and right under the $310 stop. This is the cleanest fade on the board: short the $300–310 test against a tight $310 stop, huge room below (1h overbought RSI 72 / Stoch 90; weekly still broken under the 21-week MA $321). Targets 200-day $265 → 50-week $247 → 🕳️ weekly lower BB $215. A push through $310 stops it; a reclaim of $321 fully repairs.',
+    lead: { rank: 1, status: 'wait', entry: '$300–310 fade', stop: '$310', targets: '$265 → $247 → $215', downside: '−13%', tail: '−30%', rr: '~5:1', edge: 'Freshest weekly-structure break below the 21-week MA on OBV off record highs — the pump delivered the fade right at the top of the $288–302 zone under a tight $310 stop; short here with huge room to the 200-day $265 → 50-week $247, a push through $310 stops it' },
     side: 'short', accent: 'violet',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/cohr.html',
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
@@ -106,11 +106,11 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$322.36', change: '+0.02% · Jul 17 close · AH $320.90',
-    signal: 'Shelf-break, now basing — closed flat +0.02% $322.36 (AH $320.90), holding below the old T1 $324 and the daily lower BB $339. Deeply oversold (daily Stoch 10, 1h RSI 39). The $342–356 zone is overhead — fade a bounce into $332–346 (broken 1h mid-BB / 50-EMA $353 / VWAP), stop $358; targets $308 → $292 → 🕳️ 200-EMA $280. Reclaim $358 negates.',
-    lead: { rank: 2, status: 'wait', entry: '$332–346 bounce', stop: '$358', targets: '$308 → $292 → $280', downside: '−9%', tail: '−13%', rr: '~3:1', edge: 'Clean shelf-break, now basing below T1 and the daily lower BB, deeply oversold (Stoch 10); fade the bounce into the broken $332–346 stack, the 200-EMA $280 the magnet' },
+    price: '$333.76', change: '+3.54% · Jul 20 close · pre-mkt $355',
+    signal: 'Shelf-break — and the pump delivered the fade at the stop. Closed +3.54% $333.76 up into the zone, and now pre-market it is ripping +6.36% to $355.00 — into the top of the $332–356 fade zone, right under the $358 stop / 1h 200-EMA $357. Tight fade here against $358, huge room below: 1h overbought (RSI 72, Stoch 95). Targets $308 → $292 → 🕳️ daily 200-EMA $280. A push through $358 stops it; a reclaim of $390 fully repairs.',
+    lead: { rank: 2, status: 'wait', entry: '$346–358 fade', stop: '$358', targets: '$308 → $292 → $280', downside: '−13%', tail: '−21%', rr: '~4:1', edge: 'Clean shelf-break below the daily lower BB — the pump delivered the fade right to the top of the $332–356 zone under a tight $358 stop; short here with room to the 200-EMA $280, a push through $358 stops it' },
     side: 'short', accent: 'blue',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/ter.html',
   },
   {
