@@ -178,11 +178,11 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$214.96', change: '+3.98% · Jul 17 close · AH $216.12',
-    signal: 'Downtrend leader — after the −13.93% flush that paid T1 $226 and T2 $211, it bounced +3.98% $214.96 and held into after-hours ($216.12), with the day high $223.75 tagging the lower edge of the $219–234 fade zone. Deeply oversold (daily Stoch 11) but the engine is down. Fade the bounce into $219–234 (1h mid-BB $228 / 50-EMA $234), stop $250; targets $200 → daily 200-EMA $185 → 🕳️ 50-week $170. Reclaim $250 negates.',
-    lead: { rank: 5, status: 'wait', entry: '$219–234 bounce', stop: '$250', targets: '$200 → $185 → $170', downside: '−7%', tail: '−21%', rr: '~3:1', edge: 'Established downtrend — the −13.93% flush paid T1/T2, now bounced +3.98% and the day high $223.75 tagged the fade zone; fade the bounce into $219–234, the 200-EMA $185 → 50-week $170' },
+    price: '$197.06', change: '−8.33% · Jul 20 close · pre-mkt $207',
+    signal: 'Downtrend leader — flushed through $200, now bouncing back with the sector. After the earlier −13.93% leg (T1 $226 / T2 $211 done), BE dropped another −8.33% Jul 20 to close $197.06, slicing through $200 toward the daily 200-EMA $185. Now pre-market it is bouncing +5.08% to $207.30 on the sector risk-on — climbing from below back toward the $219–234 re-short zone but not in it yet. Deeply oversold (daily Stoch 9) fuels the bounce, the engine still down. Fade the approach into $219–234 (1h mid-BB $228 / 50-EMA $234), stop $250; targets $200 → daily 200-EMA $185 → 🕳️ 50-week $170. Reclaim $250 negates.',
+    lead: { rank: 5, status: 'wait', entry: '$219–234 bounce', stop: '$250', targets: '$200 → $185 → $170', downside: '−7%', tail: '−21%', rr: '~3:1', edge: 'Downtrend leader — the −8.33% flush drove it through $200 toward the 200-EMA $185, now bouncing +5.08% pre-market to $207 back up toward the $219–234 fade zone; fade the approach, the 200-EMA $185 then 50-week $170 the targets' },
     side: 'short', accent: 'amber',
-    date: '2026-07-16',
+    date: '2026-07-21',
     story: 'stories/be.html',
   },
   {

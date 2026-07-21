@@ -27,6 +27,7 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#F6E4D6;
   }
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
 </style>
 </head>
 <body>
@@ -39,14 +40,15 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="BE · 1H">
       <div class="cover-ticker rv">BE</div>
-      <div class="eyebrow rv">1H · BOUNCED +3.98% · TAGGED THE ZONE</div>
-      <h1 class="rv">Bounced +3.98%.<br><span class="hl">Held into AH.</span></h1>
-      <p class="sub rv">Після −13.93% BE <span class="p">відскочив і втримав</span>: close <strong>+3.98% $214.96</strong>, AH ще вище <strong>$216.12</strong> — а хай дня <strong>$223.75</strong> уже тегнув нижній край зони фейду $219–234. T1 $226 / T2 $211 зняті раніше. Daily Stoch <strong>11</strong> перепродано — фейди відскок у <span class="k">$219–234</span> (зламані 1h mid-BB $228 / 50-EMA $234), стоп $250; далі $200 → 200-EMA $185.</p>
+      <div class="eyebrow rv">1H · FLUSHED −8.33%, NOW BOUNCING BACK</div>
+      <h1 class="rv">Flushed to $197.<br><span class="hl">Bouncing back.</span></h1>
+      <p class="sub rv">BE <span class="k">не втримав</span> — впав ще <strong>−8.33% до $197.06</strong> 20/07, пробивши $200 у бік daily 200-EMA $185. Тепер pre-market <span class="p">відскок +5.08% до $207.30</span> на секторному risk-on — повзе знизу назад до <span class="k">зони фейду $219–234</span>, ще не в ній. Daily Stoch <strong>9</strong> перепродано живить відскок, двигун вниз. Фейди підхід у <span class="k">$219–234</span> (1h mid-BB $228 / 50-EMA $234), стоп $250; далі $200 → 200-EMA $185.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",45,"$250","стоп · над 1h 50-EMA $234",0.05],["k",95,"$219–234","зона фейду · хай $223.75 тегнув · re-short",0.12],["y",168,"$215","now · +3.98% · AH $216 · Stoch 11",0.19],["p",248,"$185","daily 200-EMA · магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="BE bounced 3.98 percent up, tagged the fade zone, held into after hours">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L200,225 L290,180 L330,160 L358,168"/>
-          <circle class="dot-y pop" style="animation-delay:1.5s" cx="358" cy="168" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.7s" x="250" y="278" text-anchor="middle">+3.98% · хай $223.75 тегнув зону → фейд $219–234</text>
+        <svg data-lv='[["k",45,"$250","стоп · над 1h 50-EMA $234",0.05],["k",95,"$219–234","зона фейду · re-short на підході",0.12],["y",150,"$207","pre-mkt +5.08% · під зоною",0.19],["p",195,"$200","круглий · пробитий · T1",0.24],["p",255,"$185","daily 200-EMA · магніт",0.3]]' viewBox="0 0 470 300" role="img" aria-label="BE flushed to 197 then bouncing back pre-market toward the fade zone">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.45s;animation-duration:.9s" d="M96,120 L170,175 L235,205"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.35s;animation-duration:.9s" d="M235,205 L300,175 L358,150"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="358" cy="150" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.4s" x="250" y="278" text-anchor="middle">−8.33% крізь $200 → відскок +5.08% назад до зони</text>
         </svg>
       </div>
     </section>
@@ -54,49 +56,51 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="BE · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Green bounce.<br><span class="hl">Tagged the zone.</span></h1>
+      <h1 class="rv">Red −8.33%.<br><span class="hl">Then bounced.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="BE daily green bounce candle tagging the fade zone, held into after hours">
+        <svg viewBox="0 0 420 340" role="img" aria-label="BE daily red flush candle through 200 then bouncing pre-market">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="120" x2="330" y2="120"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="210" x2="120" y2="210"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">234 верх зони</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="124" text-anchor="end">219 зона re-short</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="214" text-anchor="end">195 low</text>
-          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="110" x2="150" y2="210"/>
-          <rect class="candle-body up fill" x="120" y="150" width="60" height="35" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1s" x1="180" y1="110" x2="330" y2="110" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.05s" x="334" y="106"><tspan class="h">хай $223.75</tspan> — тегнув зону</text>
-          <line class="s-line fade" style="animation-delay:1.5s" x1="180" y1="150" x2="330" y2="150" stroke-width="1"/>
-          <text class="anno f-p fade" style="animation-delay:1.55s" x="334" y="146"><tspan class="h">$214.96</tspan> +3.98% · AH $216</text>
+          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="100" x2="330" y2="100"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="175" x2="330" y2="175"/>
+          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="235" x2="120" y2="235"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">219–234 зона</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="104" text-anchor="end">207 pre-mkt</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="179" text-anchor="end">200 пробитий · T1</text>
+          <text class="ax f-k fade" style="animation-delay:.48s" x="54" y="239" text-anchor="end">197 close · low</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="135" x2="150" y2="240"/>
+          <rect class="candle-body fill" x="120" y="150" width="60" height="70" rx="6" style="animation-delay:.6s"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.3s;animation-duration:.9s" d="M150,220 L200,150 L235,100"/>
+          <circle class="dot-y pop" style="animation-delay:2.1s" cx="235" cy="100" r="6"/>
+          <text class="anno f-p fade" style="animation-delay:.65s" x="186" y="150"><tspan class="h">$197.06</tspan> −8.33%</text>
+          <text class="anno f-m fade" style="animation-delay:2.15s" x="243" y="100"><tspan class="h">$207</tspan> pre-mkt +5.08%</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚠ Відскок утримався · тегнув зону фейду</div>
-        <p>Після −13.93% зелена свічка <strong>+3.98% до $214.96</strong> (AH ще вище $216.12) — відскок <span class="k">утримався</span>, а хай $223.75 уже тегнув нижній край зони $219–234. T1 $226 / T2 $211 зняті раніше. Daily Stoch 11 перепродано, але двигун вниз. Daily над зростаючою <span class="p">200-EMA $185</span> — це магніт. <span class="k">Фейд відскоку</span> в $219–234; далі $200 → $185 → 50-week $170.</p>
+        <div class="vh">⚠ Флеш −8.33% крізь $200 · тепер відскок</div>
+        <p>BE не втримав — червона свічка <strong>−8.33% до $197.06</strong>, пробивши круглий <strong>$200</strong> (T1) у бік daily 200-EMA $185. Тепер pre-market <span class="p">відскок +5.08% до $207.30</span> на секторному risk-on — повзе назад до зони $219–234, ще під нею. Daily Stoch 9 перепродано живить відскок, але двигун вниз. Над зростаючою <span class="p">200-EMA $185</span> — це магніт. <span class="k">Фейд підходу</span> в $219–234; далі $200 → $185 → 50-week $170.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="BE vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">The whole group<br><span class="hl">is red.</span></h1>
-      <p class="sub rv">Risk-off по всьому сектору. Барометр SMH <strong>під лінією $580</strong> (бонс продали, close $556.53) — підтверджений злам, повний risk-off. BE у тій самій хвилі <span class="k">заплатив найбільше</span> (−13.93%), зняв T1 $226 / T2 $211, а тепер <span class="p">відскочив +3.98%</span> і тегнув зону $219–234. Найчистіший шорт у списку відпрацював згори вниз.</p>
+      <h1 class="rv">Weakest name.<br><span class="hl">Flushed hardest.</span></h1>
+      <p class="sub rv">Сектор пампить на risk-on, але BE <span class="k">заплатив найбільше</span> — поки пам'ять базувалась, він упав ще <strong>−8.33%</strong> крізь $200 у бік 200-EMA. Барометр SMH <strong>б'ється в $580</strong> (pre-mkt $577.96), але ще під ним. Тепер BE ловить <span class="p">відскок +5.08% до $207</span> — рефлекс на секторі, не сила: двигун вниз. Свіжий шорт — з фейду підходу у $219–234.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Слабкий relative · відскок</span><span class="v">daily Stoch 11 · +3.98% · тегнув зону</span></div>
-        <p>Група вниз, SMH під $580; BE відскочив у зону $219–234. <span class="k">Bias вниз</span> до $200 → $185 → $170. Свіжий шорт — лише з фейду у <strong>$219–234</strong>, стоп $250.</p>
+        <div class="indi-top"><span class="t">Найслабший · флеш крізь $200</span><span class="v">daily Stoch 9 · −8.33% · pre-mkt відскок +5.08%</span></div>
+        <p>Група вгору, SMH тестує $580; BE відскакує знизу до зони $219–234. <span class="k">Bias вниз</span> до $200 → 200-EMA $185 → $170. Свіжий шорт — лише з фейду у <strong>$219–234</strong>, стоп $250.</p>
       </div>
       <div class="chart rv">
         <svg viewBox="0 0 470 300" role="img" aria-label="BE weakest as SMH stays under its line">
           <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="95" x2="400" y2="95"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="85">SMH денна лінія · $580</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,110 L170,120 L260,140 L360,132"/>
-          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="132" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="128">SMH · під $580</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,150 L170,175 L260,200 L360,220"/>
-          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="220" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.5s" x="366" y="224">BE · найслабший</text>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="285" text-anchor="middle">SMH бонс продали — BE вів групу вниз, тепер відскок</text>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="85">SMH лінія · $580 (pre-mkt $578)</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,140 L170,128 L260,110 L360,100"/>
+          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="100" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="104">SMH · тестує $580</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,160 L170,200 L235,225 L300,195 L360,170"/>
+          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="170" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.5s" x="366" y="174">BE · флеш, тепер відскок</text>
+          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="285" text-anchor="middle">BE впав найглибше — відскок рефлекс, не сила</text>
         </svg>
       </div>
     </section>
@@ -108,21 +112,22 @@
       <div class="ladder rv">
         <div class="rung res"><span class="px">$250</span><span class="lbl">Stop · над 1h 50-EMA $234 · reclaim = short off</span></div>
         <div class="rung res"><span class="px">$234</span><span class="lbl">1h 50-EMA · верх re-short зони</span></div>
-        <div class="rung res"><span class="px">$219–228</span><span class="lbl">1h mid-BB $228 · зона re-short · хай $223.75 тегнув</span></div>
-        <div class="rung now"><span class="px">$214.96</span><span class="lbl">ТУТ · close +3.98% · AH $216.12</span></div>
-        <div class="rung sup"><span class="px">$200</span><span class="lbl">Круглий саппорт · T1</span></div>
-        <div class="rung sup"><span class="px">$185</span><span class="lbl">200-EMA (daily) зростає · T2</span></div>
+        <div class="rung key"><span class="px">$219–228</span><span class="lbl">1h mid-BB $228 · зона re-short · памп повзе сюди</span></div>
+        <div class="rung now"><span class="px">$207</span><span class="lbl">ТУТ · pre-mkt +5.08% · під зоною · знизу</span></div>
+        <div class="rung sup"><span class="px">$200</span><span class="lbl">Круглий · пробитий на флеші · T1</span></div>
+        <div class="rung sup"><span class="px">$197</span><span class="lbl">20/07 close −8.33% · low</span></div>
+        <div class="rung sup"><span class="px">$185</span><span class="lbl">200-EMA (daily) зростає · магніт · T2</span></div>
         <div class="rung sup"><span class="px">$170</span><span class="lbl">50-week EMA · T3</span></div>
       </div>
-      <p class="note rv">T1 $226 / T2 $211 зняті, відскочив +3.98% і тегнув зону — перепродано (daily Stoch 11). Далі $200 → $185 → <strong>$170</strong>. Re-short — з фейду у <strong>$219–234</strong> (стоп $250). Reclaim <strong>$250</strong> знімає тезу.</p>
-      <p class="note rv"><span class="y">Daily · 17/07 close:</span> +3.98% до $214.96 (AH $216.12). Daily під усім стеком, над зростаючою 200-EMA $185 — це магніт. Не chase — фейди відскок.</p>
+      <p class="note rv">Флеш −8.33% пробив $200 (T1) до low $197, тепер pre-market відскок +5.08% назад до зони — перепродано (daily Stoch 9). Далі $200 → 200-EMA $185 → <strong>$170</strong>. Re-short — з фейду підходу у <strong>$219–234</strong> (стоп $250). Reclaim <strong>$250</strong> знімає тезу.</p>
+      <p class="note rv"><span class="y">Daily · 20/07 close:</span> −8.33% $197.06, pre-mkt +5.08% $207.30. Daily під усім стеком, над зростаючою 200-EMA $185 — це магніт. Не chase — фейди підхід у зону.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="BE · SHORT">
-      <div class="eyebrow rv">PLAN · T1/T2 PAID · FADE THE BOUNCE</div>
+      <div class="eyebrow rv">PLAN · FLUSHED THROUGH $200 · FADE THE APPROACH</div>
       <h1 class="rv">Target <span class="hl">$185 → $170</span></h1>
-      <p class="sub rv">Від п'ятниці ($214.96 close, +3.98%): T1 $226 / T2 $211 зняті раніше, тепер відскок тегнув зону $219–234 (хай $223.75). Перепродано (daily Stoch 11) — фейд відскоку у <strong>$219–234</strong>, не в підлозі:</p>
+      <p class="sub rv">Від понеділка ($197.06 close, −8.33%): флеш пробив $200 (T1) до low $197, тепер pre-market відскок +5.08% до $207 повзе назад до зони. Перепродано (daily Stoch 9) — фейд підходу у <strong>$219–234</strong>, не в підлозі:</p>
       <div class="tpl rv">
         <div class="riser"></div>
         <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$250</span></span><span class="r">над 1h 50-EMA · reclaim = short off</span></div>
@@ -131,8 +136,8 @@
         <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$185</span></span><span class="r">daily 200-EMA</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$170</span></span><span class="r">50-week</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від п'ятниці ($214.96):</strong> відскок тегнув зону — фейди <strong>$219–234</strong> (1h mid-BB / 50-EMA), стоп <strong>$250</strong>. Ціль $200 → $185 → $170. Не chase у підлогу.</p>
-      <p class="note rv">Reclaim <strong>$250</strong> = short off. <strong>SMH під $580</strong> — повний risk-off, тиск униз до 200-EMA $185 → 50-week $170 зберігається.</p>
+      <p class="note k rv">🎯 <strong>Тригер від понеділка ($207 pre-mkt):</strong> флеш пробив $200, відскок повзе назад до зони — фейди підхід у <strong>$219–234</strong> (1h mid-BB / 50-EMA), стоп <strong>$250</strong>. Ціль $200 → $185 → $170. Не chase у підлогу.</p>
+      <p class="note rv">Reclaim <strong>$250</strong> = short off. <strong>SMH тестує $580</strong> (pre-mkt $577.96, ще під) — доки барометр не забрав $580, тиск униз до 200-EMA $185 → 50-week $170 зберігається.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
