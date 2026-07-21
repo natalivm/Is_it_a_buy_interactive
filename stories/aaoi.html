@@ -28,6 +28,7 @@
     --sub:#DCE6F4;
   }
 
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .brk{stroke-width:2;}
   .rung.key{background:rgba(245,165,36,.12);}
   .rung.key .px{color:var(--yellow)}
@@ -44,14 +45,14 @@
     <!-- 1 · 1H STRUCTURE -->
     <section class="slide active" data-label="AAOI · 1H">
       <div class="cover-ticker rv">AAOI</div>
-      <div class="eyebrow rv">1H · HELD THE 200-DAY · GREEN +2.16%</div>
-      <h1 class="rv">Held the 200-day.<br><span class="hl">Green +2.16%.</span></h1>
-      <p class="sub rv">Утримав <span class="p">200-day $102</span> і відскочив: close <strong>+2.16% $102.41</strong> — але AH <span class="k">сповз назад на $101.58</span>, чіпляючись за 200-day EMA $102 / T1 $101. Зона фейду $104–113 <span class="k">впритул зверху</span>. Daily Stoch 14 — перепродано, тож рефлекс-бонс можливий; фейди його в $104–113, стоп $120. <span class="k">Втрата $100</span> (200-day) відкриває $90.</p>
+      <div class="eyebrow rv">1H · PRE-MKT +5.90% INTO THE FADE ZONE</div>
+      <h1 class="rv">Popped +5.90%.<br><span class="hl">Into the zone.</span></h1>
+      <p class="sub rv">Утримав <span class="p">200-day $102</span>, close <strong>+0.60% $103.02</strong> — і зараз рефлекс-бонс <span class="k">прийшов</span>: pre-market <strong>+5.90% до $109.10</strong>, прямо у <span class="k">зону фейду $104–113</span>. Це і є тригер — бонс, який ми хотіли продати. Daily Stoch 7 глибоко перепродано живить памп, але двигун вниз і стек $104–113 саме там, де ціна. Фейди в $104–113, стоп $120. <span class="k">Втрата $100</span> (200-day) відкриває $90.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",48,"$120","стоп · зламаний 1h стек",0.05],["k",95,"$104–113","1h mid-BB / 50-EMA · re-short (впритул)",0.12],["y",165,"$102","now · +2.16% · на 200-day · AH $101.6",0.19],["p",248,"$82","парабола-база · далі",0.26]]' viewBox="0 0 470 300" role="img" aria-label="AAOI held the 200-day and bounced green, faded after hours">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M96,205 L190,215 L270,180 L320,160 L352,168"/>
-          <circle class="dot-y pop" style="animation-delay:1.7s" cx="352" cy="168" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.85s" x="250" y="278" text-anchor="middle">утримав 200-day $102 → фейд бонсу $104–113</text>
+        <svg data-lv='[["k",45,"$120","стоп · зламаний 1h стек",0.05],["y",92,"$109","pre-mkt +5.9% · у зоні фейду",0.12],["k",120,"$104–113","1h mid-BB / 50-EMA · фейд бонсу — ТУТ",0.19],["p",172,"$103","20/07 close · 200-day $102",0.24],["p",255,"$82","парабола-база · далі",0.3]]' viewBox="0 0 470 300" role="img" aria-label="AAOI reflex bounce popped 5.90 percent pre-market into the fade zone">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M96,215 L190,200 L270,155 L320,112 L352,92"/>
+          <circle class="dot-y pop" style="animation-delay:1.7s" cx="352" cy="92" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:1.85s" x="250" y="278" text-anchor="middle">pre-mkt +5.9% у зону $104–113 → фейд тригер тут</text>
         </svg>
       </div>
     </section>
@@ -59,25 +60,26 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="AAOI · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Green candle.<br><span class="hl">Holding the 200-day.</span></h1>
+      <h1 class="rv">Coiled on $102.<br><span class="hl">Popped pre-market.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="AAOI daily green candle holding the 200-day EMA, faded after hours">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="95"  x2="330" y2="95"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="150" x2="120" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="175" x2="330" y2="175"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="99"  text-anchor="end">104–113 зона</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">102.41 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="179" text-anchor="end">100 must-hold · 200-day</text>
-          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="100" x2="150" y2="215"/>
-          <rect class="candle-body up fill" x="120" y="150" width="60" height="28" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:2s" x1="180" y1="150" x2="330" y2="150" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:2.05s" x="334" y="146"><tspan class="h">$102.41</tspan> +2.16%</text>
-          <text class="anno f-k fade" style="animation-delay:2.05s" x="334" y="163" font-weight="700">AH $101.58 · чіпляється за 200-day</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="AAOI held the 200-day then popped pre-market into the fade zone">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="90"  x2="330" y2="90"/>
+          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="120" x2="330" y2="120"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="165" x2="330" y2="165"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="94"  text-anchor="end">104–113 зона</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="124" text-anchor="end">109 pre-mkt</text>
+          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="169" text-anchor="end">103 close · 200-day $102</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="150" x2="150" y2="200"/>
+          <rect class="candle-body up fill" x="120" y="160" width="60" height="22" rx="7" style="animation-delay:.6s"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.9s" d="M150,160 L200,130 L230,110"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="230" cy="110" r="6"/>
+          <text class="anno f-m fade" style="animation-delay:2.05s" x="238" y="106"><tspan class="h">$109</tspan> pre-mkt +5.9%</text>
+          <text class="anno f-p fade" style="animation-delay:2.2s" x="238" y="176"><tspan class="h">$103.02</tspan> close +0.60%</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚠ Утримав 200-day — але AH сповз назад</div>
-        <p>Close <strong>+2.16% $102.41</strong>, AH $101.58 — AAOI утримав <span class="k">denну 200-day EMA $102 / T1 $101</span> і відскочив, але продавці повернули його вниз AH. Daily усе ще під стеком, <span class="k">OBV найгірший у групі</span>. Daily Stoch 14 перепродано — рефлекс-бонс можливий: фейд у $104–113 (впритул), стоп $120. <span class="k">Втрата $100</span> відкриває $90 → $82.</p>
+        <div class="vh">⚡ Тригер прийшов — pre-mkt памп у зону фейду</div>
+        <p>Close <strong>+0.60% $103.02</strong> на <span class="k">denній 200-day EMA $102</span> — а pre-market <strong>+5.90% до $109.10</strong>, прямо у <span class="k">зону фейду $104–113</span>. Це той рефлекс-бонс, який ми чекали, щоб продати. Daily усе ще під стеком, <span class="k">OBV найгірший у групі</span>, двигун вниз — памп на секторному risk-on, не на силі AAOI. Фейд у $104–113, стоп $120. <span class="k">Втрата $100</span> відкриває $90 → $82.</p>
       </div>
     </section>
 
@@ -85,15 +87,15 @@
     <section class="slide" data-label="AAOI vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
       <h1 class="rv">The group dipped.<br><span class="hl">AAOI is broken.</span></h1>
-      <p class="sub rv">Уся пам'ять/семіси в risk-off — барометр SMH <span class="k">під $580</span> (бонс продали, close $556.53). AAOI же валиться зі <strong>своєї</strong> слабкості — глибокий daily downtrend, MACD негативний, <strong>найважчий OBV-колапс у групі</strong>. Власна поломка плюс секторний фон; шорт заплатив до T1, і зараз ціна чіпляється за 200-day $102.</p>
+      <p class="sub rv">Сьогодні весь сектор <span class="p">пампить на risk-on</span> — барометр SMH усе ще під $580 (close $558.83), але семіси й пам'ять відскакують. AAOI ловить памп pre-market <strong>+5.90% до $109</strong> — та це рефлекс на секторі, не власна сила: глибокий daily downtrend, MACD негативний, <strong>найважчий OBV-колапс у групі</strong>. Саме тому памп у зону — це нагода <span class="k">продати</span>, а не гнатися.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Розподіл-лідер</span><span class="v">daily Stoch 14 · +2.16% на 200-day · OBV ↘↘</span></div>
-        <p>Lower highs, lower lows з червня; шорт заплатив, ціна на 200-day $102 (AH $101.6). <span class="k">Bias вниз: фейд бонсу $104–113, ціль $90 → $82 → $58</span>. Скасування на reclaim <strong>$120</strong>. <span class="y">Daily:</span> SMH під $580 — повний risk-off підсилює.</p>
+        <div class="indi-top"><span class="t">Розподіл-лідер · памп у зону</span><span class="v">daily Stoch 7 · close $103 · pre-mkt $109</span></div>
+        <p>Lower highs, lower lows з червня; ціна утримала 200-day $102, а pre-market памп заносить її у зону $104–113. <span class="k">Bias вниз: фейд бонсу $104–113, ціль $90 → $82 → $58</span>. Скасування на reclaim <strong>$120</strong>. <span class="y">Daily:</span> SMH під $580 — рефлекс на секторі, не розворот AAOI.</p>
       </div>
       <div class="chart rv">
         <svg viewBox="0 0 470 300" role="img" aria-label="AAOI weakest OBV rolls over while SMH only dips and holds">
           <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="115" x2="400" y2="115"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="105">SMH · денна лінія $580</text>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="105">SMH · під $580 ($558.83)</text>
           <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,95 L200,110 L300,135 L360,130"/>
           <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="130" r="6"/>
           <text class="cap f-k fade" style="animation-delay:1.3s" x="366" y="134">SMH · під $580</text>
@@ -111,23 +113,24 @@
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
         <div class="rung res"><span class="px">$120</span><span class="lbl">Stop · зламаний 1h стек · reclaim = repair</span></div>
-        <div class="rung key"><span class="px">$104–113</span><span class="lbl">1h mid-BB $104 / 50-EMA $110 · фейд бонсу (впритул)</span></div>
-        <div class="rung now"><span class="px">$102.41</span><span class="lbl">ТУТ · close +2.16% · на 200-day EMA $102 · AH $101.6</span></div>
+        <div class="rung now"><span class="px">$109</span><span class="lbl">ТУТ · pre-mkt +5.9% · у зоні фейду</span></div>
+        <div class="rung key"><span class="px">$104–113</span><span class="lbl">1h mid-BB $104 / 50-EMA $110 · фейд бонсу — ціна тут</span></div>
+        <div class="rung sup"><span class="px">$103</span><span class="lbl">20/07 close +0.60% · 200-day EMA $102</span></div>
         <div class="rung sup"><span class="px">$100</span><span class="lbl">Round / must-hold покупців · втрата = $90</span></div>
         <div class="rung sup"><span class="px">$90</span><span class="lbl">T1</span></div>
         <div class="rung sup"><span class="px">$82</span><span class="lbl">T2 · парабола-база</span></div>
         <div class="rung sup"><span class="px">$58</span><span class="lbl">🕳️ Потенційне дно · тижнева 21-MA · T3</span></div>
         <div class="rung sup"><span class="px">$47</span><span class="lbl">Глибший флеш · 50-week EMA</span></div>
       </div>
-      <p class="note rv">Утримав 200-day $102, відскочив +2.16%, але AH сповз на $101.6. Перепродано (daily Stoch 14) — фейд бонсу в <strong>$104–113</strong>, стоп $120. Bias вниз: втрата $100 → ціль <strong>$90</strong> → $82. <span class="y">🕳️ Дно глибшої корекції:</span> тижнева 21-MA <strong>~$58</strong> → 50-week <strong>~$47</strong>.</p>
-      <p class="note rv"><span class="y">Daily · 17/07 close:</span> +2.16% $102.41 (AH $101.58) — утримав 200-day, але продавці над головою. Найважчий OBV-колапс у групі. Must-hold покупців — $100.</p>
+      <p class="note rv">Утримав 200-day $102 (close +0.60% $103), а pre-market памп +5.90% заносить у зону <strong>$104–113</strong> — тригер фейду. Перепродано (daily Stoch 7) живить памп, але двигун вниз: фейд у $104–113, стоп $120. Bias вниз: втрата $100 → ціль <strong>$90</strong> → $82. <span class="y">🕳️ Дно глибшої корекції:</span> тижнева 21-MA <strong>~$58</strong> → 50-week <strong>~$47</strong>.</p>
+      <p class="note rv"><span class="y">Daily · 20/07 close:</span> +0.60% $103.02, pre-mkt +5.90% $109.10 у зону. Утримав 200-day, але памп на секторному risk-on, не на силі AAOI. Найважчий OBV-колапс у групі. Must-hold покупців — $100.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="AAOI · SHORT">
-      <div class="eyebrow rv">PLAN · SHORT PAID</div>
+      <div class="eyebrow rv">PLAN · FADE TRIGGER IS HERE</div>
       <h1 class="rv">Fade into <span class="hl">$104–113</span></h1>
-      <p class="sub rv">Від п'ятниці ($102.41 close, +2.16%): утримав 200-day $102, але AH сповз на $101.6. Перепродано (daily Stoch 14) — рефлекс-бонс можливий. Фейд бонсу в зону впритул, не переслідуй ціну вниз:</p>
+      <p class="sub rv">Від понеділка ($103.02 close, +0.60%): утримав 200-day $102, і pre-market памп <strong>+5.90% до $109</strong> заносить ціну прямо у зону фейду. Це тригер — рефлекс на секторному risk-on, не сила AAOI. Продавай памп, не гнись:</p>
       <div class="tpl rv">
         <div class="riser"></div>
         <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$120</span></span><span class="r">зламаний 1h стек · reclaim = repair</span></div>
@@ -136,7 +139,7 @@
         <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$82</span></span><span class="r">парабола-база</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$58</span></span><span class="r">🕳️ тижнева 21-MA</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від п'ятниці ($102.41):</strong> утримав 200-day, AH сповз — фейд бонсу в <strong>$104–113</strong>, стоп $120. Втрата $100 → ціль $90 → $82. Reclaim <strong>$120</strong> скасовує.</p>
+      <p class="note k rv">🎯 <strong>Тригер від понеділка ($103.02):</strong> pre-market памп +5.90% $109 у зону — фейд бонсу в <strong>$104–113</strong>, стоп $120. Втрата $100 → ціль $90 → $82. Reclaim <strong>$120</strong> скасовує.</p>
       <p class="note rv"><span class="y">🕳️ Потенційне дно (глибша корекція):</span> тижнева 21-MA <strong>~$58</strong> → 50-week <strong>~$47</strong> — повний розворот параболи. Must-hold покупців — <strong>$100</strong> (200-day).</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
