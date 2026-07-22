@@ -88,11 +88,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$546.49', change: '+12.12% · Jul 21 intraday',
-    signal: 'Short negated — the sector pump reclaimed the stop. WDC ripped +12.12% intraday to $546.49, clean through the $486–513 fade zone AND the $535 stop, so the pullback-short is off (a reclaim of $535 neutralizes, exactly as flagged). It was always the healthiest name — a pullback inside a big uptrend, still far above the 200-day $345 — and this move puts it back near the highs, above the daily upper BB. 1h overbought (Stoch 93) so a pause/backfill is likely, but the bearish thesis is done above $535. No short here: a fresh setup needs a failure back below $513, otherwise it is simply back in trend.',
-    edge: 'Short negated — the +12.12% sector pump reclaimed the $535 stop and blew back through the $486–513 fade zone; the healthiest name (pullback in a big uptrend above the 200-day $345) is back near its highs — no short here, needs a fresh failure below $513 to re-arm',
+    price: '$522.99', change: '−4.63% pre-mkt · $548.39 Jul 21 close',
+    signal: 'Short negated, but the froth is coming off — on watch. WDC ripped +12.51% Jul 21 to close $548.39, clean through the $486–513 fade zone and the $535 stop, so the pullback-short was neutralized (reclaim of $535, exactly as flagged). Wednesday pre-market it gives a chunk back — −4.63% to $522.99, losing $535 again as SMH’s $580 reclaim fails (→$572). But $522.99 is still ABOVE the $513 re-arm floor, and WDC was always the healthiest name (a pullback inside a big uptrend, far above the 200-day $345), so this is froth off a squeeze, not a confirmed re-short yet. MACD still positive (≈ +10.94) but rolling, RSI ~47. On watch: a failure back below $513 re-arms the fade toward the $486–513 zone; a hold above $535 keeps it in trend. No short here until $513 breaks.',
+    edge: 'Short negated but weakening — the +12.51% pump reclaimed $535 to close $548.39, then pre-market fades −4.63% to $522.99 back under $535 as SMH’s reclaim fails; still above the $513 re-arm floor so froth off a squeeze, not a re-short yet — a failure below $513 re-arms the fade, a hold over $535 keeps it in trend',
     side: 'short',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/wdc.html',
   },
   {
