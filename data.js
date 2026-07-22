@@ -44,11 +44,11 @@ const STOCKS = [
   },
   {
     symbol: 'IREN', exchange: 'NASDAQ',
-    price: '$41.29', change: '+2.71% · Jul 21 close · AH $41.39',
-    signal: 'First long on the board — digesting as planned, catalyst intact. IREN closed +2.71% $41.29 (AH $41.39), holding the $40.10 breakout-retest support but still under the $41.70 reclaim / $42.80 breakout gate — exactly the $39–43 pause the setup called for. The ≈$2.8B AI-cloud contracts (year-end AI revenue target raised >$4B) are unchanged; the long thesis is intact (stop $38.90 untouched), just not yet triggered for a fresh add. Still wait — it is a breakout-retest, not a chase: buy a $40.10 hold that reclaims $41.70, or a confirmed close above $42.80. Targets $44–45 (daily MA/supply) → $47 → 🎯 $49.40. A close below $40.10 resets it to $39/$38.90; below $36 the spike failed.',
-    lead: { rank: 10, status: 'wait', entry: '$40 hold / >$42.80', stop: '$38.90', targets: '$44 → $47 → $49.40', downside: '+9%', tail: '+22%', rr: '~3:1', edge: 'First long on the board — $2.8B of new AI-cloud contracts (year-end AI revenue target raised >$4B) turned the oversold bounce off the 200-day into a catalyst-backed recovery; don’t chase the stretched retest — buy a $40.10 hold reclaiming $41.70 or a breakout >$42.80, the $49.40 pivot the prize, below $36 it failed' },
+    price: '$40.07', change: '−2.95% pre-mkt · $41.29 Jul 21 close',
+    signal: 'First long on the board — the bounce is digesting, catalyst intact but the fade is testing the retest. IREN closed +2.71% $41.29 Tuesday, poking back above the 50-EMA ($40.93); Wednesday pre-market gives it back — −2.95% to $40.07, right on the 50-EMA and the $40.10 breakout-retest support, exactly as the whole AI/semis group rolls back (SMH failing its $580 reclaim). Still under the $41.70 reclaim / $42.80 breakout gate — the $39–43 pause the setup called for, no trigger yet. Momentum is turning, not turned: Stochastics curling up off the low (~60/42) but daily MACD still negative (≈ −4.17), RSI ~43. The ≈$2.8B AI-cloud contracts (year-end AI revenue target raised >$4B) are unchanged and the stop $38.90 is untouched — thesis intact, just not triggered. Still wait, don’t chase: buy a $40.10 hold that reclaims $41.70, or a confirmed close above $42.80. Targets $44–45 → $47 → 🎯 $49.40. A close below $40.10 resets it to $39/$38.90; below $36 the spike failed.',
+    lead: { rank: 10, status: 'wait', entry: '$40 hold / >$42.80', stop: '$38.90', targets: '$44 → $47 → $49.40', downside: '+9%', tail: '+22%', rr: '~3:1', edge: 'First long on the board — $2.8B of new AI-cloud contracts (year-end AI revenue target raised >$4B) turned the oversold bounce off the 200-day into a catalyst-backed recovery; Tuesday closed $41.29 over the 50-EMA but pre-market fades −2.95% to $40.07 back onto it with the group — don’t chase the retest, buy a $40.10 hold reclaiming $41.70 or a breakout >$42.80, the $49.40 pivot the prize, below $36 it failed' },
     side: 'long', accent: 'emerald',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/iren.html',
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
@@ -187,11 +187,11 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$226.26', change: '+14.82% · Jul 21 close · AH $228',
-    signal: 'Downtrend leader — the pump ran it into the fade zone. A day after flushing −8.33% through $200, BE ripped +14.82% Jul 21 to close $226.26 (AH $227.89) — straight INTO the $219–234 re-short zone. The fade trigger is here, but it is a huge stretched pump (4h Stoch 93) and, with SMH having closed above $580 on a narrow tape, a counter-tape fade — so this is a hold/watch, not an add. Structurally still a downtrend under the 200-EMA $259; stop $250 untouched. Fade into $219–234 (1h mid-BB $228 / 50-EMA $234), stop $250; targets $200 → daily 200-EMA $185 → 🕳️ 50-week $170. Reclaim $250 negates.',
-    lead: { rank: 5, status: 'wait', entry: '$219–234 zone', stop: '$250', targets: '$200 → $185 → $170', downside: '−11%', tail: '−25%', rr: '~3:1', edge: 'Downtrend leader — the +14.82% pump ran it into the $219–234 re-short zone (the fade trigger), but stretched (4h Stoch 93) and counter-tape with SMH back over $580; fade the zone, stop $250, the 200-EMA $185 then 50-week $170 the targets' },
+    price: '$216.30', change: '−4.53% pre-mkt · $226.26 Jul 21 close',
+    signal: 'Downtrend leader — the pump ran into the fade zone and is already reversing. BE ripped +14.82% Jul 21 to close $226.26 (AH $228) straight INTO the $219–234 re-short zone — and Wednesday pre-market it rolls the hardest of the group, −4.53% to $216.30, back UNDER the zone as SMH’s $580 reclaim fails (→$572). That is the fade working: the stretched squeeze (4h Stoch was 93) tagged the trigger and turned. Structurally still a downtrend under the 200-EMA $259, MACD deeply negative (≈ −12.57), RSI ~42; stop $250 untouched. The fade is live — a rejection of $219–234 that loses $216/$213 opens $200 → daily 200-EMA $185 → 🕳️ 50-week $170. A reclaim back over $234→$250 negates it.',
+    lead: { rank: 5, status: 'wait', entry: '$219–234 zone', stop: '$250', targets: '$200 → $185 → $170', downside: '−11%', tail: '−25%', rr: '~3:1', edge: 'Downtrend leader — the +14.82% pump ran it into the $219–234 re-short zone then reversed: pre-market rolls the hardest of the group −4.53% to $216.30 back under the zone as SMH’s $580 reclaim fails; the fade is working, stop $250, targets the 200-EMA $185 then 50-week $170' },
     side: 'short', accent: 'amber',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/be.html',
   },
   {
