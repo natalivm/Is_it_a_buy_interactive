@@ -27,6 +27,7 @@
     --mono:'IBM Plex Mono',monospace;
     --sub:#F4DDEE;
   }
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
 </style>
 </head>
 <body>
@@ -39,14 +40,15 @@
     <!-- 1 · 4H -->
     <section class="slide active" data-label="AMAT · 4H">
       <div class="cover-ticker rv">AMAT</div>
-      <div class="eyebrow rv">4H/1D · BLEW THROUGH T1–T3 · OVERSOLD</div>
-      <h1 class="rv">Through the targets.<br><span class="hl">−5.57% $530.</span></h1>
-      <p class="sub rv">Технічний фейд відпрацював по-повній: <strong>закрив −5.57% на $529.66</strong> (AH $522.24) — <span class="p">пробив T1 $559, T2 $544 і T3 $526</span> одним махом. Тепер перепроданий (daily Stoch 22, RSI 44; 1h RSI 33). Зона фейду $575–590 задалеко; ближчий опір — $554. Re-short бонсу в <span class="k">$554 → $575–590</span>, стоп $605. Це фейд проти сильного daily-аптренду (WFE / TSMC) — фіксуй у цілі.</p>
+      <div class="eyebrow rv">4H/1D · БОНС ДО $564.55 · ПРЕ-МАРКЕТ ФЕЙД</div>
+      <h1 class="rv">Bounce ran, now fades.<br><span class="hl">$564.55 → $550.</span></h1>
+      <p class="sub rv">Технічний фейд (тримаємо <strong>ПОЗА рейтингом</strong>): бонс пробіг <span class="p">+7.39% до close $564.55</span>, зняв ближчий опір $554 у бік зони фейду $575–590. Пре-маркет розвертає назад <span class="k">−2.58% до $550</span> (−14.55) — знову під $554, бо SMH не втримав reclaim $580 (→$572). Daily MACD ще плюс (≈+11.64), Stoch низько (14.4) — бонс може ретестити, але чистіший re-short — пуш у <span class="k">$575–590</span>, стоп $605; цілі $510 і нижче.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",55,"$605","стоп · верх зони · опір",0.05],["k",100,"$575–590","зламаний 1h стек · re-short",0.12],["y",165,"$530","now · close −5.57% · крізь T1–T3",0.19],["p",245,"$510","наступна нога · далі",0.26]]' viewBox="0 0 470 300" role="img" aria-label="AMAT blew through all three targets, oversold">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,90 L200,130 L300,175 L356,200"/>
-          <circle class="dot-y pop" style="animation-delay:1.35s" cx="356" cy="200" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="278" text-anchor="middle">пробив T1–T3 → фейд бонсу в $554 / $575–590</text>
+        <svg data-lv='[["k",55,"$605","стоп · reclaim нейтралізує",0.05],["k",100,"$575–590","зона фейду · чистіший re-short",0.12],["y",165,"$550","now · пре-маркет −2.58% · знову під $554",0.19],["p",245,"$510","наступна нога · далі",0.26]]' viewBox="0 0 470 300" role="img" aria-label="AMAT bounced to 564.55 then faded pre-market to 550">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M60,215 L160,180 L260,150 L356,133"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.7s" d="M356,133 L412,165"/>
+          <circle class="dot-y pop" style="animation-delay:2.1s" cx="412" cy="165" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.4s" x="250" y="278" text-anchor="middle">бонс зняв $554 → пре-маркет фейдить назад під $554</text>
         </svg>
       </div>
     </section>
@@ -54,50 +56,51 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="AMAT · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Wide red candle.<br><span class="hl">Sliced the targets.</span></h1>
+      <h1 class="rv">Wide green bounce.<br><span class="hl">+7.39% $564.55.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="AMAT daily wide red candle slicing through T1 T2 T3">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="120" y2="70"/>
-          <line class="dash s-w fade" style="animation-delay:.12s" x1="60" y1="108" x2="330" y2="108"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="205" x2="330" y2="205"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">575 зона fade</text>
-          <text class="ax f-w fade" style="animation-delay:.3s"  x="54" y="112" text-anchor="end">559 T1 · 544 T2</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="154" text-anchor="end">530 close</text>
-          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="209" text-anchor="end">522 AH</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="100" x2="150" y2="205"/>
-          <rect class="candle-body fill" x="120" y="115" width="60" height="45" rx="7" style="animation-delay:.6s"/>
-          <line class="s-line fade" style="animation-delay:1.7s" x1="180" y1="150" x2="330" y2="150" stroke-width="1"/>
-          <text class="anno f-m fade" style="animation-delay:1.75s" x="334" y="146"><tspan class="h">$529.66</tspan></text>
-          <text class="anno f-k fade" style="animation-delay:1.75s" x="334" y="163" font-weight="700">−5.57% · крізь T1–T3</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="AMAT daily wide green bounce candle, pre-market fading back under 554">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
+          <line class="dash s-w fade" style="animation-delay:.12s" x1="60" y1="110" x2="330" y2="110"/>
+          <line class="dash s-k fade" style="animation-delay:.2s" x1="60" y1="150" x2="330" y2="150"/>
+          <line class="dash s-w fade" style="animation-delay:.28s" x1="60" y1="175" x2="330" y2="175"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">575–590 зона fade</text>
+          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="114" text-anchor="end">564.55 close 21/07</text>
+          <text class="ax f-k fade" style="animation-delay:.4s"  x="54" y="154" text-anchor="end">554 зламаний опір</text>
+          <text class="ax f-w fade" style="animation-delay:.48s" x="54" y="179" text-anchor="end">550 пре-маркет</text>
+          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="100" x2="150" y2="212"/>
+          <rect class="candle-body up fill" x="120" y="110" width="60" height="95" rx="7" style="animation-delay:.6s"/>
+          <line class="s-line fade" style="animation-delay:1.7s" x1="180" y1="110" x2="330" y2="110" stroke-width="1"/>
+          <text class="anno f-m fade" style="animation-delay:1.75s" x="334" y="106"><tspan class="h">$564.55</tspan></text>
+          <text class="anno f-p fade" style="animation-delay:1.75s" x="334" y="123" font-weight="700">+7.39% · зняв $554</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚠ Пробив T1–T3 — технічний фейд відпрацював</div>
-        <p>Закрив <strong>−5.57% $529.66</strong> (AH $522.24) — пробив T1 $559, T2 $544 і T3 $526 одним рухом. Тепер перепроданий (daily Stoch 22, RSI 44; 1h RSI 33). Daily — сильний аптренд ($300→$700): це <span class="y">технічний фейд, не фундаментальний шорт</span> — фіксуй по цілях, наступна нога — тільки з фейду бонсу в $554 → $575–590 (стоп $605).</p>
+        <div class="vh">⚠ Бонс +7.39% — але пре-маркет уже фейдить</div>
+        <p>Вівторок 21/07 закрив <strong>+7.39% $564.55</strong> — зняв ближчий опір $554 у бік зони фейду $575–590. Пре-маркет 22/07 розвертає <span class="k">−2.58% до $550</span> (−14.55), знову під $554. Daily MACD ще плюс (≈+11.64), Stoch низько (14.4) — бонс може ще ретестити. Daily — сильний аптренд ($300→$700): це <span class="y">технічний фейд, не фундаментальний шорт</span>, поза рейтингом. Чистіший re-short — пуш у $575–590 (стоп $605).</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="AMAT vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Tape bought the dip.<br><span class="hl">AMAT on the 9-EMA.</span></h1>
-      <p class="sub rv">Семіс-тейп у risk-off — SMH <span class="k">під $580</span> (бонс продали, close $556.53). AMAT пробив <strong>T1–T3</strong> одним рухом (−5.57%). Daily-аптренд ще цілий (50-EMA далеко внизу), daily Stoch 22 — тож це <span class="y">технічний фейд</span> проти сильного тренду, низька конвікція.</p>
+      <h1 class="rv">SMH fails $580.<br><span class="hl">Bounce rolls over.</span></h1>
+      <p class="sub rv">Семіс-тейп: SMH пробував reclaim <span class="k">$580</span>, але не втримав — назад до $572. AMAT відскочив <strong>+7.39% до $564.55</strong>, та пре-маркет уже котиться назад під $554 (−2.58% до $550). Daily-аптренд цілий, тож це <span class="y">технічний фейд</span> проти сильного тренду — низька конвікція, поза рейтингом.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Технічний фейд, не фундаментальний</span><span class="v">в T1 · daily RSI 48 · 1h Stoch 21</span></div>
-        <p>Пробив T1 $559 / T2 $544 / T3 $526. Наступна нога, якщо рол-овер триває: <strong>$510 і нижче</strong>. Але це <span class="y">контр-трендовий момент-фейд</span>, не структурний шорт: AMAT — це <strong>обладнання (WFE)</strong>, структурний бенефіціар розширення ємності TSMC, а daily — сильний аптренд. Тож фіксуй по цілях; reclaim $605 нейтралізує. Чистіший re-entry — бонс у $554 → $575–590.</p>
+        <div class="indi-top"><span class="t">Технічний фейд, не фундаментальний</span><span class="v">daily MACD +11.64 · Stoch 14.4</span></div>
+        <p>Бонс зняв $554, але вперся в зону $575–590 і фейдить. Наступна нога, якщо рол-овер триває: <strong>$510 і нижче</strong>. Але це <span class="y">контр-трендовий момент-фейд</span>, не структурний шорт: AMAT — це <strong>обладнання (WFE)</strong>, структурний бенефіціар розширення ємності TSMC, а daily — сильний аптренд. Тож фіксуй по цілях; reclaim $605 нейтралізує. Чистіший re-short — пуш у $575–590.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="AMAT leads down out of the zone as SMH rolls over">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="120" x2="400" y2="120"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="110">зона fade $590–605</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,110 L170,125 L260,145 L360,138"/>
-          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="138" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="138">SMH · під $580</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,130 L170,165 L260,200 L360,220"/>
-          <circle class="dot-k pop" style="animation-delay:1.4s" cx="360" cy="220" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.5s" x="354" y="224" text-anchor="end">AMAT · крізь T1–T3</text>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="286" text-anchor="middle">risk-off — AMAT провалив цілі, технічний фейд</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="SMH fails to reclaim 580 as AMAT bounce rolls back under 554">
+          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="110" x2="400" y2="110"/>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="100">зона fade $575–590</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,150 L180,120 L255,112 L360,140"/>
+          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="140" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="140">SMH · reclaim $580 не втримав</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,205 L180,168 L285,140 L340,132"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.7s" d="M340,132 L405,162"/>
+          <circle class="dot-k pop" style="animation-delay:2s" cx="405" cy="162" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.2s" x="399" y="166" text-anchor="end">AMAT · назад під $554</text>
+          <text class="cap f-m fade" style="animation-delay:2.4s" x="235" y="286" text-anchor="middle">risk-off — бонс фейдить у зону, технічний re-short</text>
         </svg>
       </div>
     </section>
@@ -107,35 +110,33 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$605</span><span class="lbl">Стоп · верх зони · reclaim нейтралізує</span></div>
-        <div class="rung res"><span class="px">$599</span><span class="lbl">1h 200-EMA · опір</span></div>
-        <div class="rung res"><span class="px">$588</span><span class="lbl">1h 50-EMA · верх re-short зони</span></div>
-        <div class="rung res"><span class="px">$575</span><span class="lbl">Зламаний 1h стек · низ re-short зони</span></div>
+        <div class="rung res"><span class="px">$605</span><span class="lbl">Стоп · reclaim нейтралізує</span></div>
+        <div class="rung res"><span class="px">$590</span><span class="lbl">Верх зони fade · 1h 50-EMA</span></div>
+        <div class="rung res"><span class="px">$575</span><span class="lbl">Низ re-short зони · зламаний 1h стек</span></div>
+        <div class="rung res"><span class="px">$564.55</span><span class="lbl">Close 21/07 (+7.39%) · зняв $554</span></div>
         <div class="rung res"><span class="px">$554</span><span class="lbl">Зламана підтримка · ближчий опір</span></div>
-        <div class="rung sup"><span class="px">$544</span><span class="lbl">✓ T1 · пробито</span></div>
-        <div class="rung now"><span class="px">$530</span><span class="lbl">ТУТ · close −5.57% · крізь T1–T2 · AH $522</span></div>
-        <div class="rung sup"><span class="px">$526</span><span class="lbl">✓ T3 · нижній daily BB · AH нижче</span></div>
-        <div class="rung sup"><span class="px">$510</span><span class="lbl">Наступна нога · далі</span></div>
+        <div class="rung now"><span class="px">$550</span><span class="lbl">ТУТ · пре-маркет 22/07 −2.58% · знову під $554</span></div>
+        <div class="rung sup"><span class="px">$510</span><span class="lbl">Наступна нога · ціль · далі</span></div>
       </div>
-      <p class="note rv">Пробив T1 $559 / T2 $544 / T3 $526 — 1h перепроданий (RSI 33), daily Stoch 22. Наступна нога: <strong>$510 і нижче</strong>, тільки з фейду бонсу. Reclaim <strong>$605</strong> нейтралізує; чистіший re-entry — бонс у $554 → $575–590.</p>
-      <p class="note rv"><span class="y">Daily · 17/07 close:</span> −5.57% до $529.66 (AH $522.24) — крізь усі три цілі. Daily — сильний аптренд: технічний фейд, не фундаментальний шорт.</p>
+      <p class="note rv">Бонс зняв $554 і вперся в зону $575–590. Daily MACD +11.64, Stoch 14.4 — бонс може ретестити. Наступна нога: <strong>$510 і нижче</strong>, з фейду пушу в зону. Reclaim <strong>$605</strong> нейтралізує; чистіший re-short — $575–590.</p>
+      <p class="note rv"><span class="y">Daily · 21/07 close:</span> +7.39% до $564.55 — зняв $554. Пре-маркет 22/07: −2.58% до $550 (−14.55), знову під $554. Daily — сильний аптренд: технічний фейд, поза рейтингом.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="AMAT · SHORT">
-      <div class="eyebrow rv">PLAN · TECHNICAL FADE · LOW CONVICTION</div>
+      <div class="eyebrow rv">PLAN · TECHNICAL FADE · OFF THE BOARD</div>
       <h1 class="rv">Fade the bounce into <span class="hl">$575–590</span></h1>
-      <p class="sub rv">Від п'ятниці ($529.66 close, −5.57%): пробив T1–T3 одним рухом, 1h перепроданий. Наступна нога — тільки з фейду бонсу в $554 → $575–590. Це фейд проти сильного daily-аптренду, тож фіксуй по цілях:</p>
+      <p class="sub rv">Від вівторка (21/07 close $564.55, +7.39%): бонс зняв $554, пре-маркет уже фейдить −2.58% до $550. Чистіший re-short — пуш у зону $575–590. Це фейд проти сильного daily-аптренду, тож тримай тайтово:</p>
       <div class="tpl rv">
         <div class="riser"></div>
         <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$605</span></span><span class="r">reclaim = neutral</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$554–590</span></span><span class="r">фейд відскоку в зламану підтримку / 1h стек</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">✓ T1</span><span class="px">$544</span></span><span class="r">пробито</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">✓ T3</span><span class="px">$526</span></span><span class="r">пробито (AH нижче)</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T4</span><span class="px">$510</span></span><span class="r">наступна нога</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$575–590</span></span><span class="r">фейд пушу в зламану підтримку / 1h стек</span></div>
+        <div class="rg now"><span class="l"><span class="cap2">NOW</span><span class="px">$550</span></span><span class="r">пре-маркет −2.58% · знову під $554</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$510</span></span><span class="r">наступна нога</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">нижче</span></span><span class="r">далі, якщо рол-овер триває</span></div>
       </div>
-      <p class="note k rv">Reclaim <strong>$605</strong> нейтралізує. Цілі T1–T3 узято — не женись у підлогу; чистіший re-entry — бонс у $554 → $575–590, далі $510, якщо рол-овер триває.</p>
-      <p class="note rv">🎯 <strong>Тригер від п'ятниці ($530 close):</strong> пробив усі три цілі, 1h перепроданий. Пам'ятай: AMAT — <strong>обладнання</strong>, структурний бенефіціар розширення ємності TSMC, тож це <span class="y">технічний фейд у risk-off-тейпі</span>, не фундаментальний шорт. Жорстка інвалідація на $605.</p>
+      <p class="note k rv">Reclaim <strong>$605</strong> нейтралізує. Бонс може ще ретестити (MACD +11.64, Stoch 14.4) — не женись у підлогу; чистіший re-entry — пуш у $575–590, далі $510, якщо рол-овер триває.</p>
+      <p class="note rv">🎯 <strong>Тригер від пре-маркету 22/07 ($550):</strong> бонс зняв $554 і вперся в зону, тепер −2.58% назад під $554. Пам'ятай: AMAT — <strong>обладнання</strong>, структурний бенефіціар розширення ємності TSMC, тож це <span class="y">технічний фейд у risk-off-тейпі</span>, поза рейтингом. Жорстка інвалідація на $605.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
