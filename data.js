@@ -26,11 +26,11 @@
 const STOCKS = [
   {
     symbol: 'NVDA', exchange: 'NASDAQ',
-    price: '$207.29', change: '+1.97% · Jul 21 close · AH $206.72',
-    signal: 'The bought right shoulder is working — NVDA grinds toward the neckline, still short of the breakout. Friday’s low $197.97 tagged the $198–200 right-shoulder support and got bought; Monday followed through +1.97% to close $207.29 (AH $206.72), reclaiming the 50-EMA $204 and pushing back into the $200–203 shoulder line while the rest of memory bounced on narrow AI/semis short-covering. The inverse H&S is still intact but unconfirmed: price sits under the $211–214 neckline, daily RSI ~52 and MACD flat — momentum neutral, not impulsive. The dip-buy off $198–200 is live (stop under $194 — a loss of $194–196 breaks the pattern → $182), but the trade only pays after a daily close over $214–215 on volume opens the $230–234 measured target. No chase into the neckline; let it prove the breakout while SMH’s $584 reclaim of $580 stays breadth-unconfirmed.',
-    lead: { rank: 12, status: 'wait', entry: '$198–200 filled', stop: '$194', targets: '$214 → $230 → $234', downside: '+8%', tail: '+18%', rr: '~3.5:1', edge: 'The AI leader that held while the group broke — the $198–200 right shoulder was bought Friday and Monday followed +1.97% to $207.29 back over the 50-EMA, but still under the $211–214 neckline with RSI ~52 / MACD flat; the dip-buy is live, though the measured $230–234 target only unlocks on a daily close over $214–215 on volume' },
+    price: '$205.48', change: '−0.87% pre-mkt · $207.29 Jul 21 close',
+    signal: 'The dip-buy is holding, but the follow-through is stalling with the group. Friday’s low $197.97 tagged the $198–200 right shoulder and got bought; Tuesday followed +1.97% to close $207.29 back over the 50-EMA. Wednesday pre-market it gives a little back — −0.87% to $205.48, sitting right on the 50-EMA ($205.06) and still under the $211–214 neckline, exactly as SMH’s $580 reclaim fails pre-market. The inverse H&S is intact but unconfirmed and momentum never turned impulsive: daily RSI 48.6 (slipped back under 50) and MACD ≈ −0.47 (flat/negative). The dip-buy off $198–200 stays live while $205/50-EMA holds (stop under $194 — a loss of $194–196 breaks the pattern → $182), but the trade only pays after a daily close over $214–215 on volume opens the $230–234 measured target. No chase — let it hold the 50-EMA and prove the breakout; a lose of $205→$200 with the group re-arming puts it back to the shoulder.',
+    lead: { rank: 12, status: 'wait', entry: '$198–200 filled', stop: '$194', targets: '$214 → $230 → $234', downside: '+8%', tail: '+18%', rr: '~3.5:1', edge: 'The AI leader that held while the group broke — the $198–200 shoulder was bought and Tuesday closed $207.29 over the 50-EMA, but Wednesday pre-market fades −0.87% to $205.48 back onto the 50-EMA as SMH’s $580 reclaim fails; still under the $211–214 neckline with RSI 48.6 / MACD flat — dip-buy live while $205 holds, measured $230–234 only on a close over $214–215' },
     side: 'long', accent: 'emerald',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/nvda.html',
   },
   {
@@ -142,11 +142,11 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$584.32', change: '+4.56% · Jul 21 close · ABOVE $580',
-    signal: 'The board’s barometer — closed back above the line, but neither side is clean. SMH closed +4.56% $584.32, reclaiming the $580 line / 50-EMA for the first time since the break. But it was a NARROW move — AI/semis short-covering (Micron ≈ +12.7%) riding alongside an inflation-geopolitical hedge bid — not a market-wide risk-on all-clear. So this is no-man’s-land: no longer a clean short (it closed above $580), but not a long either (the rally is narrow, unconfirmed, and $594–600 daily-200-EMA is right overhead). Stance: HOLD the existing shorts, but don’t add and don’t chase long — stand aside for follow-through. A second close holding >$580 with breadth takes the shorts off; a fade back under $580 puts every fade back on.',
-    edge: 'The board’s barometer closed back above $580 ($584.32, +4.56%) — but on a narrow AI/semis short-covering pump (Micron ≈ +12.7%), not a clean risk-on all-clear; no-man’s-land — hold the shorts, don’t add, don’t chase long, wait for follow-through',
+    price: '$572.00', change: '−2.07% pre-mkt · $584.08 Jul 21 close · BACK UNDER $580',
+    signal: 'The board’s barometer — the one-day reclaim is already failing. SMH closed +4.52% $584.08 Tuesday, tagging back above the $580 line / 50-EMA on a narrow AI/semis short-covering pump (Micron ≈ +12.7%) — never a clean risk-on all-clear. Wednesday pre-market it’s rolling right back: −2.07% to $572, giving up $580 without ever getting a second close to confirm it. That’s the tell the fade was watching for — the reclaim needed follow-through and didn’t get it. Daily MACD is still negative (≈ −3.35) and rolling, Stochastics only curling off the low (≈ 24) — momentum never flipped bullish. Stance: the $580 loss RE-ARMS the board — the short fades are back on as SMH loses the line; a long is still not the trade (no confirmed reclaim, $594–600 daily-200-EMA caps overhead). Watch the cash open — hold under $580 confirms the fade, a reclaim of $584 puts it back in no-man’s-land.',
+    edge: 'The board’s barometer — Tuesday’s $584.08 reclaim of $580 is failing pre-market (−2.07% to $572, back under the line) with MACD still negative and no confirming second close; the $580 loss re-arms the short fades across the board — not a long here either, just the tape rolling back over',
     side: 'short', accent: 'red',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/smh.html',
   },
   {
