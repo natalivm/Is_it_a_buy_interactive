@@ -43,14 +43,16 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="NBIS · 1H">
       <div class="cover-ticker rv">NBIS</div>
-      <div class="eyebrow rv">1H · PUMPED +18.78% · OVERSHOT THE STOP</div>
-      <h1 class="rv">Pumped +18.78%.<br><span class="hl">Overshot the stop.</span></h1>
-      <p class="sub rv">Лідер пробою ловить секторний памп: NBIS рве <span class="p">+18.78% і закриває $216.92</span> (AH $218.50) — крізь зону фейду <strong>$185–200</strong> І крізь стоп <strong>$213</strong>. Reclaim $213 нейтралізує — як і попереджали. Але це вузький AI/semis short-covering, SMH $580 непідтверджений — тому за планом <strong>тримаємо, а не скасовуємо</strong>. 2-й день над $213 = шорт відпрацьовано; фейд назад під $200 переозброює → 200-day $147.</p>
+      <div class="eyebrow rv">1H · PUMP +18.78% · REVERSING UNDER $213</div>
+      <h1 class="rv">Pumped +18.78%.<br><span class="hl">Reversing under $213.</span></h1>
+      <p class="sub rv">Найбільший сквіз на дошці: NBIS рвонув <span class="p">+18.78% до close $216.92</span> (AH $218.50) — крізь зону фейду <strong>$185–200</strong> І крізь стоп <strong>$213</strong>. Але овершут уже <strong>розвертається</strong>: пре-маркет <span class="k">−1.98% до $212.63 (−4.29)</span>, назад під стоп $213, поки SMH втрачає $580 (→$572). Не скасовувати в одну вузьку сесію окупилось. $212.63 ще над $200 — напрямок вірний, але ще <strong>не повне re-arm</strong>. Фейд під $200 переозброює → $160 → 200-day $147. 2-й день над $213 = шорт відпрацьовано.</p>
       <div class="chart rv">
-        <svg data-lv='[["y",40,"$216.92","close +18.78% · перестрибнув стоп",0.05],["k",72,"$213","стоп · перестрибнуто · тримаємо за планом",0.12],["k",115,"$185–200","зона фейду · re-arm при фейді під $200",0.19],["p",255,"$147","200-day · магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="NBIS pumped 18.78 percent and overshot the stop">
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L170,190 L235,150 L300,95 L364,45"/>
-          <circle class="dot-y pop" style="animation-delay:1.55s" cx="364" cy="45" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.75s" x="250" y="282" text-anchor="middle">памп +18.78% перестрибнув стоп $213 → тримаємо за планом</text>
+        <svg data-lv='[["k",40,"$216.92","памп-хай · крізь стоп $213",0.05],["y",62,"$212.63","пре-мкт −1.98% · назад під $213",0.12],["k",120,"$185–200","зона фейду · re-arm при фейді під $200",0.19],["p",255,"$147","200-day · магніт",0.26]]' viewBox="0 0 470 300" role="img" aria-label="NBIS pumped 18.78 percent then reversed back under the stop">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M80,215 L150,190 L215,150 L285,95 L330,40"/>
+          <circle class="dot-y pop" style="animation-delay:1.45s" cx="330" cy="40" r="6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.65s;animation-duration:.6s" d="M330,40 L370,52 L410,62"/>
+          <circle class="dot-k pop" style="animation-delay:2.3s" cx="410" cy="62" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.55s" x="250" y="282" text-anchor="middle">памп $216.92 розвертається — пре-мкт $212.63 назад під стоп $213</text>
         </svg>
       </div>
     </section>
@@ -58,50 +60,56 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="NBIS · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Green day.<br><span class="hl">Pump overshot $213.</span></h1>
+      <h1 class="rv">Green day.<br><span class="hl">Pump reversing under $213.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="NBIS green day then pumped through the fade zone and the stop">
-          <line class="dash s-p fade" style="animation-delay:.05s" x1="60" y1="60"  x2="330" y2="60"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="95" x2="330" y2="95"/>
+        <svg viewBox="0 0 420 340" role="img" aria-label="NBIS green day pumped through the stop then reversed pre-market">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="340" y2="60"/>
+          <line class="dash s-y fade" style="animation-delay:.12s" x1="60" y1="92" x2="360" y2="92"/>
           <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="210" x2="120" y2="210"/>
-          <text class="ax f-p fade" style="animation-delay:.25s" x="54" y="64"  text-anchor="end">216.92 close +18.78%</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="99" text-anchor="end">213 стоп · перестрибнуто</text>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="64"  text-anchor="end">216.92 памп-хай</text>
+          <text class="ax f-y fade" style="animation-delay:.3s"  x="54" y="96" text-anchor="end">212.63 пре-мкт · під $213</text>
           <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="214" text-anchor="end">182.62 попер. close</text>
           <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="200" x2="150" y2="245"/>
           <rect class="candle-body up fill" x="120" y="208" width="60" height="24" rx="7" style="animation-delay:.6s"/>
-          <path class="legup draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.9s" d="M150,208 L200,150 L235,58"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.9s" d="M150,208 L200,140 L235,58"/>
           <circle class="dot-y pop" style="animation-delay:2s" cx="235" cy="58" r="6"/>
-          <rect x="120" y="115" width="240" height="30" rx="6" fill="none" stroke="var(--pink)" stroke-dasharray="4 4" opacity=".5" style="animation-delay:1.5s"/>
-          <text class="anno f-k fade" style="animation-delay:1.55s" x="368" y="133"><tspan class="h">$185–200</tspan> зона</text>
-          <text class="anno f-m fade" style="animation-delay:2.05s" x="243" y="58"><tspan class="h">$216.92</tspan> +18.78%</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:2.15s;animation-duration:.6s" d="M235,58 L295,80 L340,92"/>
+          <circle class="dot-k pop" style="animation-delay:2.8s" cx="340" cy="92" r="6"/>
+          <rect x="120" y="128" width="240" height="34" rx="6" fill="none" stroke="var(--pink)" stroke-dasharray="4 4" opacity=".5" style="animation-delay:1.5s"/>
+          <text class="anno f-k fade" style="animation-delay:1.55s" x="368" y="148"><tspan class="h">$185–200</tspan> зона</text>
+          <text class="anno f-m fade" style="animation-delay:2.05s" x="200" y="48"><tspan class="h">$216.92</tspan> +18.78%</text>
+          <text class="anno f-k fade" style="animation-delay:2.85s" x="348" y="88"><tspan class="h">$212.63</tspan> розворот</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚡ Памп перестрибнув стоп — тримаємо за планом</div>
-        <p>Секторний short-covering несе NBIS <strong>+18.78% до close $216.92</strong> (AH $218.50) — <span class="k">крізь зону $185–200 і крізь стоп $213</span>. Reclaim $213 нейтралізує тезу — як і попереджали. На звичайний день пробій $213 вибиває шорт, але це вузька AI/semis сесія, а SMH $580 непідтверджений (breadth слабкий) — тому за планом <strong>тримаємо, не скасовуємо</strong> в одну сесію, реассес завтра. 2-й день над $213 = шорт відпрацьовано; фейд під $200 переозброює до <strong>200-day $147</strong>.</p>
+        <div class="vh">⚡ Памп розвертається — назад під стоп</div>
+        <p>Секторний short-covering заніс NBIS <strong>+18.78% до close $216.92</strong> (AH $218.50) — <span class="k">крізь зону $185–200 і крізь стоп $213</span>. Але не скасовувати в одну вузьку сесію окупилось: пре-маркет <strong>−1.98% до $212.63</strong>, <span class="k">назад під стоп $213</span>, поки SMH втрачає $580 (→$572). MACD (daily) відкочується вниз ≈ −8.17, RSI ~49 (49.07). $212.63 ще над $200 — напрямок вірний, але ще не повне re-arm. Фейд під $200 переозброює до <strong>200-day $147</strong>; 2-й день над $213 = шорт відпрацьовано.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="NBIS vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Group up.<br><span class="hl">Narrow, unconfirmed.</span></h1>
-      <p class="sub rv">Сьогодні весь сектор <span class="p">пампить на вузькому short-covering</span> — SMH закрився <strong>$584 над $580</strong>, але вузько/непідтверджено (breadth слабкий, не чистий risk-on) — а NBIS рве <strong>+18.78% до $216.92</strong>, перестрибнувши зону $185–200 і стоп $213. У цій хвилі він заплатив найбільше (−13.90% раніше); памп — short-covering на секторі, не власна сила. Reclaim $213 нейтралізує — тому за планом <strong>тримаємо, а не скасовуємо</strong>.</p>
+      <h1 class="rv">Group fades.<br><span class="hl">SMH loses $580.</span></h1>
+      <p class="sub rv">Вчора весь сектор <span class="p">пампив на вузькому short-covering</span> — SMH закрився над $580, але непідтверджено (breadth слабкий, не чистий risk-on). У пре-маркеті <span class="k">reclaim $580 провалюється → $572</span>, а NBIS після <strong>+18.78% до $216.92</strong> віддає <strong>−1.98% до $212.63</strong>, назад під стоп $213. У цій хвилі він заплатив найбільше (−13.90% раніше); памп був short-covering на секторі, не власна сила — і вже видихається.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Слабший за сектор · памп перестрибнув стоп</span><span class="v">SMH $584 над $580 (вузько) · +18.78% $216.92</span></div>
-        <p>SMH закрився $584 над $580, але breadth слабкий — не чистий risk-on. Памп заніс NBIS над зоною і стопом $213. <span class="k">Тримаємо за планом; 2-й день над $213 = відпрацьовано, фейд під $200 переозброює → $160 → $147 → $130</span>. Reclaim $213 нейтралізує.</p>
+        <div class="indi-top"><span class="t">Памп розвертається · SMH втрачає $580</span><span class="v">MACD ≈ −8.17 ↓ · RSI 49.07</span></div>
+        <p>SMH завалює reclaim $580 → $572. NBIS пре-маркет $212.63 назад під стоп $213; MACD (daily) відкочується вниз, RSI ~49. <span class="k">$212.63 ще над $200 — напрямок вірний, але ще не повне re-arm; фейд під $200 переозброює → $160 → $147 → $130</span>. 2-й день над $213 = відпрацьовано.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="NBIS and SMH both pump on a narrow session">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="120" x2="400" y2="120"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="110">$580 · SMH reclaim (вузько)</text>
-          <path class="legup draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,155 L170,142 L260,128 L360,112"/>
-          <circle class="dot-y pop" style="animation-delay:1.2s" cx="360" cy="112" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="108">SMH · над $580</text>
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,215 L170,195 L260,150 L360,88"/>
-          <circle class="dot-y pop" style="animation-delay:1.4s" cx="360" cy="88" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.5s" x="366" y="84">NBIS · памп +18.78%</text>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="282" text-anchor="middle">вузький short-covering — breadth слабкий, тримаємо шорт</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="NBIS and SMH both pump then reverse pre-market">
+          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="130" x2="410" y2="130"/>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="120">$580 · reclaim провалюється → $572</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.4s;animation-duration:.9s;opacity:.55" d="M80,175 L170,145 L250,112"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.6s;opacity:.55" d="M250,112 L330,132 L395,145"/>
+          <circle class="dot-k pop" style="animation-delay:1.75s" cx="395" cy="145" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.85s" x="388" y="163" text-anchor="end">SMH · назад під $580 → $572</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M80,240 L170,180 L250,70"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="250" cy="70" r="6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.6s" d="M250,70 L330,90 L395,102"/>
+          <circle class="dot-k pop" style="animation-delay:2.05s" cx="395" cy="102" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:2.15s" x="366" y="70">NBIS · памп +18.78% → розворот</text>
+          <text class="cap f-m fade" style="animation-delay:2.35s" x="235" y="282" text-anchor="middle">вузький short-covering видихається — розворот назад під $213</text>
         </svg>
       </div>
     </section>
@@ -111,32 +119,33 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung now"><span class="px">$216.92</span><span class="lbl">ТУТ · close +18.78% · AH $218.50 · перестрибнув стоп</span></div>
-        <div class="rung res"><span class="px">$213</span><span class="lbl">Stop · перестрибнуто · reclaim = нейтралізує · тримаємо за планом</span></div>
-        <div class="rung key"><span class="px">$185–200</span><span class="lbl">Зона фейду · re-arm при фейді назад під $200</span></div>
+        <div class="rung res"><span class="px">$216.92</span><span class="lbl">Памп-хай · AH $218.50 · перестрибнув стоп</span></div>
+        <div class="rung res"><span class="px">$213</span><span class="lbl">Stop · пре-мкт назад під ним · 2-й день над = шорт відпрацьовано</span></div>
+        <div class="rung now"><span class="px">$212.63</span><span class="lbl">ТУТ · пре-мкт −1.98% · назад під стоп $213 · ще над $200</span></div>
+        <div class="rung key"><span class="px">$185–200</span><span class="lbl">Зона фейду · фейд під $200 = повне переозброєння</span></div>
         <div class="rung sup"><span class="px">$160</span><span class="lbl">Проміжна підтримка · T1</span></div>
         <div class="rung sup"><span class="px">$147</span><span class="lbl">200-EMA (daily) зростає · магніт · T2</span></div>
         <div class="rung sup"><span class="px">$130</span><span class="lbl">🕳️ Глибший рівень · T3</span></div>
       </div>
-      <p class="note rv">Памп +18.78% закрив <strong>$216.92</strong> — над зоною $185–200 і над стопом $213 (reclaim = нейтралізує, як і попереджали). Але це вузький short-covering, SMH $580 непідтверджений — тому <strong>тримаємо за планом, не скасовуємо</strong>. 2-й день над $213 = шорт відпрацьовано; фейд назад під <strong>$200</strong> переозброює: $160 → <strong>200-day $147</strong> → 🕳️ $130.</p>
-      <p class="note rv"><span class="y">Daily · 21/07 close:</span> +18.78% $216.92 (AH $218.50), крізь зону $185–200 і стоп $213. Памп на вузькому секторному short-covering, не сила NBIS. Реассес завтра.</p>
+      <p class="note rv">Памп +18.78% закрив <strong>$216.92</strong>, перестрибнувши зону $185–200 і стоп $213 — але овершут <strong>розвертається</strong>: пре-маркет −1.98% до <strong>$212.63</strong>, назад під стоп $213, поки SMH втрачає $580 (→$572). $212.63 ще над $200 — напрямок вірний, але це ще <strong>не повне переозброєння</strong>. Фейд під <strong>$200</strong> переозброює: $160 → <strong>200-day $147</strong> → 🕳️ $130. Лише 2-й день над $213 = шорт відпрацьовано.</p>
+      <p class="note rv"><span class="y">Пре-маркет 22/07:</span> −1.98% $212.63 (−4.29) від close $216.92, назад під стоп $213. MACD (daily) відкочується вниз ≈ −8.17, RSI ~49 (49.07). Овершут видихається — не chase, чекай фейду під $200.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="NBIS · SHORT">
-      <div class="eyebrow rv">PLAN · PUMP OVERSHOT STOP · HOLD, REASSESS</div>
-      <h1 class="rv">Overshot $213 — <span class="hl">hold, don't cancel</span></h1>
-      <p class="sub rv">Памп +18.78% закрив <strong>$216.92</strong> (AH $218.50), перестрибнувши зону $185–200 і стоп $213. На звичайний день пробій $213 вибиває шорт — але це вузький AI/semis short-covering, SMH $580 непідтверджений (breadth слабкий). За планом <strong>ТРИМАЄМО, не скасовуємо в одну сесію</strong>, реассес завтра:</p>
+      <div class="eyebrow rv">PLAN · OVERSHOOT REVERSING · WATCH $200 RE-ARM</div>
+      <h1 class="rv">Reversing under $213 — <span class="hl">watch the $200 re-arm</span></h1>
+      <p class="sub rv">Памп +18.78% закрив <strong>$216.92</strong> (AH $218.50), перестрибнувши зону $185–200 і стоп $213 — але овершут уже <strong>розвертається</strong>: пре-маркет −1.98% до <strong>$212.63</strong>, назад під стоп $213, поки SMH завалює reclaim $580 (→$572). Напрямок вірний, але $212.63 ще над $200 — <strong>ще не повне re-arm</strong>:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$213</span></span><span class="r">перестрибнуто · reclaim = нейтралізує</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">RE-ARM</span><span class="px">$200</span></span><span class="r">фейд назад під $200 переозброює шорт</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$213</span></span><span class="r">пре-мкт назад під ним · 2-й день над = out</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-ARM</span><span class="px">$200</span></span><span class="r">фейд під $200 переозброює повністю</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$160</span></span><span class="r">проміжна</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$147</span></span><span class="r">200-day</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$130</span></span><span class="r">🕳️ глибше</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($216.92):</strong> памп перестрибнув стоп $213 — не chase шорт назад наосліп. Тримаємо за планом; <strong>2-й день над $213</strong> = шорт відпрацьовано (виходь). Фейд назад під <strong>$200</strong> — переозброює: re-short, стоп $213, ціль $160 → 200-day $147 → 🕳️ $130.</p>
-      <p class="note rv"><strong>SMH закрився $584 над $580</strong>, але вузько/непідтверджено (breadth слабкий) — не чистий risk-on. Тому тримаємо шорт, а не скасовуємо; реассес завтра.</p>
+      <p class="note k rv">🎯 <strong>Тригер від пре-маркету ($212.63):</strong> памп розвертається, назад під стоп $213 — напрямок вірний, але ще над $200, тож не chase як повне re-arm наосліп. Фейд під <strong>$200</strong> = re-short повністю, стоп $213, ціль $160 → 200-day $147 → 🕳️ $130. <strong>2-й день над $213</strong> = шорт відпрацьовано (виходь).</p>
+      <p class="note rv"><strong>SMH завалює reclaim $580 → $572</strong> (breadth слабкий, не чистий risk-on) — вузький short-covering видихається. Це підтверджує розворот; чекай фейду під $200 для повного переозброєння.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
