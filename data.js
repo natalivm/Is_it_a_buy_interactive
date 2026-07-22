@@ -35,11 +35,11 @@ const STOCKS = [
   },
   {
     symbol: 'COHR', exchange: 'NYSE',
-    price: '$317.22', change: '+11.15% · Jul 21 close · AH $318',
-    signal: 'Weekly-structure break — the pump overshot the tight stop, held per plan. COHR closed +11.15% $317.22 (AH $317.95) — through the $288–302 zone and the $310 stop, but still under the $321 21-week MA (the full-repair line). On a normal day the $310 break stops the short out; but this was a narrow AI/semis short-covering pump with SMH’s $580 reclaim unconfirmed on breadth — so per plan we HOLD, don’t cancel into one session, reassess tomorrow. A close above $321 confirms the weekly break repaired (short done); a fade back under $310 re-arms it toward the 200-day $265 → 50-week $247 → 🕳️ $215.',
-    lead: { rank: 1, status: 'wait', entry: '$310 re-arm', stop: '$310 (overshot)', targets: '$265 → $247 → $215', downside: '−13%', tail: '−30%', rr: '~5:1', edge: 'Weekly-structure break — the +11.15% pump closed $317.22 through the $310 stop but under the $321 repair line; overshot on a narrow session so held per plan, not canceled — a close over $321 confirms it repaired, a fade back under $310 re-arms toward the 200-day $265' },
+    price: '$306.91', change: '−3.24% pre-mkt · $317.22 Jul 21 close',
+    signal: 'Weekly-structure break — the overshoot is reversing, the short re-arms. COHR closed +11.15% $317.22 Tuesday — through the $310 stop but still under the $321 21-week MA (the full-repair line it never reached). Holding per plan into one narrow session paid off: Wednesday pre-market fades −3.24% to $306.91, back UNDER the $310 stop — exactly the "fade back under $310 re-arms" trigger, and SMH’s $580 reclaim is failing (→$572) so the tape confirms it. The repair never happened (no close over $321); MACD deeply negative (≈ −18.64), RSI ~43. The re-short is live again toward the 200-day $265 → 50-week $247 → 🕳️ $215. A reclaim back over $321 would be the only thing to repair it.',
+    lead: { rank: 1, status: 'wait', entry: '$310 re-armed', stop: '$321', targets: '$265 → $247 → $215', downside: '−14%', tail: '−30%', rr: '~5:1', edge: 'Weekly-structure break — the +11.15% pump overshot the $310 stop to $317.22 but never repaired (no close over $321), and pre-market fades −3.24% to $306.91 back under $310 as SMH’s reclaim fails; the re-short is re-armed toward the 200-day $265 → 50-week $247, only a reclaim over $321 repairs it' },
     side: 'short', accent: 'violet',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/cohr.html',
   },
   {
@@ -106,11 +106,11 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$970.82', change: '+12.17% · Jul 21 close · AH $974',
-    signal: 'Memory bellwether — the pump overshot the stop, held per plan. MU ripped +12.17% Jul 21 to close $970.82 (AH $974.30) — through the $880–905 re-short zone AND the $955 stop, though still under the $1,005 full-negate. On a normal day the $955 break stops the short out; but this was a narrow AI/semis short-covering pump (MU the poster child, ≈ +12%) with SMH’s $580 reclaim unconfirmed on breadth — so per plan we HOLD, don’t cancel into one session, and reassess tomorrow. A second day holding above $955 (or a close over $1,005) confirms the short is done; a fade back under $905 re-arms it toward $800 → weekly 21-MA $665 → 🕳️ $505.',
-    lead: { rank: 7, status: 'wait', entry: '$905 re-arm', stop: '$955 (overshot)', targets: '$800 → $665 → $505', downside: '−12%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — the +12.17% pump closed $970.82, through the $955 stop but under the $1,005 negate; stop overshot on a narrow short-covering session so held per plan, not canceled — a 2nd day over $955 confirms it done, a fade back under $905 re-arms toward $665' },
+    price: '$944.88', change: '−2.67% pre-mkt · $970.82 Jul 21 close',
+    signal: 'Memory bellwether — the overshoot is reversing, hold paid off. MU ripped +12.17% Jul 21 to close $970.82 (the poster child of the short-covering pump, ≈ +12%) — through the $880–905 re-short zone and the $955 stop, but under the $1,005 full-negate. Not canceling into one narrow session paid: Wednesday pre-market fades −2.67% to $944.88, back UNDER the $955 stop as SMH’s $580 reclaim fails (→$572). The overshoot is unwinding — still above the $905 zone, so not a full re-arm yet, but the direction is right. MACD flipping back down (≈ −2.72), RSI ~49. Hold; a push back under $905 fully re-arms toward $800 → weekly 21-MA $665 → 🕳️ $505. Only a 2nd day over $955 (or close over $1,005) would confirm the short is done.',
+    lead: { rank: 7, status: 'wait', entry: '$905 re-arm', stop: '$1,005', targets: '$800 → $665 → $505', downside: '−15%', tail: '−47%', rr: '~4:1', edge: 'Memory bellwether — the +12.17% pump overshot to $970.82 but pre-market fades −2.67% to $944.88 back under the $955 stop as SMH’s reclaim fails; overshoot reversing (still above the $905 zone), a push under $905 fully re-arms toward $800 → $665, a 2nd day over $955 would end it' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/mu.html',
   },
   {
@@ -151,11 +151,11 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$891.83', change: '+11.14% · Jul 21 close · AH $894',
-    signal: 'Strongest name — thesis over, it led the pump. After clearing the $835 “short-off” line, STX ripped another +11.14% Jul 21 to close $891.83 (AH $894) — far above the whole $770–835 short structure. This was the tell all along: the healthiest name (it never broke down, the short never even triggered) led the sector risk-on higher. The short is off and stays off — no re-short here; it would take a fresh failure from much higher to re-arm. Off the ranked board since it reclaimed $835; back in its uptrend now.',
-    edge: 'Strongest name — thesis over: after clearing $835 it ran another +11.14% to close $891.83, leading the sector pump higher; the short never triggered and stays off — back in its uptrend, off the ranked board',
+    price: '$862.00', change: '−3.34% pre-mkt · $891.83 Jul 21 close',
+    signal: 'Strongest name — thesis still over, just giving back froth. After clearing the $835 “short-off” line, STX ran +11.14% Jul 21 to close $891.83, then pre-market pulls back −3.34% to $862 with the group as SMH’s $580 reclaim fails (→$572). But this is froth coming off the leader, not a re-arm: $862 is still well ABOVE the whole $770–835 short structure, and STX led the sector higher precisely because it was healthiest (the short never even triggered). The short stays off and off the ranked board — it would take a fresh failure back under $835 to put it back in play. Until then it is a strong name digesting a squeeze in its uptrend, not a setup.',
+    edge: 'Strongest name — thesis over: after clearing $835 it ran to $891.83 leading the sector; pre-market gives back −3.34% to $862 with the group but still far above the $770–835 short structure — no re-arm unless it fails back under $835, off the ranked board',
     side: 'short', accent: 'amber',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/stx.html',
   },
   {
