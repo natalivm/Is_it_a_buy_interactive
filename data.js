@@ -70,11 +70,11 @@ const STOCKS = [
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
-    price: '$52.16', change: '−9.13% · Jul 16',
-    signal: 'Roundhill Memory ETF — ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, partly via total-return swaps), so it’s driven by Korean *memory* stocks (Samsung/SK Hynix), not the broad KOSPI. A feedback loop: US memory weakens → Samsung/Hynix fall overnight → DRAM gaps down at the US open → weakness feeds back into MU/SNDK/WDC/STX. Full momentum breakdown: −35.5% from $80.90, below every MA on falling OBV. Deeply oversold (4h Stoch 7) so a violent 8–12% bounce is likely — but it’s a lower high, not a bottom. Fade $55.5–58 (50–61% fib + broken stack), stop $61.5; targets $50 → key cluster $47.5–48.5 (61.8% fib + rising 50-day + lower BB $46.5) → $42–44. 🕳️ Washout $38.5–40. A close &gt;$61 + retest flips it neutral.',
-    edge: 'Korean-memory basket (≈75% in Micron/Samsung/SK Hynix via swaps) in a full momentum breakdown, −35.5% off the high; oversold bounce likely but no bottom yet — fade the lower high into $55.5–58, the $47.5–48.5 fib/50-day cluster is the magnet, $61 is the regime-change line',
+    price: '$56.99', change: '−3.12% pre-mkt · $58.85 Jul 21 close',
+    signal: 'Roundhill Memory ETF — ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, partly via total-return swaps), so it’s driven by Korean *memory* stocks (Samsung/SK Hynix), not the broad KOSPI. A feedback loop: US memory weakens → Samsung/Hynix fall overnight → DRAM gaps down at the US open → weakness feeds back into MU/SNDK/WDC/STX. The oversold bounce played out exactly as flagged — a violent +10.91% to close $58.85 into the $55.5–58 fade zone — and Wednesday pre-market it rolls back −3.12% to $56.99 as SMH’s $580 reclaim fails (→$572): a lower high, not a bottom. Still below every MA, daily MACD negative (≈ −1.10, RSI ~46). Fade $55.5–58 (50–61% fib + broken stack), stop $61.5; targets $50 → key cluster $47.5–48.5 (61.8% fib + rising 50-day + lower BB $46.5) → $42–44. 🕳️ Washout $38.5–40. A close &gt;$61 + retest flips it neutral.',
+    edge: 'Korean-memory basket (≈75% in Micron/Samsung/SK Hynix via swaps) in a momentum breakdown — the +10.91% bounce to $58.85 tagged the $55.5–58 fade zone then pre-market rolls back −3.12% to $56.99, a lower high not a bottom; fade it, the $47.5–48.5 fib/50-day cluster the magnet, $61 the regime-change line',
     side: 'short', accent: 'indigo',
-    date: '2026-07-16',
+    date: '2026-07-22',
     story: 'stories/dram.html',
   },
   {
@@ -97,11 +97,11 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$97.06', change: '+2.13% · Jul 20 close · pre-mkt $103',
-    signal: 'Worst OBV in the group — closed +2.13% $97.06, and now the sector risk-on pump has it ripping pre-market +6.09% to $102.97, into the bottom of the $98–111 fade zone. It is extended, not breaking out: overbought on the 1h (RSI 71) and gapping straight into overhead supply — the declining daily 9/50-EMA $108–110 sits right above — while the daily stays deeply oversold (Stoch 9, RSI 37), so the pop can poke higher but has no real breakout energy (worst OBV in the group, daily MACD still negative). Fade the pump into $98–111 (1h 50-EMA / broken daily lower BB), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates — and would be the first real sign of energy.',
-    edge: 'Worst OBV in the group — the sector pump has it +6.09% pre-market to $103 into the $98–111 fade zone, extended on the 1h into overhead supply with no breakout energy (negative daily MACD); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap',
+    price: '$102.51', change: '−2.79% pre-mkt · $105.45 Jul 21 close',
+    signal: 'Worst OBV in the group — extended, not breaking out, and already fading. INTC rode the sector pump to close +8.64% $105.45, up into the $98–111 fade zone. That was the question — could it break out? — and the answer is showing: Wednesday pre-market it fades −2.79% to $102.51, no follow-through, as SMH’s $580 reclaim fails (→$572). It is still gapping into overhead supply (declining daily 9/50-EMA $108–110 right above) with the worst OBV in the group and daily MACD still negative (≈ −3.15, RSI ~43) — a pop with no real breakout energy. Fade the pump into $98–111 (1h 50-EMA / broken daily lower BB), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates — and would be the first real sign of energy.',
+    edge: 'Worst OBV in the group — the pump ran it to $105.45 into the $98–111 fade zone but pre-market fades −2.79% to $102.51 with no breakout energy (negative daily MACD, worst OBV); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap',
     side: 'short', accent: 'blue',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/intc.html',
   },
   {
@@ -124,11 +124,11 @@ const STOCKS = [
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$154.61', change: '−2.39% · Jul 17 close · AH $154.00',
-    signal: 'Break-and-retest still working — closed −2.39% $154.61 (AH $154.00), grinding toward T1 $151 after blowing through $180 and $167; OBV at a new low. Deeply oversold (daily Stoch 7, 1h RSI 40). The $165–175 zone is overhead — fade a bounce there (broken 1h stack / prior $167 support), stop $184; targets $151 → daily lower BB $144 → 🕳️ $130. Reclaim $184 negates.',
-    lead: { rank: 3, status: 'wait', entry: '$165–175 bounce', stop: '$184', targets: '$151 → $144 → $130', downside: '−7%', tail: '−16%', rr: '~3:1', edge: 'Break-and-retest working — blew through $180/$167 on an OBV collapse, now grinding to T1 $151, deeply oversold; fade the bounce into the broken $165–175 stack, the daily lower BB $144 the magnet' },
+    price: '$159.30', change: '−1.93% pre-mkt · $162.41 Jul 21 close',
+    signal: 'Break-and-retest still working — the oversold bounce is stalling under the zone. GLW ripped +6.08% Jul 21 to close $162.41, lifting off the lows toward the $165–175 fade zone but closing just UNDER it. Wednesday pre-market it rolls back −1.93% to $159.30 as SMH’s $580 reclaim fails (→$572) — the bounce couldn’t clear the broken structure. Still a downtrend after blowing through $180 and $167 on an OBV collapse; deeply oversold (daily Stoch 8.8, RSI ~40, MACD ≈ −4.81) so a further push into $165–175 is the cleaner re-short entry (broken 1h stack / prior $167 support), stop $184 well clear; targets $151 → daily lower BB $144 → 🕳️ $130. Reclaim $184 negates.',
+    lead: { rank: 3, status: 'wait', entry: '$165–175 bounce', stop: '$184', targets: '$151 → $144 → $130', downside: '−5%', tail: '−18%', rr: '~3:1', edge: 'Break-and-retest working — blew through $180/$167 on an OBV collapse, the +6.08% bounce stalled under the $165–175 zone and pre-market rolls back −1.93% to $159.30 as SMH’s reclaim fails; fade a push into $165–175, the daily lower BB $144 the magnet' },
     side: 'short', accent: 'blue',
-    date: '2026-07-16',
+    date: '2026-07-22',
     story: 'stories/glw.html',
   },
   {
@@ -160,11 +160,11 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$62.74', change: '+9.27% · Jul 21 · AH strong',
-    signal: 'Flipped to LONG — strong oversold rebound with a real catalyst. ASTS broke the $57–60 base on genuine OBV buying (+9.27% to ~$62.74), backed by B. Riley’s upgrade to Buy ($85 target) and the Midland manufacturing-expansion approval — offset by a $1B convertible-note dilution overhang. It is a rebound, not yet a confirmed uptrend (still under the $77–78 wall), so don’t chase $62–64: buy a hold of $61.50 or a pullback that holds $59–60, and add on a breakout/close above $65–67. Targets $65–67 → $70–71 → 🎯 $77–78 (clearing it reasserts the larger uptrend). Stop below $57 (a failed rebound); a loss of $59 delays it. Size small — the convert is a real dilution risk.',
-    edge: 'Flipped to long — strong rebound off the $57–60 base with real support (B. Riley Buy $85, Midland expansion); don’t chase $62–64 — buy a $61.50 hold or a $59–60 pullback, add on a break >$65–67, targets $70–71 → $77–78, below $57 the rebound failed (size small, convert dilution)',
+    price: '$63.90', change: '+0.88% pre-mkt · $63.34 Jul 21 close',
+    signal: 'Flipped to LONG — the one name holding its gain while the group fades. ASTS broke the $57–60 base on genuine OBV buying, +10.31% to close $63.34, and unlike every faded short it HOLDS pre-market — +0.88% to $63.90 while SMH’s $580 reclaim fails (→$572). That relative strength is the tell: a real catalyst (B. Riley’s upgrade to Buy $85, Midland manufacturing-expansion approval) against a $1B convertible-note dilution overhang. It is a rebound, not yet a confirmed uptrend (still under the $77–78 wall, daily MACD ≈ −6.06 still repairing, Stoch ~16 curling up), so don’t chase $63–64: buy a hold of $61.50 or a pullback that holds $59–60, add on a breakout/close above $65–67. Targets $65–67 → $70–71 → 🎯 $77–78 (clearing it reasserts the larger uptrend). Stop below $57 (a failed rebound); a loss of $59 delays it. Size small — the convert is a real dilution risk.',
+    edge: 'Flipped to long — the only name holding its gain while the shorts fade: +10.31% off the $57–60 base to $63.34 and +0.88% pre-market to $63.90 with a real catalyst (B. Riley Buy $85, Midland expansion); don’t chase $63–64 — buy a $61.50 hold or $59–60 pullback, add >$65–67, targets $70–71 → $77–78, below $57 the rebound failed (size small, convert dilution)',
     side: 'long', accent: 'violet',
-    date: '2026-07-21',
+    date: '2026-07-22',
     story: 'stories/asts.html',
   },
   {
@@ -178,11 +178,11 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$529.66', change: '−5.57% · Jul 17 close · AH $522.24',
-    signal: 'Technical fade paid in full — closed −5.57% $529.66 (AH $522.24), slicing through T1 $559, T2 $544 and T3 $526 in one move. Now oversold (daily Stoch 22, RSI 44; 1h RSI 33). The $575–590 fade zone is far overhead, nearer resistance $554. The next leg ($510 and below) comes only on a bounce — re-short into $554 → $575–590, stop $605. Equipment benefits from the TSMC buildout, so this is a technical fade, kept off the board. Reclaim $605 negates.',
-    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — sliced through T1–T3 to $530 in one -5.57% move; book the targets, re-short a bounce into $554–590 for the next leg to $510',
+    price: '$550.00', change: '−2.58% pre-mkt · $564.55 Jul 21 close',
+    signal: 'Technical fade — the bounce ran to the re-short approach and is rolling. AMAT ripped +7.39% Jul 21 to close $564.55, clearing the $554 nearer-resistance and reaching toward the $575–590 fade zone. Wednesday pre-market it turns back −2.58% to $550, back under $554 as SMH’s $580 reclaim fails (→$572). Daily MACD is still positive (≈ +11.64) and Stoch low (14.4), so the bounce can retest — but a push into $575–590 is the cleaner re-short, stop $605; targets $510 and below on the next leg. Equipment rides the TSMC buildout, so this stays a technical fade, kept off the board. Reclaim $605 negates.',
+    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — the +7.39% bounce cleared $554 to $564.55 then pre-market rolls back −2.58% to $550 as SMH’s reclaim fails; re-short a push into $575–590, stop $605, the next leg to $510',
     side: 'short', accent: 'red',
-    date: '2026-07-15',
+    date: '2026-07-22',
     story: 'stories/amat.html',
   },
   {
