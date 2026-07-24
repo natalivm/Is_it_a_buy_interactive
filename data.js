@@ -88,11 +88,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$522.99', change: '−4.63% pre-mkt · $548.39 Jul 21 close',
-    signal: 'Short negated, but the froth is coming off — on watch. WDC ripped +12.51% Jul 21 to close $548.39, clean through the $486–513 fade zone and the $535 stop, so the pullback-short was neutralized (reclaim of $535, exactly as flagged). Wednesday pre-market it gives a chunk back — −4.63% to $522.99, losing $535 again as SMH’s $580 reclaim fails (→$572). But $522.99 is still ABOVE the $513 re-arm floor, and WDC was always the healthiest name (a pullback inside a big uptrend, far above the 200-day $345), so this is froth off a squeeze, not a confirmed re-short yet. MACD still positive (≈ +10.94) but rolling, RSI ~47. On watch: a failure back below $513 re-arms the fade toward the $486–513 zone; a hold above $535 keeps it in trend. No short here until $513 breaks.',
-    edge: 'Short negated but weakening — the +12.51% pump reclaimed $535 to close $548.39, then pre-market fades −4.63% to $522.99 back under $535 as SMH’s reclaim fails; still above the $513 re-arm floor so froth off a squeeze, not a re-short yet — a failure below $513 re-arms the fade, a hold over $535 keeps it in trend',
+    price: '$519.80', change: '−6.90% close · sitting on the $513 line / 50-EMA · watch the break',
+    signal: 'The healthiest name — now pressed right onto the trigger line. WDC gave back another chunk Friday: −6.90% to close $519.80, and it is now sitting right on the $513 re-arm floor / daily 50-EMA ($514) — the exact decision point the card was watching. It held up far better than the crashing names (SNDK/BE/NBIS all −10 to −15%), and structurally it is still the strongest: weekly MACD hugely positive (≈ +89) and price far above the 200-day ($318), a pullback inside a big uptrend, not a breakdown. But the froth keeps coming off — daily MACD just crossed negative (≈ −10.5), 4H Stoch 26 (oversold, so a bounce off the line is live). Stance: still no confirmed short — it is AT the line, not through it. A decisive daily close BELOW $513 finally re-arms the fade toward the $486–513 zone → the daily lower BB ≈ $455; holding $513 / the 50-EMA keeps it in trend and a reclaim of $535 re-negates. This is the one group name still on the fence.',
+    edge: 'The healthiest name, now on the trigger line — WDC faded −6.90% to close $519.80, sitting right on the $513 re-arm floor / daily 50-EMA ($514) while SNDK/BE/NBIS crashed −10 to −15%; still a pullback inside a big uptrend (weekly MACD ≈ +89, far above the 200-day $318) but daily MACD just turned negative — no short until a decisive close below $513 re-arms toward $486 → the lower BB ≈ $455, a hold of $513 keeps it in trend',
     side: 'short',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/wdc.html',
   },
   {
