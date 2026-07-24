@@ -28,6 +28,8 @@
     --sub:#EFE7FB;
   }
   .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
@@ -40,66 +42,60 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="ASTS · 1H">
       <div class="cover-ticker rv">ASTS</div>
-      <div class="eyebrow p rv">1H · BROKE THE BASE · DIGESTING THE POP</div>
-      <h1 class="rv">Broke $57–60.<br><span class="hl">Buy the hold.</span></h1>
-      <p class="sub rv">ASTS <span class="p">пробив базу $57–60</span> на реальному OBV-купівлі: закрився <strong>+10.31% до $63.34</strong>, а в середу пре-маркет тримається <strong>$63.90 (+0.88%, +0.56)</strong> — <span class="p">єдине ім'я, що утримує гейн</span>, поки решта AI/напівпровідників тане (SMH не може повернути $580 → $572). Ця відносна сила — і є tell. Катаст реальний (B. Riley апгрейд до Buy, ціль $85, + схвалене розширення виробництва Midland). Але це <span class="k">ще не підтверджений аптренд</span> — над головою стіна $77–78, тисне $1B конверт (розводнення, розмір малий). Не chase $63–64: <strong>купуй утримання $61.50</strong> або пулбек, що тримає $59–60, і <span class="p">додавай на пробої/close &gt;$65–67</span>. Ціль $65–67 → $70–71 → $77–78.</p>
+      <div class="eyebrow rv">1H · 24/07 CLOSE · ЛОНГ ВИБИТО → ФЛІП У ШОРТ</div>
+      <h1 class="rv">Base broke.<br><span class="hl">Flipped short.</span></h1>
+      <p class="sub rv">ASTS так і не втримав базу $57–60: у п’ятницю <strong>−5.04% і закриття $56.20</strong> (AH $56.46) — наскрізь через лонг-стоп <span class="k">$57</span> і <strong>далеко під daily 200-EMA (≈ $77)</strong>. Це перевертає читання: тепер драйвер — <span class="k">$1B конвертований борг</span> (розводнення), і доки група зламана, фейд цілить у daily нижній BB <span class="k">≈ $50 → $45 → тижнева опора ≈ $41</span>. Глибоко перепроданий (1H RSI 30, Stoch 10.9; daily RSI 36) — <strong>не chase лоу</strong>: відскок у $59–61 — чистіший вхід у шорт, стоп $61. Катаст B. Riley Buy $85 — ризик: reclaim $61 повертає лонг.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",42,"$77–78","структурна стіна · close вище = аптренд назад",0.05],["p",74,"$70–71","ціль після пробою",0.12],["p",100,"$65–67","гейт · пробій = додавати",0.19],["y",132,"$63.90","now · пре-мкт +0.88% · тримає гейн",0.24],["p",252,"$59–60","пулбек-опора · тримати = продовження",0.3]]' viewBox="0 0 470 300" role="img" aria-label="ASTS broke the 57-60 base and is holding its gain while the semis group fades, targets above at 65-78">
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,215 L190,195 L270,160 L330,140 L364,132"/>
-          <circle class="dot-y pop" style="animation-delay:1.55s" cx="364" cy="132" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.75s" x="250" y="282" text-anchor="middle">тримає $63–64, поки семіс тане → купуй утримання $61.50</text>
+        <svg data-lv='[["k",42,"$77","daily 200-EMA · втрачено",0.05],["k",90,"$61","стоп · reclaim = лонг назад",0.12],["y",128,"$56.20","now · close −5.04% · під $57",0.19],["p",185,"$50","T1 · daily нижній BB",0.26],["p",235,"$45","T2",0.33],["p",272,"$41","🕳️ тижнева опора · T3",0.4]]' viewBox="0 0 470 300" role="img" aria-label="ASTS broke the 57-60 base down 5 percent to close 56.20 under the 200-day, flipping short toward 41">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M96,72 L180,95 L260,135 L330,175 L360,195"/>
+          <circle class="dot-y pop" style="animation-delay:1.7s" cx="360" cy="195" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.85s" x="250" y="284" text-anchor="middle">пробила базу $57–60 → close $56.20 під 200-денною → фейд на $41</text>
         </svg>
       </div>
     </section>
 
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="ASTS · 1D">
-      <div class="eyebrow rv">DAILY · RECOVERY OFF OVERSOLD</div>
-      <h1 class="rv">Recovery on.<br><span class="hl">Still under the wall.</span></h1>
+      <div class="eyebrow rv">DAILY · 24/07 · ПІД 200-ДЕННОЮ</div>
+      <h1 class="rv">Lost the base.<br><span class="hl">Under the 200-day.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS daily recovering off oversold, still under the structural wall at 77-78">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="65"  x2="330" y2="65"/>
-          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="105" x2="330" y2="105"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="230" x2="120" y2="230"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="69"  text-anchor="end">77–78 стіна</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="109" text-anchor="end">70–71 ціль</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="154" text-anchor="end">65–67 гейт</text>
-          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="234" text-anchor="end">57 стоп-зона</text>
-          <line class="candle-wick up draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="150" x2="150" y2="235"/>
-          <rect class="candle-body up fill" x="120" y="158" width="60" height="52" rx="7" style="animation-delay:.6s"/>
-          <path class="legup draw" pathLength="1" style="animation-delay:1.2s;animation-duration:.9s" d="M180,200 L235,165 L285,150"/>
-          <circle class="dot-y pop" style="animation-delay:2s" cx="285" cy="150" r="6"/>
-          <text class="anno f-p fade" style="animation-delay:2.05s" x="293" y="146"><tspan class="h">$63.34</tspan> +10.31% · пре-мкт $63.90</text>
-          <text class="anno f-m fade" style="animation-delay:2.5s" x="210" y="308" text-anchor="middle">тримає гейн, поки семіс тане · стіна $77–78 ще вище</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS daily broke the base and closed 56.20 far under the 200 day EMA">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="330" y2="60"/>
+          <line class="dash s-k fade" style="animation-delay:.14s" x1="60" y1="120" x2="330" y2="120"/>
+          <line class="dash s-p fade" style="animation-delay:.22s" x1="60" y1="205" x2="330" y2="205"/>
+          <line class="dash s-p fade" style="animation-delay:.3s" x1="60" y1="255" x2="330" y2="255"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="64"  text-anchor="end">77 daily 200-EMA</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="124" text-anchor="end">61 стоп · 57 база</text>
+          <text class="ax f-y fade" style="animation-delay:.4s"  x="54" y="160" text-anchor="end">56.20 close</text>
+          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="209" text-anchor="end">50 daily нижній BB · T1</text>
+          <text class="ax f-p fade" style="animation-delay:.54s" x="54" y="259" text-anchor="end">41 тижнева · T3</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="112" x2="150" y2="175"/>
+          <rect class="candle-body fill" x="120" y="118" width="60" height="50" rx="7" style="animation-delay:.6s"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="168" r="6"/>
+          <text class="anno f-k fade" style="animation-delay:2.05s" x="192" y="122"><tspan class="h">$59.30</tspan> старт дня</text>
+          <text class="anno f-y fade" style="animation-delay:2.2s" x="192" y="172"><tspan class="h">$56.20</tspan> close −5.04%</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">✓ Пробій бази на реальному OBV — покупці повертаються</div>
-        <p>ASTS пробив базу $57–60 на реальній OBV-купівлі: закрився <strong>+10.31% до $63.34</strong>, пре-маркет <strong>$63.90 (+0.88%)</strong> — і це <span class="p">єдине ім'я, що утримує гейн</span>, поки решта AI/напівпровідників тане (SMH не тримає $580 → $572). Daily-стохастик (~16) курлить угору з перепроданості, MACD ≈ −6.06 ще ремонтується. Але це <span class="k">ще не підтверджений аптренд</span> — над головою стіна <strong>$77–78</strong>. Тому <strong>не chase $63–64</strong>: купуй утримання $61.50 або пулбек $59–60, додавай на close &gt;$65–67. Ціль $65–67 → $70–71 → $77–78. Розмір малий — $1B конверт тисне.</p>
+        <div class="vh">⚠ Лонг вибито — фліп у шорт</div>
+        <p>ASTS <strong>зламав базу $57–60</strong>: close −5.04% $56.20 (AH $56.46) — крізь стоп <span class="k">$57</span> і далеко під <span class="k">daily 200-EMA ≈ $77</span>. Daily <strong>MACD ≈ −6.45</strong>, RSI 36; OBV валиться. Структура зламана — читання перевернуто в шорт: daily нижній BB <span class="k">≈ $50 → $45 → тижнева ≈ $41</span>. Ризик — катаст (B. Riley Buy $85): reclaim $61 повертає лонг. Глибоко перепроданий → вхід на відскоку, не chase.</p>
       </div>
     </section>
 
-    <!-- 3 · CATALYST -->
-    <section class="slide" data-label="ASTS · CATALYST">
-      <div class="eyebrow y rv">CATALYST · WHY THIS MOVE IS DIFFERENT</div>
-      <h1 class="rv">Real catalyst.<br><span class="hl">Not just a bounce.</span></h1>
-      <p class="sub rv">Відскок підкріплений <span class="p">якісним катастом</span>, а не лише секторним risk-on: <strong>B. Riley апгрейдила ASTS до Buy з ціллю $85</strong>, а <strong>Midland схвалив велику угоду про розширення виробництва</strong> — реальне пальне під пробій бази. Проти цього — <span class="k">$1B конвертований борг</span> (розводнення), тож розмір малий. Tell — у відносній силі: <span class="p">ASTS тримає $63–64 пре-маркет</span>, поки решта групи тане (SMH не може повернути $580 → $572, шорти відкочують). Це <span class="p">суттєво покращує якість руху</span>, але аптренд підтвердиться лише над $77–78.</p>
+    <!-- 3 · CONTEXT -->
+    <section class="slide" data-label="ASTS · CONTEXT">
+      <div class="eyebrow y rv">CONTEXT · DILUTION IS THE DRIVER NOW</div>
+      <h1 class="rv">Broken base.<br><span class="hl">$1B convert overhang.</span></h1>
+      <p class="sub rv">Поки тримало базу — катаст (B. Riley Buy $85, Midland) переважував. Тепер база <span class="k">зламана</span>, і на перший план виходить <strong>$1B конвертований борг</strong> — розводнення тисне, доки решта ринку падає. Це <span class="k">фундамент шорту</span>: сила пробою вичерпалась (OBV валиться), а стіна $77–78 тепер далеко над головою. Катаст = <span class="p">ризик шорту</span>: reclaim $61 повертає лонг — тому не chase лоу.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Катаст-бекнутий пробій</span><span class="v">B. Riley Buy $85 · Midland expansion · vs $1B конверт</span></div>
-        <p>Пробій бази $57–60 на реальному OBV. <span class="p">Купуй утримання $61.50 або пулбек $59–60, додавай &gt;$65–67</span>; ціль $65–67 → $70–71 → 🎯 $77–78 (close вище = більший аптренд реасертиться). Стоп нижче $57 = невдалий відскок. Розмір малий — конверт тисне.</p>
+        <div class="indi-top"><span class="t">Група зламалась · злив ліквідності</span><span class="v">SMH тижневе закриття під $580 · daily MACD ≈ −6.45</span></div>
+        <p>Драйвер — група + розводнення: <span class="k">SMH закрив тиждень під $580</span>, увесь tape поїхав, а ASTS втратив базу $57–60 і 200-денну. Доки крах триває — фейд працює: daily нижній BB <strong>≈ $50 → $45 → тижнева ≈ $41</strong>. Weekly RSI 40 (MACD ледь плюсовий, розвертається) — місце вниз є; reclaim $61 = кінець шорту.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="ASTS holding its gain pre-market on the B Riley upgrade and Midland expansion while SMH fails to reclaim 580">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="110" x2="400" y2="110"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="100">SMH · $580 реклейм не тримає → $572</text>
-          <path class="dash s-k draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.6" d="M80,120 L170,112 L260,118 L360,140"/>
-          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="140" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.3s" x="366" y="144">SMH · тане</text>
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,240 L170,215 L260,165 L340,120"/>
-          <circle class="dot-y pop" style="animation-delay:1.5s" cx="340" cy="120" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.6s" x="346" y="124">ASTS · тримає гейн</text>
-          <text class="cap f-m fade" style="animation-delay:1.8s" x="235" y="282" text-anchor="middle">відносна сила = tell · тримає, поки семіс відкочує</text>
+        <svg data-lv='[["k",50,"$61","reclaim = лонг назад · кінець шорту",0.05],["y",120,"$56.20","now · шорт живий",0.14],["p",195,"$50","T1 · daily нижній BB",0.22],["p",250,"$41","🎯 тижнева опора",0.3]]' viewBox="0 0 470 300" role="img" aria-label="ASTS base broken and short toward 41 with the convert overhang as the driver">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M80,90 L175,110 L260,160 L360,200"/>
+          <circle class="dot-y pop" style="animation-delay:1.5s" cx="360" cy="200" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:1.7s" x="235" y="284" text-anchor="middle">база зламана + $1B конверт → фейд на $41 · катаст = ризик</text>
         </svg>
       </div>
     </section>
@@ -109,33 +105,33 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$77–78</span><span class="lbl">🎯 Структурна стіна · close вище = більший аптренд назад</span></div>
-        <div class="rung res"><span class="px">$70–71</span><span class="lbl">Supply з попереднього діапазону · T2</span></div>
-        <div class="rung res"><span class="px">$65–67</span><span class="lbl">Верхній BB / пивот · гейт · пробій/close = додавати · T1</span></div>
-        <div class="rung now"><span class="px">$63.90</span><span class="lbl">ТУТ · пре-мкт +0.88% · close $63.34 (+10.31%) · тримає гейн</span></div>
-        <div class="rung sup"><span class="px">$61.50</span><span class="lbl">Утримати = продовження · головна опора для покупки</span></div>
-        <div class="rung sup"><span class="px">$59–60</span><span class="lbl">Пулбек-зона · тримати = купувати · нижче = сумнівно</span></div>
-        <div class="rung sup"><span class="px">$57</span><span class="lbl">🚫 База пробою · нижче = невдалий відскок · стоп</span></div>
+        <div class="rung res"><span class="px">$77–78</span><span class="lbl">Daily 200-EMA / стіна · далеко над головою</span></div>
+        <div class="rung res"><span class="px">$61</span><span class="lbl">Стоп шорту · reclaim = лонг назад</span></div>
+        <div class="rung res"><span class="px">$59–61</span><span class="lbl">Зона відскоку · 1h перепроданий · чистіший вхід у шорт</span></div>
+        <div class="rung res"><span class="px">$57</span><span class="lbl">База пробою · пробито наскрізь ↓</span></div>
+        <div class="rung now"><span class="px">$56.20</span><span class="lbl">ТУТ · close −5.04% · AH $56.46</span></div>
+        <div class="rung sup"><span class="px">$50</span><span class="lbl">Daily нижній BB · T1</span></div>
+        <div class="rung sup"><span class="px">$45</span><span class="lbl">Проміжна опора · T2</span></div>
+        <div class="rung sup"><span class="px">$41</span><span class="lbl">🎯 Тижнева опора · T3 — головна ціль</span></div>
       </div>
-      <p class="note rv">Не chase $63–64. <strong>Купуй</strong> утримання <strong>$61.50</strong> або пулбек, що тримає <strong>$59–60</strong>; <strong>додавай</strong> на пробої/close &gt;<strong>$65–67</strong> → ціль $70–71 → $77–78. Close вище <strong>$77–78</strong> = більший аптренд реасертиться.</p>
-      <p class="note p rv"><span class="y">Пре-маркет · 22/07:</span> close 21/07 +10.31% до $63.34, пре-маркет $63.90 (+0.88%, +0.56) — тримає гейн, поки решта AI/семіс тане (SMH не тримає $580 → $572). Пробій бази $57–60 на реальному OBV. B. Riley апгрейд до Buy (ціль $85) + розширення Midland — реальний катаст. Стоп нижче $57; втрата $59 затягує. Розмір малий — $1B конверт тисне.</p>
+      <p class="note rv">Лонг <strong>вибито</strong>, фліп у шорт: close −5.04% $56.20 крізь базу $57 і 200-денну. Фейд працює до <strong>$50 (daily нижній BB) → $45 → 🎯 $41</strong>. Не chase лоу (1H Stoch 10.9) — вхід на відскоку в <strong>$59–61</strong>, стоп $61. Reclaim <strong>$61</strong> повертає лонг (B. Riley Buy $85 — ризик).</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="ASTS · LONG">
-      <div class="eyebrow p rv">PLAN · LONG · DON'T CHASE, BUY THE LEVEL</div>
-      <h1 class="rv">Buy the hold / <span class="hl">breakout add</span></h1>
-      <p class="sub rv">Close 21/07 $63.34 (+10.31%), пре-маркет 22/07 $63.90 (+0.88%): сильний перепроданий відскок з реальним катастом (B. Riley Buy $85, Midland), пробив базу $57–60 на реальному OBV — і <strong>єдине ім'я, що тримає гейн</strong>, поки семіс тане (SMH не тримає $580 → $572). Але ще не підтверджений аптренд — стіна $77–78, MACD ≈ −6.06 ремонтується, $1B конверт тисне. <strong>Не chase $63–64</strong>, купуй з рівня:</p>
+    <section class="slide" data-label="ASTS · SHORT">
+      <div class="eyebrow rv">PLAN · FLIPPED SHORT · EYEING $41</div>
+      <h1 class="rv">Fade toward <span class="hl">$41</span></h1>
+      <p class="sub rv">Лонг вибито (close $56.20 крізь базу $57 і 200-денну) — читання перевернуто в шорт, драйвер тепер $1B конверт. Доки група ламається, ціль — daily нижній BB $50 → $45 → <strong>$41</strong>. Не chase перепроданий лоу; вхід на відскоку в $59–61, стоп $61:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$77–78</span></span><span class="r">🎯 стіна · close вище = аптренд реасертиться</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$70–71</span></span><span class="r">supply з попереднього діапазону</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$65–67</span></span><span class="r">верхній BB / пивот · гейт</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ВХІД</span><span class="px">$61.50 hold / $59–60</span></span><span class="r">утримання $61.50 або пулбек $59–60 · додати &gt;$65–67</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$57</span></span><span class="r">нижче = невдалий відскок · &lt;$59 затягує</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$61</span></span><span class="r">reclaim = лонг назад, шорт закрито</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ВХІД</span><span class="px">$59–61 bounce</span></span><span class="r">1h перепроданий · чистіший short-add · не chase лоу</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$50</span></span><span class="r">daily нижній BB</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$45</span></span><span class="r">проміжна опора</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$41</span></span><span class="r">🎯 тижнева опора — головна ціль</span></div>
       </div>
-      <p class="note p rv">🎯 <strong>Тригер від сьогодні (пре-маркет 22/07, $63.90):</strong> не chase $63–64. Купуй утримання <strong>$61.50</strong> або пулбек, що тримає <strong>$59–60</strong>; <strong>додавай</strong> на пробої/close &gt;<strong>$65–67</strong>. Ціль $65–67 → $70–71 → $77–78 (close вище = більший аптренд назад). Стоп нижче $57.</p>
-      <p class="note rv"><span class="y">Ризик:</span> сильний відскок, <strong>ще не</strong> підтверджений аптренд — над головою $77–78, тисне <strong>$1B конверт</strong> (розводнення), тож <strong>розмір малий</strong>. Tell — відносна сила: ASTS тримає $63–64, поки SMH не тримає $580 → $572 і шорти відкочують.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($56.20):</strong> шорт живий після зламу бази $57 / 200-денної. Ціль <strong>$41</strong> (тижнева опора) через $50 → $45. Не chase лоу — add на відскоку в <strong>$59–61</strong>, стоп $61. Reclaim <strong>$61</strong> повертає лонг.</p>
+      <p class="note rv">Був лонг на дошці — тепер фліп у шорт: катаст B. Riley Buy $85 живий (ризик шорту), але база зламана й тисне $1B конверт (розводнення). SMH закрив тиждень під $580, група поїхала — фейд працює, доки ринок падає.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 

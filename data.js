@@ -160,11 +160,11 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$63.90', change: '+0.88% pre-mkt · $63.34 Jul 21 close',
-    signal: 'Flipped to LONG — the one name holding its gain while the group fades. ASTS broke the $57–60 base on genuine OBV buying, +10.31% to close $63.34, and unlike every faded short it HOLDS pre-market — +0.88% to $63.90 while SMH’s $580 reclaim fails (→$572). That relative strength is the tell: a real catalyst (B. Riley’s upgrade to Buy $85, Midland manufacturing-expansion approval) against a $1B convertible-note dilution overhang. It is a rebound, not yet a confirmed uptrend (still under the $77–78 wall, daily MACD ≈ −6.06 still repairing, Stoch ~16 curling up), so don’t chase $63–64: buy a hold of $61.50 or a pullback that holds $59–60, add on a breakout/close above $65–67. Targets $65–67 → $70–71 → 🎯 $77–78 (clearing it reasserts the larger uptrend). Stop below $57 (a failed rebound); a loss of $59 delays it. Size small — the convert is a real dilution risk.',
-    edge: 'Flipped to long — the only name holding its gain while the shorts fade: +10.31% off the $57–60 base to $63.34 and +0.88% pre-market to $63.90 with a real catalyst (B. Riley Buy $85, Midland expansion); don’t chase $63–64 — buy a $61.50 hold or $59–60 pullback, add >$65–67, targets $70–71 → $77–78, below $57 the rebound failed (size small, convert dilution)',
-    side: 'long', accent: 'violet',
-    date: '2026-07-22',
+    price: '$56.20', change: '−5.04% close · long stopped under $57, FLIPPED short · AH $56.46',
+    signal: 'Flipped short — the long broke and it kept bleeding. ASTS never held the $57–60 base: it broke −5.04% Friday to close $56.20 (AH $56.46), through the $57 long stop and far below the daily 200-EMA (≈ $77). That flips the read: the ≈$1B convertible-note dilution overhang is now the driving fundamental, and with the whole group broken, the fade targets the daily lower BB ≈ $50 → $45 → weekly support ≈ $41. It is deeply oversold near-term (1H RSI 30, Stoch 10.9; daily RSI 36) so don’t chase the low — a bounce into $59–61 is the cleaner short entry, stop $61. The B. Riley Buy $85 / Midland catalyst is the risk: a reclaim of $61 negates and repairs the long. Weekly RSI 40 (MACD rolling) leaves room down.',
+    lead: { rank: 10, status: 'live', entry: '$57 filled', stop: '$61', targets: '$50 → $45 → $41', downside: '−12%', tail: '−28%', rr: '~3:1', edge: 'Long stopped, flipped short — ASTS broke −5.04% to close $56.20 through the $57 stop and far under the daily 200-EMA (≈ $77); the ≈$1B convertible dilution overhang is the bearish fundamental. Fade toward the daily lower BB ≈ $50 → $45 → weekly $41; 1H deeply oversold (Stoch 10.9) so a bounce into $59–61 is the cleaner entry, stop $61 — a reclaim negates (B. Riley Buy $85 the risk)' },
+    side: 'short', accent: 'violet',
+    date: '2026-07-24',
     story: 'stories/asts.html',
   },
   {
