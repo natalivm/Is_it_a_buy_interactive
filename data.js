@@ -124,11 +124,11 @@ const STOCKS = [
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$159.30', change: '−1.93% pre-mkt · $162.41 Jul 21 close',
-    signal: 'Break-and-retest still working — the oversold bounce is stalling under the zone. GLW ripped +6.08% Jul 21 to close $162.41, lifting off the lows toward the $165–175 fade zone but closing just UNDER it. Wednesday pre-market it rolls back −1.93% to $159.30 as SMH’s $580 reclaim fails (→$572) — the bounce couldn’t clear the broken structure. Still a downtrend after blowing through $180 and $167 on an OBV collapse; deeply oversold (daily Stoch 8.8, RSI ~40, MACD ≈ −4.81) so a further push into $165–175 is the cleaner re-short entry (broken 1h stack / prior $167 support), stop $184 well clear; targets $151 → daily lower BB $144 → 🕳️ $130. Reclaim $184 negates.',
-    lead: { rank: 3, status: 'wait', entry: '$165–175 bounce', stop: '$184', targets: '$151 → $144 → $130', downside: '−5%', tail: '−18%', rr: '~3:1', edge: 'Break-and-retest working — blew through $180/$167 on an OBV collapse, the +6.08% bounce stalled under the $165–175 zone and pre-market rolls back −1.93% to $159.30 as SMH’s reclaim fails; fade a push into $165–175, the daily lower BB $144 the magnet' },
+    price: '$146.65', change: '−6.03% close · T1 $151 hit · driving to $144',
+    signal: 'Break-and-retest — the fade is paying, T1 done. The bounce to $162.41 stalled UNDER the $165–175 zone (never gave the ideal re-short push), then rolled: Friday GLW broke −6.03% to close $146.65, straight through T1 $151 and now pressing the $144 magnet (T2). That is about +8% for the short from the ~$160 rejection. It is still a clean downtrend — blew through $180 and $167 on an OBV collapse, price below every MA — but deeply oversold near-term: 1H RSI 29.8 / Stoch 5.9, daily RSI 36 / Stoch 10.8. So a reflex bounce into $151–159 is the cleaner add, not a chase; the weekly (RSI 46, MACD still +21) leaves room. Next: T2 $144 → 🕳️ $130 (the rising daily 200-EMA ≈ $131 sits right there). Stop $184 untouched and far. Only a reclaim of $184 negates.',
+    lead: { rank: 3, status: 'live', entry: '$160 filled', stop: '$184', targets: '$151 → $144 → $130', downside: '−10%', tail: '−19%', rr: '~3:1', edge: 'Break-and-retest paying — the bounce stalled under $165–175 then rolled, and Friday GLW broke −6.03% to $146.65 through T1 $151 toward the $144 magnet (≈ +8% for the short); still a downtrend under every MA but 1H RSI 30 / Stoch 6 deeply oversold, so a bounce into $151–159 is the cleaner add, T3 $130 = daily 200-EMA, only a reclaim of $184 negates' },
     side: 'short', accent: 'blue',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/glw.html',
   },
   {
