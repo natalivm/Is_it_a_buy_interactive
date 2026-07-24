@@ -196,11 +196,11 @@ const STOCKS = [
   },
   {
     symbol: 'ALAB', exchange: 'NASDAQ',
-    price: '$310.40', change: '−2.94% pre-mkt · $319.79 Jul 21 close',
-    signal: 'Dip-buy dead — the mild bounce rejected below the zone and is rolling back. ALAB closed +3.46% $319.79 Tuesday, climbing toward but never into the $325–350 re-short zone — the weakest bounce of the group. Wednesday pre-market it turns back down, −2.94% to $310.40, without ever tagging the zone, as SMH’s $580 reclaim fails (→$572). That is the fade-the-approach working: it couldn’t even reach the trigger before rolling. MACD deeply negative (≈ −10.57), RSI ~41 (40.73), stop $362 untouched and well clear. The fade is live toward $300 → $280 → 🕳️ $250 base; a push back into $325–350 just offers a better re-short entry. Only a reclaim of $362 repairs the long case.',
-    lead: { rank: 14, status: 'wait', entry: '$325–350 bounce', stop: '$362', targets: '$300 → $280 → $250', downside: '−4%', tail: '−20%', rr: '~3:1', edge: 'Dip-buy dead — the +3.46% bounce never reached the $325–350 fade zone and pre-market rolls back −2.94% to $310.40 as SMH’s reclaim fails; the fade-the-approach is working toward $300 → $280, stop $362 clear, the $250 May base the deep magnet' },
+    price: '$291.58', change: '−10.82% close · T1 $300 hit · fade working to $280 → $250',
+    signal: 'Dip-buy dead — and it just cracked. ALAB never even bounced into the $325–350 re-short zone; it rejected from ~$310–320 and Friday broke hard: −10.82% to close $291.58, straight through T1 $300. That is the fade-the-approach working — the weakest bounce of the group gave way first. It closed below the daily lower Bollinger (≈ $301) and the daily 50-EMA (≈ $296), so structure is broken, but it is now deeply oversold: daily Stoch 17.7 / RSI 38, 4H Stoch ~6 / RSI 31 — a reflex bounce into $300–310 is the cleaner re-entry. The weekly (RSI 53.5) still has room. Next: T2 $280 → 🕳️ the $250 May base (T3), with the 200-EMA far below at ≈ $199. Stop $362 untouched and well clear. Stance: short working, T1 banked; trail toward $280/$250, add on a bounce, and only a reclaim of $362 repairs the long case.',
+    lead: { rank: 14, status: 'live', entry: '$310 filled', stop: '$362', targets: '$300 → $280 → $250', downside: '−10%', tail: '−19%', rr: '~3:1', edge: 'Dip-buy dead — ALAB never bounced to the $325–350 zone, rejected ~$310 and Friday cracked −10.82% to $291.58 through T1 $300 (below the daily lower BB $301 / 50-EMA $296); fade working toward $280 → 🕳️ the $250 base, but daily Stoch 18 / 4H Stoch 6 deeply oversold so a bounce into $300–310 is the cleaner add, stop $362 far, only a reclaim of $362 repairs the long' },
     side: 'short', accent: 'emerald',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/alab.html',
   },
   {
