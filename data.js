@@ -70,11 +70,11 @@ const STOCKS = [
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
-    price: '$56.99', change: '−3.12% pre-mkt · $58.85 Jul 21 close',
-    signal: 'Roundhill Memory ETF — ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, partly via total-return swaps), so it’s driven by Korean *memory* stocks (Samsung/SK Hynix), not the broad KOSPI. A feedback loop: US memory weakens → Samsung/Hynix fall overnight → DRAM gaps down at the US open → weakness feeds back into MU/SNDK/WDC/STX. The oversold bounce played out exactly as flagged — a violent +10.91% to close $58.85 into the $55.5–58 fade zone — and Wednesday pre-market it rolls back −3.12% to $56.99 as SMH’s $580 reclaim fails (→$572): a lower high, not a bottom. Still below every MA, daily MACD negative (≈ −1.10, RSI ~46). Fade $55.5–58 (50–61% fib + broken stack), stop $61.5; targets $50 → key cluster $47.5–48.5 (61.8% fib + rising 50-day + lower BB $46.5) → $42–44. 🕳️ Washout $38.5–40. A close &gt;$61 + retest flips it neutral.',
-    edge: 'Korean-memory basket (≈75% in Micron/Samsung/SK Hynix via swaps) in a momentum breakdown — the +10.91% bounce to $58.85 tagged the $55.5–58 fade zone then pre-market rolls back −3.12% to $56.99, a lower high not a bottom; fade it, the $47.5–48.5 fib/50-day cluster the magnet, $61 the regime-change line',
+    price: '$53.20', change: '−8.75% close · through the fade zone · driving to $50',
+    signal: 'Roundhill Memory ETF — the fade worked, the lower high resolved down. ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, via total-return swaps), so it tracks memory, not the broad KOSPI: US memory weakens → Samsung/Hynix gap down overnight → DRAM gaps at the US open, a feedback loop with MU/SNDK/WDC/STX. The bounce to $58.85 was a lower high, not a bottom (exactly as flagged), and Friday it broke −8.75% to close $53.20 — clean through the $55.5–58 fade zone, now driving toward T1 $50 and the key $47.5–48.5 cluster (61.8% fib + rising 50-day + lower BB). Still below every MA, and now deeply oversold near-term: 1H RSI 31 / Stoch 12, daily RSI 42. So a reflex bounce toward $55.5–58 is the cleaner re-short, not a chase. Targets $50 → 🎯 $47.5–48.5 → $42–44; 🕳️ washout $38.5–40. A close &gt;$61 + retest flips it neutral.',
+    edge: 'Korean-memory basket (≈75% Micron/Samsung/SK Hynix via swaps) breaking down — the bounce to $58.85 was a lower high, and Friday DRAM cracked −8.75% to $53.20 through the $55.5–58 fade zone toward T1 $50; 1H oversold (RSI 31 / Stoch 12) so a bounce toward $55.5–58 is the cleaner re-short, the $47.5–48.5 fib/50-day cluster the magnet, $61 the regime-change line',
     side: 'short', accent: 'indigo',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/dram.html',
   },
   {
@@ -115,11 +115,11 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$374.04', change: '+12.07% · Jul 21 close · AH $375',
-    signal: 'Shelf-break — the pump overshot the stop, held per plan. TER ripped +12.07% Jul 21 to close $374.04 (AH $375) — through the $332–356 zone AND the $358 stop, though still under the $390 full-repair line. On a normal day the $358 break stops the short out; but this was a narrow AI/semis short-covering pump with SMH’s $580 reclaim unconfirmed on breadth — so per plan we HOLD, don’t cancel into one session, reassess tomorrow. A second day holding above $358 (or a reclaim of $390) confirms the short is done; a fade back under $346 re-arms it toward $308 → $292 → 🕳️ 200-EMA $280.',
-    lead: { rank: 2, status: 'wait', entry: '$346 re-arm', stop: '$358 (overshot)', targets: '$308 → $292 → $280', downside: '−13%', tail: '−21%', rr: '~4:1', edge: 'Clean shelf-break — the +12.07% pump closed $374.04 through the $358 stop but under the $390 repair; overshot on a narrow session so held per plan, not canceled — a 2nd day over $358 confirms it done, a fade back under $346 re-arms toward the 200-EMA $280' },
+    price: '$349.92', change: '−6.38% close · back under $358 · knocking on the $346 re-arm',
+    signal: 'Shelf-break — the overshoot unwound, now knocking on the $346 re-arm door. TER had overshot the $358 stop to $374.04 on the pump, but it never confirmed — Friday it faded −6.38% to close $349.92, well back under the $358 stop and now just above the $346 re-arm floor. It closed below the daily 50-EMA (≈ $362) and the 1H lower Bollinger (≈ $358). Not a full re-arm yet — that needs a decisive push under $346 — but the direction is right and it is close. Big-picture still an uptrend (weekly MACD ≈ +41, RSI 53, far above the 200-EMA $272), so short-term it is oversold (1H RSI 34 / Stoch 14.5) and a bounce toward $358 is live first. Stance: on watch at the doorstep — a decisive push under $346 fully re-arms toward $308 → $292 → 🕳️ 200-EMA $280; a 2nd day over $358 or a reclaim of $390 ends it.',
+    lead: { rank: 2, status: 'wait', entry: '$346 re-arm', stop: '$358 (overshot)', targets: '$308 → $292 → $280', downside: '−13%', tail: '−21%', rr: '~4:1', edge: 'Clean shelf-break — the +12.07% pump overshot the $358 stop to $374.04 but never held, and Friday faded −6.38% to $349.92, back under $358 and knocking on the $346 re-arm floor (below the daily 50-EMA $362); a push under $346 fully re-arms toward $308 → 200-EMA $280, but 1H Stoch 14.5 oversold so a bounce toward $358 is live first, a 2nd day over $358 ends it' },
     side: 'short', accent: 'blue',
-    date: '2026-07-21',
+    date: '2026-07-24',
     story: 'stories/ter.html',
   },
   {
