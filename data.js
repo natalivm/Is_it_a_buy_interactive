@@ -178,11 +178,11 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$550.00', change: '−2.58% pre-mkt · $564.55 Jul 21 close',
-    signal: 'Technical fade — the bounce ran to the re-short approach and is rolling. AMAT ripped +7.39% Jul 21 to close $564.55, clearing the $554 nearer-resistance and reaching toward the $575–590 fade zone. Wednesday pre-market it turns back −2.58% to $550, back under $554 as SMH’s $580 reclaim fails (→$572). Daily MACD is still positive (≈ +11.64) and Stoch low (14.4), so the bounce can retest — but a push into $575–590 is the cleaner re-short, stop $605; targets $510 and below on the next leg. Equipment rides the TSMC buildout, so this stays a technical fade, kept off the board. Reclaim $605 negates.',
-    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — the +7.39% bounce cleared $554 to $564.55 then pre-market rolls back −2.58% to $550 as SMH’s reclaim fails; re-short a push into $575–590, stop $605, the next leg to $510',
+    price: '$536.25', change: '−4.72% close · rolled from $564 · fade working to $510',
+    signal: 'Technical fade — working even without the ideal entry. AMAT never pushed into the $575–590 re-short zone; it rolled from ~$564 and Friday broke −4.72% to close $536.25, back under the $554 nearer-resistance and below the 1H lower Bollinger (≈ $543). The fade-the-approach is playing toward $510, which lines up with the daily 21-day mid-BB (≈ $508). But this stays a technical fade, not a fundamental short — equipment rides the TSMC buildout, and the higher timeframes are still strong (weekly RSI 64, MACD ≈ +67; daily MACD still positive ≈ +6.9), so it is a pullback in an uptrend, kept off the ranked board. Short-term it is oversold (1H RSI 37 / Stoch 13, daily Stoch 28), so a reflex bounce into $554–575 is the cleaner re-short entry. Target $510 → below on continuation; a reclaim of $605 negates.',
+    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — AMAT never reached the $575–590 zone, rolled from $564 and broke −4.72% to $536.25 under $554 and the 1H lower BB; the fade is working toward $510 (≈ daily mid-BB $508) but higher TFs still strong (weekly RSI 64, MACD +67), so a bounce into $554–575 is the cleaner re-short, reclaim $605 negates',
     side: 'short', accent: 'red',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/amat.html',
   },
   {
