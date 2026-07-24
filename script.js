@@ -71,6 +71,57 @@ function pct(n) {
     return `${n < 0 ? '−' : '+'}${Math.abs(n).toFixed(1)}%`;
 }
 
+// ── Booked gains ─────────────────────────────────────────────────────────────
+// "Trades that got into their TP zone": every filled `lead` whose price has
+// reached at least T1 (in the trade's direction). The booked % is measured
+// from the entry-zone midpoint to the DEEPEST target actually tagged — i.e. the
+// gain you'd have realised taking profit there. A small tolerance (0.3%) counts
+// a target as hit when price is a hair shy of it (rounding on the label). Fully
+// data-driven off data.js, so names join automatically as they reach targets.
+const TP_TOL = 0.003;
+function bookedGains(list) {
+    return (list || STOCK_LIST)
+        .filter(s => s && s.lead && /filled/i.test(s.lead.entry))
+        .map(s => {
+            const price = planNums(s.price)[0];
+            const entryNums = planNums(s.lead.entry);
+            const targets = planNums(s.lead.targets);
+            if (!price || !entryNums.length || !targets.length) return null;
+            const entry = (Math.min(...entryNums) + Math.max(...entryNums)) / 2;
+            const short = s.side === 'short';
+            const reached = targets.filter(t => short ? price <= t * (1 + TP_TOL) : price >= t * (1 - TP_TOL));
+            if (!reached.length) return null;                 // hasn't tagged T1 yet
+            const best = short ? Math.min(...reached) : Math.max(...reached);
+            const gain = (short ? (entry - best) / entry : (best - entry) / entry) * 100;
+            return { symbol: s.symbol, side: s.side, gain, hits: reached.length };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.gain - a.gain);
+}
+
+// Renders the "booked at targets" strip at the top of the board. Hidden when
+// no filled trade has reached a target yet.
+function renderBooked() {
+    const strip = document.getElementById('bookedStrip');
+    if (!strip) return;
+    const booked = bookedGains();
+    if (!booked.length) { strip.hidden = true; strip.innerHTML = ''; return; }
+    strip.hidden = false;
+    const avg = booked.reduce((a, b) => a + b.gain, 0) / booked.length;
+    const chips = booked.map(b => {
+        const accent = accentBySymbol[b.symbol] || 'emerald';
+        return `<span class="booked-chip tile-${accent}"><span class="booked-sym">${esc(b.symbol)}</span>`
+            + `<span class="booked-pct">${pct(b.gain)}</span>`
+            + `${b.hits > 1 ? `<span class="booked-t">T${b.hits}</span>` : ''}</span>`;
+    }).join('');
+    strip.innerHTML = `
+        <div class="booked-head">
+            <span class="booked-badge">🎯 Booked at targets</span>
+            <span class="booked-summary">${booked.length} trade${booked.length > 1 ? 's' : ''} tagged their take-profit zone · avg captured <strong>${pct(avg)}</strong></span>
+        </div>
+        <div class="booked-chips">${chips}</div>`;
+}
+
 // ── Tile rendering ─────────────────────────────────────────────────────────
 function tileHtml(item) {
     return item && item.type === 'article' ? articleTileHtml(item) : stockTileHtml(item);
@@ -401,6 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initInstallButton();
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
+    renderBooked();        // "booked at targets" strip (reuses accents too)
 
     const overlay = document.getElementById('storyOverlay');
     const close = document.getElementById('storyClose');

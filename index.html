@@ -32,6 +32,11 @@
 
     <main class="main-content">
         <div class="page-container">
+            <!-- "Booked at targets" strip — filled trades whose price reached
+                 at least T1, rendered by renderBooked() from data.js. Hidden
+                 until at least one trade has tagged its take-profit zone. -->
+            <section class="booked" id="bookedStrip" aria-label="Trades that reached their target zones" hidden></section>
+
             <!-- "Sharpest trades" ranking — rows are rendered from the `lead`
                  field on STOCK entries in data.js (see renderLeaderboard).
                  The whole section is hidden if no entry has a `lead`. -->
