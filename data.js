@@ -97,11 +97,11 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$102.51', change: '−2.79% pre-mkt · $105.45 Jul 21 close',
-    signal: 'Worst OBV in the group — extended, not breaking out, and already fading. INTC rode the sector pump to close +8.64% $105.45, up into the $98–111 fade zone. That was the question — could it break out? — and the answer is showing: Wednesday pre-market it fades −2.79% to $102.51, no follow-through, as SMH’s $580 reclaim fails (→$572). It is still gapping into overhead supply (declining daily 9/50-EMA $108–110 right above) with the worst OBV in the group and daily MACD still negative (≈ −3.15, RSI ~43) — a pop with no real breakout energy. Fade the pump into $98–111 (1h 50-EMA / broken daily lower BB), stop $118; targets $92 → weekly 21-MA $89 → 🕳️ 200-EMA $73. A close under $89 opens the air pocket to the unfilled $66 gap. Reclaim $118 negates — and would be the first real sign of energy.',
-    edge: 'Worst OBV in the group — the pump ran it to $105.45 into the $98–111 fade zone but pre-market fades −2.79% to $102.51 with no breakout energy (negative daily MACD, worst OBV); fade the pump, a close under the $89 gate opens the air pocket to the $66 gap',
+    price: '$92.09', change: '−8.12% close · T1 $92 hit · fade working to $89 → $69',
+    signal: 'Worst OBV in the group — and it delivered. The pump into the $98–111 fade zone had no breakout energy (worst OBV on the board, 4H OBV deeply negative ≈ −536M — pure distribution), and Friday it broke: −8.12% to close $92.09, landing right on T1 $92. That is the fade working, not a wick — INTC closed below the daily lower Bollinger (≈ $97) with the whole daily MA stack overhead. Momentum is bearish but stretched short-term: daily RSI 37 / Stoch 27, 4H RSI 35 / Stoch 27, so a reflex bounce into $98–102 is the cleaner re-entry; the weekly (RSI 52, MACD still positive off the big base) leaves room for the next leg. Next: the weekly 21-MA ≈ $89 → 🕳️ 200-EMA ≈ $69, which sits right at the unfilled $66 gap. Stance: short working, T1 banked; trail toward $89 then $69, add on a bounce, and a reclaim of $118 negates.',
+    edge: 'Worst OBV in the group delivered — the pump into $98–111 had no energy and INTC broke −8.12% to $92.09, hitting T1 $92 (closed below the daily lower BB); fade working toward the weekly 21-MA ≈ $89 → 🕳️ 200-EMA ≈ $69 / the $66 gap, but daily RSI 37 / Stoch 27 oversold so a bounce into $98–102 is the re-entry, weekly RSI 52 leaves room, reclaim $118 negates',
     side: 'short', accent: 'blue',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/intc.html',
   },
   {
