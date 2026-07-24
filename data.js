@@ -106,11 +106,11 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$944.88', change: '−2.67% pre-mkt · $970.82 Jul 21 close',
-    signal: 'Memory bellwether — the overshoot is reversing, hold paid off. MU ripped +12.17% Jul 21 to close $970.82 (the poster child of the short-covering pump, ≈ +12%) — through the $880–905 re-short zone and the $955 stop, but under the $1,005 full-negate. Not canceling into one narrow session paid: Wednesday pre-market fades −2.67% to $944.88, back UNDER the $955 stop as SMH’s $580 reclaim fails (→$572). The overshoot is unwinding — still above the $905 zone, so not a full re-arm yet, but the direction is right. MACD flipping back down (≈ −2.72), RSI ~49. Hold; a push back under $905 fully re-arms toward $800 → weekly 21-MA $665 → 🕳️ $505. Only a 2nd day over $955 (or close over $1,005) would confirm the short is done.',
-    lead: { rank: 7, status: 'wait', entry: '$905 re-arm', stop: '$1,005', targets: '$800 → $665 → $505', downside: '−15%', tail: '−47%', rr: '~4:1', edge: 'Memory bellwether — the +12.17% pump overshot to $970.82 but pre-market fades −2.67% to $944.88 back under the $955 stop as SMH’s reclaim fails; overshoot reversing (still above the $905 zone), a push under $905 fully re-arms toward $800 → $665, a 2nd day over $955 would end it' },
+    price: '$920.95', change: '−6.99% close · back under $955 · knocking on the $905 re-arm',
+    signal: 'Memory bellwether — the overshoot fully unwound, now knocking on the $905 re-arm door. MU had overshot the $955 stop to $970.82 on the pump, but it never confirmed — Friday it faded −6.99% to close $920.95, well back under the $955 stop and now just above the $905 re-short zone. It is sitting at the 1H lower Bollinger (≈ $921) with the daily 50-EMA ($894) right beneath. Not a full re-arm yet — that needs a decisive push under $905 — but the direction is right and it is close. Big-picture still a parabola (weekly MACD ≈ +163, RSI 62, far above the 200-day $541), so short-term it is oversold (1H Stoch 13 / RSI 34) and a bounce toward $955 is live first. Stance: on watch at the doorstep — a decisive push under $905 fully re-arms the short toward $800 → weekly 21-MA $665 → 🕳️ $505; a 2nd day over $955 or a close over $1,005 ends it. The bellwether that dragged the group up is leading it back to the trigger.',
+    lead: { rank: 7, status: 'wait', entry: '$905 re-arm', stop: '$1,005', targets: '$800 → $665 → $505', downside: '−12%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — the +12.17% pump overshot the $955 stop to $970.82 but never held, and Friday faded −6.99% to $920.95, back under $955 and knocking on the $905 re-arm door (at the 1H lower BB, daily 50-EMA $894 beneath); a push under $905 fully re-arms toward $800 → weekly 21-MA $665, but 1H Stoch 13 oversold so a bounce to $955 is live first, a 2nd day over $955 ends it' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-22',
+    date: '2026-07-24',
     story: 'stories/mu.html',
   },
   {
