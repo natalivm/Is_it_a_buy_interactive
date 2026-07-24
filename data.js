@@ -214,11 +214,11 @@ const STOCKS = [
   },
   {
     symbol: 'DELL', exchange: 'NYSE',
-    price: '$420.97', change: '+4.19% pre-mkt · $404.15 Jul 21 close',
-    signal: 'Bull-flag — the odd one out: it is NOT fading, it is pushing toward the stop. DELL closed +6.01% $404.15 into the $402–421 fade zone, and while the rest of the board rolls over pre-market, DELL does the opposite — up another +4.19% to $420.97, back at the top of the zone and driving toward the $432 stop. This is the weakest short on the board: MACD positive (≈ +13.67), RSI 53.9, momentum still up while every peer fades. Respect it — hold/watch, do NOT add into the strength: the short only stays valid while $432 caps it. A close over $432 repairs the bull-flag and takes the short off; it takes a rejection here and a fade back under $402 to re-arm toward $377 (weekly 9-EMA) → $365 → 🕳️ $330 gap-fill.',
-    lead: { rank: 15, status: 'wait', entry: '$402 fail to re-arm', stop: '$432', targets: '$377 → $365 → $330', downside: '−10%', tail: '−22%', rr: '~2:1', edge: 'Bull-flag — the board’s odd one out: instead of fading it pushes +4.19% pre-market to $420.97 toward the $432 stop with MACD still positive; the weakest short here — a close over $432 takes it off, only a rejection and fade back under $402 re-arms toward $377 → the $330 gap-fill' },
-    side: 'short', accent: 'amber',
-    date: '2026-07-22',
+    price: '$437.50', change: '−0.42% close · closed OVER the $432 stop · short off',
+    signal: 'Bull-flag resolved up — the short is off. DELL was the board’s odd one out and it proved it: while the whole group crashed Friday, DELL held flat at its highs — −0.42% to close $437.50 (AH $436.04), ABOVE the $432 stop, after tagging $451 intraweek. That closes the short exactly as the plan said — “a close over $432 repairs the bull-flag and takes the short off.” It ran $100 → $450+ and this is a breakout from the flag, not a distribution top: the daily uptrend is intact (above the 21-day mid-BB ≈ $409 and the 9-EMA ≈ $417). But it is weekly-overbought (RSI 74, Stoch 81) and extended — don’t chase $437: a pullback to $409–417 is the cleaner long, and only a failure back under $402 would revive a short toward $377 → $330. Off the ranked board — a strong uptrend at the highs, not a setup.',
+    edge: 'Bull-flag resolved up — the short is off: DELL was the odd one out and held flat at its highs (−0.42% to $437.50, AH $436.04) while the group crashed Friday, closing above the $432 stop after tagging $451; a breakout not a top (daily uptrend intact), but weekly-overbought (RSI 74) and extended — don’t chase, a pullback to $409–417 is the cleaner long, only a failure under $402 revives a short, off the ranked board',
+    side: 'long', accent: 'amber',
+    date: '2026-07-24',
     story: 'stories/dell.html',
   },
 ];
