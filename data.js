@@ -160,11 +160,11 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$63.90', change: '+0.88% pre-mkt · $63.34 Jul 21 close',
-    signal: 'Flipped to LONG — the one name holding its gain while the group fades. ASTS broke the $57–60 base on genuine OBV buying, +10.31% to close $63.34, and unlike every faded short it HOLDS pre-market — +0.88% to $63.90 while SMH’s $580 reclaim fails (→$572). That relative strength is the tell: a real catalyst (B. Riley’s upgrade to Buy $85, Midland manufacturing-expansion approval) against a $1B convertible-note dilution overhang. It is a rebound, not yet a confirmed uptrend (still under the $77–78 wall, daily MACD ≈ −6.06 still repairing, Stoch ~16 curling up), so don’t chase $63–64: buy a hold of $61.50 or a pullback that holds $59–60, add on a breakout/close above $65–67. Targets $65–67 → $70–71 → 🎯 $77–78 (clearing it reasserts the larger uptrend). Stop below $57 (a failed rebound); a loss of $59 delays it. Size small — the convert is a real dilution risk.',
-    edge: 'Flipped to long — the only name holding its gain while the shorts fade: +10.31% off the $57–60 base to $63.34 and +0.88% pre-market to $63.90 with a real catalyst (B. Riley Buy $85, Midland expansion); don’t chase $63–64 — buy a $61.50 hold or $59–60 pullback, add >$65–67, targets $70–71 → $77–78, below $57 the rebound failed (size small, convert dilution)',
-    side: 'long', accent: 'violet',
-    date: '2026-07-22',
+    price: '$56.20', change: '−5.04% close · long stopped under $57, FLIPPED short · AH $56.46',
+    signal: 'Flipped short — the long broke and it kept bleeding. ASTS never held the $57–60 base: it broke −5.04% Friday to close $56.20 (AH $56.46), through the $57 long stop and far below the daily 200-EMA (≈ $77). That flips the read: the ≈$1B convertible-note dilution overhang is now the driving fundamental, and with the whole group broken, the fade targets the daily lower BB ≈ $50 → $45 → weekly support ≈ $41. It is deeply oversold near-term (1H RSI 30, Stoch 10.9; daily RSI 36) so don’t chase the low — a bounce into $59–61 is the cleaner short entry, stop $61. The B. Riley Buy $85 / Midland catalyst is the risk: a reclaim of $61 negates and repairs the long. Weekly RSI 40 (MACD rolling) leaves room down.',
+    lead: { rank: 10, status: 'live', entry: '$57 filled', stop: '$61', targets: '$50 → $45 → $41', downside: '−12%', tail: '−28%', rr: '~3:1', edge: 'Long stopped, flipped short — ASTS broke −5.04% to close $56.20 through the $57 stop and far under the daily 200-EMA (≈ $77); the ≈$1B convertible dilution overhang is the bearish fundamental. Fade toward the daily lower BB ≈ $50 → $45 → weekly $41; 1H deeply oversold (Stoch 10.9) so a bounce into $59–61 is the cleaner entry, stop $61 — a reclaim negates (B. Riley Buy $85 the risk)' },
+    side: 'short', accent: 'violet',
+    date: '2026-07-24',
     story: 'stories/asts.html',
   },
   {
@@ -214,11 +214,11 @@ const STOCKS = [
   },
   {
     symbol: 'DELL', exchange: 'NYSE',
-    price: '$420.97', change: '+4.19% pre-mkt · $404.15 Jul 21 close',
-    signal: 'Bull-flag — the odd one out: it is NOT fading, it is pushing toward the stop. DELL closed +6.01% $404.15 into the $402–421 fade zone, and while the rest of the board rolls over pre-market, DELL does the opposite — up another +4.19% to $420.97, back at the top of the zone and driving toward the $432 stop. This is the weakest short on the board: MACD positive (≈ +13.67), RSI 53.9, momentum still up while every peer fades. Respect it — hold/watch, do NOT add into the strength: the short only stays valid while $432 caps it. A close over $432 repairs the bull-flag and takes the short off; it takes a rejection here and a fade back under $402 to re-arm toward $377 (weekly 9-EMA) → $365 → 🕳️ $330 gap-fill.',
-    lead: { rank: 15, status: 'wait', entry: '$402 fail to re-arm', stop: '$432', targets: '$377 → $365 → $330', downside: '−10%', tail: '−22%', rr: '~2:1', edge: 'Bull-flag — the board’s odd one out: instead of fading it pushes +4.19% pre-market to $420.97 toward the $432 stop with MACD still positive; the weakest short here — a close over $432 takes it off, only a rejection and fade back under $402 re-arms toward $377 → the $330 gap-fill' },
-    side: 'short', accent: 'amber',
-    date: '2026-07-22',
+    price: '$437.50', change: '−0.42% close · closed OVER the $432 stop · short off',
+    signal: 'Bull-flag resolved up — the short is off. DELL was the board’s odd one out and it proved it: while the whole group crashed Friday, DELL held flat at its highs — −0.42% to close $437.50 (AH $436.04), ABOVE the $432 stop, after tagging $451 intraweek. That closes the short exactly as the plan said — “a close over $432 repairs the bull-flag and takes the short off.” It ran $100 → $450+ and this is a breakout from the flag, not a distribution top: the daily uptrend is intact (above the 21-day mid-BB ≈ $409 and the 9-EMA ≈ $417). But it is weekly-overbought (RSI 74, Stoch 81) and extended — don’t chase $437: a pullback to $409–417 is the cleaner long, and only a failure back under $402 would revive a short toward $377 → $330. Off the ranked board — a strong uptrend at the highs, not a setup.',
+    edge: 'Bull-flag resolved up — the short is off: DELL was the odd one out and held flat at its highs (−0.42% to $437.50, AH $436.04) while the group crashed Friday, closing above the $432 stop after tagging $451; a breakout not a top (daily uptrend intact), but weekly-overbought (RSI 74) and extended — don’t chase, a pullback to $409–417 is the cleaner long, only a failure under $402 revives a short, off the ranked board',
+    side: 'long', accent: 'amber',
+    date: '2026-07-24',
     story: 'stories/dell.html',
   },
 ];
