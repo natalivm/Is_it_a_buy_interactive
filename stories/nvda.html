@@ -32,6 +32,8 @@
   .tpl .rg.tp .px,.tpl .rg.tp .r{color:var(--purple);}
   .tpl .riser{background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
     border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
@@ -44,19 +46,16 @@
     <!-- 1 · COVER / STRUCTURE -->
     <section class="slide active" data-label="NVDA · ІГП">
       <div class="cover-ticker rv">NVDA</div>
-      <div class="eyebrow rv">DAILY · ЛІДЕР ТРИМАВСЯ, ПОКИ ГРУПА ОБВАЛИЛАСЬ</div>
-      <h1 class="rv">Group crashed.<br><span class="hl">NVDA held flat.</span></h1>
-      <p class="sub rv">NVDA — <span class="p">лідер, що тримається</span>: у п'ятницю вся група обвалилась (SMH −3.3%, MU/COHR/BE/NBIS/SNDK <strong>−7…−15%</strong>), а NVDA закрив <span class="p">≈ рівно, ~$206.84</span> — саме та <strong>відносна сила</strong>, на яку чекав діп-бай. Інверсна голова-плечі (<strong>плече $198–200 · голова $194–196</strong>) з шиєю <strong>$211–214</strong> ціла: праве плече викупили, ціна їде на 9/50-EMA (~$205–206), <span class="p">далеко над 200-day $189 / стопом $194</span>. Але <span class="k">follow-through ще немає</span> — під шиєю $211–214, у діапазоні $205–215. Потрібне денне закриття понад <strong>$214</strong> на об'ємі.</p>
+      <div class="eyebrow rv">DAILY · ЛІДЕР, ЩО ТРИМАВСЯ, НАРЕШТІ ЗЛАМАВСЯ</div>
+      <h1 class="rv">Leader broke too.<br><span class="hl">On the ropes at $194.</span></h1>
+      <p class="sub rv">Лідер, що тримався в п'ятницю, у понеділок <span class="k">нарешті зламався</span>: NVDA <strong>−4.66% до close $197.20</strong> (AH $196.57), втративши <span class="k">і $205, і $200</span> й закрившись під daily 200-EMA ($205.69) — прямо на <strong>стопі $194</strong>. За планом, втрата $205→$200 «веде назад до плеча», і лише close під $194 ламає патерн — тож діп-бай <span class="p">на канатах, але ще живий</span>: $194 цілий на волосину. Глибоко перепроданий (daily RSI 29, Stoch 10) → рефлекс-відскок у $205 <span class="p">живий</span>. Але відносна сила — уся причина тримати — <span class="k">щойно провалила перший тест</span>: лідер більше не тримається, поки група ламається.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",78,"$214","шия $211–214 · ще не пробита",0.08]]' viewBox="0 0 470 300" role="img" aria-label="Inverse head and shoulders — right shoulder bought back, still under the neckline">
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.2s" d="M55,150 L100,178 L150,96 L210,224 L270,96 L325,172 L392,112"/>
-          <path class="legdn draw" pathLength="1" style="animation-delay:1.7s;animation-duration:.5s" d="M392,112 L412,128"/>
-          <circle class="dot-p pop" style="animation-delay:1.35s" cx="100" cy="178" r="5"/>
-          <circle class="dot-p pop" style="animation-delay:1.45s" cx="210" cy="224" r="5"/>
-          <circle class="dot-p pop" style="animation-delay:1.55s" cx="325" cy="172" r="5"/>
-          <circle class="dot-p pop" style="animation-delay:2.1s" cx="412" cy="128" r="6"/>
-          <text class="capm fade" style="animation-delay:1.9s" x="210" y="245" text-anchor="middle">голова $194–196</text>
-          <text class="cap f-p fade" style="animation-delay:2.25s" x="250" y="290" text-anchor="middle">плече викупили · шия $211–214 ще не пробита</text>
+        <svg data-lv='[["k",50,"$214","шия · далеко зверху",0.05],["k",92,"$205","200-EMA / втрачено ↓",0.12],["k",120,"$200","плече · втрачено ↓",0.18],["y",158,"$197.20","ТУТ · close −4.66%",0.24],["p",200,"$194","стоп · close нижче = злам ІГП",0.3],["p",258,"$189","🕳️ 200-day · далі $180s",0.35]]' viewBox="0 0 470 300" role="img" aria-label="NVDA broke down 4.66 percent losing 205 and 200, sitting right on the 194 stop">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.55" d="M55,150 L110,138 L180,132 L250,128 L300,120"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.9s" d="M300,120 L340,145 L375,168 L405,190"/>
+          <circle class="dot-y pop" style="animation-delay:2.3s" cx="405" cy="190" r="6"/>
+          <text class="capm fade" style="animation-delay:1.9s" x="200" y="112" text-anchor="middle">тримав $205 весь тиждень</text>
+          <text class="cap f-k fade" style="animation-delay:2.5s" x="250" y="290" text-anchor="middle">втратив $205 і $200 → −4.66% прямо на стоп $194</text>
         </svg>
       </div>
     </section>
@@ -64,49 +63,51 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="NVDA · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Flat close.<br><span class="hl">Riding the 50-EMA.</span></h1>
+      <h1 class="rv">Red −4.66%.<br><span class="hl">Broke the 200-EMA to the stop.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="NVDA roughly flat daily close riding the 9/50-EMA under the 214 neckline">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="120" y2="60"/>
-          <line class="dash s-w fade" style="animation-delay:.3s"  x1="60" y1="128" x2="120" y2="128"/>
-          <line class="dash s-p fade" style="animation-delay:.42s" x1="60" y1="230" x2="120" y2="230"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="64"  text-anchor="end">214 шия</text>
-          <text class="ax f-w fade" style="animation-delay:.5s"  x="54" y="132" text-anchor="end">206 · 9/50-EMA</text>
-          <text class="ax f-p fade" style="animation-delay:.62s" x="54" y="234" text-anchor="end">198 плече</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.35s" x1="210" y1="112" x2="210" y2="148"/>
-          <rect class="candle-body fill" x="182" y="122" width="56" height="14" rx="4" style="animation-delay:.7s"/>
-          <line class="dash s-w fade" style="animation-delay:1.4s" x1="120" y1="128" x2="330" y2="128"/>
-          <circle class="dot-y pop" style="animation-delay:1.6s" cx="278" cy="128" r="6"/>
-          <text class="anno f-p fade" style="animation-delay:1.5s" x="240" y="108"><tspan class="h">$206.84</tspan> · ≈ рівно</text>
-          <text class="anno f-w fade" style="animation-delay:1.75s" x="292" y="124"><tspan class="h">тримає 9/50-EMA</tspan> — поки група обвалилась</text>
+        <svg viewBox="0 0 420 340" role="img" aria-label="NVDA red 4.66 percent candle breaking below the 200 EMA down onto the 194 stop">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
+          <line class="dash s-k fade" style="animation-delay:.14s" x1="60" y1="120" x2="330" y2="120"/>
+          <line class="dash s-y fade" style="animation-delay:.22s" x1="60" y1="180" x2="330" y2="180"/>
+          <line class="dash s-p fade" style="animation-delay:.3s"  x1="60" y1="238" x2="120" y2="238"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">206 · 200-EMA / втрачено</text>
+          <text class="ax f-k fade" style="animation-delay:.34s" x="54" y="124" text-anchor="end">200 плече · втрачено</text>
+          <text class="ax f-y fade" style="animation-delay:.42s" x="54" y="184" text-anchor="end">197 close −4.66%</text>
+          <text class="ax f-p fade" style="animation-delay:.5s"  x="54" y="242" text-anchor="end">194 стоп · злам ІГП</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.35s" x1="150" y1="95" x2="150" y2="205"/>
+          <rect class="candle-body fill" x="120" y="105" width="60" height="90" rx="7" style="animation-delay:.7s"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="186" r="6"/>
+          <text class="anno f-k fade" style="animation-delay:1.5s" x="334" y="124"><tspan class="h">$205 / $200</tspan> — пробито вниз</text>
+          <text class="anno f-y fade" style="animation-delay:2.05s" x="334" y="188" font-weight="700">$197.20 close −4.66% · на стопі</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">✔ Тримав 50-EMA рівно, поки група обвалилась −7…−15%</div>
-        <p>П'ятниця: група обвалилась (SMH −3.3%, MU/COHR/BE/NBIS/SNDK <strong>−7…−15%</strong>), а NVDA закрив <strong>≈ рівно ~$206.84</strong> — тримає 9/50-EMA ($205–206), денний low над <span class="p">плечем $198–200</span>. Це <span class="p">відносна сила</span>, якої чекав діп-бай: лідер тримається, коли група ламається. Daily RSI 51 (нейтрально), weekly ще чистий аптренд (MACD +6.6). Але ціна <span class="k">все ще під шиєю $211–214</span> — follow-through немає. Лонг з підтвердженням, не гонитва.</p>
+        <div class="vh">▽ Close $197.20 (−4.66%) — лідер зламався, на стопі $194</div>
+        <p>Велика <strong>червона свічка −4.66% до $197.20</strong> (AH $196.57) — NVDA втратив і $205, і $200, закрився під daily 200-EMA ($205.69), прямо на <span class="k">стопі $194</span>. Відносна сила, яка тримала тезу, <strong>щойно провалилась</strong> — лідер більше не стоїть, поки група ламається. Daily RSI 29, Stoch 10 — <span class="p">глибоко перепроданий</span>, тож рефлекс-відскок у $205 живий і саме він тримав би лонг. Але патерн на волосині: close під <strong>$194</strong> вибиває стоп і ламає інверсну голову-плечі → фліп у шорт до 200-day $189 → $180s.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="NVDA vs SMH">
-      <div class="eyebrow y rv">ВІДНОСНА СИЛА · ПІДТВЕРДЖЕНО</div>
-      <h1 class="rv">Group crashed.<br><span class="hl">Leader held flat.</span></h1>
-      <p class="sub rv">Ось той тест: у п'ятницю барометр <strong>SMH втратив $580</strong> (close $561), а вся група обвалилась — <strong>COHR −9.8%, MU −7%, BE −14.8%, NBIS −15%, SNDK −10.8%</strong>. А NVDA закрив <span class="p">≈ рівно ~$206.84</span>. Це <span class="p">чиста відносна сила</span> — лідер тримається, коли група ламається, саме те, що робить діп-бай валідним. Тримає 9/50-EMA, далеко над 200-day $189. Але це ще <span class="k">не прорив</span>: під шиєю $211–214, follow-through немає.</p>
+      <div class="eyebrow y rv">ВІДНОСНА СИЛА · ПРОВАЛ ТЕСТУ</div>
+      <h1 class="rv">Held Friday.<br><span class="hl">Broke Monday.</span></h1>
+      <p class="sub rv">У п'ятницю NVDA закрив ≈ рівно, поки група впала −7…−15% — <span class="p">відносна сила</span>. Але в понеділок тест провалився: лідер <strong>−4.66% до $197.20</strong>, втратив $205 і $200 разом із групою. Це <span class="k">злам відносної сили</span> — уся причина тримати діп-бай проти слабкого тейпу. Лонг тепер на стопі $194: тримається лише над ним, а close нижче фліпає читання в шорт до 200-day $189.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Лідер тримався, поки група впала</span><span class="v">NVDA ≈ рівно · група −7…−15% · daily RSI 51</span></div>
-        <p>Відносна сила підтверджена — але тейп ще risk-off (SMH втратив $580). Тож лонг-лідер потребує <span class="k">власного підтвердження</span>: денне закриття &gt;$214 відкриває $230→$234; утримання 9/50-EMA ($205–206) / плеча $198–200 тримає діп-бай живим; втрата $205→$200 при слабкій групі веде назад до плеча.</p>
+        <div class="indi-top"><span class="t">Відносна сила провалила тест</span><span class="v">NVDA −4.66% · $197.20 · на стопі $194 · RSI 29</span></div>
+        <p>Лідер тримав $205 весь тиждень, тоді зламався разом із групою — тепер <span class="k">не тримається</span>. Лонг живий тільки над $194: реклейм $205→$214 відроджує діп-бай; глибоко перепроданий (Stoch 10) → рефлекс-відскок у $205 живий. Але close під $194 = злам патерну → фліп у шорт до $189 → $180s.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="NVDA held flat while SMH lost 580 and the group crashed">
+        <svg viewBox="0 0 470 300" role="img" aria-label="NVDA held Friday but broke down with the group on Monday">
           <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="90" x2="400" y2="90"/>
-          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="80">SMH · $580 втрачено (close $561)</text>
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,150 L180,148 L280,150 L370,146"/>
-          <circle class="dot-p pop" style="animation-delay:1.4s" cx="370" cy="146" r="6"/>
-          <text class="cap f-p fade" style="animation-delay:1.5s" x="364" y="138" text-anchor="end">NVDA · ≈ рівно, тримає</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.7s;animation-duration:1s;opacity:.6" d="M80,120 L180,140 L280,185 L370,215"/>
-          <circle class="dot-k pop" style="animation-delay:1.7s" cx="370" cy="215" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.85s" x="364" y="211" text-anchor="end">група · −7…−15%</text>
-          <text class="cap f-m fade" style="animation-delay:2.1s" x="235" y="285" text-anchor="middle">лідер тримався рівно — група обвалилась: відносна сила</text>
+          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="80">$205 · тримав весь тиждень — втрачено</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.55" d="M80,120 L180,118 L260,120 L300,116"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.8s" d="M300,116 L340,150 L370,185 L395,210"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="395" cy="210" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.3s" x="389" y="206" text-anchor="end">NVDA · зламався −4.66%</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.7s;animation-duration:1s;opacity:.5" d="M80,145 L180,165 L280,195 L370,220"/>
+          <circle class="dot-k pop" style="animation-delay:1.7s" cx="370" cy="220" r="5"/>
+          <text class="cap f-m fade" style="animation-delay:1.85s" x="364" y="234" text-anchor="end">група · слабка</text>
+          <text class="cap f-m fade" style="animation-delay:2.5s" x="235" y="285" text-anchor="middle">тримав у п'ятницю → зламався в понеділок: відносна сила провалилась</text>
         </svg>
       </div>
     </section>
@@ -116,33 +117,32 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$230–234</span><span class="lbl">🚀 ціль виміру ІГП · тільки після пробою</span></div>
-        <div class="rung res"><span class="px">$214–215</span><span class="lbl">Лінія шиї · денне закриття = підтвердження пробою</span></div>
-        <div class="rung res"><span class="px">$211</span><span class="lbl">Низ шиї · сюди треба повернутись першим</span></div>
-        <div class="rung now"><span class="px">$206.84</span><span class="lbl">ТУТ · close ≈ рівно · на 9/50-EMA $205–206 · тримав, поки група впала</span></div>
-        <div class="rung sup"><span class="px">$198–200</span><span class="lbl">Праве плече · викуплено · тут купуй утримання</span></div>
-        <div class="rung sup"><span class="px">$194–196</span><span class="lbl">Голова · втрата = злам ІГП</span></div>
-        <div class="rung sup"><span class="px">$189</span><span class="lbl">Denна 200-EMA (висхідна) · проміжна підтримка</span></div>
-        <div class="rung sup"><span class="px">$182</span><span class="lbl">🕳️ наступна велика підтримка нижче</span></div>
+        <div class="rung res"><span class="px">$214–215</span><span class="lbl">Лінія шиї · реклейм = діп-бай знову в грі</span></div>
+        <div class="rung res"><span class="px">$205–206</span><span class="lbl">200-EMA / 9-EMA · втрачено ↓ · повернутись сюди першим</span></div>
+        <div class="rung res"><span class="px">$200</span><span class="lbl">Праве плече · втрачено ↓</span></div>
+        <div class="rung now"><span class="px">$197.20</span><span class="lbl">ТУТ · close −4.66% · на стопі · RSI 29 / Stoch 10</span></div>
+        <div class="rung sup"><span class="px">$194–196</span><span class="lbl">⛓️ Голова / стоп · close нижче = злам ІГП → фліп шорт</span></div>
+        <div class="rung sup"><span class="px">$189</span><span class="lbl">Denна 200-day · перша ціль фліпа</span></div>
+        <div class="rung sup"><span class="px">$180–182</span><span class="lbl">🕳️ наступна велика підтримка нижче</span></div>
       </div>
-      <p class="note rv">Відносна сила підтверджена: NVDA закрив ≈ рівно <strong>~$206.84</strong>, поки група впала <strong>−7…−15%</strong> — тримає 9/50-EMA. Інверсна голова-плечі <strong>ціла, але непідтверджена</strong>: ціна <strong>все ще під шиєю $211–214</strong>. Купуй утримання <strong>9/50-EMA $205–206 / плеча $198–200</strong> (стоп &lt;$194), або жди <strong>закриття &gt;$214</strong> на об’ємі. <span class="y">🚀 Ціль:</span> виміру <strong>$230–234</strong> — тільки після підтвердження. Втрата <strong>$194–196</strong> ламає патерн → $182.</p>
+      <p class="note rv">Лідер зламався: NVDA закрив <strong>−4.66% до $197.20</strong>, втратив $205 і $200 — <strong>на стопі $194</strong>. Діп-бай живий <span class="p">тільки над $194</span>: реклейм <strong>$205→$214</strong> відроджує патерн і ціль $230–234. Глибоко перепроданий (RSI 29, Stoch 10) → рефлекс-відскок у $205 живий.</p>
+      <p class="note rv"><span class="y">Інвалідація — під $194:</span> денне закриття нижче вибиває стоп і ламає інверсну голову-плечі → <strong>фліп у шорт</strong> до 200-day <strong>$189</strong> → $180s, як імена групи. Повага до барометра — тейп risk-off.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="NVDA · LONG">
-      <div class="eyebrow rv">PLAN · LONG · REL-STRENGTH CONFIRMED</div>
-      <h1 class="rv">Held while group fell — <span class="hl">wait for $214</span></h1>
-      <p class="sub rv">П'ятниця підтвердила тезу: група впала −7…−15%, а NVDA закрив ≈ рівно <strong>~$206.84</strong>, тримає 9/50-EMA — <span class="p">відносна сила</span>. Вхід $198–200 виконано, лонг у плюсі (далеко над стопом $194 / 200-day $189). Але follow-through немає — далі або тримай 9/50-EMA, або чекай пробою <strong>$214</strong> на об'ємі:</p>
+      <div class="eyebrow rv">PLAN · LONG ON THE ROPES · STOP $194</div>
+      <h1 class="rv">On the ropes — <span class="hl">hold only above $194</span></h1>
+      <p class="sub rv">Лідер зламався разом із групою: <strong>−4.66% до $197.20</strong> (AH $196.57), втратив $205 і $200, на стопі $194. Відносна сила провалила тест. Глибоко перепроданий (RSI 29, Stoch 10) → рефлекс-відскок у $205 живий — і саме він тримав би лонг. Але дисципліна на стопі:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T3 🚀</span><span class="px">$234</span></span><span class="r">ціль виміру ІГП</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$230</span></span><span class="r">зона виміру</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2 🚀</span><span class="px">$234</span></span><span class="r">ціль виміру · тільки після реклейму</span></div>
         <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$214</span></span><span class="r">лінія шиї · пробій-тригер</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">BUY</span><span class="px">$198–200</span></span><span class="r">викуплено · утримання правого плеча</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$194</span></span><span class="r">втрата $194–196 = злам ІГП → $182</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">RECLAIM</span><span class="px">$205</span></span><span class="r">повернення над 200-EMA відроджує діп-бай</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$194</span></span><span class="r">close нижче = злам ІГП → фліп шорт $189 → $180s</span></div>
       </div>
-      <p class="note p rv">🎯 <strong>Тригер від сьогодні (close ≈ рівно ~$206.84):</strong> тримав 9/50-EMA, поки група впала −7…−15% — відносна сила підтверджена, лонг живий. Додавай/підтверджуй тільки на денному закритті понад <strong>$214</strong> на об'ємі → ціль виміру <strong>$230–234</strong>. Без гонитви в шию. Інвалідація — під <strong>$194</strong>: втрата $205 → $200 при слабкій групі веде назад до плеча.</p>
-      <p class="note rv">SMH — <strong>$580 втрачено (close $561)</strong>, тейп risk-off. Це лонг-лідер <span class="k">проти групи</span>: попри відносну силу — менший розмір, чіткий стоп &lt;$194, і повага до барометра, доки $580 не відвойовано на закритті.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $197.20, −4.66%):</strong> лонг <span class="k">на канатах</span> — тримається тільки над $194. Реклейм <strong>$205→$214</strong> відроджує діп-бай → ціль $230–234. Не додавати в зламану структуру, поки не повернено $205. Інвалідація — денний close під <strong>$194</strong>: фліп у шорт до 200-day $189 → $180s.</p>
+      <p class="note rv">Це був лонг-лідер <span class="k">проти групи</span> — і група щойно перемогла: відносна сила провалилась, тейп risk-off. Менший розмір, жорсткий стоп $194, повага до барометра. Під $194 це вже не діп-бай — це наступне ім'я корекції.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
