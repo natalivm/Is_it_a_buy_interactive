@@ -28,6 +28,8 @@
     --sub:#F3E8D6;
   }
   .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
@@ -40,66 +42,68 @@
     <!-- 1 · 1H -->
     <section class="slide active" data-label="STX · 1H">
       <div class="cover-ticker rv">STX</div>
-      <div class="eyebrow rv">1H · 24/07 CLOSE · ШОРТ OFF · НА ЛІНІЇ ТРИГЕРА</div>
-      <h1 class="rv">Faded to the line.<br><span class="hl">Short still off.</span></h1>
-      <p class="sub rv">STX — <span class="p">найсильніший у групі</span> — у п’ятницю віддав ще піни: <strong>−6.75% і закриття $851.69</strong> (AH ≈ $849), і тепер сидить <strong>прямо на тижневій 9-EMA (≈ $842)</strong> над лінією «шорт off» <span class="k">$835</span> — точка рішення. Структурно це досі найздоровіше імʼя: <span class="p">величезний цілий weekly-аптренд</span> (RSI 60, MACD ≈ +141, далеко над 21-week MA ≈ $700) — корекція, не злам. Але піна сходить (daily MACD ≈ −10.8), а 1H <strong>глибоко перепроданий (RSI 30.9, Stoch 13.8)</strong> — відскок від лінії живий. Ще <strong>не шорт</strong>: він <em>на</em> лінії, не під нею.</p>
+      <div class="eyebrow rv">1H · 27/07 CLOSE · BROKE $835 · FADE CONFIRMED</div>
+      <h1 class="rv">The fence broke.<br><span class="hl">Lost $835.</span></h1>
+      <p class="sub rv">Найсильніший у групі нарешті <span class="k">віддав тригер</span>. STX зламався в понеділок: <strong>−4.07% і закриття $816.99</strong> (AH $817.80) — рішучий daily close <strong>ПІД лінією «шорт off» $835 / тижневою 9-EMA</strong>, із проколом <span class="k">low ≈ $788</span>, потім відскок. Це той самий пробій, якого чекала карта — <span class="p">більше не паркан, а підтверджений шорт</span>. Daily MACD −17.60 твердо в мінусі, RSI 39, під усім денним стеком. Але weekly досі <span class="p">величезний цілий аптренд</span> (далеко над 21-week MA ≈ $700) — глибока корекція, не злам. Перепроданість скинулась (Stoch 30) → відскок у <strong>$843–864</strong> = чистіший re-short.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",38,"$942","daily 21 mid-BB · опір вище",0.05],["k",78,"$891.83","нещодавній хай · пре-крах",0.11],["y",120,"$851.69","now · close −6.75% · на лінії",0.17],["p",152,"$842","тижнева 9-EMA · тримає",0.23],["k",185,"$835","«шорт off» · close нижче = ре-арм",0.29],["p",235,"$770–790","стара структура · ціль ЯКЩО зрив",0.35],["p",272,"$700","🕳️ тижнева 21-MA · глибше",0.41]]' viewBox="0 0 470 300" role="img" aria-label="STX faded 6.75 percent onto the 842/835 trigger line, short still off, oversold bounce live">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M96,70 L180,90 L260,110 L330,145 L360,158"/>
-          <path class="legup draw" pathLength="1" style="animation-delay:1.6s;animation-duration:.5s;opacity:.7" d="M360,158 L385,150 L405,146"/>
-          <circle class="dot-y pop" style="animation-delay:2.2s" cx="405" cy="146" r="6"/>
-          <text class="cap f-y fade" style="animation-delay:2.4s" x="235" y="284" text-anchor="middle">−6.75% на лінію $842/$835 → 1H перепроданий, шорт ще off</text>
+        <svg data-lv='[["k",42,"$898","стоп-зона · reclaim = re-negate",0.05],["k",82,"$864","200-EMA · зламано вниз",0.12],["k",112,"$835","«шорт off» · пробито ↓ = ре-арм",0.18],["y",152,"$816.99","ТУТ · close −4.07%",0.24],["p",205,"$788","low · стара структура · пройдено",0.3],["p",255,"$770","зона фейду · ціль",0.35],["p",285,"$700","🕳️ тижнева 21-MA · глибше",0.4]]' viewBox="0 0 470 300" role="img" aria-label="STX broke below the 835 line closing 816.99 with a 788 low, fade confirmed">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,80 L180,110 L250,150 L308,188"/>
+          <circle class="dot-k" cx="308" cy="188" r="4.5" style="opacity:.6"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.7s" d="M308,188 L350,170 L385,158"/>
+          <circle class="dot-y pop" style="animation-delay:2.15s" cx="385" cy="158" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.4s" x="235" y="284" text-anchor="middle">пробив $835 у low $788 → відскок до $816.99 · фейд підтверджено</text>
         </svg>
       </div>
     </section>
 
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="STX · 1D">
-      <div class="eyebrow rv">DAILY CANDLE · 24/07</div>
-      <h1 class="rv">Red −6.75%.<br><span class="hl">Onto the line.</span></h1>
+      <div class="eyebrow rv">DAILY CANDLE · 27/07</div>
+      <h1 class="rv">Red −4.07%.<br><span class="hl">Broke through $835.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="STX daily red candle down 6.75 percent onto the 842/835 trigger line">
+        <svg viewBox="0 0 420 340" role="img" aria-label="STX daily red candle breaking below the 835 line to a 788 low">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="330" y2="60"/>
-          <line class="dash s-y fade" style="animation-delay:.15s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-k fade" style="animation-delay:.24s" x1="60" y1="185" x2="330" y2="185"/>
-          <line class="dash s-p fade" style="animation-delay:.32s" x1="60" y1="255" x2="330" y2="255"/>
-          <text class="ax f-k fade" style="animation-delay:.22s" x="54" y="64"  text-anchor="end">891.83 нещод. хай</text>
-          <text class="ax f-y fade" style="animation-delay:.3s"  x="54" y="145" text-anchor="end">851.69 close · на лінії</text>
-          <text class="ax f-k fade" style="animation-delay:.4s"  x="54" y="189" text-anchor="end">835 «шорт off»</text>
-          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="259" text-anchor="end">770–790 стара структура</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="70" x2="150" y2="170"/>
-          <rect class="candle-body fill" x="120" y="78" width="60" height="80" rx="7" style="animation-delay:.6s"/>
-          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="158" r="6"/>
-          <text class="anno f-k fade" style="animation-delay:2.05s" x="192" y="82"><tspan class="h">$912</tspan> старт дня</text>
-          <text class="anno f-y fade" style="animation-delay:2.2s" x="192" y="162"><tspan class="h">$851.69</tspan> close −6.75%</text>
+          <line class="dash s-k fade" style="animation-delay:.16s" x1="60" y1="120" x2="330" y2="120"/>
+          <line class="dash s-y fade" style="animation-delay:.24s" x1="60" y1="180" x2="330" y2="180"/>
+          <line class="dash s-p fade" style="animation-delay:.32s" x1="60" y1="250" x2="330" y2="250"/>
+          <text class="ax f-k fade" style="animation-delay:.22s" x="54" y="64"  text-anchor="end">864 · 200-EMA зламано</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="124" text-anchor="end">835 «шорт off» · пробито ↓</text>
+          <text class="ax f-y fade" style="animation-delay:.4s"  x="54" y="184" text-anchor="end">817 close −4.07%</text>
+          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="254" text-anchor="end">788 low → 770 структура</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="100" x2="150" y2="240"/>
+          <rect class="candle-body fill" x="120" y="112" width="60" height="80" rx="7" style="animation-delay:.6s"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="184" r="6"/>
+          <text class="anno f-k fade" style="animation-delay:1.5s" x="334" y="124"><tspan class="h">$835</tspan> — пробито вниз</text>
+          <text class="anno f-y fade" style="animation-delay:2.05s" x="334" y="188"><tspan class="h">$816.99</tspan> close −4.07% · low $788</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">⚖ Найсильніший — але тепер на лінії рішення</div>
-        <p>Червона свічка <strong>−6.75% до $851.69</strong> (AH ≈ $849) — лідер віддав ще піни й сів <span class="y">прямо на тижневу 9-EMA (≈ $842)</span> над лінією <span class="k">$835</span>. Weekly досі величезний аптренд (RSI 60, MACD ≈ +141, 21-week MA ≈ $700 далеко внизу) — <span class="p">корекція, не злам</span>. Але daily MACD ≈ −10.8, 1H перепроданий → відскок живий. Ще <strong>не шорт</strong>: рішучий daily close <span class="k">під $835</span> вперше переозброює фейд до $770; утримання $835 лишає в тренді.</p>
+        <div class="vh">▽ Close $816.99 (−4.07%) — пробив $835, фейд підтверджено</div>
+        <p>Найздоровіше ім'я нарешті рол-овер: <strong>−4.07% до $816.99</strong> (AH $817.80) — рішучий close <span class="k">під лінією «шорт off» $835 / тижневою 9-EMA</span>, прокол low ≈ $788. Це той самий тригер, який карта стерегла — <span class="p">паркан перетворився на підтверджений шорт</span>. Daily MACD −17.60 твердо в мінусі, RSI 39, під усім стеком. Але weekly досі величезний аптренд (21-week MA ≈ $700 далеко внизу) — <span class="p">глибока корекція, не злам</span>. Перепроданість скинулась (Stoch 30) → відскок у $843–864 = чистіший re-short. Reclaim $864→$898 re-негує.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="STX vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Group broke.<br><span class="hl">STX held the line.</span></h1>
-      <p class="sub rv">Барометр <strong>SMH закрив тиждень під $580</strong> — злам підтверджено, фейди озброєні. Але STX — <span class="p">найздоровіший на дошці</span> — тримається: −6.75% до $851.69, усе ще <strong>над $835</strong>, коли решта імен зламані. Weekly RSI 60, MACD +141 — сила лишається <span class="p">на боці тренду</span>. Тому це <span class="k">імʼя на паркані</span>: шорт лише під $835.</p>
+      <h1 class="rv">Held longest —<br><span class="hl">now it broke too.</span></h1>
+      <p class="sub rv">STX тримався найдовше — найздоровіший на дошці, що тримав $835, коли решта імен зламані. Але тепер <strong>і воно віддало лінію</strong>: −4.07% до $816.99, рішучий close під $835, low $788. <span class="p">Відносна сила вичерпалась</span> — останній фейд групи озброївся. Weekly RSI ще у тренді (далеко над 21-week MA ≈ $700), тож це глибока, але контрольована корекція: re-short на відскоку, не гонитва лоу.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Найсильніший — на лінії рішення</span><span class="v">daily RSI 47.6 · MACD ≈ −10.8 · 1H Stoch 13.8</span></div>
-        <p>STX віддав піну до $851.69, але сидить на тижневій 9-EMA ($842) над $835 — не пробив. Daily MACD у мінусі, 1H глибоко перепроданий (Stoch 13.8) → відскок від лінії живий. <span class="k">Bias нейтральний тут</span>: рішучий close <strong>під $835</strong> вперше вмикає фейд до старої структури $770–790 → 🕳️ тижнева 21-MA $700. Утримання $835 = аптренд триває.</p>
+        <div class="indi-top"><span class="t">Тримався найдовше — тепер зламався</span><span class="v">−4.07% · $816.99 · пробив $835 · MACD −17.60</span></div>
+        <p>STX віддав лінію $835 і сходив у low $788. Daily MACD твердо в мінусі, під усім стеком. <span class="p">Фейд озброєно</span>: рішучий close під $835 → стара структура $770–790 → 🕳️ тижнева 21-MA $700. Перепроданість скинулась (Stoch 30) → re-short у <strong>$843–864</strong>. Reclaim $864→$898 re-негує.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="STX held above 835 while SMH broke on the weekly close">
-          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="110" x2="400" y2="110"/>
-          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="100">SMH · тижневе закриття під $580 (злам)</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.6" d="M80,125 L200,145 L300,175 L360,195"/>
-          <circle class="dot-k pop" style="animation-delay:1.2s" cx="360" cy="195" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.3s" x="366" y="199">SMH &lt; $580</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.85" d="M80,150 L200,158 L300,170 L360,176"/>
-          <circle class="dot-y pop" style="animation-delay:1.4s" cx="360" cy="176" r="6"/>
-          <text class="cap f-y fade" style="animation-delay:1.5s" x="366" y="180">STX · тримає $835</text>
-          <text class="cap f-m fade" style="animation-delay:1.7s" x="235" y="286" text-anchor="middle">лідер тримається над лінією — шорт лише під $835</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="STX held longest but broke below 835 too as the sector stayed soft">
+          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="105" x2="400" y2="105"/>
+          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="95">$835 · лінія пробита</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,120 L200,135 L320,152 L390,152"/>
+          <circle class="dot-k pop" style="animation-delay:1.5s" cx="390" cy="152" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.6s" x="384" y="144" text-anchor="end">сектор слабкий</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.85" d="M80,130 L200,150 L290,195 L340,212"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.6s;animation-duration:.6s" d="M340,212 L365,202 L390,196"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="390" cy="196" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.3s" x="384" y="192" text-anchor="end">STX · пробив $835</text>
+          <text class="cap f-m fade" style="animation-delay:2.5s" x="235" y="286" text-anchor="middle">тримався найдовше — тепер і воно зламалось, фейд озброєно</text>
         </svg>
       </div>
     </section>
@@ -109,32 +113,34 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$942</span><span class="lbl">Daily 21 mid-BB · опір вище</span></div>
-        <div class="rung res"><span class="px">$891.83</span><span class="lbl">Нещодавній хай · старт п’ятничного крах-дня</span></div>
-        <div class="rung now"><span class="px">$851.69</span><span class="lbl">ТУТ · close −6.75% · AH ≈ $849 · на лінії</span></div>
-        <div class="rung sup"><span class="px">$842</span><span class="lbl">Тижнева 9-EMA · тримає · відскок живий</span></div>
-        <div class="rung sup"><span class="px">$835</span><span class="lbl">Лінія «шорт off» · close нижче = ре-арм фейду</span></div>
-        <div class="rung sup"><span class="px">$770–790</span><span class="lbl">Стара зона фейду · ціль, ЯКЩО зрив під $835</span></div>
+        <div class="rung res"><span class="px">$898</span><span class="lbl">Стоп-зона · reclaim = re-negate, знову в тренді</span></div>
+        <div class="rung res"><span class="px">$864</span><span class="lbl">Daily 200-EMA · зламано вниз</span></div>
+        <div class="rung res"><span class="px">$843–864</span><span class="lbl">🎯 Кращий re-short на відскоку (зламана лінія / 200-EMA)</span></div>
+        <div class="rung res"><span class="px">$835</span><span class="lbl">Лінія «шорт off» / тижнева 9-EMA · пробито ↓ = ре-арм</span></div>
+        <div class="rung now"><span class="px">$816.99</span><span class="lbl">ТУТ · close −4.07% · пробив $835 · low $788</span></div>
+        <div class="rung sup"><span class="px">$788</span><span class="lbl">Low · стара структура · пройдено вниз</span></div>
+        <div class="rung sup"><span class="px">$770</span><span class="lbl">Стара зона фейду · ціль</span></div>
         <div class="rung sup"><span class="px">$700</span><span class="lbl">🕳️ Тижнева 21-MA · глибша ціль</span></div>
-        <div class="rung sup"><span class="px">$571</span><span class="lbl">Daily 200-EMA · далеко внизу</span></div>
       </div>
-      <p class="note rv">Червоний <strong>−6.75% $851.69</strong> — лідер сів на тижневу 9-EMA (≈ $842) над лінією <strong>$835</strong>. Weekly досі аптренд (RSI 60, MACD +141), 1H перепроданий (Stoch 13.8) → відскок живий. <strong>Ще не шорт</strong>: рішучий daily close <strong>під $835</strong> вперше вмикає фейд до $770–790 → 🕳️ тижнева 21-MA $700. Утримання $835 лишає в тренді — імʼя на паркані.</p>
+      <p class="note rv">Понеділок <strong>−4.07% $816.99</strong> — STX <strong>пробив лінію $835 / тижневу 9-EMA</strong> у low $788: тригер спрацював, <span class="p">фейд підтверджено</span>. Стара структура $770–790 у прицілі → 🕳️ тижнева 21-MA $700. Reclaim <strong>$864→$898</strong> re-негує.</p>
+      <p class="note rv"><span class="y">Momentum скинувся:</span> daily MACD −17.60, RSI 39, Stoch 30 — рефлекс-відскок у <strong>$843–864</strong> імовірний, тому re-short там, не гонитва лоу. Weekly ще великий аптренд (21-week MA ≈ $700 внизу) — глибока корекція, не структурний злам.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="STX · WATCH">
-      <div class="eyebrow rv">PLAN · SHORT OFF · WATCH $835</div>
-      <h1 class="rv">On the fence. <span class="hl">Watch the break.</span></h1>
-      <p class="sub rv">STX віддав ще піни (−6.75% $851.69) і сів на лінію: тижнева 9-EMA $842 над «шорт off» $835. Найсильніший на дошці — досі над структурою, коли решта зламані. Шорт <strong>ще off</strong>: чекаємо на пробій, не ре-шортимо на лінії й не ловимо перепроданий відскок:</p>
+    <section class="slide" data-label="STX · SHORT">
+      <div class="eyebrow rv">PLAN · BROKE $835 · FADE THE BOUNCE → $770</div>
+      <h1 class="rv">Broke $835 — <span class="hl">fade the bounce $843–864</span></h1>
+      <p class="sub rv">Понеділок (close $816.99, −4.07%): STX <strong>пробив лінію «шорт off» $835 / тижневу 9-EMA</strong> у low $788 — той самий тригер, який карта стерегла. Найсильніший на дошці нарешті рол-овер. Перепроданість скинулась (Stoch 30) — re-short на відскоку в $843–864, не гонитва лоу; це глибока корекція в weekly-аптренді, тримай тайтово:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">СТАТУС</span><span class="px">OFF · на паркані</span></span><span class="r">на лінії $842/$835, не під нею</span></div>
-        <div class="rg entry"><span class="l"><span class="cap2">ЛОНГ-БІАС</span><span class="px">&gt; $835</span></span><span class="r">weekly аптренд цілий (RSI 60) — тримання = тренд</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">RE-ARM</span><span class="px">close &lt; $835</span></span><span class="r">рішучий пробій вмикає фейд до $770–790</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">ЦІЛЬ (ЯКЩО)</span><span class="px">$770 → $700</span></span><span class="r">стара структура → тижнева 21-MA</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$898</span></span><span class="r">reclaim = re-negate, знову в тренді</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$843–864</span></span><span class="r">відскок у зламану лінію / 200-EMA = кращий долив</span></div>
+        <div class="rg now"><span class="l"><span class="cap2">NOW</span><span class="px">$816.99</span></span><span class="r">close −4.07% · пробив $835</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$788 → $770</span></span><span class="r">стара структура · low пройдено</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$700</span></span><span class="r">🕳️ тижнева 21-MA</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($851.69):</strong> шорт off — імʼя на паркані. Рішучий daily close <strong>під $835</strong> вперше переозброює фейд до $770–790 → 🕳️ $700. Доти — не ре-шорти на лінії й не лови перепроданий відскок (1H Stoch 13.8): утримання $835 лишає STX у своєму аптренді.</p>
-      <p class="note rv">SMH закрив тиждень під $580 — група зламана, але STX як найздоровіше імʼя тримається над $835. Це одне імʼя дошки, що ще на паркані: пробій $835 — і воно приєднується до фейдів; утримання — і воно лишається сильним.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($816.99, −4.07%):</strong> пробив $835 — <strong>фейд підтверджено, шорт живий</strong>. Стара структура $770–790 у прицілі → 🕳️ $700. Не гонитва в перепроданість — re-short на відскоку в $843–864. Reclaim $864→$898 re-негує.</p>
+      <p class="note rv">Найсильніший — тому й ламався останнім, і тепер уся група зламана. Weekly ще великий аптренд (21-week MA ≈ $700 внизу): це глибока корекція, не структурний злам — фіксуй по цілях, повага до сили тренду. Під $835 — це вже свіжий шорт, не watch.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
