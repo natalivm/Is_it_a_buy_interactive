@@ -88,11 +88,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$519.80', change: '−6.90% close · sitting on the $513 line / 50-EMA · watch the break',
-    signal: 'The healthiest name — now pressed right onto the trigger line. WDC gave back another chunk Friday: −6.90% to close $519.80, and it is now sitting right on the $513 re-arm floor / daily 50-EMA ($514) — the exact decision point the card was watching. It held up far better than the crashing names (SNDK/BE/NBIS all −10 to −15%), and structurally it is still the strongest: weekly MACD hugely positive (≈ +89) and price far above the 200-day ($318), a pullback inside a big uptrend, not a breakdown. But the froth keeps coming off — daily MACD just crossed negative (≈ −10.5), 4H Stoch 26 (oversold, so a bounce off the line is live). Stance: still no confirmed short — it is AT the line, not through it. A decisive daily close BELOW $513 finally re-arms the fade toward the $486–513 zone → the daily lower BB ≈ $455; holding $513 / the 50-EMA keeps it in trend and a reclaim of $535 re-negates. This is the one group name still on the fence.',
-    edge: 'The healthiest name, now on the trigger line — WDC faded −6.90% to close $519.80, sitting right on the $513 re-arm floor / daily 50-EMA ($514) while SNDK/BE/NBIS crashed −10 to −15%; still a pullback inside a big uptrend (weekly MACD ≈ +89, far above the 200-day $318) but daily MACD just turned negative — no short until a decisive close below $513 re-arms toward $486 → the lower BB ≈ $455, a hold of $513 keeps it in trend',
+    price: '$497.92', change: '−4.21% close · BROKE $513 · fade confirmed · low $475',
+    signal: 'The fence broke — the last group name on the ropes finally rolled. WDC lost the $513 line the card was watching: −4.21% to close $497.92 (AH $496.95), a decisive close BELOW the $513 re-arm floor / daily 50-EMA ($525), tagging a ~$475 low (the daily lower BB $475.60) before bouncing. That is the exact "close below $513 re-arms the fade" trigger — no longer on the fence, now a confirmed short. Daily MACD −11.12 is firmly negative, RSI 38, price under the whole stack, and the $486–513 zone gave way straight to $475. It is still a big weekly uptrend (far above the 200-day $318), so this is a deep pullback, not a trend break. Momentum reset off the low (Stoch back to 32), so a bounce into $513–525 is the cleaner re-short. Next: the $475 low → the lower BB ≈ $455 on continuation; a reclaim of $525→$535 re-negates.',
+    edge: 'The fence broke — WDC lost the $513 line it was sitting on, −4.21% to close $497.92 (AH $496.95), a decisive close below the $513 / 50-EMA floor with a $475 low; the "close below $513 re-arms" trigger fired, so it is a confirmed short now (MACD −11.12, under the whole stack) — a bounce into $513–525 is the cleaner re-short toward the lower BB ≈ $455, still a deep pullback in a weekly uptrend so a reclaim of $525→$535 re-negates',
     side: 'short',
-    date: '2026-07-24',
+    date: '2026-07-27',
     story: 'stories/wdc.html',
   },
   {
@@ -178,11 +178,11 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$536.25', change: '−4.72% close · rolled from $564 · fade working to $510',
-    signal: 'Technical fade — working even without the ideal entry. AMAT never pushed into the $575–590 re-short zone; it rolled from ~$564 and Friday broke −4.72% to close $536.25, back under the $554 nearer-resistance and below the 1H lower Bollinger (≈ $543). The fade-the-approach is playing toward $510, which lines up with the daily 21-day mid-BB (≈ $508). But this stays a technical fade, not a fundamental short — equipment rides the TSMC buildout, and the higher timeframes are still strong (weekly RSI 64, MACD ≈ +67; daily MACD still positive ≈ +6.9), so it is a pullback in an uptrend, kept off the ranked board. Short-term it is oversold (1H RSI 37 / Stoch 13, daily Stoch 28), so a reflex bounce into $554–575 is the cleaner re-short entry. Target $510 → below on continuation; a reclaim of $605 negates.',
-    edge: 'Technical fade, not a fundamental short (equipment rides the TSMC buildout) — AMAT never reached the $575–590 zone, rolled from $564 and broke −4.72% to $536.25 under $554 and the 1H lower BB; the fade is working toward $510 (≈ daily mid-BB $508) but higher TFs still strong (weekly RSI 64, MACD +67), so a bounce into $554–575 is the cleaner re-short, reclaim $605 negates',
+    price: '$516.89', change: '−3.61% close · fade hit $510 (low $492) · bounced, under the stack',
+    signal: 'Technical fade — delivered. AMAT followed through Monday: −3.61% to close $516.89 (AH $515.49), tagging a ~$492 low straight through the $510 fade target before bouncing. That is the fade-the-approach paying — price is under the whole MA stack (daily 50-EMA $541.22, 200-EMA $570.17), daily MACD −9.50 now firmly negative. It stays a technical fade, not a fundamental short — equipment rides the TSMC buildout and the higher timeframes are only cooling, not broken — so it stays off the ranked board. Momentum reset off the low (Stoch back to 31, RSI 40), so a bounce into $531–541 is the cleaner re-short, not a chase. Target $510 done; the next leg needs a break of the $492 low toward the lower BB. A reclaim of $560→$575 negates.',
+    edge: 'Technical fade delivered — AMAT broke another −3.61% to $516.89 (AH $515.49), tagging a ~$492 low through the $510 target before bouncing; under the whole MA stack (50-EMA $541.22) with MACD −9.50, but still a pullback not a fundamental short (equipment rides the TSMC buildout), so kept off the board — a bounce into $531–541 is the cleaner re-short, next leg needs a break of $492, reclaim $560→$575 negates',
     side: 'short', accent: 'red',
-    date: '2026-07-24',
+    date: '2026-07-27',
     story: 'stories/amat.html',
   },
   {
