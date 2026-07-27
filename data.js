@@ -44,11 +44,11 @@ const STOCKS = [
   },
   {
     symbol: 'IREN', exchange: 'NASDAQ',
-    price: '$37.22', change: '−8.27% close · long stopped, FLIPPED short · eyeing $30',
-    signal: 'Flipped short — the long broke and the market is taking it lower. Instead of reclaiming $41.70, IREN cracked −8.27% Friday to close $37.22 (AH $37.15), clean through the old $38.90 long stop and under the daily 200-EMA (≈ $44). That flips the read: with the whole group breaking on the weekly close, the fade now targets the $33–34 gap → 🎯 $30 (weekly support), and deeper $27 if the crash extends. The ≈$2.8B AI-cloud catalyst is the reason to keep size honest — a reclaim of $41.70 repairs the long — but the structure is broken. 1H is deeply oversold (RSI 28, Stoch 7.0) so don’t chase the low: a bounce into $40–41 is the cleaner short entry, stop $42. Daily MACD −3.91 / RSI 39 and weekly RSI 44 (MACD rolling) leave room down.',
-    lead: { rank: 11, status: 'live', entry: '$38.90 filled', stop: '$42', targets: '$34 → $30 → $27', downside: '−13%', tail: '−31%', rr: '~3:1', edge: 'Long stopped, flipped short — IREN broke −8.27% to $37.22 through the old $38.90 stop and the daily 200-EMA (≈ $44); the fade targets the $33–34 gap → 🎯 $30 (weekly support), deeper $27 if the market keeps crashing. 1H deeply oversold (Stoch 7.0) so a bounce into $40–41 is the cleaner entry, stop $42; the ≈$2.8B AI-cloud catalyst is the risk — a reclaim of $41.70 repairs the long' },
+    price: '$36.29', change: '−2.10% close · fade grinding to T1 $34 · AH $36.48',
+    signal: 'Flipped short — the fade is grinding toward T1 $34. After the long broke and flipped short, IREN kept bleeding: the new day fell −2.10% to close $36.29 (AH bounce +0.5% $36.48), driving toward T1 $34 (the daily lower Bollinger ≈ $35.31 sits just beneath). It is under the whole 1H MA stack (9/50/200-EMA = $36.68 / $38.89 / $40.10) — structure broken. Near-term it is deeply oversold (1H RSI 39.61, Stoch 29.20, MACD −0.93) with an AH bounce underway, so don’t chase the low — a push into $38–40 is the cleaner short add, stop $42. The ≈$2.8B AI-cloud catalyst is the risk: a reclaim of $41.70 repairs the long. Fade toward T1 $34 → 🎯 $30 (weekly support) → deeper $27.',
+    lead: { rank: 11, status: 'live', entry: '$38.90 filled', stop: '$42', targets: '$34 → $30 → $27', downside: '−13%', tail: '−31%', rr: '~3:1', edge: 'Flipped short, fade grinding to T1 — IREN fell −2.10% to close $36.29 (AH bounce $36.48), driving toward T1 $34 (daily lower BB $35.31 beneath), under the whole 1H MA stack; 1H Stoch 29 with an AH bounce so don’t chase — a push into $38–40 is the cleaner add, stop $42, 🎯 $30 then $27, a reclaim of $41.70 repairs the long (≈$2.8B AI-cloud catalyst the risk)' },
     side: 'short', accent: 'red',
-    date: '2026-07-24',
+    date: '2026-07-27',
     story: 'stories/iren.html',
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
@@ -115,11 +115,11 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$349.92', change: '−6.38% close · back under $358 · knocking on the $346 re-arm',
-    signal: 'Shelf-break — the overshoot unwound, now knocking on the $346 re-arm door. TER had overshot the $358 stop to $374.04 on the pump, but it never confirmed — Friday it faded −6.38% to close $349.92, well back under the $358 stop and now just above the $346 re-arm floor. It closed below the daily 50-EMA (≈ $362) and the 1H lower Bollinger (≈ $358). Not a full re-arm yet — that needs a decisive push under $346 — but the direction is right and it is close. Big-picture still an uptrend (weekly MACD ≈ +41, RSI 53, far above the 200-EMA $272), so short-term it is oversold (1H RSI 34 / Stoch 14.5) and a bounce toward $358 is live first. Stance: on watch at the doorstep — a decisive push under $346 fully re-arms toward $308 → $292 → 🕳️ 200-EMA $280; a 2nd day over $358 or a reclaim of $390 ends it.',
-    lead: { rank: 2, status: 'wait', entry: '$346 re-arm', stop: '$358 (overshot)', targets: '$308 → $292 → $280', downside: '−13%', tail: '−21%', rr: '~4:1', edge: 'Clean shelf-break — the +12.07% pump overshot the $358 stop to $374.04 but never held, and Friday faded −6.38% to $349.92, back under $358 and knocking on the $346 re-arm floor (below the daily 50-EMA $362); a push under $346 fully re-arms toward $308 → 200-EMA $280, but 1H Stoch 14.5 oversold so a bounce toward $358 is live first, a 2nd day over $358 ends it' },
+    price: '$334.77', change: '−4.33% close · broke under $346 · re-arm fired',
+    signal: 'Shelf-break — the $346 re-arm fired. TER had been knocking on the door; the new day broke it decisively: −4.33% to close $334.77 (AH $333.69), a clean close UNDER the $346 re-arm floor and well back under the $358 stop. Structure is broken — price is under the whole 1H MA stack, pinned to the lower Bollinger, the shelf gone. Momentum is bearish but near-term stretched (1H RSI 38.45, Stoch 29.11, MACD −7.2), and the weekly is still an uptrend (far above the 200-EMA $272), so a reflex bounce toward $346–358 is live before the next leg. Stance: re-arm fired, short live toward T1 $308 → $292 → 🕳️ 200-EMA $280; a bounce into $346–358 is the cleaner add, and a 2nd day back over $358 (or a reclaim of $390) ends it.',
+    lead: { rank: 2, status: 'live', entry: '$346 filled', stop: '$358 (overshot)', targets: '$308 → $292 → $280', downside: '−11%', tail: '−19%', rr: '~4:1', edge: 'Clean shelf-break — the $346 re-arm fired: TER broke −4.33% to close $334.77, a decisive close under the $346 floor and back under the $358 stop, price under the whole 1H MA stack on the lower BB; short live toward T1 $308 → 🕳️ 200-EMA $280, but 1H Stoch 29 oversold so a bounce into $346–358 is the cleaner add, a 2nd day over $358 ends it' },
     side: 'short', accent: 'blue',
-    date: '2026-07-24',
+    date: '2026-07-27',
     story: 'stories/ter.html',
   },
   {
