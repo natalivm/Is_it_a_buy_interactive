@@ -29,8 +29,8 @@
   }
 
   .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--yellow) 40%,var(--line));border-radius:14px;background:rgba(245,165,36,.07);padding:13px 15px;}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);display:flex;align-items:center;gap:7px;}
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
@@ -43,14 +43,16 @@
     <!-- 1 · 4H -->
     <section class="slide active" data-label="WDC · 4H">
       <div class="cover-ticker rv">WDC</div>
-      <div class="eyebrow y rv">CLOSE 24/07 · −6.90% · ON THE $513 LINE</div>
-      <h1 class="rv">Pressed to the line.<br><span class="hl">Still on watch.</span></h1>
-      <p class="sub rv">WDC віддав ще шматок у п'ятницю: <strong>−6.90% до close $519.80</strong>, і тепер сидить <span class="k">прямо на re-arm floor $513 / денній 50-EMA ($514)</span> — та сама точка рішення, яку карта стерегла. Він тримався <strong>набагато краще</strong> за обвальні імена (SNDK/BE/NBIS −10…−15%): структурно найздоровіший — пулбек у величезному аптренді (weekly MACD ≈ +89, далеко над 200-day $318). Але фрос злітає: daily MACD щойно <span class="k">перейшов у мінус (≈ −10.5)</span>, 4H Stoch 26 (перепроданий → відскок від лінії живий). <span class="y">На тригері, не крізь нього:</span> рішучий close нижче $513 нарешті вертає фейд; hold $513 / 50-EMA лишає в тренді.</p>
+      <div class="eyebrow rv">CLOSE 27/07 · −4.21% · BROKE $513 · FADE CONFIRMED</div>
+      <h1 class="rv">The fence broke.<br><span class="hl">Lost $513, fade confirmed.</span></h1>
+      <p class="sub rv">Останнє ім'я групи на паркані нарешті <span class="k">розвернулось</span>. WDC втратив лінію $513, яку карта стерегла: <strong>−4.21% до close $497.92</strong> (AH $496.95) — рішучий close <span class="k">НИЖЧЕ re-arm floor $513 / денної 50-EMA ($525)</span>, із проколом <span class="k">low ≈ $475</span> (нижня BB $475.60), потім відскок. Це той самий тригер «close нижче $513 вертає фейд» — <span class="p">більше не watch, а підтверджений шорт</span>. Daily MACD −11.12 твердо в мінусі, RSI 38, під усім стеком. Але це ще великий weekly-аптренд (далеко над 200-day $318) — глибокий пулбек, не злам тренду. Momentum скинувся (Stoch 32) → відскок у <strong>$513–525</strong> = чистіший re-short.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",65,"$535","стоп · знову під ним",0.05],["y",112,"$519.80","ТУТ · close −6.90%",0.12],["p",142,"$513","re-arm floor · 50-EMA · зрив = знову шорт",0.19],["k",205,"$486","зона фейду · ціль при зриві <$513",0.26],["p",255,"$455","daily нижня BB · глибше",0.31]]' viewBox="0 0 470 300" role="img" aria-label="WDC faded 6.9 percent onto the 513 line and 50-EMA, on watch at the decision point">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,55 L180,70 L260,95 L340,112"/>
-          <circle class="dot-y pop" style="animation-delay:1.85s" cx="340" cy="112" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.1s" x="250" y="278" text-anchor="middle">−6.90% на re-arm floor $513 / 50-EMA — на тригері, ще не крізь</text>
+        <svg data-lv='[["k",50,"$535","стоп · reclaim = re-negate · зверху",0.05],["k",92,"$525","50-EMA · зламано вниз",0.12],["k",120,"$513","re-arm floor · пробито ↓ = шорт",0.18],["y",158,"$497.92","ТУТ · close −4.21%",0.24],["p",205,"$486","зона фейду · пройдено",0.3],["p",250,"$475","low · нижня BB · далі $455",0.35]]' viewBox="0 0 470 300" role="img" aria-label="WDC broke the 513 line closing 497.92 with a 475 low, fade confirmed">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,80 L180,110 L250,150 L308,188"/>
+          <circle class="dot-k" cx="308" cy="188" r="4.5" style="opacity:.6"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.7s" d="M308,188 L350,172 L385,162"/>
+          <circle class="dot-y pop" style="animation-delay:2.15s" cx="385" cy="162" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.4s" x="250" y="285" text-anchor="middle">пробив $513 у low $475 → відскок до $497.92 · фейд підтверджено</text>
         </svg>
       </div>
     </section>
@@ -58,51 +60,51 @@
     <!-- 2 · DAILY CANDLE -->
     <section class="slide" data-label="WDC · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Red −6.90%.<br><span class="hl">Down to the 50-EMA.</span></h1>
+      <h1 class="rv">Red −4.21%.<br><span class="hl">Broke through $513.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="WDC red 6.9 percent candle pulling back onto the 513 line and daily 50-EMA">
+        <svg viewBox="0 0 420 340" role="img" aria-label="WDC red 4.21 percent candle breaking below the 513 line to a 475 low">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
-          <line class="dash s-y fade" style="animation-delay:.12s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.2s" x1="60" y1="185" x2="330" y2="185"/>
-          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="255" x2="120" y2="255"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">535 стоп</text>
-          <text class="ax f-y fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">520 close</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="189" text-anchor="end">513 · 50-EMA / re-arm floor</text>
-          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="259" text-anchor="end">486 зона фейду</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="78" x2="150" y2="188"/>
-          <rect class="candle-body fill" x="120" y="90" width="60" height="62" rx="6" style="animation-delay:.6s"/>
-          <circle class="dot-y pop" style="animation-delay:1.9s" cx="150" cy="152" r="6"/>
-          <line class="s-line fade" style="animation-delay:1.3s" x1="180" y1="185" x2="330" y2="185" stroke-width="1"/>
-          <text class="anno f-p fade" style="animation-delay:1.35s" x="334" y="181"><tspan class="h">$513 / 50-EMA</tspan> — сидить на лінії</text>
-          <text class="anno f-y fade" style="animation-delay:1.65s" x="334" y="150" font-weight="700">$519.80 close −6.90%</text>
+          <line class="dash s-k fade" style="animation-delay:.14s" x1="60" y1="120" x2="330" y2="120"/>
+          <line class="dash s-y fade" style="animation-delay:.22s" x1="60" y1="180" x2="330" y2="180"/>
+          <line class="dash s-p fade" style="animation-delay:.3s"  x1="60" y1="235" x2="120" y2="235"/>
+          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">525 · 50-EMA зламано</text>
+          <text class="ax f-k fade" style="animation-delay:.34s" x="54" y="124" text-anchor="end">513 re-arm floor · пробито ↓</text>
+          <text class="ax f-y fade" style="animation-delay:.42s" x="54" y="184" text-anchor="end">498 close −4.21%</text>
+          <text class="ax f-p fade" style="animation-delay:.5s"  x="54" y="239" text-anchor="end">486 → 475 low · нижня BB</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.35s" x1="150" y1="100" x2="150" y2="230"/>
+          <rect class="candle-body fill" x="120" y="112" width="60" height="80" rx="7" style="animation-delay:.7s"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="184" r="6"/>
+          <text class="anno f-k fade" style="animation-delay:1.5s" x="334" y="124"><tspan class="h">$513</tspan> — пробито вниз</text>
+          <text class="anno f-y fade" style="animation-delay:2.05s" x="334" y="188" font-weight="700">$497.92 close −4.21% · low $475</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">◱ Close $519.80 (−6.90%) — на 50-EMA, на тригері</div>
-        <p>WDC віддав ще: <strong>−6.90% до $519.80</strong>, прямо на <span class="k">re-arm floor $513 / денну 50-EMA ($514)</span>. Він тримався краще за групу — усе ще <strong>далеко над 200-day $318</strong>, weekly MACD ще великий плюс (≈ +89): пулбек у аптренді, не злам. Але daily MACD <span class="k">щойно перейшов у мінус (≈ −10.5)</span>, 4H Stoch 26 — фрос злітає, хоч короткостроково перепроданий (відскок можливий). <strong>On watch:</strong> рішучий close нижче $513 нарешті вертає фейд до $486; hold $513 / reclaim $535 лишає в тренді.</p>
+        <div class="vh">▽ Close $497.92 (−4.21%) — пробив $513, фейд підтверджено</div>
+        <p>Найздоровіше ім'я нарешті рол-овер: <strong>−4.21% до $497.92</strong> (AH $496.95) — рішучий close <span class="k">нижче re-arm floor $513 / 50-EMA</span>, прокол low ≈ $475 (нижня BB $475.60). Це той самий тригер, який карта стерегла — <span class="p">watch перетворився на підтверджений шорт</span>. Daily MACD −11.12 твердо в мінусі, RSI 38, під усім стеком; зона $486–513 віддала одразу до $475. Але weekly ще великий аптренд (далеко над 200-day $318): глибокий пулбек, не злам. Momentum скинувся (Stoch 32) → відскок у $513–525 = чистіший re-short. Reclaim $525→$535 re-негує.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-label="WDC vs SMH">
       <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Healthiest name —<br><span class="hl">held up, on the line.</span></h1>
-      <p class="sub rv">Поки SNDK/BE/NBIS обвалились на <strong>−10…−15%</strong>, WDC тримався: лише <strong>−6.90% до $519.80</strong>, назад на re-arm floor $513 / 50-EMA. Це підтверджує його <span class="p">відносну силу</span> — він ніколи не ламав тренд, пулбек далеко над 200-day $318, weekly MACD ще ≈ +89. Барометр SMH втратив $580 (close $561), тож тиск є — але WDC <span class="y">на лінії, не крізь неї</span>: єдине ім'я групи, що ще на паркані.</p>
+      <h1 class="rv">Held longest —<br><span class="hl">now it broke too.</span></h1>
+      <p class="sub rv">WDC тримався найдовше — найздоровіше ім'я, що впало найменше, поки група обвалювалась. Але тепер <strong>і воно зламалось</strong>: −4.21% до $497.92, рішучий close нижче лінії $513, low $475. <span class="p">Відносна сила вичерпалась</span> — останній фейд групи озброївся. Це все ще пулбек у weekly-аптренді (над 200-day $318), тож глибокий, але контрольований: re-short на відскоку, не гонитва лоу.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Тримався краще за групу · на $513</span><span class="v">−6.90% · $519.80 · на 50-EMA · daily MACD ≈ −10.5</span></div>
-        <p>Найздоровіший — тому й упав найменше. <span class="y">On watch</span>: re-short лише на рішучому close нижче <strong>$513</strong> (ціль $486 → нижня BB $455); hold $513 / reclaim $535 — WDC просто <span class="p">в тренді</span>. 4H Stoch 26 — короткостроково перепроданий, відскок від лінії живий.</p>
+        <div class="indi-top"><span class="t">Тримався найдовше · тепер зламався</span><span class="v">−4.21% · $497.92 · пробив $513 · MACD −11.12</span></div>
+        <p>Найздоровіший — тому й ламався останнім. <span class="p">Фейд підтверджено</span>: пробив $513 → зона $486 пройдена, low $475 (нижня BB), далі $455 на продовженні. 4H/daily скинулись (Stoch 32) — відскок у <strong>$513–525</strong> = чистіший re-short. Reclaim $525→$535 re-негує.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="WDC held up best while SMH lost 580, resting on the 513 line">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="120" x2="400" y2="120"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="110">SMH · $580 втрачено (close $561)</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,128 L200,140 L320,160 L390,172"/>
-          <circle class="dot-k pop" style="animation-delay:1.5s" cx="390" cy="172" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.6s" x="384" y="188" text-anchor="end">SMH · $580 зрив</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,110 L180,120 L280,138 L380,150"/>
-          <circle class="dot-y pop" style="animation-delay:1.9s" cx="380" cy="150" r="6"/>
-          <text class="cap f-y fade" style="animation-delay:2s" x="374" y="146" text-anchor="end">WDC · лише −6.90%, на $513</text>
-          <text class="cap f-m fade" style="animation-delay:2.3s" x="235" y="282" text-anchor="middle">найздоровіший — упав найменше, тримає лінію $513, on watch</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="WDC held longest but broke below 513 too as the sector stayed soft">
+          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="105" x2="400" y2="105"/>
+          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="95">$513 · лінія пробита</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,120 L200,135 L320,152 L390,152"/>
+          <circle class="dot-k pop" style="animation-delay:1.5s" cx="390" cy="152" r="6"/>
+          <text class="cap f-m fade" style="animation-delay:1.6s" x="384" y="144" text-anchor="end">сектор слабкий</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.85" d="M80,130 L200,150 L290,195 L340,212"/>
+          <path class="legup draw" pathLength="1" style="animation-delay:1.6s;animation-duration:.6s" d="M340,212 L365,202 L390,196"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="390" cy="196" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.3s" x="384" y="192" text-anchor="end">WDC · пробив $513</text>
+          <text class="cap f-m fade" style="animation-delay:2.5s" x="235" y="286" text-anchor="middle">тримався найдовше — тепер і воно зламалось, фейд озброєно</text>
         </svg>
       </div>
     </section>
@@ -112,33 +114,35 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$535</span><span class="lbl">Стоп шорта · reclaim = знову в тренді</span></div>
-        <div class="rung res"><span class="px">$519.80</span><span class="lbl">ТУТ · close 24/07 · −6.90% · трохи над лінією</span></div>
-        <div class="rung key"><span class="px">$513–514</span><span class="lbl">🚨 Re-arm floor · денна 50-EMA · рішучий close нижче = знову шорт</span></div>
-        <div class="rung sup"><span class="px">$486</span><span class="lbl">Зона фейду · ціль, якщо $513 зривається</span></div>
-        <div class="rung sup"><span class="px">$455</span><span class="lbl">Denня нижня BB · глибше при зриві</span></div>
+        <div class="rung res"><span class="px">$535</span><span class="lbl">Стоп шорта · reclaim = re-negate, знову в тренді</span></div>
+        <div class="rung res"><span class="px">$525</span><span class="lbl">Денна 50-EMA · зламано вниз</span></div>
+        <div class="rung res"><span class="px">$513–525</span><span class="lbl">🎯 Кращий re-short на відскоку (зламана лінія / 50-EMA)</span></div>
+        <div class="rung now"><span class="px">$497.92</span><span class="lbl">ТУТ · close −4.21% · пробив $513</span></div>
+        <div class="rung sup"><span class="px">$486</span><span class="lbl">Зона фейду · пройдено</span></div>
+        <div class="rung sup"><span class="px">$475</span><span class="lbl">Low · денна нижня BB ($475.60)</span></div>
+        <div class="rung sup"><span class="px">$455</span><span class="lbl">🕳️ Глибша нижня BB · ціль на продовженні</span></div>
         <div class="rung sup"><span class="px">$318</span><span class="lbl">200-day · глибоке дно (WDC далеко над ним)</span></div>
       </div>
-      <p class="note rv">П'ятниця <strong>−6.90% до $519.80</strong> — WDC на re-arm floor <strong>$513 / денній 50-EMA ($514)</strong>. Тримався краще за групу (SNDK/BE/NBIS −10…−15%): найздоровіший, weekly MACD ще ≈ +89, далеко над 200-day $318. Це <strong>on watch, на тригері</strong>: re-arm лише на рішучому close нижче <strong>$513</strong>.</p>
-      <p class="note rv"><span class="y">🕳️ Bear-цілі ($486 → нижня BB $455)</span> активуються лише при зриві нижче $513. Reclaim <strong>$535</strong> лишає в тренді. Daily MACD щойно в мінусі (≈ −10.5), але 4H Stoch 26 — короткостроково перепроданий, відскок від лінії живий.</p>
+      <p class="note rv">Понеділок <strong>−4.21% до $497.92</strong> — WDC <strong>пробив re-arm floor $513 / 50-EMA</strong> у low $475: тригер спрацював, <span class="p">фейд підтверджено</span>. Зона $486 пройдена, далі 🕳️ <strong>$455</strong> (глибша нижня BB) на продовженні. Reclaim <strong>$525→$535</strong> re-негує.</p>
+      <p class="note rv"><span class="y">Momentum скинувся:</span> daily MACD −11.12, RSI 38, 4H Stoch 32 — рефлекс-відскок у <strong>$513–525</strong> імовірний, тому re-short там, не гонитва лоу. Weekly ще великий аптренд (над 200-day $318) — глибокий пулбек, не злам тренду.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="WDC · ФЕЙД РАЛІ">
-      <div class="eyebrow y rv">PLAN · ON THE $513 LINE · ON WATCH</div>
-      <h1 class="rv">On the line <span class="hl">at $513</span></h1>
-      <p class="sub rv">П'ятниця (close $519.80, −6.90%): WDC на re-arm floor <strong>$513 / денній 50-EMA ($514)</strong>. Тримався набагато краще за групу (SNDK/BE/NBIS −10…−15%) — найздоровіший, weekly MACD ще ≈ +89, далеко над 200-day $318. SMH втратив $580 (close $561), тож тиск є, але WDC <strong>на тригері, не крізь нього</strong> — re-arm лише на рішучому close нижче $513:</p>
+    <section class="slide" data-label="WDC · SHORT">
+      <div class="eyebrow rv">PLAN · BROKE $513 · FADE THE BOUNCE → $455</div>
+      <h1 class="rv">Broke $513 — <span class="hl">fade the bounce $513–525</span></h1>
+      <p class="sub rv">Понеділок (close $497.92, −4.21%): WDC <strong>пробив re-arm floor $513 / 50-EMA</strong> у low $475 — той самий тригер, який карта стерегла. Найздоровіше ім'я нарешті рол-овер. Momentum скинувся (Stoch 32) — re-short на відскоку в $513–525, не гонитва лоу; це глибокий пулбек у weekly-аптренді, тримай тайтово:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg entry"><span class="l"><span class="cap2">NOW</span><span class="px">$519.80</span></span><span class="r">close −6.90% · сидить на $513 / 50-EMA</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">RE-ARM</span><span class="px">&lt; $513</span></span><span class="r">лише рішучий close нижче вертає шорт</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">HOLD</span><span class="px">&gt; $535</span></span><span class="r">reclaim → назад у тренді, без шорту</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">Bear T1</span><span class="px">$486</span></span><span class="r">зона фейду при зриві &lt;$513</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">Bear T2</span><span class="px">$455</span></span><span class="r">denня нижня BB</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">Bear T3</span><span class="px">$318</span></span><span class="r">200-day · глибше дно</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$535</span></span><span class="r">reclaim = re-negate, знову в тренді</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">RE-SHORT</span><span class="px">$513–525</span></span><span class="r">відскок у зламану лінію / 50-EMA = кращий долив</span></div>
+        <div class="rg now"><span class="l"><span class="cap2">NOW</span><span class="px">$497.92</span></span><span class="r">close −4.21% · пробив $513</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$486</span></span><span class="r">✓ зона фейду пройдена</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$475</span></span><span class="r">low · денна нижня BB</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$455</span></span><span class="r">🕳️ глибша нижня BB</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер (close 24/07, $519.80):</strong> −6.90% на re-arm floor $513 / 50-EMA. <strong>On watch, без шорту, на лінії.</strong> Рішучий close нижче $513 → re-arm фейду до $486 → $455; hold $513 / reclaim $535 → назад у тренді.</p>
-      <p class="note rv">Найздоровіший — тому й упав найменше. Daily MACD щойно в мінусі (≈ −10.5), але 4H Stoch 26 — короткостроково перепроданий, відскок від лінії живий. Доки $513 тримається, це watch, а не свіжий шорт: спершу мусить зламати лінію.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $497.92, −4.21%):</strong> пробив $513 — <strong>фейд підтверджено, шорт живий</strong>. Зона $486 пройдена, low $475, далі 🕳️ $455. Не гонитва в перепроданість — re-short на відскоку в $513–525. Reclaim $525→$535 re-негує.</p>
+      <p class="note rv">Найздоровіший — тому й ламався останнім, і тепер уся група зламана. Weekly ще великий аптренд (над 200-day $318): це глибокий пулбек, не структурний злам — фіксуй по цілях, повага до сили тренду. Під $513 — це вже свіжий шорт, не watch.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
