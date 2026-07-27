@@ -35,11 +35,11 @@ const STOCKS = [
   },
   {
     symbol: 'COHR', exchange: 'NYSE',
-    price: '$282.39', change: '−9.84% close · re-short paying · nearing T1 $265 (200-day)',
-    signal: 'Weekly-structure break — the re-short from $310 is paying, T1 in sight. The +11.15% pump overshot the $310 stop to $317.22 but never repaired (no close over the $321 21-week MA), and Friday it broke hard: −9.84% to close $282.39, closing below the daily lower Bollinger (≈ $305) and driving toward T1 $265 (the daily 200-EMA at $264). That is about +9% for the short from the $310 re-arm. Deeply oversold near-term — 1H RSI 25.7 / Stoch 8, daily RSI 38 — so a reflex bounce into $300–310 is the cleaner add, not a chase; the weekly (RSI 47, MACD still +42 and repairing) has more room for the next leg. Next: T1 $265 (200-day) → T2 $247 (50-week) → 🕳️ $215. Stop $321 untouched and far. Stance: re-short working; trail toward $265/$247, add on a bounce, only a reclaim of $321 repairs it.',
-    lead: { rank: 1, status: 'live', entry: '$310 filled', stop: '$321', targets: '$265 → $247 → $215', downside: '−14%', tail: '−30%', rr: '~5:1', edge: 'Weekly-structure break, re-short paying — COHR broke −9.84% to $282.39, below the daily lower BB ($305) and nearing T1 $265 (daily 200-EMA); ~+9% for the short from the $310 re-arm, but 1H RSI 26 / Stoch 8 deeply oversold so a bounce into $300–310 is the cleaner add, weekly RSI 47 leaves room, T2 $247 (50-week) → 🕳️ $215, only a reclaim of $321 repairs it' },
+    price: '$271.31', change: '−3.92% close · tagged T1 $265 intraday · AH $272.93',
+    signal: 'Weekly-structure break — the re-short is paying, T1 tagged. COHR kept sliding: the new day fell −3.92% to close $271.31 (AH bounce +0.6% $272.93), and intraday it pierced T1 $265 (the daily 200-EMA) down to ≈ $255 before basing and bouncing into the close. That is ≈ +12.5% for the short from the $310 re-arm by the close, ~+18% at the low. Near-term it is oversold and lifting (1H Stoch 27.19 curling up, RSI 41.81, MACD −8.94) with an AH bounce, so don’t chase the low — a push back into $280–290 is the cleaner re-short add, and the weekly (still repairing) leaves room for the next leg. Next: T1 $265 banked → T2 $247 (50-week) → 🕳️ $215. Stop $321 untouched and far. Stance: re-short working; trail toward $247/$215, add on a bounce, only a reclaim of $321 repairs it.',
+    lead: { rank: 1, status: 'live', entry: '$310 filled', stop: '$321', targets: '$265 → $247 → $215', downside: '−14%', tail: '−30%', rr: '~5:1', edge: 'Weekly-structure break, re-short paying — COHR fell −3.92% to close $271.31 and pierced T1 $265 (daily 200-EMA) intraday to ≈ $255 before an AH bounce to $272.93 (≈ +12.5% for the short from $310 by the close); 1H Stoch 27 curling up so a push into $280–290 is the cleaner add, T2 $247 (50-week) → 🕳️ $215, only a reclaim of $321 repairs it' },
     side: 'short', accent: 'violet',
-    date: '2026-07-24',
+    date: '2026-07-27',
     story: 'stories/cohr.html',
   },
   {
