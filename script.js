@@ -173,8 +173,10 @@ function stockTileHtml(stock) {
         ? `<p class="tile-edge">⚡ ${esc(edgeText)}</p>` : '';
     const prog = planProgress(stock);
     const booked = !!(stock.lead && stock.lead.status === 'booked');
-    const progress = !prog ? '' : booked
-        ? `<p class="tile-progress"><span class="tp-booked">✅ Targets reached → booked ${pct(prog.earned)}</span> · full plan ${pct(prog.target)}</p>`
+    // Completed (booked) trades carry no on-card progress line — the win is
+    // recorded in the "Booked at targets" strip and on the deck (the ✅ marker),
+    // not on the tile.
+    const progress = (!prog || booked) ? ''
         : prog.filled
         ? `<p class="tile-progress"><span class="tp-live">✅ Entered as called → ${pct(prog.earned)} so far</span> · full plan ${pct(prog.target)} · ${pct(prog.left)} left to the deepest target</p>`
         : `<p class="tile-progress"><span class="tp-wait">⏳ Not triggered yet → 0%</span> · plan pays ${pct(prog.target)} from the zone · ${pct(prog.left)} left from here</p>`;
@@ -223,9 +225,11 @@ function renderLeaderboard() {
 
     // Every stock carrying a `lead` renders as a row, ranked by `lead.rank`
     // (setup quality × reward) — long or short, no fixed cap. Two-sided /
-    // no-edge names simply omit `lead` and stay off the board.
+    // no-edge names simply omit `lead` and stay off the board. Completed trades
+    // (lead.status 'booked') drop out of the ranked table but keep their `lead`
+    // so they still surface in the "Booked at targets" strip.
     const ranked = STOCK_LIST
-        .filter(s => s.lead)
+        .filter(s => s.lead && s.lead.status !== 'booked')
         .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0));
 
     if (!ranked.length) { section.hidden = true; return; }

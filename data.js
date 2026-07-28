@@ -71,12 +71,13 @@ const STOCKS = [
   // ── Re-rated 2026-07-28 (close) ── the fades PAID and earnings hit. Fresh,
   // full-room breaks TODAY top the board (MU broke the shelf into the close;
   // NBIS broke the coil low; COHR through T1+T2 to the 50-week). Completed wins are
-  // REMOVED from the ranked board (GLW ~+21%, BE ~+26% — all targets banked, nothing
-  // left to trade); their win record lives on their decks (the ✅ "all targets
-  // reached" markers), not in the ranking. TER (last) is the tail: its short is still
-  // live but under an earnings contingency (a beat popped it +13% AH over the stop —
-  // verdict waits for tomorrow's cash), so it sits below the working shorts. Ranks
-  // now 1–11, contiguous.
+  // pulled OUT of the ranked table (status:'booked' is filtered in renderLeaderboard)
+  // but KEPT in the "Booked at targets" strip — GLW ~+21% and BE ~+26%, all targets
+  // banked; their ✅ "all targets reached" record also stays on their decks. TER
+  // (last active row) is the tail: its short is still live but under an earnings
+  // contingency (a beat popped it +13% AH over the stop — verdict waits for tomorrow's
+  // cash). Ranked table now shows 1–11; booked names carry rank 12–13 but render only
+  // in the strip.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -136,7 +137,7 @@ const STOCKS = [
     symbol: 'GLW', exchange: 'NYSE',
     price: '$126.01', change: 'close −12.10% $126.01 (earnings) · all targets hit ~+21% · dead-cat bounce · AH $126.39',
     signal: 'Earnings detonation — the fade paid in full. GLW reported and gapped down hard (pre-market ≈ $119.80, session low ≈ $114.57), then recovered to close $126.01 (−12.10%) — still clean through T3 $130 (the April–May base) and every target on the plan. That is ~+21% for the short from the ~$160 rejection — a complete win, all three targets ($151 → $144 → $130) banked. The ≈ $114.57 low tagged the rising daily 200-EMA ($115.01) almost to the dollar and bounced — the washout hit major support. AH $126.39. At $126 this is a news gap, not a technical level — the trend objective is DONE; there is no fresh short here. The ≈ $115 → $126 recovery IS the violent dead-cat bounce the card flagged, now running hard (30-min Stoch spiked to ~97, RSI back to ~49) straight into the $128–137 prior-support-now-resistance zone. Stance: trade complete, all targets banked — take profit / trail tight; no fresh entry, and the bounce into $128–137 is where a re-short would set up, not the low.',
-    edge: 'Earnings detonation — GLW gapped down hard (session low ≈ $114.57) then recovered to close $126.01 (−12.10%), still through T3 $130 and every target: ~+21% for the short from ~$160, all three banked (a complete win); AH $126.39, the ≈ $115 → $126 recovery is the dead-cat bounce now running hard (30-min Stoch spiked ~97) into the $128–137 prior-support-now-resistance zone — the trend objective is done, off the ranked board (win recorded on the deck), a re-short would set up on the bounce not the low',
+    lead: { rank: 12, status: 'booked', entry: '$160 filled', stop: '$184', targets: '$151 → $144 → $130', downside: '−9%', tail: '−14%', rr: '~3:1', edge: 'Earnings detonation — GLW gapped down hard (session low ≈ $114.57) then recovered to close $126.01 (−12.10%), still through T3 $130 and every target: ~+21% for the short from ~$160, all three banked (a complete win); AH $126.39, the ≈ $115 → $126 recovery is the dead-cat bounce now running hard (30-min Stoch spiked ~97) into the $128–137 prior-support-now-resistance zone — the trend objective is done, off the ranked table (banked in the strip), a re-short would set up on the bounce not the low' },
     side: 'short', accent: 'blue',
     date: '2026-07-28',
     story: 'stories/glw.html',
@@ -199,7 +200,7 @@ const STOCKS = [
     symbol: 'BE', exchange: 'NYSE',
     price: '$166.84', change: 'close −11.34% $166.84 · all targets hit ~+26% · ⚠️ EARNINGS BEAT · AH +10.88% $185 (high $191)',
     signal: 'Downtrend leader — the fade banked ALL targets into the print, then earnings squeezed it. BE closed $166.84 (−11.34%), blowing clean through 🕳️ T3 $170 (intraday low $164.35) — all three targets ($200 → $185 → $170) banked, ≈ +26% for the short from the $219–234 entry, a complete win. THEN it reported after the close and squeezed +10.88% to $185.00 after-hours (spiking to $191). This is exactly the binary the card flagged: banking most/all into the print was the right call — a beat squeezed it right back toward the $196–200 the plan warned about, and any runner got caught. The trend short objective is DONE — there is no short here into a post-beat squeeze; let the earnings reaction settle. A reclaim of $200 / the 50-EMA is what repairs the bulls. Position was for the print — the print delivered both the banked win and the squeeze.',
-    edge: 'Downtrend leader — the fade banked ALL targets into the print: BE closed $166.84 (−11.34%), clean through 🕳️ T3 $170 (low $164.35), all three ($200 → $185 → $170) banked, ≈ +26% for the short from $219–234 (a complete win); ⚠️ then earnings BEAT and it squeezed +10.88% AH to $185 (high $191) — the trend objective is done, off the ranked board (win recorded on the deck), no short into a post-beat squeeze',
+    lead: { rank: 13, status: 'booked', entry: '$219–234 filled', stop: '$250', targets: '$200 → $185 → $170', downside: '−10%', tail: '−17%', rr: '~3:1', edge: 'Downtrend leader — the fade banked ALL targets into the print: BE closed $166.84 (−11.34%), clean through 🕳️ T3 $170 (low $164.35), all three ($200 → $185 → $170) banked, ≈ +26% for the short from $219–234 (a complete win); ⚠️ then earnings BEAT and it squeezed +10.88% AH to $185 (high $191) — the trend objective is done, off the ranked table (banked in the strip), no short into a post-beat squeeze' },
     side: 'short', accent: 'amber',
     date: '2026-07-28',
     story: 'stories/be.html',
