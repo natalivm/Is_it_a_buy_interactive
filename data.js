@@ -115,11 +115,11 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$334.77', change: '−4.33% close · broke under $346 · re-arm fired',
-    signal: 'Shelf-break — the $346 re-arm fired. TER had been knocking on the door; the new day broke it decisively: −4.33% to close $334.77 (AH $333.69), a clean close UNDER the $346 re-arm floor and well back under the $358 stop. Structure is broken — price is under the whole 1H MA stack, pinned to the lower Bollinger, the shelf gone. Momentum is bearish but near-term stretched (1H RSI 38.45, Stoch 29.11, MACD −7.2), and the weekly is still an uptrend (far above the 200-EMA $272), so a reflex bounce toward $346–358 is live before the next leg. Stance: re-arm fired, short live toward T1 $308 → $292 → 🕳️ 200-EMA $280; a bounce into $346–358 is the cleaner add, and a 2nd day back over $358 (or a reclaim of $390) ends it.',
-    lead: { rank: 2, status: 'live', entry: '$346 filled', stop: '$358 (overshot)', targets: '$308 → $292 → $280', downside: '−11%', tail: '−19%', rr: '~4:1', edge: 'Clean shelf-break — the $346 re-arm fired: TER broke −4.33% to close $334.77, a decisive close under the $346 floor and back under the $358 stop, price under the whole 1H MA stack on the lower BB; short live toward T1 $308 → 🕳️ 200-EMA $280, but 1H Stoch 29 oversold so a bounce into $346–358 is the cleaner add, a 2nd day over $358 ends it' },
+    price: '$334.77', change: 'pre-market −4.54% $319.56 · grinding to T1 $308',
+    signal: 'Shelf-break paying — the fade is grinding to T1. After the $346 re-arm fired (close $334.77, −4.33%), TER is bleeding further on the 7/28 open: −4.54% pre-market to $319.56, driving toward T1 $308. That is ≈ +8% for the short from the $346 entry at the pre-market print. Structure stays broken — price under the whole daily MA stack, pinned to the lower Bollinger. Near-term it is oversold (30-min RSI 35.44, Stoch 25.35, MACD −5.38), and the weekly is still an uptrend (far above the 200-EMA $272), so a reflex bounce toward $330–346 is the cleaner re-short add, not a chase of the low. Stance: short live and working toward T1 $308 → $292 → 🕳️ 200-EMA $280; a pre-market read — confirm on the cash close, a bounce into $330–346 is the add, and a 2nd day back over $358 (or a reclaim of $390) ends it.',
+    lead: { rank: 2, status: 'live', entry: '$346 filled', stop: '$358 (overshot)', targets: '$308 → $292 → $280', downside: '−11%', tail: '−19%', rr: '~4:1', edge: 'Shelf-break paying, grinding to T1 — after the $346 re-arm fired (close $334.77), TER is −4.54% pre-market to $319.56, driving toward T1 $308 (≈ +8% for the short from $346); under the whole daily stack on the lower BB, oversold (RSI 35.44, Stoch 25.35) so a bounce into $330–346 is the cleaner add — short live toward $292 → 🕳️ 200-EMA $280, a pre-market read, a 2nd day over $358 ends it' },
     side: 'short', accent: 'blue',
-    date: '2026-07-27',
+    date: '2026-07-28',
     story: 'stories/ter.html',
   },
   {
@@ -151,11 +151,11 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$816.99', change: '−4.07% close · BROKE $835 · fade confirmed · low $788',
-    signal: 'The fence broke — the strongest name finally lost its trigger. STX gave way Monday: −4.07% to close $816.99 (AH $817.80), a decisive close BELOW the $835 “short-off” line / weekly 9-EMA, tagging a ~$788 low before bouncing. That is the exact break the card was waiting for — no longer on the fence, now a confirmed short. Daily MACD −17.60 is firmly negative, RSI 39, price under the whole daily stack, and the froth that led the sector up is now unwinding. But the weekly is still a huge intact uptrend (far above the 21-week MA ≈ $700), so this is a deep pullback, not a trend break. Momentum reset off the low (Stoch 30.61), so a bounce into $843–864 is the cleaner re-short. Next: the $770–835 structure → the $788 low → lower on continuation; a reclaim of $864→$898 re-negates.',
-    edge: 'The fence broke — STX lost the $835 line it was pressed against, −4.07% to close $816.99 (AH $817.80), a decisive close below $835 / the weekly 9-EMA with a $788 low; the break the card waited for fired, so it is a confirmed short now (MACD −17.60, under the whole daily stack) — a bounce into $843–864 is the cleaner re-short toward the $770 structure, still a deep pullback in a huge weekly uptrend so a reclaim of $864→$898 re-negates',
+    price: '$816.99', change: 'pre-market −7.22% $758 · through the $788 low + $770 shelf · toward the weekly ≈ $700',
+    signal: 'The fence broke and the slide is accelerating. After confirming the break below $835 (close $816.99, −4.07%, a ~$788 low), STX is gapping harder on the 7/28 open: −7.22% pre-market to $758.00 — a clean break THROUGH the $788 prior low and the $770–835 structure, now stretched below the lower Bollinger ($796.48) and the whole daily stack (9-EMA $828.87, 50-EMA $868.82). That is the break the card wanted, extending. It is now deeply oversold (1H RSI 26.65, Stoch 7.43, MACD −21.62), so a reflex bounce is due — the cleaner re-short is a bounce into $796–810 (lower BB / VWAP $809.58), not a chase of the low. Still a deep pullback in an intact weekly uptrend (far above the 21-week MA ≈ $700), so the next magnet is that $700 weekly line, not a trend break yet. This is a pre-market read — confirm on the cash close; a reclaim of $810→$835 stalls it, and $864 re-negates.',
+    edge: 'The fence broke and the slide is accelerating — after the $816.99 close (−4.07%, $788 low), STX is gapping −7.22% pre-market to $758, clean through the $788 low and the $770–835 structure, stretched below the lower BB ($796.48) and the whole daily stack; deeply oversold (1H RSI 26.65, Stoch 7.43) so a bounce into $796–810 is the cleaner re-short, the next magnet the weekly 21-MA ≈ $700 (still a deep pullback in a weekly uptrend) — a pre-market read, a reclaim of $810→$835 stalls it, $864 re-negates',
     side: 'short', accent: 'amber',
-    date: '2026-07-27',
+    date: '2026-07-28',
     story: 'stories/stx.html',
   },
   {
@@ -169,11 +169,11 @@ const STOCKS = [
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$187.88', change: '+0.06% close · flat under $200 · short armed, grinding to $160',
-    signal: 'Breakdown leader — the re-arm held, now grinding under $200. After Friday’s −15.02% collapse back under the $200 zone, Monday just consolidated the break: NBIS closed $187.88 (+0.06%, AH $189.10), chopping the $181–189 range with a $181 low and no bounce back to the zone. The short stays armed under $200 — price is capped under every MA (daily 50-EMA $200.98, 200-EMA $205.91) and pinned to the lower BB ($181.09), MACD −5.77 — but it hasn’t started the next leg toward T1 $160 yet. Momentum is mid-range now (Stoch 37, RSI 41), so it is neither a chase nor a clean add here; the cleaner re-short is still a bounce into $200–213, and a break of the $181 low is what opens $160 → 200-day ≈ $150 → 🕳️ $130. Stance: short live under $200, coiling — add on a bounce into $200–213 or on a break under $181; only a 2nd close back over $213 ends it.',
-    lead: { rank: 4, status: 'live', entry: '$200 filled', stop: '$213', targets: '$160 → $147 → $130', downside: '−15%', tail: '−31%', rr: '~3:1', edge: 'Breakdown leader — after Friday’s −15.02% re-arm under $200, NBIS just consolidated (+0.06% to $187.88, AH $189.10), chopping $181–189 with no bounce back to the zone; capped under every MA and pinned to the lower BB ($181.09), the next leg to T1 $160 → 200-day ≈ $150 → $130 needs a break of the $181 low — a bounce into $200–213 is the cleaner add, only a 2nd close over $213 ends it' },
+    price: '$187.88', change: 'pre-market −2.71% $182.79 · pressing the $181 coil low',
+    signal: 'Breakdown leader — the re-arm held, pressing the coil low. After Friday’s −15.02% collapse under $200 and Monday’s flat consolidation (close $187.88, +0.06%), NBIS is easing lower on the 7/28 open: −2.71% pre-market to $182.79, pressing the $181 coil low again — the level whose break opens T1 $160. Price stays capped under every MA (9-EMA $183.91, 50-EMA $196.59, 200-EMA $204.36) and near the lower Bollinger ($176.45), MACD −5.25 — structure broken, short armed. That is ≈ +9% for the short from the $200 entry at the pre-market print. Near-term oversold (Stoch 18.29, RSI 37.80), so a bounce into $196–204 is the cleaner re-short add, not a chase. A decisive break of the $181 low is what opens $160 → 200-day ≈ $150 → 🕳️ $130. Stance: short live under $200, at the coil low — add on a bounce into $196–204 or on a break under $181; a pre-market read, only a 2nd close back over $213 ends it.',
+    lead: { rank: 4, status: 'live', entry: '$200 filled', stop: '$213', targets: '$160 → $147 → $130', downside: '−15%', tail: '−31%', rr: '~3:1', edge: 'Breakdown leader, pressing the coil low — after Friday’s −15.02% re-arm under $200 and a flat Monday (close $187.88), NBIS is −2.71% pre-market to $182.79, pressing the $181 coil low whose break opens T1 $160 (≈ +9% for the short from $200); capped under every MA and near the lower BB ($176.45), oversold (Stoch 18.29) so a bounce into $196–204 is the cleaner add — a break under $181 opens $160 → 200-day ≈ $150 → $130, a pre-market read, a 2nd close over $213 ends it' },
     side: 'short', accent: 'indigo',
-    date: '2026-07-27',
+    date: '2026-07-28',
     story: 'stories/nbis.html',
   },
   {
