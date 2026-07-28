@@ -172,7 +172,10 @@ function stockTileHtml(stock) {
     const edge = edgeText
         ? `<p class="tile-edge">⚡ ${esc(edgeText)}</p>` : '';
     const prog = planProgress(stock);
-    const progress = !prog ? '' : prog.filled
+    const booked = !!(stock.lead && stock.lead.status === 'booked');
+    const progress = !prog ? '' : booked
+        ? `<p class="tile-progress"><span class="tp-booked">✅ Targets reached → booked ${pct(prog.earned)}</span> · full plan ${pct(prog.target)}</p>`
+        : prog.filled
         ? `<p class="tile-progress"><span class="tp-live">✅ Entered as called → ${pct(prog.earned)} so far</span> · full plan ${pct(prog.target)} · ${pct(prog.left)} left to the deepest target</p>`
         : `<p class="tile-progress"><span class="tp-wait">⏳ Not triggered yet → 0%</span> · plan pays ${pct(prog.target)} from the zone · ${pct(prog.left)} left from here</p>`;
 
@@ -240,9 +243,13 @@ function renderLeaderboard() {
             ? '<span class="lb-status lb-live">🎯 at trigger</span>'
             : L.status === 'wait'
                 ? '<span class="lb-status lb-wait">⏳ wait for level</span>'
-                : '';
+                : L.status === 'booked'
+                    ? '<span class="lb-status lb-booked">✅ target reached</span>'
+                    : '';
         const prog = planProgress(s);
-        const progress = !prog ? '—' : prog.filled
+        const progress = !prog ? '—' : L.status === 'booked'
+            ? `<span class="lb-earned">${pct(prog.earned)}</span><span class="lb-left">booked</span>`
+            : prog.filled
             ? `<span class="lb-earned">${pct(prog.earned)}</span><span class="lb-left">${pct(prog.left)} left</span>`
             : `<span class="lb-planpct">${pct(prog.target)} plan</span><span class="lb-left">${pct(prog.left)} left</span>`;
         return `
