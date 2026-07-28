@@ -11,27 +11,23 @@
 <link rel="stylesheet" href="story.css">
 <style>
   :root{
-    --page-bg:#04120B;
-    --bg:#08180F;
-    --panel:#0E2418;
-    --panel2:#0B1E14;
-    --line:#1C3A28;
+    --page-bg:#160608;
+    --bg:#210A0D;
+    --panel:#341216;
+    --panel2:#2B0E12;
+    --line:#57221F;
     --ink:#FFFFFF;
-    --muted:#8FBFA3;
+    --muted:#D69B9B;
     --purple:#34D399;
     --pink:#FB5D74;
-    --yellow:#F5C542;
-    --deep:#04120B;
+    --yellow:#F5A524;
+    --deep:#160608;
     --display:'Oswald',sans-serif;
     --body:'Inter',sans-serif;
     --mono:'IBM Plex Mono',monospace;
-    --sub:#DCEFE3;
+    --sub:#F6DEDE;
   }
-  /* green up-riser + bullish target colours — long deck overrides */
   .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .tpl .rg.tp .px,.tpl .rg.tp .r{color:var(--purple);}
-  .tpl .riser{background:linear-gradient(90deg, rgba(52,211,153,.30), rgba(52,211,153,.12));
-    border-top:1px solid rgba(52,211,153,.55);border-bottom:1px solid rgba(52,211,153,.55);box-shadow:0 0 26px rgba(52,211,153,.4);}
   .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
   .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
@@ -44,70 +40,73 @@
   <div class="deck" id="deck">
 
     <!-- 1 · COVER / STRUCTURE -->
-    <section class="slide active" data-label="NVDA · ІГП">
+    <section class="slide active" data-label="NVDA · ФЛІП">
       <div class="cover-ticker rv">NVDA</div>
-      <div class="eyebrow rv">DAILY · ЛІДЕР, ЩО ТРИМАВСЯ, НАРЕШТІ ЗЛАМАВСЯ</div>
-      <h1 class="rv">Leader broke too.<br><span class="hl">On the ropes at $194.</span></h1>
-      <p class="sub rv">Лідер, що тримався в п'ятницю, у понеділок <span class="k">нарешті зламався</span>: NVDA <strong>−4.66% до close $197.20</strong> (AH $196.57), втративши <span class="k">і $205, і $200</span> й закрившись під daily 200-EMA ($205.69) — прямо на <strong>стопі $194</strong>. За планом, втрата $205→$200 «веде назад до плеча», і лише close під $194 ламає патерн — тож діп-бай <span class="p">на канатах, але ще живий</span>: $194 цілий на волосину. Глибоко перепроданий (daily RSI 29, Stoch 10) → рефлекс-відскок у $205 <span class="p">живий</span>. Але відносна сила — уся причина тримати — <span class="k">щойно провалила перший тест</span>: лідер більше не тримається, поки група ламається.</p>
+      <div class="eyebrow rv">4H · ДІП-БАЙ ПРОВАЛИВСЯ · ФЛІП У ШОРТ</div>
+      <h1 class="rv">The leader<br><span class="hl">flipped short.</span></h1>
+      <p class="sub rv">Діп-бай завершено. NVDA <strong>−4.99% до close $196.51</strong> (AH $196.93) — <span class="k">жорстко відкинутий від EMA-кластера $202–206</span> (тагнув $206 усередині дня, продали одразу назад) і закрився <strong>під 4H нижньою BB ($197.33)</strong>, під усім стеком. Відносна сила, що виправдовувала лонг, <span class="k">провалилась</span> — лідер тепер ламається разом із групою. 4H momentum <span class="p">прискорюється вниз</span> (MACD-гістограма −1.54 і росте, OBV розвертається). Читання перевернуто: <strong>фейд відскоку в $199–202</strong> (стоп $206) або шорт пробою <strong>&lt;$194</strong> → ціль 200-day $189 → $182 → $174. Reclaim $206 повертає лонг.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",50,"$214","шия · далеко зверху",0.05],["k",92,"$205","200-EMA / втрачено ↓",0.12],["k",120,"$200","плече · втрачено ↓",0.18],["y",158,"$197.20","ТУТ · close −4.66%",0.24],["p",200,"$194","стоп · close нижче = злам ІГП",0.3],["p",258,"$189","🕳️ 200-day · далі $180s",0.35]]' viewBox="0 0 470 300" role="img" aria-label="NVDA broke down 4.66 percent losing 205 and 200, sitting right on the 194 stop">
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.55" d="M55,150 L110,138 L180,132 L250,128 L300,120"/>
-          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.9s" d="M300,120 L340,145 L375,168 L405,190"/>
-          <circle class="dot-y pop" style="animation-delay:2.3s" cx="405" cy="190" r="6"/>
-          <text class="capm fade" style="animation-delay:1.9s" x="200" y="112" text-anchor="middle">тримав $205 весь тиждень</text>
-          <text class="cap f-k fade" style="animation-delay:2.5s" x="250" y="290" text-anchor="middle">втратив $205 і $200 → −4.66% прямо на стоп $194</text>
+        <svg data-lv='[["k",42,"$206","стоп · EMA-кластер · reclaim = лонг назад",0.05],["k",80,"$199–202","🎯 фейд відскоку · VWAP $199 / 9-EMA",0.12],["y",122,"$196.51","ТУТ · close −4.99%",0.18],["k",155,"$194","фліп-лінія · close нижче = шорт підтверджено",0.24],["p",205,"$189","T1 · 200-day",0.3],["p",248,"$182","T2",0.35],["p",280,"$174","🕳️ T3",0.4]]' viewBox="0 0 470 300" role="img" aria-label="NVDA dip-buy failed, rejected from the 202-206 cluster, flipped short toward the 200-day 189">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.7s;opacity:.5" d="M70,140 L120,120 L160,100"/>
+          <circle class="dot-k" cx="160" cy="100" r="4.5" style="opacity:.6"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.3s;animation-duration:1s" d="M160,100 L220,150 L290,185 L360,205 L405,215"/>
+          <circle class="dot-y pop" style="animation-delay:2.35s" cx="405" cy="215" r="6"/>
+          <text class="capm fade" style="animation-delay:1.7s" x="150" y="92" text-anchor="middle">тагнув $206 → продали</text>
+          <text class="cap f-k fade" style="animation-delay:2.5s" x="250" y="290" text-anchor="middle">відкинутий від $206 → фейд у $199–202 / пробій &lt;$194 → 200-day $189</text>
         </svg>
       </div>
     </section>
 
-    <!-- 2 · DAILY CANDLE -->
-    <section class="slide" data-label="NVDA · 1D">
-      <div class="eyebrow rv">DAILY CANDLE</div>
-      <h1 class="rv">Red −4.66%.<br><span class="hl">Broke the 200-EMA to the stop.</span></h1>
+    <!-- 2 · 4H CANDLE -->
+    <section class="slide" data-label="NVDA · 4H">
+      <div class="eyebrow rv">4H CANDLE</div>
+      <h1 class="rv">Red −4.99%.<br><span class="hl">Rejected the cluster.</span></h1>
       <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="NVDA red 4.66 percent candle breaking below the 200 EMA down onto the 194 stop">
+        <svg viewBox="0 0 420 340" role="img" aria-label="NVDA 4H candle tagged 206 and sold back, closing below the lower Bollinger under the MA cluster">
           <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.14s" x1="60" y1="120" x2="330" y2="120"/>
-          <line class="dash s-y fade" style="animation-delay:.22s" x1="60" y1="180" x2="330" y2="180"/>
-          <line class="dash s-p fade" style="animation-delay:.3s"  x1="60" y1="238" x2="120" y2="238"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">206 · 200-EMA / втрачено</text>
-          <text class="ax f-k fade" style="animation-delay:.34s" x="54" y="124" text-anchor="end">200 плече · втрачено</text>
-          <text class="ax f-y fade" style="animation-delay:.42s" x="54" y="184" text-anchor="end">197 close −4.66%</text>
-          <text class="ax f-p fade" style="animation-delay:.5s"  x="54" y="242" text-anchor="end">194 стоп · злам ІГП</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.35s" x1="150" y1="95" x2="150" y2="205"/>
-          <rect class="candle-body fill" x="120" y="105" width="60" height="90" rx="7" style="animation-delay:.7s"/>
+          <line class="dash s-k fade" style="animation-delay:.16s" x1="60" y1="118" x2="330" y2="118"/>
+          <line class="dash s-w fade" style="animation-delay:.24s" x1="60" y1="150" x2="330" y2="150"/>
+          <line class="dash s-y fade" style="animation-delay:.32s" x1="60" y1="185" x2="330" y2="185"/>
+          <line class="dash s-p fade" style="animation-delay:.4s"  x1="60" y1="250" x2="120" y2="250"/>
+          <text class="ax f-k fade" style="animation-delay:.22s" x="54" y="74"  text-anchor="end">206 · EMA-кластер / стоп</text>
+          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="122" text-anchor="end">202 · 9-EMA</text>
+          <text class="ax f-w fade" style="animation-delay:.38s" x="54" y="154" text-anchor="end">199 · VWAP · зона фейду</text>
+          <text class="ax f-y fade" style="animation-delay:.46s" x="54" y="189" text-anchor="end">197 нижня BB · close $196.5</text>
+          <text class="ax f-p fade" style="animation-delay:.52s" x="54" y="254" text-anchor="end">194 фліп-лінія</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="72" x2="150" y2="205"/>
+          <rect class="candle-body fill" x="120" y="120" width="60" height="68" rx="7" style="animation-delay:.7s"/>
           <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="186" r="6"/>
-          <text class="anno f-k fade" style="animation-delay:1.5s" x="334" y="124"><tspan class="h">$205 / $200</tspan> — пробито вниз</text>
-          <text class="anno f-y fade" style="animation-delay:2.05s" x="334" y="188" font-weight="700">$197.20 close −4.66% · на стопі</text>
+          <text class="anno f-k fade" style="animation-delay:1.5s" x="334" y="76"><tspan class="h">$206</tspan> — тагнув і продали</text>
+          <text class="anno f-y fade" style="animation-delay:2.05s" x="334" y="189"><tspan class="h">$196.51</tspan> close −4.99% · під BB</text>
         </svg>
       </div>
       <div class="verdict rv">
-        <div class="vh">▽ Close $197.20 (−4.66%) — лідер зламався, на стопі $194</div>
-        <p>Велика <strong>червона свічка −4.66% до $197.20</strong> (AH $196.57) — NVDA втратив і $205, і $200, закрився під daily 200-EMA ($205.69), прямо на <span class="k">стопі $194</span>. Відносна сила, яка тримала тезу, <strong>щойно провалилась</strong> — лідер більше не стоїть, поки група ламається. Daily RSI 29, Stoch 10 — <span class="p">глибоко перепроданий</span>, тож рефлекс-відскок у $205 живий і саме він тримав би лонг. Але патерн на волосині: close під <strong>$194</strong> вибиває стоп і ламає інверсну голову-плечі → фліп у шорт до 200-day $189 → $180s.</p>
+        <div class="vh">▽ Close $196.51 (−4.99%) — відкинутий від кластера, шорт-флip</div>
+        <p>Велика <strong>червона 4H-свічка</strong>: NVDA тагнув $206 і його <span class="k">продали одразу назад</span> до close $196.51 (AH $196.93) — кластер 9/50/200-EMA ($202/$206/$205) став <strong>стелею</strong>, а закриття лягло <span class="k">під 4H нижньою BB ($197.33)</span>. 4H MACD-гістограма −1.54 <strong>розширюється вниз</strong>, OBV розвертається — momentum прискорюється. Читання перевернуто в шорт: фейд у $199–202 (стоп $206) або пробій &lt;$194 → 200-day $189 → $182 → $174. Але 4H Stoch 12 / під BB — <span class="p">короткостроково розтягнутий</span>, тож спершу продавай відскок, не низ. Reclaim $206 повертає лонг.</p>
       </div>
     </section>
 
     <!-- 3 · RELATIVE STRENGTH -->
-    <section class="slide" data-label="NVDA vs SMH">
-      <div class="eyebrow y rv">ВІДНОСНА СИЛА · ПРОВАЛ ТЕСТУ</div>
-      <h1 class="rv">Held Friday.<br><span class="hl">Broke Monday.</span></h1>
-      <p class="sub rv">У п'ятницю NVDA закрив ≈ рівно, поки група впала −7…−15% — <span class="p">відносна сила</span>. Але в понеділок тест провалився: лідер <strong>−4.66% до $197.20</strong>, втратив $205 і $200 разом із групою. Це <span class="k">злам відносної сили</span> — уся причина тримати діп-бай проти слабкого тейпу. Лонг тепер на стопі $194: тримається лише над ним, а close нижче фліпає читання в шорт до 200-day $189.</p>
+    <section class="slide" data-label="NVDA vs GROUP">
+      <div class="eyebrow y rv">ВІДНОСНА СИЛА · ПРОВАЛЕНА</div>
+      <h1 class="rv">Held, then<br><span class="hl">broke with the group.</span></h1>
+      <p class="sub rv">У п'ятницю NVDA тримався, поки група горіла — <span class="p">відносна сила</span>, уся причина тримати лонг. Тепер тест провалено: лідер <strong>−4.99% до $196.51</strong>, ламається <span class="k">разом із групою</span> (SNDK −11%, MU −2.25%, DELL −2.5%). Коли ламається лідер — ламається все: це вже не діп-бай проти слабкого тейпу, а <span class="k">наступне ім'я корекції</span>. Bias вниз: 200-day $189 → $182 → $174.</p>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Відносна сила провалила тест</span><span class="v">NVDA −4.66% · $197.20 · на стопі $194 · RSI 29</span></div>
-        <p>Лідер тримав $205 весь тиждень, тоді зламався разом із групою — тепер <span class="k">не тримається</span>. Лонг живий тільки над $194: реклейм $205→$214 відроджує діп-бай; глибоко перепроданий (Stoch 10) → рефлекс-відскок у $205 живий. Але close під $194 = злам патерну → фліп у шорт до $189 → $180s.</p>
+        <div class="indi-top"><span class="t">Відносна сила провалила тест</span><span class="v">−4.99% · $196.51 · 4H RSI 33 · Stoch 12 · MACD hist −1.54</span></div>
+        <p>Лідер тримав кластер $202–206 весь тиждень, тоді зламався разом із групою — тепер під ним. <span class="k">Шорт активний</span>: фейд у $199–202 (стоп $206) або пробій &lt;$194 → $189 → $182 → $174. Розтягнутий (Stoch 12, під BB) → продавай відскок, не низ. Reclaim $206 = кінець шорту, лонг назад.</p>
       </div>
       <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="NVDA held Friday but broke down with the group on Monday">
-          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="90" x2="400" y2="90"/>
-          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="80">$205 · тримав весь тиждень — втрачено</text>
-          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.55" d="M80,120 L180,118 L260,120 L300,116"/>
-          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.8s" d="M300,116 L340,150 L370,185 L395,210"/>
-          <circle class="dot-y pop" style="animation-delay:2.2s" cx="395" cy="210" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.3s" x="389" y="206" text-anchor="end">NVDA · зламався −4.66%</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.7s;animation-duration:1s;opacity:.5" d="M80,145 L180,165 L280,195 L370,220"/>
-          <circle class="dot-k pop" style="animation-delay:1.7s" cx="370" cy="220" r="5"/>
-          <text class="cap f-m fade" style="animation-delay:1.85s" x="364" y="234" text-anchor="end">група · слабка</text>
-          <text class="cap f-m fade" style="animation-delay:2.5s" x="235" y="285" text-anchor="middle">тримав у п'ятницю → зламався в понеділок: відносна сила провалилась</text>
+        <svg viewBox="0 0 470 300" role="img" aria-label="NVDA held then broke down with the group, relative strength failed">
+          <line class="dash s-k fade" style="animation-delay:.1s" x1="70" y1="95" x2="400" y2="95"/>
+          <text class="cap f-k fade" style="animation-delay:.15s" x="70" y="85">$206 · кластер тримав весь тиждень — втрачено</text>
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.5" d="M80,120 L180,118 L260,120 L300,116"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.8s" d="M300,116 L340,150 L370,185 L400,208"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="400" cy="208" r="6"/>
+          <text class="cap f-k fade" style="animation-delay:2.3s" x="394" y="204" text-anchor="end">NVDA · зламався −4.99%</text>
+          <path class="legdn draw" pathLength="1" style="animation-delay:.7s;animation-duration:1s;opacity:.5" d="M80,140 L180,162 L280,192 L390,218"/>
+          <circle class="dot-k pop" style="animation-delay:1.7s" cx="390" cy="218" r="5"/>
+          <text class="cap f-m fade" style="animation-delay:1.85s" x="384" y="232" text-anchor="end">група · SNDK −11%, MU −2.25%</text>
+          <text class="cap f-m fade" style="animation-delay:2.5s" x="235" y="286" text-anchor="middle">тримав → зламався з групою: коли падає лідер — падає все</text>
         </svg>
       </div>
     </section>
@@ -117,32 +116,35 @@
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
       <div class="ladder rv">
-        <div class="rung res"><span class="px">$214–215</span><span class="lbl">Лінія шиї · реклейм = діп-бай знову в грі</span></div>
-        <div class="rung res"><span class="px">$205–206</span><span class="lbl">200-EMA / 9-EMA · втрачено ↓ · повернутись сюди першим</span></div>
-        <div class="rung res"><span class="px">$200</span><span class="lbl">Праве плече · втрачено ↓</span></div>
-        <div class="rung now"><span class="px">$197.20</span><span class="lbl">ТУТ · close −4.66% · на стопі · RSI 29 / Stoch 10</span></div>
-        <div class="rung sup"><span class="px">$194–196</span><span class="lbl">⛓️ Голова / стоп · close нижче = злам ІГП → фліп шорт</span></div>
-        <div class="rung sup"><span class="px">$189</span><span class="lbl">Denна 200-day · перша ціль фліпа</span></div>
-        <div class="rung sup"><span class="px">$180–182</span><span class="lbl">🕳️ наступна велика підтримка нижче</span></div>
+        <div class="rung res"><span class="px">$216</span><span class="lbl">4H верхня BB · далеко зверху</span></div>
+        <div class="rung res"><span class="px">$206</span><span class="lbl">Стоп · EMA-кластер (тагнув і продали) · reclaim = лонг назад</span></div>
+        <div class="rung res"><span class="px">$199–202</span><span class="lbl">🎯 Зона фейду · VWAP $199 / 9-EMA $202 · кращий short-вхід</span></div>
+        <div class="rung now"><span class="px">$196.51</span><span class="lbl">ТУТ · close −4.99% · під 4H нижньою BB ($197.33)</span></div>
+        <div class="rung sup"><span class="px">$194</span><span class="lbl">⛓️ Фліп-лінія · close нижче = шорт підтверджено</span></div>
+        <div class="rung sup"><span class="px">$189</span><span class="lbl">200-day · T1</span></div>
+        <div class="rung sup"><span class="px">$182</span><span class="lbl">Наступна велика опора · T2</span></div>
+        <div class="rung sup"><span class="px">$174</span><span class="lbl">🕳️ Глибша опора · T3</span></div>
       </div>
-      <p class="note rv">Лідер зламався: NVDA закрив <strong>−4.66% до $197.20</strong>, втратив $205 і $200 — <strong>на стопі $194</strong>. Діп-бай живий <span class="p">тільки над $194</span>: реклейм <strong>$205→$214</strong> відроджує патерн і ціль $230–234. Глибоко перепроданий (RSI 29, Stoch 10) → рефлекс-відскок у $205 живий.</p>
-      <p class="note rv"><span class="y">Інвалідація — під $194:</span> денне закриття нижче вибиває стоп і ламає інверсну голову-плечі → <strong>фліп у шорт</strong> до 200-day <strong>$189</strong> → $180s, як імена групи. Повага до барометра — тейп risk-off.</p>
+      <p class="note rv">Діп-бай провалено: NVDA <strong>−4.99% до $196.51</strong>, відкинутий від кластера $202–206, під 4H нижньою BB. <span class="p">Шорт активний</span>: фейд відскоку в <strong>$199–202</strong> (стоп $206) або пробій <strong>&lt;$194</strong> → 200-day <strong>$189</strong> → $182 → $174.</p>
+      <p class="note rv"><span class="y">Але розтягнутий:</span> 4H Stoch 12, ціна під нижньою BB — рефлекс-відскок у $199–202 імовірний, тому <strong>продавай відскок</strong>, не низ. Momentum прискорюється вниз (MACD hist −1.54, OBV розвертається). Reclaim <strong>$206</strong> над кластером повертає лонг.</p>
     </section>
 
     <!-- 5 · PLAN -->
-    <section class="slide" data-label="NVDA · LONG">
-      <div class="eyebrow rv">PLAN · LONG ON THE ROPES · STOP $194</div>
-      <h1 class="rv">On the ropes — <span class="hl">hold only above $194</span></h1>
-      <p class="sub rv">Лідер зламався разом із групою: <strong>−4.66% до $197.20</strong> (AH $196.57), втратив $205 і $200, на стопі $194. Відносна сила провалила тест. Глибоко перепроданий (RSI 29, Stoch 10) → рефлекс-відскок у $205 живий — і саме він тримав би лонг. Але дисципліна на стопі:</p>
+    <section class="slide" data-label="NVDA · SHORT">
+      <div class="eyebrow rv">PLAN · FLIPPED SHORT · FADE $199–202 / BREAK <$194</div>
+      <h1 class="rv">Flipped short — <span class="hl">fade $199–202 / break $194</span></h1>
+      <p class="sub rv">Діп-бай провалено: <strong>−4.99% до $196.51</strong> (AH $196.93), відкинутий від EMA-кластера $202–206, під 4H нижньою BB. Momentum прискорюється вниз. Не гнатися за низом (Stoch 12) — продавай відскок у $199–202, стоп над $206; пробій &lt;$194 підтверджує:</p>
       <div class="tpl rv">
         <div class="riser"></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T2 🚀</span><span class="px">$234</span></span><span class="r">ціль виміру · тільки після реклейму</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$214</span></span><span class="r">лінія шиї · пробій-тригер</span></div>
-        <div class="rg tp"><span class="l"><span class="cap2">RECLAIM</span><span class="px">$205</span></span><span class="r">повернення над 200-EMA відроджує діп-бай</span></div>
-        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$194</span></span><span class="r">close нижче = злам ІГП → фліп шорт $189 → $180s</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">$206</span></span><span class="r">reclaim EMA-кластера = лонг назад</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ШОРТ</span><span class="px">$199–202</span></span><span class="r">фейд відскоку у VWAP/9-EMA · кращий вхід</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">ПІДТВ.</span><span class="px">close &lt; $194</span></span><span class="r">пробій фліп-лінії = шорт підтверджено</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T1</span><span class="px">$189</span></span><span class="r">200-day</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T2</span><span class="px">$182</span></span><span class="r">наступна опора</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">T3</span><span class="px">$174</span></span><span class="r">🕳️ глибша опора</span></div>
       </div>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $197.20, −4.66%):</strong> лонг <span class="k">на канатах</span> — тримається тільки над $194. Реклейм <strong>$205→$214</strong> відроджує діп-бай → ціль $230–234. Не додавати в зламану структуру, поки не повернено $205. Інвалідація — денний close під <strong>$194</strong>: фліп у шорт до 200-day $189 → $180s.</p>
-      <p class="note rv">Це був лонг-лідер <span class="k">проти групи</span> — і група щойно перемогла: відносна сила провалилась, тейп risk-off. Менший розмір, жорсткий стоп $194, повага до барометра. Під $194 це вже не діп-бай — це наступне ім'я корекції.</p>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $196.51, −4.99%):</strong> лідер флипнувся в шорт — відкинутий від $206, під нижньою BB. Фейд відскоку в <strong>$199–202</strong> (стоп $206) або шорт пробою <strong>&lt;$194</strong> → 200-day $189 → $182 → $174. Не гнатися за низом (Stoch 12) — продавай відскок.</p>
+      <p class="note rv">Був лонг-лідер проти групи — і група перемогла: відносна сила провалилась, тейп risk-off. Це вже не діп-бай, а наступне ім'я корекції. Дисципліна: над $206 — лонг знову живий; під $194 — нога вниз підтверджена.</p>
       <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
