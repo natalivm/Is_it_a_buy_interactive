@@ -106,9 +106,9 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$900.20', change: 'pre-market −5.11% $854 · broke the range · T1 $800 in play',
-    signal: 'Memory bellwether — the range finally broke. After closing $900.20 (−2.25%) back under the $905 trigger, MU is gapping hard pre-market: −5.11% to ≈ $854, LOSING both the $886 shelf and the daily 21-mid-BB ($868) — the two levels that had held the chop since June. That is the decisive break the plan wanted; the leg down is live and T1 $800 is now in play, with clean air below $854. Structure: back under the daily 9-EMA ($932), though the daily 50-EMA ($714) and 200-EMA ($433) sit far below — a parabola unwinding, not a trend break yet. The real test is the 50-day $714. One caveat: this is a pre-market gap, not a cash close — confirmation is a daily close that holds under $868; a reclaim back over $886 would be a fakeout. Stance: leg down live under $868 → T1 $800 → daily 50-day $714 → weekly 21-MA $665 → 🕳️ $505; only a close back over $955 / $1,005 ends it. The bellwether that dragged the group up is now leading it down.',
-    lead: { rank: 7, status: 'live', entry: '$905 filled', stop: '$1,005', targets: '$800 → $714 → $665 → $505', downside: '−11%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — the range broke: after closing $900.20 under the $905 trigger, MU is gapping −5.11% pre-market to ≈ $854, losing the $886 shelf and the daily mid-BB ($868) that held the chop since June; the leg down is live with T1 $800 in play then the daily 50-day $714 → weekly 21-MA $665 → 🕳️ $505 — but it is a pre-market gap so confirmation is a daily close under $868, a reclaim over $886 is a fakeout' },
+    price: '$900.20', change: 'pre-market −6.87% $838.36 · deeper break · driving to T1 $800',
+    signal: 'Memory bellwether — the break is extending toward T1. After closing $900.20 (−2.25%) back under the $905 trigger, MU is gapping harder on the 7/28 open: −6.87% to $838.36, now well below both the $886 shelf and the daily 21-mid-BB ($868) — the two levels that had held the chop since June — and pressing straight toward T1 $800. That is ≈ +7% for the short from the $905 entry at the pre-market print, with clean air below. Structure: below the whole 30-min MA stack (≈ $940) and stretched far under the lower Bollinger ($895.91) — a parabola unwinding, with the daily 50-EMA ($714) and 200-EMA far below. The real test is the 50-day $714. One caveat: this is a pre-market gap, not a cash close — confirmation is a daily close that holds under $868; a reclaim back over $886 would be a fakeout. Stance: leg down live and extending → T1 $800 → daily 50-day $714 → weekly 21-MA $665 → 🕳️ $505; only a close back over $955 / $1,005 ends it. The bellwether that dragged the group up is now leading it down.',
+    lead: { rank: 7, status: 'live', entry: '$905 filled', stop: '$1,005', targets: '$800 → $714 → $665 → $505', downside: '−11%', tail: '−44%', rr: '~4:1', edge: 'Memory bellwether — the break is extending: after closing $900.20 under the $905 trigger, MU is gapping −6.87% pre-market to $838.36, now well below both the $886 shelf and the daily mid-BB ($868) that held the chop since June, pressing toward T1 $800 (≈ +7% for the short from $905 with clean air below); below the whole MA stack and the lower BB, a parabola unwinding toward the daily 50-day $714 → weekly 21-MA $665 → 🕳️ $505 — a pre-market gap so confirmation is a daily close under $868, a reclaim over $886 is a fakeout' },
     side: 'short', accent: 'cyan',
     date: '2026-07-28',
     story: 'stories/mu.html',
@@ -196,11 +196,11 @@ const STOCKS = [
   },
   {
     symbol: 'ALAB', exchange: 'NASDAQ',
-    price: '$282.52', change: '−3.11% close · nearing T2 $280 · driving to $250',
-    signal: 'Dip-buy dead — the fade is grinding to T2. After Friday’s −10.82% break through T1 $300, ALAB kept sliding: the new day dropped another −3.11% to close $282.52 (AH flat), tagging the mid-$270s intraday before a small bounce — now pressing T2 $280. That is the fade working, ≈ +9% for the short from $310. It is under the whole 1H MA stack with price below the lower Bollinger; near-term the 1H Stoch has curled up off oversold (the bounce is underway), so a push back into $295–305 is the cleaner add, not a chase of the low. The weekly still has room (not oversold). Next: T2 $280 → 🕳️ the $250 May base (T3), with the 200-EMA far below. Stop $362 untouched and well clear. Stance: short working, T1 banked; trail toward $280/$250, add on a bounce, and only a reclaim of $362 repairs the long case.',
-    lead: { rank: 14, status: 'live', entry: '$310 filled', stop: '$362', targets: '$300 → $280 → $250', downside: '−10%', tail: '−19%', rr: '~3:1', edge: 'Dip-buy dead — after Friday’s −10.82% break through T1 $300, ALAB slid another −3.11% to $282.52, tagging the mid-$270s intraday and now pressing T2 $280 (≈ +9% for the short from $310); fade working toward 🕳️ the $250 base, but the 1H Stoch has curled up off oversold so a push into $295–305 is the cleaner add, stop $362 far, only a reclaim of $362 repairs the long' },
+    price: '$282.52', change: 'pre-market −5.14% $267.99 · through T2 $280 · driving to the $250 base',
+    signal: 'Dip-buy dead — the fade broke T2 pre-market. After closing $282.52 (−3.11%) while pressing T2 $280, ALAB is gapping lower on the 7/28 open: −5.14% to $267.99, a clean break THROUGH T2 $280, now driving toward 🕳️ the $250 May base (T3). That is ≈ +14% for the short from the $310 entry at the pre-market print. Price is under the whole 1H MA stack (9-EMA $304.97, 50-EMA $319.89, 200-EMA $342.77) and stretched below the lower Bollinger ($292.96) — structure broken. Near-term it is deeply oversold (1H RSI 29.76, Stoch 16.36, MACD −8.17), so a reflex bounce is due — a push back into $280–295 is the cleaner add, not a chase of the low. The weekly still has room (not oversold). Next: 🕳️ the $250 base (T3), with the 200-EMA far below; a pre-market read — confirm on the cash close, stop $362 untouched and well clear. Stance: short working, T1 + T2 banked; trail toward $250, add on a bounce, and only a reclaim of $362 repairs the long case.',
+    lead: { rank: 14, status: 'live', entry: '$310 filled', stop: '$362', targets: '$300 → $280 → $250', downside: '−10%', tail: '−19%', rr: '~3:1', edge: 'Dip-buy dead, fade broke T2 pre-market — after the $282.52 close ALAB is gapping −5.14% to $267.99, clean through T2 $280 toward 🕳️ the $250 May base (≈ +14% for the short from $310); under the whole 1H MA stack and below the lower BB ($292.96), deeply oversold (RSI 29.76, Stoch 16.36) so a bounce into $280–295 is the cleaner add, stop $362 far — only a reclaim of $362 repairs the long, a pre-market read' },
     side: 'short', accent: 'emerald',
-    date: '2026-07-27',
+    date: '2026-07-28',
     story: 'stories/alab.html',
   },
   {
@@ -220,6 +220,15 @@ const STOCKS = [
     side: 'long', accent: 'amber',
     date: '2026-07-28',
     story: 'stories/dell.html',
+  },
+  {
+    symbol: 'MRVL', exchange: 'NASDAQ',
+    price: '$189.17', change: 'pre-market −4.72% ≈$180 · lost the 21-week MA · long-watch for the bottom',
+    signal: 'Bottom-watch — where to pick up the long. MRVL fell with the semi group: after closing $189.17 (−2.61%), it is gapping −4.72% pre-market to ≈ $180 on the 7/28 open, just losing the 21-week MA ($185.15). This is not a short (too late) — it is a hunt for the BOTTOM to go long: deeply oversold (1H RSI 30.29, Stoch 24.30; daily RSI 35.58, Stoch 23.31), under the whole 1H MA stack and below the daily lower Bollinger ($201). Two accumulation zones: the first is the $172–178 shelf (a nibble on an oversold reflex bounce), and the main one is $150–160, where the daily 200-EMA ($151.42) and the weekly 50-EMA ($146.02) line up — the “back up the truck” flush. Don’t catch the knife: accumulate in the zones, not on the fly. A confirmed bottom is a reclaim of $185 → $198–200 (turns the daily up); targets on the recovery $200 → $220 → $245. Invalidation: a weekly close under $146 breaks the multi-year uptrend — no long there. A pre-market read; off the ranked board (a watch).',
+    edge: 'Bottom-watch for a long — MRVL fell with the group to close $189.17, gapping −4.72% pre-market to ≈ $180 (just lost the 21-week MA $185); deeply oversold (1H RSI 30.29, daily RSI 35.58 / Stoch 23) under the whole 1H stack and below the daily lower BB ($201) — nibble the $172–178 shelf on an oversold bounce, load the $150–160 flush where the daily 200-EMA $151 + weekly 50-EMA $146 line up, stop under $142; a reclaim of $185 → $198–200 confirms the bottom toward $200 → $220 → $245, a weekly close under $146 breaks the trend (off the ranked board, a watch)',
+    side: 'long', accent: 'blue',
+    date: '2026-07-28',
+    story: 'stories/mrvl.html',
   },
 ];
 

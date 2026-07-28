@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$MRVL — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  :root{
+    --page-bg:#05080C;
+    --bg:#0A1018;
+    --panel:#122031;
+    --panel2:#0E1826;
+    --line:#1E3651;
+    --ink:#FFFFFF;
+    --muted:#8FB0CC;
+    --purple:#34D399;
+    --pink:#FB5D74;
+    --yellow:#F5A524;
+    --deep:#05080C;
+    --display:'Oswald',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+    --sub:#D6E6F5;
+  }
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
+  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--purple) 40%,var(--line));border-radius:14px;background:rgba(52,211,153,.07);padding:13px 15px;}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--purple);display:flex;align-items:center;gap:7px;}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · 1H · SELLOFF WITH THE GROUP — HUNTING THE BOTTOM -->
+    <section class="slide active" data-label="MRVL · 1H">
+      <div class="cover-ticker rv">MRVL</div>
+      <div class="eyebrow rv">1H · SEMI SELLOFF · ПОШУК ДНА · ЛОНГ-WATCH</div>
+      <h1 class="rv">Fell with the group.<br><span class="hl">Where does it bottom?</span></h1>
+      <p class="sub rv">MRVL валиться разом із напівпровідниковою групою: новий день <strong>−2.61% до close $189.17</strong>, а пре-маркет 7/28 ще <strong>−4.72% до ≈ $180</strong> — щойно втрачає <span class="k">21-тижневу MA ($185.15)</span>. Це <strong>не сетап на шорт (запізно)</strong>, а пошук <span class="p">ДНА для лонга</span>: глибоко перепроданий (1H RSI 30.29 / Stoch 24, денний RSI 35 / Stoch 23), під усім 1H-стеком і під денною нижньою BB ($201). Дві зони докупки: перша полиця <span class="p">$172–178</span> (нібл на перепроданому відскоку) і головна — <span class="p">$150–160</span>, де сходяться денна 200-EMA ($151) і 50-тижнева ($146). <span class="k">Не ловити ніж</span>: докуповувати в зонах, а не на льоту. Зрив 50-тижневої $146 = злам тренду, лонга там нема.</p>
+      <div class="chart rv">
+        <svg data-lv='[["k",42,"$204","1H верхня BB · опір",0.05],["k",80,"$198–200","50-EMA / полиця · reclaim = підтвердження",0.12],["m",116,"$189.17","close −2.61%",0.18],["y",148,"$180","ТУТ · пре −4.72% · під 21-тижн. MA $185",0.24],["p",188,"$172–178","полиця $175 · нібл (перепроданий відскок)",0.30],["p",236,"$150–160","200-EMA $151 + 50-тижн. $146 · зона load",0.36],["k",272,"$146","50-тижнева · зрив = злам тренду",0.42]]' viewBox="0 0 470 300" role="img" aria-label="MRVL fell to about 180 pre-market, oversold, buy zones at 172-178 and 150-160, weekly 50-EMA 146 the line">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,88 L170,110 L250,132 L340,148"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.8s;opacity:.42;stroke-dasharray:5 6" d="M340,148 L392,190 L432,234"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="340" cy="148" r="6"/>
+          <text class="cap f-p fade" style="animation-delay:2.1s" x="250" y="286" text-anchor="middle">пошук дна: нібл $172–178 · головний load $150–160</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-label="MRVL · 1D">
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Extended below the bands.<br><span class="hl">200-EMA is the magnet.</span></h1>
+      <div class="chart rv">
+        <svg viewBox="0 0 420 340" role="img" aria-label="MRVL daily extended below the lower band toward the 151 200-EMA magnet">
+          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="60"  x2="330" y2="60"/>
+          <line class="dash s-k fade" style="animation-delay:.14s" x1="60" y1="100" x2="330" y2="100"/>
+          <line class="dash s-y fade" style="animation-delay:.22s" x1="60" y1="140" x2="330" y2="140"/>
+          <line class="dash s-p fade" style="animation-delay:.3s"  x1="60" y1="250" x2="330" y2="250"/>
+          <text class="ax f-k fade" style="animation-delay:.2s"  x="54" y="64"  text-anchor="end">204 верхня BB / опір</text>
+          <text class="ax f-k fade" style="animation-delay:.28s" x="54" y="104" text-anchor="end">185 21-тижнева MA</text>
+          <text class="ax f-y fade" style="animation-delay:.38s" x="54" y="144" text-anchor="end">180 now · пре −4.72%</text>
+          <text class="ax f-p fade" style="animation-delay:.5s"  x="54" y="254" text-anchor="end">150–160 200-EMA / зона load</text>
+          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="86" x2="150" y2="168"/>
+          <rect class="candle-body fill" x="120" y="106" width="60" height="46" rx="7" style="animation-delay:.6s"/>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="140" r="6"/>
+          <text class="anno f-y fade" style="animation-delay:2.05s" x="192" y="136"><tspan class="h">≈ $180</tspan> пре −4.72%</text>
+          <text class="anno f-p fade" style="animation-delay:2.2s" x="192" y="254"><tspan class="h">$150–160</tspan> 200-EMA $151 / 50-тижн. $146</text>
+        </svg>
+      </div>
+      <div class="verdict rv">
+        <div class="vh">✓ Розтягнутий вниз — магніт це 200-EMA $151</div>
+        <p>MRVL розтягнутий: ціна ≈ $180 <strong>під денною нижньою BB ($201)</strong> і під усім денним стеком (9/50-EMA ≈ $230), денний MACD −12.64. Магніт знизу — <span class="p">денна 200-EMA $151.42</span>, що збігається з 50-тижневою $146: це і є головна зона докупки <span class="p">$150–160</span>. Найближча полиця $175 (нібл). Глибоко перепроданий (денний Stoch 23) — відскок назрів, але це <span class="k">тактика</span>; підтверджений лонг — reclaim $185 → $198–200.</p>
+      </div>
+    </section>
+
+    <!-- 3 · WEEKLY CONTEXT -->
+    <section class="slide" data-label="MRVL · ТИЖДЕНЬ">
+      <div class="eyebrow y rv">WEEKLY · TREND</div>
+      <h1 class="rv">The weekly still holds a trend.<br><span class="hl">50-week is the line.</span></h1>
+      <p class="sub rv">На тижневому MRVL усе ще у великому аптренді: <strong>50-тижнева EMA $146.02</strong> і 200-тижнева $91.64 далеко знизу, тижневий RSI ще 50. Пулбек $300+ → $180 — це <span class="p">відкат, доки тримається 50-тижнева $146</span>. Ось чому <span class="p">$150–160</span> — зона «back up the truck»: денна 200-EMA $151 і 50-тижнева $146 в одному місці. Втрата 21-тижневої $185 (щойно) відкрила цей флаш. Лише тижневий <strong>close під $146</strong> ламає тренд і скасовує лонг.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">Аптренд цілий, доки над 50-тижневою $146</span><span class="v">тижн. RSI 50 · денний RSI 35 / Stoch 23 — перепроданий</span></div>
+        <p>Флаш у <span class="p">$150–160</span> (200-EMA $151 + 50-тижн. $146) — головна докупка; полиця $175 — тактичний нібл. <span class="k">Не тягнутися за падінням</span>: дно підтверджує reclaim $185 → $198–200, тоді ціль угору $200 → $220 → $245. Зрив тижневого close під <strong>$146</strong> — злам тренду, лонга там нема.</p>
+      </div>
+      <div class="chart rv">
+        <svg viewBox="0 0 470 300" role="img" aria-label="MRVL weekly pullback from 300 into the 150-160 support where the 200-EMA and 50-week line up">
+          <path class="legup draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.7" d="M70,205 L150,150 L215,92 L255,78"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.3s;animation-duration:.9s" d="M255,78 L320,120 L375,158 L405,178"/>
+          <line class="dash s-p fade" style="animation-delay:.2s" x1="70" y1="210" x2="440" y2="210"/>
+          <text class="cap f-p fade" style="animation-delay:.3s" x="72" y="228" text-anchor="start">$146–160 · 200-EMA + 50-тижнева · зона load</text>
+          <circle class="dot-y pop" style="animation-delay:2s" cx="405" cy="178" r="6"/>
+          <text class="cap f-y fade" style="animation-delay:2.1s" x="398" y="172" text-anchor="end">≈ $180 · над зоною</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="MRVL · РІВНІ">
+      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <h1 class="rv">Level <span class="hl">map</span></h1>
+      <div class="ladder rv">
+        <div class="rung res"><span class="px">$245</span><span class="lbl">Ціль угору 3 · попередня полиця</span></div>
+        <div class="rung res"><span class="px">$220</span><span class="lbl">Ціль 2 · денна 50-EMA ≈ $230</span></div>
+        <div class="rung res"><span class="px">$198–200</span><span class="lbl">1H 50-EMA / reclaim = дно ймовірно in · ціль 1</span></div>
+        <div class="rung res"><span class="px">$185</span><span class="lbl">21-тижнева MA · щойно втрачена</span></div>
+        <div class="rung now"><span class="px">≈$180</span><span class="lbl">ТУТ · close $189.17 · пре −4.72%</span></div>
+        <div class="rung sup"><span class="px">$172–178</span><span class="lbl">Полиця $175 · перша докупка (нібл)</span></div>
+        <div class="rung sup"><span class="px">$150–160</span><span class="lbl">Денна 200-EMA $151 + 50-тижн. $146 · головний load</span></div>
+        <div class="rung sup"><span class="px">$146</span><span class="lbl">50-тижнева · зрив нижче = злам тренду</span></div>
+      </div>
+      <p class="note rv">Close <strong>−2.61% $189.17</strong>, пре ≈ $180 — щойно втратив <strong>21-тижневу MA $185</strong>, під усім денним стеком і денною нижньою BB ($201). Глибоко перепроданий (1H RSI 30, денний RSI 35 / Stoch 23) — <span class="k">пошук дна, не шорт</span>. Нібл на полиці <strong>$172–178</strong>, головний load — флаш у <strong>$150–160</strong> (200-EMA $151 + 50-тижнева $146). Дно підтверджує reclaim $185 → $198–200 → ціль $200 → $220 → $245. Зрив close під $146 = злам тренду. Поза рейтинговою дошкою (watch).</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="MRVL · LONG-WATCH">
+      <div class="eyebrow rv">PLAN · LONG-WATCH · ПОШУК ДНА</div>
+      <h1 class="rv">Don't catch the knife. <span class="hl">Buy the zones.</span></h1>
+      <p class="sub rv">MRVL ще падає разом із групою — це watch на лонг, не готовий вхід: close −2.61% $189.17, пре ≈ $180, щойно під 21-тижневою $185, глибоко перепроданий. Не ганятися за падінням — докуповувати сходинками в зонах:</p>
+      <div class="tpl rv">
+        <div class="riser"></div>
+        <div class="rg tp"><span class="l"><span class="cap2">СТАТУС</span><span class="px">LONG-WATCH</span></span><span class="r">ще падає · не тягнутися за ножем</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">НІБЛ</span><span class="px">$172–178</span></span><span class="r">полиця $175 · перепроданий відскок · тактика</span></div>
+        <div class="rg entry"><span class="l"><span class="cap2">LOAD</span><span class="px">$150–160</span></span><span class="r">200-EMA $151 + 50-тижн. $146 · головна зона</span></div>
+        <div class="rg stop"><span class="l"><span class="cap2">STOP</span><span class="px">під $142</span></span><span class="r">зрив 50-тижневої = злам тренду</span></div>
+        <div class="rg tp"><span class="l"><span class="cap2">ЦІЛІ</span><span class="px">$200 → $220 → $245</span></span><span class="r">reclaim угору</span></div>
+      </div>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($189.17 close / пре ≈ $180):</strong> не ганятися за падінням і не ловити ніж. Перша докупка-нібл на полиці <strong>$172–178</strong> (перепроданий відскок, тактика); головний load — флаш у <strong>$150–160</strong> (200-EMA $151 + 50-тижнева $146). Стоп під $142. Дно підтверджує <strong>reclaim $185 → $198–200</strong>; ціль угору $200 → $220 → $245.</p>
+      <p class="note rv">Тижневий аптренд цілий, доки над 50-тижневою $146 — тому $150–160 = зона «back up the truck», а не крах. Лише тижневий close під $146 ламає тренд і скасовує лонг. Поза рейтинговою дошкою — це watch, поки не спрацює.</p>
+      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory();
+</script>
+</body>
+</html>
