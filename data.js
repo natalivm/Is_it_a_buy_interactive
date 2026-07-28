@@ -160,11 +160,11 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$58.29', change: '+3.72% close · short on the ropes · bounce reclaimed the 50-EMA',
-    signal: 'Flipped short — but the bounce has it on the ropes. ASTS squeezed +3.72% Monday to close $58.29 (AH $58.39), reclaiming the daily 50-EMA ($57.50) and pushing back above the $57 short entry. RSI is back to 55 and MACD (−0.40) is crossing up — the fade is failing, not extending. Per the plan, a reclaim of $61 negates the short and repairs the long, with the B. Riley Buy $85 / Midland catalyst as the fuel — so the short is underwater and pinned ~4% under its $61 stop: it holds ONLY below $61. Up +3.72% while the tape was flat is a relative-strength tell that the fade may be done. Stance: short at risk — it needs to roll back under $56 to stay valid; a push over $61 stops it out and flips the read long again toward the 200-EMA ≈ $63.',
-    edge: 'Flipped short, now on the ropes — ASTS squeezed +3.72% to $58.29 (AH $58.39), reclaiming the 50-EMA ($57.50) and pushing back over the $57 entry with RSI back to 55; the fade is failing and pinned ~4% under the $61 stop — it holds only below $61 (needs to roll back under $56 to stay valid), a push over $61 stops it out and flips it long again toward the 200-EMA ≈ $63 (B. Riley Buy $85 the fuel)',
+    price: '$58.29', change: 'pre-market −2.63% $56.76 · squeeze faded · rolling back toward the $56 line',
+    signal: 'Flipped short — the squeeze faded, the short gets relief. After squeezing +3.72% Monday to close $58.29 (reclaiming the 50-EMA and pushing over the $57 entry), ASTS is rolling back over on the 7/28 open: −2.63% pre-market to $56.76, back under the $57.50 50-EMA it had reclaimed and pressing toward the $56 must-hold-below line. Momentum has turned back down (1H RSI 42.65 from 55, Stoch 20.71 rolling over, MACD −0.22 crossing negative) — the failing fade the card flagged is re-firing, not extending up. The short holds ONLY below $61, and a decisive roll under $56 re-confirms it toward the lows; per the plan the B. Riley Buy $85 / Midland catalyst is the up-side risk. Stance: short back in play as the bounce fades — valid below $61, confirmed on a break under $56; a push back over $61 stops it out and flips the read long again toward the 200-EMA ≈ $63. A pre-market read.',
+    edge: 'Flipped short, the squeeze faded — after squeezing +3.72% to $58.29 (reclaiming the 50-EMA / $57 entry), ASTS is rolling back −2.63% pre-market to $56.76, under the $57.50 50-EMA and pressing the $56 must-hold-below line with momentum turning back down (1H RSI 42.65 from 55, Stoch 20.71 rolling); the short is back in play — valid below $61, confirmed on a break under $56, a push over $61 stops it out and flips it long toward the 200-EMA ≈ $63 (B. Riley Buy $85 the risk), a pre-market read',
     side: 'short', accent: 'violet',
-    date: '2026-07-27',
+    date: '2026-07-28',
     story: 'stories/asts.html',
   },
   {
