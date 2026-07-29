@@ -297,6 +297,18 @@ h1 .p, h1 .k, h1 .y {
   .note{margin-top:14px;font-size:14px;line-height:1.55;color:var(--sub);border-left:3px solid var(--yellow);padding-left:11px;}
   .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
 
+  /* ── Text-focus slides ──────────────────────────────────────────────────
+     The daily-read slide (data-noclick) and the closing plan slide are
+     text-only, so their copy renders ~3× the body size. The engine's fit()
+     scales a slide down if it overflows, so long decks degrade gracefully. */
+  .slide[data-noclick] .verdict p, .slide[data-noclick] .indi p, .slide[data-noclick] .note,
+  .slide:last-child .note, .slide:last-child .sub{
+    font-size:30px;line-height:1.35;max-width:none;}
+  .slide[data-noclick] .verdict .vh, .slide[data-noclick] .indi-top .t{
+    font-size:22px;line-height:1.25;}
+  .slide[data-noclick] .indi-top .v{font-size:19px;white-space:normal;}
+  .slide:last-child .tg{font-size:20px;}
+
   .nav{position:absolute;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;
     padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, color-mix(in srgb, var(--deep) 85%, transparent), transparent);}
   .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
