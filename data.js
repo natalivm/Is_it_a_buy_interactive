@@ -44,11 +44,11 @@ const STOCKS = [
   },
   {
     symbol: 'COHR', exchange: 'NYSE',
-    price: '$243.33', change: 'close −10.31% $243.33 · AH $244.27 · ✓ T1 $265 + T2 $247 banked · driving to T3 $215 · ≈ +21% short',
-    signal: 'Weekly-structure break — the re-short paid through T2 and lost the 200-day. COHR closed $243.33 (−10.31%), a decisive break that cleared BOTH T1 $265 (= the daily 200-EMA, now lost) and T2 $247 (the 50-week) — both banked. That is ≈ +21% for the short from the $310 re-arm, now driving toward 🕳️ T3 $215. Structure is broken: it closed below the daily 200-EMA ($266) and stretched far under the lower Bollinger ($316). AH $244.27 (+0.39%) — a tiny bounce, no reclaim. Deeply oversold (daily RSI 31.61, Stoch 24.75, MACD −21.55), so a reflex bounce is due — don’t chase the low; a push back into $260–282 (the broken 200-EMA / prior shelf) is the cleaner re-short add. Next: 🕳️ T3 $215, with room left on the weekly. Stop $321 untouched and far. Stance: re-short deep in the money, T1 + T2 banked — trail toward $215, add on a bounce; only a reclaim of $321 repairs it.',
-    lead: { rank: 3, status: 'live', entry: '$310 filled', stop: '$321', targets: '$265 → $247 → $215', downside: '−14%', tail: '−30%', rr: '~5:1', edge: 'Weekly-structure break, paid through T2 and lost the 200-day — COHR closed $243.33 (−10.31%), clearing both T1 $265 (= daily 200-EMA, now lost) and T2 $247 (50-week), both banked, ≈ +21% for the short from $310, driving to 🕳️ T3 $215; below the 200-EMA and stretched under the lower BB, deeply oversold (RSI 31.61, Stoch 24.75) so a push into $260–282 is the cleaner add, stop $321 far, only a reclaim of $321 repairs it' },
+    price: '$222.05', change: 'close −8.75% $222.05 · AH $218.01 · pressing 🕳️ T3 $215 — the LAST target · ≈ +28% short',
+    signal: 'Weekly-structure break — the re-short is pressing the LAST target. COHR closed $222.05 (−8.75%) and slid after hours to $218.01 (−1.82%) — within ~1.4% of 🕳️ T3 $215, the weekly lower band and the final target on the plan (T1 $265 and T2 $247 long banked). That is ≈ +28% for the short from the $310 re-arm (≈ +30% at the AH print). The 1H is pinned oversold and staying there — RSI 28.76, Stoch 14.61, MACD −8.38, OBV bleeding to 25.8M — trend-mode: every lift dies under the 1H 9-EMA $227. The overhead has come down: the add zone pulls down to $252–266 (1H 50-EMA → the broken daily 200-EMA; was $260–282). Stance: the plan is nearly complete — bank into the $215 tag, don’t press a fresh short into the last target; re-short a bounce into $252–266, stop $321 untouched and far — only a reclaim of $321 repairs it.',
+    lead: { rank: 3, status: 'live', entry: '$310 filled', stop: '$321', targets: '$265 → $247 → $215', downside: '−14%', tail: '−30%', rr: '~5:1', edge: 'Weekly-structure break — pressing the LAST target: COHR closed $222.05 (−8.75%), AH $218.01, within ~1.4% of 🕳️ T3 $215 (T1 $265 + T2 $247 long banked, ≈ +28% for the short from $310, ≈ +30% AH); 1H pinned oversold (RSI 28.76, Stoch 14.61, OBV bleeding) — trend-mode, every lift dies under the 1H 9-EMA $227 — bank into the $215 tag, don’t press the last target, re-short a bounce into $252–266 (zone pulled down from $260–282), only a reclaim of $321 repairs it' },
     side: 'short', accent: 'violet',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/cohr.html',
   },
   {
@@ -98,7 +98,9 @@ const STOCKS = [
   // undercut-and-reclaim failed, bounce thesis off, map extends to the
   // 0.618 $478 → 50-week $431. MU −9.94% pressed T2 $714 after hours
   // ($718.38); SNDK broke $1,000 AH ($991.69) toward the daily 200-EMA
-  // ≈ $958. Ranks unchanged.
+  // ≈ $958. NBIS −12.65% cleared T1 $160 + the 200-day in one session,
+  // AH $147.06 right on T2 $147; COHR −8.75% pressing the LAST target
+  // T3 $215 (AH $218.01). Ranks unchanged.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -201,11 +203,11 @@ const STOCKS = [
   },
   {
     symbol: 'NBIS', exchange: 'NASDAQ',
-    price: '$169.69', change: 'close −9.68% $169.69 · AH $168.47 · BROKE the $181 range low · driving to T1 $160',
-    signal: 'Breakdown leader — the $181 range low broke. After Friday’s −15.02% collapse under $200, NBIS closed $169.69 (−9.68%), a decisive break THROUGH the $181 range low (intraday low $164.31) — the level whose break opens T1 $160 — now driving toward it. AH $168.47 (−0.72%). That is ≈ +15% for the short from the $200 entry. Price stays capped under every MA and near the lower Bollinger, MACD −6.82 — structure broken, short working. Near-term deeply oversold (1H RSI 35.51, Stoch 27.03), so a reflex bounce is due — a bounce into $181–196 is the cleaner re-short add, not a chase of the low. Confirmation is now in: the $181 range low broke on the close. Next: T1 $160 → daily 200-EMA ≈ $152 → 🕳️ $130. Stance: short live under $200, range low broken — add on a bounce into $181–196 or trail toward $160; only a 2nd close back over $213 ends it.',
-    lead: { rank: 2, status: 'live', entry: '$200 filled', stop: '$213', targets: '$160 → $147 → $130', downside: '−15%', tail: '−31%', rr: '~3:1', edge: 'Breakdown leader, the $181 range low broke — after Friday’s −15.02% under $200 NBIS closed $169.69 (−9.68%, low $164.31), a decisive break through the $181 range low toward T1 $160 (≈ +15% for the short from $200); capped under every MA near the lower BB, deeply oversold (RSI 35.51, Stoch 27.03) so a bounce into $181–196 is the cleaner add — next T1 $160 → daily 200-EMA ≈ $152 → $130, a 2nd close over $213 ends it' },
+    price: '$148.22', change: 'close −12.65% $148.22 · AH $147.06 — ON T2 $147 · ✓ T1 $160 + the 200-day cleared in a day · ≈ +26% short',
+    signal: 'Breakdown leader — T1 banked and T2 tagging at the AH print. The third savage day in a row (−15.02% → −9.68% → −12.65%): NBIS closed $148.22, clearing T1 $160 AND the daily 200-EMA ≈ $152 in one session, and the after-hours print $147.06 sits right ON T2 $147. That is ≈ +26% for the short from the $200 entry. The tape is one-way: OBV plunging to −74.6M — distribution accelerating — with the whole 1H stack far overhead (9-EMA $155 → 50-EMA $174 → 200-EMA $195). Near-term deeply oversold again (1H RSI 30.68, Stoch 21.77, MACD −6.63), so a reflex bounce is due — DON’T press into the T2 tag: bank/trail here; the add zone pulls down to $155–174 (1H 9→50-EMA; was $181–196). Below T2 the map runs to 🕳️ T3 $130. Only a 2nd close back over $213 ends it — miles overhead now.',
+    lead: { rank: 2, status: 'live', entry: '$200 filled', stop: '$213', targets: '$160 → $147 → $130', downside: '−15%', tail: '−31%', rr: '~3:1', edge: 'Breakdown leader — T1 banked, T2 tagging at the AH print: third savage day in a row (−15.02% → −9.68% → −12.65%), NBIS closed $148.22, through T1 $160 AND the daily 200-EMA ≈ $152 in one session, AH $147.06 right on T2 $147 (≈ +26% for the short from $200); OBV plunging to −74.6M, oversold again (1H RSI 30.68, Stoch 21.77) — don’t press into the tag, bank/trail, add a bounce into $155–174 (zone pulled down from $181–196), next 🕳️ T3 $130, a 2nd close over $213 ends it' },
     side: 'short', accent: 'indigo',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/nbis.html',
   },
   {
