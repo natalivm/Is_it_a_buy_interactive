@@ -16,26 +16,18 @@
     --panel:#241338;
     --panel2:#1D0F2E;
     --line:#3D2359;
-    --ink:#FFFFFF;
     --muted:#B29AD0;
     --purple:#34D399;
     --pink:#FB5D74;
     --yellow:#F5A524;
     --deep:#0D0616;
-    --display:'Oswald',sans-serif;
-    --body:'Inter',sans-serif;
-    --mono:'IBM Plex Mono',monospace;
     --sub:#EFE7FB;
   }
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--yellow) 42%,var(--line));border-radius:14px;background:rgba(245,165,36,.07);padding:13px 15px;}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
 
 <div class="stage" id="stage">
-  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
   <div class="deck" id="deck">
 
@@ -43,8 +35,8 @@
     <section class="slide active" data-label="ASTS · 1H">
       <div class="cover-ticker rv">ASTS</div>
       <div class="eyebrow rv">1H · 28/07 CLOSE · SHORT BACK IN CONTROL · −2.99%</div>
-      <h1 class="rv">On the line.<br><span class="hl">Short back in control.</span></h1>
-      <p class="sub rv">Фліп-шорт знову веде. ASTS закрив <strong>−2.99% до $56.55</strong> (AH $56.85, +0.53%) — сидить рівно на лінії <strong>$56</strong>, must-hold-below, але ще не зламав її рішуче (закрився трохи вище). Під усім <span class="k">MA-стеком</span> і нижче daily 200-EMA ≈ <strong>$76</strong>. Шорт валідний <strong>під $61</strong> і підтверджується <strong>рішучим закриттям під $56</strong> → тоді відкривається нижня смуга / мінімуми. Але 1H Stoch смикнув (<span class="p">64.35</span> від дна) — <span class="k">не переслідуй</span>: тригер — фейл-відскок під $61 або злам $56. Daily перепроданий (RSI 37.44, Stoch 16.06, MACD −6.70). Прорив назад над $61 стопить шорт і фліпає лонг до 200-EMA ≈ $76 (катаст B. Riley Buy $85 — ризик угору).</p>
+      <h1 class="rv">short back in <span class="hl">control</span></h1>
+      <p class="sub rv">Фліп-шорт знову веде. ASTS закрив <strong>−2.99% до $56.55</strong> (AH $56.85, +0.53%) — сидить рівно на лінії <strong>$56</strong>, must-hold-below, але ще не зламав її рішуче. Під усім <span class="k">MA-стеком</span> і нижче daily 200-EMA ≈ <strong>$76</strong>.</p>
       <div class="chart rv">
         <svg data-lv='[["k",40,"$76","200-EMA · ціль ЯКЩО фліп лонг",0.05],["k",88,"$61","стоп · reclaim = лонг назад",0.12],["y",170,"$56.55","ТУТ · −2.99% · на лінії",0.18],["p",188,"$56","рішучий злам = шорт підтверджено",0.24],["p",238,"$50","T1 · нижня смуга (BB)",0.3],["p",280,"$41","🕳️ тижнева опора",0.36]]' viewBox="0 0 470 300" role="img" aria-label="ASTS closed down 2.99 percent at 56.55, sitting on the 56 line, short back in control below 61">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,95 L160,130 L240,166 L310,182"/>
@@ -57,47 +49,12 @@
     </section>
 
     <!-- 2 · DAILY CANDLE -->
-    <section class="slide" data-label="ASTS · 1D">
+    <section class="slide" data-noclick data-label="ASTS · 1D">
       <div class="eyebrow rv">DAILY · 28/07 · НА ЛІНІЇ $56</div>
       <h1 class="rv">Red −2.99%.<br><span class="hl">Sitting on the $56 line.</span></h1>
-      <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="ASTS red daily candle down 2.99 percent closing 56.55 right on the 56 line, short back in control">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="55"  x2="330" y2="55"/>
-          <line class="dash s-k fade" style="animation-delay:.16s" x1="60" y1="108" x2="330" y2="108"/>
-          <line class="dash s-y fade" style="animation-delay:.24s" x1="60" y1="178" x2="330" y2="178"/>
-          <line class="dash s-p fade" style="animation-delay:.32s" x1="60" y1="200" x2="330" y2="200"/>
-          <text class="ax f-k fade" style="animation-delay:.22s" x="54" y="59"  text-anchor="end">76 daily 200-EMA</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="112" text-anchor="end">61 стоп · reclaim = лонг</text>
-          <text class="ax f-y fade" style="animation-delay:.4s"  x="54" y="182" text-anchor="end">56.55 close · на лінії</text>
-          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="204" text-anchor="end">56 злам = шорт підтверджено</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="210" y1="140" x2="210" y2="208"/>
-          <rect class="candle-body fill" x="180" y="150" width="60" height="30" rx="7" style="animation-delay:.6s"/>
-          <circle class="dot-y pop" style="animation-delay:2s" cx="210" cy="180" r="6"/>
-          <text class="anno f-k fade" style="animation-delay:1.5s" x="252" y="154"><tspan class="h">$58.3</tspan> старт дня</text>
-          <text class="anno f-y fade" style="animation-delay:2.2s" x="252" y="184"><tspan class="h">$56.55</tspan> close −2.99%</text>
-        </svg>
-      </div>
-      <div class="verdict rv">
-        <div class="vh">⚠ Шорт знову веде — закрився на лінії $56</div>
-        <p>ASTS <strong>закрив −2.99% до $56.55</strong> (AH $56.85) — рівно на лінії <span class="p">$56</span>, must-hold-below, але ще не зламав її рішуче. Під усім MA-стеком і нижче daily 200-EMA ≈ <strong>$76</strong>. Daily перепроданий (RSI 37.44, Stoch 16.06, <strong>MACD −6.70</strong>), проте 1H Stoch смикнув (64.35) — тому <span class="k">не переслідуй</span>. Шорт <span class="p">валідний під $61</span>, підтверджується <strong>рішучим закриттям під $56</strong>; прорив над $61 стопить-і-фліпає лонг до 200-EMA ≈ $76 (B. Riley Buy $85 — ризик).</p>
-      </div>
-    </section>
-
-    <!-- 3 · CONTEXT -->
-    <section class="slide" data-label="ASTS · CONTEXT">
-      <div class="eyebrow y rv">CONTEXT · CATALYST vs DILUTION</div>
-      <h1 class="rv">Fade vs base.<br><span class="hl">$1B convert vs B. Riley $85.</span></h1>
-      <p class="sub rv">Дві сили тягнуть у різні боки. <strong>Ведмежа:</strong> $1B конвертований борг — розводнення тисне, і повний MA-стек тепер зверху. <strong>Бичача/ризик:</strong> катаст (B. Riley Buy $85, Midland) — саме він може стопнути шорт над $61. Понеділок <span class="p">−2.99% на лінію $56</span>, і баланс на ведмежому боці: рішучий злам $56 відкриває мінімуми; reclaim $61 фліпає лонг до 200-EMA ≈ $76.</p>
-      <div class="indi rv">
-        <div class="indi-top"><span class="t">Фейд повернув контроль</span><span class="v">−2.99% · $56.55 · RSI 37.44 · MACD −6.70</span></div>
-        <p>ASTS закрився на лінії $56, <span class="p">під усім MA-стеком</span>. Daily перепроданий (RSI 37.44, Stoch 16.06), але 1H Stoch смикнув (64.35) — <span class="k">не переслідуй смик</span>. Шорт валідний під $61; підтвердження — <span class="p">рішуче закриття під $56</span> → T1 $50 (нижня смуга); reclaim $61 = стоп-і-фліп лонг до 200-EMA ≈ $76.</p>
-      </div>
-      <div class="chart rv">
-        <svg data-lv='[["k",50,"$76","200-EMA · ціль лонга при reclaim",0.05],["k",95,"$61","reclaim = стоп-і-фліп лонг",0.12],["y",165,"$56.55","now · на лінії $56",0.19],["p",185,"$56","рішучий злам = шорт підтверджено",0.26],["p",250,"$50","T1 · нижня смуга",0.33]]' viewBox="0 0 470 300" role="img" aria-label="ASTS closed on the 56 line, short confirms below 56 and flips long above 61 toward the 200-EMA at 76">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M80,90 L175,120 L260,150 L360,165"/>
-          <circle class="dot-y pop" style="animation-delay:1.5s" cx="360" cy="165" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.7s" x="235" y="284" text-anchor="middle">закрився на лінії $56 → підтвердження під $56 · над $61 = фліп лонг</text>
-        </svg>
+      <div class="verdict y rv">
+        <div class="vh">⚠ Лінія $56 ще не зламана рішуче — вердикт дасть каса</div>
+        <p>Daily перепроданий (RSI 37.44, Stoch 16.06, <strong>MACD −6.70</strong>), проте 1H Stoch смикнув (64.35) — тому <span class="k">не переслідуй</span>. Підтвердження шорта — <strong>рішуче закриття під $56</strong>; reclaim $61 негує і фліпає назад у лонг.</p>
       </div>
     </section>
 
@@ -114,18 +71,15 @@
         <div class="rung sup"><span class="px">$45</span><span class="lbl">Проміжна опора · T2</span></div>
         <div class="rung sup"><span class="px">$41</span><span class="lbl">🕳️ Тижнева опора · T3</span></div>
       </div>
-      <p class="note rv">Фліп-шорт <strong>знову веде</strong>: −2.99% до $56.55 сидить рівно на лінії <strong>$56</strong>, але ще не зламав її рішуче (закрився трохи вище). Під усім MA-стеком, нижче 200-EMA ≈ $76. Daily перепроданий (RSI 37.44, Stoch 16.06, MACD −6.70), але 1H Stoch смикнув (64.35 від дна) — <span class="y">не переслідуй</span>.</p>
-      <p class="note rv">Шорт валідний <strong>під $61</strong>, підтверджується рішучим закриттям під <strong>$56</strong> → відкриваються $50 (нижня смуга) → $45 → 🕳️ $41. Тригер — фейл-відскок під $61 або злам $56, не 1H смик. Reclaim <strong>$61</strong> стопить-і-фліпає лонг до 200-EMA ≈ $76 (B. Riley Buy $85 — ризик). <span class="p">Поза рейтингом.</span></p>
+      <p class="note rv">Дві лінії вирішують: <span class="p">$56</span> (рішучий злам = шорт підтверджено) і <span class="p">$61</span> (reclaim = стоп-і-фліп лонг до 200-EMA ≈ $76). Між ними — нічия.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="ASTS · ПЛАН">
       <div class="eyebrow rv">PLAN · SHORT BACK IN CONTROL · VALID < $61 · CONFIRMS < $56</div>
       <h1 class="rv">Back in control — <span class="hl">confirms below $56</span></h1>
-      <p class="sub rv">Фліп-шорт знову веде: −2.99% до close $56.55 (AH $56.85) сидить рівно на лінії $56, під усім MA-стеком і нижче 200-EMA ≈ $76. Daily перепроданий (RSI 37.44, Stoch 16.06, MACD −6.70).</p>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні ($56.55, −2.99%):</strong> шорт валідний <strong>під $61</strong>, підтверджується <strong>рішучим закриттям під $56</strong> → тоді $50 → $45 → 🕳️ $41. 1H Stoch смикнув (64.35) — <strong>не переслідуй смик</strong>: тригер — фейл-відскок під $61 або злам $56. Прорив назад над <strong>$61</strong> стопить-і-фліпає лонг до 200-EMA ≈ $76.</p>
-      <p class="note rv">Був лонг → фліп у шорт → тепер шорт знову веде. Ведмеже: $1B конверт (розводнення) + повний MA-стек зверху. Бичаче/ризик: катаст B. Riley Buy $85 (Midland) — прорив над $61 стопить шорт. Менший розмір, чіткий $61, підтвердження під $56. <strong>Поза рейтингом.</strong></p>
-      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+      <p class="note k rv">🎯 <strong>Тригер:</strong> шорт валідний <strong>під $61</strong>, підтверджується <strong>рішучим закриттям під $56</strong> → тоді $50 → $45 → 🕳️ $41. Тригер — фейл-відскок під $61 або злам $56, <strong>не 1H смик</strong>. Прорив назад над <strong>$61</strong> стопить-і-фліпає лонг до 200-EMA ≈ $76.</p>
+      <p class="note rv">Був лонг → фліп у шорт → тепер шорт знову веде. Ведмеже: $1B конверт (розводнення) + повний MA-стек зверху. Бичаче/ризик: катаст B. Riley Buy $85 (Midland). Менший розмір. <strong>Поза рейтингом.</strong></p>
     </section>
 
   </div>

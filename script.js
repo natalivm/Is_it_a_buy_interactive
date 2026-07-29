@@ -478,6 +478,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeStory();
     });
 
+    // A deck (running in the iframe) can ask to close itself — e.g. swiping past
+    // the last slide on mobile.
+    window.addEventListener('message', e => {
+        const frame = document.getElementById('storyFrame');
+        if (frame && e.source === frame.contentWindow &&
+            e.data && e.data.type === 'ib-close') {
+            closeStory();
+        }
+    });
+
     // Deep linking: keep the overlay in sync with the URL hash, and honor a
     // hash present on first load (e.g. someone opened a shared deck link).
     window.addEventListener('hashchange', reconcileStory);

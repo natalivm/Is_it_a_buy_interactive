@@ -16,23 +16,14 @@
     --panel:#1B1E4A;
     --panel2:#15183C;
     --line:#2C3068;
-    --ink:#FFFFFF;
     --muted:#A6ADE8;
     --purple:#7C8AFF;
     --pink:#FB5D74;
     --yellow:#F5B841;
     --deep:#0A0B1E;
-    --display:'Oswald',sans-serif;
-    --body:'Inter',sans-serif;
-    --mono:'IBM Plex Mono',monospace;
     --sub:#DCE4FA;
   }
 
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--yellow) 40%,var(--line));border-radius:14px;background:rgba(245,165,36,.07);padding:13px 15px;}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--yellow);display:flex;align-items:center;gap:7px;}
-  .verdict.k{border-color:color-mix(in srgb,var(--pink) 42%,var(--line));background:rgba(251,93,116,.07);}
-  .verdict.k .vh{color:var(--pink);}
   /* two-column weight strip for the Korea slide */
   .wt{display:flex;gap:8px;margin:6px 0 14px;}
   .wt .cell{flex:1;border:1px solid var(--line);border-radius:11px;background:var(--panel2);padding:9px 10px;text-align:center;}
@@ -46,7 +37,6 @@
 <body>
 
 <div class="stage" id="stage">
-  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
   <div class="deck" id="deck">
 
@@ -54,8 +44,8 @@
     <section class="slide active" data-label="DRAM · 4H">
       <div class="cover-ticker rv">DRAM</div>
       <div class="eyebrow rv">4H · CLOSE $47.77 −8.89% · У МАГНІТ $47.5–48.5</div>
-      <h1 class="rv">Магніт $47.5–48.5 —<br><span class="hl">досягнуто.</span></h1>
-      <p class="sub rv">Фейд дожав: сьогодні <strong>−8.89% до close $47.77</strong>, чисто крізь T1 $50 і прямо в <span class="k">кластер $47.5–48.5</span> (61.8% fib + rising 50-day + нижня BB) — той самий магніт, що позначала картка. AH-відскок до <strong>$48.58 (+1.70%)</strong>. Індикатори підіймаються з дна: <span class="k">1H RSI 39.01 · Stoch ~43 lifting · MACD −1.48</span>. Тож рефлекс-відскок у <span class="k">$52–54</span> = чистіший re-short, не гонитва тут унизу. Нижче кластера — $42–44 → 🕳️ washout $38.5–40. Стоп $61.</p>
+      <h1 class="rv">магніт <span class="hl">досягнуто</span></h1>
+      <p class="sub rv">Фейд дожав: <strong>−8.89% до close $47.77</strong>, чисто крізь T1 $50 і прямо в <span class="k">кластер $47.5–48.5</span> (61.8% fib + rising 50-day + нижня BB) — той самий магніт, що позначала картка. AH-відскок до <strong>$48.58 (+1.70%)</strong>.</p>
       <div class="chart rv">
         <svg data-lv='[["k",40,"$61","стоп · close >$61 + ретест = neutral",0.05],["k",95,"$52–54","reflex-bounce зона · re-short",0.12],["p",140,"$50","T1 ✓ пробито",0.19],["y",195,"$47.77","ТУТ · close −8.89% · у кластері $47.5–48.5",0.26],["p",245,"$42–44","нижче кластера",0.31],["p",280,"$38.5–40","🕳️ washout",0.36]]' viewBox="0 0 470 300" role="img" aria-label="DRAM closed down 8.89 percent at 47.77, straight through T1 50 into the 47.5 to 48.5 cluster, small after-hours bounce">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,70 L180,110 L250,155 L320,195"/>
@@ -68,31 +58,14 @@
     </section>
 
     <!-- 2 · DAILY / BREAKDOWN ANATOMY -->
-    <section class="slide" data-label="DRAM · 1D">
+    <section class="slide" data-noclick data-label="DRAM · 1D">
       <div class="eyebrow rv">DAILY · CLOSE $47.77 · У КЛАСТЕРІ $47.5–48.5</div>
       <h1 class="rv">У магніті.<br><span class="hl">Дна ще нема.</span></h1>
       <div class="indi rv">
-        <div class="indi-top"><span class="t">Крізь T1 $50 у кластер · магніт досягнуто</span><span class="v">1H RSI 39.01 · Stoch ~43 lifting · MACD −1.48</span></div>
-        <p>Фейд відпрацював до цілі: сьогодні <strong>−8.89% до close $47.77</strong>, чисто крізь <strong>T1 $50</strong> у <span class="k">кластер $47.5–48.5</span>. Ціна досі <span class="k">під усіма MA</span>, але індикатори підіймаються з дна (Stoch ~43 lifting), а AH дав <strong>+1.70% до $48.58</strong>. Тож відскок у $52–54 = кращий re-short, не дно. Нижче кластера — $42–44.</p>
+        <div class="indi-top"><span class="t">У кластері · рефлекс з дна</span><span class="v">1H RSI 39.01 · Stoch ~43 lifting · MACD −1.48</span></div>
+        <p>Ціна досі <span class="k">під усіма MA</span>, але індикатори підіймаються з дна (Stoch ~43 lifting) — рефлекс уже в роботі. Тож найближчий відскок — <strong>re-short, не дно</strong>: для розвороту потрібне підтвердження, а не лише магніт і скинута перепроданість.</p>
       </div>
-      <div class="chart rv">
-        <svg viewBox="0 0 420 320" role="img" aria-label="DRAM closed down 8.89 percent at 47.77 inside the 47.5 to 48.5 cluster below every moving average">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="110" y2="70"/>
-          <line class="dash s-k fade" style="animation-delay:.12s" x1="60" y1="120" x2="110" y2="120"/>
-          <line class="dash s-y fade" style="animation-delay:.18s" x1="60" y1="212" x2="330" y2="212"/>
-          <line class="dash s-p fade" style="animation-delay:.24s"  x1="60" y1="278" x2="110" y2="278"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">52–54 reflex</text>
-          <text class="ax f-k fade" style="animation-delay:.3s"  x="54" y="124" text-anchor="end">50 T1 ✓</text>
-          <text class="ax f-y fade" style="animation-delay:.36s" x="54" y="216" text-anchor="end">47.77 close · кластер</text>
-          <text class="ax f-p fade" style="animation-delay:.42s"  x="54" y="282" text-anchor="end">42–44 нижче</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="102" x2="150" y2="218"/>
-          <rect class="candle-body fill" x="120" y="114" width="60" height="98" rx="6" style="animation-delay:.6s"/>
-          <circle class="dot-y pop" style="animation-delay:1.6s" cx="150" cy="210" r="6"/>
-          <text class="anno f-y fade" style="animation-delay:1.65s" x="306" y="208"><tspan class="h">$47.77</tspan> · −8.89%</text>
-          <text class="anno f-p fade" style="animation-delay:1.9s" x="196" y="242">61.8% fib + rising 50-day $47.5</text>
-        </svg>
-      </div>
-      <p class="note rv">ETF лістингувався 2 квітня — мало історії для надійних довгих рівнів, тож читаємо <strong>структуру самого ралі</strong> (fib-ретрейси). Ключова зона стабілізації — <span class="p">$47.5–48.5</span>: 61.8% fib + rising 50-day $47.5 + нижня денна BB $46.5 + зона пробою; ціна тепер <strong>усередині неї</strong>.</p>
+      <p class="note rv">ETF лістингувався 2 квітня — мало історії для надійних довгих рівнів, тож читаємо <strong>структуру самого ралі</strong> (fib-ретрейси); звідси й кластер <span class="p">$47.5–48.5</span>, усередині якого ціна закрилась.</p>
     </section>
 
     <!-- 3 · KOREA / FEEDBACK LOOP -->
@@ -107,7 +80,7 @@
       </div>
       <div class="verdict k rv">
         <div class="vh">🔁 Петля зворотного зв'язку</div>
-        <p>US-пам'ять слабшає → <span class="k">Samsung/SK Hynix падають у корейську сесію</span> → DRAM <strong>гепить на відкритті США</strong> → слабкість повертається в <strong>MU, SNDK, WDC, STX</strong>. Той самий рефлекс дожав ETF крізь T1 $50 у кластер $47.5–48.5 (close $47.77, −8.89%): сектор лишається слабким, і кошик пам'яті синхронно дійшов до магніта.</p>
+        <p>US-пам'ять слабшає → <span class="k">Samsung/SK Hynix падають у корейську сесію</span> → DRAM <strong>гепить на відкритті США</strong> → слабкість повертається в <strong>MU, SNDK, WDC, STX</strong>. Саме ця петля й дожала кошик пам'яті синхронно в магніт: сектор лишається слабким.</p>
       </div>
     </section>
 
@@ -126,14 +99,14 @@
         <div class="rung sup"><span class="px">$42–44</span><span class="lbl">Попередня консолідація · наступна ціль нижче кластера</span></div>
         <div class="rung sup"><span class="px">$38.5–40</span><span class="lbl">🕳️ Глибокий ретрейс / стара база · washout</span></div>
       </div>
-      <p class="note rv">Ціль-магніт <strong>$47.5–48.5</strong> (61.8% fib + rising 50-day) досягнуто — ціна закрилась усередині кластера на $47.77. Далі: рефлекс-відскок у $52–54 = re-short, або продовження до $42–44 → 🕳️ washout $38.5–40. Стоп $61.</p>
+      <p class="note rv">Дві лінії вирішують: <span class="k">$61</span> (close вище + ретест = neutral · стоп) і <span class="k">$47</span> (close нижче = major failure → $42–44).</p>
     </section>
 
     <!-- 5 · SCENARIOS / WHAT MAKES A BOTTOM -->
     <section class="slide" data-label="DRAM · сценарії">
       <div class="eyebrow y rv">ЩО БУДЕ СПРАВЖНІМ ДНОМ?</div>
       <h1 class="rv">$47.77 — <span class="hl">магніт, не дно.</span></h1>
-      <p class="sub rv">Фейд дійшов до цілі — ціна в кластері $47.5–48.5, — але для торгованого розвороту потрібне <strong>підтвердження</strong>, а не лише магніт і скинута перепроданість:</p>
+      <p class="sub rv">Що перетворить магніт на торговане дно — чекліст підтвердження:</p>
       <ul class="chk rv">
         <li>Кульмінація продажів / сильна розворотна свічка в кластері $47.5–48.5</li>
         <li>Вищий мінімум замість чергового нижчого максимуму</li>
@@ -147,7 +120,7 @@
       </div>
       <div class="verdict k rv">
         <div class="vh">🔴 Ведмежий сценарій (base case · триває)</div>
-        <p>Магніт $47.5–48.5 досягнуто (close $47.77). Проміжний тренд лишається ведмежим, доки не відвойовано $61. Рефлекс-відскок у <strong>$52–54</strong> (AH вже дав $48.58) — це re-short, не дно; нижче кластера — $42–44 → washout $38.5–40.</p>
+        <p>Проміжний тренд лишається ведмежим, доки не відвойовано $61. Рефлекс-відскок у <strong>$52–54</strong> — це re-short, не дно; нижче кластера — $42–44 → washout $38.5–40.</p>
       </div>
     </section>
 
@@ -155,10 +128,8 @@
     <section class="slide" data-label="DRAM · ПЛАН">
       <div class="eyebrow rv">PLAN · CLOSE $47.77 · У КЛАСТЕРІ $47.5–48.5</div>
       <h1 class="rv">Магніт досягнуто — <span class="hl">reflex = re-short</span></h1>
-      <p class="sub rv">Фейд дожав крізь T1 $50: сьогодні <strong>−8.89% до close $47.77</strong>, прямо в кластер $47.5–48.5. AH-відскок $48.58 (+1.70%).</p>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $47.77, −8.89%):</strong> фейд заплатив — T1 $50 пробито, ціна закрилась у магніті <strong>$47.5–48.5</strong> (підтвердження в наявності — cash-close усередині кластера). Не гонитва вниз тут: чистіший re-short — на рефлекс-відскоку в <strong>$52–54</strong> → далі $42–44 → 🕳️ washout $38.5–40 (стоп $61). Close >$61 + ретест скасовує bias.</p>
+      <p class="note k rv">🎯 <strong>Тригер:</strong> магніт узято cash-close'ом усередині кластера — <strong>вниз не женемося</strong>. Чистіший re-short — на рефлекс-відскоку в <strong>$52–54</strong> → далі $42–44 → 🕳️ washout $38.5–40 (стоп $61; close &gt;$61 + ретест скасовує bias).</p>
       <p class="note rv">⚠️ Кошик пам'яті — <strong>ризик гепу під корейську пам'ять</strong>: нічний рух Samsung/SK Hynix задає розрив на відкритті. Тримай позу малою; шукай кульмінацію в кластері $47.5–48.5 як перший сигнал розвороту.</p>
-      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
     </section>
 
   </div>

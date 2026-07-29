@@ -16,24 +16,18 @@
     --panel:#261A40;
     --panel2:#1F1533;
     --line:#3E2B63;
-    --ink:#FFFFFF;
     --muted:#B4A6D6;
     --purple:#34D399;   /* green · support / targets */
     --pink:#FB5D74;     /* red · resistance / bearish */
     --yellow:#F5A524;
     --deep:#0B0714;
-    --display:'Oswald',sans-serif;
-    --body:'Inter',sans-serif;
-    --mono:'IBM Plex Mono',monospace;
     --sub:#EEE9F9;
   }
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
 </style>
 </head>
 <body>
 
 <div class="stage" id="stage">
-  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
   <div class="deck" id="deck">
 
@@ -41,8 +35,8 @@
     <section class="slide active" data-label="COHR · 1H">
       <div class="cover-ticker rv">COHR</div>
       <div class="eyebrow rv">RE-SHORT PAYING · T1 $265 + T2 $247 ВЗЯТО</div>
-      <h1 class="rv">Re-short paying.<br><span class="hl">T1 + T2 banked.</span></h1>
-      <p class="sub rv">Ре-шорт від $310 працює. Рішучий день униз: <strong>−10.31% до close $243.33</strong> (AH відскок +0.39% до $244.27 — без reclaim), і ціна <strong>рішуче прошила і T1 $265, і T2 $247</strong> — обидві <strong>взято</strong>. Ключове: T1 $265 ≈ denna 200-EMA ($266) — тепер <strong>втрачено</strong> (close під нею). Це <strong>≈ +21% для шорта</strong> від re-arm $310, і ціна жене до 🕳️ T3 $215. <span class="k">Глибоко перепроданий</span>: daily RSI 31.61, Stoch 24.75, MACD −21.55 — рефлекс-відскок назрів, тож чистіший долив — пуш назад у $260–282 (зламана 200-EMA / полиця), не гнатися за лоєм. Weekly ще з місцем. Стоп $321 недоторканий і далеко; лише reclaim над $321 ремонтує.</p>
+      <h1 class="rv">re-short is <span class="hl">paying</span></h1>
+      <p class="sub rv">Ре-шорт від $310 працює. Рішучий день униз: <strong>−10.31% до close $243.33</strong> (AH +0.39% до $244.27), і ціна <strong>рішуче прошила і T1 $265, і T2 $247</strong> — обидві <strong>взято</strong>. Ключове: T1 $265 ≈ denna 200-EMA ($266) — тепер <strong>втрачено</strong>. Це <strong>≈ +21% для шорта</strong> від re-arm $310, і ціна жене до 🕳️ <span class="k">T3 $215</span>.</p>
       <div class="chart rv">
         <svg data-lv='[["k",30,"$321","стоп · 21-week MA · недоторканий",0.05],["k",55,"$310","re-short entry · далеко зверху",0.12],["k",95,"$260–282","зона доливу на відскоку",0.19],["p",140,"$265","✓ T1 · 200-EMA втрачено",0.26],["p",185,"$247","✓ T2 · 50-week",0.31],["y",210,"$243.33","ТУТ · close −10.31% · AH $244.27",0.36],["p",255,"$215","🕳️ T3",0.4]]' viewBox="0 0 470 300" role="img" aria-label="COHR re-short paying, broke through T1 265 and T2 247, closed 243.33 below the 200-EMA, driving to T3 215">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,70 L175,125 L250,175 L315,210"/>
@@ -54,48 +48,12 @@
     </section>
 
     <!-- 2 · DAILY CANDLE -->
-    <section class="slide" data-label="COHR · 1D">
+    <section class="slide" data-noclick data-label="COHR · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
       <h1 class="rv">Broke T1 + T2.<br><span class="hl">Lost the daily 200-EMA.</span></h1>
-      <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="COHR red 10.31 percent day closing 243.33, broke below the daily 200-EMA">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="55"  x2="330" y2="55"/>
-          <line class="dash s-p fade" style="animation-delay:.12s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-p fade" style="animation-delay:.2s"  x1="60" y1="190" x2="330" y2="190"/>
-          <line class="dash s-p fade" style="animation-delay:.28s" x1="60" y1="270" x2="330" y2="270"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="59"  text-anchor="end">321 стоп</text>
-          <text class="ax f-p fade" style="animation-delay:.3s"  x="54" y="154" text-anchor="end">265 T1 · 200-EMA</text>
-          <text class="ax f-p fade" style="animation-delay:.4s"  x="54" y="194" text-anchor="end">247 T2 · 50-week</text>
-          <text class="ax f-p fade" style="animation-delay:.48s" x="54" y="274" text-anchor="end">215 T3</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.3s" x1="150" y1="95" x2="150" y2="225"/>
-          <rect class="candle-body fill" x="120" y="100" width="60" height="110" rx="7" style="animation-delay:.6s"/>
-          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="210" r="6"/>
-          <line class="s-line fade" style="animation-delay:1.5s" x1="150" y1="150" x2="330" y2="150" stroke-width="1"/>
-          <text class="anno f-p fade" style="animation-delay:1.55s" x="334" y="146"><tspan class="h">$265 T1</tspan> — 200-EMA втрачено</text>
-          <text class="anno f-y fade" style="animation-delay:2.05s" x="210" y="214" font-weight="700">$243.33 close −10.31%</text>
-        </svg>
-      </div>
       <div class="verdict rv">
-        <div class="vh">▽ Close $243.33 (−10.31%) — T1 $265 + T2 $247 взято, 200-EMA втрачено</div>
-        <p>Рішучий день униз: <strong>−10.31% до $243.33</strong> (AH $244.27, +0.39% — без reclaim). Ціна прошила <strong>і T1 $265, і T2 $247</strong> — обидві взято, а <strong>denna 200-EMA ($266) втрачено</strong> (close під нею) і ціна розтягнута далеко під нижнім Bollinger (≈$316). ≈ +21% для шорта від $310. Daily RSI 31.61, Stoch 24.75, MACD −21.55 — <span class="k">глибоко перепроданий</span>, тож рефлекс-відскок назрів → чистіший долив на пуші в $260–282. Далі 🕳️ T3 $215. Weekly ще з місцем.</p>
-      </div>
-    </section>
-
-    <!-- 3 · WEEKLY -->
-    <section class="slide" data-label="COHR · 1W">
-      <div class="eyebrow y rv">WEEKLY · CORRECTION IN MOTION</div>
-      <h1 class="rv">The run broke.<br><span class="hl">Now driving to the magnets.</span></h1>
-      <p class="sub rv">Забіг <strong>$50 → $450 (+800%)</strong> за півтора року — і перший <span class="k">тижневий злам структури</span>: свічка різала 21-week MA $321, weekly MACD histogram червоний, OBV з рекорду. Памп повернув ціну до $317.22, але <span class="k">так і не над $321</span> — злам не відремонтовано, і фейд рішуче довів до магнітів: <strong>−10.31% до $243.33</strong>, взявши і 200-EMA $265, і 50-week $247. SMH на $547–550. Магніти униз: <span class="p">200-EMA $265</span> (T1 ✓ втрачено) → <span class="p">50-week EMA $247</span> (T2 ✓) → 🕳️ <span class="p">нижній тижневий BB $215</span> (T3).</p>
-      <div class="indi rv">
-        <div class="indi-top"><span class="t">Тижнева структура зламана · T1 + T2 взято</span><span class="v">weekly (repairing) · 200-EMA $265 втрачено · close $243.33</span></div>
-        <p>Памп до $317 не пробив 21-week MA $321 — під ним <span class="k">bias вниз</span>, і −10.31% до $243.33 взяло обидві цілі T1 $265 і T2 $247: ре-шорт жене далі до 🕳️ $215. Weekly ще з місцем, але daily глибоко перепроданий (RSI 31.61) → долив на пуші в $260–282. Лише reclaim над $321 ремонтує.</p>
-      </div>
-      <div class="chart rv">
-        <svg data-lv='[["k",40,"$450","ATH · червень",0.05],["k",90,"$321","21-week MA · зламана · опір",0.12],["p",150,"$265","200-EMA · T1 ✓ втрачено",0.19],["p",190,"$247","50-week EMA · T2 ✓",0.24],["y",212,"$243.33","ТУТ · close −10.31%",0.29],["p",255,"$215","нижній тижневий BB · T3",0.34]]' viewBox="0 0 470 300" role="img" aria-label="COHR weekly run from 50 to 450 broke its 21-week MA, never repaired, took T1 265 and T2 247, now closing 243.33 toward the 215 magnet">
-          <path class="legdn draw" pathLength="1" style="animation-delay:.55s;animation-duration:1.1s" d="M70,255 L150,235 L230,150 L300,80 L335,58 L390,212"/>
-          <circle class="dot-y pop" style="animation-delay:1.95s" cx="390" cy="212" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.05s" x="384" y="230" text-anchor="end">злам $321 → T1 $265 і T2 $247 взято → $243.33, далі 🕳️ $215</text>
-        </svg>
+        <div class="vh">▽ Глибоко перепроданий — відскок = паливо для доливу, не розворот</div>
+        <p>Ціна розтягнута далеко під нижнім Bollinger (≈$316); daily RSI 31.61, Stoch 24.75, MACD −21.55 — <span class="k">глибоко перепроданий</span>, рефлекс-відскок назрів. Це паливо для доливу, не сигнал розвороту: weekly ще з місцем униз.</p>
       </div>
     </section>
 
@@ -112,18 +70,15 @@
         <div class="rung now"><span class="px">$243.33</span><span class="lbl">ТУТ · close −10.31% · AH $244.27 · ре-шорт live</span></div>
         <div class="rung sup"><span class="px">$215</span><span class="lbl">🕳️ Нижній тижневий BB · T3</span></div>
       </div>
-      <p class="note rv">Памп перебив re-arm $310 і закрив $317.22 — але так і не над <strong>$321</strong> (21-week MA): злам не відремонтовано. Рішучий день <strong>−10.31% до $243.33</strong> взяв і T1 $265 (200-EMA втрачено), і T2 $247 — ре-шорт <strong>працює</strong>, ≈ +21% від $310. Далі 🕳️ $215. Стоп $321 недоторканий; лише reclaim над ним ремонтує.</p>
-      <p class="note k rv"><span class="y">Але перепроданий:</span> daily RSI 31.61, Stoch 24.75, MACD −21.55, ціна далеко під нижнім Bollinger (≈$316), AH-відскок до $244.27 — рефлекс-відскок назрів, тому чистіший долив на пуші в <strong>$260–282</strong> (зламана 200-EMA), не гнатися. Weekly ще з місцем до $215. SMH на $547–550 — фейд із тейпом.</p>
+      <p class="note k rv">Дві лінії вирішують: <span class="y">$321</span> (21-week MA — лише reclaim над нею ремонтує) і <span class="y">$260–282</span> (пуш сюди = долив, не гнатися за лоєм).</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="COHR · ПЛАН">
       <div class="eyebrow rv">PLAN · RE-SHORT PAYING · T1 + T2 BANKED</div>
       <h1 class="rv">Re-short paying — <span class="hl">both targets banked, trail to $215</span></h1>
-      <p class="sub rv">Памп до $317.22 так і не пробив 21-week MA $321 (злам не відремонтовано), і фейд рішуче довів до магнітів: <strong>−10.31% до close $243.33</strong> (AH $244.27), взявши і T1 $265, і T2 $247 — <strong>≈ +21% для шорта</strong> від $310.</p>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $243.33, −10.31%):</strong> обидві цілі взято (~+21%) — <strong>трейл до 🕳️ $215</strong>. Daily перепроданий (RSI 31.61, Stoch 24.75, MACD −21.55), AH-відскок до $244.27 — не гнатися за лоєм, <strong>долив на відскоку в $260–282</strong> (зламана 200-EMA / полиця). Лише reclaim над $321 ремонтує.</p>
-      <p class="note rv">Свіжий злам 21-week MA на OBV з рекорду, −46% від ATH $450. 200-EMA втрачено, ціна під нижнім тижневим BB — weekly ще з місцем до $215, але daily глибоко перепроданий → спершу імовірний рефлекс-відскок. SMH на $547–550 — фейд із тейпом.</p>
-      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+      <p class="note k rv">🎯 <strong>Тригер:</strong> <strong>трейл до 🕳️ $215</strong>. Не гнатися за лоєм — <strong>долив на відскоку в $260–282</strong> (зламана 200-EMA / полиця). Лише reclaim над $321 ремонтує.</p>
+      <p class="note rv">Памп до $317.22 так і не відремонтував свіжий злам 21-week MA $321 (на OBV з рекорду, −46% від ATH $450) — структура лишається зламаною. SMH на $547–550 — фейд із тейпом.</p>
     </section>
 
   </div>

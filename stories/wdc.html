@@ -16,27 +16,19 @@
     --panel:#1E2530;
     --panel2:#181D28;
     --line:#343E4E;
-    --ink:#FFFFFF;
     --muted:#9BA7BC;
     --purple:#34D399;
     --pink:#FB5D74;
     --yellow:#F5B841;
     --deep:#0A0D12;
-    --display:'Oswald',sans-serif;
-    --body:'Inter',sans-serif;
-    --mono:'IBM Plex Mono',monospace;
     --sub:#DCE4FA;
   }
 
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 42%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
 </style>
 </head>
 <body>
 
 <div class="stage" id="stage">
-  <div class="story-brand" aria-hidden="true">Is it a BUY?</div>
 
   <div class="deck" id="deck">
 
@@ -44,8 +36,8 @@
     <section class="slide active" data-label="WDC · 4H">
       <div class="cover-ticker rv">WDC</div>
       <div class="eyebrow rv">CLOSE 28/07 · −6.91% · ALL 3 TARGETS BANKED · AH +3.98%</div>
-      <h1 class="rv">Targets banked.<br><span class="hl">Closed at the $455–461 magnet.</span></h1>
-      <p class="sub rv">WDC долетів на магніт. <strong>Close $463.51 (−6.91%)</strong> — прямо на конфлюенції <span class="k">T3 $455 / $457–461</span> (денна нижня BB $457 + weekly mid-BB $461): чисто крізь <span class="p">T1 $486</span> і <span class="p">T2 $475</span> — <strong>усі три цілі плану взято</strong>, ≈ <span class="p">+10%</span> для шорта від входу $513. Потім різкий <span class="k">AH-відскок +3.98% до $481.97</span>, назад у зону $486–513, яку карта назвала чистішим re-short. Це глибокий пулбек у цілому weekly-аптренді (далеко над weekly 50-EMA $339) — $455–461 був ціллю, не зламом: <span class="p">фіксуй у магніт, не тисни лоу</span>. Відскок — рефлекс (30-хв Stoch стрибнув до 88, RSI ~58 від лоу, MACD −5.34) → re-short у <strong>$486–513</strong>, не гонитва.</p>
+      <h1 class="rv">parked at the <span class="hl">magnet</span></h1>
+      <p class="sub rv">WDC долетів на магніт. <strong>Close $463.51 (−6.91%)</strong> — прямо на конфлюенції <span class="k">T3 $455 / $457–461</span> (денна нижня BB $457 + weekly mid-BB $461): чисто крізь <span class="p">T1 $486</span> і <span class="p">T2 $475</span> — <strong>усі три цілі плану взято</strong>, ≈ <span class="p">+10%</span> для шорта від входу $513. Потім різкий <span class="k">AH-відскок +3.98% до $481.97</span>.</p>
       <div class="chart rv">
         <svg data-lv='[["k",50,"$535","стоп · reclaim = re-negate · зверху",0.05],["k",95,"$513","верх зони re-short",0.12],["p",135,"$486","T1 ✓ · зона re-short $486–513",0.18],["p",160,"$475","T2 ✓ взято",0.24],["y",195,"$463.51","ТУТ · close −6.91%",0.3],["p",225,"$455","T3 ✓ · магніт $457–461",0.35]]' viewBox="0 0 470 300" role="img" aria-label="WDC closed 463.51 down 6.91 percent at the 455-461 magnet banking all three targets then bounced after-hours to 481.97">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,72 L180,120 L250,165 L308,195"/>
@@ -58,58 +50,12 @@
     </section>
 
     <!-- 2 · DAILY CANDLE -->
-    <section class="slide" data-label="WDC · 1D">
+    <section class="slide" data-noclick data-label="WDC · 1D">
       <div class="eyebrow rv">DAILY CANDLE</div>
       <h1 class="rv">Red −6.91%.<br><span class="hl">Closed at the magnet.</span></h1>
-      <div class="chart rv">
-        <svg viewBox="0 0 420 340" role="img" aria-label="WDC red 6.91 percent candle closing 463.51 at the magnet after banking all targets then an after-hours bounce to 481.97">
-          <line class="dash s-k fade" style="animation-delay:.05s" x1="60" y1="70"  x2="330" y2="70"/>
-          <line class="dash s-p fade" style="animation-delay:.14s" x1="60" y1="120" x2="330" y2="120"/>
-          <line class="dash s-p fade" style="animation-delay:.22s" x1="60" y1="150" x2="330" y2="150"/>
-          <line class="dash s-y fade" style="animation-delay:.3s"  x1="60" y1="190" x2="330" y2="190"/>
-          <line class="dash s-p fade" style="animation-delay:.38s" x1="60" y1="225" x2="330" y2="225"/>
-          <text class="ax f-k fade" style="animation-delay:.25s" x="54" y="74"  text-anchor="end">513 · зона re-short</text>
-          <text class="ax f-p fade" style="animation-delay:.34s" x="54" y="124" text-anchor="end">486 T1 ✓</text>
-          <text class="ax f-p fade" style="animation-delay:.42s" x="54" y="154" text-anchor="end">475 T2 ✓</text>
-          <text class="ax f-y fade" style="animation-delay:.5s"  x="54" y="194" text-anchor="end">463.51 close −6.91%</text>
-          <text class="ax f-p fade" style="animation-delay:.58s" x="54" y="229" text-anchor="end">457–461 / 455 T3 ✓ магніт</text>
-          <line class="candle-wick draw" pathLength="1" style="animation-delay:.35s" x1="150" y1="60" x2="150" y2="232"/>
-          <rect class="candle-body fill" x="120" y="80" width="60" height="110" rx="7" style="animation-delay:.7s"/>
-          <circle class="dot-y pop" style="animation-delay:2s" cx="150" cy="190" r="6"/>
-          <path class="legup draw" pathLength="1" style="animation-delay:2.2s;animation-duration:.6s" d="M150,190 L180,160 L205,133"/>
-          <circle class="dot-k" cx="205" cy="133" r="4.5" style="opacity:.7"/>
-          <text class="anno f-y fade" style="animation-delay:1.5s" x="334" y="194" font-weight="700">$463.51 close −6.91% · магніт</text>
-          <text class="anno f-k fade" style="animation-delay:2.35s" x="214" y="129">AH → $481.97 (+3.98%)</text>
-        </svg>
-      </div>
       <div class="verdict rv">
-        <div class="vh">▽ Close $463.51 (−6.91%) — усі 3 цілі взято, магніт $455–461</div>
-        <p>Шорт долетів на магніт: <strong>−6.91% до $463.51</strong> — close прямо на конфлюенції <span class="k">T3 $455 / $457–461</span> (денна нижня BB $457 + weekly mid-BB $461), чисто крізь <span class="p">T1 $486 і T2 $475</span>. <strong>Усі три цілі плану взято</strong>, ≈ +10% для шорта від входу $513. Потім різкий <span class="k">AH-відскок +3.98% до $481.97</span>, назад у зону $486–513. Weekly ще великий аптренд (далеко над weekly 50-EMA $339): $455–461 був ціллю, не зламом — <span class="p">фіксуй у магніт, не тисни лоу</span>. Відскок — рефлекс (30-хв Stoch 88, RSI ~58, MACD −5.34) → re-short у $486–513. Reclaim $513→$525→$535 re-негує.</p>
-      </div>
-    </section>
-
-    <!-- 3 · RELATIVE STRENGTH -->
-    <section class="slide" data-label="WDC vs SMH">
-      <div class="eyebrow y rv">RELATIVE STRENGTH</div>
-      <h1 class="rv">Held longest —<br><span class="hl">delivered the full fade.</span></h1>
-      <p class="sub rv">WDC тримався найдовше — найздоровіше ім'я, що впало найменше, поки група обвалювалась. І коли зламалось, віддало <strong>усю ціль одним махом</strong>: −6.91% до $463.51, чисто крізь T1 $486 та T2 $475, close на магніті T3 $455 / $457–461. <span class="p">Усі три цілі взято</span> (≈ +10% від $513). Потім різкий AH-відскок +3.98% до $481.97 — це все ще пулбек у weekly-аптренді (над weekly 50-EMA $339): фіксуй у магніт, re-short на відскоку в $486–513, не гонитва лоу.</p>
-      <div class="indi rv">
-        <div class="indi-top"><span class="t">Тримався найдовше · віддав усю ціль</span><span class="v">−6.91% · $463.51 · T1/T2/T3 ✓ · AH +3.98%</span></div>
-        <p>Найздоровіший — тому й ламався останнім, зате різко. <span class="p">Усі 3 цілі взято</span>: крізь $486 і $475, close на магніті $455 / $457–461 (нижня BB $457 / weekly mid-BB $461). AH-відскок до $481.97 — рефлекс (30-хв Stoch 88, RSI ~58, MACD −5.34) → re-short у <strong>$486–513</strong>. Reclaim $513→$525→$535 re-негує.</p>
-      </div>
-      <div class="chart rv">
-        <svg viewBox="0 0 470 300" role="img" aria-label="WDC held longest then delivered the full fade to the magnet before an after-hours bounce">
-          <line class="dash s-w fade" style="animation-delay:.1s" x1="70" y1="105" x2="400" y2="105"/>
-          <text class="cap f-w fade" style="animation-delay:.15s" x="70" y="95">$455–461 · магніт (усі цілі взято)</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.4s;animation-duration:1s;opacity:.55" d="M80,120 L200,135 L320,152 L390,152"/>
-          <circle class="dot-k pop" style="animation-delay:1.5s" cx="390" cy="152" r="6"/>
-          <text class="cap f-m fade" style="animation-delay:1.6s" x="384" y="144" text-anchor="end">сектор слабкий</text>
-          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s;opacity:.85" d="M80,130 L200,150 L290,200 L340,220"/>
-          <path class="legup draw" pathLength="1" style="animation-delay:1.6s;animation-duration:.6s" d="M340,220 L365,205 L390,193"/>
-          <circle class="dot-y pop" style="animation-delay:2.2s" cx="390" cy="193" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.3s" x="384" y="188" text-anchor="end">WDC · крізь усі цілі → AH-відскок</text>
-          <text class="cap f-m fade" style="animation-delay:2.5s" x="235" y="286" text-anchor="middle">тримався найдовше — потім віддав усю ціль на магніт</text>
-        </svg>
+        <div class="vh">▽ Магніт був ціллю, не зламом — відскок = рефлекс</div>
+        <p>Магніт $455–461 був <strong>ціллю, не зламом</strong> — тут фіксують, а не тиснуть лоу. AH-відскок — чистий рефлекс перепроданості: 30-хв Stoch стрибнув до 88, RSI ~58 від лоу, MACD −5.34 — покупця в цьому ще нема. Тож наступний трейд — re-short на відскоку, не гонитва вниз; підтвердження проти шорту — тільки reclaim $513.</p>
       </div>
     </section>
 
@@ -127,18 +73,15 @@
         <div class="rung now"><span class="px">$463.51</span><span class="lbl">ТУТ · close −6.91% · на магніті</span></div>
         <div class="rung sup"><span class="px">$455–461</span><span class="lbl">🎯 T3 магніт ✓ взято · нижня BB $457 / weekly mid-BB $461</span></div>
       </div>
-      <p class="note rv">Вівторок <strong>−6.91% до $463.51</strong> — WDC долетів на магніт $455–461: <span class="p">усі три цілі плану взято</span> (T1 $486 / T2 $475 / T3 $455), ≈ +10% для шорта від входу $513. Потім різкий <strong>AH-відскок +3.98% до $481.97</strong> назад у зону re-short $486–513.</p>
-      <p class="note rv"><span class="y">Відскок — рефлекс:</span> 30-хв Stoch стрибнув до 88, RSI ~58 від лоу, MACD −5.34 — тому re-short у <strong>$486–513</strong>, не гонитва лоу. Weekly ще великий аптренд (далеко над weekly 50-EMA $339): $455–461 був ціллю, не зламом. Reclaim <strong>$513→$525→$535</strong> re-негує.</p>
+      <p class="note rv">Рішення: re-short на відскоку в <span class="k">$486–513</span>, не гонитва лоу; reclaim <span class="k">$513→$525→$535</span> re-негує шорт.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="WDC · ПЛАН">
       <div class="eyebrow rv">PLAN · ALL TARGETS BANKED · RE-SHORT THE $486–513 BOUNCE</div>
       <h1 class="rv">Targets banked — <span class="hl">re-short the bounce $486–513</span></h1>
-      <p class="sub rv">Вівторок (close $463.51, −6.91%): WDC долетів на магніт $455–461 — <strong>усі три цілі плану взято</strong> (T1 $486 / T2 $475 / T3 $455), ≈ +10% для шорта від входу $513. Потім різкий AH-відскок +3.98% до $481.97.</p>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні (close $463.51, −6.91%):</strong> усі 3 цілі взято на магніті $455–461 (≈ +10% від $513) — <strong>фіксуй прибуток у магніт, не тисни лоу</strong>. AH-відскок +3.98% до $481.97 → re-short у зону <strong>$486–513</strong> (рефлекс: 30-хв Stoch 88, RSI ~58, MACD −5.34). Reclaim $513→$525→$535 re-негує.</p>
-      <p class="note rv">Найздоровіший — тому й ламався останнім, зате віддав усю ціль одразу. Weekly ще великий аптренд (далеко над weekly 50-EMA $339): $455–461 був ціллю, не структурним зламом — повага до сили тренду, фіксуй по цілях. Re-short на AH-відскоку в $486–513, не гонитва в перепроданість.</p>
-      <p class="tg rv">Щоденні розбори — у телеграмі:<br><a href="https://t.me/market_predictions">t.me/market_predictions</a></p>
+      <p class="note k rv">🎯 <strong>Тригер:</strong> <strong>фіксуй прибуток у магніт, не тисни лоу</strong>. Re-short на відскоку в зону <strong>$486–513</strong>; reclaim $513→$525→$535 re-негує.</p>
+      <p class="note rv"><strong>Контекст:</strong> найздоровіший — тому й ламався останнім, зате віддав усю ціль одразу. Weekly ще великий аптренд (далеко над weekly 50-EMA $339): повага до сили тренду — фіксуй по цілях, не жени в перепроданість.</p>
     </section>
 
   </div>
