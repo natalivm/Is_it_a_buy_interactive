@@ -67,6 +67,12 @@ function hydrateLevelCharts() {
   });
 }
 
+/* Telegram sign-off appended to the last slide of every deck (opt out with
+   cfg.tg = false, or keep a hand-written .tg in the deck to skip injection). */
+const TG_HTML =
+  '<p class="tg rv">Щоденні розбори — у телеграмі:<br>' +
+  '<a href="https://t.me/market_predictions">t.me/market_predictions</a></p>';
+
 /* Footer nav markup shared by every deck (label/counter filled by createStory). */
 const NAV_HTML =
   '<div class="nav">' +
@@ -100,12 +106,20 @@ function createStory(cfg) {
   const deckEl = cfg.deck ? $(cfg.deck) : stage;
   if (!deckEl) return { show() {}, next() {}, prev() {} };
 
-  // Build the shared footer nav unless the deck ships its own.
+  // Build the shared chrome unless the deck ships its own: brand watermark,
+  // footer nav, and the telegram sign-off on the last slide.
+  if (stage && !stage.querySelector('.story-brand')) {
+    stage.insertAdjacentHTML('afterbegin',
+      '<div class="story-brand" aria-hidden="true">Is it a BUY?</div>');
+  }
   if (stage && !stage.querySelector('.nav')) {
     stage.insertAdjacentHTML('beforeend', NAV_HTML);
   }
 
   const slides = Array.from(deckEl.querySelectorAll(cfg.slideSel || '.slide'));
+  if (cfg.tg !== false && slides.length && !deckEl.querySelector('.tg')) {
+    slides[slides.length - 1].insertAdjacentHTML('beforeend', TG_HTML);
+  }
   const total = slides.length;
   let idx = 0;
 

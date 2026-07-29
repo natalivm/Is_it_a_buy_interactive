@@ -21,15 +21,24 @@ interactive tap-through "story" that explains the trade thesis for that stock.
 Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 
 - **Shared CSS** lives in `stories/story.css` (foundation + the full hoisted
-  component system: eyebrow/h1/sub/indi/chart/candle/ladder/tpl/verdict/note/
-  nav…). A deck's inline `<style>` holds ONLY its `:root` palette (incl.
-  `--sub`, the body-text tint) plus genuinely unique overrides (e.g. the green
-  up-riser on long decks, `.rung.key` on AAOI). Never re-add shared rules to a
-  deck's inline style.
-- **Footer nav is auto-built** by `engine.js`; decks end with just
+  component system: eyebrow/h1/sub/indi/chart/candle/legup/legdn/ladder/tpl/
+  verdict/note/nav…). Fonts and `--ink` have shared `:root` defaults there, and
+  the verdict box has colour variants (`verdict` = pink default, `verdict p` /
+  `verdict y` / `verdict k`). A deck's inline `<style>` holds ONLY its `:root`
+  colour palette (incl. `--sub`, the body-text tint) plus genuinely unique
+  overrides (e.g. `.wt` weight strip on DRAM, `.rung.key` on AAOI). Never
+  re-add shared rules to a deck's inline style.
+- **Shared chrome is auto-built** by `engine.js`: the "Is it a BUY?" brand
+  watermark, the footer nav, and the telegram sign-off on the last slide are
+  all injected — decks contain none of that markup and end with just
   `<script src="engine.js"></script><script>createStory();</script>`
   (`createStory()`'s defaults match every deck — pass a cfg object only where
-  a deck genuinely diverges).
+  a deck genuinely diverges; `tg: false` suppresses the telegram block).
+- **Navigation**: tap left/right zones, swipe, arrow keys, and mouse wheel all
+  advance slides; a swipe (any direction) on the LAST slide closes the deck —
+  the engine posts `{type:'ib-close'}` to the parent gallery. A slide with the
+  `data-noclick` attribute (used on the text-only daily-candle slide) disables
+  the tap zones while active so its text can be selected without navigating.
 - **Level charts are data-driven**: horizontal price levels are declared as
   `<svg data-lv='[["k",70,"$402","стоп · MA-стек",.05], …]'>` with entries
   `[color k|p|y|w|m, y, axisLabel, caption|null, delay?]`, hydrated by

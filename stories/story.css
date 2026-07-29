@@ -4,6 +4,15 @@
    palette (--page-bg, --purple, --pink, --yellow, fonts) and hero components.
    ══════════════════════════════════════════════════════════════════════════ */
 
+/* Shared palette defaults — a deck's own :root (loaded after this file) can
+   override any of these; in practice every deck uses the same fonts and ink. */
+:root {
+  --display: 'Oswald', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --ink: #FFFFFF;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; }
 body {
@@ -199,6 +208,7 @@ h1 .p, h1 .k, h1 .y {
   .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
   .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
   .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
+  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
   .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
   .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
@@ -232,8 +242,13 @@ h1 .p, h1 .k, h1 .y {
 
   .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 40%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
   .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
+  .verdict.y{border-color:color-mix(in srgb,var(--yellow) 40%,var(--line));background:rgba(245,165,36,.07);}
   .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
   .verdict.p .vh{color:var(--purple);}
+  .verdict.y .vh{color:var(--yellow);}
+  /* .k is the explicit pink variant (same as the default) for decks whose default is overridden */
+  .verdict.k{border-color:color-mix(in srgb,var(--pink) 42%,var(--line));background:rgba(251,93,116,.07);}
+  .verdict.k .vh{color:var(--pink);}
   .verdict p{font-size:13px;line-height:1.55;color:var(--sub);}
   .verdict p strong{color:var(--ink);font-weight:700;}
   .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
