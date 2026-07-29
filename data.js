@@ -122,11 +122,11 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$86.30', change: 'close −5.86% $86.30 · AH $86.79 · BROKE the $89 gate · air pocket to the 200-EMA ≈ $75 / $66 gap',
-    signal: 'Worst OBV in the group — the $89 gate broke on the close. INTC closed $86.30 (−5.86%), a decisive break UNDER the $89 gate (weekly 21-MA) the card flagged — the break that opens the air pocket. AH $86.79 (+0.57%). Structure is broken: price under the whole daily MA stack, worst OBV on the board. The daily air pocket runs to the rising 200-EMA ≈ $75, then the unfilled $66 gap. Near-term deeply oversold (1H RSI 42.27, Stoch 26.93, MACD −1.94; daily Stoch 14.25), so a reflex bounce is due — a bounce back into $89–92 (the broken gate = new lid) is the cleaner short entry, not a chase of the low. Confirmation is now in: the daily close held under $89. Stance: gate broken, air pocket open toward the 200-EMA ≈ $75 / the $66 gap; a reclaim back over $92 stalls it, and $98–102 negates.',
-    edge: 'Worst OBV in the group — the $89 gate broke on the close: INTC closed $86.30 (−5.86%), a decisive break under the $89 gate (weekly 21-MA) that opens the air pocket toward the daily 200-EMA ≈ $75 / the $66 gap; under the whole daily stack, deeply oversold (1H RSI 42.27, Stoch 26.93; daily Stoch 14.25) so a bounce into $89–92 (broken gate = new lid) is the cleaner short, the daily close held under $89 — a reclaim over $92 stalls it, $98–102 negates',
+    price: '$81.88', change: 'close −5.12% $81.88 · AH $79.79 (−2.55%) · air pocket PAYING · ≈$5 to the 200-EMA T1 ≈ $75 · $66 gap below',
+    signal: 'The air pocket is paying — second close under the broken $89 gate and no bounce ever came. INTC closed $81.88 (−5.12%) and kept sliding after hours to $79.79 (−2.55%): the $89–92 re-short bounce the card waited for never showed (1H VWAP $89.91 sits right in that lid) — price just fell straight through the pocket. Structure unchanged and broken: under the whole daily MA stack, still the worst OBV in the group (−587m), momentum bleeding without divergence (1H RSI 32.22, Stoch 19.09, MACD −1.53). AH $79.79 leaves ≈$5 of air to the rising daily 200-EMA ≈ $75 (T1), then the unfilled $66 gap. Oversold but trending — cover/take profit into $75 rather than chase the low; a bounce back into $86–89 (the break zone + prior close) is the re-short now. A reclaim over $92 stalls it, $98–102 negates.',
+    edge: 'Air pocket paying — the $89–92 bounce never came: close $81.88 (−5.12%), AH $79.79, ≈$5 above T1 = the rising daily 200-EMA ≈ $75, the $66 gap below; still the worst OBV on the board (−587m), 1H RSI 32.22 / Stoch 19.09 bleeding without divergence — take profit into $75, re-short a bounce into $86–89; a reclaim over $92 stalls it, $98–102 negates',
     side: 'short', accent: 'blue',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/intc.html',
   },
   {
