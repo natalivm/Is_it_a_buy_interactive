@@ -44,11 +44,11 @@ const STOCKS = [
   },
   {
     symbol: 'NVDA', exchange: 'NASDAQ',
-    price: '$197.01', change: 'close +0.25% $197.01 · AH $197.22 · tightening in $194–199 · fade $199–202 / break <$194',
-    signal: 'The leader flipped short — still tightening above the $194 trigger. After the −4.99% sell-off, NVDA closed $197.01 (+0.25%), a small green day still basing in the $194–199 range — holding above the $194 break-trigger and below the $199–202 EMA-cluster fade zone. AH flat $197.22. The dip-buy is done — it rejected the $202–206 cluster and closed below the whole MA stack; the relative-strength tell that justified the long has failed. Near-term Stoch has lifted to ~78 (1H RSI 44.56) — near the top of the range, so a push into $199–202 is the cleaner short entry, stop above $206 — or short the decisive break under $194. Either way the target is the 200-day $189 → $182 → $174. Stance: short-biased under $206, tightening in $194–199 — fade the bounce into $199–202 or short the break of $194; only a reclaim back over $206 / the EMA cluster repairs the long.',
-    lead: { rank: 10, status: 'wait', entry: 'fade $199–202 / break <$194', stop: '$206', targets: '$189 → $182 → $174', downside: '−6%', tail: '−13%', rr: '~3:1', edge: 'The leader flipped short, still tightening above $194 — after the −4.99% sell-off NVDA closed $197.01 (+0.25%), a small green day basing in the $194–199 range, holding above the $194 trigger and below the $199–202 EMA-cluster fade zone; the dip-buy failed (rejected $202–206, closed below the MA stack), Stoch lifted to ~78 near the top of the range so a push into $199–202 is the cleaner fade (stop $206) or short the break under $194, targeting the 200-day $189 → $182 → $174 — a reclaim of $206 repairs the long' },
+    price: '$190.01', change: 'close −3.55% $190.01 · ✅ broke $194 — trigger FILLED · flushed $183.66 through T1 $189, bought back · AH flat',
+    signal: 'The leader flipped short — the trigger fired, and T1 got tagged the same day. NVDA broke $194 and closed $190.01 (−3.55%) after an intraday flush to $183.66 — straight through T1, the 200-day $189 — that was bought right back into the close (AH flat). The break entry is filled (≈ +2% at the close) and the first target already banked on the flush. But the shape of the day is the same tell as the barometer’s: an undercut-and-reclaim of THE major level — NVDA’s 200-day and SMH’s 0.618 in the same afternoon. It cuts both ways: hold $189 and reclaim $194 tomorrow → the group’s reflex bounce is on (the fade zone above moves to $197–202: 1H 50-EMA $197.13 → the old cluster); fail $189 / $183.66 on a daily close → trail to T2 $182 → T3 $174. The 1H is oversold (RSI 33.73, Stoch 30.96) — don’t press the 200-day tag: bank/trail like the rest of the board. Only a reclaim of $206 returns the long.',
+    lead: { rank: 10, status: 'live', entry: 'break <$194 filled', stop: '$206', targets: '$189 → $182 → $174', downside: '−6%', tail: '−13%', rr: '~3:1', edge: 'The leader flipped short — the trigger fired and T1 got tagged the same day: NVDA broke $194, flushed to $183.66 straight through the 200-day $189 and was bought back to a $190.01 close (−3.55%, AH flat) — entry filled ≈ +2%, first target banked on the flush; the day is an undercut-and-reclaim of the 200-day, mirroring SMH’s 0.618 tag the same afternoon — hold $189 + reclaim $194 = the group’s bounce tell (fade zone moves to $197–202), a daily close under $189/$183.66 = trail to $182 → $174; don’t press the 200-day tag, only a reclaim of $206 returns the long' },
     side: 'short', accent: 'red',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/nvda.html',
   },
   {
@@ -146,6 +146,14 @@ const STOCKS = [
   // weekly lower band) with META's capex print TONIGHT as the binary —
   // status 'wait' (fade $65–74 / break <$59.6, only post-META). Booked
   // ranks shifted: GLW 13→14, BE 14→15. Ranked table now 1–13.
+  // ASTS (off-board) CONFIRMED: decisive close under $56 ($53.03, −6.22%,
+  // AH $52.05) — map $50 → $45 → 🕳️ $41, add zone $54–56.5.
+  // NVDA trigger FILLED: broke $194, flushed $183.66 through T1 $189
+  // (the 200-day) and was bought back to $190.01 — the leader's own
+  // undercut-and-reclaim, mirroring SMH's 0.618 tag; $189/$194 tomorrow
+  // is the group's bounce tell. DELL (off-board): the defended $368 low
+  // broke in AH ($364.00) after a $369.64 close through T1 $377 — chop
+  // resolved down, next 🕳️ $330 on a confirmed close under $368.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -239,11 +247,11 @@ const STOCKS = [
   },
   {
     symbol: 'ASTS', exchange: 'NASDAQ',
-    price: '$56.55', change: 'close −2.99% $56.55 · AH $56.85 · pressing the $56 line · short valid <$61, confirm <$56',
-    signal: 'Flipped short — sitting on the $56 line. ASTS closed $56.55 (−2.99%), right on the $56 must-hold-below line the card flagged, under the whole MA stack and below the daily 200-EMA (≈ $76). AH $56.85 (+0.53%) — a tiny bounce, no reclaim. The short is valid below $61 and CONFIRMS on a decisive close under $56 → then the lower band / the lows open. It has not broken yet (closed right at the line), and 1H momentum has popped (Stoch 64.35 off the low), so don’t chase — a failed bounce under $61, or the break of $56, is the trigger. The daily is oversold (RSI 37.44, Stoch 16.06), so the bigger move needs the $56 break. Per the plan the B. Riley Buy $85 / Midland catalyst is the up-side risk. Stance: short valid below $61, confirmed under $56; a push back over $61 stops it out and flips the read long toward the 200-EMA ≈ $76.',
-    edge: 'Flipped short, sitting on the $56 line — ASTS closed $56.55 (−2.99%), right on the $56 must-hold-below line, under the whole stack and the daily 200-EMA (≈$76); AH $56.85, 1H momentum popped (Stoch 64.35) so don’t chase — the short is valid below $61 and confirms on a decisive close under $56 (daily oversold, Stoch 16.06), a push over $61 stops it out and flips it long toward the 200-EMA ≈$76 (B. Riley Buy $85 the risk)',
+    price: '$53.03', change: 'close −6.22% $53.03 · AH $52.05 · ✅ decisive close UNDER $56 — short CONFIRMED · → T1 $50',
+    signal: 'Flipped short — the $56 line broke: confirmation is in. ASTS closed $53.03 (−6.22%), a decisive close UNDER the $56 must-hold line the card was waiting for — the short confirms — and slid to $52.05 after hours, already most of the way to T1 $50 (the daily lower band). The 1H is one-way again: RSI 27.99, Stoch 7.87, MACD −0.58, OBV rolling down to 116M — with the whole stack overhead (9-EMA $54.13 → 50-EMA $56.45 → 200-EMA $61.05, the stop itself). Don’t chase $52 into the T1 tag — the cleaner add is a bounce into $54–56.5 (1H 9→50-EMA over the broken $56 line, now the lid). Map: T1 $50 → T2 $45 → 🕳️ T3 $41 (the weekly support). Risks unchanged: the $1B convert (dilution) is the bear side, the B. Riley Buy $85 / Midland catalyst the squeeze side — smaller size. A reclaim of $61 stops-and-flips long toward the daily 200-EMA ≈ $76. Off the ranked board.',
+    edge: 'Flipped short — the $56 line broke, confirmation in: ASTS closed $53.03 (−6.22%), a decisive close under the $56 must-hold line, AH $52.05 already most of the way to T1 $50; 1H one-way (RSI 27.99, Stoch 7.87, OBV rolling) with the $54.13/$56.45/$61.05 stack overhead — don’t chase into the T1 tag, add a bounce into $54–56.5 (broken $56 = the lid), map $50 → $45 → 🕳️ $41; $1B convert the bear side, B. Riley $85 the squeeze risk (smaller size), a reclaim of $61 stops-and-flips long toward the 200-EMA ≈ $76',
     side: 'short', accent: 'violet',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/asts.html',
   },
   {
@@ -293,11 +301,11 @@ const STOCKS = [
   },
   {
     symbol: 'DELL', exchange: 'NYSE',
-    price: '$392.10', change: 'close −8.15% $392.10 · AH $393.44 · LOST $402 → short-revival · plunged to ≈$368, bounced',
-    signal: 'Bull-flag broke — the $402 line gave way. DELL closed $392.10 (−8.15%), a decisive loss of the $402 short-revival line the card flagged — it plunged intraday to ≈ $368 (into the $377 target zone) and bounced to close, AH $393.44. Per the plan, losing $402 flips the near-term read SHORT toward $377 → 🕳️ $330. But this is the first real break in a powerful uptrend (it ran $100 → $450+ and sits far above the daily 200-EMA ≈ $250), and the sharp bounce off $368 shows buyers still defending — so expect chop, not a clean one-way slide. Near-term the plunge already snapped back (1H RSI 40.39, Stoch 48.85 rebounding), so don’t chase the low; a failed retest of $402 is the cleaner short trigger. Stance: short-biased below $402 toward $377 → $330; a reclaim of $402 → $420 negates the short and restores the long (the uptrend is intact above $250). Off the ranked board (a fresh flip in chop).',
-    edge: 'Bull-flag broke — DELL closed $392.10 (−8.15%), a decisive loss of the $402 line, plunging to ≈$368 (into the $377 zone) then bouncing (AH $393.44); per the plan that flips the near-term read short toward $377 → 🕳️ $330, but it’s the first break in a strong uptrend (far above the 200-EMA ≈$250) and buyers defended $368, so expect chop — a failed retest of $402 is the cleaner trigger, a reclaim of $402 → $420 restores the long, off the ranked board',
+    price: '$369.64', change: 'close −5.73% $369.64 · AH $364.00 — the defended $368 low BROKE · ✓ T1 $377 done · next 🕳️ $330',
+    signal: 'Bull-flag break — the chop resolved down: the buyers’ defense gave way. The failed-retest of $402 never came — DELL just slid: closed $369.64 (−5.73%), through the $377 T1 (done), and after hours broke the ≈$368 low the buyers defended on the plunge day — $364.00. That resolves the "expect chop" read: the defense line is gone, and below it the map runs to 🕳️ T2 $330, the earnings-gap fill. The tape agrees — OBV collapsed to 22M, the 1H is one-way (RSI 32.69, Stoch 23.10, MACD −8.90) with the whole stack overhead (9-EMA $373 → 50-EMA $397 → 200-EMA $413). Don’t chase the AH break: the session has to confirm with a daily close under $368, and the cleaner entry is a bounce into $373–392 (1H 9-EMA / the broken structure). Still far above the daily 200-EMA ≈ $250 — a deep leg in a powerful uptrend, not a crash; a reclaim of $402 → $420 negates and restores the long. Off the ranked board.',
+    edge: 'Bull-flag break — the chop resolved down: no $402 retest ever came, DELL slid to a $369.64 close (−5.73%) through the $377 T1, and AH broke the defended ≈$368 plunge low ($364.00) — the buyers’ line is gone, map runs to 🕳️ T2 $330 (earnings-gap fill); OBV collapsed to 22M, 1H one-way with the $373/$397/$413 stack overhead — a daily close under $368 confirms, don’t chase the AH break, enter on a bounce into $373–392 (1H 9-EMA / broken structure); deep leg in an intact uptrend (200-EMA ≈$250 far below), a reclaim of $402 → $420 restores the long, off the ranked board',
     side: 'short', accent: 'amber',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/dell.html',
   },
   {
