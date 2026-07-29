@@ -133,13 +133,18 @@ function createStory(cfg) {
     segs = Array.from(progEl.children);
   }
 
-  // Tap zones
+  // Tap zones. A slide can opt out of tap-to-navigate with data-noclick
+  // (text-only pages the reader should be able to click without advancing);
+  // the zones are muted while such a slide is active — arrows/swipe/wheel/keys
+  // still move the deck.
+  const tapZones = [];
   if (cfg.tap !== false && stage) {
     ['left', 'right'].forEach(side => {
       const z = document.createElement('div');
       z.className = 'story-tap ' + side;
       z.addEventListener('click', () => (side === 'left' ? prev() : next()));
       stage.appendChild(z);
+      tapZones.push(z);
     });
   }
 
@@ -179,6 +184,8 @@ function createStory(cfg) {
     if (btnPrev) btnPrev.disabled = idx === 0;
     if (btnNext) btnNext.disabled = idx === total - 1;
     if (hintEl) hintEl.style.display = idx === 0 ? '' : 'none';
+    const noTap = slides[idx].hasAttribute('data-noclick');
+    tapZones.forEach(z => { z.style.pointerEvents = noTap ? 'none' : ''; });
     fit(slides[idx]);
     if (typeof cfg.onShow === 'function') cfg.onShow(idx, total, slides[idx]);
   }
@@ -191,7 +198,19 @@ function createStory(cfg) {
     else if (e.key === 'ArrowLeft') { prev(); }
   });
 
-  // Swipe
+  // Ask the host overlay to close the deck (used by the last-slide swipe). No-op
+  // when the deck is open standalone rather than inside the gallery's iframe.
+  function closeDeck() {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'ib-close' }, '*');
+      }
+    } catch (e) { /* cross-origin / standalone — nothing to close */ }
+  }
+
+  // Swipe — classic left/right navigation between slides. On the last slide any
+  // swipe past the threshold closes the deck (like swiping past the end of a
+  // story), since there is nothing further to advance to.
   const swipeEl = cfg.swipe ? $(cfg.swipe) : stage;
   if (swipeEl) {
     let sx = null, sy = null;
@@ -200,7 +219,11 @@ function createStory(cfg) {
       if (sx === null) return;
       const dx = e.changedTouches[0].clientX - sx;
       const dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) { dx < 0 ? next() : prev(); }
+      const adx = Math.abs(dx), ady = Math.abs(dy);
+      if (Math.max(adx, ady) > 50) {
+        if (idx === total - 1) closeDeck();
+        else if (adx > ady * 1.3) { dx < 0 ? next() : prev(); }
+      }
       sx = sy = null;
     }, { passive: true });
   }
