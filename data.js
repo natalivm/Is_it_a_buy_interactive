@@ -184,11 +184,11 @@ const STOCKS = [
   },
   {
     symbol: 'INTC', exchange: 'NASDAQ',
-    price: '$86.30', change: 'close −5.86% $86.30 · AH $86.79 · BROKE the $89 gate · air pocket to the 200-EMA ≈ $75 / $66 gap',
-    signal: 'Worst OBV in the group — the $89 gate broke on the close. INTC closed $86.30 (−5.86%), a decisive break UNDER the $89 gate (weekly 21-MA) the card flagged — the break that opens the air pocket. AH $86.79 (+0.57%). Structure is broken: price under the whole daily MA stack, worst OBV on the board. The daily air pocket runs to the rising 200-EMA ≈ $75, then the unfilled $66 gap. Near-term deeply oversold (1H RSI 42.27, Stoch 26.93, MACD −1.94; daily Stoch 14.25), so a reflex bounce is due — a bounce back into $89–92 (the broken gate = new lid) is the cleaner short entry, not a chase of the low. Confirmation is now in: the daily close held under $89. Stance: gate broken, air pocket open toward the 200-EMA ≈ $75 / the $66 gap; a reclaim back over $92 stalls it, and $98–102 negates.',
-    edge: 'Worst OBV in the group — the $89 gate broke on the close: INTC closed $86.30 (−5.86%), a decisive break under the $89 gate (weekly 21-MA) that opens the air pocket toward the daily 200-EMA ≈ $75 / the $66 gap; under the whole daily stack, deeply oversold (1H RSI 42.27, Stoch 26.93; daily Stoch 14.25) so a bounce into $89–92 (broken gate = new lid) is the cleaner short, the daily close held under $89 — a reclaim over $92 stalls it, $98–102 negates',
+    price: '$81.88', change: 'close −5.12% $81.88 · AH $79.79 (−2.55%) · air pocket PAYING · ≈$5 to the 200-EMA T1 ≈ $75 · $66 gap below',
+    signal: 'The air pocket is paying — second close under the broken $89 gate and no bounce ever came. INTC closed $81.88 (−5.12%) and kept sliding after hours to $79.79 (−2.55%): the $89–92 re-short bounce the card waited for never showed (1H VWAP $89.91 sits right in that lid) — price just fell straight through the pocket. Structure unchanged and broken: under the whole daily MA stack, still the worst OBV in the group (−587m), momentum bleeding without divergence (1H RSI 32.22, Stoch 19.09, MACD −1.53). AH $79.79 leaves ≈$5 of air to the rising daily 200-EMA ≈ $75 (T1), then the unfilled $66 gap. Oversold but trending — cover/take profit into $75 rather than chase the low; a bounce back into $86–89 (the break zone + prior close) is the re-short now. A reclaim over $92 stalls it, $98–102 negates.',
+    edge: 'Air pocket paying — the $89–92 bounce never came: close $81.88 (−5.12%), AH $79.79, ≈$5 above T1 = the rising daily 200-EMA ≈ $75, the $66 gap below; still the worst OBV on the board (−587m), 1H RSI 32.22 / Stoch 19.09 bleeding without divergence — take profit into $75, re-short a bounce into $86–89; a reclaim over $92 stalls it, $98–102 negates',
     side: 'short', accent: 'blue',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/intc.html',
   },
   {
@@ -292,11 +292,11 @@ const STOCKS = [
   },
   {
     symbol: 'CRDO', exchange: 'NASDAQ',
-    price: '$192.28', change: 'close −7.62% $192.28 · AH $195.62 · ✓ T1 $200 banked · pressing T2 $190 · ≈ +14% short',
-    signal: 'Dip-buy dead — the fade closed through T1, pressing T2. CRDO closed $192.28 (−7.62%), clean through T1 $200 (banked) and pressing toward T2 $190. That is ≈ +14% for the short from the $219–230 entry. AH $195.62 (+1.74%) — a reflex bounce. Price is under the whole MA stack, though still above the rising daily 200-EMA (≈ $172), which lines up with the 🕳️ $175 breakout-shelf target below T2. Near-term oversold and bouncing (1H RSI 42.70, Stoch 41.19; daily Stoch 23.63), so a push back into the broken $203–210 zone is the cleaner add, not a chase of the low. The weekly is still an uptrend (a pullback in the leader with room). Confirmation is now in: the daily close held under $200. Stance: short live toward T2 $190 → 🕳️ $175 / the 200-EMA $172; add on a bounce, stop $242 untouched — a reclaim of $242 repairs the long case.',
-    lead: { rank: 8, status: 'live', entry: '$219–230 filled', stop: '$242', targets: '$200 → $190 → $175', downside: '−11%', tail: '−22%', rr: '~2.5:1', edge: 'Dip-buy dead, closed through T1 — CRDO closed $192.28 (−7.62%), clean through T1 $200 (banked) pressing T2 $190 (≈ +14% for the short from $219–230); under the whole MA stack, the rising daily 200-EMA ≈ $172 lining up with the 🕳️ $175 target, oversold and bouncing (1H RSI 42.70, Stoch 41.19; daily Stoch 23.63; AH $195.62) so a push into $203–210 is the cleaner add — short live toward $190 → $175, stop $242, a reclaim of $242 repairs the long' },
+    price: '$177.45', change: 'close −7.71% $177.45 · AH $171.58 · ✓ T1 $200 + T2 $190 banked · AH tags T3 $175 / the 200-EMA · ≈ +21% short',
+    signal: 'The fade delivered the whole ladder — T2 banked, and the AH print tags T3. CRDO closed $177.45 (−7.71%), clean through T2 $190 (banked, after T1 $200) — ≈ +21% for the short from the $219–230 entry — and after hours it kept sliding to $171.58 (−3.31%), tagging the 🕳️ $175 breakout shelf and the rising daily 200-EMA ≈ $172 it lines up with. That is the plan’s last support: bank into $175/$172, don’t press the low into a rising 200-EMA with the daily this oversold (RSI 34.17, Stoch 11.34, MACD −7.27). The weekly uptrend is intact — this is still a leader’s correction arriving at the level where dip-buyers defend. A bounce back into the broken $203–210 zone is the re-short; a daily CLOSE under $172 would open a fresh leg down (a new setup, not this plan); a reclaim of $242 repairs the long case.',
+    lead: { rank: 8, status: 'live', entry: '$219–230 filled', stop: '$242', targets: '$200 → $190 → $175', downside: '−1%', tail: '−15%', rr: '~2.5:1', edge: 'Ladder delivered — CRDO closed $177.45 (−7.71%) through T2 $190 (banked, after T1 $200), ≈ +21% for the short from $219–230, and AH $171.58 tags T3: the 🕳️ $175 shelf + the rising daily 200-EMA ≈ $172, the plan’s last support — bank into $175/$172, don’t press a rising 200-EMA with the daily deeply oversold (RSI 34.17, Stoch 11.34); re-short a bounce into $203–210, a daily close under $172 is a new leg, reclaim $242 repairs the long' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/crdo.html',
   },
   {
