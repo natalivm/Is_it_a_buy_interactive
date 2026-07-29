@@ -38,13 +38,11 @@
       <h1 class="rv">short back in <span class="hl">control</span></h1>
       <p class="sub rv">Фліп-шорт знову веде. ASTS закрив <strong>−2.99% до $56.55</strong> (AH $56.85, +0.53%) — сидить рівно на лінії <strong>$56</strong>, must-hold-below, але ще не зламав її рішуче. Під усім <span class="k">MA-стеком</span> і нижче daily 200-EMA ≈ <strong>$76</strong>.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",40,"$76","200-EMA · ціль ЯКЩО фліп лонг",0.05],["k",88,"$61","стоп · reclaim = лонг назад",0.12],["y",170,"$56.55","ТУТ · −2.99% · на лінії",0.18],["p",188,"$56","рішучий злам = шорт підтверджено",0.24],["p",238,"$50","T1 · нижня смуга (BB)",0.3],["p",280,"$41","🕳️ тижнева опора",0.36]]' viewBox="0 0 470 300" role="img" aria-label="ASTS closed down 2.99 percent at 56.55, sitting on the 56 line, short back in control below 61">
+        <svg data-lv='[["k",40,"$76","ціль фліп-лонга",0.05],["k",88,"$61","стоп",0.12],["y",170,"$56.55","ТУТ · на лінії",0.18],["p",188,"$56","злам = шорт ✓",0.24],["p",238,"$50","T1 · нижня BB",0.3],["p",280,"$41","🕳️ тижнева опора",0.36]]' viewBox="0 0 470 300" role="img" aria-label="ASTS closed down 2.99 percent at 56.55, sitting on the 56 line, short back in control below 61">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M80,95 L160,130 L240,166 L310,182"/>
           <circle class="dot-k" cx="310" cy="182" r="4.5" style="opacity:.6"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.9s;opacity:.6" d="M310,182 L360,174 L400,170"/>
-          <circle class="dot-y pop" style="animation-delay:2.35s" cx="400" cy="170" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.6s" x="250" y="284" text-anchor="middle">−2.99% до $56.55 сидить на лінії $56 → 1H Stoch смикнув (64), не переслідуй</text>
-        </svg>
+          <circle class="dot-y pop" style="animation-delay:2.35s" cx="400" cy="170" r="6"/>        </svg>
       </div>
     </section>
 
@@ -54,7 +52,7 @@
       <h1 class="rv">Red −2.99%.<br><span class="hl">Sitting on the $56 line.</span></h1>
       <div class="verdict y rv">
         <div class="vh">⚠ Лінія $56 ще не зламана рішуче — вердикт дасть каса</div>
-        <p>Daily перепроданий (RSI 37.44, Stoch 16.06, <strong>MACD −6.70</strong>), проте 1H Stoch смикнув (64.35) — тому <span class="k">не переслідуй</span>. Підтвердження шорта — <strong>рішуче закриття під $56</strong>; reclaim $61 негує і фліпає назад у лонг.</p>
+        <p>Денний графік уже перепроданий — RSI 37.44, Stoch 16.06, <strong>MACD −6.70</strong> — але 1H Stoch встиг смикнутися вгору до 64.35, тож <span class="k">переслідувати рух униз зараз не варто</span>. Справжнє підтвердження шорта дасть лише <strong>рішуче закриття під $56</strong> — доти це нічия на лінії. А reclaim $61 повністю негує сетап і фліпає позицію назад у лонг.</p>
       </div>
     </section>
 
@@ -62,15 +60,14 @@
     <section class="slide" data-label="ASTS · РІВНІ">
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
-      <div class="ladder rv">
-        <div class="rung res"><span class="px">$76</span><span class="lbl">Daily 200-EMA · ціль лонга ЯКЩО reclaim $61</span></div>
-        <div class="rung res"><span class="px">$61</span><span class="lbl">Стоп шорту · reclaim = стоп-і-фліп лонг</span></div>
-        <div class="rung now"><span class="px">$56.55</span><span class="lbl">ТУТ · close −2.99% · AH $56.85 · на лінії $56</span></div>
-        <div class="rung sup"><span class="px">$56</span><span class="lbl">⛓️ Must-hold-below · рішучий злам = шорт підтверджено</span></div>
-        <div class="rung sup"><span class="px">$50</span><span class="lbl">T1 · daily нижня смуга (BB)</span></div>
-        <div class="rung sup"><span class="px">$45</span><span class="lbl">Проміжна опора · T2</span></div>
-        <div class="rung sup"><span class="px">$41</span><span class="lbl">🕳️ Тижнева опора · T3</span></div>
-      </div>
+      <div class="ladder rv" data-rungs='[
+        ["res", "$76", "Daily 200-EMA · ціль лонга ЯКЩО reclaim $61"],
+        ["res", "$61", "Стоп шорту · reclaim = стоп-і-фліп лонг"],
+        ["now", "$56.55", "ТУТ · close −2.99% · AH $56.85 · на лінії $56"],
+        ["sup", "$56", "⛓️ Must-hold-below · рішучий злам = шорт підтверджено"],
+        ["sup", "$50", "T1 · daily нижня смуга (BB)"],
+        ["sup", "$45", "Проміжна опора · T2"],
+        ["sup", "$41", "🕳️ Тижнева опора · T3"]]'></div>
       <p class="note rv">Дві лінії вирішують: <span class="p">$56</span> (рішучий злам = шорт підтверджено) і <span class="p">$61</span> (reclaim = стоп-і-фліп лонг до 200-EMA ≈ $76). Між ними — нічия.</p>
     </section>
 

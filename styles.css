@@ -590,3 +590,6 @@ body.story-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
     .tile, .tile::before, .tile-cta span, .install-btn, .story-close, .story-link, .story-overlay, .toast { transition: none; animation: none; }
 }
+
+/* Site-wide disclaimer under the gallery */
+.site-disclaim { max-width: 1200px; margin: 28px auto 20px; padding: 0 24px; font-size: 12px; color: var(--muted, #8a86a8); opacity: .75; text-align: center; }

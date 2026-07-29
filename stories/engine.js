@@ -65,13 +65,60 @@ function hydrateLevelCharts() {
     });
     svg.insertBefore(frag, svg.firstChild);
   });
+  clampChartText();
+  // Font metrics change once the webfonts land — measure again.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(clampChartText);
+}
+
+/* Fit-guard: squeeze any chart text that would run past the viewBox edge
+   (right-side captions get ~98 units, left axis labels ~76; keep decks'
+   text short — this only rescues modest overflows). */
+function clampChartText() {
+  document.querySelectorAll('svg[data-lv]').forEach(svg => {
+    const vbw = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width) || 470;
+    svg.querySelectorAll('text.cap, text.ax').forEach(t => {
+      const x = +t.getAttribute('x') || 0;
+      const anchor = t.getAttribute('text-anchor');
+      const room = anchor === 'middle' ? Math.min(x, vbw - x) * 2 - 8
+                 : anchor === 'end' ? x - 8 : vbw - x - 8;
+      let len;
+      try { len = t.getComputedTextLength(); } catch (e) { return; }
+      if (t.hasAttribute('textLength')) return;   // already clamped
+      if (len > room && room > 0) {
+        t.setAttribute('textLength', room);
+        t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+      }
+    });
+  });
+}
+
+/* ── Ladder hydrator ─────────────────────────────────────────────────────────
+   Levels ladders are declared as compact JSON instead of hand-written rows:
+
+     <div class="ladder rv" data-rungs='[
+       ["res","$390","4h 200-EMA · reclaim = repair"],
+       ["now","$320.65","ТУТ · close −4.22%"],
+       ["sup","$308","T1"]]'></div>
+
+   Each entry is [kind, price, label] where kind is the rung's class suffix:
+   res (resistance, red) · sup (support, green) · now (current, amber) ·
+   key (or any deck-specific variant). To change a level, edit the JSON. */
+function hydrateLadders() {
+  document.querySelectorAll('.ladder[data-rungs]').forEach(el => {
+    let spec;
+    try { spec = JSON.parse(el.getAttribute('data-rungs')); } catch (e) { return; }
+    el.innerHTML = spec.map(r =>
+      '<div class="rung ' + r[0] + '"><span class="px">' + r[1] +
+      '</span><span class="lbl">' + r[2] + '</span></div>').join('');
+  });
 }
 
 /* Telegram sign-off appended to the last slide of every deck (opt out with
    cfg.tg = false, or keep a hand-written .tg in the deck to skip injection). */
 const TG_HTML =
   '<p class="tg rv">Щоденні розбори — у телеграмі:<br>' +
-  '<a href="https://t.me/market_predictions">t.me/market_predictions</a></p>';
+  '<a href="https://t.me/market_predictions" target="_blank" rel="noopener">t.me/market_predictions</a></p>' +
+  '<p class="disclaim rv">Не є інвестиційною рекомендацією. Освітній контент — рішення та ризики ваші.</p>';
 
 /* Footer nav markup shared by every deck (label/counter filled by createStory). */
 const NAV_HTML =
@@ -97,6 +144,7 @@ function createStory(cfg) {
     label: '#foot-tag',
   }, cfg || {});
   hydrateLevelCharts();
+  hydrateLadders();
   // Tile thumbnails load the story with ?preview — freeze on the cover.
   const isPreview = /[?&]preview\b/.test(location.search);
   if (isPreview && document.body) document.body.classList.add('preview');
@@ -178,10 +226,32 @@ function createStory(cfg) {
     const inner = slide.querySelector('.slide-inner');
     if (!inner) return;
     inner.style.transform = 'none';
+    inner.style.width = '';
+    inner.style.marginLeft = '';
     const avail = slide.clientHeight;
-    const need = inner.offsetHeight;
+    let need = inner.offsetHeight;
     if (need > avail && need > 0) {
-      inner.style.transform = 'scale(' + (avail / need).toFixed(4) + ')';
+      // Scale down to fit the height — but widen the box by the inverse
+      // factor so the scaled slide still fills the stage's full width
+      // instead of shrinking into a centered column. Rendered width is
+      // width% × scale, so scale must equal 100/width; a slide fits when
+      // need(width) ≤ avail × width/100.
+      const setW = w => {
+        inner.style.width = w + '%';
+        inner.style.marginLeft = ((100 - w) / 2) + '%';
+        return inner.offsetHeight;
+      };
+      let w = 100 * need / avail;        // fits by construction: text only
+      let h = setW(w);                   // gets shorter as the box widens
+      // One refinement pass: reclaim the slack that the wider wrap opened
+      // up (verify, since narrowing re-lengthens the text; keep w if not).
+      const w2 = Math.max(100, 100 * h / avail);
+      if (w2 < w - 0.5) {
+        const h2 = setW(w2);
+        if (h2 <= avail * w2 / 100 + 1) { w = w2; h = h2; }
+        else h = setW(w);
+      }
+      inner.style.transform = 'scale(' + (100 / w).toFixed(4) + ')';
     }
   }
   function fitAll() { slides.forEach(fit); }
@@ -217,6 +287,9 @@ function createStory(cfg) {
   function closeDeck() {
     try {
       if (window.parent && window.parent !== window) {
+        // '*' is deliberate: the payload is a harmless close signal, the
+        // gallery validates e.source, and origin-matching breaks under
+        // file:// (opaque origins) where local preview must still work.
         window.parent.postMessage({ type: 'ib-close' }, '*');
       }
     } catch (e) { /* cross-origin / standalone — nothing to close */ }

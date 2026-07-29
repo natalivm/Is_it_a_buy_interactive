@@ -38,12 +38,10 @@
       <h1 class="rv">pressing T2 <span class="hl">$190</span></h1>
       <p class="sub rv">Фейд доставив: cash <strong>закрився −7.62% на $192.28</strong> — чисто <span class="k">крізь T1 $200</span> (забрано) і тисне до <strong>T2 $190</strong>, уже <strong>≈ +14%</strong> для шорту від входу $219–230. AH $195.62 (+1.74%). Під усім MA-стеком, але <strong>ще над daily 200-EMA ≈$172</strong>, що збігається з 🕳️ полицею пробою $175.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",40,"$242","стоп · reclaim = repair",0.05],["k",76,"$203–210","зона ре-шорту · add на відскоку",0.11],["p",116,"$200","✓ T1 забрано (banked)",0.17],["w",148,"$195.62","AH відскок +1.74%",0.23],["y",176,"$192.28","now · close −7.62%",0.29],["p",204,"$190","T2 · тисне сюди",0.35],["p",240,"$175","🕳️ полиця пробою · T3",0.41],["p",264,"$172","daily 200-EMA (росте)",0.47]]' viewBox="0 0 470 300" role="img" aria-label="CRDO closed through T1 200 down 7.62 percent at 192.28 pressing T2 190">
+        <svg data-lv='[["k",40,"$242","стоп",0.05],["k",76,"$203–210","зона ре-шорту",0.11],["p",116,"$200","✓ T1 забрано",0.17],["w",148,"$195.62","AH +1.74%",0.23],["y",176,"$192.28","now · −7.62%",0.29],["p",204,"$190","T2 · тисне сюди",0.35],["p",240,"$175","🕳️ полиця · T3",0.41],["p",264,"$172","daily 200-EMA",0.47]]' viewBox="0 0 470 300" role="img" aria-label="CRDO closed through T1 200 down 7.62 percent at 192.28 pressing T2 190">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.9s" d="M96,100 L170,140 L240,175 L300,192"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.7s" d="M300,192 L335,180 L360,174"/>
-          <circle class="dot-y pop" style="animation-delay:2.1s" cx="300" cy="192" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.4s" x="250" y="284" text-anchor="middle">закрився −7.62% на $192.28, крізь T1 $200 (забрано)</text>
-        </svg>
+          <circle class="dot-y pop" style="animation-delay:2.1s" cx="300" cy="192" r="6"/>        </svg>
       </div>
     </section>
 
@@ -53,7 +51,7 @@
       <h1 class="rv">Down −7.62%.<br><span class="hl">Closed through T1.</span></h1>
       <div class="verdict rv">
         <div class="vh">⚠ Фейд живий — рефлекс-відскок не міняє структуру</div>
-        <p>Перепродано: 1H RSI 42.70, daily Stoch 23.63 — AH-відскок це рефлекс, тому <span class="k">не chase лоу</span>. Структура вниз підтверджена касою, <span class="k">фейд живий</span>: відскок — паливо для add, не привід закривати.</p>
+        <p>Папір уже перепроданий — 1H RSI 42.70, daily Stoch 23.63 — тож AH-відскок читається як звичайний рефлекс після сильного дня вниз, і гнатися за лоу зараз не варто. Важливіше інше: структура вниз підтверджена касою, а отже <span class="k">фейд живий</span>. Відскок, якщо він розвинеться, стане паливом для add, а не приводом закривати позицію.</p>
       </div>
     </section>
 
@@ -61,15 +59,14 @@
     <section class="slide" data-label="CRDO · РІВНІ">
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
-      <div class="ladder rv">
-        <div class="rung res"><span class="px">$242</span><span class="lbl">Стоп re-short · reclaim = repair (лонг назад)</span></div>
-        <div class="rung res"><span class="px">$203–210</span><span class="lbl">Зона ре-шорту · зламана · add на відскоку</span></div>
-        <div class="rung sup"><span class="px">$200</span><span class="lbl">✓ T1 забрано (banked) · крізь на закритті</span></div>
-        <div class="rung now"><span class="px">$192.28</span><span class="lbl">ТУТ · close −7.62% · AH $195.62</span></div>
-        <div class="rung sup"><span class="px">$190</span><span class="lbl">T2 · тисне сюди</span></div>
-        <div class="rung sup"><span class="px">$175</span><span class="lbl">🕳️ Полиця пробою · T3 · збіг з 200-EMA</span></div>
-        <div class="rung sup"><span class="px">$172</span><span class="lbl">daily 200-EMA (росте) · остання опора</span></div>
-      </div>
+      <div class="ladder rv" data-rungs='[
+        ["res", "$242", "Стоп re-short · reclaim = repair (лонг назад)"],
+        ["res", "$203–210", "Зона ре-шорту · зламана · add на відскоку"],
+        ["sup", "$200", "✓ T1 забрано (banked) · крізь на закритті"],
+        ["now", "$192.28", "ТУТ · close −7.62% · AH $195.62"],
+        ["sup", "$190", "T2 · тисне сюди"],
+        ["sup", "$175", "🕳️ Полиця пробою · T3 · збіг з 200-EMA"],
+        ["sup", "$172", "daily 200-EMA (росте) · остання опора"]]'></div>
       <p class="note rv">Дві лінії вирішують: <span class="k">$242</span> (reclaim = repair, лонг назад) і <span class="k">$203–210</span> (відскок сюди = add, не chase лоу).</p>
     </section>
 

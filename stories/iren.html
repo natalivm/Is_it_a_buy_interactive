@@ -38,10 +38,9 @@
       <h1 class="rv">next stop <span class="hl">$30</span></h1>
       <p class="sub rv">Фейд спрацював: IREN закрив день <strong>−6.50% на close $33.93</strong> (лоу $33.86, AH +0.5% $34.11) — <span class="k">✓ T1 $34 тагнуто</span>, перша ціль по суті забрана (≈ <strong>+13%</strong> для шорту від входу $38.90). Ціна під усім 1H MA-стеком — структура зламана. Далі 🎯 <span class="k">$30</span> → глибше $27.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",45,"$42","стоп · reclaim $41.70 = лонг назад",0.05],["k",92,"$38–40","1h MA-стек · зона short-add у $36–38 (9/50-EMA)",0.12],["p",150,"$34","✓ T1 тагнуто · геп",0.19],["y",188,"$33.93","now · close −6.50% · AH $34.11",0.26],["p",232,"$30","🎯 T2 · тижнева опора",0.33],["p",272,"$27","🕳️ глибший флеш · T3",0.4]]' viewBox="0 0 470 300" role="img" aria-label="IREN closed 6.50 percent lower at 33.93, tagging T1 34, next target 30">
+        <svg data-lv='[["k",45,"$42","стоп · reclaim",0.05],["k",92,"$38–40","short-add $36–38",0.12],["p",150,"$34","✓ T1 тагнуто",0.19],["y",188,"$33.93","ТУТ",0.26],["p",232,"$30","🎯 T2 · опора",0.33],["p",272,"$27","🕳️ T3 · флеш",0.4]]' viewBox="0 0 470 300" role="img" aria-label="IREN closed 6.50 percent lower at 33.93, tagging T1 34, next target 30">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M100,80 L175,110 L245,140 L320,170 L358,188"/>
           <circle class="dot-y pop" style="animation-delay:1.7s" cx="358" cy="188" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:1.85s" x="235" y="285" text-anchor="middle">−6.50% до $33.93 → ✓ T1 $34 тагнуто (≈ +13% шорт) → 🎯 $30</text>
         </svg>
       </div>
     </section>
@@ -52,7 +51,7 @@
       <h1 class="rv">Red day.<br><span class="hl">Closed at T1 $34.</span></h1>
       <div class="verdict rv">
         <div class="vh">✓ Структура зламана — фейд працює далі</div>
-        <p>Ціна під усім 1H MA-стеком, close прямо на нижньому BB. 1h <strong>MACD −0.96</strong>, RSI 39.11, Stoch 41.51 — короткостроково піднявся з лоу (~13), рефлекс-відскок у процесі → за лоу не гнатися. Структура зламана — фейд працює далі.</p>
+        <p>Ціна сидить під усім 1H MA-стеком, а close ліг прямо на нижній BB — структура зламана, і фейд працює далі. Годинний <strong>MACD −0.96</strong> тримає momentum на боці шорту, а RSI 39.11 і Stoch 41.51 вже піднялися з лоу (~13) — рефлекс-відскок у процесі. Тому за лоу <span class="k">не гнатися</span>: чистіший add дасть саме відскок.</p>
       </div>
     </section>
 
@@ -60,15 +59,14 @@
     <section class="slide" data-label="IREN · РІВНІ">
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
-      <div class="ladder rv">
-        <div class="rung res"><span class="px">$42</span><span class="lbl">Стоп шорту · reclaim $41.70 = лонг назад</span></div>
-        <div class="rung res"><span class="px">$40.10</span><span class="lbl">1h 200-EMA $39.13 · навіс зверху</span></div>
-        <div class="rung res"><span class="px">$38–40</span><span class="lbl">Зона short-add на відскоку в $36–38 (9/50-EMA $35.04/$36.57)</span></div>
-        <div class="rung sup"><span class="px">$34</span><span class="lbl">✓ T1 тагнуто / пройдено · геп · нижній BB</span></div>
-        <div class="rung now"><span class="px">$33.93</span><span class="lbl">ТУТ · close −6.50% · AH $34.11 · при T1</span></div>
-        <div class="rung sup"><span class="px">$30</span><span class="lbl">🎯 Тижнева опора · T2 — головна ціль</span></div>
-        <div class="rung sup"><span class="px">$27</span><span class="lbl">🕳️ Глибший флеш · тижневий нижній BB · T3</span></div>
-      </div>
+      <div class="ladder rv" data-rungs='[
+        ["res", "$42", "Стоп шорту · reclaim $41.70 = лонг назад"],
+        ["res", "$40.10", "1h 200-EMA $39.13 · навіс зверху"],
+        ["res", "$38–40", "Зона short-add на відскоку в $36–38 (9/50-EMA $35.04/$36.57)"],
+        ["sup", "$34", "✓ T1 тагнуто / пройдено · геп · нижній BB"],
+        ["now", "$33.93", "ТУТ · close −6.50% · AH $34.11 · при T1"],
+        ["sup", "$30", "🎯 Тижнева опора · T2 — головна ціль"],
+        ["sup", "$27", "🕳️ Глибший флеш · тижневий нижній BB · T3"]]'></div>
       <p class="note rv">Дві лінії: short-add на пуші в <span class="k">$36–38</span> (9/50-EMA), стоп $42; reclaim <span class="k">$41.70</span> повертає лонг і закриває шорт.</p>
     </section>
 

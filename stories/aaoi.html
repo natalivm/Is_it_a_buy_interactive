@@ -43,13 +43,11 @@
       <h1 class="rv">жене до <span class="hl">$82</span></h1>
       <p class="sub rv">Re-arm працює далі. Сьогодні AAOI <strong>закрив наскрізь крізь T1 $90</strong>: касовий close <strong>$88.14 (−9.90%</strong>, AH $88.59 +0.51%). T1 $90 забрано (~+22% від re-arm $113), тепер жене на <span class="k">T2 $82</span>.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",40,"$120","стоп · reclaim = кінець",0.05],["k",80,"$102","200-EMA · під усім стеком ↓",0.12],["k",108,"$97–104","🎯 відскок = re-short add",0.18],["p",150,"$90","T1 ✓ забрано (~+22%)",0.24],["y",180,"$88.14","now · close −9.90% · AH $88.59",0.3],["p",220,"$82","T2 · парабола-база",0.35],["p",270,"$58","🕳️ тижнева 21-MA · T3",0.4]]' viewBox="0 0 470 300" role="img" aria-label="AAOI closed through T1 90 at 88.14 down 9.9 percent, driving toward T2 82">
+        <svg data-lv='[["k",40,"$120","стоп",0.05],["k",80,"$102","200-EMA",0.12],["k",108,"$97–104","🎯 re-short add",0.18],["p",150,"$90","✓ T1 забрано",0.24],["y",180,"$88.14","now · −9.90%",0.3],["p",220,"$82","T2 · парабола",0.35],["p",270,"$58","🕳️ 21-MA · T3",0.4]]' viewBox="0 0 470 300" role="img" aria-label="AAOI closed through T1 90 at 88.14 down 9.9 percent, driving toward T2 82">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1s" d="M96,88 L180,120 L260,160 L330,185"/>
           <circle class="dot-k" cx="330" cy="185" r="4.5" style="opacity:.6"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.5s;animation-duration:.7s" d="M330,185 L360,180 L385,178"/>
-          <circle class="dot-y pop" style="animation-delay:2.15s" cx="385" cy="178" r="6"/>
-          <text class="cap f-k fade" style="animation-delay:2.4s" x="250" y="285" text-anchor="middle">пробив T1 $90 → close $88.14 · жене до T2 $82</text>
-        </svg>
+          <circle class="dot-y pop" style="animation-delay:2.15s" cx="385" cy="178" r="6"/>        </svg>
       </div>
     </section>
 
@@ -59,7 +57,7 @@
       <h1 class="rv">Red −9.90%.<br><span class="hl">Close $88.14 крізь T1.</span></h1>
       <div class="verdict rv">
         <div class="vh">⚡ Закрив крізь T1 $90 — жене на T2 $82</div>
-        <p>Daily <strong>MACD −13.92</strong>, RSI 35.06, Stoch 21.69 — глибоко перепроданий, рефлекс-відскок назрів. <span class="k">OBV найгірший у групі</span> — своя слабкість, не лише сектор. Тренд вниз підтверджений, але лоу не chase — відскок буде паливом для add, не приводом закривати шорт.</p>
+        <p>Свічка виглядає розгромно, і осцилятори це підтверджують: daily <strong>MACD −13.92</strong>, RSI 35.06, Stoch 21.69 — папір глибоко перепроданий, тож рефлекс-відскок уже назрів. При цьому <span class="k">OBV найгірший у групі</span> — це власна слабкість AAOI, а не лише секторний тиск. Тренд вниз підтверджений, але гнатися за лоу не варто: відскок, коли прийде, стане паливом для add, а не приводом закривати шорт.</p>
       </div>
     </section>
 
@@ -67,17 +65,16 @@
     <section class="slide" data-label="AAOI · РІВНІ">
       <div class="eyebrow rv">LEVELS · STRUCTURE</div>
       <h1 class="rv">Level <span class="hl">map</span></h1>
-      <div class="ladder rv">
-        <div class="rung res"><span class="px">$120</span><span class="lbl">Stop · reclaim назад = шорт закрито</span></div>
-        <div class="rung res"><span class="px">$113</span><span class="lbl">Re-arm · пробито наскрізь ↓ — тригер спрацював</span></div>
-        <div class="rung res"><span class="px">$102</span><span class="lbl">200-EMA · під усім стеком ↓</span></div>
-        <div class="rung key"><span class="px">$97–104</span><span class="lbl">Зона re-short add · зламаний shelf / 50-EMA · чистіший add</span></div>
-        <div class="rung sup"><span class="px">$90</span><span class="lbl">T1 ✓ забрано (~+22% від $113)</span></div>
-        <div class="rung now"><span class="px">$88.14</span><span class="lbl">ТУТ · close −9.90% · AH $88.59</span></div>
-        <div class="rung sup"><span class="px">$82</span><span class="lbl">T2 · парабола-база</span></div>
-        <div class="rung sup"><span class="px">$58</span><span class="lbl">🕳️ Тижнева 21-MA · глибший розворот параболи · T3</span></div>
-        <div class="rung sup"><span class="px">$47</span><span class="lbl">🕳️ Глибший флеш · 50-week EMA · deep-корекція</span></div>
-      </div>
+      <div class="ladder rv" data-rungs='[
+        ["res", "$120", "Stop · reclaim назад = шорт закрито"],
+        ["res", "$113", "Re-arm · пробито наскрізь ↓ — тригер спрацював"],
+        ["res", "$102", "200-EMA · під усім стеком ↓"],
+        ["key", "$97–104", "Зона re-short add · зламаний shelf / 50-EMA · чистіший add"],
+        ["sup", "$90", "T1 ✓ забрано (~+22% від $113)"],
+        ["now", "$88.14", "ТУТ · close −9.90% · AH $88.59"],
+        ["sup", "$82", "T2 · парабола-база"],
+        ["sup", "$58", "🕳️ Тижнева 21-MA · глибший розворот параболи · T3"],
+        ["sup", "$47", "🕳️ Глибший флеш · 50-week EMA · deep-корекція"]]'></div>
       <p class="note rv">Дві лінії вирішують: <span class="k">$120</span> (reclaim = шорт закрито) і <span class="k">$97–104</span> (відскок сюди = re-short add). Нижче — трейл до T2 $82.</p>
     </section>
 
