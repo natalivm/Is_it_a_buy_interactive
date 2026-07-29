@@ -117,6 +117,13 @@ const STOCKS = [
   // $455–461 magnet; $450 the extension line. DRAM broke the $47.5–48.5
   // cluster (close $44.85 < the $47 major-failure line) → $42–44 →
   // washout $38.5–40. Ranks unchanged.
+  //
+  // ── 2026-07-29 (AH) ── SMH flushed to $483.32 after hours — effectively
+  // tagging the 0.618 $478 — and snapped back to $500.07: the barometer's
+  // FULL map has paid ($547–550 → $535 → $510–518 → ≈$478–483). Bounce-watch
+  // re-armed, session confirmation pending: hold $500 + reclaim $505.66–510
+  // = bounce mode; a daily close <$483.32 breaks the fib → 50-week $431.
+  // Board stance: bank/trail at the majors, no fresh shorts into the hole.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -192,9 +199,9 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$504.22', change: 'close −4.79% $504.22 · AH $500.30 · ❌ closed UNDER the $505.66 sweep low — bounce negated · 0.618 $478 opens',
-    signal: 'The board’s barometer — the reclaim FAILED into the close. The undercut-and-reclaim lasted hours: after sweeping the whole $510–518 magnet (low $505.66, gap filled) and reclaiming $510 intraday, SMH sold back off and closed $504.22 (−4.79%) — UNDER the sweep low, the exact negation line the card set — then slid to $500.30 after hours. When the deepest oversold of the leg (4H RSI 26, Stoch 13 at the low) can’t hold a reclaim of a 4× confluence, that is trend-mode: the bounce thesis is off, the broken $510–518 confluence is now the LID, and the map extends — 0.618 fib ≈ $478 next, then the 50-week ≈ $431 (where the trend itself is decided). The 1H confirms (RSI 32.72, Stoch 26.63, MACD −7.69, OBV falling to 64.6M). One caveat: the close is only ~0.3% under the line — a fast reclaim of $505.66–510 at tomorrow’s open would make it a second undercut (fakeout), so let the open confirm before pressing. Stance for the board: fade regime confirmed and extending — keep trailing the shorts toward their next targets, re-short bounces into $510–518 → the 1H 9-EMA $514.65 → $535 (first repair); only $580 with breadth negates the fade regime.',
-    edge: 'The board’s barometer — the reclaim FAILED: after sweeping the $510–518 magnet (low $505.66) and reclaiming $510 intraday, SMH closed $504.22 (−4.79%) UNDER the sweep low (AH $500.30) — the exact negation line, so the bounce thesis is off and the map extends to the 0.618 ≈ $478 → 50-week $431; the broken $510–518 confluence is now the lid — re-short bounces into $510–518 → $514.65 → $535, keep trailing the board’s shorts; a fast reclaim of $505.66–510 at the open would be a second undercut (fakeout), $535 the first repair, only $580 with breadth negates',
+    price: '$504.22', change: 'close −4.79% $504.22 · AH flush $483.32 → snap back $500.07 · ✓ the 0.618 ≈ $478 effectively TAGGED — the full map has paid · bounce-watch',
+    signal: 'The board’s barometer — the WHOLE map has now paid: an after-hours flush effectively tagged the 0.618. After closing $504.22 (−4.79%, under the $505.66 sweep low — the negation that opened the fib), SMH flushed after hours to $483.32 — within ~1% of the 0.618 ≈ $478 — and snapped straight back to $500.07. That is the full correction map paid in one week: $547–550 → $535 → $510–518 → ≈$478–483. A second, deeper undercut-and-reclaim — this time at the fib — with the 4H pinned at extremes (RSI 22.57, Stoch 12.38, MACD −13.24) is exactly where reflex bounces start: the bounce-watch is RE-ARMED. But it is an after-hours print on thin tape, and this week’s lesson (TER, BE) is that AH moves don’t count until the regular session confirms. Confirmation: tomorrow holds $500 and reclaims $505.66–510 → the group’s reflex bounce is on (first overhead the 4H 9-EMA $513.80 → $535). Failure: a daily close under $483.32 breaks the fib for real and makes the 50-week $431 the live target. Stance for the board: the barometer has paid EVERYTHING and the leaders sit on their majors (MU $714 · SNDK $958 · ALAB $250 · COHR $215 · NBIS $147) — bank/trail into strength, NO fresh short into the hole; re-shorts only from each card’s zones; only $580 with breadth negates the fade regime.',
+    edge: 'The board’s barometer — the WHOLE map paid: after closing $504.22 under the $505.66 sweep low, an AH flush to $483.32 effectively tagged the 0.618 ≈ $478 and snapped back to $500.07 — a second, deeper undercut-and-reclaim at the fib with the 4H at extremes (RSI 22.57, Stoch 12.38), so the bounce-watch is re-armed but needs the session to confirm (hold $500 + reclaim $505.66–510 = bounce mode; a daily close under $483.32 breaks the fib → 50-week $431); leaders sit on majors — bank/trail the board’s shorts, no fresh short into the hole, re-shorts only from each card’s zones, $580 with breadth negates',
     side: 'short', accent: 'red',
     date: '2026-07-29',
     story: 'stories/smh.html',
