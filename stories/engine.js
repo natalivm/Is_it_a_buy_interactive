@@ -64,17 +64,26 @@ function hydrateLevelCharts() {
         { x: 366, y: y + 4 }, +(delay + 0.3).toFixed(2), cap));
     });
     svg.insertBefore(frag, svg.firstChild);
-    // Fit-guard: squeeze any caption that would run past the viewBox edge
-    // (right-side captions get ~98 units; keep decks' caption text short —
-    // this only rescues modest overflows without redesigning the chart).
+  });
+  clampChartText();
+  // Font metrics change once the webfonts land — measure again.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(clampChartText);
+}
+
+/* Fit-guard: squeeze any chart text that would run past the viewBox edge
+   (right-side captions get ~98 units, left axis labels ~76; keep decks'
+   text short — this only rescues modest overflows). */
+function clampChartText() {
+  document.querySelectorAll('svg[data-lv]').forEach(svg => {
     const vbw = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width) || 470;
-    svg.querySelectorAll('text.cap').forEach(t => {
+    svg.querySelectorAll('text.cap, text.ax').forEach(t => {
       const x = +t.getAttribute('x') || 0;
       const anchor = t.getAttribute('text-anchor');
       const room = anchor === 'middle' ? Math.min(x, vbw - x) * 2 - 8
                  : anchor === 'end' ? x - 8 : vbw - x - 8;
       let len;
       try { len = t.getComputedTextLength(); } catch (e) { return; }
+      if (t.hasAttribute('textLength')) return;   // already clamped
       if (len > room && room > 0) {
         t.setAttribute('textLength', room);
         t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
