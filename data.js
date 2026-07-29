@@ -53,11 +53,11 @@ const STOCKS = [
   },
   {
     symbol: 'IREN', exchange: 'NASDAQ',
-    price: '$33.93', change: 'close −6.50% $33.93 · AH $34.11 · ✓ T1 $34 tagged · ≈ +13% short',
-    signal: 'Flipped short — T1 $34 tagged on the close. IREN closed $33.93 (−6.50%), right at T1 $34 (intraday low $33.86) — the first target essentially banked. That is ≈ +13% for the short from the $38.90 entry. It reflex-bounced in after-hours to $34.11 (+0.53%). Price is under the whole 1H MA stack (9-EMA $35.04, 50-EMA $36.57, 200-EMA $39.13) — structure broken. Near-term it lifted off the low (1H RSI 39.11, Stoch 41.51 from the ~13 low, MACD −0.96), so a reflex bounce is underway — the cleaner short add is a push into $36–38 (9-EMA / 50-EMA), not a chase of the low. The ≈$2.8B AI-cloud catalyst is the risk: a reclaim of $41.70 repairs the long. Next 🎯 $30 (weekly support) → deeper $27; stop $42 far.',
-    lead: { rank: 9, status: 'live', entry: '$38.90 filled', stop: '$42', targets: '$34 → $30 → $27', downside: '−13%', tail: '−31%', rr: '~3:1', edge: 'Flipped short, T1 $34 tagged — IREN closed $33.93 (−6.50%), right at T1 (low $33.86, ≈ +13% for the short from $38.90), AH bounce to $34.11; under the whole 1H MA stack, lifting off the low (RSI 39, Stoch 41 from 13) so a push into $36–38 is the cleaner add, stop $42 — 🎯 $30 then $27, a reclaim of $41.70 repairs the long (≈$2.8B AI-cloud catalyst the risk)' },
+    price: '$29.31', change: 'close −13.62% $29.31 · AH $29.20 · ✓ T2 $30 SMASHED · next 🕳️ T3 $27 · ≈ +25% short',
+    signal: 'Flipped short — T2 smashed on a −13.62% collapse. IREN closed $29.31, clean THROUGH T2 $30 (the weekly support — banked, one day after T1 $34), AH $29.20. That is ≈ +25% for the short from the $38.90 entry, with only 🕳️ T3 $27 left on the plan. The tape turned heavier, not lighter: 1H OBV has gone NEGATIVE (−32.6M), RSI 22.01, Stoch 9.43 — pinned oversold with the whole 1H stack far overhead (9-EMA $30.87 → 50-EMA $34.31 → 200-EMA $38.05). Don’t chase $29 — the add zone pulls down to $31–34 (1H 9→50-EMA; was $36–38); bank/trail toward $27. The ≈$2.8B AI-cloud catalyst remains the squeeze risk: a reclaim of $41.70 still repairs the long — miles away now. Stop $42.',
+    lead: { rank: 9, status: 'live', entry: '$38.90 filled', stop: '$42', targets: '$34 → $30 → $27', downside: '−13%', tail: '−31%', rr: '~3:1', edge: 'Flipped short — T2 smashed on a −13.62% collapse: IREN closed $29.31, clean through T2 $30 (weekly support, banked one day after T1 $34), AH $29.20 — ≈ +25% for the short from $38.90, only 🕳️ T3 $27 left; 1H OBV NEGATIVE (−32.6M), RSI 22.01, Stoch 9.43 pinned with the $30.87/$34.31/$38.05 stack far overhead — don’t chase $29, add zone pulled down to $31–34 (1H 9→50-EMA), bank/trail toward $27; the ≈$2.8B AI-cloud catalyst the squeeze risk, a reclaim of $41.70 repairs the long' },
     side: 'short', accent: 'red',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/iren.html',
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
@@ -111,15 +111,20 @@ const STOCKS = [
   // short filled at the break. ALAB tagged T3 $250 to the dollar
   // ($249.74) — ALL targets banked ≈ +19%, trailing to the 200-EMA $231.
   // MRVL (long watch) knifed through the $172–178 starter zone to the
-  // door of the main $150–160 load (AH $160.60). Ranks unchanged.
+  // door of the main $150–160 load (AH $160.60). IREN −13.62% smashed
+  // T2 $30 (close $29.31, ≈ +25%), last target $27. WDC's AH bounce died
+  // at the 1H 50-EMA — close $462.04, AH $454.16 probing UNDER the
+  // $455–461 magnet; $450 the extension line. DRAM broke the $47.5–48.5
+  // cluster (close $44.85 < the $47 major-failure line) → $42–44 →
+  // washout $38.5–40. Ranks unchanged.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
-    price: '$47.77', change: 'close −8.89% $47.77 · AH $48.58 · through T1 $50 · into the $47.5–48.5 cluster',
-    signal: 'Roundhill Memory ETF — the memory basket closed through T1 into the cluster. ~75% is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%, via total-return swaps), so it tracks memory, not the broad KOSPI. DRAM closed $47.77 (−8.89%) — clean through T1 $50 and right INTO the key $47.5–48.5 cluster (61.8% fib + rising 50-day + lower BB), the magnet the card flagged. AH bounce to $48.58 (+1.70%). It lifted off the low near-term (1H RSI 39.01, Stoch ~43 lifting, MACD −1.48), so a reflex bounce toward $52–54 is the cleaner re-short, not a chase of the low. Next below the cluster: $42–44 → 🕳️ washout $38.5–40. Confirmation now in (the daily close settled in the cluster); a close &gt;$61 + retest flips it neutral.',
-    edge: 'Korean-memory basket (≈75% Micron/Samsung/SK Hynix via swaps) closed through T1 into the cluster — DRAM closed $47.77 (−8.89%), through T1 $50 into the $47.5–48.5 cluster (61.8% fib + 50-day + lower BB), AH bounce to $48.58; lifting near-term (1H RSI 39.01) so a bounce toward $52–54 is the cleaner re-short, next $42–44 → washout $38.5–40, $61 the regime-change line',
+    price: '$44.85', change: 'close −6.11% $44.85 · AH $43.69 · ❌ the $47.5–48.5 cluster BROKE (close <$47 = major failure) · next $42–44 → washout $38.5–40',
+    signal: 'Roundhill Memory ETF — the cluster BROKE: the major-failure line triggered. The $47.5–48.5 magnet (61.8% fib + rising 50-day + lower BB) held for exactly one day: DRAM closed $44.85 (−6.11%) — through the card’s "close <$47 = major failure" line — and slid to $43.69 after hours, already at the doorstep of the next zone, $42–44 (the prior consolidation). ~75% of the fund is three memory names (Micron 25.8%, Samsung ~25%, SK Hynix ~24%), and the basket’s leader just printed its worst day (MU −9.94%, AH on T2) — the feedback loop keeps pointing down; OBV dropped to 105M. The bounce lid pulls down to $46.3–48.5 (1H 9-EMA $46.31 + the broken cluster) — a reflex bounce there is the re-short, not a bottom. Below $42–44: 🕳️ the washout $38.5–40. The regime line stays $61 — nothing turns neutral until it is reclaimed. Overnight Korea-gap risk stands: Samsung/SK Hynix set the open.',
+    edge: 'Korean-memory basket (≈75% Micron/Samsung/SK Hynix) — the cluster BROKE: DRAM closed $44.85 (−6.11%), through the "close <$47 = major failure" line, AH $43.69 at the doorstep of the $42–44 prior consolidation; the magnet held one day, the basket leader MU printed −9.94%, OBV down to 105M — the bounce lid pulls down to $46.3–48.5 (1H 9-EMA + broken cluster) where a reflex is the re-short, next 🕳️ washout $38.5–40, $61 still the regime line, Korea-gap risk overnight',
     side: 'short', accent: 'indigo',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/dram.html',
   },
   {
@@ -133,11 +138,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$463.51', change: 'close −6.91% $463.51 · at the $455–461 magnet · all targets banked ~+10% · AH bounce +3.98% $481.97',
-    signal: 'The fence broke and the whole plan paid. WDC closed $463.51 (−6.91%), settling right at the T3 $455 / $457–461 confluence (daily lower BB $457 + weekly mid-BB $461) — clean through T1 $486 and T2 $475, all three plan targets essentially banked, ≈ +10% for the short from the $513 entry. Then it bounced sharply after-hours: +3.98% to $481.97, back toward the $486–513 zone the card named the cleaner re-short. This is still a deep pullback in an intact weekly uptrend (far above the weekly 50-EMA $339), so $455–461 was the target, not a trend break — take profit into the magnet, don’t press the low. The bounce is a reflex (30-min Stoch spiked to 88, RSI ~58 off the low) — re-short into $486–513, don’t chase. Stance: targets banked at the magnet; re-short the AH bounce into $486–513, a reclaim of $513→$525→$535 re-negates.',
-    lead: { rank: 11, status: 'live', entry: '$513 filled', stop: '$535', targets: '$486 → $475 → $455', downside: '−5%', tail: '−11%', rr: '~2.5:1', edge: 'The fence broke and it paid — WDC closed $463.51 (−6.91%) right at the T3 $455 / $457–461 magnet (daily lower BB + weekly mid-BB), through T1 $486 and T2 $475, all three targets banked (≈ +10% for the short from $513); then a sharp AH bounce +3.98% to $481.97 into the $486–513 re-short zone (30-min Stoch spiked to 88) — take profit into the magnet, re-short the bounce into $486–513, a reclaim of $513→$535 re-negates' },
+    price: '$462.04', change: 'close −0.32% $462.04 · AH $454.16 — probing UNDER the T3 magnet · the bounce died at the 1H 50-EMA · ≈ +10% short',
+    signal: 'The fence broke, the whole plan paid — and the bounce already died. Yesterday’s sharp AH bounce to $481.97 never reached the $486–513 re-short zone: it stalled under the 1H 50-EMA ($483) and rolled straight back — WDC closed $462.04 (−0.32%) and slid to $454.16 after hours, probing UNDER the $455–461 magnet (T3 $455 / daily lower BB / weekly mid-BB) that banked the plan. All three targets stay banked, ≈ +10% for the short from $513 (≈ +11% at the AH print). A bounce too weak to reach its own re-short zone is a bearish tell — the re-short zone pulls down to $469–484 (1H 9-EMA $469 → 50-EMA $483), and the 1H is rolling over again (RSI 41.70, Stoch down from 64, MACD −3.29). But this is still a deep pullback in an intact weekly uptrend (far above the weekly 50-EMA $339): the magnet was the target — don’t press the low; the new information would be a decisive daily close under $450 (the 1H lower band), which extends the slide. A reclaim of $513 → $525 → $535 re-negates.',
+    lead: { rank: 11, status: 'live', entry: '$513 filled', stop: '$535', targets: '$486 → $475 → $455', downside: '−5%', tail: '−11%', rr: '~2.5:1', edge: 'The fence broke, the plan paid — and the bounce already died: yesterday’s AH bounce to $481.97 stalled under the 1H 50-EMA ($483), never reaching $486–513, and WDC closed $462.04 (−0.32%), AH $454.16 probing UNDER the $455–461 magnet (all three targets banked, ≈ +10% from $513, ≈ +11% AH); a bounce too weak to reach its own zone is a bearish tell — re-short zone pulled down to $469–484 (1H 9→50-EMA), a decisive daily close under $450 extends the slide, don’t press the magnet low, a reclaim of $513→$535 re-negates' },
     side: 'short',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/wdc.html',
   },
   {
