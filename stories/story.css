@@ -255,6 +255,7 @@ h1 .p, h1 .k, h1 .y {
 
   .tg{margin-top:16px;font-size:15px;line-height:1.55;color:var(--sub);}
   .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
+  .disclaim{margin-top:10px;font-size:11px;line-height:1.5;color:var(--muted);opacity:.8;}
 
   .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
 

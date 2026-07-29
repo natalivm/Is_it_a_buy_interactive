@@ -29,11 +29,16 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   overrides (e.g. `.wt` weight strip on DRAM, `.rung.key` on AAOI). Never
   re-add shared rules to a deck's inline style.
 - **Shared chrome is auto-built** by `engine.js`: the "Is it a BUY?" brand
-  watermark, the footer nav, and the telegram sign-off on the last slide are
-  all injected — decks contain none of that markup and end with just
+  watermark, the footer nav, and the telegram sign-off + not-financial-advice
+  disclaimer on the last slide are all injected — decks contain none of that
+  markup and end with just
   `<script src="engine.js"></script><script>createStory();</script>`
   (`createStory()`'s defaults match every deck — pass a cfg object only where
   a deck genuinely diverges; `tg: false` suppresses the telegram block).
+- **Levels ladders are data-driven**: rungs are declared as
+  `<div class="ladder rv" data-rungs='[["res","$390","label"], …]'></div>`
+  with entries `[kind res|sup|now|key, price, label]`, hydrated by
+  `engine.js`. To change a level, edit the JSON — never hand-write rung divs.
 - **Navigation**: tap left/right zones, swipe, arrow keys, and mouse wheel all
   advance slides; a swipe (any direction) on the LAST slide closes the deck —
   the engine posts `{type:'ib-close'}` to the parent gallery. A slide with the

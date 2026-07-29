@@ -92,11 +92,33 @@ function clampChartText() {
   });
 }
 
+/* ── Ladder hydrator ─────────────────────────────────────────────────────────
+   Levels ladders are declared as compact JSON instead of hand-written rows:
+
+     <div class="ladder rv" data-rungs='[
+       ["res","$390","4h 200-EMA · reclaim = repair"],
+       ["now","$320.65","ТУТ · close −4.22%"],
+       ["sup","$308","T1"]]'></div>
+
+   Each entry is [kind, price, label] where kind is the rung's class suffix:
+   res (resistance, red) · sup (support, green) · now (current, amber) ·
+   key (or any deck-specific variant). To change a level, edit the JSON. */
+function hydrateLadders() {
+  document.querySelectorAll('.ladder[data-rungs]').forEach(el => {
+    let spec;
+    try { spec = JSON.parse(el.getAttribute('data-rungs')); } catch (e) { return; }
+    el.innerHTML = spec.map(r =>
+      '<div class="rung ' + r[0] + '"><span class="px">' + r[1] +
+      '</span><span class="lbl">' + r[2] + '</span></div>').join('');
+  });
+}
+
 /* Telegram sign-off appended to the last slide of every deck (opt out with
    cfg.tg = false, or keep a hand-written .tg in the deck to skip injection). */
 const TG_HTML =
   '<p class="tg rv">Щоденні розбори — у телеграмі:<br>' +
-  '<a href="https://t.me/market_predictions" target="_blank" rel="noopener">t.me/market_predictions</a></p>';
+  '<a href="https://t.me/market_predictions" target="_blank" rel="noopener">t.me/market_predictions</a></p>' +
+  '<p class="disclaim rv">Не є інвестиційною рекомендацією. Освітній контент — рішення та ризики ваші.</p>';
 
 /* Footer nav markup shared by every deck (label/counter filled by createStory). */
 const NAV_HTML =
@@ -122,6 +144,7 @@ function createStory(cfg) {
     label: '#foot-tag',
   }, cfg || {});
   hydrateLevelCharts();
+  hydrateLadders();
   // Tile thumbnails load the story with ?preview — freeze on the cover.
   const isPreview = /[?&]preview\b/.test(location.search);
   if (isPreview && document.body) document.body.classList.add('preview');
