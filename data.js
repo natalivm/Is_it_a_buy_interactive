@@ -26,9 +26,9 @@
 const STOCKS = [
   {
     symbol: 'LITE', exchange: 'NASDAQ',
-    price: '$608.02', change: 'now −6.74% $608.02 · testing the daily 200-EMA ≈ $610 · FIRST tag of the whole run',
-    signal: 'Photonics joins the group break — the first 200-day test of the entire run. LITE trades $608.02 (−6.74%), pressing right INTO the daily 200-EMA (≈ $610) — the FIRST tag of the 200-day in the whole $50 → ~$1,050 parabola. The two-day bounce died at the 1H EMA cluster ($640–660) and price is back at the $596 low. The weekly is only starting to roll (Stoch 20.88, RSI 43.07, MACD histogram shrinking from record highs) — plenty of room below — and the photonics peer COHR already lost its 200-day and paid. A decisive daily close under $610 confirms the break and opens the air pocket to the 50-week ≈ $500 → the $419 base (prior consolidation shelf + the $419.45 level). Near-term both frames are oversold (1H RSI 33.39, Stoch 24.24; daily RSI 34.71), so don’t chase the $596 low — short the close under $610 (price is at the trigger now) or the cleaner fade of a failed bounce into $640–660, stop $665. Stance: short at trigger — break <$610 / fade $640–660 → $500 → $419; a reclaim of $665 → $694 (1H 50-EMA) repairs it, $754 (1H 200-EMA) fully negates.',
-    lead: { rank: 4, status: 'live', entry: 'break <$610 / fade $640–660', stop: '$665', targets: '$500 → $419', downside: '−18%', tail: '−31%', rr: '~2.5:1', edge: 'Photonics joins the group break — LITE trades $608.02 (−6.74%), pressing into the daily 200-EMA ≈ $610, the FIRST 200-day tag of the entire $50 → ~$1,050 run; the two-day bounce died at the 1H EMA cluster ($640–660), the weekly only starting to roll (Stoch 20.88, MACD histogram shrinking from record) and peer COHR already lost its 200-day and paid — short the decisive close <$610 (at trigger now) or the cleaner fade into $640–660, stop $665, targets 50-week ≈ $500 → the $419 base; a reclaim of $665 → $694 repairs it' },
+    price: '$602.35', change: 'close −7.61% $602.35 · AH $598.09 · ✅ CLOSED under $610 — the first 200-day break of the run CONFIRMED',
+    signal: 'Photonics joins the group break — the trigger FIRED: the first daily close under the 200-day in the entire run. LITE closed $602.35 (−7.61%), a decisive close UNDER the daily 200-EMA ≈ $610 — the confirmation the card demanded — and slid to $598.09 after hours, sitting on the $596 prior low. The short is filled at the break. The 30-min tape backs it: OBV has gone NEGATIVE (−3.23M), MACD −11.94, Stoch 21.52 — every lift dying under the 30-min 9-EMA $616, and the $640–660 fade zone is now reinforced by the 30-min 50-EMA $644. The weekly is only starting to roll from a record parabola (plenty of room below), and peer COHR is already pressing its LAST target after the same 200-day break. The air pocket is open: 50-week ≈ $500 → the $419 base. Near-term both frames stay oversold — don’t chase into $596; the add is a failed bounce into $640–660, stop $665. A reclaim of $665 repairs it; full structural repair only above the 30-min 200-EMA $721.',
+    lead: { rank: 4, status: 'live', entry: 'break <$610 filled', stop: '$665', targets: '$500 → $419', downside: '−18%', tail: '−31%', rr: '~2.5:1', edge: 'Photonics joins the group break — the trigger FIRED: LITE closed $602.35 (−7.61%), the first decisive daily close UNDER the 200-day ≈ $610 in the whole $50 → ~$1,050 run (AH $598.09, on the $596 low) — short filled at the break; 30-min OBV NEGATIVE (−3.23M), lifts dying under the 9-EMA $616, the $640–660 fade zone reinforced by the 30-min 50-EMA $644, peer COHR already pressing its last target after the same break — air pocket open to the 50-week ≈ $500 → the $419 base, add the failed bounce into $640–660, stop $665, a reclaim of $665 repairs it' },
     side: 'short',
     date: '2026-07-29',
     story: 'stories/lite.html',
@@ -106,7 +106,12 @@ const STOCKS = [
   // GLW (booked) dead-cat stalling under $128–137, close $124.05.
   // AAOI −13.18% smashed T2 $82 (close $76.52, AH $74.66, ≈ +32%) —
   // last target 🕳️ $58. BE (booked) post-beat squeeze faded too:
-  // close $163.75, back under T3 $170 (AH $159.24). Ranks unchanged.
+  // close $163.75, back under T3 $170 (AH $159.24). LITE trigger FIRED —
+  // first daily close under the 200-day of the run ($602.35 < $610),
+  // short filled at the break. ALAB tagged T3 $250 to the dollar
+  // ($249.74) — ALL targets banked ≈ +19%, trailing to the 200-EMA $231.
+  // MRVL (long watch) knifed through the $172–178 starter zone to the
+  // door of the main $150–160 load (AH $160.60). Ranks unchanged.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -236,11 +241,11 @@ const STOCKS = [
   },
   {
     symbol: 'ALAB', exchange: 'NASDAQ',
-    price: '$260.23', change: 'close −7.89% $260.23 · AH $258.88 · ✓ T1 $300 + T2 $280 banked · driving to the $250 base · ≈ +16% short',
-    signal: 'Dip-buy dead — the fade closed through T2, driving to the base. ALAB closed $260.23 (−7.89%), clean through T1 $300 and T2 $280 (both banked), now driving toward 🕳️ the $250 May base (T3). That is ≈ +16% for the short from the $310 entry. AH $258.88 (−0.52%). Price is under the whole MA stack and stretched below the lower Bollinger — structure broken; the rising daily 200-EMA (≈ $231) sits just under the $250 base as the deeper support. Near-term deeply oversold (1H RSI 36.58, Stoch 31.57, MACD −8.37; daily Stoch 7.22), so a reflex bounce is due — a push back into $280–297 is the cleaner add, not a chase of the low. The weekly still has room (not oversold). Confirmation is now in: the daily close held under $280. Stance: short working, T1 + T2 banked — trail toward the $250 base → 200-EMA $231, add on a bounce, stop $362 untouched; only a reclaim of $362 repairs the long case.',
-    lead: { rank: 7, status: 'live', entry: '$310 filled', stop: '$362', targets: '$300 → $280 → $250', downside: '−10%', tail: '−19%', rr: '~3:1', edge: 'Dip-buy dead, closed through T2 — ALAB closed $260.23 (−7.89%), clean through T1 $300 and T2 $280 (both banked) toward 🕳️ the $250 May base (≈ +16% for the short from $310); under the whole MA stack, the rising daily 200-EMA ≈ $231 just under the base, deeply oversold (1H RSI 36.58, Stoch 31.57; daily Stoch 7.22) so a push into $280–297 is the cleaner add, stop $362 far — only a reclaim of $362 repairs the long' },
+    price: '$249.74', change: 'close −4.03% $249.74 · AH $244.85 · ✓ T3 $250 TAGGED on the close — ALL targets banked · ≈ +19% short',
+    signal: 'Dip-buy dead — the fade closed ON the $250 base: all three targets banked. ALAB closed $249.74 (−4.03%), tagging 🕳️ T3 — the May base $250 — to the dollar, then slid to $244.85 after hours. The full plan ($300 → $280 → $250) is banked: ≈ +19% for the short from the $310 entry (≈ +21% at the AH print). The plan’s objective is done — this is where you bank/trail, not press: the base + weekly 21-MA is major support, with the rising daily 200-EMA ≈ $231 the deeper magnet below for a trailing runner. The 1H is oversold and basing (RSI 39.09, Stoch 36.94, MACD −5.80) with the whole stack overhead (9-EMA $255 → 50-EMA $270 → 200-EMA $312) — the add zone pulls down to $255–280 (1H 9→50-EMA / broken T2; was $280–297), and a re-short only sets up from there, not at the base. A reclaim of $362 is still the only full repair of the long case.',
+    lead: { rank: 7, status: 'live', entry: '$310 filled', stop: '$362', targets: '$300 → $280 → $250', downside: '−10%', tail: '−19%', rr: '~3:1', edge: 'Dip-buy dead — the fade closed ON the base, all targets banked: ALAB closed $249.74 (−4.03%), tagging 🕳️ T3 $250 (May base) to the dollar, AH $244.85 — the full plan ($300 → $280 → $250) banked, ≈ +19% for the short from $310 (≈ +21% AH); the base + weekly 21-MA is major support with the daily 200-EMA ≈ $231 the deeper magnet — bank/trail, don’t press the base tag; add zone pulled down to $255–280 (1H 9→50-EMA / broken T2), only a reclaim of $362 repairs the long' },
     side: 'short', accent: 'emerald',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/alab.html',
   },
   {
@@ -263,11 +268,11 @@ const STOCKS = [
   },
   {
     symbol: 'MRVL', exchange: 'NASDAQ',
-    price: '$174.47', change: 'close −7.77% $174.47 · AH $175.86 · into the $172–178 starter-buy zone · main load $150–160',
-    signal: 'Bottom-watch — the dip reached the first starter-buy zone. MRVL closed $174.47 (−7.77%), right INTO the $172–178 first accumulation zone the card flagged; AH $175.86 (+0.80%). This is not a short (too late) — it is a hunt for the BOTTOM to go long: deeply oversold (daily RSI 35.03, Stoch 17.41; 1H RSI 38.91, Stoch 36.81), under the whole MA stack. Two zones: the first is here — the $172–178 shelf (a starter buy on the oversold reflex) — and the main one is $150–160, where the daily 200-EMA (≈ $155) and the weekly 50-EMA (≈ $146) line up: the “back up the truck” dip. Don’t catch the knife: accumulate in the zones, not on the fly. A confirmed bottom is a reclaim of $185 → $198–200 (turns the daily up); targets on the recovery $200 → $220 → $245. Invalidation: a weekly close under $146 breaks the multi-year uptrend — no long there. Off the ranked board (a watch).',
-    edge: 'Bottom-watch for a long — MRVL closed $174.47 (−7.77%, AH $175.86), into the $172–178 first starter-buy zone; deeply oversold (daily RSI 35.03 / Stoch 17.41; 1H Stoch 36.81) under the whole stack — start a small buy at the $172–178 shelf here, load the main $150–160 dip where the daily 200-EMA ≈$155 + weekly 50-EMA ≈$146 line up, stop under $142; a reclaim of $185 → $198–200 confirms the bottom toward $200 → $220 → $245, a weekly close under $146 breaks the trend (off the ranked board, a watch)',
+    price: '$163.40', change: 'close −6.34% $163.40 · AH $160.60 · knife through $172–178 — at the door of the MAIN $150–160 load zone',
+    signal: 'Bottom-watch — the knife cut through the starter zone; the main load is at the door. MRVL closed $163.40 (−6.34%), slicing straight through the $172–178 first accumulation shelf, and slid to $160.60 after hours — right at the top of the MAIN $150–160 zone, where the daily 200-EMA (≈ $155) and the weekly 50-EMA (≈ $146) line up: the “back up the truck” dip the card was waiting for. The starter probe is under water — that is why it was sized as a probe; the real load was always $150–160, not the shelf. Conditions are still falling-knife (1H RSI 33.23, Stoch 28.53, MACD −4.18, the whole 1H stack overhead: $169 → $179 → $200), so accumulate IN the zone, scaled — $158–160 first adds, $150–155 the core at the 200-EMA — stop under $142. Invalidation unchanged: a weekly close under $146 breaks the multi-year uptrend — no long there. A confirmed bottom is still a reclaim of $185 → $198–200; recovery targets $200 → $220 → $245. Off the ranked board (a watch).',
+    edge: 'Bottom-watch for a long — the knife cut through the starter zone: MRVL closed $163.40 (−6.34%), through the $172–178 shelf, AH $160.60 — right at the top of the MAIN $150–160 load zone (daily 200-EMA ≈$155 + weekly 50-EMA ≈$146); still falling-knife (1H RSI 33.23, the $169/$179/$200 stack overhead) so accumulate IN the zone, scaled — $158–160 first adds, $150–155 the core, stop under $142; a reclaim of $185 → $198–200 confirms the bottom toward $200 → $220 → $245, a weekly close under $146 breaks the trend (off the ranked board, a watch)',
     side: 'long', accent: 'blue',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/mrvl.html',
   },
 ];
