@@ -100,7 +100,13 @@ const STOCKS = [
   // ($718.38); SNDK broke $1,000 AH ($991.69) toward the daily 200-EMA
   // ≈ $958. NBIS −12.65% cleared T1 $160 + the 200-day in one session,
   // AH $147.06 right on T2 $147; COHR −8.75% pressing the LAST target
-  // T3 $215 (AH $218.01). Ranks unchanged.
+  // T3 $215 (AH $218.01). TER earnings verdict RESOLVED — the +13% AH pop
+  // sold off from the open, close $319.41 back under $326/$346: short
+  // re-armed toward T1 $308 (stop $358 never hit on a daily close).
+  // GLW (booked) dead-cat stalling under $128–137, close $124.05.
+  // AAOI −13.18% smashed T2 $82 (close $76.52, AH $74.66, ≈ +32%) —
+  // last target 🕳️ $58. BE (booked) post-beat squeeze faded too:
+  // close $163.75, back under T3 $170 (AH $159.24). Ranks unchanged.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -113,11 +119,11 @@ const STOCKS = [
   },
   {
     symbol: 'AAOI', exchange: 'NASDAQ',
-    price: '$88.14', change: 'close −9.90% $88.14 · AH $88.59 · ✓ T1 $90 banked · driving to T2 $82 · ≈ +22% short',
-    signal: 'Heaviest OBV collapse in the group — through T1 on the close. AAOI closed $88.14 (−9.90%), clean through T1 $90 (banked) and driving toward T2 $82. That is ≈ +22% for the short from the $113 re-arm. Still pinned under every MA (below the daily 200-EMA ≈ $102), the short is working — next T2 $82 → 🕳️ weekly 21-MA / $58. AH $88.59 (+0.51%) — a tiny bounce, no reclaim. Deeply oversold near-term (1H RSI 38.80, Stoch 44.69; daily Stoch 21.69), so a reflex bounce is due — a bounce into $97–104 (broken shelf / 50-EMA) is the cleaner add, not a chase of the low; weekly RSI leaves room, the parabola is only part-way unwound. Confirmation is now in: the daily close held under $90. Stance: short working, T1 banked — trail toward $82 / $58, add on a bounce; only a reclaim back over $120 ends it.',
-    lead: { rank: 6, status: 'live', entry: '$113 filled', stop: '$120', targets: '$90 → $82 → $58', downside: '−16%', tail: '−41%', rr: '~4:1', edge: 'Heaviest OBV collapse in the group — AAOI closed $88.14 (−9.90%), clean through T1 $90 (banked) toward T2 $82 (≈ +22% for the short from $113); under every MA (below the daily 200-EMA ≈ $102), next $82 → 🕳️ $58, deeply oversold (1H RSI 38.80, Stoch 44.69; daily Stoch 21.69) so a bounce into $97–104 is the cleaner add — the daily close held under $90, only a reclaim over $120 ends it' },
+    price: '$76.52', change: 'close −13.18% $76.52 · AH $74.66 · ✓ T2 $82 SMASHED · driving to 🕳️ T3 $58 · ≈ +32% short',
+    signal: 'Heaviest OBV collapse in the group — T2 smashed on the worst day yet. AAOI closed $76.52 (−13.18%) — clean THROUGH T2 $82 (banked, one day after T1 $90) — and slid after hours to $74.66. That is ≈ +32% for the short from the $113 re-arm (≈ +34% at the AH print), now driving toward the only target left: 🕳️ T3, the weekly 21-MA $58. The tape keeps confirming this is own weakness, not just sector beta: 1H OBV has gone NEGATIVE (−7.12M), RSI 25.11, Stoch 8.30 — the heaviest bleed on the board — with everything capping far overhead (1H 9-EMA $80 → 50-EMA $90 → 200-EMA $105). The add zone pulls down to $80–90 (broken T2 / 1H 9→50-EMA; was $97–104). Extremely oversold on every frame, so a reflex bounce is due — add the bounce, don’t chase $75. Below $58 the deep map is the 50-week ≈ $47. Only a reclaim back over $120 ends it.',
+    lead: { rank: 6, status: 'live', entry: '$113 filled', stop: '$120', targets: '$90 → $82 → $58', downside: '−16%', tail: '−41%', rr: '~4:1', edge: 'Heaviest OBV collapse in the group — T2 smashed on the worst day yet: AAOI closed $76.52 (−13.18%), clean through T2 $82 (banked, one day after T1 $90), AH $74.66 — ≈ +32% for the short from $113 (≈ +34% AH), driving to the last target 🕳️ T3 $58 (weekly 21-MA); 1H OBV NEGATIVE (−7.12M), RSI 25.11, Stoch 8.30 — own weakness, not sector beta — add zone pulled down to $80–90 (broken T2 / 1H 9→50-EMA), don’t chase $75, only a reclaim over $120 ends it' },
     side: 'short', accent: 'violet',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/aaoi.html',
   },
   {
@@ -149,20 +155,20 @@ const STOCKS = [
   },
   {
     symbol: 'TER', exchange: 'NASDAQ',
-    price: '$320.65', change: 'close −4.22% $320.65 · grinding to T1 $308 · ⚠️ AH +13.19% $362.95 on earnings — short intact, watch tomorrow',
-    signal: 'Shelf-break paying into the close — then an after-hours earnings pop to watch. TER closed $320.65 (−4.22%), grinding toward T1 $308 (intraday low $319.61), ≈ +8% for the short from the $346 entry at the close — the fade still working on the regular session. Then it reported after the close and popped +13.19% to $362.95 after-hours, back above the $346 entry and the $358 stop. ⚠️ But that is an after-hours print, not a daily close — the short stays INTACT for now; earnings gaps routinely fade or fill, so the verdict waits for tomorrow’s regular session. The plan: if the regular session tomorrow holds decisively back above $358, the short is negated (stand aside); if the AH pop fades back under the broken $326 / $346, the fade re-arms toward T1 $308 → $292 → 🕳️ 200-EMA $280. Don’t chase either way pre-confirmation — let tomorrow’s open tell you whether the beat sticks. Structure into the close stayed broken (under the whole daily MA stack); the earnings reaction is now the swing factor.',
-    lead: { rank: 12, status: 'live', entry: '$346 filled', stop: '$358', targets: '$308 → $292 → $280', downside: '−11%', tail: '−19%', rr: '~4:1', edge: 'Shelf-break paying into the close, then an AH earnings pop to watch — TER closed $320.65 (−4.22%) toward T1 $308 (≈ +8% for the short from $346), then popped +13.19% AH to $362.95 above the $358 stop; ⚠️ that’s after-hours, not a daily close, so the short stays intact — the verdict waits for tomorrow: a regular session that holds over $358 negates it, a fade back under $326/$346 re-arms the fade toward $292 → 🕳️ 200-EMA $280, don’t chase pre-confirmation' },
+    price: '$319.41', change: 'close −0.39% $319.41 · AH $315.69 · ✅ the earnings pop FADED — short re-armed → T1 $308 · ≈ +8%',
+    signal: 'The earnings verdict is in — the pop faded, the short re-armed. Yesterday’s +13.19% after-hours squeeze to $362.95 did not survive the regular session: TER sold off from the open all day and closed $319.41 (−0.39%) — the entire pop given back, price back UNDER the broken $326 shelf and the $346 entry. That is exactly the fade-back scenario the plan named as re-arm; AH slid further to $315.69. The $358 stop was never touched on a daily close — the short is intact and working again, ≈ +8% from $346 (≈ +9% at the AH print). The 1H rolled over as fast as it spiked: Stoch 15.92 from ~90, RSI 38.79, MACD fading to 0.73, OBV 39.9M — with the 1H stack capping above (9-EMA $332 → 50-EMA $337 → 200-EMA $351). Resume the plan: T1 $308 → $292 → 🕳️ 200-EMA $280; a bounce into $326–337 (broken shelf / 1H 50-EMA) is the cleaner add. Only a daily close back over $358 negates.',
+    lead: { rank: 12, status: 'live', entry: '$346 filled', stop: '$358', targets: '$308 → $292 → $280', downside: '−11%', tail: '−19%', rr: '~4:1', edge: 'The earnings verdict is in — the pop FADED: yesterday’s +13.19% AH squeeze to $362.95 sold off from the open, TER closed $319.41 (−0.39%), back under the broken $326 shelf and the $346 entry (the exact re-arm scenario; AH $315.69, ≈ +8% for the short, ≈ +9% AH); the $358 stop never touched on a daily close, 1H rolled over (Stoch 15.92 from ~90, the $332/$337/$351 stack capping) — back on the plan to T1 $308 → $292 → 🕳️ $280, add a bounce into $326–337, only a daily close over $358 negates' },
     side: 'short', accent: 'blue',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/ter.html',
   },
   {
     symbol: 'GLW', exchange: 'NYSE',
-    price: '$126.01', change: 'close −12.10% $126.01 (earnings) · all targets hit ~+21% · dead-cat bounce · AH $126.39',
-    signal: 'Earnings detonation — the fade paid in full. GLW reported and gapped down hard (pre-market ≈ $119.80, session low ≈ $114.57), then recovered to close $126.01 (−12.10%) — still clean through T3 $130 (the April–May base) and every target on the plan. That is ~+21% for the short from the ~$160 rejection — a complete win, all three targets ($151 → $144 → $130) banked. The ≈ $114.57 low tagged the rising daily 200-EMA ($115.01) almost to the dollar and bounced — the washout hit major support. AH $126.39. At $126 this is a news gap, not a technical level — the trend objective is DONE; there is no fresh short here. The ≈ $115 → $126 recovery IS the violent dead-cat bounce the card flagged, now running hard (30-min Stoch spiked to ~97, RSI back to ~49) straight into the $128–137 prior-support-now-resistance zone. Stance: trade complete, all targets banked — take profit / trail tight; no fresh entry, and the bounce into $128–137 is where a re-short would set up, not the low.',
-    lead: { rank: 13, status: 'booked', entry: '$160 filled', stop: '$184', targets: '$151 → $144 → $130', downside: '−9%', tail: '−14%', rr: '~3:1', edge: 'Earnings detonation — GLW gapped down hard (session low ≈ $114.57) then recovered to close $126.01 (−12.10%), still through T3 $130 and every target: ~+21% for the short from ~$160, all three banked (a complete win); AH $126.39, the ≈ $115 → $126 recovery is the dead-cat bounce now running hard (30-min Stoch spiked ~97) into the $128–137 prior-support-now-resistance zone — the trend objective is done, off the ranked table (banked in the strip), a re-short would set up on the bounce not the low' },
+    price: '$124.05', change: 'close −1.56% $124.05 · AH $121.86 · all targets banked ~+21% · dead-cat STALLING under $128–137',
+    signal: 'Earnings detonation — the fade paid in full; now the bounce is stalling. Day two after the print: the dead-cat bounce never even reached the $128–137 resistance zone — GLW closed $124.05 (−1.56%) and slid to $121.86 after hours, drifting back toward the ≈ $115 washout low (the daily 200-EMA that caught it). The 1H shows the bounce dying: RSI 38.97, Stoch rolling down from ~82, MACD −2.38, OBV dropping to 118M — the former-support $128–137 band (plus the 1H 50-EMA ≈ $132) is holding as the lid without even being tagged. The trade stays complete — all three targets ($151 → $144 → $130) banked, ~+21% for the short from the ~$160 rejection. No fresh entry either way: a bounce too weak to reach its own resistance zone says sellers still control, but a booked win needs no re-entry — a push into $128–137 remains where a re-short would set up, not the drift.',
+    lead: { rank: 13, status: 'booked', entry: '$160 filled', stop: '$184', targets: '$151 → $144 → $130', downside: '−9%', tail: '−14%', rr: '~3:1', edge: 'Earnings detonation — the fade paid in full and the dead-cat is STALLING: day two, the bounce never reached $128–137 — GLW closed $124.05 (−1.56%), AH $121.86, drifting back toward the ≈ $115 washout low (daily 200-EMA); 1H bounce dying (RSI 38.97, Stoch rolling from ~82, OBV down to 118M), the $128–137 band + 1H 50-EMA ≈ $132 the untouched lid — all three targets banked ~+21%, trade complete, off the ranked table (banked in the strip); no fresh entry, a re-short still only sets up on a push into $128–137' },
     side: 'short', accent: 'blue',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/glw.html',
   },
   {
@@ -221,11 +227,11 @@ const STOCKS = [
   },
   {
     symbol: 'BE', exchange: 'NYSE',
-    price: '$166.84', change: 'close −11.34% $166.84 · all targets hit ~+26% · ⚠️ EARNINGS BEAT · AH +10.88% $185 (high $191)',
-    signal: 'Downtrend leader — the fade banked ALL targets into the print, then earnings squeezed it. BE closed $166.84 (−11.34%), blowing clean through 🕳️ T3 $170 (intraday low $164.35) — all three targets ($200 → $185 → $170) banked, ≈ +26% for the short from the $219–234 entry, a complete win. THEN it reported after the close and squeezed +10.88% to $185.00 after-hours (spiking to $191). This is exactly the binary the card flagged: banking most/all into the print was the right call — a beat squeezed it right back toward the $196–200 the plan warned about, and any runner got caught. The trend short objective is DONE — there is no short here into a post-beat squeeze; let the earnings reaction settle. A reclaim of $200 / the 50-EMA is what repairs the bulls. Position was for the print — the print delivered both the banked win and the squeeze.',
-    lead: { rank: 14, status: 'booked', entry: '$219–234 filled', stop: '$250', targets: '$200 → $185 → $170', downside: '−10%', tail: '−17%', rr: '~3:1', edge: 'Downtrend leader — the fade banked ALL targets into the print: BE closed $166.84 (−11.34%), clean through 🕳️ T3 $170 (low $164.35), all three ($200 → $185 → $170) banked, ≈ +26% for the short from $219–234 (a complete win); ⚠️ then earnings BEAT and it squeezed +10.88% AH to $185 (high $191) — the trend objective is done, off the ranked table (banked in the strip), no short into a post-beat squeeze' },
+    price: '$163.75', change: 'close −1.85% $163.75 · AH $159.24 · ✅ the post-beat squeeze FADED — back under T3 $170 · booked ~+26%',
+    signal: 'Downtrend leader — all targets banked, and the earnings squeeze didn’t stick. Day two delivered the verdict: yesterday’s +10.88% AH squeeze to $185 (high $191) sold off through the regular session — BE closed $163.75 (−1.85%), back UNDER the broken T3 $170, and slid to $159.24 after hours. The trade stays a complete win — all three targets ($200 → $185 → $170) banked, ≈ +26% for the short from $219–234 — and the failed squeeze confirms the downtrend read: the 1H rolled straight back over (RSI 36.04, Stoch 26.82, MACD −3.38) with the whole stack capping (9-EMA $168 → 50-EMA $180 → 200-EMA $209). Still no fresh entry: the booked win needed no re-entry and post-print chop is not a setup — a reclaim of $200 / the 50-EMA remains what repairs the bulls, and a fresh short would need structure to form first (a failed bounce under $168–180 is where that conversation starts).',
+    lead: { rank: 14, status: 'booked', entry: '$219–234 filled', stop: '$250', targets: '$200 → $185 → $170', downside: '−10%', tail: '−17%', rr: '~3:1', edge: 'Downtrend leader — all targets banked and the post-beat squeeze FADED: yesterday’s +10.88% AH squeeze to $185 (high $191) sold off through the session, BE closed $163.75 (−1.85%), back under the broken T3 $170, AH $159.24 — the complete win stands (all three targets, ≈ +26% from $219–234, off the ranked table, banked in the strip); 1H rolled back over (RSI 36.04, Stoch 26.82, the $168/$180/$209 stack capping) — still no fresh entry, a reclaim of $200 / 50-EMA repairs the bulls, a new short needs structure first (failed bounce under $168–180)' },
     side: 'short', accent: 'amber',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/be.html',
   },
   {
