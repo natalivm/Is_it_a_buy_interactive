@@ -124,6 +124,12 @@ const STOCKS = [
   // re-armed, session confirmation pending: hold $500 + reclaim $505.66–510
   // = bounce mode; a daily close <$483.32 breaks the fib → 50-week $431.
   // Board stance: bank/trail at the majors, no fresh shorts into the hole.
+  // STX — the third beat of the week to fade: sold from $823.73 to a
+  // $764.43 close, back UNDER the $770 re-arm line (AH $754.91) → fade
+  // re-arming toward $700, chop risk (green day, real beat). AMAT −8.40%
+  // cut THROUGH the weekly 50-EMA zone $455–466 in one session (close
+  // $436.45, AH $441.01) — first weekly-frame damage; fast reclaim =
+  // washout low, failed reclaim = weekly downtrend.
   // ───────────────────────────────────────────────────────────────────────────
   {
     symbol: 'DRAM', exchange: 'CBOE',
@@ -208,11 +214,11 @@ const STOCKS = [
   },
   {
     symbol: 'STX', exchange: 'NASDAQ',
-    price: '$747.30', change: 'close −8.53% $747.30 · ⚠️ EARNINGS BEAT · AH +7.29% $801.77 (high $830) · low $721 near the weekly $700',
-    signal: 'The fence broke and the fade paid — then earnings reversed it. STX closed $747.30 (−8.53%), a clean break THROUGH the $788 prior low and the $770–835 structure, with an intraday low $721.00 pressing right into the weekly 21-MA ≈ $700 magnet the card wanted — the short paid in full down toward the target. THEN it reported after the close and squeezed +7.29% to $801.77 after-hours (spiking to $830), a violent post-beat reversal that lifted price back above the broken $770–788 structure. This is the binary risk playing out the same way BE’s did: the technical fade banked the move into the print, but the earnings beat flips the near-term read — there is no fresh short into a post-beat squeeze at $801, and the AH pop back over the broken shelf ($770–788) is a bullish tell. Still a pullback in an intact weekly uptrend (the daily 200-EMA ≈ $578 is the deeper support below the $700 magnet), so let the earnings reaction settle; a hold back above $788 repairs the structure, while a fade back under $770 would re-arm the slide toward $700.',
-    edge: 'The fence broke and the fade paid — then earnings reversed it: STX closed $747.30 (−8.53%), clean through the $788 low and the $770–835 structure to a $721 low, pressing the weekly 21-MA ≈ $700 magnet, ⚠️ then the earnings BEAT squeezed it +7.29% AH to $801.77 (high $830) back above the broken $770–788 shelf; the technical fade banked into the print but the beat flips the near-term read — no short into a post-beat squeeze, a hold over $788 repairs the structure while a fade back under $770 re-arms the slide toward $700',
+    price: '$764.43', change: 'close +2.29% $764.43 — but the beat squeeze SOLD from $823.73 · AH $754.91 · daily close back UNDER $770 — fade re-arming',
+    signal: 'The fence broke, earnings reversed it — and now the squeeze is fading like the others. Day two: the post-beat squeeze opened high and sold all session — from an $823.73 high (right under the 4H 50-EMA $831, the same lid that killed yesterday’s $830 AH spike) down to a $764.43 close (+2.29% on the day, but ~−7% off the high) — and AH slid to $754.91. That puts the daily close back UNDER the $770 line the card set: the re-arm condition is in — the fade toward the weekly 21-MA ≈ $700 re-arms, the third beat this week (after TER and BE) that could not hold its pop. Caveats are real: the beat is real and the day still finished green, so expect chop, not a clean slide — the short case needs the $786–830 lid to keep holding (4H 9-EMA $786 → broken $788 shelf → squeeze zone $801–830 / 4H 50-EMA $831); the cleaner entry is a failed bounce there, not a chase. A hold back above $788 repairs the structure; a reclaim of $835 ends the short case for good. Below: the $721 low (with the 4H lower band $717) → 🕳️ the $700 magnet.',
+    edge: 'The fence broke, earnings reversed it — and the squeeze is fading like the others: day two sold from an $823.73 high (right under the 4H 50-EMA $831, the lid that killed yesterday’s $830 AH spike) to a $764.43 close, AH $754.91 — the daily close back UNDER the $770 line, so the re-arm toward the weekly 21-MA ≈ $700 is in (the third beat this week after TER and BE that couldn’t hold its pop); but the beat is real and the day finished green — chop risk: enter only on a failed bounce into $786–830, a hold over $788 repairs, a reclaim of $835 ends the short case; below — $721 → 🕳️ $700',
     side: 'short', accent: 'amber',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/stx.html',
   },
   {
@@ -235,11 +241,11 @@ const STOCKS = [
   },
   {
     symbol: 'AMAT', exchange: 'NASDAQ',
-    price: '$476.46', change: 'close −7.82% $476.46 · AH $468.22 · BROKE the $492 low · next ≈ $473 lower BB',
-    signal: 'Technical fade — the $492 low broke. AMAT closed $476.46 (−7.82%), a decisive break UNDER the $492 prior low the card flagged — the level whose break opens the next leg — and AH extended to $468.22 (−1.73%), already through the ≈ $473 lower-BB target. Price is under the whole MA stack, MACD firmly negative. It stays a technical fade, not a fundamental short — equipment rides the TSMC buildout and the higher timeframes are only cooling, not broken — so it stays off the ranked board. Near-term it is deeply oversold (1H RSI ~30, Stoch 20.66), so a reflex bounce is due — a bounce into $493–513 (broken shelf / VWAP) is the cleaner re-short, not a chase of the low. Confirmation is now in: the daily close held under $492. The next leg under ≈ $473 opens lower; a reclaim of $513→$530 negates.',
-    edge: 'Technical fade, the $492 low broke — AMAT closed $476.46 (−7.82%), a decisive break under the $492 prior low, AH $468.22 already through the ≈ $473 lower-BB target; under the whole MA stack but still a pullback not a fundamental short (equipment rides the TSMC buildout), off the board — deeply oversold (1H Stoch 20.66) so a bounce into $493–513 is the cleaner re-short, the daily close held under $492, a reclaim of $513→$530 negates',
+    price: '$436.45', change: 'close −8.40% $436.45 · AH $441.01 · ❗ cut THROUGH the weekly 50-EMA zone $455–466 in one session · stretched — no chase',
+    signal: 'Technical fade — now testing the weekly frame itself. AMAT collapsed another −8.40% to $436.45, slicing straight through the $455–466 weekly 50-EMA zone — yesterday’s "deep correction" anchor — in a single session; AH bounced +1.04% to $441.01, back toward the broken zone. That changes the caveat: the card kept AMAT off the board because "the higher timeframes are only cooling, not broken" — a close under the weekly 50-EMA is the first real weekly-frame damage. The next sessions decide which it was: a washout undercut of the weekly rail — a fast reclaim of $455–466 (especially if SMH’s AH fib-tag bounce plays out) would mark a washout low — or the pullback graduating into a weekly downtrend. Extremely stretched (4H RSI 26.43, Stoch 6.45, MACD −21.84), so no chasing either direction: the re-short zone pulls down to $464–476 (4H 9-EMA $464 / the broken ≈$473 shelf; was $493–513), and below $436 there is no mapped structure — air until the weekly frame gives the next anchor. Repair ladder: $455–466 first, $492 second, $513→$530 negates. Stays off the ranked board.',
+    edge: 'Technical fade now testing the weekly frame — AMAT collapsed −8.40% to $436.45, cutting through the $455–466 weekly 50-EMA zone (yesterday’s deep-correction anchor) in one session, AH $441.01 bouncing back toward it; first real weekly-frame damage, so the next sessions decide: a fast reclaim of $455–466 = washout low (especially if SMH’s fib-tag bounce plays), a failed reclaim = weekly downtrend; extremely stretched (4H RSI 26.43, Stoch 6.45) — no chase, re-short only from $464–476 (4H 9-EMA / broken ≈$473, was $493–513), below $436 unmapped air, $513→$530 negates (off the board)',
     side: 'short', accent: 'red',
-    date: '2026-07-28',
+    date: '2026-07-29',
     story: 'stories/amat.html',
   },
   {
