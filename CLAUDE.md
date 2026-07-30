@@ -57,26 +57,38 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 
 ## Trend meter (`MARKET` in data.js)
 
-The panel at the very top of the board answers one question — is the index in an
-uptrend or a downtrend — and is rendered by `renderTrendMeter()` from the
-`MARKET` object in `data.js`. The whole point is that **the verdict is computed,
-never hand-set**:
+The cockpit at the very top of the board answers one question per index — is it
+in an uptrend or a downtrend — and is rendered by `renderTrendMeter()` from the
+`MARKET` object in `data.js`: one stacked trend bar per entry in
+`MARKET.markets` (QQQ, SMH, …) with the VIX/VXN fear mini-gauges in a narrow
+column beside them, then a collapsible evidence block per gauge. The whole
+point is that **every verdict is computed, never hand-set**:
 
-- `checks` is the evidence list: `{ label, verdict: 'bull'|'bear'|'neutral',
-  read, weight? }`. `trendScore()` turns it into a weighted mean on a
-  −100…+100 scale (bull +1, bear −1, neutral 0; `weight` defaults to 1 — give
-  structural facts 1.5 and oscillators 1). That score positions the needle,
-  picks the band from `TREND_BANDS` in `script.js` (Downtrend / Rolling over /
-  Neutral / Repairing / Uptrend) and colours the whole panel via `--tm-a`. So
-  the gauge can never disagree with the checklist printed under it — to change
-  the reading, change a check's `verdict`, not a number somewhere else.
-- `vol` holds the VIX/VXN gauges (the fear side of the read); `confirm` is the
-  ordered flip checklist (`done: true` ticks a step and updates the "n/5
-  ticked" counter); `levels.reclaim` / `levels.invalidate` are the two decision
-  lines; `note` is the one-line stance.
+- Each market's `checks` is its evidence list: `{ label,
+  verdict: 'bull'|'bear'|'neutral', read, weight? }`. `trendScore()` turns it
+  into a weighted mean on a −100…+100 scale (bull +1, bear −1, neutral 0;
+  `weight` defaults to 1 — give structural facts 1.5 and oscillators 1). That
+  score positions the row's needle, picks the band from `TREND_BANDS` in
+  `script.js` (Downtrend / Rolling over / Neutral / Repairing / Uptrend) and
+  colours the row red→amber→yellow→cyan→green via `--tm-a`. So a bar can never
+  disagree with its checklist — to change a reading, change a check's
+  `verdict`, not a number somewhere else.
+- Each market also carries `fast.checks` — the **4H fast frame**, scored the
+  same way but rendered as a small chip on the row. The fast frame flips
+  first, the daily bar confirms; keep 4H evidence there, not in `checks`, so
+  the frames stay independent. Refresh the fast checks intraday when the 4H
+  tape changes even if the daily read hasn't.
+- `vol` holds the VIX/VXN mini-gauges: `value` is parsed for the needle and
+  `range: [calmLo, fearHi]` is the scale it sits on; `read` renders in the
+  collapsible "fear side" block.
+- Per market, `confirm` is the ordered flip checklist (`done: true` ticks a
+  step and updates the "n/5" counter in the summary row);
+  `levels.reclaim` / `levels.invalidate` are the two decision lines; `note` is
+  that index's stance. Top-level `note` is the one-line board stance under the
+  bars.
 - Bump `updated` (ISO date) on every refresh — it renders as the "as of" label,
   same discipline as a tile's `date`. The section hides itself if `MARKET` is
-  missing or has no usable checks.
+  missing or no market has usable checks.
 
 ## Stock tile data model
 

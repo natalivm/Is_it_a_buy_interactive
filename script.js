@@ -123,16 +123,21 @@ function renderBooked() {
 }
 
 // ── Trend meter ─────────────────────────────────────────────────────────────
-// The regime read for the index (MARKET in data.js). The needle is computed
-// from MARKET.checks — 'bull' +1, 'bear' −1, 'neutral' 0, weighted — so the
-// gauge can never contradict the checklist printed under it. Score runs
-// −100 (full downtrend) … +100 (full uptrend).
+// The regime cockpit (MARKET in data.js): one stacked trend bar per index in
+// MARKET.markets, with the VIX/VXN fear mini-gauges beside them. Every needle
+// is computed from that gauge's checks — 'bull' +1, 'bear' −1, 'neutral' 0,
+// weighted — so a bar can never contradict the evidence listed under it.
+// Scores run −100 (full downtrend) … +100 (full uptrend); the band the score
+// lands in colours the whole row red → amber → yellow → cyan → green. Each
+// index also carries a 4H fast frame (market.fast.checks), scored the same
+// way but rendered as a small chip: the fast frame flips first, the main bar
+// confirms.
 const TREND_BANDS = [
-    { max: -60, key: 'down',    label: 'Downtrend',        blurb: 'Trend is down on the operative timeframe — rallies are countertrend until proven otherwise.' },
-    { max: -20, key: 'weak',    label: 'Rolling over',     blurb: 'Structure is deteriorating: sell the rip still beats buy the dip.' },
-    { max: 20,  key: 'neutral', label: 'Neutral / chop',   blurb: 'No trend edge either way — range rules, levels beat opinions.' },
-    { max: 60,  key: 'repair',  label: 'Repairing',        blurb: 'The downtrend is being undone but the job is not finished.' },
-    { max: 101, key: 'up',      label: 'Uptrend',          blurb: 'Trend is up — dips into support are the higher-probability side.' },
+    { max: -60, key: 'down',    label: 'Downtrend',      blurb: 'Trend is down on the operative timeframe — rallies are countertrend until proven otherwise.' },
+    { max: -20, key: 'weak',    label: 'Rolling over',   blurb: 'Structure is deteriorating: sell the rip still beats buy the dip.' },
+    { max: 20,  key: 'neutral', label: 'Neutral / chop', blurb: 'No trend edge either way — range rules, levels beat opinions.' },
+    { max: 60,  key: 'repair',  label: 'Repairing',      blurb: 'The downtrend is being undone but the job is not finished.' },
+    { max: 101, key: 'up',      label: 'Uptrend',        blurb: 'Trend is up — dips into support are the higher-probability side.' },
 ];
 
 const VERDICT_W = { bull: 1, bear: -1, neutral: 0 };
@@ -150,24 +155,12 @@ function trendBand(score) {
     return TREND_BANDS.find(b => score < b.max) || TREND_BANDS[TREND_BANDS.length - 1];
 }
 
-function renderTrendMeter() {
-    const el = document.getElementById('trendMeter');
-    if (!el) return;
-    const M = (typeof MARKET !== 'undefined') ? MARKET : null;
-    const score = M ? trendScore(M.checks) : null;
-    if (!M || score === null) { el.hidden = true; el.innerHTML = ''; return; }
-    el.hidden = false;
+function fmtScore(score) {
+    return `${score > 0 ? '+' : score < 0 ? '\u2212' : ''}${Math.abs(score)}`;
+}
 
-    const band = trendBand(score);
-    // −100…+100 → 0…100% along the track.
-    const pos = (score + 100) / 2;
-
-    const tally = (M.checks || []).reduce((a, c) => {
-        if (c.verdict in a) a[c.verdict]++;
-        return a;
-    }, { bull: 0, bear: 0, neutral: 0 });
-
-    const checks = (M.checks || []).map(c => `
+function trendChecksHtml(checks) {
+    return (checks || []).map(c => `
         <li class="tm-check tm-${c.verdict}">
             <span class="tm-check-head">
                 <span class="tm-dot" aria-hidden="true"></span>
@@ -176,76 +169,151 @@ function renderTrendMeter() {
             </span>
             <span class="tm-check-read">${esc(c.read || '')}</span>
         </li>`).join('');
+}
 
-    const vol = (M.vol || []).map(v => `
+// One stacked cockpit row: symbol + price · the big computed trend bar · the
+// verdict pill and the 4H fast-frame chip.
+function trendRowHtml(mkt) {
+    const score = trendScore(mkt.checks);
+    if (score === null) return '';
+    const band = trendBand(score);
+    const pos = (score + 100) / 2;
+    const fastScore = mkt.fast ? trendScore(mkt.fast.checks) : null;
+    const fastBand = fastScore === null ? null : trendBand(fastScore);
+    return `
+        <div class="tm-row tm-band-${band.key}">
+            <div class="tm-row-id">
+                <span class="tm-row-sym">${esc(mkt.symbol)}</span>
+                <span class="tm-row-price">${esc(mkt.price || '')}</span>
+            </div>
+            <div class="tm-row-gauge">
+                <div class="tm-track" role="img"
+                     aria-label="${esc(mkt.symbol)} trend score ${score} out of \u2212100 to +100 — ${esc(band.label)}">
+                    <div class="tm-needle" style="left:${pos.toFixed(1)}%"></div>
+                </div>
+                <div class="tm-scale"><span>Down</span><span>Neutral</span><span>Up</span></div>
+            </div>
+            <div class="tm-row-read">
+                <span class="tm-verdict">
+                    <span class="tm-verdict-label">${esc(band.label)}</span>
+                    <span class="tm-verdict-score">${fmtScore(score)}</span>
+                </span>
+                ${fastBand ? `<span class="tm-fast tm-fast-${fastBand.key}"
+                    title="4H fast frame — flips before the daily">4H · ${esc(fastBand.label)} ${fmtScore(fastScore)}</span>` : ''}
+            </div>
+        </div>`;
+}
+
+// The full evidence for one index, tucked into a collapsible block so the
+// cockpit stays one screen tall.
+function trendDetailsHtml(mkt) {
+    const score = trendScore(mkt.checks);
+    if (score === null) return '';
+    const band = trendBand(score);
+    const tally = (mkt.checks || []).reduce((a, c) => {
+        if (c.verdict in a) a[c.verdict]++;
+        return a;
+    }, { bull: 0, bear: 0, neutral: 0 });
+    const done = (mkt.confirm || []).filter(c => c.done).length;
+    const confirm = (mkt.confirm || []).map(c => `
+        <li class="tm-step${c.done ? ' tm-step-done' : ''}">
+            <span class="tm-box" aria-hidden="true">${c.done ? '\u2713' : ''}</span>
+            <span>${esc(c.label)}</span>
+        </li>`).join('');
+    const fastChecks = mkt.fast ? trendChecksHtml(mkt.fast.checks) : '';
+    return `
+        <details class="tm-details tm-band-${band.key}">
+            <summary>
+                <span class="tm-details-sym">${esc(mkt.symbol)}</span>
+                <span class="tm-details-role">${esc(mkt.role || mkt.label || '')}</span>
+                <span class="tm-details-meta">${esc(band.label)} ${fmtScore(score)}${mkt.confirm ? ` · flip ${done}/${mkt.confirm.length}` : ''}</span>
+            </summary>
+            <div class="tm-details-body">
+                ${mkt.change ? `<p class="tm-change">${esc(mkt.change)}</p>` : ''}
+                <p class="tm-blurb">${esc(band.blurb)}</p>
+                <div class="tm-tally">
+                    <span class="tm-tally-bear">${tally.bear} bearish</span>
+                    <span class="tm-tally-neutral">${tally.neutral} neutral</span>
+                    <span class="tm-tally-bull">${tally.bull} bullish</span>
+                </div>
+                <ul class="tm-checks">${trendChecksHtml(mkt.checks)}</ul>
+                ${fastChecks ? `<h3 class="tm-sub">4H — the fast frame <span class="tm-count">flips first, the daily confirms</span></h3>
+                <ul class="tm-checks">${fastChecks}</ul>` : ''}
+                ${confirm ? `<h3 class="tm-sub">What flips ${esc(mkt.symbol)} <span class="tm-count">${done}/${(mkt.confirm || []).length} ticked</span></h3>
+                <ol class="tm-steps">${confirm}</ol>` : ''}
+                ${(mkt.levels && (mkt.levels.reclaim || mkt.levels.invalidate)) ? `<div class="tm-levels">
+                    ${mkt.levels.reclaim ? `<div class="tm-level tm-level-up"><span class="tm-level-k">Reclaim to flip</span><span class="tm-level-v">${esc(mkt.levels.reclaim)}</span></div>` : ''}
+                    ${mkt.levels.invalidate ? `<div class="tm-level tm-level-dn"><span class="tm-level-k">Breaks lower if</span><span class="tm-level-v">${esc(mkt.levels.invalidate)}</span></div>` : ''}
+                </div>` : ''}
+                ${mkt.note ? `<p class="tm-note">${esc(mkt.note)}</p>` : ''}
+            </div>
+        </details>`;
+}
+
+// VIX/VXN fear mini-gauge: needle at `value`'s position inside `range`
+// [calmLo, fearHi], on a calm→fear track.
+function volMiniHtml(v) {
+    const val = planNums(v.value)[0];
+    const [lo, hi] = Array.isArray(v.range) ? v.range : [];
+    const pos = (val != null && lo != null && hi != null && hi > lo)
+        ? Math.max(0, Math.min(100, ((val - lo) / (hi - lo)) * 100))
+        : null;
+    return `
+        <div class="tm-minivol tm-${v.verdict}" title="${esc(v.read || '')}">
+            <div class="tm-minivol-top">
+                <span class="tm-minivol-sym">${esc(v.symbol)}</span>
+                <span class="tm-minivol-val">${esc(v.value)}</span>
+            </div>
+            ${pos === null ? '' : `
+            <div class="tm-minitrack" role="img"
+                 aria-label="${esc(v.symbol)} ${esc(v.value)}, between ${lo} (calm) and ${hi} (fear)">
+                <div class="tm-minineedle" style="left:${pos.toFixed(1)}%"></div>
+            </div>
+            <div class="tm-miniscale"><span>calm</span><span>fear</span></div>`}
+            ${v.change ? `<div class="tm-minivol-chg">${esc(v.change)}</div>` : ''}
+        </div>`;
+}
+
+function renderTrendMeter() {
+    const el = document.getElementById('trendMeter');
+    if (!el) return;
+    const M = (typeof MARKET !== 'undefined') ? MARKET : null;
+    const markets = (M && Array.isArray(M.markets) ? M.markets : [])
+        .filter(m => trendScore(m.checks) !== null);
+    if (!M || !markets.length) { el.hidden = true; el.innerHTML = ''; return; }
+    el.hidden = false;
+
+    const vols = (M.vol || []).map(volMiniHtml).join('');
+    const volReads = (M.vol || []).filter(v => v.read).map(v => `
         <div class="tm-vol tm-${v.verdict}">
             <div class="tm-vol-top">
                 <span class="tm-vol-sym">${esc(v.symbol)}</span>
                 <span class="tm-vol-val">${esc(v.value)}</span>
             </div>
             <div class="tm-vol-chg">${esc(v.change || '')}</div>
-            <p class="tm-vol-read">${esc(v.read || '')}</p>
+            <p class="tm-vol-read">${esc(v.read)}</p>
         </div>`).join('');
 
-    const done = (M.confirm || []).filter(c => c.done).length;
-    const confirm = (M.confirm || []).map(c => `
-        <li class="tm-step${c.done ? ' tm-step-done' : ''}">
-            <span class="tm-box" aria-hidden="true">${c.done ? '✓' : ''}</span>
-            <span>${esc(c.label)}</span>
-        </li>`).join('');
-
     el.innerHTML = `
-        <div class="tm-head">
-            <div class="tm-id">
-                <span class="tm-eyebrow">Trend meter</span>
-                <h2 class="tm-title">${esc(M.label || M.symbol || '')}</h2>
-                <div class="tm-price-row">
-                    <span class="tm-price">${esc(M.price || '')}</span>
-                    <span class="tm-change">${esc(M.change || '')}</span>
-                </div>
-            </div>
-            <div class="tm-verdict tm-band-${band.key}">
-                <span class="tm-verdict-label">${esc(band.label)}</span>
-                <span class="tm-verdict-score">${score > 0 ? '+' : score < 0 ? '−' : ''}${Math.abs(score)}</span>
-            </div>
-        </div>
-
-        <div class="tm-gauge">
-            <div class="tm-track" role="img"
-                 aria-label="Trend score ${score} out of −100 to +100 — ${esc(band.label)}">
-                <div class="tm-needle" style="left:${pos.toFixed(1)}%"></div>
-            </div>
-            <div class="tm-scale">
-                <span>Downtrend</span><span>Neutral</span><span>Uptrend</span>
-            </div>
-            <p class="tm-blurb">${esc(band.blurb)}</p>
-        </div>
-
-        <div class="tm-tally">
-            <span class="tm-tally-bear">${tally.bear} bearish</span>
-            <span class="tm-tally-neutral">${tally.neutral} neutral</span>
-            <span class="tm-tally-bull">${tally.bull} bullish</span>
+        <div class="tm-top">
+            <span class="tm-eyebrow">Trend meter</span>
             <span class="tm-asof">as of ${esc(fmtDate(M.updated))}</span>
         </div>
-
-        <ul class="tm-checks">${checks}</ul>
-
-        ${vol ? `<div class="tm-volwrap">
-            <h3 class="tm-sub">Volatility — the fear side of the read</h3>
-            <div class="tm-vols">${vol}</div>
-        </div>` : ''}
-
-        ${confirm ? `<div class="tm-confirm">
-            <h3 class="tm-sub">What would confirm a bottom <span class="tm-count">${done}/${(M.confirm || []).length} ticked</span></h3>
-            <ol class="tm-steps">${confirm}</ol>
-        </div>` : ''}
-
-        ${(M.levels && (M.levels.reclaim || M.levels.invalidate)) ? `<div class="tm-levels">
-            ${M.levels.reclaim ? `<div class="tm-level tm-level-up"><span class="tm-level-k">Reclaim to flip</span><span class="tm-level-v">${esc(M.levels.reclaim)}</span></div>` : ''}
-            ${M.levels.invalidate ? `<div class="tm-level tm-level-dn"><span class="tm-level-k">Breaks lower if</span><span class="tm-level-v">${esc(M.levels.invalidate)}</span></div>` : ''}
-        </div>` : ''}
-
-        ${M.note ? `<p class="tm-note">${esc(M.note)}</p>` : ''}
+        <div class="tm-cockpit">
+            ${vols ? `<div class="tm-volcol" role="group" aria-label="Volatility gauges">${vols}</div>` : ''}
+            <div class="tm-rows">${markets.map(trendRowHtml).join('')}</div>
+        </div>
+        ${M.note ? `<p class="tm-boardnote">${esc(M.note)}</p>` : ''}
+        <div class="tm-detailwrap">
+            ${markets.map(trendDetailsHtml).join('')}
+            ${volReads ? `<details class="tm-details tm-details-vol">
+                <summary>
+                    <span class="tm-details-sym">VIX · VXN</span>
+                    <span class="tm-details-role">Volatility — the fear side of the read</span>
+                </summary>
+                <div class="tm-details-body"><div class="tm-vols">${volReads}</div></div>
+            </details>` : ''}
+        </div>
     `;
 }
 
