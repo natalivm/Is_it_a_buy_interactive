@@ -1,3 +1,208 @@
+// ── Market trend meter ──────────────────────────────────────────────────────
+// The regime read at the top of the board: is each index in an uptrend or a
+// downtrend, and what would have to happen to flip it. Rendered by
+// renderTrendMeter() in script.js.
+//
+// The needle is NOT hand-set: each gauge's score is computed from its own
+// `checks`, so a meter can never disagree with the checklist under it. Each
+// check is 'bull' (+1) | 'bear' (−1) | 'neutral' (0), optionally weighted
+// (default 1), and the score is the weighted mean → −100 (full downtrend) …
+// +100 (full uptrend). That score picks the band, positions the needle and
+// colours the whole card RED (down) / AMBER (rolling over) / YELLOW (neutral)
+// / CYAN (repairing) / GREEN (up). Edit the checks and every visual follows.
+//
+// Top level:
+//   updated   ISO date of the read (shown as "as of")
+//   markets   the gauges, rendered as stacked rows in order — add/remove freely
+//   vol       [{ symbol, value, range, change, verdict, read }] — the shared
+//             VIX/VXN mini-gauges beside the trend bars (market-wide fear, so
+//             they live outside the per-index rows). `value` is numeric-ish
+//             (parsed for the needle) and `range` is [calmLo, fearHi] — the
+//             needle sits at value's position inside that range.
+//   note      one-line stance for the whole board
+//
+// Per market:
+//   symbol/label  what the gauge measures; `role` is the one-line why-it-matters
+//   price/change  freeform labels, same style as the stock tiles
+//   checks        [{ label, verdict, read, weight? }] — the MAIN (daily/weekly
+//                 structure) evidence rows → the big bar
+//   fast          { checks: [...] } — the 4H fast frame, same check shape,
+//                 scored separately → the small "4H" chip on the row. The fast
+//                 frame flips FIRST; the main bar confirms. Keep 4H evidence
+//                 here, not in `checks`, so the two frames stay independent.
+//   confirm       [{ label, done }] — the flip checklist, in order of
+//                 increasing conviction; `done: true` ticks a step off
+//   levels        { reclaim, invalidate } — the two lines that decide it
+//   note          one-line stance for that index
+const MARKET = {
+  updated: '2026-07-30',
+  markets: [
+    {
+      symbol: 'QQQ',
+      label: 'Nasdaq-100 · QQQ',
+      role: 'The index — what the whole tape is doing',
+      price: '$661.73',
+      change: 'close −2.04% (−$13.76) · PM $666.61 · −11% off the ≈$745 June high',
+      checks: [
+        {
+          label: 'Weekly structure',
+          verdict: 'neutral', weight: 1.5,
+          read: 'Rolling over from the high, but NOT broken — weekly RSI 53.24 still over 50 and the multi-year rising structure is intact. This is a correction inside an uptrend until a weekly close says otherwise.',
+        },
+        {
+          label: 'Daily trend',
+          verdict: 'bear', weight: 1.5,
+          read: 'Lower highs and lower lows since the ≈$745 June peak — six weeks of a stair-step down, now −11% off the high with no swing high taken out on the way.',
+        },
+        {
+          label: 'The $678–680 shelf',
+          verdict: 'bear', weight: 1.5,
+          read: 'Support on the way up, lost this week — it is now the lid. Every bounce is guilty until a daily close reclaims it.',
+        },
+        {
+          label: 'Descending trendline (≈$695)',
+          verdict: 'bear', weight: 1.5,
+          read: 'The line off the June highs has capped every attempt for six weeks and is still unbroken. Nothing above it has been tested.',
+        },
+        {
+          label: 'Daily momentum',
+          verdict: 'bear',
+          read: 'Daily RSI 32.40 — under 50 since early July with no repair, and no bullish divergence yet at the lows.',
+        },
+        {
+          label: 'Higher low above $661.58',
+          verdict: 'neutral',
+          read: 'Not formed yet. The pre-market bid at $666 is a first leg — the retest that holds is what would count.',
+        },
+        {
+          label: 'Implied vol (VXN)',
+          verdict: 'bear',
+          read: 'VXN 30.84 (+3.77%) is literally this index’s own vol gauge, and it is pressing the 32–33 top of its two-month range while VIX fades −4.11% — the selling is concentrated right here.',
+        },
+      ],
+      fast: {
+        checks: [
+          {
+            label: '4H structure',
+            verdict: 'bear', weight: 1.5,
+            read: 'Price under the whole 4H EMA stack with lower highs all the way down from ≈$690 — not one 4H swing high has been taken out.',
+          },
+          {
+            label: '4H RSI 25.38',
+            verdict: 'bear',
+            read: 'Making new lows WITH price — no divergence. The fast frame has not even stopped going down yet.',
+          },
+          {
+            label: 'Pre-market bid $666',
+            verdict: 'neutral',
+            read: 'A candidate first 4H higher low IF the open holds it — the earliest possible flip signal, and still unconfirmed.',
+          },
+        ],
+      },
+      confirm: [
+        { label: 'Undercut-and-reclaim of $661.58 on volume — a flush low bought back the same session', done: false },
+        { label: 'Daily close back above the broken $678–680 shelf', done: false },
+        { label: 'A higher low: pullback holds over $661.58, then the bounce high gets taken out', done: false },
+        { label: 'Daily RSI reclaims 50 and holds it (and VXN back under ≈26)', done: false },
+        { label: 'Daily close above the descending trendline ≈$695 — the trend has actually changed', done: false },
+      ],
+      levels: {
+        reclaim: '$678–680 first, then ≈$695 (the trendline)',
+        invalidate: 'a daily close under $661.58 → the $644–646 band is the next real shelf',
+      },
+      note: 'The pre-market bounce is an oversold reaction inside an intact daily downtrend, not a bottom. QQQ has not reached a single mapped support yet — that is the difference from SMH.',
+    },
+    {
+      symbol: 'SMH',
+      label: 'Semis · SMH',
+      role: 'The board’s barometer — the group that leads this tape',
+      price: '$504.22',
+      change: 'close −4.79% · AH flush $483.32 → snap back $500.07 · the 0.618 ≈$478 effectively TAGGED',
+      checks: [
+        {
+          label: 'Weekly structure',
+          verdict: 'neutral', weight: 1.5,
+          read: 'A deep correction, not a broken weekly trend — the 50-week $431 sits far below and untested. The parabola is unwinding, which is not the same thing as a trend break.',
+        },
+        {
+          label: 'Daily trend',
+          verdict: 'bear', weight: 1.5,
+          read: 'Closed $504.22 (−4.79%) UNDER the $505.66 sweep low — the intraday undercut-and-reclaim failed, so the bounce thesis was voided and the lower-high/lower-low sequence stands.',
+        },
+        {
+          label: 'The 0.618 at ≈$478',
+          verdict: 'neutral', weight: 1.5,
+          read: 'The after-hours flush to $483.32 effectively tagged it and snapped straight back to $500.07 — the FULL correction map has now paid ($547–550 → $535 → $510–518 → ≈$478–483). Deep fib support on a second, deeper undercut-and-reclaim is exactly where reflex bounces start.',
+        },
+        {
+          label: 'Overhead stack',
+          verdict: 'bear', weight: 1.5,
+          read: 'The 4H 9-EMA $513.80 then $535 cap every lift, and the $505.66–510 reclaim has not happened. Until it does, all of the structure above is resistance.',
+        },
+        {
+          label: 'Group leadership',
+          verdict: 'bear',
+          read: 'The semis led the whole tape down and the leaders are all sitting on their majors (MU $714 · SNDK $958 · NVDA $189 · COHR $215 · NBIS $147). A group whose leaders are at last-stand levels is not a group in an uptrend.',
+        },
+        {
+          label: 'Bounce confirmation',
+          verdict: 'neutral',
+          read: 'Pending. Holding $500 and reclaiming $505.66–510 in the regular session turns the bounce-watch on — and this week’s lesson (TER, BE) is that after-hours moves do not count until the session confirms them.',
+        },
+      ],
+      fast: {
+        checks: [
+          {
+            label: 'AH undercut-and-reclaim of the 0.618',
+            verdict: 'bull', weight: 1.5,
+            read: 'Flush $483.32 → snap straight back to $500.07 AT the fib — the classic start of a reflex bounce, and it printed on the fast frame first.',
+          },
+          {
+            label: '4H RSI 22.57',
+            verdict: 'neutral',
+            read: 'Pinned at extremes (Stoch 12.38, MACD −13.24) — fuel, and the first divergence would show here before the daily.',
+          },
+          {
+            label: '$505.66–510 reclaim',
+            verdict: 'neutral',
+            read: 'The 4H trigger. Until it prints in the regular session, the fast frame is a bounce attempt, not a turn.',
+          },
+          {
+            label: '4H 9-EMA $513.80',
+            verdict: 'bear',
+            read: 'Still capping every lift — the fast frame’s own downtrend line, unbroken.',
+          },
+        ],
+      },
+      confirm: [
+        { label: 'Hold $500 in the regular session — the AH snap-back is not enough on its own', done: false },
+        { label: 'Reclaim $505.66–510 — the sweep low that broke, back over the line', done: false },
+        { label: 'Daily close above the 4H 9-EMA $513.80, then a push at $535', done: false },
+        { label: '4H divergence at the lows: a marginal new low with RSI higher', done: false },
+        { label: 'Close above $580 with breadth — the fade regime is over', done: false },
+      ],
+      levels: {
+        reclaim: '$505.66–510 first, then $513.80 → $535',
+        invalidate: 'a daily close under $483.32 breaks the fib for real → the 50-week $431 goes live',
+      },
+      note: 'The barometer has paid its ENTIRE map and tagged the 0.618, so unlike QQQ it is sitting on real support with a bounce-watch armed — which is why it scores less bearish. Board stance: bank/trail into strength, no fresh shorts into the hole.',
+    },
+  ],
+  vol: [
+    {
+      symbol: 'VIX', value: '19.81', range: [15, 22], change: '−4.11% · spiked ≈21',
+      verdict: 'bear',
+      read: 'Above the 20 handle on a rising trendline off $15.18. A close back under ≈18 is the first sign the bid in fear is done.',
+    },
+    {
+      symbol: 'VXN', value: '30.84', range: [24, 33], change: '+3.77% · range top 32–33',
+      verdict: 'bear',
+      read: 'Rising while VIX pulls back — NASDAQ-specific stress. Needs to break back under ≈26 (the range floor) for the index to breathe.',
+    },
+  ],
+  note: 'Two gauges, one read: the index has not reached support while the group already has. That is a tape where shorts get banked and longs stay on a watchlist — not one where either side gets pressed.',
+};
+
 // ── Stocks ──────────────────────────────────────────────────────────────────
 // Each entry renders one tile in the gallery. Clicking a tile opens its
 // interactive story — a self-contained HTML slideshow living in /stories.

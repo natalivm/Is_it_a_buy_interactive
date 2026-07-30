@@ -32,6 +32,11 @@
 
     <main class="main-content">
         <div class="page-container">
+            <!-- Trend meter — the index regime read, rendered by
+                 renderTrendMeter() from MARKET in data.js. The needle is
+                 computed from MARKET.checks, never hand-set. -->
+            <section class="trendmeter" id="trendMeter" aria-label="Index trend meter" hidden></section>
+
             <!-- "Booked at targets" strip — filled trades whose price reached
                  at least T1, rendered by renderBooked() from data.js. Hidden
                  until at least one trade has tagged its take-profit zone. -->
