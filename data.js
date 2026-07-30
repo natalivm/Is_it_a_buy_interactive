@@ -24,6 +24,44 @@
 //
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
+  // ── 2026-07-30 (pre-market) ── META ADDED off the ranked board (long
+  // watch, bottom-hunt): the capex binary the CRWV card waited for resolved
+  // RED at the payer itself — META gapped −8.33% pre-market to $536.85
+  // (close $585.61), landing ON the daily lower band $538.49 inside the
+  // two-year $525–540 demand shelf (Apr-25 + Apr-26 lows, both V-bought)
+  // with the 200-week EMA ≈ $530 beneath. Buy the FLIP, not the gap:
+  // probes $530–538 post-open, core on an undercut-and-reclaim of
+  // $525–530, stop <$515; flip confirms 1H close >$555 → reclaim $585.61;
+  // a daily close <$525 = shelf gone, air to ≈ $420 — long off.
+  // NOTE: CRWV's post-META instruction (fade $65–74 / break <$59.6) is now
+  // LIVE — refresh CRWV when its tape prints. TSLA + META are the two
+  // bottom-hunt watches of the session (both on their 200-week rails).
+  {
+    symbol: 'META', exchange: 'NASDAQ',
+    price: '$585.61', change: 'close −1.31% $585.61 · PM $536.85 −8.33% — earnings gap ONTO the two-year shelf $525–540 / 200-week ≈ $530',
+    signal: 'Bottom-hunt at the two-year shelf — the earnings gap delivered the price. META closed $585.61 (−1.31%) and the print did the rest overnight: pre-market $536.85 (−8.33%), a gap through the June lows landing exactly where this stock has bottomed twice before — the $525–540 demand shelf (April-2025 and April-2026 lows, both V-bought) with the 200-week EMA ≈ $530 beneath, the PM print sitting ON the daily lower band $538.49. The 1H is still detonation-shaped (RSI 23.61, MACD −14.64, OBV −150M — no divergence yet) and the daily frame is broken (RSI 31.76, under the daily 200-EMA $630.68), so this is a buy-the-flip, not buy-the-gap: probes $530–538 once the open stabilizes, core on an undercut-and-reclaim of $525–530, stop under $515. Flip checklist: undercut-and-reclaim of the lows → 1H RSI/OBV divergence → first 1H close over $555 (9-EMA) → reclaim of $585.61 (the gap top) = bottom likely in. Recovery targets $555 → $585.61 → $609–612 (daily 50 + 1H 200-EMA) → $626–631 (50-week + daily 200 — full repair). A daily close under $525 breaks the shelf — untested air to ≈ $420, long off.',
+    edge: 'Bottom-hunt long at the two-year shelf: the earnings gap (−8.33% PM to $536.85) landed exactly on the $525–540 demand shelf that V-bottomed in Apr-25 and Apr-26, with the 200-week EMA ≈ $530 beneath and the print ON the daily lower band $538.49 — first reaction lies, so buy the FLIP, not the gap: probes $530–538 post-open, core on an undercut-and-reclaim of $525–530, stop <$515 — flip confirms on a 1H close >$555 then a reclaim of the $585.61 gap top, targets $555 → $585.61 → $609–612 → $626–631; a daily close <$525 = air to ≈ $420, long off (off the ranked board, a watch)',
+    side: 'long', accent: 'blue',
+    date: '2026-07-30',
+    story: 'stories/meta.html',
+  },
+  // ── 2026-07-30 (pre-market) ── TSLA ADDED off the ranked board (long
+  // watch, per the MRVL precedent — a knife-catch stays a watch until the
+  // reclaim confirms): a ≈ −24% six-session waterfall through the daily
+  // 200-EMA landed exactly ON the 200-week EMA ≈ $299 (close $298.32,
+  // PM $298.72) under BOTH lower Bollinger bands — no fresh short into the
+  // hole at a multi-year rail; accumulation zone $290–300 scaled, stop
+  // <$283, bottom confirms on a reclaim $310 → $332; a weekly close <$285
+  // breaks the rail → the 2025 base ≈ $215.
+  {
+    symbol: 'TSLA', exchange: 'NASDAQ',
+    price: '$298.32', change: 'close −2.97% $298.32 · PM $298.72 · sitting ON the 200-week EMA ≈ $299 · under BOTH lower bands',
+    signal: 'The EV bellwether’s waterfall lands on THE multi-year level. Six straight red sessions took TSLA ≈ −24% from ~$390, cutting the daily 200-EMA $392.56 without a pause — and the close $298.32 (−2.97%) sits exactly ON the 200-week EMA ≈ $299.04 (pre-market $298.72), far below both lower Bollinger bands (weekly $347.70, daily ≈ $332). The daily is pinned (RSI 25.42, Stoch 4.64, MACD −14.94 still accelerating — no divergence yet), but the 1H has based at $295–300 for two sessions (RSI 40, Stoch curling from 18) — the tape’s first flattening, though 1H OBV is still negative (−375M). This is NOT a short — no fresh shorts into the hole at a multi-year rail; it’s a bottom-watch long: accumulate IN $290–300, scaled ($297–300 first adds, $290–295 the core on an undercut flush), stop under $283. A bottom confirms on a reclaim of $310 → $332 (daily 9-EMA + lower band); recovery targets $332 → $343 (1H 200-EMA) → $382–392 (the broken daily 50/200 shelf). A weekly close under $285 is the first break of the 200-week rail this cycle — long off, and below there is only the 2025 base ≈ $215.',
+    edge: 'Bottom-watch for a long at THE multi-year rail: a ≈ −24% six-session waterfall landed exactly ON the 200-week EMA ≈ $299 (close $298.32, PM $298.72), under BOTH lower Bollinger bands with the daily pinned (RSI 25.42, Stoch 4.64) — too late to short the hole, too early to call the bottom (no divergence, 1H OBV −375M): accumulate IN $290–300 scaled ($297–300 first, $290–295 core), stop under $283 — a reclaim of $310 → $332 confirms the bottom toward $332 → $343 → $382–392, a weekly close under $285 breaks the rail → the 2025 base ≈ $215 (off the ranked board, a watch)',
+    side: 'long', accent: 'red',
+    date: '2026-07-30',
+    story: 'stories/tsla.html',
+  },
   {
     symbol: 'CRWV', exchange: 'NASDAQ',
     price: '$60.82', change: 'close −9.63% $60.82 · AH $59.6 · below the weekly lower band · ⚠️ META prints tonight — the capex binary',
