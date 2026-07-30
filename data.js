@@ -190,9 +190,9 @@ const MARKET = {
   ],
   vol: [
     {
-      symbol: 'VIX', value: '18.26', range: [15, 22], change: '−2.98% · pressing the ≈18 line · rejected 20.01',
-      verdict: 'neutral',
-      read: 'Selling off harder as the session goes on (−2.98%, down from 18.58 at the open) after rejecting the 20.01 line — now pressing the ≈18 level that this gauge named as the sign the bid in fear is done. A break under 18 would be the cleanest confirmation the bounce has of anything.',
+      symbol: 'VIX', value: '17.80', range: [15, 22], change: 'late session · ✅ BROKE the ≈18 line this gauge named',
+      verdict: 'bull',
+      read: 'The line FIRED: 17.80 is under the ≈18 level this gauge named as the sign the bid in fear is done — the cleanest market-wide confirmation the bounce has, with MOVE at 74 (calm) agreeing that there is no stress under it. The unconfirmed half lives in breadth, not vol: McClellan stalled at zero (−3.37, falling) and put/call still 1.16 — the skeptics have not capitulated, which is both the squeeze’s fuel and its fragility.',
     },
     {
       symbol: 'VXN', value: '28.50', range: [24, 33], change: '−7.59% · off the 31 spike · ≈26 floor intact',
@@ -200,7 +200,7 @@ const MARKET = {
       read: 'Still down hard on the day (−7.59%) and still leading VIX lower in percentage terms — NASDAQ stress unwinding fastest. But note the level, not just the move: 28.50 has ticked UP from the 28.08 morning print and the ≈26 range floor is untouched. Fear is cheaper, not gone.',
     },
   ],
-  note: 'Mid-session: the index is orderly, the memory leaders are stretched. QQQ $680.94 (+2.90%) has held its reclaimed $678–680 shelf all session with 1H RSI just 52.90 — no extension to unwind — but it is parked exactly at the first lower high ≈$681 with the ≈$695 trendline and the $700–708 box untested. SMH $536.64 (+6.43%) likewise held $535 for three hours yet is flat since 10:00 and stalled at $540, $547–550 untested. The move is in memory: MU +15.68% (took its $853 lid) and SNDK +23.01% (inside its re-short zone), both at Stoch 90+ and overextended on 15-min. That is the whole read — the index has room and the leaders do not, so the afternoon leg is memory-specific rather than a broad group reversal. Practical split: memory shorts are the ones bleeding and their zones need a rejection that has NOT come; non-memory shorts (COHR, LITE, NVDA, ALAB, CRDO) are not being told much yet. VIX pressing ≈18 is the one clean confirmation, VXN 28.50 never reached its ≈26 floor, 15:30 macro and AMZN tonight unresolved. Bands unchanged — SMH Repairing, QQQ Rolling over. Bank shorts into strength, chase nothing.',
+  note: 'Mid-session: the index is orderly, the memory leaders are stretched. QQQ $680.94 (+2.90%) has held its reclaimed $678–680 shelf all session with 1H RSI just 52.90 — no extension to unwind — but it is parked exactly at the first lower high ≈$681 with the ≈$695 trendline and the $700–708 box untested. SMH $536.64 (+6.43%) likewise held $535 for three hours yet is flat since 10:00 and stalled at $540, $547–550 untested. The move is in memory: MU +15.68% (took its $853 lid) and SNDK +23.01% (inside its re-short zone), both at Stoch 90+ and overextended on 15-min. That is the whole read — the index has room and the leaders do not, so the afternoon leg is memory-specific rather than a broad group reversal. Practical split: memory shorts are the ones bleeding and their zones need a rejection that has NOT come; non-memory shorts (COHR, LITE, NVDA, ALAB, CRDO) are not being told much yet. Late-session internals split the verdict cleanly: VIX 17.80 BROKE the ≈18 confirm line and Market Tide flipped to +$924M bullish flow (from −$582M out yesterday), with 70.1% of stocks back above their 200DMA — but McClellan is stalling at the zero line (−3.37, falling) and put/call sits at 1.16: vol and flow confirm the bounce, BREADTH does not yet. That is the market-wide version of the cohort math — a covering rally that has not broadened. VXN never reached its ≈26 floor; AMZN tonight unresolved.50 never reached its ≈26 floor, 15:30 macro and AMZN tonight unresolved. Bands unchanged — SMH Repairing, QQQ Rolling over. Bank shorts into strength, chase nothing.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
