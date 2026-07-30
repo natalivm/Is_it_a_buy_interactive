@@ -24,6 +24,23 @@
 //
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
+  // ── 2026-07-30 (pre-market) ── TSLA ADDED off the ranked board (long
+  // watch, per the MRVL precedent — a knife-catch stays a watch until the
+  // reclaim confirms): a ≈ −24% six-session waterfall through the daily
+  // 200-EMA landed exactly ON the 200-week EMA ≈ $299 (close $298.32,
+  // PM $298.72) under BOTH lower Bollinger bands — no fresh short into the
+  // hole at a multi-year rail; accumulation zone $290–300 scaled, stop
+  // <$283, bottom confirms on a reclaim $310 → $332; a weekly close <$285
+  // breaks the rail → the 2025 base ≈ $215.
+  {
+    symbol: 'TSLA', exchange: 'NASDAQ',
+    price: '$298.32', change: 'close −2.97% $298.32 · PM $298.72 · sitting ON the 200-week EMA ≈ $299 · under BOTH lower bands',
+    signal: 'The EV bellwether’s waterfall lands on THE multi-year level. Six straight red sessions took TSLA ≈ −24% from ~$390, cutting the daily 200-EMA $392.56 without a pause — and the close $298.32 (−2.97%) sits exactly ON the 200-week EMA ≈ $299.04 (pre-market $298.72), far below both lower Bollinger bands (weekly $347.70, daily ≈ $332). The daily is pinned (RSI 25.42, Stoch 4.64, MACD −14.94 still accelerating — no divergence yet), but the 1H has based at $295–300 for two sessions (RSI 40, Stoch curling from 18) — the tape’s first flattening, though 1H OBV is still negative (−375M). This is NOT a short — no fresh shorts into the hole at a multi-year rail; it’s a bottom-watch long: accumulate IN $290–300, scaled ($297–300 first adds, $290–295 the core on an undercut flush), stop under $283. A bottom confirms on a reclaim of $310 → $332 (daily 9-EMA + lower band); recovery targets $332 → $343 (1H 200-EMA) → $382–392 (the broken daily 50/200 shelf). A weekly close under $285 is the first break of the 200-week rail this cycle — long off, and below there is only the 2025 base ≈ $215.',
+    edge: 'Bottom-watch for a long at THE multi-year rail: a ≈ −24% six-session waterfall landed exactly ON the 200-week EMA ≈ $299 (close $298.32, PM $298.72), under BOTH lower Bollinger bands with the daily pinned (RSI 25.42, Stoch 4.64) — too late to short the hole, too early to call the bottom (no divergence, 1H OBV −375M): accumulate IN $290–300 scaled ($297–300 first, $290–295 core), stop under $283 — a reclaim of $310 → $332 confirms the bottom toward $332 → $343 → $382–392, a weekly close under $285 breaks the rail → the 2025 base ≈ $215 (off the ranked board, a watch)',
+    side: 'long', accent: 'red',
+    date: '2026-07-30',
+    story: 'stories/tsla.html',
+  },
   {
     symbol: 'CRWV', exchange: 'NASDAQ',
     price: '$60.82', change: 'close −9.63% $60.82 · AH $59.6 · below the weekly lower band · ⚠️ META prints tonight — the capex binary',
