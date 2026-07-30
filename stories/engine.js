@@ -246,17 +246,29 @@ function createStory(cfg) {
         inner.style.marginLeft = ((100 - w) / 2) + '%';
         return inner.offsetHeight;
       };
-      let w = 100 * need / avail;        // fits by construction: text only
-      let h = setW(w);                   // gets shorter as the box widens
-      // One refinement pass: reclaim the slack that the wider wrap opened
-      // up (verify, since narrowing re-lengthens the text; keep w if not).
-      const w2 = Math.max(100, 100 * h / avail);
-      if (w2 < w - 0.5) {
-        const h2 = setW(w2);
-        if (h2 <= avail * w2 / 100 + 1) { w = w2; h = h2; }
-        else h = setW(w);
+      const fits = w => setW(w) <= avail * w / 100 + 1;
+      // Start from the width that fits by construction for pure text; if
+      // fixed-height boxes (cqw-sized ladders etc.) keep it overflowing,
+      // widen further a few times and accept the best effort.
+      let hi = 100 * need / avail;
+      for (let g = 0; g < 4 && !fits(hi); g++) hi *= 1.2;
+      // Binary-search the narrowest width (= largest scale) that still
+      // fits — a single refinement pass leaves slides rendering well short
+      // of the page height, wasting readable type size.
+      let lo = 100;
+      for (let i = 0; i < 6; i++) {
+        const mid = (lo + hi) / 2;
+        if (fits(mid)) hi = mid; else lo = mid;
       }
-      inner.style.transform = 'scale(' + (100 / w).toFixed(4) + ')';
+      setW(hi);
+      // Anchor the scale to the slide's own alignment: a top-aligned slide
+      // (ladders, text pages) must shrink toward its top edge — scaling a
+      // top-anchored box around its center leaves a dead band above and
+      // pushes the copy off the bottom. Centered slides keep the old origin.
+      const jc = getComputedStyle(slide).justifyContent;
+      inner.style.transformOrigin =
+        (jc === 'flex-start' || jc === 'start') ? '50% 0' : '50% 50%';
+      inner.style.transform = 'scale(' + (100 / hi).toFixed(4) + ')';
     }
   }
   function fitAll() { slides.forEach(fit); }

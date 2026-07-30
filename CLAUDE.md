@@ -46,7 +46,11 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   (any direction) or a forward wheel-scroll closes the deck — the engine posts
   `{type:'ib-close'}` to the parent gallery. A slide with the `data-noclick`
   attribute (used on the text-only daily-candle slide) disables the tap zones
-  while active so its text can be selected without navigating.
+  while active so its text can be selected without navigating. A slide with
+  `data-text` (chartless prose slides, e.g. the SMH weekly read) keeps tap
+  navigation but gets the text-focus treatment from `story.css`: top-aligned
+  column, full-width copy (no 40ch cap) and larger type — the engine's fit()
+  rescales anything that still overflows.
 - **Level charts are data-driven**: horizontal price levels are declared as
   `<svg data-lv='[["k",70,"$402","стоп · MA-стек",.05], …]'>` with entries
   `[color k|p|y|w|m, y, axisLabel, caption|null, delay?]`, hydrated by
