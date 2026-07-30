@@ -117,7 +117,7 @@ const MARKET = {
       label: 'Semis · SMH',
       role: 'The board’s barometer — the group that leads this tape',
       price: '$504.22',
-      change: 'close −4.79% · AH flush $483.32 → snap back $500.07 · the 0.618 ≈$478 effectively TAGGED',
+      change: 'close −4.79% · PM $516.26 — the bounce GAPPED into the $510–518 lid · 0.618 ≈$478 tagged AH',
       checks: [
         {
           label: 'Weekly structure',
@@ -137,7 +137,7 @@ const MARKET = {
         {
           label: 'Overhead stack',
           verdict: 'bear', weight: 1.5,
-          read: 'The 4H 9-EMA $513.80 then $535 cap every lift, and the $505.66–510 reclaim has not happened. Until it does, all of the structure above is resistance.',
+          read: 'PM $516.26 gapped INTO the $510–518 band (underside of the broken shelf + 4H 9-EMA $513.80) — the primary rejection zone is being tested right now. Hold it in the session and $535 opens; fade it and the reclaim failed.',
         },
         {
           label: 'Group leadership',
@@ -147,7 +147,7 @@ const MARKET = {
         {
           label: 'Bounce confirmation',
           verdict: 'neutral',
-          read: 'Pending. Holding $500 and reclaiming $505.66–510 in the regular session turns the bounce-watch on — and this week’s lesson (TER, BE) is that after-hours moves do not count until the session confirms them.',
+          read: 'The gap does the reclaim NOMINALLY — PM $516.26 is over $505.66–510 — but this week’s lesson (TER, BE, STX) is that pre-market prints don’t count: the first hour holding over $510 is the confirmation, a fade back under $505.66 voids it.',
         },
       ],
       fast: {
@@ -165,12 +165,12 @@ const MARKET = {
           {
             label: '$505.66–510 reclaim',
             verdict: 'neutral',
-            read: 'The 4H trigger. Until it prints in the regular session, the fast frame is a bounce attempt, not a turn.',
+            read: 'PM $516.26 is over the line — the trigger is printing, but only a regular-session hold makes it real. First hour over $510 = confirmed.',
           },
           {
             label: '4H 9-EMA $513.80',
-            verdict: 'bear',
-            read: 'Still capping every lift — the fast frame’s own downtrend line, unbroken.',
+            verdict: 'neutral',
+            read: 'PM $516.26 is the first print ABOVE the 9-EMA since the slide began — the fast frame’s downtrend line is cracking. Needs a 4H close over it in the session; above $518 the air runs to $535.',
           },
         ],
       },
@@ -185,7 +185,7 @@ const MARKET = {
         reclaim: '$505.66–510 first, then $513.80 → $535',
         invalidate: 'a daily close under $483.32 breaks the fib for real → the 50-week $431 goes live',
       },
-      note: 'The barometer has paid its ENTIRE map and tagged the 0.618, so unlike QQQ it is sitting on real support with a bounce-watch armed — which is why it scores less bearish. Board stance: bank/trail into strength, no fresh shorts into the hole.',
+      note: 'The reflex bounce arrived pre-market and gapped straight INTO the $510–518 rejection zone — the decision is being made at the open, not later. Hold over $510 → $535 is the next stop; fade under $505.66 → failed reclaim, retest $483/$478. First reaction lies — let the first hour vote.',
     },
   ],
   vol: [
@@ -200,7 +200,7 @@ const MARKET = {
       read: 'Rising while VIX pulls back — NASDAQ-specific stress. Needs to break back under ≈26 (the range floor) for the index to breathe.',
     },
   ],
-  note: 'Two gauges, one read: the index has not reached support while the group already has. That is a tape where shorts get banked and longs stay on a watchlist — not one where either side gets pressed.',
+  note: 'Two gauges, one read: the group’s reflex bounce gapped into its $510–518 lid pre-market while the index still hasn’t touched support. Session holds over $510 → SMH runs at $535 and QQQ follows toward $678; a fade at the lid re-arms the re-shorts at their zones.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
