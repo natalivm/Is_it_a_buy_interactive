@@ -72,7 +72,7 @@ const MARKET = {
         {
           label: 'Higher low above $661.58',
           verdict: 'neutral',
-          read: 'Not formed yet. The pre-market bid at $666 is a first leg — the retest that holds is what would count.',
+          read: 'Still not formed. The pre-market bid at $666 became a violent semis-led open (MU +13.2% · SNDK +21.5% · IREN +27.3% at 10:00 ET) — that is a first leg with force behind it, but the higher low is the RETEST that holds, and it has not happened.',
         },
         {
           label: 'Implied vol (VXN)',
@@ -93,9 +93,9 @@ const MARKET = {
             read: 'Making new lows WITH price — no divergence. The fast frame has not even stopped going down yet.',
           },
           {
-            label: 'Pre-market bid $666',
+            label: 'The open held $666',
             verdict: 'neutral',
-            read: 'A candidate first 4H higher low IF the open holds it — the earliest possible flip signal, and still unconfirmed.',
+            read: 'The pre-market bid did not fade — the session opened with the semis vertical, so the candidate 4H higher low is being built. Held as neutral on purpose: the index’s own print is not in this refresh (the evidence here is the leaders’ prints), and one green hour is not a 4H swing high taken out.',
           },
         ],
       },
@@ -110,97 +110,98 @@ const MARKET = {
         reclaim: '$678–680 first, then ≈$695 (the trendline)',
         invalidate: 'a daily close under $661.58 → the $644–646 band is the next real shelf',
       },
-      note: 'The pre-market bounce is an oversold reaction inside an intact daily downtrend, not a bottom. QQQ has not reached a single mapped support yet — that is the difference from SMH.',
+      note: 'Carried from the 7/29 close + the pre-market bid — the index’s own print is not in this refresh. The new information is the semis-led open, and it is an oversold reaction inside an intact daily downtrend until $678–680 goes on a close. QQQ still has not reached a single mapped support — that is the difference from SMH, and the reason the group flipped first.',
     },
     {
       symbol: 'SMH',
       label: 'Semis · SMH',
       role: 'The board’s barometer — the group that leads this tape',
       price: '$504.22',
-      change: 'close −4.79% · PM $516.26 — the bounce GAPPED into the $510–518 lid · 0.618 ≈$478 tagged AH',
+      change: '7/29 close −4.79% · ✅ the bounce-watch FIRED at the open — the leaders went vertical (MU +13.2% · SNDK +21.5% · IREN +27.3% at 10:00 ET) · SMH’s own print pending',
       checks: [
         {
           label: 'Weekly structure',
           verdict: 'neutral', weight: 1.5,
-          read: 'A deep correction, not a broken weekly trend — the 50-week $431 sits far below and untested. The parabola is unwinding, which is not the same thing as a trend break.',
+          read: 'A deep correction, not a broken weekly trend — the 50-week $431 sits far below and untested. One violent reflex day does not change the weekly picture either way; it just means the correction found its level at the 0.618.',
         },
         {
           label: 'Daily trend',
           verdict: 'bear', weight: 1.5,
-          read: 'Closed $504.22 (−4.79%) UNDER the $505.66 sweep low — the intraday undercut-and-reclaim failed, so the bounce thesis was voided and the lower-high/lower-low sequence stands.',
+          read: 'Still lower highs and lower lows — the sequence off the $665 high is intact until a daily swing high gets taken out. A green day, however violent, does not repair it: the first structural repair is $535 (the swing low), and nothing is repaired without a CLOSE.',
         },
         {
           label: 'The 0.618 at ≈$478',
-          verdict: 'neutral', weight: 1.5,
-          read: 'The after-hours flush to $483.32 effectively tagged it and snapped straight back to $500.07 — the FULL correction map has now paid ($547–550 → $535 → $510–518 → ≈$478–483). Deep fib support on a second, deeper undercut-and-reclaim is exactly where reflex bounces start.',
+          verdict: 'bull', weight: 1.5,
+          read: 'The fib DID its job: the AH flush to $483.32 effectively tagged it, snapped back to $500.07, and the session opened with the whole group vertical. The full correction map paid ($547–550 → $535 → $510–518 → ≈$478–483) and the deepest rung bought — that is the level holding, not an opinion.',
         },
         {
           label: 'Overhead stack',
-          verdict: 'bear', weight: 1.5,
-          read: 'PM $516.26 gapped INTO the $510–518 band (underside of the broken shelf + 4H 9-EMA $513.80) — the primary rejection zone is being tested right now. Hold it in the session and $535 opens; fade it and the reclaim failed.',
+          verdict: 'neutral', weight: 1.5,
+          read: 'The $510–518 band (broken shelf + 4H 9-EMA $513.80) is being taken — the leaders’ prints put price through it at the open. Taken is not the same as closed above: a daily close over $518 makes the lid support, a fade back under $505.66 makes today a failed reclaim.',
         },
         {
           label: 'Group leadership',
-          verdict: 'bear',
-          read: 'The semis led the whole tape down and the leaders are all sitting on their majors (MU $714 · SNDK $958 · NVDA $189 · COHR $215 · NBIS $147). A group whose leaders are at last-stand levels is not a group in an uptrend.',
+          verdict: 'bull',
+          read: 'The group that led the tape down turned first and hardest, off its majors: MU +13.19% to $836.50 (the 50-day $714 AH tag was the low), SNDK +21.51% to $1,234.38, IREN +27.28% to $37.31 — all at 10:00 ET. Leaders reversing off mapped support is the strongest single piece of evidence on this board.',
         },
         {
           label: 'Bounce confirmation',
           verdict: 'neutral',
-          read: 'The gap does the reclaim NOMINALLY — PM $516.26 is over $505.66–510 — but this week’s lesson (TER, BE, STX) is that pre-market prints don’t count: the first hour holding over $510 is the confirmation, a fade back under $505.66 voids it.',
+          read: 'The first 30 minutes voted green and violent — far more than the pre-market print offered. But the rule the board set stands: the CLOSE confirms, not the open. Double-digit opening gaps in oversold names are also what squeezes look like; hold the gains into the bell and this check turns bull.',
         },
       ],
       fast: {
         checks: [
           {
-            label: 'AH undercut-and-reclaim of the 0.618',
+            label: 'The 0.618 undercut-and-reclaim WORKED',
             verdict: 'bull', weight: 1.5,
-            read: 'Flush $483.32 → snap straight back to $500.07 AT the fib — the classic start of a reflex bounce, and it printed on the fast frame first.',
+            read: 'Flush $483.32 → snap back $500.07 → the group opens vertical. The fast frame called it first and got paid: $483.32 is now the reference low the whole bounce hangs on.',
           },
           {
-            label: '4H RSI 22.57',
-            verdict: 'neutral',
-            read: 'Pinned at extremes (Stoch 12.38, MACD −13.24) — fuel, and the first divergence would show here before the daily.',
+            label: 'Fast momentum flipped',
+            verdict: 'bull',
+            read: 'The leaders’ 1H momentum turned with price, not against it: MU RSI back to 62.57 with the MACD histogram flipping green, SNDK RSI 69.03 — pushing through the upper Bollinger. The fast frame has stopped making lows.',
           },
           {
-            label: '$505.66–510 reclaim',
+            label: 'The $510–518 lid',
             verdict: 'neutral',
-            read: 'PM $516.26 is over the line — the trigger is printing, but only a regular-session hold makes it real. First hour over $510 = confirmed.',
+            read: 'Being taken on the open, but a 4H CLOSE over it is the trigger — that is what makes the broken shelf support again and opens the air to $535. A 4H close back under $505.66 voids the reclaim.',
           },
           {
-            label: '4H 9-EMA $513.80',
+            label: 'Squeeze or accumulation?',
             verdict: 'neutral',
-            read: 'PM $516.26 is the first print ABOVE the 9-EMA since the slide began — the fast frame’s downtrend line is cracking. Needs a 4H close over it in the session; above $518 the air runs to $535.',
+            read: 'Unresolved, and it matters: IREN’s 30-min OBV is still deeply negative (−91.5M) and MU’s MACD line is still under zero (−20.33) even as price rips. Short covering moves this fast; accumulation shows up as OBV following price. Watch OBV, not the candle.',
           },
         ],
       },
       confirm: [
-        { label: 'Hold $500 in the regular session — the AH snap-back is not enough on its own', done: false },
-        { label: 'Reclaim $505.66–510 — the sweep low that broke, back over the line', done: false },
-        { label: 'Daily close above the 4H 9-EMA $513.80, then a push at $535', done: false },
-        { label: '4H divergence at the lows: a marginal new low with RSI higher', done: false },
+        { label: 'Hold $500 in the regular session — the AH snap-back is not enough on its own', done: true },
+        { label: 'Reclaim $505.66–510 — the sweep low that broke, back over the line', done: true },
+        { label: '4H divergence / reflex at the lows: the fib undercut got bought', done: true },
+        { label: 'Daily CLOSE above the $510–518 lid and the 4H 9-EMA $513.80 — the open does not count', done: false },
+        { label: 'Reclaim $535 (the swing low) — the first actual structural repair', done: false },
         { label: 'Close above $580 with breadth — the fade regime is over', done: false },
       ],
       levels: {
-        reclaim: '$505.66–510 first, then $513.80 → $535',
-        invalidate: 'a daily close under $483.32 breaks the fib for real → the 50-week $431 goes live',
+        reclaim: '$518 on a CLOSE first, then $535 (swing low) → the 4H 50-EMA ≈ $558',
+        invalidate: 'a 4H close back under $505.66 = failed reclaim → retest $483.32/$478; a daily close under $483.32 still opens the 50-week $431',
       },
-      note: 'The reflex bounce arrived pre-market and gapped straight INTO the $510–518 rejection zone — the decision is being made at the open, not later. Hold over $510 → $535 is the next stop; fade under $505.66 → failed reclaim, retest $483/$478. First reaction lies — let the first hour vote.',
+      note: 'The bounce-watch this gauge armed at the fib FIRED — and it fired violently, in the leaders, off the exact level. That earns the bar a move from Rolling over to Neutral and no further: one reflex day off support is not a trend change, and every add zone drawn at yesterday’s stack is now below price and void. Bank/trail into the strength, no fresh shorts into it either, and let the close vote.',
     },
   ],
   vol: [
     {
-      symbol: 'VIX', value: '19.81', range: [15, 22], change: '−4.11% · spiked ≈21',
+      symbol: 'VIX', value: '19.81', range: [15, 22], change: '7/29 close −4.11% · fresh print pending',
       verdict: 'bear',
-      read: 'Above the 20 handle on a rising trendline off $15.18. A close back under ≈18 is the first sign the bid in fear is done.',
+      read: 'Carried from the 7/29 close — not refreshed for the rip. Above the 20 handle on a rising trendline off $15.18; a close back under ≈18 is the first sign the bid in fear is done, and a green session should be doing exactly that.',
     },
     {
-      symbol: 'VXN', value: '30.84', range: [24, 33], change: '+3.77% · range top 32–33',
+      symbol: 'VXN', value: '30.84', range: [24, 33], change: '7/29 close +3.77% · fresh print pending',
       verdict: 'bear',
-      read: 'Rising while VIX pulls back — NASDAQ-specific stress. Needs to break back under ≈26 (the range floor) for the index to breathe.',
+      read: 'Carried from the 7/29 close — not refreshed for the rip. It was pressing the 32–33 range top while VIX faded: NASDAQ-specific stress. The number that would confirm today’s bounce is a break back under ≈26 (the range floor).',
     },
   ],
-  note: 'Two gauges, one read: the group’s reflex bounce gapped into its $510–518 lid pre-market while the index still hasn’t touched support. Session holds over $510 → SMH runs at $535 and QQQ follows toward $678; a fade at the lid re-arms the re-shorts at their zones.',
+  note: 'The reflex bounce fired — and it is a squeeze until the close says otherwise. The leaders went vertical off the 0.618 (MU +13.19% · SNDK +21.51% · IREN +27.28% at 10:00 ET), so the group’s fast frame is Repairing while its daily bar only reaches Neutral, and the index hasn’t confirmed anything of its own. Practical consequence: every add/re-short zone drawn at yesterday’s stack sits BELOW price and is void — bank and trail into strength, don’t chase it long, don’t press fresh shorts into it, and let the close vote.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
@@ -229,6 +230,45 @@ const MARKET = {
 //
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
+  // ── 2026-07-30 (10:00 ET · session) ── THE BOUNCE FIRED. The reflex the SMH
+  // card armed at the 0.618 arrived on the open and it is violent: the memory /
+  // AI-infra leaders are up double digits off their majors —
+  //   MU   +13.19% → $836.50  (the AH tag of T2 $714 / $718.38 WAS the low;
+  //                            straight into the named $778–835 add zone, 1H
+  //                            50-EMA ≈ $853 the first lid, RSI 62.57 / Stoch
+  //                            84.61 already overbought, MACD line still −20.33)
+  //   SNDK +21.51% → $1,234.38 (the $958 200-EMA target NEVER tagged; the whole
+  //                            $1,045–1,183 re-load zone cleared in one gap,
+  //                            price above the 1H upper band $1,224)
+  //   IREN +27.28% → $37.31   (⚠️ the ≈$2.8B AI-cloud squeeze risk the card
+  //                            named — back AT the $38.90 short entry, stop $42
+  //                            ~12% away, the 🕳️ $27 runner dead)
+  // Refreshed here: MU, SNDK, IREN, SMH + the trend meter (SMH gauge daily
+  // Rolling over −50 → Neutral +12.5, fast frame → Repairing +50).
+  //
+  // THE RULE THIS SESSION ESTABLISHES: every add / re-short zone drawn at
+  // yesterday's stack now sits BELOW price and is VOID. A zone has to be
+  // re-drawn where price actually is, and its condition is a REJECTION — never
+  // a chase of a vertical candle.
+  //
+  // RANKS HELD ON PURPOSE (no re-rate today). The 7/29 rule ranks by remaining
+  // potential = % left from the current price to the deepest target. On a
+  // squeeze day that rule INFLATES the losers: MU bouncing +13% mechanically
+  // grows its "−40% left to $505" and would promote it to rank 1 precisely
+  // because the trade went against us. So ranks stay put until the close, and
+  // the computed Progress column carries the truth instead — earned collapsed
+  // MU +18% → ≈ +7.6%, SNDK +34% → ≈ +20%, IREN +25% → ≈ +4%.
+  //
+  // ⚠️ NOT REFRESHED (no fresh print available this session): CRWV, LITE, NVDA,
+  // COHR, DRAM, AAOI, WDC, INTC, TER, GLW, STX, ASTS, NBIS, AMAT, BE, ALAB,
+  // CRDO, DELL, MRVL, META, TSLA + the QQQ gauge and the VIX/VXN minis — all
+  // still carry 7/29 close data. Assume the same squeeze hit the shorts among
+  // them and read their zones as stale until each is revisited.
+  // NOTE (mechanical): the "Booked at targets" strip is computed from the CURRENT
+  // price, so names whose price squeezed back above T1 (MU, IREN) drop out of it
+  // even though those targets were realised on the way down. Worth deciding
+  // whether the strip should remember tagged targets rather than re-derive them.
+  //
   // ── 2026-07-30 (pre-market) ── META ADDED off the ranked board (long
   // watch, bottom-hunt): the capex binary the CRWV card waited for resolved
   // RED at the payer itself — META gapped −8.33% pre-market to $536.85
@@ -305,11 +345,11 @@ const STOCKS = [
   },
   {
     symbol: 'IREN', exchange: 'NASDAQ',
-    price: '$29.31', change: 'close −13.62% $29.31 · AH $29.20 · ✓ T2 $30 SMASHED · next 🕳️ T3 $27 · ≈ +25% short',
-    signal: 'Flipped short — T2 smashed on a −13.62% collapse. IREN closed $29.31, clean THROUGH T2 $30 (the weekly support — banked, one day after T1 $34), AH $29.20. That is ≈ +25% for the short from the $38.90 entry, with only 🕳️ T3 $27 left on the plan. The tape turned heavier, not lighter: 1H OBV has gone NEGATIVE (−32.6M), RSI 22.01, Stoch 9.43 — pinned oversold with the whole 1H stack far overhead (9-EMA $30.87 → 50-EMA $34.31 → 200-EMA $38.05). Don’t chase $29 — the add zone pulls down to $31–34 (1H 9→50-EMA; was $36–38); bank/trail toward $27. The ≈$2.8B AI-cloud catalyst remains the squeeze risk: a reclaim of $41.70 still repairs the long — miles away now. Stop $42.',
-    lead: { rank: 9, status: 'live', entry: '$38.90 filled', stop: '$42', targets: '$34 → $30 → $27', downside: '−13%', tail: '−31%', rr: '~3:1', edge: 'Flipped short — T2 smashed on a −13.62% collapse: IREN closed $29.31, clean through T2 $30 (weekly support, banked one day after T1 $34), AH $29.20 — ≈ +25% for the short from $38.90, only 🕳️ T3 $27 left; 1H OBV NEGATIVE (−32.6M), RSI 22.01, Stoch 9.43 pinned with the $30.87/$34.31/$38.05 stack far overhead — don’t chase $29, add zone pulled down to $31–34 (1H 9→50-EMA), bank/trail toward $27; the ≈$2.8B AI-cloud catalyst the squeeze risk, a reclaim of $41.70 repairs the long' },
+    price: '$37.31', change: 'session +27.28% (+$8.00) at 10:00 ET · ⚠️ the squeeze risk the card named — price is back AT the $38.90 short entry · stop $42 now ~12% away',
+    signal: '⚠️ The squeeze the card flagged is what happened — this trade is over. IREN is $37.31 (+27.28%, +$8.00 at 10:00 ET), a vertical off the $29.20 low that took the $31–34 add zone, the banked T2 $30, the banked T1 $34 and the whole 30-min stack (9-EMA ≈ $33.6 → 50-EMA/VWAP ≈ $35.6) in one move, punching into the 30-min 200-EMA ≈ $37–39 and straight back to the $38.90 short entry. Honest scorekeeping: T1 $34 and T2 $30 were realised on the way down, but the runner toward 🕳️ $27 is dead — the position is now ≈ +4% from $38.90, down from ≈ +25% yesterday. The ≈$2.8B AI-cloud catalyst was named as the squeeze risk from day one and it is what is driving this. Do: cover the runner into the strength — don’t defend a short at your own entry after a +27% day. Don’t: short it here. Stop $42 is unchanged and now only ~12% away, and a reclaim of $41.70 flips the setup long. What would re-arm the short is a failure right here — rejection at the 200-EMA and a close back under ≈$35.6 — with the caveat that 30-min OBV is still deeply negative (−91.5M) and Stoch is pinned at 96.83: covering fuel spending itself, not proven accumulation. Two of three targets banked; take the win and let the level pick the next trade.',
+    lead: { rank: 9, status: 'live', entry: '$38.90 filled', stop: '$42', targets: '$34 → $30 → $27', downside: '−13%', tail: '−31%', rr: '~3:1', edge: '⚠️ The squeeze the card flagged is what happened — the trade is over: IREN is $37.31 (+27.28% at 10:00 ET), a vertical off $29.20 that took the $31–34 add zone, the banked T2 $30 and T1 $34 and the whole 30-min stack in one move, back AT the $38.90 short entry (position ≈ +4%, was ≈ +25% — T1/T2 realised, the 🕳️ $27 runner dead); the ≈$2.8B AI-cloud catalyst named as the squeeze risk is driving it — cover the runner into strength, don’t defend a short at your own entry, don’t short it here: stop $42 is ~12% away and $41.70 flips it long; a re-arm needs rejection at the 30-min 200-EMA and a close back under ≈$35.6, and OBV still −91.5M with Stoch pinned 96.83 reads as covering fuel, not accumulation' },
     side: 'short', accent: 'red',
-    date: '2026-07-29',
+    date: '2026-07-30',
     story: 'stories/iren.html',
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
@@ -453,11 +493,11 @@ const STOCKS = [
   },
   {
     symbol: 'MU', exchange: 'NASDAQ',
-    price: '$739.00', change: 'close −9.94% $739.00 · AH $718.38 · pressing T2 $714 · ≈ +18% short',
-    signal: 'Memory leader — the hardest red day of the slide, AH pressing T2. MU closed $739.00 (−9.94%) — the biggest down day of the leg, no bounce into the close — and kept sliding after hours to $718.38 (−2.79%), right ONTO T2, the daily 50-day $714, the real test of the parabola. That is ≈ +18% for the short from the $905 entry at the close (≈ +21% at the AH print). The 1H tape stays pure distribution: OBV bleeding to 203M, Stoch pinned at 8.99, RSI 31.78, MACD −21.77 — and the whole 1H stack caps overhead: 9-EMA $778 → 50-EMA $835 → 200-EMA $905 (the entry itself). The 50-day is the first tag of the parabola’s rail — expect the real defence here: DON’T press the short into the tag — bank/trail into $714; the cleaner add is a bounce into $778–835 (1H 9/50-EMA over the broken T1), the bigger one $868–886. Below: weekly 21-MA $665 → 🕳️ $505. Only a close back over $886 is a fakeout, $955 / $1,005 ends it. The leader that dragged the group up is still leading it down.',
-    lead: { rank: 2, status: 'live', entry: '$905 filled', stop: '$1,005', targets: '$800 → $714 → $665 → $505', downside: '−11%', tail: '−44%', rr: '~4:1', edge: 'Memory leader — hardest red day of the slide, AH pressing T2: MU closed $739.00 (−9.94%) and slid after hours to $718.38, right onto the 50-day $714 — the real test of the parabola (≈ +18% for the short from $905 at the close, ≈ +21% AH); 1H tape pure distribution (OBV bleeding to 203M, Stoch pinned 8.99, the $778/$835/$905 stack capping every lift) — don’t press into the tag, bank/trail into $714, add a bounce into $778–835 ($868–886 the bigger), only a reclaim over $886 is a fakeout' },
+    price: '$836.50', change: 'session +13.19% (+$97.50) at 10:00 ET · the T2 $714 AH tag WAS the low — a reflex rip straight into the named $778–835 add zone · 1H 50-EMA ≈ $853 the first lid',
+    signal: 'The 50-day defence the card warned about arrived — as a +13% rip. MU is $836.50 (+13.19%, +$97.50 at 10:00 ET) after the after-hours tag of T2 — the daily 50-day $714 ($718.38) — turned out to be the low of the move. This is exactly the event the plan named ("the first tag of the parabola’s rail — expect the real defence here: DON’T press the short into the tag"), and the price has run straight to the top of the add zone it named: $778–835. Where it stands now: back above the reclaimed T1 $800 and the 1H mid-band $814.77, with the 1H 50-EMA ≈ $853 and the upper band $854.25 immediately overhead, then the $868–886 shelf (daily mid-BB) and the 1H 200-EMA ≈ $891 under the $905 entry. Momentum flipped with it — 1H RSI 62.57, Stoch 84.61 already overbought, MACD histogram green — but the MACD line is still under zero (−20.33) and price is still ~8% below the entry: the short is ≈ +7.6% from $905, stop $1,005 untouched and far. Stance: the plan’s own instruction governs — the add is a REJECTION at $836–886, not a chase of a vertical candle: a 1H close back under $802 re-arms it, a 1H/daily close over $886 is the fakeout the card named and takes the short off. Don’t add into a +13% candle at an overbought hourly; targets below unchanged ($714 → $665 → 🕳️ $505) but they need a new leg now, not a continuation.',
+    lead: { rank: 2, status: 'live', entry: '$905 filled', stop: '$1,005', targets: '$800 → $714 → $665 → $505', downside: '−11%', tail: '−44%', rr: '~4:1', edge: 'The 50-day defence the card warned about arrived — as a +13% rip: the AH tag of T2 $714 ($718.38) was the LOW, and MU is $836.50 (+13.19% at 10:00 ET), straight into the top of the $778–835 add zone the plan named; back over the reclaimed T1 $800 and the mid-band $814.77 with the 1H 50-EMA ≈ $853 / upper band $854 the first lid, then $868–886 and the 1H 200-EMA ≈ $891 under the $905 entry — 1H RSI 62.57 and Stoch 84.61 already overbought with the MACD line still negative (−20.33), short ≈ +7.6% from $905 (was +18%), stop $1,005 far — add only on a REJECTION at $836–886 (a 1H close back under $802 re-arms it), never into the vertical candle; a close over $886 is the fakeout that takes the short off' },
     side: 'short', accent: 'cyan',
-    date: '2026-07-29',
+    date: '2026-07-30',
     story: 'stories/mu.html',
   },
   {
@@ -480,20 +520,20 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,015.89', change: 'close −7.32% $1,015.89 · AH $991.69 — under $1,000 · next $958 (daily 200-EMA) → $880 · ≈ +34% short',
-    signal: '✓ T1 $1,363 + T2 $1,287 banked — the new leg broke $1,000 after hours. SNDK closed $1,015.89 (−7.32%) with no bounce and kept going after hours to $991.69 (−2.38%) — through the round $1,000. That is ≈ +34% for the short from the $1,536 re-arm (≈ +35% at the AH print) — still the biggest winner on the board. The next support is close now: the rising daily 200-EMA ≈ $958 (~3% below the AH print), then the only target left — the 50-week $880. The 1H is bear-flat, not springing (RSI 35.87, Stoch 34.84, MACD −50.61, OBV bleeding) — trend-mode continues, and the overhead has come down again: the re-load zone pulls down to $1,045–1,183 (1H 9-EMA → 50-EMA; was $1,127–1,287). Weekly MACD is still hugely positive → a parabola unwinding, not yet a trend break. Stance: short deeply in the money, trailing toward $958 → $880 — bank into the 200-EMA tag, re-load a bounce into $1,045–1,183, don’t chase the low; only a reclaim of $1,590 ends it.',
-    lead: { rank: 5, status: 'live', entry: '$1,536 filled', stop: '$1,590', targets: '$1,287 → $880', downside: '−16%', tail: '−43%', rr: '~4:1', edge: '✓ T1 + T2 banked and the new leg broke $1,000 after hours — SNDK closed $1,015.89 (−7.32%), AH $991.69, ≈ +34% for the short from $1,536 (biggest winner on the board); next support the rising daily 200-EMA ≈ $958 (~3% below the AH print), then the last target — the 50-week $880; 1H bear-flat (RSI 35.87, Stoch 34.84, MACD −50.61, OBV bleeding) — trend-mode, re-load zone pulled down to $1,045–1,183 (1H 9→50-EMA) — bank into the $958 tag, don’t chase the low, only a reclaim of $1,590 ends it' },
+    price: '$1,234.38', change: 'session +21.51% (+$218.49) at 10:00 ET · the $958 200-EMA was NEVER tagged — the rip took the whole re-load zone in one gap · broken T2 $1,287 the line',
+    signal: 'The biggest winner on the board just gave back a third of it in one gap. SNDK is $1,234.38 (+21.51%, +$218.49 at 10:00 ET) — the $991.69 after-hours print was the low, the daily 200-EMA ≈ $958 target never got tagged, and the rip cleared the ENTIRE $1,045–1,183 re-load zone the card drew yesterday in a single gap: that zone is now below price and void. The short is ≈ +20% from the $1,536 re-arm (was ≈ +34%), stop $1,590 untouched and ~29% away. What matters now is one line: the banked T2 $1,287 (weekly 21-MA), ~4% overhead, with price already ABOVE the 1H upper Bollinger $1,224 and the 1H 50-EMA ≈ $1,154 — the definition of extended. So the re-short zone moves UP to $1,234–1,287, and its condition is a rejection: a failure at $1,287 with a 1H close back under $1,154 re-arms the trade toward $1,058 (mid-band) → $958. Above $1,287 on a close the next lid is the 1H 200-EMA ≈ $1,416 and the trade is on hold, not a short. 1H RSI 69.03 / Stoch 79.87 with the MACD line still deeply negative (−26.94) says short-covering fuel, not a repaired trend — but "not repaired" is not a reason to stand in front of it. Bank what is banked; the 🕳️ 50-week $880 needs a whole new leg.',
+    lead: { rank: 5, status: 'live', entry: '$1,536 filled', stop: '$1,590', targets: '$1,287 → $880', downside: '−16%', tail: '−43%', rr: '~4:1', edge: 'The board’s biggest winner gave back a third in one gap: SNDK is $1,234.38 (+21.51% at 10:00 ET), the $991.69 AH print was the low, the daily 200-EMA ≈ $958 never got tagged and the rip cleared the ENTIRE $1,045–1,183 re-load zone in one move (that zone is void) — short ≈ +20% from $1,536 (was +34%), stop $1,590 far; price is above the 1H upper band $1,224 and the 1H 50-EMA ≈ $1,154 = extended, so the re-short zone moves UP to $1,234–1,287 (the banked T2 / weekly 21-MA) on a REJECTION — a 1H close back under $1,154 re-arms toward $1,058 → $958; a close over $1,287 puts the trade on hold up to the 1H 200-EMA ≈ $1,416, and RSI 69 / MACD still −26.94 reads as covering fuel, not repair' },
     side: 'short', accent: 'red',
-    date: '2026-07-29',
+    date: '2026-07-30',
     story: 'stories/sndk.html',
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$504.22', change: 'close −4.79% $504.22 · AH flush $483.32 → snap back $500.07 · ✓ the 0.618 ≈ $478 effectively TAGGED — the full map has paid · bounce-watch',
-    signal: 'The board’s barometer — the WHOLE map has now paid: an after-hours flush effectively tagged the 0.618. After closing $504.22 (−4.79%, under the $505.66 sweep low — the negation that opened the fib), SMH flushed after hours to $483.32 — within ~1% of the 0.618 ≈ $478 — and snapped straight back to $500.07. That is the full correction map paid in one week: $547–550 → $535 → $510–518 → ≈$478–483. A second, deeper undercut-and-reclaim — this time at the fib — with the 4H pinned at extremes (RSI 22.57, Stoch 12.38, MACD −13.24) is exactly where reflex bounces start: the bounce-watch is RE-ARMED. But it is an after-hours print on thin tape, and this week’s lesson (TER, BE) is that AH moves don’t count until the regular session confirms. Confirmation: tomorrow holds $500 and reclaims $505.66–510 → the group’s reflex bounce is on (first overhead the 4H 9-EMA $513.80 → $535). Failure: a daily close under $483.32 breaks the fib for real and makes the 50-week $431 the live target. Stance for the board: the barometer has paid EVERYTHING and the leaders sit on their majors (MU $714 · SNDK $958 · ALAB $250 · COHR $215 · NBIS $147) — bank/trail into strength, NO fresh short into the hole; re-shorts only from each card’s zones; only $580 with breadth negates the fade regime.',
-    edge: 'The board’s barometer — the WHOLE map paid: after closing $504.22 under the $505.66 sweep low, an AH flush to $483.32 effectively tagged the 0.618 ≈ $478 and snapped back to $500.07 — a second, deeper undercut-and-reclaim at the fib with the 4H at extremes (RSI 22.57, Stoch 12.38), so the bounce-watch is re-armed but needs the session to confirm (hold $500 + reclaim $505.66–510 = bounce mode; a daily close under $483.32 breaks the fib → 50-week $431); leaders sit on majors — bank/trail the board’s shorts, no fresh short into the hole, re-shorts only from each card’s zones, $580 with breadth negates',
+    price: '$504.22', change: 'last confirmed print · 7/29 close −4.79% · ✅ the bounce-watch FIRED at the open — the leaders went vertical (MU +13.2% · SNDK +21.5% · IREN +27.3% at 10:00 ET) · SMH’s own print pending',
+    signal: '✅ The bounce-watch this card armed at the fib FIRED — and it fired in the leaders. The setup was written yesterday: the AH flush to $483.32 effectively tagged the 0.618 ≈ $478, snapped back to $500.07, and the confirmation demanded was a regular session that holds $500 and reclaims $505.66–510. The session delivered it violently — at 10:00 ET the group’s leaders are up double digits off their majors: MU +13.19% to $836.50 (the 50-day $714 AH tag was the low), SNDK +21.51% to $1,234.38 (the $958 200-EMA target never even got tagged), IREN +27.28% to $37.31. The full correction map paid and the deepest rung bought: $547–550 → $535 → $510–518 → ≈$478–483. Note honestly: SMH’s own print is not in this refresh — the price above is the 7/29 close, and the evidence is the leaders’. What it changes: the fast frame flips to Repairing, the daily bar only reaches Neutral, and EVERY add/re-short zone drawn at yesterday’s stack now sits below price and is void — each card’s zone has to be re-drawn where price actually is. What it does NOT change: one reflex day off support is not a trend. The daily sequence stays lower-high/lower-low until $535 (the swing low) is reclaimed, and the leaders’ momentum reads as short-covering fuel, not accumulation (MU’s MACD line still −20.33, IREN’s OBV still −91.5M while price rips). Stance: bank and trail into the strength, do NOT chase it long, do NOT press fresh shorts into it — re-shorts only on a REJECTION from each card’s new zone. The votes that count: a daily close over the $510–518 lid confirms the bounce; a fade back under $505.66 makes today a failed reclaim and puts $483.32/$478 back in play; only >$580 with breadth ends the fade regime.',
+    edge: '✅ The bounce-watch this card armed at the fib FIRED — in the leaders: the confirmation it demanded (hold $500, reclaim $505.66–510) came violently at the open with MU +13.19% to $836.50, SNDK +21.51% to $1,234.38 (its $958 target never tagged) and IREN +27.28% to $37.31 at 10:00 ET, so the full map paid and the deepest rung bought — SMH’s own print isn’t in this refresh (price shown is the 7/29 close); consequence: the fast frame is Repairing, the daily bar only Neutral, and every add/re-short zone drawn at yesterday’s stack is now below price and VOID — bank/trail into strength, don’t chase it long, don’t press fresh shorts into it, re-short only on a rejection from each card’s new zone; a daily close over $510–518 confirms, a fade under $505.66 = failed reclaim → $483.32/$478, only >$580 with breadth ends the fade regime',
     side: 'short', accent: 'red',
-    date: '2026-07-29',
+    date: '2026-07-30',
     story: 'stories/smh.html',
   },
   {
