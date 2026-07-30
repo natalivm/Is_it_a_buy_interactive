@@ -41,8 +41,8 @@ const MARKET = {
       symbol: 'QQQ',
       label: 'Nasdaq-100 · QQQ',
       role: 'The index — what the whole tape is doing',
-      price: '$661.73',
-      change: 'close −2.04% (−$13.76) · PM $666.61 · −11% off the ≈$745 June high',
+      price: '$681.19',
+      change: 'intraday +2.97% (+$19.68) · trading ABOVE the broken $678–680 shelf · +3% off yesterday’s $661.58 flush low',
       checks: [
         {
           label: 'Weekly structure',
@@ -52,12 +52,12 @@ const MARKET = {
         {
           label: 'Daily trend',
           verdict: 'bear', weight: 1.5,
-          read: 'Lower highs and lower lows since the ≈$745 June peak — six weeks of a stair-step down, now −11% off the high with no swing high taken out on the way.',
+          read: 'Still lower highs and lower lows from the ≈$745 June peak — today is the first real counter-attack, but no DAILY swing high is taken out yet. That needs $695–700; until then this is a rally inside a downtrend.',
         },
         {
           label: 'The $678–680 shelf',
-          verdict: 'bear', weight: 1.5,
-          read: 'Support on the way up, lost this week — it is now the lid. Every bounce is guilty until a daily close reclaims it.',
+          verdict: 'neutral', weight: 1.5,
+          read: 'RECLAIMED intraday — price $681.19 is back above the shelf it lost this week. It flips bull on a daily CLOSE up here; an intraday poke that fades back under $678 leaves the lid intact.',
         },
         {
           label: 'Descending trendline (≈$695)',
@@ -66,41 +66,41 @@ const MARKET = {
         },
         {
           label: 'Daily momentum',
-          verdict: 'bear',
-          read: 'Daily RSI 32.40 — under 50 since early July with no repair, and no bullish divergence yet at the lows.',
+          verdict: 'neutral',
+          read: 'Turning up off 32.40 — a +3% session mechanically lifts the daily RSI off its floor, so momentum is no longer one-way down. It is not bullish until 50 is reclaimed and held.',
         },
         {
           label: 'Higher low above $661.58',
           verdict: 'neutral',
-          read: 'Not formed yet. The pre-market bid at $666 is a first leg — the retest that holds is what would count.',
+          read: 'Leg one is in: $661.58 held and price is +3% off it. The higher low itself needs the FIRST pullback to hold above $661.58 — that retest is what would confirm it, and it has not happened.',
         },
         {
           label: 'Implied vol (VXN)',
-          verdict: 'bear',
-          read: 'VXN 30.84 (+3.77%) is literally this index’s own vol gauge, and it is pressing the 32–33 top of its two-month range while VIX fades −4.11% — the selling is concentrated right here.',
+          verdict: 'neutral',
+          read: 'The tell has INVERTED: VXN 28.08 (−8.95%) is collapsing off the 31 spike far faster than VIX (−1.28%) — NASDAQ-specific stress is unwinding, the exact mirror of yesterday. Still not bull until it breaks the ≈26 range floor.',
         },
       ],
       fast: {
         checks: [
           {
             label: '4H structure',
-            verdict: 'bear', weight: 1.5,
-            read: 'Price under the whole 4H EMA stack with lower highs all the way down from ≈$690 — not one 4H swing high has been taken out.',
+            verdict: 'bull', weight: 1.5,
+            read: 'FLIPPED: the +3% session reclaimed the entire 4H EMA stack that had capped every lift for six weeks. The fast frame stopped going down and turned.',
           },
           {
-            label: '4H RSI 25.38',
-            verdict: 'bear',
-            read: 'Making new lows WITH price — no divergence. The fast frame has not even stopped going down yet.',
+            label: '4H momentum',
+            verdict: 'bull',
+            read: 'Turned up hard off the 25.38 extreme — the oversold spring the fast frame was loaded for actually fired instead of dying under the 9-EMA.',
           },
           {
-            label: 'Pre-market bid $666',
+            label: 'The first lower high ≈$681',
             verdict: 'neutral',
-            read: 'A candidate first 4H higher low IF the open holds it — the earliest possible flip signal, and still unconfirmed.',
+            read: 'Price is AT it, not through it. A 4H close above $681 takes out the first lower high of the whole decline; a rejection here is the classic dead-cat top.',
           },
         ],
       },
       confirm: [
-        { label: 'Undercut-and-reclaim of $661.58 on volume — a flush low bought back the same session', done: false },
+        { label: 'Undercut-and-reclaim of $661.58 on volume — a flush low bought back the same session', done: true },
         { label: 'Daily close back above the broken $678–680 shelf', done: false },
         { label: 'A higher low: pullback holds over $661.58, then the bounce high gets taken out', done: false },
         { label: 'Daily RSI reclaims 50 and holds it (and VXN back under ≈26)', done: false },
@@ -110,7 +110,7 @@ const MARKET = {
         reclaim: '$678–680 first, then ≈$695 (the trendline)',
         invalidate: 'a daily close under $661.58 → the $644–646 band is the next real shelf',
       },
-      note: 'The pre-market bounce is an oversold reaction inside an intact daily downtrend, not a bottom. QQQ has not reached a single mapped support yet — that is the difference from SMH.',
+      note: 'The bounce is real and it took the first level: $681.19 is back above the $678–680 shelf with vol collapsing. But the daily close is what ticks the box, the ≈$695 trendline is still overhead, and AMZN prints tonight — the rally is earned, not yet trusted.',
     },
     {
       symbol: 'SMH',
@@ -190,17 +190,17 @@ const MARKET = {
   ],
   vol: [
     {
-      symbol: 'VIX', value: '19.81', range: [15, 22], change: '−4.11% · spiked ≈21',
-      verdict: 'bear',
-      read: 'Above the 20 handle on a rising trendline off $15.18. A close back under ≈18 is the first sign the bid in fear is done.',
+      symbol: 'VIX', value: '18.58', range: [15, 22], change: '−1.28% · rejected 20.9 · wedge apex',
+      verdict: 'neutral',
+      read: 'Back UNDER the 20 handle after spiking to 20.9, now pinned at the apex of a converging wedge at 18.58. A break under ≈18 says the bid in fear is done; a bounce off this apex re-arms it.',
     },
     {
-      symbol: 'VXN', value: '30.84', range: [24, 33], change: '+3.77% · range top 32–33',
-      verdict: 'bear',
-      read: 'Rising while VIX pulls back — NASDAQ-specific stress. Needs to break back under ≈26 (the range floor) for the index to breathe.',
+      symbol: 'VXN', value: '28.08', range: [24, 33], change: '−8.95% · off the 31 spike',
+      verdict: 'neutral',
+      read: 'Down 8.95% versus VIX’s 1.28% — the leadership has inverted and NASDAQ-specific stress is unwinding fastest. The ≈26 range floor is the line that would confirm it.',
     },
   ],
-  note: 'Two gauges, one read: the group’s reflex bounce gapped into its $510–518 lid pre-market while the index still hasn’t touched support. Session holds over $510 → SMH runs at $535 and QQQ follows toward $678; a fade at the lid re-arms the re-shorts at their zones.',
+  note: 'The reflex bounce fired: QQQ +2.97% through the $678–680 shelf with VXN collapsing −8.95%, so the 4H frames have flipped up while the daily bars still carry an intact downtrend and the ≈$695 trendline overhead. Two binaries left today — 15:30 macro, AMZN tonight — so bank into strength; the daily CLOSE is what turns any of this into a tick.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
