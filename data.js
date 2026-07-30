@@ -318,11 +318,15 @@ const STOCKS = [
   // the computed Progress column carries the truth instead — earned collapsed
   // MU +18% → ≈ +7.6%, SNDK +34% → ≈ +20%, IREN +25% → ≈ +4%.
   //
-  // ⚠️ NOT REFRESHED (no fresh print available this session): CRWV, LITE, NVDA,
-  // COHR, DRAM, AAOI, WDC, TER, GLW, ASTS, AMAT,
-  // CRDO, MRVL, META, TSLA — all still carry 7/29 close data. Assume the
-  // same squeeze hit the shorts among them and read their zones as stale until
-  // each is revisited. (The trend meter and the VIX/VXN minis ARE current — see
+  // ⚠️ NOT REFRESHED (no fresh print this session): AAOI, ASTS, AMAT, CRDO —
+  // the last four cards still on 7/29 close data. All four are shorts in the
+  // same AI-infra cohort that squeezed 10–27% today: read their prices, zones
+  // and progress as STALE until each gets a fresh print. AAOI is the deepest
+  // short (was ≈ +32%) and CRDO sat at its 200-EMA target — assume both gave
+  // back like their peers did. Everything else (21/25) carries 2026-07-30,
+  // refreshed across two parallel sessions (this branch + PRs #222/#224:
+  // ALAB, WDC, COHR, GLW, TER, TSLA), so wording style may differ per card
+  // but every price is same-day. Each is revisited. (The trend meter and the VIX/VXN minis ARE current — see
   // the 10:05 snapshot above.)
   // NOTE (mechanical): the "Booked at targets" strip is computed from the CURRENT
   // price, so names whose price squeezed back above T1 (MU, IREN) drop out of it
