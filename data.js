@@ -24,6 +24,27 @@
 //
 // To add a stock: drop its story at stories/<symbol>.html and add an entry here.
 const STOCKS = [
+  // ── 2026-07-30 (pre-market) ── META ADDED off the ranked board (long
+  // watch, bottom-hunt): the capex binary the CRWV card waited for resolved
+  // RED at the payer itself — META gapped −8.33% pre-market to $536.85
+  // (close $585.61), landing ON the daily lower band $538.49 inside the
+  // two-year $525–540 demand shelf (Apr-25 + Apr-26 lows, both V-bought)
+  // with the 200-week EMA ≈ $530 beneath. Buy the FLIP, not the gap:
+  // probes $530–538 post-open, core on an undercut-and-reclaim of
+  // $525–530, stop <$515; flip confirms 1H close >$555 → reclaim $585.61;
+  // a daily close <$525 = shelf gone, air to ≈ $420 — long off.
+  // NOTE: CRWV's post-META instruction (fade $65–74 / break <$59.6) is now
+  // LIVE — refresh CRWV when its tape prints. TSLA + META are the two
+  // bottom-hunt watches of the session (both on their 200-week rails).
+  {
+    symbol: 'META', exchange: 'NASDAQ',
+    price: '$585.61', change: 'close −1.31% $585.61 · PM $536.85 −8.33% — earnings gap ONTO the two-year shelf $525–540 / 200-week ≈ $530',
+    signal: 'Bottom-hunt at the two-year shelf — the earnings gap delivered the price. META closed $585.61 (−1.31%) and the print did the rest overnight: pre-market $536.85 (−8.33%), a gap through the June lows landing exactly where this stock has bottomed twice before — the $525–540 demand shelf (April-2025 and April-2026 lows, both V-bought) with the 200-week EMA ≈ $530 beneath, the PM print sitting ON the daily lower band $538.49. The 1H is still detonation-shaped (RSI 23.61, MACD −14.64, OBV −150M — no divergence yet) and the daily frame is broken (RSI 31.76, under the daily 200-EMA $630.68), so this is a buy-the-flip, not buy-the-gap: probes $530–538 once the open stabilizes, core on an undercut-and-reclaim of $525–530, stop under $515. Flip checklist: undercut-and-reclaim of the lows → 1H RSI/OBV divergence → first 1H close over $555 (9-EMA) → reclaim of $585.61 (the gap top) = bottom likely in. Recovery targets $555 → $585.61 → $609–612 (daily 50 + 1H 200-EMA) → $626–631 (50-week + daily 200 — full repair). A daily close under $525 breaks the shelf — untested air to ≈ $420, long off.',
+    edge: 'Bottom-hunt long at the two-year shelf: the earnings gap (−8.33% PM to $536.85) landed exactly on the $525–540 demand shelf that V-bottomed in Apr-25 and Apr-26, with the 200-week EMA ≈ $530 beneath and the print ON the daily lower band $538.49 — first reaction lies, so buy the FLIP, not the gap: probes $530–538 post-open, core on an undercut-and-reclaim of $525–530, stop <$515 — flip confirms on a 1H close >$555 then a reclaim of the $585.61 gap top, targets $555 → $585.61 → $609–612 → $626–631; a daily close <$525 = air to ≈ $420, long off (off the ranked board, a watch)',
+    side: 'long', accent: 'blue',
+    date: '2026-07-30',
+    story: 'stories/meta.html',
+  },
   // ── 2026-07-30 (pre-market) ── TSLA ADDED off the ranked board (long
   // watch, per the MRVL precedent — a knife-catch stays a watch until the
   // reclaim confirms): a ≈ −24% six-session waterfall through the daily
