@@ -116,8 +116,8 @@ const MARKET = {
       symbol: 'SMH',
       label: 'Semis · SMH',
       role: 'The board’s barometer — the group that leads this tape',
-      price: '$504.22',
-      change: 'close −4.79% · PM $516.26 — the bounce GAPPED into the $510–518 lid · 0.618 ≈$478 tagged AH',
+      price: '$538.75',
+      change: 'intraday +6.85% (+$34.53) · THROUGH $535 · low $515.68 held the $510–518 band · +11.5% off the $483.32 flush',
       checks: [
         {
           label: 'Weekly structure',
@@ -127,65 +127,65 @@ const MARKET = {
         {
           label: 'Daily trend',
           verdict: 'bear', weight: 1.5,
-          read: 'Closed $504.22 (−4.79%) UNDER the $505.66 sweep low — the intraday undercut-and-reclaim failed, so the bounce thesis was voided and the lower-high/lower-low sequence stands.',
+          read: 'The lower-high/lower-low sequence is under real attack but not yet broken: $505.66, the $510–518 lid and $535 are all reclaimed, yet no DAILY swing high is taken out. That needs $547–550 — the same test QQQ has at $695.',
         },
         {
           label: 'The 0.618 at ≈$478',
-          verdict: 'neutral', weight: 1.5,
-          read: 'The after-hours flush to $483.32 effectively tagged it and snapped straight back to $500.07 — the FULL correction map has now paid ($547–550 → $535 → $510–518 → ≈$478–483). Deep fib support on a second, deeper undercut-and-reclaim is exactly where reflex bounces start.',
+          verdict: 'bull', weight: 1.5,
+          read: 'HELD, violently. The fib tag at $483.32 produced a +11.5% reversal in one session — that is what a real bottom off deep fib support looks like, and it is the strongest single piece of evidence on this board.',
         },
         {
           label: 'Overhead stack',
-          verdict: 'bear', weight: 1.5,
-          read: 'PM $516.26 gapped INTO the $510–518 band (underside of the broken shelf + 4H 9-EMA $513.80) — the primary rejection zone is being tested right now. Hold it in the session and $535 opens; fade it and the reclaim failed.',
+          verdict: 'bull', weight: 1.5,
+          read: 'The rejection zone FAILED to reject: the $513.80 4H 9-EMA and $535 — the lids that killed every lift for six weeks — are both reclaimed, and the $515.68 low held the band on the retest. New overhead: the 30m 50-EMA $540 (testing now) → $547–550 → the 30m 200-EMA $561.77.',
         },
         {
           label: 'Group leadership',
-          verdict: 'bear',
-          read: 'The semis led the whole tape down and the leaders are all sitting on their majors (MU $714 · SNDK $958 · NVDA $189 · COHR $215 · NBIS $147). A group whose leaders are at last-stand levels is not a group in an uptrend.',
+          verdict: 'bull',
+          read: 'INVERTED: the group that led the tape down is now leading it up at more than twice the index (SMH +6.85% vs QQQ +2.97%). The leaders defended their majors instead of losing them — that is the breadth the bounce needed.',
         },
         {
           label: 'Bounce confirmation',
           verdict: 'neutral',
-          read: 'The gap does the reclaim NOMINALLY — PM $516.26 is over $505.66–510 — but this week’s lesson (TER, BE, STX) is that pre-market prints don’t count: the first hour holding over $510 is the confirmation, a fade back under $505.66 voids it.',
+          read: 'The regular session is doing the work this time, not a thin AH print — but it is only 10:05, the first hour is not complete, and this week (TER, BE, STX) every pop that faded did so from the open. The daily close over $535 is the vote that counts.',
         },
       ],
       fast: {
         checks: [
           {
-            label: 'AH undercut-and-reclaim of the 0.618',
+            label: 'Undercut-and-reclaim of the 0.618',
             verdict: 'bull', weight: 1.5,
-            read: 'Flush $483.32 → snap straight back to $500.07 AT the fib — the classic start of a reflex bounce, and it printed on the fast frame first.',
+            read: 'CONFIRMED: flush to $483.32, snap back, and +11.5% off it in a session. The fast frame called this before the daily had any evidence at all.',
           },
           {
-            label: '4H RSI 22.57',
-            verdict: 'neutral',
-            read: 'Pinned at extremes (Stoch 12.38, MACD −13.24) — fuel, and the first divergence would show here before the daily.',
+            label: '4H momentum',
+            verdict: 'bull',
+            read: 'Exploded off the 22.57 extreme — 30m RSI 74.29, Stochastics 98.45, MACD crossed positive to 1.17. The spring fired instead of dying under the 9-EMA.',
           },
           {
             label: '$505.66–510 reclaim',
-            verdict: 'neutral',
-            read: 'PM $516.26 is over the line — the trigger is printing, but only a regular-session hold makes it real. First hour over $510 = confirmed.',
+            verdict: 'bull',
+            read: 'Taken decisively in the regular session, and the $515.68 low retested the band and held. The trigger this gauge was waiting on has printed.',
           },
           {
-            label: '4H 9-EMA $513.80',
+            label: 'Extension into the $540 lid',
             verdict: 'neutral',
-            read: 'PM $516.26 is the first print ABOVE the 9-EMA since the slide began — the fast frame’s downtrend line is cracking. Needs a 4H close over it in the session; above $518 the air runs to $535.',
+            read: 'Price $538.75 is ABOVE the 30m upper Bollinger $536.46 with Stoch pinned at 98.45 and OBV still negative (−21.9m) — volume has not confirmed the move. Right direction, terrible place to chase: the 30m 50-EMA $540 is directly overhead.',
           },
         ],
       },
       confirm: [
-        { label: 'Hold $500 in the regular session — the AH snap-back is not enough on its own', done: false },
-        { label: 'Reclaim $505.66–510 — the sweep low that broke, back over the line', done: false },
+        { label: 'Hold $500 in the regular session — the AH snap-back is not enough on its own', done: true },
+        { label: 'Reclaim $505.66–510 — the sweep low that broke, back over the line', done: true },
         { label: 'Daily close above the 4H 9-EMA $513.80, then a push at $535', done: false },
         { label: '4H divergence at the lows: a marginal new low with RSI higher', done: false },
         { label: 'Close above $580 with breadth — the fade regime is over', done: false },
       ],
       levels: {
-        reclaim: '$505.66–510 first, then $513.80 → $535',
-        invalidate: 'a daily close under $483.32 breaks the fib for real → the 50-week $431 goes live',
+        reclaim: 'the 30m 50-EMA $540 (testing) → $547–550 → the 30m 200-EMA $561.77',
+        invalidate: 'a daily close back under $535 fails the reclaim; under $505.66 the whole bounce voids → $483/$478 retest',
       },
-      note: 'The reflex bounce arrived pre-market and gapped straight INTO the $510–518 rejection zone — the decision is being made at the open, not later. Hold over $510 → $535 is the next stop; fade under $505.66 → failed reclaim, retest $483/$478. First reaction lies — let the first hour vote.',
+      note: 'The rejection zone failed to reject — $535 is through and the barometer is leading the tape up at 2x the index. It is also 30 minutes into a session with 15:30 macro and AMZN tonight, and the move is above the upper band with OBV not confirming: this is where the board banks shorts, not where it chases longs.',
     },
   ],
   vol: [
@@ -200,7 +200,7 @@ const MARKET = {
       read: 'Down 8.95% versus VIX’s 1.28% — the leadership has inverted and NASDAQ-specific stress is unwinding fastest. The ≈26 range floor is the line that would confirm it.',
     },
   ],
-  note: 'The reflex bounce fired: QQQ +2.97% through the $678–680 shelf with VXN collapsing −8.95%, so the 4H frames have flipped up while the daily bars still carry an intact downtrend and the ≈$695 trendline overhead. Two binaries left today — 15:30 macro, AMZN tonight — so bank into strength; the daily CLOSE is what turns any of this into a tick.',
+  note: 'The bounce is confirming and the leadership has flipped: SMH +6.85% straight through $535 versus QQQ +2.97% through its $678–680 shelf, with VXN collapsing −8.95%. The barometer’s daily bar has crossed into Repairing while the index still lags with its ≈$695 trendline overhead — the mirror of yesterday, when the group was at support and the index had reached nothing. Both 4H frames read Uptrend, both dailies still need a CLOSE, and 15:30 macro plus AMZN tonight are unresolved: bank into strength, chase nothing above the bands.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
