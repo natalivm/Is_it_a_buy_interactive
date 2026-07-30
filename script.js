@@ -122,6 +122,133 @@ function renderBooked() {
         <div class="booked-chips">${chips}</div>`;
 }
 
+// ── Trend meter ─────────────────────────────────────────────────────────────
+// The regime read for the index (MARKET in data.js). The needle is computed
+// from MARKET.checks — 'bull' +1, 'bear' −1, 'neutral' 0, weighted — so the
+// gauge can never contradict the checklist printed under it. Score runs
+// −100 (full downtrend) … +100 (full uptrend).
+const TREND_BANDS = [
+    { max: -60, key: 'down',    label: 'Downtrend',        blurb: 'Trend is down on the operative timeframe — rallies are countertrend until proven otherwise.' },
+    { max: -20, key: 'weak',    label: 'Rolling over',     blurb: 'Structure is deteriorating: sell the rip still beats buy the dip.' },
+    { max: 20,  key: 'neutral', label: 'Neutral / chop',   blurb: 'No trend edge either way — range rules, levels beat opinions.' },
+    { max: 60,  key: 'repair',  label: 'Repairing',        blurb: 'The downtrend is being undone but the job is not finished.' },
+    { max: 101, key: 'up',      label: 'Uptrend',          blurb: 'Trend is up — dips into support are the higher-probability side.' },
+];
+
+const VERDICT_W = { bull: 1, bear: -1, neutral: 0 };
+const VERDICT_LABEL = { bull: 'Bullish', bear: 'Bearish', neutral: 'Neutral' };
+
+function trendScore(checks) {
+    const rows = (checks || []).filter(c => c && c.verdict in VERDICT_W);
+    if (!rows.length) return null;
+    const total = rows.reduce((a, c) => a + (c.weight || 1), 0);
+    const sum = rows.reduce((a, c) => a + VERDICT_W[c.verdict] * (c.weight || 1), 0);
+    return Math.round((sum / total) * 100);
+}
+
+function trendBand(score) {
+    return TREND_BANDS.find(b => score < b.max) || TREND_BANDS[TREND_BANDS.length - 1];
+}
+
+function renderTrendMeter() {
+    const el = document.getElementById('trendMeter');
+    if (!el) return;
+    const M = (typeof MARKET !== 'undefined') ? MARKET : null;
+    const score = M ? trendScore(M.checks) : null;
+    if (!M || score === null) { el.hidden = true; el.innerHTML = ''; return; }
+    el.hidden = false;
+
+    const band = trendBand(score);
+    // −100…+100 → 0…100% along the track.
+    const pos = (score + 100) / 2;
+
+    const tally = (M.checks || []).reduce((a, c) => {
+        if (c.verdict in a) a[c.verdict]++;
+        return a;
+    }, { bull: 0, bear: 0, neutral: 0 });
+
+    const checks = (M.checks || []).map(c => `
+        <li class="tm-check tm-${c.verdict}">
+            <span class="tm-check-head">
+                <span class="tm-dot" aria-hidden="true"></span>
+                <span class="tm-check-label">${esc(c.label)}</span>
+                <span class="tm-check-verdict">${esc(VERDICT_LABEL[c.verdict] || '')}</span>
+            </span>
+            <span class="tm-check-read">${esc(c.read || '')}</span>
+        </li>`).join('');
+
+    const vol = (M.vol || []).map(v => `
+        <div class="tm-vol tm-${v.verdict}">
+            <div class="tm-vol-top">
+                <span class="tm-vol-sym">${esc(v.symbol)}</span>
+                <span class="tm-vol-val">${esc(v.value)}</span>
+            </div>
+            <div class="tm-vol-chg">${esc(v.change || '')}</div>
+            <p class="tm-vol-read">${esc(v.read || '')}</p>
+        </div>`).join('');
+
+    const done = (M.confirm || []).filter(c => c.done).length;
+    const confirm = (M.confirm || []).map(c => `
+        <li class="tm-step${c.done ? ' tm-step-done' : ''}">
+            <span class="tm-box" aria-hidden="true">${c.done ? '✓' : ''}</span>
+            <span>${esc(c.label)}</span>
+        </li>`).join('');
+
+    el.innerHTML = `
+        <div class="tm-head">
+            <div class="tm-id">
+                <span class="tm-eyebrow">Trend meter</span>
+                <h2 class="tm-title">${esc(M.label || M.symbol || '')}</h2>
+                <div class="tm-price-row">
+                    <span class="tm-price">${esc(M.price || '')}</span>
+                    <span class="tm-change">${esc(M.change || '')}</span>
+                </div>
+            </div>
+            <div class="tm-verdict tm-band-${band.key}">
+                <span class="tm-verdict-label">${esc(band.label)}</span>
+                <span class="tm-verdict-score">${score > 0 ? '+' : score < 0 ? '−' : ''}${Math.abs(score)}</span>
+            </div>
+        </div>
+
+        <div class="tm-gauge">
+            <div class="tm-track" role="img"
+                 aria-label="Trend score ${score} out of −100 to +100 — ${esc(band.label)}">
+                <div class="tm-needle" style="left:${pos.toFixed(1)}%"></div>
+            </div>
+            <div class="tm-scale">
+                <span>Downtrend</span><span>Neutral</span><span>Uptrend</span>
+            </div>
+            <p class="tm-blurb">${esc(band.blurb)}</p>
+        </div>
+
+        <div class="tm-tally">
+            <span class="tm-tally-bear">${tally.bear} bearish</span>
+            <span class="tm-tally-neutral">${tally.neutral} neutral</span>
+            <span class="tm-tally-bull">${tally.bull} bullish</span>
+            <span class="tm-asof">as of ${esc(fmtDate(M.updated))}</span>
+        </div>
+
+        <ul class="tm-checks">${checks}</ul>
+
+        ${vol ? `<div class="tm-volwrap">
+            <h3 class="tm-sub">Volatility — the fear side of the read</h3>
+            <div class="tm-vols">${vol}</div>
+        </div>` : ''}
+
+        ${confirm ? `<div class="tm-confirm">
+            <h3 class="tm-sub">What would confirm a bottom <span class="tm-count">${done}/${(M.confirm || []).length} ticked</span></h3>
+            <ol class="tm-steps">${confirm}</ol>
+        </div>` : ''}
+
+        ${(M.levels && (M.levels.reclaim || M.levels.invalidate)) ? `<div class="tm-levels">
+            ${M.levels.reclaim ? `<div class="tm-level tm-level-up"><span class="tm-level-k">Reclaim to flip</span><span class="tm-level-v">${esc(M.levels.reclaim)}</span></div>` : ''}
+            ${M.levels.invalidate ? `<div class="tm-level tm-level-dn"><span class="tm-level-k">Breaks lower if</span><span class="tm-level-v">${esc(M.levels.invalidate)}</span></div>` : ''}
+        </div>` : ''}
+
+        ${M.note ? `<p class="tm-note">${esc(M.note)}</p>` : ''}
+    `;
+}
+
 // ── Tile rendering ─────────────────────────────────────────────────────────
 function tileHtml(item) {
     return item && item.type === 'article' ? articleTileHtml(item) : stockTileHtml(item);
@@ -461,6 +588,7 @@ function initInstallButton() {
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initInstallButton();
+    renderTrendMeter();    // index regime read (needle computed from MARKET.checks)
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
     renderBooked();        // "booked at targets" strip (reuses accents too)

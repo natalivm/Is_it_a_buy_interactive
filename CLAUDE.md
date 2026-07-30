@@ -11,8 +11,8 @@ interactive tap-through "story" that explains the trade thesis for that stock.
 - `styles.css` — dark purple/pink theme; 3-per-row responsive tile grid
 - `stories/` — one HTML slideshow per stock, driven by the shared
   `stories/story.css` + `stories/engine.js` (see "Deck anatomy" below)
-- `index.html` — shell: navbar, intro, `#leaderboard` table, `#gallery` grid,
-  `#storyOverlay` modal
+- `index.html` — shell: navbar, intro, `#trendMeter` panel, `#leaderboard`
+  table, `#gallery` grid, `#storyOverlay` modal
 - `manifest.json` / `sw.js` — PWA + offline caching (bump `CACHE_NAME` in
   `sw.js` on releases; the deploy workflow rewrites it to the commit hash)
 
@@ -54,6 +54,29 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 - Slide flow per deck: cover/4H → daily candle → relative strength vs SMH →
   levels ladder → plan (entry/stop/targets + a "🎯 Тригер від сьогодні" note
   giving the actionable instruction from the current price).
+
+## Trend meter (`MARKET` in data.js)
+
+The panel at the very top of the board answers one question — is the index in an
+uptrend or a downtrend — and is rendered by `renderTrendMeter()` from the
+`MARKET` object in `data.js`. The whole point is that **the verdict is computed,
+never hand-set**:
+
+- `checks` is the evidence list: `{ label, verdict: 'bull'|'bear'|'neutral',
+  read, weight? }`. `trendScore()` turns it into a weighted mean on a
+  −100…+100 scale (bull +1, bear −1, neutral 0; `weight` defaults to 1 — give
+  structural facts 1.5 and oscillators 1). That score positions the needle,
+  picks the band from `TREND_BANDS` in `script.js` (Downtrend / Rolling over /
+  Neutral / Repairing / Uptrend) and colours the whole panel via `--tm-a`. So
+  the gauge can never disagree with the checklist printed under it — to change
+  the reading, change a check's `verdict`, not a number somewhere else.
+- `vol` holds the VIX/VXN gauges (the fear side of the read); `confirm` is the
+  ordered flip checklist (`done: true` ticks a step and updates the "n/5
+  ticked" counter); `levels.reclaim` / `levels.invalidate` are the two decision
+  lines; `note` is the one-line stance.
+- Bump `updated` (ISO date) on every refresh — it renders as the "as of" label,
+  same discipline as a tile's `date`. The section hides itself if `MARKET` is
+  missing or has no usable checks.
 
 ## Stock tile data model
 

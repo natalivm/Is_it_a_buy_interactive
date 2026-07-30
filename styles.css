@@ -188,6 +188,204 @@ body.story-open { overflow: hidden; }
     color: var(--mut);
 }
 
+/* ── Trend meter ───────────────────────────────────────────────────────────
+   Index regime read: gauge + evidence checklist + VIX/VXN + flip checklist.
+   Band colours are keyed off the computed score (see TREND_BANDS in script.js);
+   --tm-a is the band accent every child tints against. */
+.trendmeter {
+    --tm-a: var(--pink);
+    margin-bottom: 26px;
+    padding: 20px 22px 22px;
+    border: 1px solid var(--hair);
+    border-radius: 18px;
+    background: linear-gradient(180deg, var(--panel), var(--panel2));
+    box-shadow: var(--shadow);
+}
+.tm-head {
+    display: flex; flex-wrap: wrap; align-items: flex-start;
+    justify-content: space-between; gap: 14px;
+}
+.tm-eyebrow {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--mut);
+}
+.tm-title {
+    font-family: var(--disp); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(22px, 4vw, 30px); line-height: 1.05; letter-spacing: 0.02em;
+    margin-top: 4px;
+}
+.tm-price-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-top: 7px; }
+.tm-price { font-family: var(--mono); font-weight: 700; font-size: 19px; }
+.tm-change { font-family: var(--mono); font-size: 12px; color: var(--mut); }
+
+/* Verdict pill — the headline read */
+.tm-verdict {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 9px 16px; border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--tm-a) 55%, transparent);
+    background: color-mix(in srgb, var(--tm-a) 14%, transparent);
+}
+.tm-verdict-label {
+    font-family: var(--disp); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; font-size: 18px; color: var(--tm-a);
+}
+.tm-verdict-score {
+    font-family: var(--mono); font-weight: 700; font-size: 15px;
+    color: var(--tm-a); padding-left: 10px;
+    border-left: 1px solid color-mix(in srgb, var(--tm-a) 40%, transparent);
+}
+.tm-band-down    { --tm-a: #FF4D6D; }
+.tm-band-weak    { --tm-a: #FF9F45; }
+.tm-band-neutral { --tm-a: #FFD24A; }
+.tm-band-repair  { --tm-a: #22D3EE; }
+.tm-band-up      { --tm-a: #2FD9A0; }
+.trendmeter:has(.tm-band-down)    { --tm-a: #FF4D6D; }
+.trendmeter:has(.tm-band-weak)    { --tm-a: #FF9F45; }
+.trendmeter:has(.tm-band-neutral) { --tm-a: #FFD24A; }
+.trendmeter:has(.tm-band-repair)  { --tm-a: #22D3EE; }
+.trendmeter:has(.tm-band-up)      { --tm-a: #2FD9A0; }
+
+/* Gauge: full down↔up track with a needle at the computed score */
+.tm-gauge { margin-top: 18px; }
+.tm-track {
+    position: relative; height: 12px; border-radius: 999px;
+    border: 1px solid var(--hair);
+    background: linear-gradient(90deg, #FF4D6D 0%, #FF9F45 27%, #FFD24A 50%, #22D3EE 74%, #2FD9A0 100%);
+    opacity: 0.92;
+}
+.tm-needle {
+    position: absolute; top: 50%; width: 4px; height: 26px;
+    transform: translate(-50%, -50%);
+    border-radius: 3px; background: #fff;
+    box-shadow: 0 0 0 2px var(--ink), 0 0 16px rgba(255, 255, 255, 0.65);
+}
+.tm-scale {
+    display: flex; justify-content: space-between; margin-top: 8px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--mut);
+}
+.tm-scale span:nth-child(2) { text-align: center; }
+.tm-blurb { margin-top: 12px; font-size: 14.5px; line-height: 1.5; color: #E6DDF6; }
+.tm-blurb::before {
+    content: ""; display: inline-block; width: 3px; height: 1em;
+    margin-right: 9px; vertical-align: -0.15em;
+    border-radius: 2px; background: var(--tm-a);
+}
+
+/* Evidence tally */
+.tm-tally {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+    margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hair);
+    font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+}
+.tm-tally-bear { color: var(--pink); }
+.tm-tally-neutral { color: var(--yellow); }
+.tm-tally-bull { color: var(--green); }
+.tm-asof { margin-left: auto; font-weight: 400; color: var(--mut); }
+
+/* Evidence rows */
+.tm-checks { list-style: none; display: grid; gap: 10px; margin-top: 14px; }
+@media (min-width: 780px) { .tm-checks { grid-template-columns: 1fr 1fr; } }
+.tm-check {
+    --v: var(--mut);
+    padding: 11px 13px; border-radius: 12px;
+    background: color-mix(in srgb, var(--v) 7%, var(--ink));
+    border: 1px solid color-mix(in srgb, var(--v) 24%, var(--hair));
+}
+.tm-check.tm-bear { --v: #FF4D6D; }
+.tm-check.tm-neutral { --v: #FFD24A; }
+.tm-check.tm-bull { --v: #2FD9A0; }
+.tm-check-head { display: flex; align-items: center; gap: 8px; }
+.tm-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--v); flex-shrink: 0; }
+.tm-check-label { font-weight: 700; font-size: 13.5px; }
+.tm-check-verdict {
+    margin-left: auto; font-family: var(--mono); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--v); white-space: nowrap;
+}
+.tm-check-read { display: block; margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: var(--mut); }
+
+.tm-sub {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px;
+    margin: 20px 0 10px;
+    font-family: var(--disp); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; font-size: 15px; color: var(--txt);
+}
+.tm-count {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: none; color: var(--tm-a);
+}
+
+/* VIX / VXN gauges */
+.tm-vols { display: grid; gap: 10px; }
+@media (min-width: 620px) { .tm-vols { grid-template-columns: 1fr 1fr; } }
+.tm-vol {
+    --v: var(--mut);
+    padding: 12px 14px; border-radius: 12px;
+    background: color-mix(in srgb, var(--v) 8%, var(--ink));
+    border: 1px solid color-mix(in srgb, var(--v) 26%, var(--hair));
+}
+.tm-vol.tm-bear { --v: #FF4D6D; }
+.tm-vol.tm-neutral { --v: #FFD24A; }
+.tm-vol.tm-bull { --v: #2FD9A0; }
+.tm-vol-top { display: flex; align-items: baseline; gap: 10px; }
+.tm-vol-sym {
+    font-family: var(--disp); font-weight: 700; font-size: 17px;
+    letter-spacing: 0.03em; color: var(--v);
+}
+.tm-vol-val { font-family: var(--mono); font-weight: 700; font-size: 17px; }
+.tm-vol-chg { margin-top: 3px; font-family: var(--mono); font-size: 11px; color: var(--mut); }
+.tm-vol-read { margin-top: 7px; font-size: 12.5px; line-height: 1.5; color: #CBC0E4; }
+
+/* Flip checklist */
+.tm-steps { list-style: none; counter-reset: tmstep; display: grid; gap: 8px; }
+.tm-step {
+    counter-increment: tmstep;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13.5px; line-height: 1.5; color: #CBC0E4;
+}
+.tm-box {
+    flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 6px; border: 1px solid var(--hair);
+    background: var(--ink);
+    font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--green);
+}
+.tm-step::after {
+    content: counter(tmstep); order: -1;
+    font-family: var(--mono); font-size: 11px; color: var(--mut); min-width: 12px;
+}
+.tm-step-done { color: var(--txt); }
+.tm-step-done .tm-box { border-color: color-mix(in srgb, var(--green) 55%, var(--hair)); background: color-mix(in srgb, var(--green) 14%, var(--ink)); }
+
+/* The two decision levels */
+.tm-levels { display: grid; gap: 10px; margin-top: 18px; }
+@media (min-width: 620px) { .tm-levels { grid-template-columns: 1fr 1fr; } }
+.tm-level {
+    --v: var(--mut);
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 11px 14px; border-radius: 12px;
+    background: color-mix(in srgb, var(--v) 8%, var(--ink));
+    border: 1px solid color-mix(in srgb, var(--v) 26%, var(--hair));
+}
+.tm-level-up { --v: #2FD9A0; }
+.tm-level-dn { --v: #FF4D6D; }
+.tm-level-k {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--v);
+}
+.tm-level-v { font-family: var(--mono); font-size: 13px; line-height: 1.45; color: var(--txt); }
+
+.tm-note {
+    margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hair);
+    font-size: 13.5px; line-height: 1.55; color: var(--mut);
+}
+@media (max-width: 560px) {
+    .trendmeter { padding: 16px 15px 18px; }
+    .tm-verdict { padding: 7px 13px; }
+    .tm-verdict-label { font-size: 16px; }
+}
+
 /* ── Leaderboard (curated short ranking) ─────────────────────────────────── */
 /* ── Booked-at-targets strip ─────────────────────────────────────────────── */
 .booked {

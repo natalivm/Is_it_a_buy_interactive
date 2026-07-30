@@ -1,3 +1,104 @@
+// ── Market trend meter ──────────────────────────────────────────────────────
+// The regime read at the top of the board: is the index in an uptrend or a
+// downtrend, and what would have to happen to flip it. Rendered by
+// renderTrendMeter() in script.js.
+//
+// The needle is NOT hand-set: the score is computed from `checks`, so the
+// meter can never disagree with the checklist under it. Each check is
+// 'bull' (+1) | 'bear' (−1) | 'neutral' (0), optionally weighted (default 1),
+// and the score is the weighted mean → −100 (full downtrend) … +100 (full
+// uptrend). Edit the checks, and the verdict, the needle and the band label
+// all follow.
+//
+// Fields:
+//   symbol/label  what the meter is measuring (the index proxy)
+//   price/change  freeform labels, same style as the stock tiles
+//   updated       ISO date of the read (shown as "as of")
+//   checks        [{ label, verdict, read, weight? }] — the evidence rows
+//   vol           [{ symbol, value, change, verdict, read }] — VIX/VXN gauges
+//   confirm       [{ label, done }] — the flip checklist, in order of
+//                 increasing conviction; `done: true` ticks a step off
+//   levels        { reclaim, invalidate } — the two lines that decide it
+//   note          one-line stance for the board
+const MARKET = {
+  symbol: 'QQQ',
+  label: 'Nasdaq-100 · QQQ',
+  price: '$661.73',
+  change: 'close −2.04% (−$13.76) · PM $666.61 · −11% off the ≈$745 June high',
+  updated: '2026-07-30',
+  checks: [
+    {
+      label: 'Weekly structure',
+      verdict: 'neutral', weight: 1.5,
+      read: 'Rolling over from the high, but NOT broken — weekly RSI 53.24 still over 50 and the multi-year rising structure is intact. This is a correction inside an uptrend until a weekly close says otherwise.',
+    },
+    {
+      label: 'Daily trend',
+      verdict: 'bear', weight: 1.5,
+      read: 'Lower highs and lower lows since the ≈$745 June peak — six weeks of a stair-step down, now −11% off the high with no swing high taken out on the way.',
+    },
+    {
+      label: 'The $678–680 shelf',
+      verdict: 'bear', weight: 1.5,
+      read: 'Support on the way up, lost this week — it is now the lid. Every bounce is guilty until a daily close reclaims it.',
+    },
+    {
+      label: 'Descending trendline (≈$695)',
+      verdict: 'bear', weight: 1.5,
+      read: 'The line off the June highs has capped every attempt for six weeks and is still unbroken. Nothing above it has been tested.',
+    },
+    {
+      label: 'Daily momentum',
+      verdict: 'bear',
+      read: 'Daily RSI 32.40 — under 50 since early July with no repair, and no bullish divergence yet at the lows.',
+    },
+    {
+      label: '4H momentum',
+      verdict: 'neutral',
+      read: '4H RSI 25.38 — oversold enough that a reflex bounce is due, which is bounce fuel, not a trend signal. Stretched can stay stretched.',
+    },
+    {
+      label: 'Higher low above $661.58',
+      verdict: 'neutral',
+      read: 'Not formed yet. The pre-market bid at $666 is a first leg — the retest that holds is what would count.',
+    },
+    {
+      label: 'VIX regime',
+      verdict: 'bear',
+      read: 'VIX 19.81 after spiking through 21 — pushed above the 20 handle on a rising trendline off the $15.18 July low. Fear is bid, not fading.',
+    },
+    {
+      label: 'VXN leadership',
+      verdict: 'bear',
+      read: 'VXN 30.84 (+3.77%) pressing the 32–33 top of its two-month range while VIX fades −4.11% — NASDAQ vol is leading S&P vol, i.e. the selling is concentrated in exactly this index.',
+    },
+  ],
+  vol: [
+    {
+      symbol: 'VIX', value: '19.81', change: '−4.11% (4H) · spiked ≈21',
+      verdict: 'bear',
+      read: 'Above the 20 handle on a rising trendline off $15.18. A close back under ≈18 is the first sign the bid in fear is done.',
+    },
+    {
+      symbol: 'VXN', value: '30.84', change: '+3.77% (4H) · range top 32–33',
+      verdict: 'bear',
+      read: 'Rising while VIX pulls back — NASDAQ-specific stress. Needs to break back under ≈26 (the range floor) for the index to breathe.',
+    },
+  ],
+  confirm: [
+    { label: 'Undercut-and-reclaim of $661.58 on volume — a flush low bought back the same session', done: false },
+    { label: 'Daily close back above the broken $678–680 shelf', done: false },
+    { label: 'A higher low: pullback holds over $661.58, then the bounce high gets taken out', done: false },
+    { label: 'Daily RSI reclaims 50 and holds it (and VXN back under ≈26)', done: false },
+    { label: 'Daily close above the descending trendline ≈$695 — the trend has actually changed', done: false },
+  ],
+  levels: {
+    reclaim: '$678–680 first, then ≈$695 (the trendline)',
+    invalidate: 'a daily close under $661.58 → the $644–646 band is the next real shelf',
+  },
+  note: 'The pre-market bounce is an oversold reaction inside an intact daily downtrend, not a bottom. The first two boxes make a long tradeable with a stop under the low; the last two make it trustworthy. Zero of five are ticked.',
+};
+
 // ── Stocks ──────────────────────────────────────────────────────────────────
 // Each entry renders one tile in the gallery. Clicking a tile opens its
 // interactive story — a self-contained HTML slideshow living in /stories.
