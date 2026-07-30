@@ -41,8 +41,8 @@ const MARKET = {
       symbol: 'QQQ',
       label: 'Nasdaq-100 · QQQ',
       role: 'The index — what the whole tape is doing',
-      price: '$681.19',
-      change: 'intraday +2.97% (+$19.68) · trading ABOVE the broken $678–680 shelf · +3% off yesterday’s $661.58 flush low',
+      price: '$680.94',
+      change: 'mid-session +2.90% (+$19.21 vs the $661.73 close) · HOLDING above the reclaimed $678–680 shelf all session · stalled exactly at the first lower high ≈$681',
       checks: [
         {
           label: 'Weekly structure',
@@ -57,7 +57,7 @@ const MARKET = {
         {
           label: 'The $678–680 shelf',
           verdict: 'neutral', weight: 1.5,
-          read: 'RECLAIMED intraday — price $681.19 is back above the shelf it lost this week. It flips bull on a daily CLOSE up here; an intraday poke that fades back under $678 leaves the lid intact.',
+          read: 'RECLAIMED and now HELD for the whole session — $681.19 at 10:05, $680.94 mid-session. That is no longer an intraday poke: it is hours of acceptance above a shelf that was the lid all week, with $679.41 the immediate line under it. Still neutral on the same terms as the group: it flips bull on a daily CLOSE up here, and a fade back under $678 leaves the lid intact.',
         },
         {
           label: 'Descending trendline (≈$695)',
@@ -67,12 +67,12 @@ const MARKET = {
         {
           label: 'Daily momentum',
           verdict: 'neutral',
-          read: 'Turning up off 32.40 — a +3% session mechanically lifts the daily RSI off its floor, so momentum is no longer one-way down. It is not bullish until 50 is reclaimed and held.',
+          read: 'Turning up off 32.40 — a +2.9% session mechanically lifts the daily RSI off its floor, so momentum is no longer one-way down. The 1H RSI is 52.90: just over the midline, and worth contrasting with the memory leaders at Stoch 90+. The index has ROOM; they do not. Still not bullish until the DAILY 50 line is reclaimed and held.',
         },
         {
           label: 'Higher low above $661.58',
           verdict: 'neutral',
-          read: 'Leg one is in: $661.58 held and price is +3% off it. The higher low itself needs the FIRST pullback to hold above $661.58 — that retest is what would confirm it, and it has not happened.',
+          read: 'Leg one is in: $661.58 held and price is +2.9% off it. The higher low itself needs the FIRST pullback to hold above $661.58 — and that pullback has not even started, because the session has simply parked at $679–681. Nothing to confirm yet; the supports to watch on the way down are $675.27, then the $665.35–667.74 cluster over the $661.58 low.',
         },
         {
           label: 'Implied vol (VXN)',
@@ -95,7 +95,7 @@ const MARKET = {
           {
             label: 'The first lower high ≈$681',
             verdict: 'neutral',
-            read: 'Price is AT it, not through it. A 4H close above $681 takes out the first lower high of the whole decline; a rejection here is the classic dead-cat top.',
+            read: 'Still AT it — and now for hours: $681.19 at 10:05, $680.94 mid-session, the current 1H bar fractionally red. Cuts both ways and that is the honest read: stalling at the first lower high of the whole decline is exactly where a dead-cat top forms, but refusing to give any of it back over several hours is not what a failing bounce does. A 4H close above $681 takes the lower high out; the ≈$695 trendline and the $700–708 supply box are the tests beyond it.',
           },
         ],
       },
@@ -110,7 +110,7 @@ const MARKET = {
         reclaim: '$678–680 first, then ≈$695 (the trendline)',
         invalidate: 'a daily close under $661.58 → the $644–646 band is the next real shelf',
       },
-      note: 'The bounce is real and it took the first level: $681.19 is back above the $678–680 shelf with vol collapsing. But the daily close is what ticks the box, the ≈$695 trendline is still overhead, and AMZN prints tonight — the rally is earned, not yet trusted.',
+      note: 'The index is doing the orderly version of this bounce: $680.94, holding the reclaimed $678–680 shelf all session with 1H RSI only 52.90 — no extension to unwind, unlike the memory leaders at Stoch 90+. The flip side is that it has stalled precisely at the first lower high ≈$681 and has not tested the ≈$695 trendline or the $700–708 supply box. Daily close ticks the box; AMZN tonight is unresolved.',
     },
     {
       symbol: 'SMH',
@@ -200,7 +200,7 @@ const MARKET = {
       read: 'Still down hard on the day (−7.59%) and still leading VIX lower in percentage terms — NASDAQ stress unwinding fastest. But note the level, not just the move: 28.50 has ticked UP from the 28.08 morning print and the ≈26 range floor is untouched. Fear is cheaper, not gone.',
     },
   ],
-  note: 'Mid-session (12:40 ET): the index is holding, the memory leaders are EXTENDING. SMH $536.64 (+6.43%) has stayed above the reclaimed $535 for three hours with the extension worked off and 1H OBV rising — the first pop this week that did not fade from the open — but it is flat since 10:00 and stalled at the $540 lid with the decisive $547–550 untested. Meanwhile MU pushed to +15.68% (taking its $853 lid) and SNDK to +23.01% (grinding inside its re-short zone): the afternoon leg is memory-specific, so the arithmetic says the non-memory semis are drifting lower. Practical split: memory shorts are the ones bleeding and their re-short zones need a rejection that has NOT come, while non-memory shorts are not being told much yet. VIX pressing ≈18 is the one clean confirmation; VXN 28.50 never reached its ≈26 floor; 15:30 macro and AMZN tonight unresolved. Bands unchanged — SMH daily Repairing, QQQ Rolling over. Bank shorts into strength, chase nothing.',
+  note: 'Mid-session: the index is orderly, the memory leaders are stretched. QQQ $680.94 (+2.90%) has held its reclaimed $678–680 shelf all session with 1H RSI just 52.90 — no extension to unwind — but it is parked exactly at the first lower high ≈$681 with the ≈$695 trendline and the $700–708 box untested. SMH $536.64 (+6.43%) likewise held $535 for three hours yet is flat since 10:00 and stalled at $540, $547–550 untested. The move is in memory: MU +15.68% (took its $853 lid) and SNDK +23.01% (inside its re-short zone), both at Stoch 90+ and overextended on 15-min. That is the whole read — the index has room and the leaders do not, so the afternoon leg is memory-specific rather than a broad group reversal. Practical split: memory shorts are the ones bleeding and their zones need a rejection that has NOT come; non-memory shorts (COHR, LITE, NVDA, ALAB, CRDO) are not being told much yet. VIX pressing ≈18 is the one clean confirmation, VXN 28.50 never reached its ≈26 floor, 15:30 macro and AMZN tonight unresolved. Bands unchanged — SMH Repairing, QQQ Rolling over. Bank shorts into strength, chase nothing.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
@@ -292,6 +292,18 @@ const STOCKS = [
   // lower. This afternoon leg is MEMORY-SPECIFIC, not a broad group reversal —
   // which means the memory shorts are the ones bleeding, and the non-memory
   // shorts (COHR, LITE, NVDA, ALAB, CRDO) are not being told much yet.
+  //
+  // QQQ refreshed to its own mid-session print: $680.94, +2.90% (+$19.21 derived
+  // from the $661.73 close — the chart's −0.38/−0.06% is the current 1H bar,
+  // not the session). It has HELD the reclaimed $678–680 shelf all session
+  // ($681.19 at 10:05 → $680.94) with 1H RSI only 52.90 — no extension to
+  // unwind, the exact opposite of the memory leaders at Stoch 90+. So the index
+  // has room and the leaders do not. Against it: price is parked precisely at
+  // the first lower high ≈$681, unable to push through, with the ≈$695
+  // trendline and a $700–708 supply box above and $675.27 → $665.35–667.74 the
+  // supports under it. Verdicts unchanged (daily Rolling over −33 / fast Uptrend
+  // +71) — the shelf and momentum checks stay neutral because their stated bar
+  // is the DAILY CLOSE, same discipline applied to SMH.
   //
   // THE RULE THIS SESSION ESTABLISHES: every add / re-short zone drawn at
   // yesterday's stack now sits BELOW price and is VOID. A zone has to be
