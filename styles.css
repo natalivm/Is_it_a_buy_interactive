@@ -384,6 +384,12 @@ body.story-open { overflow: hidden; }
     color: var(--bg); background: var(--green);
     padding: 1px 5px; border-radius: 6px; letter-spacing: 0.03em;
 }
+.booked-chip.booked-loss {
+    border-color: color-mix(in srgb, var(--red, #f43f5e) 40%, var(--hair));
+    background: color-mix(in srgb, var(--red, #f43f5e) 8%, var(--panel2));
+}
+.booked-loss .booked-pct { color: var(--red, #f43f5e); }
+.booked-t-stop { background: var(--red, #f43f5e); }
 @media (max-width: 560px) { .booked-summary { font-size: 12px; } }
 
 .leaderboard { margin-bottom: 40px; }

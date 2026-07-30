@@ -116,7 +116,13 @@ bumping `date` leaves the tile mis-dated and mis-sorted; treat the date bump
 as part of every refresh, not an afterthought.
 
 An entry may also carry a `lead` object (`{ rank, entry, stop, targets, downside,
-tail?, rr, rrStar?, edge }`). Entries with a `lead` render as rows in the
+tail?, rr, rrStar?, edge, tagged?, closed? }`). `tagged` records the deepest
+target actually realised (set it the day the target trades — it survives the
+price squeezing back above the level); `closed` records the exit of a
+stopped/closed trade. The "Booked at targets" strip is a LEDGER of realised
+results computed from these: wins score at `tagged` (or the deepest target the
+current price has reached), closed trades score at `closed` — including
+losses, which render as red ⛔ chips and stay on the strip by design. Entries with a `lead` render as rows in the
 "Sharpest trades" ranking table above the gallery — long or short, ordered by
 `rank`, no cap; names without a clean directional edge simply omit `lead`. The
 whole table hides itself when nothing is ranked. This keeps the leaderboard in

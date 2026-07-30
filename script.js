@@ -72,28 +72,45 @@ function pct(n) {
 }
 
 // ── Booked gains ─────────────────────────────────────────────────────────────
-// "Trades that got into their TP zone": every filled `lead` whose price has
-// reached at least T1 (in the trade's direction). The booked % is measured
-// from the entry-zone midpoint to the DEEPEST target actually tagged — i.e. the
-// gain you'd have realised taking profit there. A small tolerance (0.3%) counts
-// a target as hit when price is a hair shy of it (rounding on the label). Fully
-// data-driven off data.js, so names join automatically as they reach targets.
+// The strip is a LEDGER of realised results, wins and losses alike — it
+// remembers, it does not re-derive from the current price (a squeeze back
+// above a tagged target must not erase the win that was taken there).
+//   lead.tagged  deepest target actually realised, recorded when it happens —
+//                beats the current price as the reference level
+//   lead.closed  exit level of a closed/stopped trade — the trade is scored
+//                there, INCLUDING losses, and always stays on the strip
+// Without either field the old behaviour stands: score the deepest target the
+// current price has reached (0.3% tolerance for label rounding).
 const TP_TOL = 0.003;
 function bookedGains(list) {
     return (list || STOCK_LIST)
         .filter(s => s && s.lead && /filled/i.test(s.lead.entry))
         .map(s => {
+            const L = s.lead;
             const price = planNums(s.price)[0];
-            const entryNums = planNums(s.lead.entry);
-            const targets = planNums(s.lead.targets);
-            if (!price || !entryNums.length || !targets.length) return null;
+            const entryNums = planNums(L.entry);
+            const targets = planNums(L.targets);
+            if (!entryNums.length || !targets.length) return null;
             const entry = (Math.min(...entryNums) + Math.max(...entryNums)) / 2;
             const short = s.side === 'short';
-            const reached = targets.filter(t => short ? price <= t * (1 + TP_TOL) : price >= t * (1 - TP_TOL));
+            const gainTo = lvl => (short ? (entry - lvl) / entry : (lvl - entry) / entry) * 100;
+            const reachedBy = ref => targets.filter(t => short ? ref <= t * (1 + TP_TOL) : ref >= t * (1 - TP_TOL));
+            const closed = planNums(L.closed)[0];
+            if (closed != null) {
+                return { symbol: s.symbol, side: s.side, gain: gainTo(closed),
+                         hits: reachedBy(closed).length, closed: true };
+            }
+            const tagged = planNums(L.tagged)[0];
+            // reference = the deepest level realised: the recorded tag, unless
+            // the live price has since gone deeper still
+            let ref = tagged != null
+                ? (price != null ? (short ? Math.min(price, tagged) : Math.max(price, tagged)) : tagged)
+                : price;
+            if (ref == null) return null;
+            const reached = reachedBy(ref);
             if (!reached.length) return null;                 // hasn't tagged T1 yet
             const best = short ? Math.min(...reached) : Math.max(...reached);
-            const gain = (short ? (entry - best) / entry : (best - entry) / entry) * 100;
-            return { symbol: s.symbol, side: s.side, gain, hits: reached.length };
+            return { symbol: s.symbol, side: s.side, gain: gainTo(best), hits: reached.length };
         })
         .filter(Boolean)
         .sort((a, b) => b.gain - a.gain);
@@ -110,14 +127,17 @@ function renderBooked() {
     const avg = booked.reduce((a, b) => a + b.gain, 0) / booked.length;
     const chips = booked.map(b => {
         const accent = accentBySymbol[b.symbol] || 'emerald';
-        return `<span class="booked-chip tile-${accent}"><span class="booked-sym">${esc(b.symbol)}</span>`
+        const loss = b.gain < 0;
+        return `<span class="booked-chip tile-${accent}${loss ? ' booked-loss' : ''}"><span class="booked-sym">${esc(b.symbol)}</span>`
             + `<span class="booked-pct">${pct(b.gain)}</span>`
-            + `${b.hits > 1 ? `<span class="booked-t">T${b.hits}</span>` : ''}</span>`;
+            + `${loss ? '<span class="booked-t booked-t-stop">⛔ stop</span>' : b.hits > 1 ? `<span class="booked-t">T${b.hits}</span>` : ''}</span>`;
     }).join('');
+    const wins = booked.filter(b => b.gain >= 0).length;
+    const losses = booked.length - wins;
     strip.innerHTML = `
         <div class="booked-head">
             <span class="booked-badge">🎯 Booked at targets</span>
-            <span class="booked-summary">${booked.length} trade${booked.length > 1 ? 's' : ''} tagged their take-profit zone · avg captured <strong>${pct(avg)}</strong></span>
+            <span class="booked-summary">${wins} win${wins !== 1 ? 's' : ''}${losses ? ` · ${losses} stopped` : ''} · avg realised <strong>${pct(avg)}</strong></span>
         </div>
         <div class="booked-chips">${chips}</div>`;
 }
