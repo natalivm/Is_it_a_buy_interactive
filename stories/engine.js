@@ -195,12 +195,17 @@ function createStory(cfg) {
     segs = Array.from(progEl.children);
   }
 
-  // Tap zones. A slide can opt out of tap-to-navigate with data-noclick
-  // (text-only pages the reader should be able to click without advancing);
-  // the zones are muted while such a slide is active — arrows/swipe/wheel/keys
-  // still move the deck.
+  // Tap zones — touch devices only. On desktop the zones would just sit over
+  // the copy and steal clicks meant for selecting text, while the wheel, the
+  // arrow keys and the footer nav already cover navigation; so they are only
+  // built when the PRIMARY pointer is coarse (phones/tablets — touch-screen
+  // laptops keep swipe via the deck's touch handlers instead). A slide can
+  // opt out of tap-to-navigate with data-noclick (text-only pages the reader
+  // should be able to tap without advancing); the zones are muted while such
+  // a slide is active — arrows/swipe/wheel/keys still move the deck.
+  const touchNav = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
   const tapZones = [];
-  if (cfg.tap !== false && stage) {
+  if (cfg.tap !== false && touchNav && stage) {
     ['left', 'right'].forEach(side => {
       const z = document.createElement('div');
       z.className = 'story-tap ' + side;
@@ -330,7 +335,12 @@ function createStory(cfg) {
       wheelTimer = setTimeout(() => { wheelLock = false; }, 220);
       if (wheelLock) return;
       wheelLock = true;
-      d > 0 ? next() : prev();
+      // Scrolling forward on the last slide closes the deck — the same
+      // contract as the last-slide swipe: there is nothing left to advance
+      // to, so the gesture means "I'm done".
+      if (d > 0 && idx === total - 1) closeDeck();
+      else if (d > 0) next();
+      else prev();
     }, { passive: false });
   }
 

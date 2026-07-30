@@ -40,10 +40,13 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   with entries `[kind res|sup|now|key, price, label]`, hydrated by
   `engine.js`. To change a level, edit the JSON — never hand-write rung divs.
 - **Navigation**: tap left/right zones, swipe, arrow keys, and mouse wheel all
-  advance slides; a swipe (any direction) on the LAST slide closes the deck —
-  the engine posts `{type:'ib-close'}` to the parent gallery. A slide with the
-  `data-noclick` attribute (used on the text-only daily-candle slide) disables
-  the tap zones while active so its text can be selected without navigating.
+  advance slides. The tap zones are TOUCH-ONLY (built when the primary pointer
+  is coarse) — on desktop they'd steal clicks from text selection while
+  wheel/keys/nav buttons already cover navigation. On the LAST slide a swipe
+  (any direction) or a forward wheel-scroll closes the deck — the engine posts
+  `{type:'ib-close'}` to the parent gallery. A slide with the `data-noclick`
+  attribute (used on the text-only daily-candle slide) disables the tap zones
+  while active so its text can be selected without navigating.
 - **Level charts are data-driven**: horizontal price levels are declared as
   `<svg data-lv='[["k",70,"$402","стоп · MA-стек",.05], …]'>` with entries
   `[color k|p|y|w|m, y, axisLabel, caption|null, delay?]`, hydrated by
@@ -55,14 +58,22 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   levels ladder → plan (entry/stop/targets + a "🎯 Тригер від сьогодні" note
   giving the actionable instruction from the current price).
 
+## Copy style
+
+- Ukrainian copy NEVER uses the anglicism «тейп» ("the tape") — it means
+  nothing to readers. Write «ринок», «хід торгів» or «динаміка» instead.
+  (English copy may still say "the tape".)
+
 ## Trend meter (`MARKET` in data.js)
 
 The cockpit at the very top of the board answers one question per index — is it
 in an uptrend or a downtrend — and is rendered by `renderTrendMeter()` from the
 `MARKET` object in `data.js`: one stacked trend bar per entry in
 `MARKET.markets` (QQQ, SMH, …) with the VIX/VXN fear mini-gauges in a narrow
-column beside them, then a collapsible evidence block per gauge. The whole
-point is that **every verdict is computed, never hand-set**:
+column beside them. That's the WHOLE cockpit — bars, chips, minis, board note;
+there is deliberately no expanded evidence UI (it was tried and removed as
+clutter), so don't reintroduce per-gauge accordions. The whole point is that
+**every verdict is computed, never hand-set**:
 
 - Each market's `checks` is its evidence list: `{ label,
   verdict: 'bull'|'bear'|'neutral', read, weight? }`. `trendScore()` turns it
@@ -79,13 +90,13 @@ point is that **every verdict is computed, never hand-set**:
   the frames stay independent. Refresh the fast checks intraday when the 4H
   tape changes even if the daily read hasn't.
 - `vol` holds the VIX/VXN mini-gauges: `value` is parsed for the needle and
-  `range: [calmLo, fearHi]` is the scale it sits on; `read` renders in the
-  collapsible "fear side" block.
-- Per market, `confirm` is the ordered flip checklist (`done: true` ticks a
-  step and updates the "n/5" counter in the summary row);
-  `levels.reclaim` / `levels.invalidate` are the two decision lines; `note` is
-  that index's stance. Top-level `note` is the one-line board stance under the
-  bars.
+  `range: [calmLo, fearHi]` is the scale it sits on; `read` surfaces only as
+  the mini's hover tooltip.
+- Per market, `confirm` (the ordered flip checklist), `levels.reclaim` /
+  `levels.invalidate` and `note` are the analyst's working log — kept current
+  in data.js on every refresh but NOT rendered. The `read` on each check is
+  the same: the reasoning lives in the data, the page shows only the bars.
+  Top-level `note` is the one-line board stance under the bars (rendered).
 - Bump `updated` (ISO date) on every refresh — it renders as the "as of" label,
   same discipline as a tile's `date`. The section hides itself if `MARKET` is
   missing or no market has usable checks.

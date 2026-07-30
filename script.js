@@ -141,7 +141,6 @@ const TREND_BANDS = [
 ];
 
 const VERDICT_W = { bull: 1, bear: -1, neutral: 0 };
-const VERDICT_LABEL = { bull: 'Bullish', bear: 'Bearish', neutral: 'Neutral' };
 
 function trendScore(checks) {
     const rows = (checks || []).filter(c => c && c.verdict in VERDICT_W);
@@ -157,18 +156,6 @@ function trendBand(score) {
 
 function fmtScore(score) {
     return `${score > 0 ? '+' : score < 0 ? '\u2212' : ''}${Math.abs(score)}`;
-}
-
-function trendChecksHtml(checks) {
-    return (checks || []).map(c => `
-        <li class="tm-check tm-${c.verdict}">
-            <span class="tm-check-head">
-                <span class="tm-dot" aria-hidden="true"></span>
-                <span class="tm-check-label">${esc(c.label)}</span>
-                <span class="tm-check-verdict">${esc(VERDICT_LABEL[c.verdict] || '')}</span>
-            </span>
-            <span class="tm-check-read">${esc(c.read || '')}</span>
-        </li>`).join('');
 }
 
 // One stacked cockpit row: symbol + price · the big computed trend bar · the
@@ -202,52 +189,6 @@ function trendRowHtml(mkt) {
                     title="4H fast frame — flips before the daily">4H · ${esc(fastBand.label)} ${fmtScore(fastScore)}</span>` : ''}
             </div>
         </div>`;
-}
-
-// The full evidence for one index, tucked into a collapsible block so the
-// cockpit stays one screen tall.
-function trendDetailsHtml(mkt) {
-    const score = trendScore(mkt.checks);
-    if (score === null) return '';
-    const band = trendBand(score);
-    const tally = (mkt.checks || []).reduce((a, c) => {
-        if (c.verdict in a) a[c.verdict]++;
-        return a;
-    }, { bull: 0, bear: 0, neutral: 0 });
-    const done = (mkt.confirm || []).filter(c => c.done).length;
-    const confirm = (mkt.confirm || []).map(c => `
-        <li class="tm-step${c.done ? ' tm-step-done' : ''}">
-            <span class="tm-box" aria-hidden="true">${c.done ? '\u2713' : ''}</span>
-            <span>${esc(c.label)}</span>
-        </li>`).join('');
-    const fastChecks = mkt.fast ? trendChecksHtml(mkt.fast.checks) : '';
-    return `
-        <details class="tm-details tm-band-${band.key}">
-            <summary>
-                <span class="tm-details-sym">${esc(mkt.symbol)}</span>
-                <span class="tm-details-role">${esc(mkt.role || mkt.label || '')}</span>
-                <span class="tm-details-meta">${esc(band.label)} ${fmtScore(score)}${mkt.confirm ? ` · flip ${done}/${mkt.confirm.length}` : ''}</span>
-            </summary>
-            <div class="tm-details-body">
-                ${mkt.change ? `<p class="tm-change">${esc(mkt.change)}</p>` : ''}
-                <p class="tm-blurb">${esc(band.blurb)}</p>
-                <div class="tm-tally">
-                    <span class="tm-tally-bear">${tally.bear} bearish</span>
-                    <span class="tm-tally-neutral">${tally.neutral} neutral</span>
-                    <span class="tm-tally-bull">${tally.bull} bullish</span>
-                </div>
-                <ul class="tm-checks">${trendChecksHtml(mkt.checks)}</ul>
-                ${fastChecks ? `<h3 class="tm-sub">4H — the fast frame <span class="tm-count">flips first, the daily confirms</span></h3>
-                <ul class="tm-checks">${fastChecks}</ul>` : ''}
-                ${confirm ? `<h3 class="tm-sub">What flips ${esc(mkt.symbol)} <span class="tm-count">${done}/${(mkt.confirm || []).length} ticked</span></h3>
-                <ol class="tm-steps">${confirm}</ol>` : ''}
-                ${(mkt.levels && (mkt.levels.reclaim || mkt.levels.invalidate)) ? `<div class="tm-levels">
-                    ${mkt.levels.reclaim ? `<div class="tm-level tm-level-up"><span class="tm-level-k">Reclaim to flip</span><span class="tm-level-v">${esc(mkt.levels.reclaim)}</span></div>` : ''}
-                    ${mkt.levels.invalidate ? `<div class="tm-level tm-level-dn"><span class="tm-level-k">Breaks lower if</span><span class="tm-level-v">${esc(mkt.levels.invalidate)}</span></div>` : ''}
-                </div>` : ''}
-                ${mkt.note ? `<p class="tm-note">${esc(mkt.note)}</p>` : ''}
-            </div>
-        </details>`;
 }
 
 // VIX/VXN fear mini-gauge: needle at `value`'s position inside `range`
@@ -284,16 +225,6 @@ function renderTrendMeter() {
     el.hidden = false;
 
     const vols = (M.vol || []).map(volMiniHtml).join('');
-    const volReads = (M.vol || []).filter(v => v.read).map(v => `
-        <div class="tm-vol tm-${v.verdict}">
-            <div class="tm-vol-top">
-                <span class="tm-vol-sym">${esc(v.symbol)}</span>
-                <span class="tm-vol-val">${esc(v.value)}</span>
-            </div>
-            <div class="tm-vol-chg">${esc(v.change || '')}</div>
-            <p class="tm-vol-read">${esc(v.read)}</p>
-        </div>`).join('');
-
     el.innerHTML = `
         <div class="tm-top">
             <span class="tm-eyebrow">Trend meter</span>
@@ -304,16 +235,6 @@ function renderTrendMeter() {
             <div class="tm-rows">${markets.map(trendRowHtml).join('')}</div>
         </div>
         ${M.note ? `<p class="tm-boardnote">${esc(M.note)}</p>` : ''}
-        <div class="tm-detailwrap">
-            ${markets.map(trendDetailsHtml).join('')}
-            ${volReads ? `<details class="tm-details tm-details-vol">
-                <summary>
-                    <span class="tm-details-sym">VIX · VXN</span>
-                    <span class="tm-details-role">Volatility — the fear side of the read</span>
-                </summary>
-                <div class="tm-details-body"><div class="tm-vols">${volReads}</div></div>
-            </details>` : ''}
-        </div>
     `;
 }
 
