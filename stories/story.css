@@ -300,15 +300,41 @@ h1 .p, h1 .k, h1 .y {
 
   /* ── Text-focus slides ──────────────────────────────────────────────────
      The daily-read slide (data-noclick) and the closing plan slide are
-     text-only, so their copy renders ~3× the body size. The engine's fit()
-     scales a slide down if it overflows, so long decks degrade gracefully. */
+     text-only, so their copy renders ~3× the body size and uses the WHOLE
+     page: the column is top-aligned (not a centred band with dead space
+     above and below) and the copy block grows into the leftover height, so
+     big type survives instead of being shrunk by the engine's fit(). Sizes
+     are cqw-based — the stage is a fixed 9:16 box, so inline size tracks the
+     page — and fit() still rescues anything that genuinely overflows. */
+     NOTE: never give .slide-inner flex:1 here — it would pin the box to the
+     slide height, fit() would measure need == avail, and long copy would be
+     silently clipped by .slide{overflow:hidden}. The inner must stay
+     auto-height so fit() sees the truth; min-height on the copy box is what
+     fills the page. */
+  .slide[data-noclick], .slide:last-child{justify-content:flex-start;}
+  .slide[data-noclick] h1, .slide:last-child h1{font-size:clamp(24px, 7cqw, 36px);margin-bottom:12px;}
+  .slide[data-noclick] .eyebrow, .slide:last-child .eyebrow{margin-bottom:12px;}
+  .slide[data-noclick] .verdict, .slide[data-noclick] .indi{
+    min-height:88cqw;display:flex;flex-direction:column;justify-content:center;padding:20px 22px;}
+  .slide[data-noclick] .verdict p + p{margin-top:.7em;}
+
   .slide[data-noclick] .verdict p, .slide[data-noclick] .indi p, .slide[data-noclick] .note,
   .slide:last-child .note, .slide:last-child .sub{
-    font-size:30px;line-height:1.35;max-width:none;}
+    font-size:clamp(23px, 6.2cqw, 32px);line-height:1.34;max-width:none;}
   .slide[data-noclick] .verdict .vh, .slide[data-noclick] .indi-top .t{
-    font-size:22px;line-height:1.25;}
-  .slide[data-noclick] .indi-top .v{font-size:19px;white-space:normal;}
-  .slide:last-child .tg{font-size:20px;}
+    font-size:clamp(16px, 4.3cqw, 22px);line-height:1.25;}
+  .slide[data-noclick] .indi-top .v{font-size:clamp(15px, 3.8cqw, 20px);white-space:normal;}
+  .slide:last-child .tg{font-size:clamp(16px, 4.2cqw, 21px);}
+
+  /* ── Levels slides ──────────────────────────────────────────────────────
+     Same principle for the ladder: top-align the column and let the ladder
+     spread over the page instead of clustering in the middle, with the rung
+     type scaled to the page rather than fixed. */
+  .slide:has(.ladder){justify-content:flex-start;}
+  .slide:has(.ladder) .ladder{min-height:118cqw;}
+  .slide:has(.ladder) .rung{flex:1;}
+  .slide:has(.ladder) .rung .px{font-size:clamp(15px, 4cqw, 21px);width:auto;min-width:112px;}
+  .slide:has(.ladder) .rung .lbl{font-size:clamp(13px, 3.2cqw, 17px);}
 
   .nav{position:absolute;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;
     padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, color-mix(in srgb, var(--deep) 85%, transparent), transparent);}
