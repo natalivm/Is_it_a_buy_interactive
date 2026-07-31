@@ -135,6 +135,18 @@ sync with the cards — it's built from `data.js`, not hand-written HTML.
 `lead.edge` (the one-line why-this-trade) renders on the stock **tile**, not in
 the table — the table carries only the numeric plan.
 
+**⚠️ CYCLE RESET — 2026-07-31 (in progress, don't forget):** the July short
+cycle is closed and the board started from a clean slate: every `lead` was
+removed and the realised-shorts ledger cleared — the closed cycle's results
+are archived in the comment block above `STOCKS` in `data.js` (history only,
+nothing renders; the ranking table and booked strip hide themselves until new
+leads exist). ALL trades are being re-entered now for the new cycle. Stance
+for the new plans: **go long only once the uptrend is confirmed** (the gate is
+an SMH daily CLOSE over $547–550 — a close back under $535 re-arms shorts),
+and **keep shorts where an individual setup still warrants one** — the board
+is mixed by design, `side` set per card, not longs-only. Card signals still
+describing the old short cycle are stale until their refresh lands.
+
 Ranked entries also render a computed **progress line** (tile) and a
 **Progress** column (table): earned-% since entry (only when `lead.entry`
 contains "filled" — unfilled plans count 0), full-plan % from the entry-zone
