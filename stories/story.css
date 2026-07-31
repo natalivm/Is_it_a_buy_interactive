@@ -305,15 +305,15 @@ h1 .p, h1 .k, h1 .y {
      above and below) and the copy block grows into the leftover height, so
      big type survives instead of being shrunk by the engine's fit(). Sizes
      are cqw-based — the stage is a fixed 9:16 box, so inline size tracks the
-     page — and fit() still rescues anything that genuinely overflows. */
+     page — and fit() still rescues anything that genuinely overflows.
      NOTE: never give .slide-inner flex:1 here — it would pin the box to the
      slide height, fit() would measure need == avail, and long copy would be
      silently clipped by .slide{overflow:hidden}. The inner must stay
      auto-height so fit() sees the truth; min-height on the copy box is what
      fills the page. */
-  .slide[data-noclick], .slide:last-child{justify-content:flex-start;}
-  .slide[data-noclick] h1, .slide:last-child h1{font-size:clamp(24px, 7cqw, 36px);margin-bottom:12px;}
-  .slide[data-noclick] .eyebrow, .slide:last-child .eyebrow{margin-bottom:12px;}
+  .slide[data-noclick], .slide[data-text], .slide:last-child{justify-content:flex-start;}
+  .slide[data-noclick] h1, .slide[data-text] h1, .slide:last-child h1{font-size:clamp(24px, 7cqw, 36px);margin-bottom:12px;}
+  .slide[data-noclick] .eyebrow, .slide[data-text] .eyebrow, .slide:last-child .eyebrow{margin-bottom:12px;}
   .slide[data-noclick] .verdict, .slide[data-noclick] .indi{
     min-height:88cqw;display:flex;flex-direction:column;justify-content:center;padding:20px 22px;}
   .slide[data-noclick] .verdict p + p{margin-top:.7em;}
@@ -325,6 +325,16 @@ h1 .p, h1 .k, h1 .y {
     font-size:clamp(16px, 4.3cqw, 22px);line-height:1.25;}
   .slide[data-noclick] .indi-top .v{font-size:clamp(15px, 3.8cqw, 20px);white-space:normal;}
   .slide:last-child .tg{font-size:clamp(16px, 4.2cqw, 21px);}
+
+  /* data-text: chartless prose slides (long copy, taps kept). The copy uses
+     the FULL width — no 40ch cap — and larger type; sizes stay moderate
+     because these slides carry long paragraphs, and fit() still rescales
+     anything that genuinely overflows. */
+  .slide[data-text] .sub{font-size:clamp(19px, 5.6cqw, 28px);line-height:1.42;max-width:none;}
+  .slide[data-text] .indi p{font-size:clamp(16px, 4.9cqw, 24px);line-height:1.42;}
+  .slide[data-text] .indi-top .t{font-size:clamp(17px, 5cqw, 24px);line-height:1.3;}
+  .slide[data-text] .indi-top .v{font-size:clamp(14px, 4cqw, 20px);white-space:normal;}
+  .slide[data-text] .note{font-size:clamp(16px, 4.6cqw, 22px);}
 
   /* ── Levels slides ──────────────────────────────────────────────────────
      Same principle for the ladder: top-align the column and let the ladder
