@@ -155,6 +155,17 @@ are parsed live from `lead.entry` / `lead.targets` / `price` by
 `planProgress()` in `script.js` — never hand-written, so keep those fields
 numeric-parseable.
 
+## Refreshing a card from charts
+
+`docs/ta-analysis-prompt.md` is the reusable prompt for turning chart screenshots
+into a ready-to-paste `STOCKS` entry. It encodes the extraction checklist (incl.
+the crosshair-vs-right-axis-pill gotcha), the demand/structure/frame/confluence
+classification, the entry-type rules (held retest for proven demand,
+confirmation-only for unproven, rejection-only for shorts), the `lead` field
+contract — notably that `entry` must be numeric-clean because `planProgress()`
+parses every digit in it — and a self-check covering stop placement, target
+ordering, recomputed Move/R:R, and `status`/`rrStar` accuracy.
+
 ## Adding a stock
 
 1. Author `stories/<symbol>.html` (copy an existing story as a template).
