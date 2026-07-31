@@ -41,18 +41,18 @@ const MARKET = {
       symbol: 'QQQ',
       label: 'Nasdaq-100 · QQQ',
       role: 'The index — what the whole tape is doing',
-      price: '$683.55 → 🌙 $692.10',
-      change: '🌙 overnight +1.25% → $692.10 — ON the 1H 200-EMA $691.06, under the ≈$695 gate · Thu CLOSED $683.55 (+3.30%), acceptance above the $678–680 shelf confirmed',
+      price: '$687.99 → 🌙 $686.72',
+      change: '📅 CLOSE $687.99 (+0.65%) — the $695–703 gate NOT taken, the $692.10 overnight faded · $678–680 held a second session',
       checks: [
         {
           label: 'Weekly structure',
           verdict: 'neutral', weight: 1.5,
-          read: 'Rolling over from the high, but NOT broken — weekly RSI 53.24 still over 50 and the multi-year rising structure is intact. This is a correction inside an uptrend until a weekly close says otherwise.',
+          read: 'Graded on COMPLETED bars for the first time, and the frames genuinely disagree — which is why this stays neutral rather than moving. MONTHLY: July closed −6.61% (NDX) and BELOW the accelerated 2026 rising trendline — the parabolic stage is over — with monthly RSI still 77.5, so the overbought unwind is not finished; the next monthly shelf is 26,878 → 26,165, ≈5–7% down. WEEKLY: the opposite message — a GREEN week (+0.52%) printing a long-tailed hammer, weekly RSI 53.3 over the midline, price above EVERY weekly MA. The deep structure (50-week, 200-week) is untouched; the ACCELERATION is what broke. A correction inside an uptrend, with the correction not yet proven over.',
         },
         {
           label: 'Daily trend',
           verdict: 'bear', weight: 1.5,
-          read: 'Still lower highs and lower lows from the ≈$745 June peak — today is the first real counter-attack, but no DAILY swing high is taken out yet. That needs $695–700; until then this is a rally inside a downtrend.',
+          read: 'Still no daily swing high taken. Friday closed $687.99 (+0.65%) and the $695–703 slab — trendline + swing high + 50-day $699.81 + mid-band — was NOT cleared by a close; the $692.10 overnight faded into the bell. Daily RSI 44.6 and Stoch 16.9 sit on the floor, so fuel is intact, but this remains a rally inside a downtrend until a CLOSE takes $695–703.',
         },
         {
           label: 'The $678–680 shelf',
@@ -84,18 +84,18 @@ const MARKET = {
         checks: [
           {
             label: '4H structure',
-            verdict: 'bull', weight: 1.5,
-            read: 'FLIPPED: the +3% session reclaimed the entire 4H EMA stack that had capped every lift for six weeks. The fast frame stopped going down and turned.',
+            verdict: 'neutral', weight: 1.5,
+            read: '⚠️ DOWNGRADED — the earlier claim that the +3% session had reclaimed the entire 4H EMA stack no longer holds at the close: $687.99 sits BELOW the 4H 200-EMA ≈$702 and under the 9-EMA, so the stack that capped every lift for six weeks is still overhead, not underfoot. What did improve is real and kept: the fast frame stopped going down and took out the ≈$681 lower high. Reclaiming ≈$702 on a 4H close is the next structural step.',
           },
           {
             label: '4H momentum',
-            verdict: 'bull',
-            read: 'Turned up hard off the 25.38 extreme — the oversold spring the fast frame was loaded for actually fired instead of dying under the 9-EMA.',
+            verdict: 'neutral',
+            read: '⚠️ DOWNGRADED at the close: the spring fired and has now spent itself. 4H Stoch is 90.62 — pinned at the top — with the MACD line still NEGATIVE at −2.12 and 4H OBV falling (627M → 559M). Momentum carried price to the gate and could not carry it through; that is a fast frame out of thrust, not one turning down.',
           },
           {
             label: 'The first lower high ≈$681',
-            verdict: 'neutral',
-            read: 'Still AT it — and now for hours: $681.19 at 10:05, $680.94 mid-session, the current 1H bar fractionally red. Cuts both ways and that is the honest read: stalling at the first lower high of the whole decline is exactly where a dead-cat top forms, but refusing to give any of it back over several hours is not what a failing bounce does. A 4H close above $681 takes the lower high out; the ≈$695 trendline and the $700–708 supply box are the tests beyond it.',
+            verdict: 'bull',
+            read: '✅ TAKEN OUT — resolved by the close: $687.99 sits clear above the ≈$681 lower high that capped the whole decline, and it held there two sessions running. The next tests are the ones that matter now: the ≈$695 trendline and the $700–708 supply box, neither touched by a close.',
           },
         ],
       },
@@ -110,24 +110,24 @@ const MARKET = {
         reclaim: '$678–680 first, then ≈$695 (the trendline)',
         invalidate: 'a daily close under $661.58 → the $644–646 band is the next real shelf',
       },
-      note: '🌙 Pre-open 7/31: the projection landed — futures +1.6% delivered $692.10 overnight, sitting ON the 1H 200-EMA $691.06 directly under the ≈$695 six-week trendline and the $695–700 daily swing-high gate, the “nothing above it has been tested” line. Thursday already did the first job: a CLOSE at $683.55 (+3.30%) above the $678–680 shelf, earned while AAPL fell 6% — real acceptance, so that check flips bull. Now the harder one: $695–703 is a single slab (trendline + swing high + 50-day $700.34 + mid-band $703.34) and it must be taken by a CLOSE, not a gap. Daily Stoch 11.64 off the floor says there is fuel for it; daily OBV 925M still falling says the volume has not confirmed. Below, the ladder is unchanged: $678 → $675.27 → $665–668 → $661.58. Breadth arrived overnight then faded back to the zero line (McClellan +0.10 → ≈+0.02), with put/call RISING 1.14 → 1.20 and MOVE 74.18 → 77.09: vol and flow confirm, breadth abstains, hedging grows. Month-end plus the weekly close makes today’s 4 PM print the noisiest of the sequence.'
+      note: '📅 Friday 7/31 close — daily, weekly AND month-end at once. The gate was NOT taken: $687.99 (+0.65%), the $692.10 overnight faded, and the $695–703 slab stands uncleared by a close. But $678–680 held a second session, so nothing broke either. The higher frames arrived tonight and they disagree: the MONTH closed −6.61% (NDX) below its accelerated 2026 trendline with monthly RSI still 77.5 — the parabola is over and the unwind has room — while the WEEK closed GREEN (+0.52%) as a long-tailed hammer, buyers taking the week back. Vol confirmed hard (VIX 15.82, VXN 25.57 through its ≈26 floor); breadth did not — McClellan negative all afternoon, Market Tide −$170M, and %>200DMA fell 70.5% → 68.6%: the average stock did worse than the index. Base case into next week: chop between $678 and $703 until a CLOSE resolves it. Monday opens a new month, and month-start inflows often reverse exactly the rebalancing that capped this print.'
     },
     {
       symbol: 'SMH',
       label: 'Semis · SMH',
       role: 'The board’s barometer — the group that leads this tape',
-      price: '$538.90 → 🌙 $550.15',
-      change: '🌙 overnight +2.09% → $550.15 — ON the $547–550 gate · Thu close $538.90 (+6.88%), first pop of the week that did not fade',
+      price: '$540.53 → 🌙 $539.78',
+      change: '📅 CLOSE $540.53 (+0.30%) — the $547–550 gate NOT taken, the $550.15 overnight faded · $535 held',
       checks: [
         {
           label: 'Weekly structure',
           verdict: 'neutral', weight: 1.5,
-          read: 'A deep correction, not a broken weekly trend — the 50-week $431 sits far below and untested. The parabola is unwinding, which is not the same thing as a trend break.',
+          read: 'Now graded on COMPLETED bars. SMH closed the week $540.53 UNDER its weekly 9-EMA ≈$570 — weaker than QQQ, which held above all of its — but far above the 50-week ≈$450 and 200-week ≈$288, weekly MACD still positive, weekly RSI 54.3. The MONTHLY bar matches the index: a large red month with a long lower wick closing ABOVE the 9-month EMA ≈$486, monthly MACD positive, monthly RSI 69 with Stoch 92.7 still to unwind — an intact multi-year uptrend taking its first real corrective month. Neutral is the honest grade: the deep structure is untouched, the acceleration is not, and the correction has not proven itself finished.',
         },
         {
           label: 'Daily trend',
           verdict: 'bear', weight: 1.5,
-          read: 'The lower-high/lower-low sequence is under real attack but not yet broken: $505.66, the $510–518 lid and $535 are all reclaimed, yet no DAILY swing high is taken out. That needs $547–550 — the same test QQQ has at $695.',
+          read: 'The gate was NOT taken. Friday closed $540.53 (+0.30%) after the $550.15 overnight faded — $547–550, the daily swing high, still stands untouched by a close. But $535 held, so the reclaim did not fail either: this is exactly the undecided middle the plan named. Daily RSI 42.6, Stoch 15.8 on the floor — fuel intact, momentum unturned.',
         },
         {
           label: 'The 0.618 at ≈$478',
@@ -159,8 +159,8 @@ const MARKET = {
           },
           {
             label: '4H momentum',
-            verdict: 'bull',
-            read: 'Exploded off the 22.57 extreme and has not given it back: on the 1H frame RSI 60.17 with the MACD histogram expanding green and the line closing on zero (−7.60 → −2.35, a cross pending). The spring fired instead of dying under the 9-EMA.',
+            verdict: 'neutral',
+            read: '⚠️ DOWNGRADED at the close: the spring fired and is now spent. 4H RSI 48.25 has fallen back to the midline, Stoch 83.75 is elevated and rolling, and the MACD line is still NEGATIVE at −6.03 despite a green histogram. It delivered price to $547–550 and could not deliver it through — out of thrust rather than turning down.',
           },
           {
             label: '$505.66–510 reclaim',
@@ -182,25 +182,25 @@ const MARKET = {
         { label: 'Close above $580 with breadth — the fade regime is over', done: false },
       ],
       levels: {
-        reclaim: '$540 (the lid capping it mid-session) → $547–550 (the daily swing-high test) → the 1H 200-EMA $560.16',
+        reclaim: '$547–550 (the gate, still untaken) → $557–560 → $572–576 (50-day + mid-band) → $580',
         invalidate: 'a daily close back under $535 fails the reclaim; under $505.66 the whole bounce voids → $483/$478 retest',
       },
-      note: '🌙 Pre-open 7/31: the gate is trading — overnight $550.15 sits ON $547–550 after Korea reversed hard (SK Hynix +27.8%, Samsung +24.8%) on MSFT’s capex beat. Gaps propose, closes ratify: a daily CLOSE above breaks the group’s daily downtrend (shorts off board-wide, long cycle confirmed); a fade back under $547 traps the chasers; under $535 re-arms shorts. Thursday’s completed bar left fuel — daily Stoch 14.5 off the floor, RSI 42, mid-range — while every 1H in the cohort is pinned: buy held retests, never the open. Gates above by fib+MA confluence: $552 (0.382) → $557–560 → $572–576 (50-day + mid-band, the real fight) → $580 (end of fade-mode) → $594–600 (0.618 + the wall). NVDA already closed over $194 Thursday ($195.04) — the general voted; its $201–204 slab is today’s breadth tell. Tonight is also the weekly close.',
+      note: '📅 Friday 7/31 close: the gate held it off. $540.53 (+0.30%) — the $550.15 overnight faded and $547–550 was NOT closed above, so the group’s daily downtrend is NOT broken and every long on this board stays unfilled by its own rule. Equally, $535 held: shorts did not re-arm. Undecided — precisely the branch the plan named: bank, do not add either way. Higher frames: the MONTH closed red with a long lower wick ABOVE the 9-month EMA ≈$486 (intact uptrend, first corrective month, monthly RSI 69 / Stoch 92.7 still to unwind); the WEEK closed UNDER the weekly 9-EMA ≈$570 — SMH is the weaker of the two indices here, since QQQ held above all of its weekly MAs. Vol confirmed (VIX 15.82, VXN 25.57 under its floor); breadth did not (%>200DMA 70.5% → 68.6%). Ladder unchanged: $547–550 → $557–560 → $572–576 → $580 → $594–600 up; $535 → $505.66 → $483 down.',
     },
   ],
   vol: [
     {
-      symbol: 'VIX', value: '17.47', range: [15, 22], change: '🌙 17.47 (−3.19) · holding under the ≈18 confirm overnight',
+      symbol: 'VIX', value: '15.82', range: [15, 22], change: '📅 close 15.82 (−7.43%) — deeply under the ≈18 confirm',
       verdict: 'bull',
-      read: 'The ≈18 break is HOLDING: 17.47 overnight with MOVE at 74.18 — no panic in equities or rates — and the breadth half of the confirmation finally arrived with it: McClellan crossed positive (+0.10), 70.5% of stocks over their 200DMA, Market Tide ~$995M bullish. But mark the update honestly: on the later print McClellan FADED back to ≈+0.02 — the zero line, abstaining rather than confirming — while put/call ROSE to 1.20 and MOVE ticked up to 77.09. Vol and flow still confirm; breadth does NOT, and the hedging is growing, not shrinking. Two readings decide it intraday: McClellan expanding positive = the broadening is real; put/call back under ≈1.10 = the hedges unwinding into fuel.',
+      read: 'Confirmed and then some: 15.82 at the close, −7.43% on the day and far below the ≈18 line this gauge named, with MOVE 77.09 still calm — no stress in equities or in rates. The vol side of the confirmation is now unambiguous, and VXN joined it by breaking ≈26. What did NOT confirm is breadth, and that is the whole tension: McClellan stayed negative through the afternoon, Market Tide ended −$170M, and %>200DMA fell 70.5% → 68.6% — the average stock did worse than the indices while fear collapsed. Cheap protection plus narrowing participation is a combination to respect, not to celebrate.',
     },
     {
-      symbol: 'VXN', value: '27.55', range: [24, 33], change: '🌙 −10.67% (−3.29) — the biggest single-day drop of the move · ≈26 floor STILL untouched',
-      verdict: 'neutral',
-      read: 'Down 10.67% (−3.29) to 27.55 — the largest one-day decline of this whole sequence, and still leading VIX lower in percentage terms: NASDAQ stress is unwinding fastest, which is what a genuine regime turn looks like. But the gauge stays NEUTRAL on its own stated terms, not on the direction: the ≈26 range floor this card named is STILL untouched, and 27.55 sits inside a 26–31 band that has capped every attempt since June. VXN own-RSI 49.27 is dead neutral — no momentum edge in vol either way. Read it as fear getting cheaper fast, not fear gone: the flip is a CLOSE under ≈26, which would confirm what VIX already did at 18.'
+      symbol: 'VXN', value: '25.57', range: [24, 33], change: '📅 close 25.57 (−7.19%) — ✅ BROKE the ≈26 floor for the first time',
+      verdict: 'bull',
+      read: '✅ The named condition FIRED. This gauge said the flip was “a CLOSE under ≈26, which would confirm what VIX already did at 18” — VXN closed 25.57 (−7.19%), through the floor that capped every attempt since June. NASDAQ stress has now unwound faster than broad-market stress for three straight sessions, which is what a genuine regime turn looks like on the vol side. VXN own-RSI 49.3 is neutral, so this is a level break rather than a momentum extreme. The caveat is not in vol at all: breadth and flow refused to confirm the same day, so read it as the risk-on backdrop being real while participation stays narrow.'
     },
   ],
-  note: '🌙 Pre-open 7/31: the broadening the board demanded ARRIVED overnight — MSFT AI-capex beat, Korea reversed violently (SK Hynix +27.8%, Samsung +24.8% after a −17% rout), NDX futures +1.6% absorbing AAPL −6%; McClellan crossed positive then faded to ≈+0.02 (abstaining, not confirming), VIX 17.25, put/call UP to 1.20 — and today is a daily, weekly AND month-end close, where rebalancing can sell the winners of a two-day rally into the bell. SMH overnight $550.15 sits ON the $547–550 gate; QQQ opens into the ≈$695 trendline. Gaps propose, closes ratify — and tonight is also the weekly close: no chasing the open, longs only on held retests (each card names its zone), the flips count at 4 PM. Shorts stay available where an individual setup warrants; the old cycle is banked and archived.',
+  note: '📅 Friday 7/31 close — daily, weekly AND month-end together, and the verdict is UNDECIDED by design: SMH $540.53 did not close over $547–550 and QQQ $687.99 did not close over $695–703, so no long on this board fills; both held support ($535 / $678–680), so no short re-armed either. Zero triggers — the gate discipline did its job. The four frames disagree, which is why this is a range and not a trend: the MONTH broke its accelerated 2026 trendline (NDX −6.61%) with monthly RSI still 77.5 — more unwind available — while the WEEK closed GREEN as a long-tailed hammer (+0.52%); vol confirmed decisively (VIX 15.82, VXN 25.57 through ≈26) while breadth deteriorated all afternoon (McClellan negative, Market Tide −$170M, %>200DMA 70.5% → 68.6%). Expect chop between the gates and the supports until a CLOSE resolves it, and watch BREADTH rather than vol for the tell — vol has already confirmed and cannot confirm twice. Monday starts a new month: month-start inflows often reverse the rebalancing that capped this print.',
 };
 
 // ── Stocks ──────────────────────────────────────────────────────────────────
@@ -412,9 +412,9 @@ const STOCKS = [
   },
   {
     symbol: 'NVDA', exchange: 'NASDAQ',
-    price: '$195.04 → 🌙 $198.41', change: '🌙 overnight +1.73% → $198.41 · Thu CLOSED $195.04 — the $194 reclaim COMPLETED at the 4 PM print, before the overnight even started',
-    signal: '🔄 NEW CYCLE — the control group moved, and it moved at the CLOSE: Thursday printed $195.04, a completed daily close over the $194 flip line — the exact condition this card and the SMH note both named for “the general joins.” The undercut-and-reclaim is done ($183.66 undercut → bought → close back over $194), and the leftover piece of the old short (filled <$194, T1 $189 banked at the tag) is formally closed by its own rule at ≈ flat. What makes NVDA unique on this board tonight: it is the ONLY chart with room on BOTH frames — 1H RSI 61 / Stoch 70 / MACD at zero (not pinned, because it never squeezed) and daily RSI 43 / Stoch turning up from 18 — with OBV 2.73B that never broke through the entire correction. The general has fuel precisely because it sat out the covering rally. That is also why it stays the board’s BREADTH GAUGE: NVDA working through its overhead slab = the move broadens past memory; NVDA stalling there while memory runs = the rally is still narrow and the SMH gate gets shaky at acceptance. The slab: $201–204 in one piece — 1H 200-EMA $201.03 + daily mid-band $202.07 + 50-day $203.55 — then $206, the old card’s “restores the long” line, then the $215.82 upper band. Below: $194 flips to support; the $189–190 cluster (the old hold line + the rising daily 200-EMA) is the invalidation — a daily close under it re-opens the old downside map $182 → $174. Plan: entry is the pullback that HOLDS $194–195; a daily close over $206 upgrades it to trend-repair; a daily close under $189 kills it. Smallest measured move on the board, highest probability, biggest information value. 🚦 Counts only with SMH closing over $547–550 — and NVDA itself is half the evidence for that gate.',
-    lead: { rank: 5, status: 'wait', entry: 'pullback holds $194–195', stop: '$189 (daily close)', targets: '$201 → $206 → $216', downside: '+11%', rr: '~4:1', rrStar: true, edge: '🔄 The general joined at the CLOSE — Thu $195.04 completed the daily close over $194 this card demanded, finishing the undercut-and-reclaim ($183.66 → bought → reclaimed) and closing the leftover short by its own rule; the only chart on the board with room on BOTH frames (1H RSI 61 / Stoch 70 not pinned — it never squeezed; daily RSI 43, Stoch off 18) and an OBV (2.73B) that never broke — the breadth gauge for the whole gate: through $201–204 (1H 200 + mid-band + 50-day) = the move broadens, stalled there = still narrow; entry the pullback that HOLDS $194–195, stop a daily close under $189 (old hold line + 200-day cluster), targets $201 → $206 (trend-repair line) → $216; smallest move, highest probability, biggest information value' },
+    price: '$200.75 → 🌙 $199.85', change: '📅 CLOSE $200.75 (+2.93%) — a SECOND close over $194, T1 $201 effectively tagged · the $194–195 entry never filled',
+    signal: '📅 The reclaim is now a STATE, not an event: $200.75 (+2.93%) is a second consecutive close over $194, and T1 $201 was effectively tagged at the bell (within 0.2%). Record the plan honestly — the $194–195 entry NEVER FILLED, because price never came back; the read was right and it paid nothing. Weekly/month-end evidence: closed above the weekly 9-EMA ≈$187 and far above the 50-week ≈$170 and 200-week $124.76, weekly RSI 51.2 with Stoch 39.6 turning up and weekly MACD positive — a consolidation inside a weekly uptrend, and the cleanest structure of any name on this board. The daily still has fuel: RSI 44.1, Stoch 14.3 on the floor, nothing stretched after a two-day rally. The 4H did today’s work with OBV rising 409M → 531M — demand, not covering. The level that matters has MOVED: the 9-day and 50-day have CONVERGED at ≈$206.7–206.9 and price closed below both — that convergence, not the old $201–204, is now the decision. Plan: entry on the pullback that HOLDS $197–200 (daily lower band $198 + today’s close). Stop: a close under $191.86, the 200-day. Targets: $207 (the converged MAs) → $211 (mid-band) → $223 (upper band). 🚦 Still gated: SMH did not close over $547–550, so this stays unfilled with the rest of the board.',
+    lead: { rank: 5, status: 'live', entry: 'pullback holds $197–200', stop: '$191.86 (close)', targets: '$207 → $211 → $223', downside: '+12%', rr: '~4:1', edge: '📅 The reclaim became a STATE: $200.75 (+2.93%), a second close over $194, with T1 $201 effectively tagged at the bell — but the $194–195 entry NEVER filled, so the read paid nothing; record it honestly. Weekly close above the weekly 9-EMA ≈$187, far above the 50-week and 200-week, weekly MACD positive: the cleanest structure on the board. Daily still unstretched (RSI 44.1, Stoch 14.3) and 4H OBV rose 409M → 531M — demand, not covering. The decision level MOVED: the 9-day and 50-day CONVERGED at ≈$206.7–206.9 with price closing below both; entry is the pullback that HOLDS $197–200, stop a close under the 200-day $191.86, targets $207 → $211 → $223. 🚦 Gated — SMH did not close over $547–550.' },
     side: 'long', accent: 'red',
     date: '2026-07-31',
     story: 'stories/nvda.html',
@@ -629,9 +629,9 @@ const STOCKS = [
   },
   {
     symbol: 'SMH', exchange: 'NASDAQ',
-    price: '$538.90 → 🌙 $550.15', change: '🌙 overnight +2.09% → $550.15 — ON the $547–550 gate the whole board keys off · Thu close $538.90 (+6.88%)',
-    signal: '🚦 THE DECISION LINE IS TRADING. Overnight $550.15 sits ON $547–550 — the daily swing-high gate every card on this board keys off. Gaps propose, closes ratify: a daily CLOSE above $547–550 formally breaks the group’s daily downtrend (shorts off board-wide, barometer past Repairing, the long cycle confirmed); a gap that fades back under $547 traps the open-chasers; a close back under $535 re-arms shorts. What delivered the gap: MSFT’s AI-capex beat plus the Korea reversal — SK Hynix +27.8%, Samsung +24.8% after a −17% three-day rout — with NDX futures +1.6% absorbing AAPL −6%. The daily frame has fuel for acceptance: Thursday’s bar closed with daily Stoch 14.5 just off the floor and RSI 42 — mid-range, not overbought — while the 1H frames across the cohort are pinned: the trend-turn signature, which argues against chasing and for buying held retests. The fib/MA confluence maps the gates above cleanly: 0.382 of the whole slide ≈ $552 (here, now), then $557.88–560.16 (4H 50 / 1H 200-EMA), then 0.5 ≈ $574 right on the 50-day $571.81 + mid-band $576.42 — the REAL trend fight — then $580 (4H 200-EMA, end of fade-mode), then 0.618 ≈ $595 into the $594–600 wall. Composition check: NVDA already CLOSED over $194 on Thursday ($195.04) — the general voted at the 4 PM print; today’s breadth tell is whether it works through its $201–204 slab, and a memory-only push still gets shaky at acceptance. Today’s close is also the WEEKLY close — the highest-conviction bar of the week prints tonight.',
-    edge: '🚦 The gate is trading: overnight $550.15 ON the $547–550 daily swing-high line after Thu +6.88% — a daily CLOSE above breaks the group downtrend (shorts off, long cycle confirmed), a fade back under $547 traps the chasers, under $535 re-arms shorts; MSFT capex + Korea (SK Hynix +27.8%, Samsung +24.8%) built the gap, daily Stoch 14.5 / RSI 42 leave fuel while every 1H is pinned — buy held retests, never the open; gates above by fib+MA confluence: $552 → $557–560 → $572–576 (50-day + mid-band, the real fight) → $580 → $594–600; NVDA closed $195.04 over $194 Thu — the general already voted, watch its $201–204 slab next; tonight is also the weekly close',
+    price: '$540.53 → 🌙 $539.78', change: '📅 CLOSE $540.53 (+0.30%) — the $547–550 gate NOT taken, the $550.15 overnight faded · $535 held · month closed red-with-a-wick above the 9-month EMA',
+    signal: '📅 THE GATE HELD IT OFF — and that verdict governs the whole board. SMH closed $540.53 (+0.30%): the $550.15 overnight faded, $547–550 was NOT closed above, so the group’s daily downtrend is NOT broken and every long on this board stays unfilled by its own rule. Equally, $535 held — shorts did not re-arm. Undecided, exactly the branch the plan named: bank, do not add in either direction. What the higher frames added tonight, and they disagree: the MONTH closed red with a long lower wick but ABOVE the 9-month EMA ≈$486 — an intact multi-year uptrend taking its FIRST corrective month, with monthly RSI 69 and Stoch 92.7 still to unwind, so the correction is not provably finished; the WEEK closed UNDER the weekly 9-EMA ≈$570, which makes SMH the weaker of the two indices here (QQQ held above ALL of its weekly MAs), though it sits far above the 50-week ≈$450 with weekly MACD positive. Vol confirmed decisively — VIX 15.82 (−7.43%) and VXN 25.57 through its ≈26 floor, a named condition finally firing — while breadth did the opposite: McClellan negative all afternoon, Market Tide −$170M, and %>200DMA down 70.5% → 68.6%, meaning the average stock did worse than the index. Base case into next week: chop between $535 and $550 until a CLOSE resolves it, and watch BREADTH for the tell — vol has already confirmed and cannot confirm twice. Ladder up: $547–550 → $557–560 → $572–576 (50-day + mid-band) → $580 → $594–600. Down: $535 → $505.66 → $483.',
+    edge: '📅 The gate held it off: $540.53 (+0.30%) — the $550.15 overnight faded, $547–550 NOT closed above, so the group downtrend stands and every long on this board stays unfilled; $535 held, so no short re-armed either — undecided, the exact branch the plan named. Higher frames disagree: the MONTH closed red-with-a-wick ABOVE the 9-month EMA ≈$486 (intact uptrend, first corrective month, RSI 69 / Stoch 92.7 still unwinding) while the WEEK closed UNDER the weekly 9-EMA ≈$570 — SMH weaker than QQQ, which held all of its. Vol confirmed hard (VIX 15.82, VXN 25.57 through ≈26); breadth did not (%>200DMA 70.5% → 68.6%). Chop $535–550 until a close resolves it; watch breadth, not vol.',
     side: 'long', accent: 'red',
     date: '2026-07-31',
     story: 'stories/smh.html',
