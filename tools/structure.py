@@ -105,6 +105,16 @@ MAX_ZONE_ATR = 2.0
 # has to be at least this share of the SMALLER zone, and the result still has to
 # respect the width cap.
 MERGE_OVERLAP = 0.5
+# A level's character is its LATEST character. Over ten years the same area
+# acts as demand once and supply later, and reporting both — LITE showed demand
+# $680.66-785.49 beside supply $679.95-783.80, the same region twice — says
+# nothing. When a demand and a supply zone overlap this much, the more recent
+# one wins and the other is dropped.
+CROSS_OVERLAP = 0.5
+# Zones older than this many bars are history, not current structure. Without a
+# cap the "nearest" level can be years old, and it grades weak by construction:
+# revisits accumulate for as long as the zone has existed.
+MAX_ZONE_AGE = 504          # ~2 years of daily bars
 
 
 # ── swings and structure ────────────────────────────────────────────────────
@@ -310,11 +320,16 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
     # A base wider than the cap is a range, not a zone — drop it rather than
     # quoting a level nobody can trade against.
     out = [z for z in out if z.hi - z.lo <= MAX_ZONE_ATR * z.atr_at]
+    # …and one older than the age cap is history. Both filters run before
+    # scoring so strength is graded only on zones that still count.
+    cutoff = len(bars) - MAX_ZONE_AGE
+    out = [z for z in out if z.i >= cutoff]
     for z in out:
         _score_zone(z, bars)
     # Merge zones that describe the same level — the same shelf rediscovered is
-    # one zone with more history, not two.
-    return _merge(out)
+    # one zone with more history, not two — then let the most recent read of a
+    # level win when demand and supply describe the same region.
+    return _resolve_cross(_merge(out))
 
 
 def _score_zone(z: Zone, bars: list[dict]) -> None:
@@ -365,6 +380,31 @@ def _merge(zones: list[Zone]) -> list[Zone]:
         else:
             out.append(z)
     return out
+
+
+def _resolve_cross(zones: list[Zone]) -> list[Zone]:
+    """Drop the older of a demand/supply pair that describes the same region.
+
+    A price area is not simultaneously the nearest demand and the nearest
+    supply. Over a long history it genuinely acts as both — price based there,
+    left, came back, and later broke down through it — but only its most recent
+    behaviour is a current level.
+
+    Overlap is measured against the LARGER zone, unlike _merge. Against the
+    smaller one, a narrow supply sitting inside a wide demand overlaps it 100%
+    and deletes it — which is how AKAM lost its only demand zone and ended up
+    with no demand at all. A small zone inside a big one is a sub-region, not
+    the same level; only near-coincident zones are."""
+    drop: set[int] = set()
+    dem = [z for z in zones if z.kind == 'demand']
+    sup = [z for z in zones if z.kind == 'supply']
+    for a in dem:
+        for b in sup:
+            overlap = min(a.hi, b.hi) - max(a.lo, b.lo)
+            larger = max(a.hi - a.lo, b.hi - b.lo) or 1e-9
+            if overlap >= CROSS_OVERLAP * larger:
+                drop.add(id(b) if a.i > b.i else id(a))
+    return [z for z in zones if id(z) not in drop]
 
 
 def _restrength(z: Zone) -> None:
@@ -565,6 +605,11 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'price': round(price, 2),
         'atr': round(a, 2) if a else None,
         'atrPct': round(a / price * 100, 2) if a else None,
+        # Recent ATR history, kept only so --compare can tell a stale figure
+        # from a wrong one. Stripped before board.js is written.
+        '_atrHist': [(daily[i]["date"].isoformat(), round(v, 2))
+                     for i, v in enumerate(atr_series)
+                     if v is not None][-25:],
         'structure': {'w': w_struct, 'd': d_struct, 'h4': h4_struct,
                       'h4Note': h4_note},
         'ind': {
@@ -660,7 +705,10 @@ HEADER = """// ── Structure board — GENERATED, do not hand-edit ───�
 """
 
 
-def emit_board(rows: list[dict], updated: str) -> str:
+def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str:
+    """`carry` is the board being replaced. Its hand-written prose — the board
+    note and the actionable ranking — is NOT derivable from OHLCV, so it is
+    preserved across regenerations instead of being silently dropped."""
     board = {
         'updated': updated,
         'generatedBy': 'tools/structure.py',
@@ -668,8 +716,13 @@ def emit_board(rows: list[dict], updated: str) -> str:
                   '(W weekly, D daily, H 4H structure; R RSI vs 50; '
                   'M MACD histogram slope; O OBV slope; '
                   'Z inside confirmed demand +1 / supply −1)',
-        'rows': sorted(rows, key=lambda r: r['score']),
+        'rows': [{k: v for k, v in r.items() if not k.startswith('_')}
+                 for r in sorted(rows, key=lambda r: (r.get('score') is None,
+                                                      r.get('score') or 0))],
     }
+    for k in ('note', 'ranking', 'rankingNote'):
+        if carry and carry.get(k):
+            board[k] = carry[k]
     body = json.dumps(board, indent=2, ensure_ascii=False)
     return f"{HEADER}const BOARD = {body};\n"
 
@@ -687,21 +740,40 @@ def emit_board(rows: list[dict], updated: str) -> str:
 ALIGN_TOL = 0.5     # percent
 
 
-def load_existing() -> dict:
-    """The board.js on disk, before it is overwritten."""
+def _dump_existing() -> dict:
     try:
         out = subprocess.run(["node", str(Path(__file__).parent / "dump_structure.js")],
                              capture_output=True, text=True, check=True)
-        return {r["ticker"]: r for r in (json.loads(out.stdout) or {}).get("rows", [])}
+        return json.loads(out.stdout) or {}
     except Exception as e:                           # noqa: BLE001 — reported
-        print(f"compare: could not read the current board ({e})", file=sys.stderr)
+        print(f"could not read the current board ({e})", file=sys.stderr)
         return {}
+
+
+def load_existing() -> dict:
+    """Rows of the board.js on disk, keyed by ticker, before it is overwritten."""
+    return {r["ticker"]: r for r in _dump_existing().get("rows", [])}
+
+
+def load_existing_meta() -> dict:
+    """The board's non-derivable prose — note and ranking — so a regeneration
+    keeps it. Nothing here comes out of OHLCV."""
+    return _dump_existing()
 
 
 def _drift(new, old) -> float | None:
     if new is None or old is None or not old:
         return None
     return (new - old) / abs(old) * 100
+
+
+def _dates_matching(hist, value, tol: float = 0.02) -> str:
+    """Which recent session had this ATR? Tolerance is relative, so it matches
+    a figure quoted to two decimals."""
+    if not hist or value in (None, 0):
+        return ""
+    hits = [d for d, v in hist if abs(v - value) / abs(value) <= tol]
+    return ", ".join(hits[-3:])
 
 
 def _zone_overlap(new_zones, old_zones) -> tuple[int, int]:
@@ -747,6 +819,21 @@ def compare(rows: list[dict], old: dict) -> list[str]:
             bits.append(f"{label} {r.get(field)} vs {o.get(field)} ({d:+.2f}%){mark}")
         flagged += bad
         out.append(f"{r['ticker']:6} {' · '.join(bits)}")
+
+        # A drifted ATR is usually a STALE comparison value, not a wrong
+        # formula — the old board was written on some earlier session. Say so
+        # with evidence: find the date whose ATR actually equals the old figure.
+        d_atr = _drift(r.get("atr"), o.get("atr"))
+        if d_atr is not None and abs(d_atr) > ALIGN_TOL:
+            when = _dates_matching(r.get("_atrHist"), o.get("atr"))
+            if when:
+                out.append(f"       ATR {o['atr']} was this ticker's ATR on "
+                           f"{when} — the old figure is a different session, "
+                           f"not a different formula")
+            else:
+                out.append(f"       ATR {o['atr']} does not appear in the last "
+                           f"{len(r.get('_atrHist') or [])} sessions — a real "
+                           f"disagreement, check the price basis")
 
         dh, dn = _zone_overlap(r.get("demand"), o.get("demand"))
         sh, sn = _zone_overlap(r.get("supply"), o.get("supply"))
@@ -803,7 +890,10 @@ def main() -> int:
     # shell splits it on whitespace alone — leaving the ticker "AKAM," to 404.
     want = [t for t in re.split(r"[,\s]+", " ".join(args.tickers).upper()) if t] \
         or board_tickers()
-    previous = load_existing() if args.compare else {}
+    # Always read the board being replaced: --compare diffs against it, and the
+    # merge below needs it regardless.
+    previous = load_existing()
+    prev_meta = load_existing_meta()
 
     flows = {}
     if args.flow:
@@ -841,9 +931,21 @@ def main() -> int:
               file=sys.stderr)
         return 1
 
+    # Rows for tickers this run did NOT compute are carried over untouched.
+    # Running `structure.py AKAM LITE` used to emit a two-row board and delete
+    # the other seven — a partial run is an update, not a new board.
+    computed = {r['ticker'] for r in rows}
+    carried = [r for t, r in previous.items() if t not in computed]
+    if carried:
+        print(f"carrying {len(carried)} row(s) not in this run: "
+              f"{', '.join(sorted(r['ticker'] for r in carried))}", file=sys.stderr)
+    all_rows = rows + carried
+
     updated = max(r['date'] for r in rows)
-    Path(args.out).write_text(emit_board(rows, updated), encoding="utf-8")
-    print(f"wrote {args.out} — {len(rows)} row(s), as of {updated}", file=sys.stderr)
+    Path(args.out).write_text(emit_board(all_rows, updated, prev_meta),
+                              encoding="utf-8")
+    print(f"wrote {args.out} — {len(all_rows)} row(s) "
+          f"({len(rows)} recomputed), as of {updated}", file=sys.stderr)
 
     if args.compare:
         log += compare(rows, previous)
