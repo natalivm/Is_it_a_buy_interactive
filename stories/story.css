@@ -192,7 +192,9 @@ h1 .p, h1 .k, h1 .y {
   .eyebrow.p{color:var(--up);} .eyebrow.y{color:var(--hi);}
 
   h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
-  h1 .p{color:var(--up);} h1 .k{color:var(--dn);} h1 .y{color:var(--hi);}
+  /* Large titles run plain — the accent spans keep their markup but no colour.
+     The .hl highlighter below is deliberately kept. */
+  h1 .p, h1 .k, h1 .y{color:var(--ink);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
   .sub{font-size:15.5px;line-height:1.55;color:var(--sub);margin-bottom:14px;max-width:40ch;}
@@ -266,7 +268,7 @@ h1 .p, h1 .k, h1 .y {
   .tg a{color:var(--hi);text-decoration:none;font-weight:700;}
   .disclaim{margin-top:10px;font-size:11px;line-height:1.5;color:var(--muted);opacity:.8;}
 
-  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+  .cover-ticker{font-family:var(--display);font-weight:700;color:var(--ink);font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
 
   .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
   .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
@@ -304,6 +306,14 @@ h1 .p, h1 .k, h1 .y {
   .preview .tpl .riser{transform:translateY(400%);}
   @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
 
+  /* Condition list inside a .note — one line per branch instead of a run-on
+     sentence. Plain indent, no bullet glyph. */
+  /* Indented sub-paragraph inside a verdict/note block, and breathing room
+     when a block is split into several short paragraphs instead of one wall. */
+  .verdict p + p, .note p + p, .indi p + p{margin-top:7px;}
+  .ind{padding-left:14px;}
+  .cond{list-style:none;margin:7px 0 9px;display:flex;flex-direction:column;gap:5px;padding-left:16px;}
+  .cond li{line-height:1.45;}
   .note{margin-top:14px;font-size:14px;line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
   .note.k{border-left-color:var(--dn);} .note.p{border-left-color:var(--up);}
 
@@ -356,16 +366,16 @@ h1 .p, h1 .k, h1 .y {
   .slide:has(.ladder) .rung .lbl{font-size:clamp(13px, 3.2cqw, 17px);}
 
   .nav{position:absolute;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;
-    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;background:linear-gradient(0deg, color-mix(in srgb, var(--deep) 85%, transparent), transparent);}
+    padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;}
   .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
   .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
-  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.42);}
-  .count b{color:rgba(255,255,255,.72);font-weight:600;}
-  .nav button{pointer-events:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.55);
-    color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:color-mix(in srgb, var(--ink) 42%, transparent);}
+  .count b{color:color-mix(in srgb, var(--ink) 72%, transparent);font-weight:600;}
+  .nav button{pointer-events:auto;width:46px;height:46px;border-radius:50%;background:color-mix(in srgb, var(--ink) 8%, transparent);border:1.5px solid color-mix(in srgb, var(--ink) 55%, transparent);
+    color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
     transition:transform .15s ease, color .2s ease, border-color .2s, opacity .2s, background .2s, filter .2s;}
   .nav-r button{background:var(--yellow);border-color:var(--yellow);color:#160d10;box-shadow:0 4px 16px color-mix(in srgb,var(--yellow) 40%,transparent);}
-  .nav button:hover{background:rgba(255,255,255,.18);border-color:#fff;}
+  .nav button:hover{background:color-mix(in srgb, var(--ink) 18%, transparent);border-color:var(--ink);}
   .nav-r button:hover{filter:brightness(1.08);background:var(--yellow);}
   .nav button:active{transform:scale(.9);}
   .nav button:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;}
@@ -408,3 +418,17 @@ h1 .p, h1 .k, h1 .y {
 [data-theme="light"] .verdict.y { background: color-mix(in srgb, var(--yellow) 10%, #fff); }
 /* The 64px grid wash reads heavier on white than on the dark stage. */
 [data-theme="light"] .stage::before { opacity: .5; }
+
+/* ── Light theme: no neon ──────────────────────────────────────────────────
+   Every glow in this file is a dark-stage effect. On white a halo does not
+   read as light coming off the number, it reads as a smudged or out-of-focus
+   glyph, so the light theme drops them all. Dark is untouched. */
+:root[data-theme="light"] :is(.big, .big-num, .rr, .rung .px, .tc-row .r, .gauge .tag,
+  .lev .x, .stat .v, .v, h1 .p, h1 .k, h1 .y, .glow-p, .glow-k, .glow-y) {
+  text-shadow: none;
+  animation: none;            /* also stops the dataThrob pulse */
+}
+:root[data-theme="light"] .hl { filter: none; }
+:root[data-theme="light"] :is(.rung.now, .rung.hi) { box-shadow: none; }
+:root[data-theme="light"] :is(.price, .legdn, .legup, .bounce,
+  .candle-body, .candle-body.up) { filter: none; }
