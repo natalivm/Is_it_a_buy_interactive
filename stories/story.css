@@ -80,30 +80,6 @@ body {
 .story-tap.left { left: 0; }
 .story-tap.right { right: 0; }
 
-/* ── Posted date (shown on story covers) ──────────────────────────────────── */
-.posted {
-  font-family: var(--mono, monospace);
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted, var(--mut, #9a93b5));
-}
-
-/* ── Cover meta: current price · posted date (same slot on every cover) ────── */
-.cover-meta { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
-.cover-meta .cm-price {
-  font-family: var(--mono, monospace);
-  font-weight: 700; font-size: 15px;
-  color: var(--yellow, #FFD24A);
-  text-shadow: 0 0 10px color-mix(in srgb, var(--yellow, #FFD24A) 45%, transparent);
-}
-.cover-meta .cm-sep { color: var(--muted, var(--mut, #9a93b5)); }
-.cover-meta .cm-date {
-  font-family: var(--mono, monospace);
-  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted, var(--mut, #9a93b5));
-}
-
 /* ── Preview mode (tile thumbnails) ───────────────────────────────────────
    Loaded with ?preview: freeze on the cover, force content visible (off-screen
    iframes suppress animations), and hide interactive chrome. The .preview class
@@ -113,7 +89,6 @@ body {
 .preview .nav,
 .preview .hint,
 .preview .chev,
-.preview .posted,
 .preview .progress,
 .preview .story-tap { display: none !important; }
 
@@ -123,7 +98,7 @@ body {
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Static neon sheen on every data readout across all decks */
-.big, .big-num, .rr, .rung .px, .tc-row .r, .gauge .tag, .lev .x, .stat .v, .v {
+.rung .px, .v {
   text-shadow: 0 0 8px color-mix(in srgb, currentColor 32%, transparent);
 }
 /* Headline accent words carry a soft colored halo */
@@ -132,7 +107,6 @@ h1 .p, h1 .k, h1 .y {
 }
 
 /* Animated throb on the marquee numbers — the hero stat of each slide */
-.big, .big-num, .rr, .gauge .tag, .lev .x,
 .cover h1 .p, .cover h1 .k, .cover h1 .y {
   animation: dataThrob 2.8s ease-in-out infinite;
 }
@@ -169,16 +143,10 @@ h1 .p, h1 .k, h1 .y {
 
 .preview .story-brand { display: none !important; }
 
-/* Opt-in helpers a deck can drop on any element */
-.glow-p { text-shadow: 0 0 10px color-mix(in srgb, var(--purple, #B57BFF) 70%, transparent), 0 0 24px color-mix(in srgb, var(--purple, #B57BFF) 40%, transparent); }
-.glow-k { text-shadow: 0 0 10px color-mix(in srgb, var(--pink, #FF5DA2) 70%, transparent), 0 0 24px color-mix(in srgb, var(--pink, #FF5DA2) 40%, transparent); }
-.glow-y { text-shadow: 0 0 10px color-mix(in srgb, var(--yellow, #FFD24A) 70%, transparent), 0 0 24px color-mix(in srgb, var(--yellow, #FFD24A) 40%, transparent); }
-
 @media (prefers-reduced-motion: reduce) {
   .slide, .slide .rv { transition: none !important; animation: none !important; opacity: 1 !important; transform: none !important; }
   .slide { visibility: hidden; }
   .slide.active { visibility: visible; }
-  .big, .big-num, .rr, .gauge .tag, .lev .x,
   .cover h1 .p, .cover h1 .k, .cover h1 .y,
   .rung.now, .rung.hi { animation: none !important; }
 }
@@ -249,7 +217,6 @@ h1 .p, h1 .k, h1 .y {
   svg text{font-family:var(--mono);}
   svg .ax{font-size:13px;font-weight:600;}
   svg .cap{font-size:12px;font-weight:600;}
-  svg .capm{font-size:11px;fill:var(--muted);}
   .f-k{fill:var(--dn);} .f-p{fill:var(--up);} .f-y{fill:var(--hi);} .f-w{fill:var(--mark);} .f-m{fill:var(--muted);}
   .s-k{stroke:var(--dn);} .s-p{stroke:var(--up);} .s-y{stroke:var(--hi);} .s-w{stroke:var(--mark);} .s-line{stroke:var(--line);}
   .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
@@ -285,7 +252,6 @@ h1 .p, h1 .k, h1 .y {
   .candle-wick{stroke:var(--dn);stroke-width:5;stroke-linecap:round;}
   .candle-body.up{fill:var(--up);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--up) 45%,transparent));}
   .candle-wick.up{stroke:var(--up);}
-  .anno{font-size:12.5px;} .anno .h{fill:var(--ink);font-weight:700;}
 
   /* .verdict is unboxed — no card, no border, no background. Its .vh IS the
      slide's title on a data-noclick slide (see h1(text-focus) sizing below,
@@ -318,31 +284,6 @@ h1 .p, h1 .k, h1 .y {
   .rung.now{background:var(--yellow);}
   .rung.now .px{color:var(--deep)}
   .rung.now .lbl{color:var(--deep);font-weight:700;}
-
-  .tpl{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2);box-shadow:0 6px 18px rgba(0,0,0,.4);}
-  .tpl .rg{position:relative;z-index:2;flex:1;min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 15px;border-bottom:1px solid var(--line);}
-  .tpl .rg:last-child{border-bottom:0;}
-  .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
-  .tpl .rg .cap2{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:18px;color:var(--dn);}
-  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:23px;color:var(--dn);}
-  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--hi);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:14px;font-weight:600;}
-  .tpl .rg.stop .px{color:var(--muted);} .tpl .rg.stop .cap2{color:var(--muted);} .tpl .rg.stop .r{color:var(--muted);font-family:var(--mono);font-size:14px;font-weight:600;}
-  .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(100%);
-    background:linear-gradient(90deg, rgba(251,93,116,.30), rgba(251,93,116,.12));
-    border-top:1px solid rgba(251,93,116,.55);border-bottom:1px solid rgba(251,93,116,.55);box-shadow:0 0 26px rgba(251,93,116,.4);}
-  .slide.active .tpl .riser{animation:sinkDown 1.5s cubic-bezier(.3,.8,.4,1) .45s both;}
-  @keyframes sinkDown{
-    0%{transform:translateY(100%);opacity:0;}
-    12%{opacity:1;}
-    62%{transform:translateY(400%);}
-    74%{transform:translateY(391%);}
-    86%{transform:translateY(400%);}
-    94%{transform:translateY(397%);}
-    100%{transform:translateY(400%);}
-  }
-  .preview .tpl .riser{transform:translateY(400%);}
-  @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
 
   /* Condition list inside a .note — one line per branch instead of a run-on
      sentence. Plain indent, no bullet glyph. */
@@ -433,8 +374,7 @@ h1 .p, h1 .k, h1 .y {
   --hi: color-mix(in srgb, var(--yellow) 70%, #180E00);
 }
 /* Card shadows are tuned for a dark stage; on white they read as smudges. */
-[data-theme="light"] .ladder,
-[data-theme="light"] .tpl { box-shadow: 0 1px 2px rgba(16,12,24,.05), 0 8px 22px rgba(16,12,24,.07); }
+[data-theme="light"] .ladder { box-shadow: 0 1px 2px rgba(16,12,24,.05), 0 8px 22px rgba(16,12,24,.07); }
 /* The 64px grid wash reads heavier on white than on the dark stage. */
 [data-theme="light"] .stage::before { opacity: .5; }
 
@@ -442,8 +382,7 @@ h1 .p, h1 .k, h1 .y {
    Every glow in this file is a dark-stage effect. On white a halo does not
    read as light coming off the number, it reads as a smudged or out-of-focus
    glyph, so the light theme drops them all. Dark is untouched. */
-:root[data-theme="light"] :is(.big, .big-num, .rr, .rung .px, .tc-row .r, .gauge .tag,
-  .lev .x, .stat .v, .v, h1 .p, h1 .k, h1 .y, .glow-p, .glow-k, .glow-y) {
+:root[data-theme="light"] :is(.rung .px, .v, h1 .p, h1 .k, h1 .y) {
   text-shadow: none;
   animation: none;            /* also stops the dataThrob pulse */
 }

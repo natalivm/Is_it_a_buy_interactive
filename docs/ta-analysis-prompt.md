@@ -100,12 +100,12 @@ Return exactly one JavaScript object literal, ready to paste. Field contract:
                                                     // No "1H close", no "or daily close >$Z" — the
                                                     // site parses every digit here to compute the
                                                     // entry midpoint. Put conditions in `signal`.
-    stop: '$Z (close)',
+    stop: '$Z (close)',                             // MUST be outside the entry zone, and any
+                                                    // invalidation level quoted here must not sit
+                                                    // strictly inside it either
     targets: '$A → $B → $C',
-    downside: '+NN%' | '−NN%',                      // entry midpoint → deepest target
     tail: '−NN%',                                   // optional: full-failure extension
     rr: '~N:1',
-    rrStar: true,                                   // ONLY when price must still travel to the zone
     edge: '…',                                      // one dense line: the whole thesis, shown on the tile
   },
   side: 'long' | 'short',                           // MUST match the plan's direction
@@ -117,16 +117,29 @@ Return exactly one JavaScript object literal, ready to paste. Field contract:
 Omit `lead` entirely for a name with no clean directional edge — it then renders
 as a tile only and stays off the ranking table.
 
+**Do NOT write these — they are computed** by `script.js` from `entry` /
+`targets` / `price`, and a typed value can only drift out of agreement with the
+table: the **Move** column (entry midpoint → deepest target, signed by the price
+direction — the old `downside` field) and the **R:R asterisk** (shown whenever
+price is outside the entry zone — the old `rrStar` flag). Keeping `entry`,
+`targets` and `price` numeric-clean is what makes those correct.
+
 ## STEP 5 — SELF-CHECK (run before returning; report the results)
 
 1. `side` matches the plan direction (targets below entry for shorts, above for longs).
-2. Stop is outside the entry zone.
+2. Stop is outside the entry zone — and so is every other level quoted in `stop`.
 3. Targets are monotonic in the trade's direction.
-4. `downside` = (midpoint → deepest target), recomputed and matching.
-5. `rr` = |deepest target − midpoint| ÷ |stop − midpoint|, recomputed and matching.
-6. `status: 'live'` iff the current price is inside the entry zone; `rrStar` only if it is not.
-7. `entry` contains no digits other than the zone bounds.
-8. Every number quoted in `signal` appears on an attached chart.
+4. `rr` = |deepest target − midpoint| ÷ |stop − midpoint|, recomputed and matching.
+5. `status: 'live'` iff the current price is inside the entry zone (a short already
+   rejected and working below its zone may stay `'live'`).
+6. `entry` contains no digits other than the zone bounds.
+7. No `downside` / `rrStar` — those are computed (see above).
+8. `exchange` is the venue (NASDAQ / NYSE / CBOE) — the close line goes in `change`.
+9. The deck's own `["now", …]` ladder rung quotes the same price as the card.
+10. Every number quoted in `signal` appears on an attached chart.
+
+`python3 tools/refresh.py --audit-only` checks 1–9 mechanically; run it after
+pasting the entry.
 
 ## HOUSE RULES (apply to every card)
 

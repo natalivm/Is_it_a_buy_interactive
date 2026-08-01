@@ -2,11 +2,25 @@ Recomputed every indicator the cards quote straight from OHLCV, then audited
 each `lead` in `data.js` against the fresh close.
 
 **`data.js` is not touched by this job.** The audit reports only mechanical
-facts: stops breached on the close, `status` disagreeing with where price
-actually sits, a short whose zone is not above price, `downside` drifting from
-the computed distance to the deepest target, and card prices drifting from the
-real close. Every judgement call — does a name flip sides, is a zone drawn at
-the wrong level, what does a cohort split mean — stays with a human.
+facts: stops breached on the close, a stop sitting at or inside its own entry
+zone, an `rr` that does not recompute from the entry midpoint, `status`
+disagreeing with where price actually sits, a short whose zone is not above
+price, an `exchange` holding something other than the venue, and card prices
+drifting from the real close. Every judgement call — does a name flip sides, is
+a zone drawn at the wrong level, what does a cohort split mean — stays with a
+human.
+
+**One thing it does re-cut: each deck's ТУТ ladder rung.** That rung duplicates
+its card's close, so it goes stale on every refresh. The re-cut is arithmetic
+already present in `data.js` — the close, the day's %, the date, and whether
+the close sits inside the entry zone — and it only touches decks whose card is
+a `📅 CLOSE` card. A deck written live off intraday charts keeps its intraday
+rung; frame agreement is the rule, not "never intraday". The indicator readings
+that sat beside the old price (OBV, Stoch, distance to the next level) are
+DROPPED rather than guessed: they were measured at a moment that has passed, so
+a deck needing that read again needs a human to restate it at the close. Every
+dropped label is printed in the report. Run with `fix_rungs=false` for a
+report-only pass.
 
 The full report is in `tools/reports/latest.txt`, and in the run summary of each
 workflow run.
