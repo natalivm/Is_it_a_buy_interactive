@@ -456,6 +456,97 @@ function renderLeaderboard() {
     });
 }
 
+// ── Plain table view ────────────────────────────────────────────────────────
+// The same board, rendered as one bordered table instead of tiles: every stock
+// on a row, the plan in columns. Nothing new is typed for it — Move, R:R and
+// Progress come from the same planProgress()/priceInZone() the ranking table
+// uses, so the two views can never disagree. Ranked plans lead (by lead.rank),
+// then the unranked cards newest-first.
+
+// data.js copy carries a little inline HTML (<strong>, <span class="k">) meant
+// for the decks; the table wants words only.
+function plainText(html) {
+    return String(html == null ? '' : html)
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+// First sentence of a thesis, capped — the table shows the headline, the deck
+// has the argument. Cuts on a word boundary when no sentence end is in reach.
+function firstSentence(text, max) {
+    const t = plainText(text);
+    if (t.length <= max) return t;
+    const m = t.slice(0, max + 60).match(/^[\s\S]{40,}?[.!?](?=\s)/);
+    if (m) return m[0];
+    const cut = t.slice(0, max);
+    return cut.slice(0, Math.max(cut.lastIndexOf(' '), 1)) + '…';
+}
+
+const BT_STATUS = {
+    live: '🎯 at trigger',
+    wait: '⏳ wait for level',
+    booked: '✅ target reached',
+};
+
+function boardTableOrder() {
+    const ranked = STOCK_LIST.filter(s => s.lead)
+        .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0));
+    const rest = STOCK_LIST.filter(s => !s.lead)
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    return [...ranked, ...rest];
+}
+
+function boardRowHtml(stock) {
+    const L = stock.lead;
+    const side = ['long', 'short'].includes(stock.side) ? stock.side : 'long';
+    const prog = planProgress(stock);
+    // Same definitions as the ranking table: Move is the entry-zone midpoint →
+    // deepest target signed by price direction, and the R:R asterisk means
+    // "only if price returns to the zone".
+    const move = !L ? '—'
+        : prog ? pct(side === 'short' ? -prog.target : prog.target)
+        : (L.downside || '—');
+    const inZone = priceInZone(stock);
+    const star = L ? (inZone === null ? !!L.rrStar : !inZone) : false;
+    const rr = L && L.rr ? `${esc(L.rr)}${star ? '<sup>*</sup>' : ''}` : '—';
+    const status = L ? (BT_STATUS[L.status] || '—') : 'not ranked';
+    const progress = !L ? '—' : !prog ? '—'
+        : L.status === 'booked' ? `${pct(prog.earned)} · booked`
+        : prog.filled ? `${pct(prog.earned)} · ${pct(prog.left)} left`
+        : `0% · ${pct(prog.left)} left`;
+    const read = firstSentence((L && L.edge) || stock.edge || stock.signal, 180);
+    const date = stock.date ? ` · ${esc(fmtDate(stock.date))}` : '';
+    return `
+        <tr data-symbol="${esc(stock.symbol)}" tabindex="0" role="button"
+            aria-label="Open ${esc(stock.symbol)} story">
+            <td><b>${esc(stock.symbol)}</b> — ${esc(stock.exchange || '')} · ${SIDE_LABEL[side]}${date}</td>
+            <td>${esc(stock.price || '')}${stock.change ? ` — ${esc(stock.change)}` : ''}</td>
+            <td>${esc(status)}</td>
+            <td>${L ? esc(L.entry) : '—'}</td>
+            <td>${L ? esc(L.stop) : '—'}</td>
+            <td>${L ? esc(L.targets) : '—'}</td>
+            <td>${esc(move)}</td>
+            <td>${rr}</td>
+            <td>${esc(progress)}</td>
+            <td>${esc(read)}</td>
+        </tr>`;
+}
+
+function renderBoardTable() {
+    const body = document.getElementById('boardTableBody');
+    if (!body) return;
+    body.innerHTML = boardTableOrder().map(boardRowHtml).join('');
+    body.querySelectorAll('tr[data-symbol]').forEach(el => {
+        const symbol = el.dataset.symbol;
+        el.addEventListener('click', () => openStory(symbol));
+        el.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
+        });
+    });
+}
+
 function renderGallery() {
     const container = document.getElementById('gallery');
     const empty = document.getElementById('galleryEmpty');
@@ -678,6 +769,35 @@ function initThemeToggle() {
     else if (mq.addListener) mq.addListener(onChange);
 }
 
+// ── View toggle (cards ⇄ plain table) ───────────────────────────────────────
+// Same shape as the theme toggle: the attribute is set pre-paint by the inline
+// script in index.html, CSS does the swap, and this only wires the button and
+// persists the choice. Nothing is re-rendered — both views are always in the
+// DOM, so switching keeps the search filter and the scroll position.
+const VIEW_KEY = 'ib-view';
+
+function applyView(view) {
+    document.documentElement.setAttribute('data-view', view);
+    const btn = document.getElementById('tableBtn');
+    if (btn) {
+        const table = view === 'table';
+        btn.setAttribute('aria-pressed', String(table));
+        btn.setAttribute('aria-label', table ? 'Switch to card view' : 'Switch to plain table view');
+        btn.setAttribute('title', table ? 'Card view' : 'Table view');
+    }
+}
+
+function initViewToggle() {
+    applyView(document.documentElement.getAttribute('data-view') === 'table' ? 'table' : 'cards');
+    const btn = document.getElementById('tableBtn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-view') === 'table' ? 'cards' : 'table';
+        applyView(next);
+        try { localStorage.setItem(VIEW_KEY, next); } catch (e) { /* private mode */ }
+    });
+}
+
 // ── Stock search ─────────────────────────────────────────────────────────────
 // Filters the tile grid in-place by ticker (or article title) — no re-render,
 // just hides tiles that don't match. Lives beside the leaderboard title.
@@ -702,9 +822,10 @@ function initStockSearch() {
         });
         if (searchEmpty) searchEmpty.hidden = !(q && visible === 0);
 
-        // Keep the ranking table in step — the search box sits in its header, so
-        // an unfiltered table beside a filtered gallery reads as a broken filter.
-        document.querySelectorAll('#leaderboardBody tr[data-symbol]').forEach(row => {
+        // Keep the ranking table and the plain table view in step — the search
+        // box sits in the ranking header, so an unfiltered table beside a
+        // filtered gallery reads as a broken filter.
+        document.querySelectorAll('#leaderboardBody tr[data-symbol], #boardTableBody tr[data-symbol]').forEach(row => {
             const symbol = (row.dataset.symbol || '').toLowerCase();
             row.hidden = !(!q || symbol.includes(q));
         });
@@ -723,11 +844,13 @@ function initStockSearch() {
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
+    initViewToggle();      // cards ⇄ plain table (attribute already set pre-paint)
     initInstallButton();
     renderTrendMeter();    // index regime read (needle computed from MARKET.checks)
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
     renderBooked();        // "booked at targets" strip (reuses accents too)
+    renderBoardTable();    // the plain-table view of the same board
     initStockSearch();     // filters the tile grid by ticker
 
     const overlay = document.getElementById('storyOverlay');
