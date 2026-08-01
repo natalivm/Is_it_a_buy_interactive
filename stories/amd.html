@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AMD — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  :root{
+    --page-bg:#160B04;
+    --bg:#22110A;
+    --panel:#3A1D0F;
+    --panel2:#2E170C;
+    --line:#5F3418;
+    --muted:#D8AE8C;
+    --purple:#34D399;
+    --pink:#FB5D74;
+    --yellow:#F5A524;
+    --deep:#160B04;
+    --sub:#F7E6D8;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · COVER -->
+    <section class="slide active" data-label="AMD · 1D">
+      <div class="cover-ticker rv">AMD</div>
+      <div class="eyebrow rv">📅 CLOSE $476.15 (−1.90%) · ЗАКРИВСЯ В 1% ДІАПАЗОНУ</div>
+      <h1 class="rv">найміцніший тижневий — <span class="hl">і найгірший місячний</span></h1>
+      <p class="sub rv">AMD закрився <strong>$476.15 (−1.90%)</strong> — у нижньому <span class="k">1% денного діапазону</span>. Тижневий RSI <strong>59.65</strong>, найсильніший серед усього, що ми міряли поза дошкою, а кросовер глибиною <span class="k">0.4%</span> — фактично дотик. Але місячний Stoch %K <strong>91.28</strong> — найбільш перекуплений показник із усіх виміряних імен, гірший навіть за DELL.</p>
+      <div class="chart rv">
+        <svg data-lv='[["k",26,"$584.73","12-міс максимум",0.05],["k",52,"$581.75","верхня BB · ціль 3",0.10],["k",80,"$574.20","максимум місяця · ціль 3",0.15],["k",118,"$515.19","середня BB · ціль 2",0.21],["w",150,"$486–489","9/50-EMA кластер · ціль 1",0.27],["y",188,"$476.15","ЗАРАЗ · закриття 31.07",0.33],["p",228,"$448.63","нижня BB · низ зони входу",0.40],["p",266,"$424.03","мінімум місяця · СТОП",0.46]]' viewBox="0 0 470 300" role="img" aria-label="AMD closed 476.15 in the bottom one percent of its range with the shallowest weekly cross measured and the most overbought monthly stochastic on the board">
+          <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.8s" d="M70,90 L160,150 L250,215"/>
+          <circle class="dot-y pop" style="animation-delay:1.4s" cx="250" cy="215" r="6"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-noclick data-label="AMD · 1D">
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Закриття в 1% діапазону —<br><span class="hl">одне з найгірших на дошці.</span></h1>
+      <div class="verdict rv p">
+        <div class="vh">⚠️ O $510.28 → C $476.15: віддали весь день, закрились на мінімумі</div>
+        <p>Денний бар: <strong>O $510.28 · H $515.62 · L $475.76 · C $476.15</strong>. Гірше закривались тільки LRCX (0.4%) і INTC (1-й процентиль). Обидві денні середні втрачено — 9-EMA <span class="k">$488.62</span> і 50-EMA <span class="k">$486.27</span> тепер над ціною і стоять одним кластером. Гістограма −9.00, негативна <span class="k">39 барів</span>, але звужується другий бар. RSI 45.18, Stoch %D 19.63 — перепроданість є, попиту поки немає.</p>
+      </div>
+    </section>
+
+    <!-- 3 · WEEKLY READ -->
+    <section class="slide" data-text data-label="AMD · 1W">
+      <div class="eyebrow rv">WEEKLY · ТРЕНДОВИЙ ФІЛЬТР</div>
+      <h1 class="rv">Кросовер, якого <span class="hl">майже не було</span></h1>
+      <p class="sub rv">Тижнева гістограма <strong>−0.30</strong> при MACD 74.54 — глибина <span class="k">0.4%</span>. Це найменш переконливий сигнал із усіх, що ми рахували: будь-який зелений тиждень його скасовує. Тижневий RSI <strong>59.65</strong> тримається впевнено вище середини. Тобто тренд формально ще цілий. ⚠️ Але місячний малює іншу картину: Stoch %K <strong>91.28</strong>, %D 92.71, RSI 69.61 — найрозтягнутіше з усього виміряного. Саме за це ми знизили DELL із першого місця на третє. AMD розтягнутий ще сильніше.</p>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="AMD · РІВНІ">
+      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <h1 class="rv">Level <span class="hl">map</span></h1>
+      <div class="ladder rv" data-rungs='[["res","$584.73","12-міс максимум"],["res","$581.75","Верхня BB · 🎯 ціль 3"],["res","$574.20","Максимум липня · 🎯 ціль 3"],["res","$515.19","Середня BB · 🎯 ціль 2"],["res","$486–489","9/50-EMA кластер · 🎯 ціль 1 · перший опір"],["now","$476.15","ТУТ · закриття 31.07 (−1.90%)"],["sup","$448.63","Нижня BB · низ зони входу"],["key","$424.03","Мінімум місяця · СТОП на закритті"],["sup","$344.47","200-EMA · структурна межа"]]'></div>
+      <p class="note rv">Кластер <span class="k">$486–489</span> вирішує все: поки ціна під ним, це відскок у корекції. Денне закриття вище повертає AMD у тренд і відкриває середню BB $515.</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="AMD · ПЛАН">
+      <div class="eyebrow rv">PLAN · LONG WATCH · РОЗМІР МЕНШИЙ ЗА ЗВИЧАЙНИЙ</div>
+      <h1 class="rv">Найсильніший тренд — <span class="hl">найменший розмір</span></h1>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> вхід — <strong>відкат, що УТРИМУЄ $449–476</strong> (нижня BB + закриття п’ятниці). Стоп — <strong>денне закриття під $424.03</strong>, мінімумом місяця. Цілі: <strong>$486–489</strong> (кластер середніх) → <strong>$515</strong> (середня BB) → <strong>$574</strong> (максимум місяця).</p>
+      <p class="note rv">🚦 Рахується лише при закритті SMH вище <strong>$547–550</strong>. ⚠️ Розмір позиції — головне обмеження цієї картки, а не рівень входу. Стоп на 8% нижче входу — це контрольований ризик; проблема в цілях: просити ще +21% від місячного Stoch 91 означає ставити на продовження екстремуму. Правило дошки без змін: <strong>чим сильніший тренд, тим менший розмір.</strong></p>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory();
+</script>
+</body>
+</html>
