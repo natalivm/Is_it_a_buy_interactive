@@ -117,6 +117,12 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 - «дошка» is fine for the board itself («записка дошки») but NOT in the
   comparison sense — there write «решта імен» or «напівпровідники»
   («шорти решти імен», «смуга по решті імен»).
+- Nor «фліп»/«флip» (a setup reversing side, e.g. short → long on a reclaim)
+  — write «перевертає»/«перевертається» («reclaim $61 перевертає сетап у
+  лонг», «був лонг → сетап перевернувся в шорт»). Also banned: «гейт»/«ворота»
+  for a decisive group-wide level — write «рівень» («SMH-рівень», «рівень не
+  взято»); «шортокрий» for short covering — keep the English term, same as
+  OBV/MACD/RSI/Stoch/VWAP.
 - **One thought per line.** A `.sub` written as a single dense block reads as a
   wall on a phone. Give the paragraph the `lines` class and break it with
   `<br>`, one fact per line, each line short enough not to wrap — the column is

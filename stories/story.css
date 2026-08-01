@@ -177,7 +177,7 @@ h1 .p, h1 .k, h1 .y {
                                      now the slide's own headline)    clamp(19px, 5.5cqw, 24px)
        eyebrow     small title      11px, unchanged everywhere
        .sub        body, large      15.5px, unchanged everywhere
-       .indi p / .note / .verdict p  body, small     14px, unchanged everywhere
+       .indi p / .note / .verdict p  body, small     16px, unchanged everywhere
      --title-sm exists as ONE variable (declared in the :root block above)
      specifically so h1(text-focus) and .verdict .vh can never drift apart
      again — both rules read the same custom property. .indi-top .t/.v are a
