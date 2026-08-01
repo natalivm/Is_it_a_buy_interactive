@@ -11,18 +11,28 @@ interactive tap-through "story" that explains the trade thesis for that stock.
 - `styles.css` — dark purple/pink theme; 3-per-row responsive tile grid
 - `stories/` — one HTML slideshow per stock, driven by the shared
   `stories/story.css` + `stories/engine.js` (see "Deck anatomy" below)
-- `index.html` — shell: navbar, intro, `#trendMeter` panel, `#leaderboard`
-  table, `#gallery` grid, `#storyOverlay` modal
+- `index.html` — shell: navbar, `#trendMeter` panel, `#bookedStrip`,
+  `#leaderboard` table, `#gallery` grid, `#storyOverlay` modal
 - `manifest.json` / `sw.js` — PWA + offline caching (bump `CACHE_NAME` in
   `sw.js` on releases; the deploy workflow rewrites it to the commit hash)
+- `tools/refresh.py` — fetches OHLCV, recomputes every indicator the cards
+  quote, and audits the board (`--audit-only` needs no network). Run it after
+  every data.js edit; see `tools/README.md`.
+
+**Fonts are one shared request.** `index.html`, all 31 decks and both articles
+link the SAME Google-Fonts URL — Oswald 600;700 + Inter 400…700 + IBM Plex Mono
+400…700 — so opening a deck re-uses the gallery's cached font files instead of
+pulling a second mono family. Adding a weight means adding it in every one of
+those files, or not at all; never introduce a second family or a per-surface
+URL.
 
 ## Deck anatomy (stories/*.html)
 
 Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 
 - **Shared CSS** lives in `stories/story.css` (foundation + the full hoisted
-  component system: eyebrow/h1/sub/indi/chart/candle/legup/legdn/ladder/tpl/
-  verdict/note/nav…). Fonts and `--ink` have shared `:root` defaults there, and
+  component system: eyebrow/h1/sub/indi/chart/candle/legup/legdn/ladder/verdict/
+  note/nav…). Fonts and `--ink` have shared `:root` defaults there, and
   the verdict box has colour variants (`verdict` = pink default, `verdict p` /
   `verdict y` / `verdict k`). A deck's inline `<style>` holds ONLY its `:root`
   colour palette (incl. `--sub`, the body-text tint) plus genuinely unique
@@ -39,6 +49,10 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   `<div class="ladder rv" data-rungs='[["res","$390","label"], …]'></div>`
   with entries `[kind res|sup|now|key, price, label]`, hydrated by
   `engine.js`. To change a level, edit the JSON — never hand-write rung divs.
+  ⚠️ The `now` rung is the deck's copy of the current price and is the thing
+  most likely to go stale: refreshing a card in `data.js` without reopening its
+  deck leaves the ladder quoting an older session. `refresh.py --audit-only`
+  compares the two and flags any deck more than 1% out.
 - **Navigation**: tap left/right zones, swipe, arrow keys, and mouse wheel all
   advance slides. The tap zones are TOUCH-ONLY (built when the primary pointer
   is coarse) — on desktop they'd steal clicks from text selection while
@@ -58,9 +72,11 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   SVG. To change a price level, edit the JSON — not SVG elements.
 - **Candles**: green candles use `class="candle-wick up …"` /
   `class="candle-body up …"` from the shared CSS — no inline fill/stroke.
-- Slide flow per deck: cover/4H → daily candle → relative strength vs SMH →
-  levels ladder → plan (entry/stop/targets + a "🎯 Тригер від сьогодні" note
-  giving the actionable instruction from the current price).
+- Slide flow per deck: cover/1D → daily candle → levels ladder → plan
+  (entry/stop/targets + a "🎯 Тригер від сьогодні" note giving the actionable
+  instruction from the current price). Four slides is the norm; a deck that has
+  something extra to say (e.g. a `data-text` weekly read) adds one, it does not
+  pad to a fixed count.
 
 ## Copy style
 
@@ -140,8 +156,14 @@ edit to `price`/`change`/`signal`/`lead`. Refreshing the numbers without
 bumping `date` leaves the tile mis-dated and mis-sorted; treat the date bump
 as part of every refresh, not an afterthought.
 
-An entry may also carry a `lead` object (`{ rank, entry, stop, targets, downside,
-tail?, rr, rrStar?, edge, tagged?, closed? }`). `tagged` records the deepest
+`exchange` is the listing VENUE only (`NASDAQ` / `NYSE` / `CBOE`) — it renders
+as the small label beside the ticker. It sits right before `change` in every
+entry, which makes it easy to paste a close narrative into by accident; that
+both wrecks the tile and leaves the real `change` a session stale. The audit
+checks it.
+
+An entry may also carry a `lead` object (`{ rank, status?, entry, stop, targets,
+tail?, rr, edge, tagged?, closed? }`). `tagged` records the deepest
 target actually realised (set it the day the target trades — it survives the
 price squeezing back above the level); `closed` records the exit of a
 stopped/closed trade. The "Booked at targets" strip is a LEDGER of realised
@@ -176,6 +198,23 @@ are parsed live from `lead.entry` / `lead.targets` / `price` by
 `planProgress()` in `script.js` — never hand-written, so keep those fields
 numeric-parseable.
 
+**Everything derivable IS derived — do not add these fields back.** Two numbers
+used to be typed into each `lead` and drifted constantly, so they are computed
+in `script.js` now, from the same `entry`/`targets`/`price` the rest of the
+board parses:
+
+- the **Move** column = entry-zone midpoint → deepest target, signed by the
+  price direction (longs +, shorts −) — the old `downside` field. It is the
+  same definition the `rr` quotes, so the two columns describe one plan;
+  Progress separately answers "where are we now".
+- the **R:R asterisk** = price is outside the entry zone (`priceInZone()`) —
+  the old `rrStar` flag.
+
+`lead.downside` survives only as a fallback for a plan whose numbers cannot be
+parsed. `status` stays hand-set on purpose: a short that has already been
+rejected and is working below its zone is legitimately `'live'`, which geometry
+alone cannot tell you.
+
 ## Refreshing a card from charts
 
 `docs/ta-analysis-prompt.md` is the reusable prompt for turning chart screenshots
@@ -185,7 +224,22 @@ classification, the entry-type rules (held retest for proven demand,
 confirmation-only for unproven, rejection-only for shorts), the `lead` field
 contract — notably that `entry` must be numeric-clean because `planProgress()`
 parses every digit in it — and a self-check covering stop placement, target
-ordering, recomputed Move/R:R, and `status`/`rrStar` accuracy.
+ordering, recomputed R:R, `status`, the venue in `exchange`, and the deck's own
+`now` rung.
+
+**Then run the audit** — it is the mechanical half of that self-check and needs
+no network:
+
+```bash
+python3 tools/refresh.py --audit-only   # or ./update_prices.sh --audit-only
+```
+
+It flags a stop at/inside the entry zone, an R:R that does not recompute, a
+`status` that contradicts the price, a non-venue `exchange`, a deck ladder whose
+`now` rung has fallen behind its card, a missing story file, and a bad or
+future `date`. A full run (no flag) fetches OHLCV and adds price/indicator
+drift. Finish a refresh with a clean audit, or with a note saying why a finding
+is deliberate.
 
 ## Adding a stock
 

@@ -307,9 +307,49 @@ def nums(s) -> list[float]:
     return [float(x) for x in re.findall(r"\d+(?:\.\d+)?", str(s or "").replace(",", ""))]
 
 
+VENUES = {"NASDAQ", "NYSE", "NYSE ARCA", "CBOE", "AMEX", "BATS"}
+
+
+def audit_fields(stock: dict) -> list[str]:
+    """Card-shape checks that do not need a `lead` — every card gets these."""
+    out, sym = [], stock["symbol"]
+
+    # `exchange` renders as the small label beside the ticker. Pasting a close
+    # narrative into it (easy to do: it is the field right before `change`)
+    # blows the tile apart AND leaves the real `change` a session stale.
+    ex = str(stock.get("exchange") or "")
+    if ex.upper() not in VENUES:
+        out.append(f"{sym}: exchange '{ex[:60]}' is not a venue — the close line "
+                   f"belongs in `change`")
+
+    # `date` is the tile's label AND the gallery's sort key.
+    d = str(stock.get("date") or "")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+        out.append(f"{sym}: date '{d}' is not ISO YYYY-MM-DD")
+    elif d > dt.date.today().isoformat():
+        out.append(f"{sym}: date {d} is in the future")
+
+    story = ROOT / str(stock.get("story") or "")
+    if not story.is_file():
+        out.append(f"{sym}: story '{stock.get('story')}' does not exist")
+        return out
+
+    # The deck's own "you are here" rung is hand-written, so it goes stale the
+    # moment the card is refreshed without reopening the slideshow.
+    card_px = (nums(stock.get("price")) or [None])[0]
+    m = re.search(r'\["now",\s*"([^"]+)"', story.read_text(encoding="utf-8"))
+    if m and card_px:
+        deck_px = (nums(m.group(1)) or [None])[0]
+        if deck_px and abs(deck_px - card_px) / card_px * 100 > 1.0:
+            out.append(f"{sym}: deck ladder still says ТУТ {deck_px:g} while the card "
+                       f"says {card_px:g} ({(deck_px - card_px) / card_px * 100:+.1f}%) "
+                       f"— {stock.get('story')} needs the same refresh")
+    return out
+
+
 def audit_card(stock: dict, close: float | None) -> list[str]:
     """Only mechanical, decidable checks. No opinions."""
-    lead, out = stock.get("lead"), []
+    lead, out = stock.get("lead"), audit_fields(stock)
     sym, side = stock["symbol"], stock.get("side", "long")
     if not lead:
         return out
@@ -369,18 +409,46 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
                 out.append(f"{sym}: status '{have}' but price {px:g} is ABOVE "
                            f"zone {lo:g}-{hi:g} ({need}) → expected 'wait'")
 
-    # 6. stated `downside` vs computed % left from price to the deepest target.
-    #    Board convention: longs quote it +, shorts quote it −.
-    if targets and lead.get("downside"):
-        t = targets[-1]
-        left = ((t - px) / px if side == "long" else (px - t) / px) * 100
-        shown = f"{'+' if side == 'long' else '−'}{abs(left):.1f}%"
-        stated = nums(lead["downside"])
-        if stated and abs(abs(stated[0]) - abs(left)) > 2:
-            out.append(f"{sym}: downside '{lead['downside']}' vs computed "
-                       f"{shown} to {t:g} — off by {abs(abs(stated[0]) - abs(left)):.1f}pp")
+    # 6. the stop must sit OUTSIDE the entry zone (the rule the authoring prompt
+    #    states outright): at the zone edge, risk ≈ 0 and the R:R is fiction.
+    #    A zone edge quoted as the invalidation line ('dead >$102 close' on a
+    #    $96–102 zone) is the normal shape and passes; a level STRICTLY inside
+    #    the zone does not — it invalidates part of its own entry.
+    if entry and stop:
+        lo, hi = min(entry), max(entry)
+        if side == "short" and stop[0] <= hi:
+            out.append(f"{sym}: ⚠️ stop {stop[0]:g} is not above the entry zone "
+                       f"{lo:g}-{hi:g} — risk ≈ 0, so `rr: '{lead.get('rr')}'` is fiction")
+        if side == "long" and stop[0] >= lo:
+            out.append(f"{sym}: ⚠️ stop {stop[0]:g} is not below the entry zone "
+                       f"{lo:g}-{hi:g} — risk ≈ 0, so `rr: '{lead.get('rr')}'` is fiction")
+        for s in stop[1:]:
+            if lo < s < hi:
+                out.append(f"{sym}: ⚠️ stop `{lead['stop']}` quotes {s:g}, strictly "
+                           f"INSIDE the entry zone {lo:g}-{hi:g} — it invalidates "
+                           f"part of its own entry")
 
-    # 7. card price vs the real close, against the tolerance for its type
+    # 7. `rr` vs |deepest target − midpoint| ÷ |stop − midpoint|, the definition
+    #    the board quotes it by. Only the first number in `stop` is the stop.
+    if entry and targets and stop and lead.get("rr"):
+        mid = (min(entry) + max(entry)) / 2
+        risk = abs(stop[0] - mid)
+        stated = nums(lead["rr"])
+        if risk > 0 and stated:
+            calc = abs(targets[-1] - mid) / risk
+            if abs(calc - stated[0]) > 1:
+                out.append(f"{sym}: rr '{lead['rr']}' vs recomputed {calc:.1f}:1 "
+                           f"(midpoint {mid:g} → {targets[-1]:g} over stop {stop[0]:g})")
+
+    # 8. Move (`downside`) and the R:R star (`rrStar`) are COMPUTED by script.js
+    #    now — a value typed here is dead weight that drifts out of agreement
+    #    with the table. Only keep `downside` if the plan is unparseable.
+    for gone in ("downside", "rrStar"):
+        if lead.get(gone) is not None and entry and targets:
+            out.append(f"{sym}: `{gone}` is computed by script.js now — delete it "
+                       f"from the lead so it cannot drift")
+
+    # 9. card price vs the real close, against the tolerance for its type
     if close is not None and card_px is not None:
         drift = abs(card_px - close) / close * 100
         tol = TOL_INDEX if sym in MARKET_SYMBOLS else TOL_STOCK

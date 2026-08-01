@@ -19,6 +19,11 @@ const SIDE_LABEL = { long: 'Long', short: 'Short' };
 // Order is intentionally non-sequential so the grid reads varied, not a rainbow.
 const TILE_ACCENTS = ['blue', 'amber', 'violet', 'emerald', 'red', 'cyan', 'indigo'];
 
+// An entry's own `accent`, if it names one of the palette colours; 'violet' otherwise.
+function accentOf(item) {
+    return TILE_ACCENTS.includes(item.accent) ? item.accent : 'violet';
+}
+
 // symbol → accent, filled by renderGallery so the leaderboard can reuse each
 // stock's tile colour (keeps a ticker the same colour everywhere it appears).
 const accentBySymbol = {};
@@ -46,6 +51,18 @@ function fmtDate(iso) {
 function planNums(str) {
     const m = String(str == null ? '' : str).replace(/,/g, '').match(/\d+(?:\.\d+)?/g);
     return m ? m.map(Number) : [];
+}
+
+// Is the current price inside the plan's entry zone? Pure geometry off the same
+// two parsed fields the rest of the board uses, so it can never disagree with
+// the numbers on screen. Returns null when either side is unparseable.
+function priceInZone(stock) {
+    const L = stock && stock.lead;
+    if (!L) return null;
+    const price = planNums(stock.price)[0];
+    const zone = planNums(L.entry);
+    if (!price || !zone.length) return null;
+    return price >= Math.min(...zone) && price <= Math.max(...zone);
 }
 
 function planProgress(stock) {
@@ -259,19 +276,28 @@ function renderTrendMeter() {
 }
 
 // ── Tile rendering ─────────────────────────────────────────────────────────
+// The copy-link button in a tile's footer — identical on stock and article
+// tiles, so the markup lives here once. `what` names the target for a11y.
+function copyBtnHtml(what) {
+    return `<button class="tile-link" type="button" aria-label="Copy link to ${esc(what)}" title="Copy link">`
+        + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        + '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>'
+        + '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>';
+}
+
 function tileHtml(item) {
     return item && item.type === 'article' ? articleTileHtml(item) : stockTileHtml(item);
 }
 
 function articleTileHtml(article) {
-    const accent = ['violet', 'blue', 'amber', 'emerald', 'red', 'cyan', 'indigo'].includes(article.accent) ? article.accent : 'violet';
+    const accent = accentOf(article);
     const tag = article.tag ? `<span class="tile-chip chip-article">${esc(article.tag)}</span>` : '';
     const excerpt = article.excerpt ? `<p class="tile-excerpt">${esc(article.excerpt)}</p>` : '';
     const meta = article.readTime
         ? `<span class="tile-date">Читати · ${esc(article.readTime)}</span>`
         : (article.date ? `<span class="tile-date">Опубліковано ${esc(fmtDate(article.date))}</span>` : '<span></span>');
     return `
-        <article class="tile tile-article tile-${accent}" data-story="${esc(article.story)}" data-symbol="${esc(article.symbol)}"
+        <article class="tile tile-article tile-${accent}" data-symbol="${esc(article.symbol)}"
                  tabindex="0" role="button" aria-label="Open article ${esc(article.title || article.symbol)}">
             <div class="tile-body">
                 <div class="tile-top">
@@ -283,9 +309,7 @@ function articleTileHtml(article) {
                 <div class="tile-foot">
                     ${meta}
                     <span class="tile-actions">
-                        <button class="tile-link" type="button" aria-label="Copy link to ${esc(article.title || article.symbol)}" title="Copy link">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        </button>
+                        ${copyBtnHtml(article.title || article.symbol)}
                         <span class="tile-cta">Читати <span aria-hidden="true">›</span></span>
                     </span>
                 </div>
@@ -295,7 +319,7 @@ function articleTileHtml(article) {
 }
 
 function stockTileHtml(stock) {
-    const accent = ['violet', 'blue', 'amber', 'emerald', 'red', 'cyan', 'indigo'].includes(stock.accent) ? stock.accent : 'violet';
+    const accent = accentOf(stock);
     const side = ['long', 'short'].includes(stock.side) ? stock.side : 'long';
     const change = stock.change
         ? `<span class="tile-change">${esc(stock.change)}</span>` : '';
@@ -317,11 +341,10 @@ function stockTileHtml(stock) {
         ? `<p class="tile-progress"><span class="tp-live">✅ Entered as called → ${pct(prog.earned)} so far</span> · full plan ${pct(prog.target)} · ${pct(prog.left)} left to the deepest target</p>`
         : `<p class="tile-progress"><span class="tp-wait">⏳ Not triggered yet → 0%</span> · plan pays ${pct(prog.target)} from the zone · ${pct(prog.left)} left from here</p>`;
 
-    // Live preview of the story's first (cover) slide. The iframe is
-    // non-interactive (pointer-events off, not focusable) — the whole tile is
-    // the button. loading="lazy" keeps off-screen previews cheap.
+    // The whole tile is the button; the deck itself opens in the overlay
+    // (openStory → hash → iframe), so nothing here loads the story.
     return `
-        <article class="tile tile-${accent}" data-story="${esc(stock.story)}" data-symbol="${esc(stock.symbol)}"
+        <article class="tile tile-${accent}" data-symbol="${esc(stock.symbol)}"
                  tabindex="0" role="button" aria-label="Open ${esc(stock.symbol)} story">
             <div class="tile-body">
                 <div class="tile-top">
@@ -341,9 +364,7 @@ function stockTileHtml(stock) {
                 <div class="tile-foot">
                     ${stock.date ? `<span class="tile-date">Опубліковано ${esc(fmtDate(stock.date))}</span>` : '<span></span>'}
                     <span class="tile-actions">
-                        <button class="tile-link" type="button" aria-label="Copy link to ${esc(stock.symbol)} story" title="Copy link">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        </button>
+                        ${copyBtnHtml(stock.symbol + ' story')}
                         <span class="tile-cta">Дивитись розбір <span aria-hidden="true">›</span></span>
                     </span>
                 </div>
@@ -375,10 +396,26 @@ function renderLeaderboard() {
         const L = s.lead;
         const side = ['long', 'short'].includes(s.side) ? s.side : 'short';
         const accent = accentBySymbol[s.symbol] || TILE_ACCENTS[i % TILE_ACCENTS.length];
+        const prog = planProgress(s);
+        // Move = entry-zone midpoint → deepest target, the same definition the
+        // R:R uses, so the two columns describe one plan. COMPUTED from `entry`
+        // and `targets` (never typed): a hand-written % drifts the moment a
+        // level moves. `lead.downside` is the fallback for unparseable plans.
+        // Signed by the PRICE direction, board convention: longs +, shorts −
+        // (planProgress reports P&L, which is positive for a working short).
+        const move = prog
+            ? pct(side === 'short' ? -prog.target : prog.target)
+            : esc(L.downside || '—');
         const downside = L.tail
-            ? `${esc(L.downside)}<span class="lb-tail">tail ${esc(L.tail)}</span>`
-            : esc(L.downside);
-        const rr = `${esc(L.rr)}${L.rrStar ? '<sup>*</sup>' : ''}`;
+            ? `${move}<span class="lb-tail">tail ${esc(L.tail)}</span>`
+            : move;
+        // The R:R asterisk means "only if price comes back to the entry zone",
+        // so it is COMPUTED from where price actually is rather than hand-set:
+        // a flag typed into data.js drifts the moment the price label moves.
+        // `lead.rrStar` survives only as an override for unparseable zones.
+        const inZone = priceInZone(s);
+        const star = inZone === null ? !!L.rrStar : !inZone;
+        const rr = `${esc(L.rr)}${star ? '<sup>*</sup>' : ''}`;
         const status = L.status === 'live'
             ? '<span class="lb-status lb-live">🎯 at trigger</span>'
             : L.status === 'wait'
@@ -386,12 +423,14 @@ function renderLeaderboard() {
                 : L.status === 'booked'
                     ? '<span class="lb-status lb-booked">✅ target reached</span>'
                     : '';
-        const prog = planProgress(s);
         const progress = !prog ? '—' : L.status === 'booked'
             ? `<span class="lb-earned">${pct(prog.earned)}</span><span class="lb-left">booked</span>`
             : prog.filled
             ? `<span class="lb-earned">${pct(prog.earned)}</span><span class="lb-left">${pct(prog.left)} left</span>`
-            : `<span class="lb-planpct">${pct(prog.target)} plan</span><span class="lb-left">${pct(prog.left)} left</span>`;
+            // Unfilled: nothing earned yet (the footnote says so), and the
+            // plan's full pay-off is already the Move column — don't print it
+            // twice, just how far there is left to go from here.
+            : `<span class="lb-planpct">0%</span><span class="lb-left">${pct(prog.left)} left</span>`;
         return `
             <tr class="lb-row${i === 0 ? ' lb-top' : ''}" data-symbol="${esc(s.symbol)}"
                 tabindex="0" role="button" aria-label="Open ${esc(s.symbol)} story">
