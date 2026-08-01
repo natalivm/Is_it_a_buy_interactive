@@ -108,39 +108,6 @@
                  tools/structure.py). Shown only while the root carries
                  data-view="table"; CSS does the swap, so a reload in table view
                  never flashes the grid. -->
-            <section class="board-table" id="boardTable" aria-label="Structure board">
-                <div class="bt-head">
-                    <h2 class="bt-title">Structure board</h2>
-                    <span class="bt-meta" id="boardTableMeta"></span>
-                </div>
-                <p class="bt-note" id="boardTableNote"></p>
-                <div class="bt-scroll">
-                    <table class="board">
-                        <thead>
-                            <tr>
-                                <th>Ticker / price</th>
-                                <th>Structure W / D / 4H</th>
-                                <th>ATR(14)</th>
-                                <th class="bt-flow-col">Flow</th>
-                                <th>Score</th>
-                                <th>Bias / preferred setup</th>
-                                <th>4H read</th>
-                                <th>Nearest demand</th>
-                                <th>Nearest supply</th>
-                                <th>Current position</th>
-                                <th>Bullish trigger / targets</th>
-                                <th>Bearish trigger / targets</th>
-                                <th>Likely retest</th>
-                            </tr>
-                        </thead>
-                        <tbody id="boardTableBody"></tbody>
-                    </table>
-                </div>
-                <div class="empty-state" id="boardTableEmpty" hidden>No structure board yet. Run <code>python3 tools/structure.py</code>.</div>
-                <div class="bt-rank" id="boardTableRanking"></div>
-                <p class="bt-foot" id="boardTableMethod"></p>
-                <p class="bt-foot">Independent of the cards — a ticker can be long on its card and bearish here; that disagreement is information, not an error. Rows for tickers that also have a card open that deck.</p>
-            </section>
 
             <section class="gallery-section">
                 <div class="gallery" id="gallery"></div>
@@ -148,6 +115,46 @@
                 <div class="empty-state" id="gallerySearchEmpty" hidden>No stocks match your search.</div>
             </section>
         </div>
+
+        <!-- Structure board — deliberately OUTSIDE .page-container. The
+             1200px reading column exists for the tile grid; this table has
+             thirteen columns and needs the viewport. Sitting here it gets
+             the full width naturally, with no negative margins or 100vw
+             (which overflows by the scrollbar's width). Nothing else on the
+             page is widened.  -->
+        <section class="board-table" id="boardTable" aria-label="Structure board">
+            <div class="bt-head">
+                <h2 class="bt-title">Structure board</h2>
+                <span class="bt-meta" id="boardTableMeta"></span>
+            </div>
+            <p class="bt-note" id="boardTableNote"></p>
+            <div class="bt-scroll">
+                <table class="board">
+                    <thead>
+                        <tr>
+                            <th>Ticker / price</th>
+                            <th>Structure W / D / 4H</th>
+                            <th>ATR(14)</th>
+                            <th class="bt-flow-col">Flow</th>
+                            <th>Score</th>
+                            <th>Bias / preferred setup</th>
+                            <th>4H read</th>
+                            <th>Nearest demand</th>
+                            <th>Nearest supply</th>
+                            <th>Current position</th>
+                            <th>Bullish trigger / targets</th>
+                            <th>Bearish trigger / targets</th>
+                            <th>Likely retest</th>
+                        </tr>
+                    </thead>
+                    <tbody id="boardTableBody"></tbody>
+                </table>
+            </div>
+            <div class="empty-state" id="boardTableEmpty" hidden>No structure board yet. Run <code>python3 tools/structure.py</code>.</div>
+            <div class="bt-rank" id="boardTableRanking"></div>
+            <p class="bt-foot" id="boardTableMethod"></p>
+            <p class="bt-foot">Independent of the cards — a ticker can be long on its card and bearish here; that disagreement is information, not an error. Rows for tickers that also have a card open that deck.</p>
+        </section>
 
         <footer class="site-disclaim">Не є інвестиційною рекомендацією. Освітній контент — рішення та ризики ваші.</footer>
     </main>

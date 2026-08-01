@@ -81,6 +81,32 @@ const BOARD = {
             retest: 'Breakdown may retest **$700–703** from underneath',
         },
         {
+            // Monthly is 'limited history' — CRWV's listing is too young for a
+            // 24-bar monthly lookback, so the frame is null rather than a guess.
+            // The extractor reaches the same conclusion on its own: _frame_ok()
+            // refuses to read a frame short of its lookback + ATR warmup.
+            ticker: 'CRWV', seeded: true, date: '2026-08-01',
+            price: 71.72, atr: 7.1, atrPct: 9.9,
+            structure: { m: null, w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts — limited monthly history' },
+            score: null, parts: null,
+            bias: '**Strongly bearish with bounce risk.** Prefer rejection short from supply rather than chasing near demand.',
+            h4: 'Relief bounce is failing — price is back under the 4H resistance and moving averages.',
+            demand: [
+                { lo: 60, hi: 65, strength: 'tested', note: 'major' },
+                { lo: 49, hi: 52, strength: 'fresh', note: 'lower demand' },
+            ],
+            supply: [
+                { lo: 74, hi: 80, strength: 'tested', note: 'immediate' },
+                { lo: 86, hi: 97, strength: 'tested', note: 'main' },
+                { lo: 106, hi: 125, strength: 'fresh', note: 'higher' },
+            ],
+            position: 'Below 4H resistance and moving averages, but only about one ATR above major demand',
+            bull: 'Defend $60–65, form higher low and reclaim **$79–80** → **$86–90**, then **$96–100**',
+            bear: 'Reject **$74–80** and lose $69–70 → **$65–60**; close below $60 and fail reclaim → **$49–52**',
+            retest: 'Breakdown below $60 may retest **$60–65** from underneath; reclaim above $80 may retest **$74–80** as support',
+        },
+        {
             ticker: 'STX', seeded: true, date: '2026-08-01',
             price: 856.41, atr: 82.13, atrPct: 9.59,
             structure: { w: 'neutral', d: 'bearish', h4: 'bearish', h4Note: 'read from charts' },

@@ -147,6 +147,7 @@ jobs:
               echo "_Nothing committed._ The proposed board is in the "
               echo "\`structure-board\` artifact as \`board.proposed.js\`. "
               echo "Re-run with **apply=true** to commit it."
+            fi
             echo
             if [ -s tools/reports/flow-errors.txt ]; then
               echo "<details><summary>Flow warnings</summary>"

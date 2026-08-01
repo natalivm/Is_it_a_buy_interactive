@@ -1,0 +1,82 @@
+name: Checks
+
+# Fast, offline pre-merge checks. No market data, no API keys, no network —
+# everything here runs on the checkout alone and finishes in seconds, so it is
+# cheap enough to run on every push.
+#
+# It exists because two classes of breakage reached a runner before being
+# caught locally: a missing `fi` in a workflow's run block (which fails only
+# when the shell executes, costing a full round trip to discover), and
+# arithmetic regressions in the extractor. Both are now caught here first.
+
+on:
+  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    # A same-repo pull request already has a push event for the identical
+    # commit, so skip the duplicate. Fork PRs have no such push and still run.
+    if: >-
+      github.event_name == 'push' ||
+      github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      # Node24-era action majors, same pinning rationale as the other workflows.
+      - uses: actions/checkout@v5
+
+      - name: Install lint dependencies
+        run: python3 -m pip install --quiet --disable-pip-version-check pyyaml
+
+      # Parses every `run:` block with `bash -n`. Catches the unbalanced-`if`
+      # class of bug at push time instead of on a runner mid-job.
+      - name: Lint workflow shell
+        run: python3 tools/lint_workflows.py
+
+      # The extractor's arithmetic: ATR's Wilder recursion, swing detection,
+      # structure classification across frames, zone geometry and volume
+      # grading, and the order-flow signing rules. All against known answers.
+      - name: Extractor self-test
+        run: python3 tools/test_structure.py
+
+      # Every hand-edited and generated script must at least parse. board.js is
+      # bot-generated and script.js reads it at load, so a malformed board takes
+      # the whole page down.
+      - name: Syntax-check JavaScript
+        run: |
+          for f in data.js board.js script.js sw.js stories/engine.js; do
+            node --check "$f" && echo "ok  $f"
+          done
+
+      # board.js is the bot's output but also a file humans open. Confirm it
+      # actually evaluates and carries the shape the renderer expects, rather
+      # than merely being syntactically valid.
+      - name: Validate the structure board
+        run: |
+          node -e "
+            const fs = require('fs');
+            const B = eval(fs.readFileSync('board.js', 'utf8') + ';BOARD');
+            if (!Array.isArray(B.rows) || !B.rows.length) {
+              throw new Error('board.js has no rows');
+            }
+            const need = ['ticker', 'demand', 'supply', 'position', 'bull', 'bear'];
+            for (const r of B.rows) {
+              for (const k of need) {
+                if (r[k] == null) throw new Error(\`\${r.ticker || '?'} is missing \${k}\`);
+              }
+              // An unscored row must carry null, never 0 — on screen a 0 reads
+              // as a genuine neutral verdict rather than 'not scored'.
+              if (r.seeded && r.score !== null) {
+                throw new Error(\`\${r.ticker}: seeded row must have score null\`);
+              }
+            }
+            console.log(\`ok  board.js — \${B.rows.length} rows\`);
+          "
