@@ -713,23 +713,14 @@ function initStockSearch() {
             if (match) ranked++;
         });
         // Only ranked names (an entry with a `lead`) have a table row, so a search
-        // for an unranked stock legitimately empties the table. Swap the headers
-        // and footnote for a one-liner rather than leaving a hollow table shell —
-        // the header stays put either way, it holds the search box.
+        // for an unranked stock legitimately empties the table — drop the table and
+        // its footnote entirely rather than leaving headers framing nothing. The
+        // head stays put either way: it holds the search box.
         const bare = !!q && rows.length > 0 && ranked === 0;
         const scroll = document.getElementById('leaderboardScroll');
         const foot = document.getElementById('leaderboardFoot');
-        const lbEmpty = document.getElementById('leaderboardEmpty');
         if (scroll) scroll.hidden = bare;
         if (foot) foot.hidden = bare;
-        if (lbEmpty) {
-            lbEmpty.hidden = !bare;
-            if (bare) {
-                lbEmpty.textContent = visible
-                    ? `No ranked trade matches “${input.value.trim()}” — see its card below.`
-                    : `No ranked trade matches “${input.value.trim()}”.`;
-            }
-        }
     }
 
     input.addEventListener('input', applyFilter);
