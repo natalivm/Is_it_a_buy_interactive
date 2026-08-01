@@ -99,12 +99,13 @@ def fetch_yahoo(ticker: str) -> list[dict]:
     the numbers here line up with what you see there. Uses raw `close`, not
     `adjclose`: the chart quotes unadjusted prices and so do the cards."""
     sym = urllib.parse.quote(MARKET_SYMBOLS.get(ticker, ticker))
-    # range=max, not 5y. A 200-period EMA needs a long seed, and 5 years is only
-    # ~260 weekly bars for a 200-WEEK average — barely seeded, which showed up
-    # as ~0.9% drift against the chart's weekly 200-EMA. Daily was fine either
-    # way; the weekly and monthly frames are what this buys.
+    # 10y, NOT max. Yahoo silently DOWNGRADES the interval when range=max is
+    # paired with interval=1d — it returns coarse (monthly-ish) bars with a 200
+    # response rather than an error, which produced identical daily/weekly/
+    # monthly frames and nonsense indicators. 10y keeps daily granularity while
+    # still giving ~500 weekly bars, enough to seed a 200-week EMA properly.
     url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
-           f"?range=max&interval=1d")
+           f"?range=10y&interval=1d")
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         payload = json.loads(r.read().decode())
@@ -175,6 +176,27 @@ def fetch_yfinance(ticker: str) -> list[dict]:
 
 
 FETCHERS = {"yahoo": fetch_yahoo, "stooq": fetch_stooq, "yfinance": fetch_yfinance}
+
+
+def assert_daily(ticker: str, bars: list[dict]) -> None:
+    """Refuse a series that is not actually daily.
+
+    Yahoo answers 200 with COARSER bars when a range/interval pair is out of
+    bounds, instead of erroring. That silently produced identical daily, weekly
+    and monthly frames — output that looked plausible and was entirely wrong.
+    Garbage must fail loudly, so the spacing is checked rather than trusted.
+    """
+    if len(bars) < 60:
+        raise RuntimeError(
+            f"{ticker}: only {len(bars)} bars — too few to compute on. "
+            f"Either a very recent listing or the feed returned coarse data.")
+    gaps = sorted((bars[i]["date"] - bars[i - 1]["date"]).days
+                  for i in range(1, len(bars)))
+    median = gaps[len(gaps) // 2]
+    if median > 5:                       # daily bars: 1 midweek, 3 over a weekend
+        raise RuntimeError(
+            f"{ticker}: bars are {median} days apart — this is NOT daily data. "
+            f"The feed downgraded the interval; refusing to compute on it.")
 
 
 def frames(bars: list[dict]) -> list[Frame]:
@@ -389,8 +411,9 @@ def main() -> int:
         for t in want:
             try:
                 bars = fetch(t)
+                assert_daily(t, bars)
             except Exception as e:  # noqa: BLE001 — one bad ticker must not stop the run
-                print(f"— {t}: fetch failed ({e})", file=sys.stderr)
+                print(f"— {t}: SKIPPED ({e})", file=sys.stderr)
                 continue
             fs = frames(bars)
             closes[t] = fs[0].c
