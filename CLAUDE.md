@@ -49,16 +49,29 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   `<div class="ladder rv" data-rungs='[["res","$390","label"], …]'></div>`
   with entries `[kind res|sup|now|key, price, label]`, hydrated by
   `engine.js`. To change a level, edit the JSON — never hand-write rung divs.
-  ⚠️ **The `now` rung quotes the REGULAR-SESSION CLOSE** — the same number as
-  the first half of the card's `price`, never the `🌙` after-hours print and
-  never an intraday quote. It is the thing most likely to go stale: refreshing
-  a card in `data.js` without re-cutting its deck leaves the ladder on an older
-  reading, and a rung whose label carries a clock (`+13.81% (2:36 ET)`) is a
-  mid-session snapshot whose percentage AND indicator readings (OBV, Stoch,
-  distance to the next level) all belong to a moment that has passed — stale
-  even when the price happens to line up. Re-cut the whole rung to the close,
-  not just its price. `refresh.py --audit-only` flags both: a rung more than 1%
-  off the card's close, and any rung label reading `… ET` / `PM` / `AH`.
+  ⚠️ **The `now` rung must be on the SAME FRAME as its card.** A card refreshed
+  from intraday charts (you saw an entry mid-session) is legitimately intraday
+  and its rung should say so. But a card whose `change` reads `📅 CLOSE …` — the
+  daily/weekly close review, which is most of them — must have a rung quoting
+  that close: the first number in `price`, never the `🌙` after-hours print. A
+  close card carrying a clocked rung (`+13.81% (2:36 ET)`) is stale in every
+  number, not just the price: the %, the OBV, the Stoch and the distance to the
+  next level were all measured at a moment that has passed. Re-cut the whole
+  rung, not just its price:
+
+  ```bash
+  python3 tools/refresh.py --audit-only --fix-rungs --dry-run   # show
+  python3 tools/refresh.py --audit-only --fix-rungs             # write
+  ```
+
+  That does the arithmetic already in `data.js` — close, day %, date, and
+  whether the close is inside the entry zone — giving the house format
+  `ТУТ · закриття 31.07 (+1.18%) · усередині зони входу`. It DROPS the intraday
+  indicator tail rather than guessing it (printing every dropped label), and it
+  skips decks whose rung is already close-cut, so a genuine close-based read
+  like AVGO's `· нижче відкриття $394.83` survives untouched. The scheduled
+  `board-refresh` workflow runs the same re-cut against freshly fetched closes
+  and puts the diff in its PR.
 - **Navigation**: tap left/right zones, swipe, arrow keys, and mouse wheel all
   advance slides. The tap zones are TOUCH-ONLY (built when the primary pointer
   is coarse) — on desktop they'd steal clicks from text selection while

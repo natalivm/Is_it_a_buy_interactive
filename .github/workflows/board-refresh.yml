@@ -5,6 +5,12 @@ name: Board refresh
 # price. It NEVER edits data.js — judgement calls stay human. The report goes to
 # the run summary and, on a schedule, to a long-lived PR so the numbers arrive
 # as a notification instead of a chore.
+#
+# It DOES re-cut one thing: each deck's ТУТ ladder rung, which duplicates its
+# card's close and so goes stale on every refresh. That is pure arithmetic off
+# data.js (close, day %, date, entry zone) — the indicator readings beside it
+# are dropped rather than guessed, and the whole diff arrives in the PR for
+# review like everything else. Set fix_rungs=false to get a report only.
 
 on:
   schedule:
@@ -27,6 +33,11 @@ on:
         description: 'Open/update the report PR (the schedule always does)'
         required: false
         default: false
+        type: boolean
+      fix_rungs:
+        description: "Re-cut each deck's ТУТ rung to its card's close"
+        required: false
+        default: true
         type: boolean
 
 permissions:
@@ -56,14 +67,23 @@ jobs:
         env:
           TICKERS: ${{ inputs.tickers }}
           SOURCE: ${{ inputs.source || 'yahoo' }}
+          # Default ON: a blank input on the cron schedule must still re-cut.
+          FIX_RUNGS: ${{ inputs.fix_rungs == false && 'no' || 'yes' }}
         run: |
           set -uo pipefail
           mkdir -p tools/reports
+          [ "$FIX_RUNGS" = yes ] && FIX=--fix-rungs || FIX=
           # A single bad ticker must not fail the run — refresh.py logs
           # per-ticker failures to stderr and carries on.
           python3 tools/refresh.py $TICKERS \
-            --source "$SOURCE" \
+            --source "$SOURCE" $FIX \
             --out tools/reports/latest.txt 2> tools/reports/errors.txt || true
+          # Did the re-cut touch any deck? The PR step needs to know whether to
+          # carry deck files alongside the report.
+          if [ -n "$(git status --porcelain stories/)" ]; then
+            echo "recut=true" >> "$GITHUB_OUTPUT"
+            echo "recut_n=$(git status --porcelain stories/ | wc -l)" >> "$GITHUB_OUTPUT"
+          fi
           # Fall back to the offline audit so a data outage still says something.
           if [ ! -s tools/reports/latest.txt ]; then
             echo "fetch_failed=true" >> "$GITHUB_OUTPUT"
@@ -71,8 +91,9 @@ jobs:
           fi
           FINDINGS=$(grep -cE '^  [A-Z]{2,5}:' tools/reports/latest.txt || true)
           echo "findings=${FINDINGS:-0}" >> "$GITHUB_OUTPUT"
-          # Stash it: the PR step checks out another branch over the worktree.
+          # Stash both: the PR step checks out another branch over the worktree.
           cp tools/reports/latest.txt "$RUNNER_TEMP/latest.txt"
+          git diff -- stories/ > "$RUNNER_TEMP/rungs.patch" || true
 
       - name: Write run summary
         run: |
@@ -80,6 +101,9 @@ jobs:
             echo "## Board refresh — $(date -u '+%Y-%m-%d %H:%M UTC')"
             echo
             echo "Source \`${{ inputs.source || 'yahoo' }}\` · audit findings **${{ steps.run.outputs.findings }}**"
+            if [ "${{ steps.run.outputs.recut }}" = true ]; then
+              echo " · ТУТ rungs re-cut in **${{ steps.run.outputs.recut_n }}** deck(s)"
+            fi
             echo
             if [ -s tools/reports/errors.txt ]; then
               echo "<details><summary>Fetch warnings</summary>"
@@ -119,9 +143,18 @@ jobs:
 
           # Start the branch from the base each time: the report is a snapshot,
           # not history worth accumulating.
-          git checkout -B "$BRANCH" "origin/$BASE"
+          git checkout -f -B "$BRANCH" "origin/$BASE"
           mkdir -p tools/reports
           cp "$RUNNER_TEMP/latest.txt" tools/reports/latest.txt
+
+          # Replay the ТУТ re-cut on top of the freshly checked-out base. If a
+          # deck moved on the base since the fetch, the patch simply does not
+          # apply — the report still ships, and the next run re-cuts.
+          if [ -s "$RUNNER_TEMP/rungs.patch" ]; then
+            git apply "$RUNNER_TEMP/rungs.patch" \
+              || echo "— rung patch did not apply to $BASE; report only this run."
+            git add stories/
+          fi
 
           git add -f tools/reports/latest.txt
           if git diff --cached --quiet; then
@@ -129,7 +162,10 @@ jobs:
             exit 0
           fi
 
-          git commit -q -m "Board refresh $(date -u '+%Y-%m-%d') — ${{ steps.run.outputs.findings }} audit finding(s)"
+          RUNGS=""
+          [ "${{ steps.run.outputs.recut }}" = true ] &&
+            RUNGS=" · ${{ steps.run.outputs.recut_n }} ТУТ rung(s) re-cut to the close"
+          git commit -q -m "Board refresh $(date -u '+%Y-%m-%d') — ${{ steps.run.outputs.findings }} audit finding(s)${RUNGS}"
           git push -q -f -u origin "$BRANCH"
 
           OPEN=$(gh pr list --head "$BRANCH" --state open --json number -q '.[].number' | head -1)

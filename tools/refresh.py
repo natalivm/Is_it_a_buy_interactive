@@ -335,27 +335,116 @@ def audit_fields(stock: dict) -> list[str]:
         return out
 
     # The deck's own "you are here" rung is hand-written, so it goes stale the
-    # moment the card is refreshed without reopening the slideshow. It quotes the
-    # REGULAR-SESSION CLOSE — the first number in `price`, not the 🌙 after-hours
-    # print that may follow it.
+    # moment the card is refreshed without re-cutting the deck.
+    #
+    # THE RULE IS FRAME AGREEMENT, not "never intraday". A card written live off
+    # fresh charts is legitimately intraday, and its rung should be too. But a
+    # card whose `change` reads '📅 CLOSE …' is a close card — its rung has to
+    # quote that close (the first number in `price`, never the 🌙 after-hours
+    # print), because a mid-session rung carries a % and a set of indicator
+    # readings from a moment that has passed.
     card_px = (nums(stock.get("price")) or [None])[0]
     m = re.search(r'\["now",\s*"([^"]+)",\s*"([^"]*)"', story.read_text(encoding="utf-8"))
     if m and card_px:
         deck_px = (nums(m.group(1)) or [None])[0]
+        label, close_card = m.group(2), rung_close(stock) is not None
+        frame = "close" if close_card else "card price"
         if deck_px and abs(deck_px - card_px) / card_px * 100 > 1.0:
             out.append(f"{sym}: deck ladder still says ТУТ {deck_px:g} while the card's "
-                       f"close is {card_px:g} ({(deck_px - card_px) / card_px * 100:+.1f}%) "
+                       f"{frame} is {card_px:g} "
+                       f"({(deck_px - card_px) / card_px * 100:+.1f}%) "
                        f"— {stock.get('story')} needs the same refresh")
-        # An intraday clock in the label means the rung was cut mid-session and
-        # never re-cut to the close, so its % and its indicator readings are a
-        # snapshot of a moment that has passed — stale even if the price happens
-        # to line up. Same for a pre-market or after-hours read.
-        label = m.group(2)
-        when = re.search(r"\d{1,2}:\d{2}\s*ET", label) or re.search(r"\bPM\b|\bAH\b", label)
+        # Frame mismatch: an intraday clock or a pre-market read on a close card.
+        when = re.search(r"\d{1,2}:\d{2}\s*ET|\bPM\b", label) if close_card else None
         if when:
-            out.append(f"{sym}: deck ladder's ТУТ rung reads '{when.group(0)}' — the rung "
-                       f"quotes the regular-session CLOSE, not an intraday, pre-market or "
-                       f"after-hours print. Re-cut it (and its indicator readings) to the close.")
+            out.append(f"{sym}: the card is a CLOSE card but its ТУТ rung reads "
+                       f"'{when.group(0)}' — re-cut the rung, its % and its indicator "
+                       f"readings to the close (`--fix-rungs` does the arithmetic)")
+        # Measuring off the after-hours print is a mismatch on any card: `price`
+        # leads with the close/last, and the 🌙 number is the aside.
+        ah = nums(stock.get("price"))[1:2]
+        if deck_px and ah and abs(deck_px - ah[0]) < 0.005 and abs(deck_px - card_px) > 0.005:
+            out.append(f"{sym}: deck ladder's ТУТ {deck_px:g} is the after-hours print, "
+                       f"not the {frame} {card_px:g}")
+    return out
+
+
+# ── rung re-cut ─────────────────────────────────────────────────────────────
+# The ТУТ rung is the one number a deck duplicates from its card, so it is the
+# one that goes stale. Everything a close-frame rung needs is already in the
+# card — the close, the day's %, the date, the entry zone — so the arithmetic
+# half of the re-cut needs no network and no judgement.
+#
+# What it deliberately DROPS is the intraday tail: '+13.81% (2:36 ET)',
+# 'OBV 83.9M', 'Stoch 93.51', 'шорт ≈ +18.6%'. Those were measured at a moment
+# that has passed, and this tool cannot honestly restate them — a full network
+# run recomputes the indicators, the analyst restates the read. Every dropped
+# label is printed so nothing disappears silently.
+
+CANON_RUNG = "ТУТ · закриття {date} ({pct})"
+
+
+def rung_close(stock: dict) -> tuple[float, str] | None:
+    """The close and the day's % off a '📅 CLOSE $X (+Y%)' card, else None."""
+    m = re.search(r"CLOSE \$([\d,]+(?:\.\d+)?)\s*\(([^)]*\d[^)]*)\)",
+                  str(stock.get("change") or ""))
+    if not m:
+        return None
+    return float(m.group(1).replace(",", "")), m.group(2).strip()
+
+
+def recut_rung(stock: dict) -> tuple[str, str] | None:
+    """The (price, label) a close-frame card's ТУТ rung should carry."""
+    got = rung_close(stock)
+    if not got:
+        return None
+    close, pct = got
+    d = str(stock.get("date") or "")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+        return None
+    label = CANON_RUNG.format(date=f"{d[8:10]}.{d[5:7]}", pct=pct)
+    zone = nums((stock.get("lead") or {}).get("entry"))
+    if zone and min(zone) <= close <= max(zone):
+        label += " · усередині зони входу"
+    return f"${close:,.2f}", label
+
+
+def fix_rungs(stocks: dict, apply: bool) -> list[str]:
+    """Re-cut every close-frame deck's ТУТ rung. Returns report lines."""
+    out = []
+    for sym in sorted(stocks):
+        stock = stocks[sym]
+        story = ROOT / str(stock.get("story") or "")
+        if not story.is_file():
+            continue
+        want = recut_rung(stock)
+        if not want:
+            out.append(f"  {sym}: not a CLOSE card — left alone (an intraday card's "
+                       f"rung is intraday by design)")
+            continue
+        text = story.read_text(encoding="utf-8")
+        m = re.search(r'(\["now",\s*")([^"]*)(",\s*")([^"]*)(")', text)
+        if not m:
+            continue
+        px, label = m.group(2), m.group(4)
+        px_ok = abs((nums(px) or [0])[0] - (nums(want[0]) or [0])[0]) < 0.005
+        clean = not re.search(r"\d{1,2}:\d{2}\s*ET|\bPM\b", label)
+        # A rung whose price is already the close and whose label carries no
+        # intraday clock is left exactly as written — decks like AVGO's
+        # ('ТУТ · +0.37% · нижче відкриття $394.83') hold a real close-based
+        # read, and the point is to fix wrong numbers, not to flatten good copy.
+        if px_ok and clean:
+            continue
+        # Once the price moves, the label goes with it: every number in it —
+        # the %, the position P&L, the distance to a level — was measured at
+        # the price being replaced.
+        out.append(f"  {sym}: {px} → {want[0]}")
+        out.append(f"        was: {label}")
+        out.append(f"        now: {want[1]}")
+        if apply:
+            text = (text[:m.start()] + m.group(1) + want[0] + m.group(3)
+                    + want[1] + m.group(5) + text[m.end():])
+            story.write_text(text, encoding="utf-8")
     return out
 
 
@@ -480,6 +569,11 @@ def main() -> int:
     ap.add_argument("--days", type=int, default=3, metavar="N",
                     help="daily sessions to print with the swing (default 3)")
     ap.add_argument("--audit-only", action="store_true", help="no network")
+    ap.add_argument("--fix-rungs", action="store_true",
+                    help="re-cut each close-frame deck's ТУТ rung to its card's "
+                         "close (price, %% and date); no network needed")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --fix-rungs: print the re-cut without writing")
     args = ap.parse_args()
 
     board = load_board()
@@ -520,6 +614,20 @@ def main() -> int:
     def emit(line: str = "") -> None:
         print(line)
         report.append(line)
+
+    if args.fix_rungs:
+        emit("=" * 78)
+        emit("ТУТ RUNG RE-CUT" + (" — DRY RUN, nothing written" if args.dry_run else ""))
+        emit("=" * 78)
+        lines = fix_rungs({t: stocks[t] for t in want if t in stocks}, not args.dry_run)
+        for line in lines:
+            emit(line)
+        emit()
+        emit("Indicator readings (OBV, Stoch, distance to the next level) are NOT "
+             "restated — they were measured intraday and this step only does the "
+             "arithmetic the card already carries. Re-add a close-based read where "
+             "a deck needs one.")
+        emit()
 
     if not args.audit_only:
         fetch = FETCHERS[args.source]
