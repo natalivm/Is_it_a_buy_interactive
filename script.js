@@ -570,9 +570,14 @@ function closeStory() {
 function initInstallButton() {
     let deferred = null;
     const btn = document.getElementById('installBtn');
+    // Every display mode except 'browser' means the app is running installed.
+    // Testing only 'standalone' missed minimal-ui / fullscreen / WCO installs,
+    // which would let a stray beforeinstallprompt re-show the button inside an
+    // already-installed app. Unsupported features simply report no match.
+    const INSTALLED_MODES = ['standalone', 'minimal-ui', 'fullscreen', 'window-controls-overlay'];
     const isInstalled = () =>
-        window.matchMedia('(display-mode: standalone)').matches ||
-        window.navigator.standalone === true;
+        INSTALLED_MODES.some(m => window.matchMedia(`(display-mode: ${m})`).matches) ||
+        window.navigator.standalone === true;   // iOS Safari, which has no display-mode
 
     window.addEventListener('beforeinstallprompt', e => {
         e.preventDefault();
