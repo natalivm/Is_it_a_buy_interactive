@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$AVGO — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  :root{
+    --page-bg:#07141A;
+    --bg:#0B1D26;
+    --panel:#123141;
+    --panel2:#0F2734;
+    --line:#1D4E64;
+    --muted:#8FBED2;
+    --purple:#22D3EE;
+    --pink:#FB5D74;
+    --yellow:#F5A524;
+    --deep:#07141A;
+    --sub:#DCEFF7;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · COVER -->
+    <section class="slide active" data-label="AVGO · 1D">
+      <div class="cover-ticker rv">AVGO</div>
+      <div class="eyebrow rv">📅 31/07 CLOSE $389.28 (+0.37%) · ЗЕЛЕНИЙ ДЕНЬ, ЧЕРВОНЕ ТІЛО · РОЗВІДКА, НЕ ПОЗИЦІЯ</div>
+      <h1 class="rv">Green day, <span class="hl">red body.</span></h1>
+      <p class="sub rv">Гепнувся <strong>+1.80%</strong> на відкритті ($394.83), сходив на <strong>$399.92</strong> (+3.11% від попереднього закриття) — і віддав усе назад до <strong>$389.28</strong>, <span class="p">нижче власного відкриття</span>, у середині діапазону (47% від лоу). Тобто: день зелений відносно четверга, але свічка <strong>червонотіла</strong> — тест зверху й відкид, точно та сама поведінка, що й в індексів. Структура при цьому ціла: ціна над <span class="k">усіма трьома денними EMA</span>, а 200-EMA $360.39 — за 8% унизу, її навіть не торкнулись.</p>
+      <div class="chart rv">
+        <svg data-lv='[["k",30,"$407.52","хай цього місяця",0.05],["k",56,"$404.57","денна верхня BB",0.10],["p",84,"$399.92","🎯 хай тижня · ВІДКИНУТО звідси",0.16],["w",112,"$394.83","відкриття · close нижче = червоне тіло",0.22],["y",140,"$389.28","ЗАРАЗ · +0.37% · 47% діапазону",0.28],["m",168,"$385.98","weekly 9-EMA · ⭐ ціна ВИЩЕ (SMH — нижче своєї)",0.34],["p",206,"$379.71","лоу п’ятниці",0.40],["p",244,"$369.51","лоу тижня · всього −5% від закриття",0.46]]' viewBox="0 0 470 300" role="img" aria-label="AVGO gapped up to 394.83, ran to the weekly high 399.92 and was rejected, closing 389.28 below its own open but above the weekly 9-EMA at 385.98">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.8s" d="M60,244 L150,150 L235,84"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.35s;animation-duration:.8s" d="M235,84 L300,206 L360,140"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="360" cy="140" r="6"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-noclick data-label="AVGO · 1D">
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Момент зелений,<br><span class="hl">палива менше.</span></h1>
+      <div class="verdict rv">
+        <div class="vh">✅ Гістограма зелена й розширюється — але резерв уже витрачено</div>
+        <p>Денний MACD <strong>−1.68</strong> (сигнал −2.57), гістограма <strong>+0.90</strong>, <span class="k">два бари в плюсі та розширюється</span> — той самий підпис, що в AMAT / CRDO / ALAB: розворот моментуму на правому краю. Ціна над <strong>EMA9 $384.11</strong>, над <strong>EMA50 $388.08</strong> (лише на $1.20 — фактично НА ній) і на 8% над <strong>EMA200 $360.39</strong>; над серединою BB $383.57. ⚠️ Але <strong>Stoch %K 58.57</strong> — не 15–16, як у ранжованих лонгів: AVGO уже відпрацював свій ресет, тож глибокого палива під ним немає. RSI 51.46 — рівно над серединою, без переваги в жоден бік.</p>
+      </div>
+    </section>
+
+    <!-- 3 · RELATIVE STRENGTH -->
+    <section class="slide" data-text data-label="AVGO · vs SMH">
+      <div class="eyebrow y rv">RELATIVE STRENGTH · ⭐ СИЛЬНІШИЙ ЗА ВЛАСНИЙ ІНДЕКС НА ТИЖНЕВОМУ</div>
+      <h1 class="rv">Не продавали.<br><span class="hl">Але й не купували.</span></h1>
+      <p class="sub rv">⭐ Один факт віддає AVGO перевагу над індексом на тому самому фреймі, який зараз керує позиціонуванням: <strong>ціна закрилась НАД weekly 9-EMA $385.98</strong>, тоді як <span class="p">SMH закрився ПІД своєю (≈$570)</span>. Тижневий перетин тут теж м’якший за середній по дошці — гістограма <strong>−4.32 = 43.0%</strong> від MACD і <span class="k">звужується два бари</span>, проти BE з 61.9% і розширенням. Це загоєння, а не підтверджений злам: щоб зняти перетин, MACD треба відіграти 4.32 пункти.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">⚠️ Але тиждень закрився ПЛОСКО: open $389.82 → close $389.28, −0.14%</span><span class="v">+5.35% від лоу тижня $369.51 — проти 20–44% у імен зі сквізу</span></div>
+        <p>Ось чому AVGO — <strong>слабкий свідок</strong> тези «падала лише пам’ять». Він справді не падав: жодного дня розпродажу, структура ціла, 200-EMA недоторкана. Але він і <strong>не ріс</strong> — його не було в дводенному сквізі взагалі, тож йому нічого віддавати. Це доказ ВІДСУТНОСТІ ризик-оффу, а не доказ ШИРОТИ сили. ⚠️ І один вимір іде проти тези прямо: віддача AVGO склала <strong>35.0%</strong> власного ходу ($369.51 → $399.92) — це всередині діапазону дошки 25–56% і поряд із медіаною ~41%. Тобто відкид зверху був <strong>загальним для дошки</strong>, а не властивістю пам’яті.</p>
+      </div>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="AVGO · РІВНІ">
+      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <h1 class="rv">Level <span class="hl">map</span></h1>
+      <div class="ladder rv" data-rungs='[
+        ["res", "$495.00", "Хай 12 міс · зроблений МИНУЛОГО місяця · −21% звідси"],
+        ["res", "$407.52", "Хай цього місяця · верх ближньої мапи"],
+        ["res", "$404.57", "Денна верхня BB"],
+        ["res", "$399.92", "🎯 Хай тижня · звідси відкинуло · daily close вище = підтвердження"],
+        ["now", "$389.28", "ТУТ · +0.37% · нижче відкриття $394.83"],
+        ["key", "$385.98", "⭐ Weekly 9-EMA · лінія, що відділяє AVGO від SMH"],
+        ["sup", "$383.57", "Середина денної BB · EMA9 $384.11 поруч"],
+        ["sup", "$379.71", "Лоу п’ятниці · close нижче = відкид підтверджено"],
+        ["sup", "$369.51", "Лоу тижня"],
+        ["sup", "$356–363", "Полиця: місячний лоу $356.43 + EMA200 $360.39 + нижня BB $362.58"]]'></div>
+      <p class="note rv">Кластер <span class="k">$383.57–388.08</span> (середина BB + EMA9 + EMA50 + weekly 9-EMA) — усе в межах $4.50. Або він тримає, або весь м’який кейс зникає за одне закриття.</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="AVGO · ПЛАН">
+      <div class="eyebrow rv">PLAN · 🔍 РОЗВІДКА · НЕ НА ДОШЦІ</div>
+      <h1 class="rv">Watch-only — <span class="hl">R:R не платить</span></h1>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> нічого не робимо на $389.28. Причина рахована, не смакова: тримати кластер $383.57–388.08 зі стопом на closing під <strong>$379</strong> — це ризик 2.6%, а найближча реальна ціль <strong>$407.52</strong> дає лише +4.7%. Це <strong>~1.8:1</strong> — нижче за все, що стоїть у таблиці. Картка стає торговою тільки на <strong>daily CLOSE над $399.92</strong> (хай тижня, рівень, який щойно відкинув ціну) — тоді відкривається $404.57 → $407.52. Нижче <strong>$379.71</strong> закриттям — відкид підтверджено, ціль полиця $356–363.</p>
+      <p class="note rv">🚦 Діє лише при закритті SMH над $547–550 — у п’ятницю $540.53, тож гейт не взято. ⚠️ Довгий фрейм: AVGO на <strong>−21.4%</strong> від хаю 12 місяців $495.00, і зроблений він МИНУЛОГО місяця — це ім’я вже пройшло свій розподіл, а не захищає цілий хай, як DELL. Місячна гістограма +2.91 (плюс 41 бар, звужується 2) — до перетину ~3 пункти, це місяці, не тижні.</p>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory();
+</script>
+</body>
+</html>
