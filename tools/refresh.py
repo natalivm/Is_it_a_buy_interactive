@@ -356,15 +356,18 @@ def main() -> int:
     else:
         want = list(MARKET_SYMBOLS) + [s for s in stocks if s not in MARKET_SYMBOLS]
 
+    # Anything not on the board and not an index is still fetched — scouting a
+    # name before it earns a card is the point. Yahoo decides whether the symbol
+    # is real; a bad one fails with a clear message and does not stop the run.
     known = set(stocks) | set(MARKET_SYMBOLS)
-    unknown = [t for t in want if t not in known]
-    if unknown:
-        print(f"— not recognised, skipping: {', '.join(unknown)}", file=sys.stderr)
-        print(f"  board: {', '.join(sorted(stocks))}", file=sys.stderr)
-        print(f"  indices: {', '.join(sorted(MARKET_SYMBOLS))}", file=sys.stderr)
-        want = [t for t in want if t in known]
+    offboard = [t for t in want if t not in known]
+    if offboard:
+        where = "cannot be audited (no card)" if args.audit_only else "fetched as scouting"
+        print(f"— off the board, {where}: {', '.join(offboard)}", file=sys.stderr)
+        if args.audit_only:
+            want = [t for t in want if t in known]
     if not want:
-        print("Nothing to do — no recognised tickers.", file=sys.stderr)
+        print("Nothing to do.", file=sys.stderr)
         return 1
 
     if args.source != "yahoo":
@@ -393,7 +396,9 @@ def main() -> int:
             closes[t] = fs[0].c
             prev = bars[-2]["c"] if len(bars) > 1 else fs[0].c
             chg = (fs[0].c - prev) / prev * 100 if prev else 0.0
-            tag = "  [regime — not a card]" if t in MARKET_SYMBOLS else ""
+            tag = ("  [regime — not a card]" if t in MARKET_SYMBOLS
+                   else "" if t in stocks
+                   else "  [scouting — not on the board]")
             unit = "" if t in INDEX_ONLY else "$"   # VIX/VXN/NDX are levels
             emit()
             emit("=" * 78)

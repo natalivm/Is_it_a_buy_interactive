@@ -17,7 +17,15 @@ python3 tools/refresh.py --audit-only        # no network — just check the car
 python3 tools/refresh.py --out report.txt    # also write the report to a file
 python3 tools/refresh.py --source stooq      # fallback feed
 python3 tools/refresh.py --source yfinance   # if `pip install yfinance`
+
+python3 tools/refresh.py ASML LRCX KLAC      # scouting — names with no card yet
+python3 tools/refresh.py '^SOX'              # any symbol Yahoo knows
 ```
+
+Tickers that are neither on the board nor in the index set are still fetched and
+reported, tagged `[scouting — not on the board]`. That is how a name gets looked
+at before it earns a card. They carry no `lead`, so the audit skips them, and
+`--audit-only` says so rather than pretending to check them.
 
 No API key and no third-party packages are required. The default source is
 **Yahoo's chart endpoint — the same data the charts on the site render**, so the
