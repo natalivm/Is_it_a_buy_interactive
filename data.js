@@ -869,6 +869,36 @@ const STOCKS = [
     date: '2026-07-31',
     story: 'stories/lrcx.html',
   },
+  // ── 2026-08-01 · SCOUTED IN ── PANW, CRWD and FTNT added as a cybersecurity
+  // cohort to test whether Friday's give-back was semis-specific: all three
+  // gave back far less of their Wed→Fri swing than the board's own 25–56%
+  // squeeze band (median ~41%) — PANW 11%, CRWD 6% — with FTNT the exception,
+  // giving back 46%, inside that band rather than outside it. None carry a
+  // `lead`; all three are watch-only until a pullback fills.
+  {
+    symbol: 'PANW', exchange: 'NASDAQ',
+    price: '$331.83 → 🌙 $330.97', change: '📅 CLOSE $331.83 (+1.89%) — swing $314.15→$333.98 gave back only 11%, closing 2.4% above the 50% line $324.07 · 🔍 scouting, not on the board',
+    signal: '🔍 SCOUTING — the first of three cybersecurity names added to test whether Friday’s tape was semis-specific or something wider, and PANW is the cleanest of the three. It closed $331.83 (+1.89%), O $332.34 · H $333.98 · L $319.48, off a two-day swing from Wednesday’s $314.15 low to Friday’s $333.98 high (+6.3%). It gave back only 11% of that swing — against the board’s own squeeze cohort, which gave back 25–56% the same session (median ~41%) — and closed $7.76 (2.4%) above the 50% retracement line $324.07, not merely testing it. Structure backs the calmer tape: price holds above all three daily EMAs (9 $327.57, 50 $301.37, 200 $232.73) and the daily histogram −4.74 has been negative 16 bars but is contracting for a second — an early curl, not a fresh breakdown. ⚠️ The long frame is the honest cost: weekly RSI 67.51 with Stoch %K 84.76/%D 86.54 and a positive histogram (+9.46) now contracting for two bars — the weekly is topping, not breaking, but it is stretched. Monthly is more stretched still — RSI 72.80, Stoch %K 93.92/%D 77.50 — though the histogram +13.42 is still EXPANDING, so the long-frame engine has not started rolling; the cascade reads daily crossed (curling up) → weekly curling (topping) → monthly rising, and the monthly is 13 points from its own cross — months away, not weeks. PLAN (watch-only): entry on a pullback that HOLDS $324–328 (the 50% line $324.07 + daily 9-EMA $327.57). Stop: a daily close under $314, the swing low. Targets: $336 (daily mid-band) → $364 (daily upper band) → $368.80 (this month’s high, also the 12-month high). Confirmation: a daily close over $336.23 reopens the upper band. 🚦 Not gated by the SMH $547–550 level — PANW is enterprise security software, outside the AI-infra complex the rest of this board tracks, and that independence is the whole point of scouting it.',
+    side: 'long', accent: 'amber',
+    date: '2026-08-01',
+    story: 'stories/panw.html',
+  },
+  {
+    symbol: 'CRWD', exchange: 'NASDAQ',
+    price: '$190.86 → 🌙 $190.74', change: '📅 CLOSE $190.86 (+3.05%) — swing $179.38→$191.65 gave back just 6%, the shallowest of the cohort · 🔍 scouting, not on the board',
+    signal: '🔍 SCOUTING — the second cybersecurity name, and the calmest of the three. CRWD closed $190.86 (+3.05%), O $187.22 · H $191.65 · L $184.16, off the same Wed→Fri swing shape as PANW: $179.38 → $191.65 (+6.8%), giving back only 6% of it — the shallowest give-back of any name checked against the board’s 25–56% squeeze band — and closing $5.35 (2.9%) above the 50% line $185.51. Structure: price above all three daily EMAs (9 $186.77, 50 $176.38, 200 $140.25), daily histogram −2.16 negative 10 bars but contracting for a second — the same early-curl signature as PANW. Weekly is stretched and topping: RSI 65.30, Stoch %K 77.90/%D 81.91, histogram +3.96 positive 15 bars, now contracting two bars. Monthly is the most extended of the trio — RSI 72.65, Stoch %K 91.53/%D 79.28 — but the histogram +6.61 is still expanding, seven points from its own cross. Cascade: daily crossed (curling up) → weekly curling (topping) → monthly rising. PLAN (watch-only): entry on a pullback that HOLDS $185–187 (the 50% line $185.51 + daily 9-EMA $186.77). Stop: a daily close under $176 (this week’s low). Targets: $192 (daily mid-band) → $210 (daily upper band) → $217.50 (this month’s high, also the 12-month high). Confirmation: a daily close over $192.34 reopens the upper band. 🚦 Not gated by the SMH $547–550 level, same as PANW — outside the semis complex entirely.',
+    side: 'long', accent: 'red',
+    date: '2026-08-01',
+    story: 'stories/crwd.html',
+  },
+  {
+    symbol: 'FTNT', exchange: 'NASDAQ',
+    price: '$161.95 → 🌙 $161.80', change: '📅 CLOSE $161.95 (+4.99%) — biggest gain of the three but gave back 46% of its swing, closing right ON the 50% line $161.24 · 🔍 scouting, not on the board',
+    signal: '🔍 SCOUTING — the third cybersecurity name, and the one that complicates the “holding up better than semis” read rather than confirming it outright. FTNT closed $161.95 (+4.99%), the biggest one-day gain of the trio, O $154.01 · H $162.57 · L $153.61 — but the swing behind it tells a rougher story: $153.22 → $169.26 (+10.5%), and FTNT gave back 46% of that move, landing squarely inside the board’s own 25–56% squeeze band (median ~41%) rather than outside it like PANW (11%) and CRWD (6%). The close sits AT the 50% retracement line $161.24, essentially on it — a decision point, not a held level. ⚠️ The weekly is the most stretched of the three: RSI 77.25, Stoch %K 86.98/%D 88.95, and the positive histogram +3.20 has been contracting for SEVEN bars against fifteen for PANW/CRWD — the topping process here is further along. Monthly is likewise the most extended — RSI 78.51, Stoch %K 95.10/%D 74.97 — though the histogram +6.77 is still expanding, matching the other two. Structure still favours the bulls short-term: price above all three daily EMAs (9 $155.84, 50 $145.43, 200 $112.20), daily histogram −1.07 negative 19 bars but contracting for a third. Cascade: daily crossed (curling up) → weekly curling (topping, furthest along of the three) → monthly rising. PLAN (watch-only): the decision is immediate, not a zone to wait for — hold $161.24 (today’s close, the 50% line) and the give-back stays an ordinary retracement; lose a daily close under $153.61 (today’s low) and the swing is on track to fully retrace toward $153.22. Stop: a daily close under $152. Targets on a hold: $167 (daily upper band) → $170.35 (this month’s high, also the 12-month high). 🚦 Not gated by the SMH $547–550 level, same as the other two — but of the trio, FTNT is the one to watch closest before trusting the “cybersecurity is calmer” read board-wide.',
+    side: 'long', accent: 'blue',
+    date: '2026-08-01',
+    story: 'stories/ftnt.html',
+  },
 ];
 
 // ── Articles ──────────────────────────────────────────────────────────────
