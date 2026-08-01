@@ -130,6 +130,40 @@ for name, gen, want in cases:
     got = {read_structure(gen(s)) for s in SEEDS}
     check(name, got.pop() if len(got) == 1 else sorted(got), want)
 
+# ── frames: monthly / weekly / daily off one 4y daily pull ──────────────────
+print("\nFrames — 4y of daily must feed every frame")
+random.seed(5)
+_bars, _px, _d = [], 100.0, dt.date(2022, 8, 1)
+for _n, _step in ((504, +0.30), (504, -0.28)):
+    for _ in range(_n):
+        while _d.weekday() > 4:
+            _d += dt.timedelta(days=1)
+        _o = _px
+        _c = _px + _step + random.uniform(-1.2, 1.2)
+        _bars.append({"date": _d, "o": _o, "h": max(_o, _c) + 1.2,
+                      "l": min(_o, _c) - 1.2, "c": _c, "v": 1e6})
+        _px, _d = _c, _d + dt.timedelta(days=1)
+_wk, _mo = ind.resample(_bars, 'W'), ind.resample(_bars, 'M')
+for _f, _seq in (('d', _bars), ('w', _wk), ('m', _mo)):
+    _need = st.STRUCT_LOOKBACK[_f] + st.ATR_WARMUP
+    check(f"{_f} frame has its lookback + warmup ({_need} bars)",
+          len(_seq) >= _need, True)
+
+
+def _read(seq, frame):
+    h, l, c = ([b['h'] for b in seq], [b['l'] for b in seq], [b['c'] for b in seq])
+    return st.classify_structure(
+        st.significant_swings(st.swings(h, l), ind.atr(h, l, c)),
+        seq, st.STRUCT_LOOKBACK[frame])
+
+
+# 2y advance then 2y decline: every lookback ends inside the decline.
+check("monthly reads the current regime", _read(_mo, 'm'), 'bearish')
+check("weekly reads the current regime", _read(_wk, 'w'), 'bearish')
+check("daily reads the current regime", _read(_bars, 'd'), 'bearish')
+check("an under-fed frame refuses to score",
+      st._frame_ok(ind.resample(_bars[-252:], 'M'), 'm', 'TEST'), False)
+
 # ── zones ───────────────────────────────────────────────────────────────────
 print("\nZones")
 random.seed(11)

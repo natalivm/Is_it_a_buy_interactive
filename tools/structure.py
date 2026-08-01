@@ -36,6 +36,16 @@ reproducible from one OHLC source instead of from judgement:
               >= 3 strongly bullish · 1.5..3 bullish · -1.5..1.5 neutral
               -3..-1.5 bearish · <= -3 strongly bearish
 
+Frames: MONTHLY for the overall view, WEEKLY and DAILY as the working frames,
+plus 4H for entry timing. Monthly is context only — it is NOT a scoring term,
+because the score above is fixed and adding one would make every past score
+incomparable (its M is the MACD histogram, not the month).
+
+Only 4y of daily history is pulled, sized to the deepest frame that uses it:
+24 monthly bars + an ATR(14) warmup is 38 months. The card refresher fetches
+10y because it quotes a 200-week EMA; nothing here needs that. A frame without
+enough bars for its lookback + warmup says so and scores 0 instead of guessing.
+
 The 4H term needs intraday bars, which the daily fetcher cannot supply: Yahoo
 serves 60m for ~730d, and 4H is built by resampling those (US equities have no
 native 4H bar — see resample_4h). If intraday is unavailable for a ticker, H
@@ -88,7 +98,15 @@ SWING_MIN_ATR = 0.75
 # Structure is a read on the CURRENT regime, so only swings inside this window
 # count. Without it the classifier compared two pivots from an earlier era and
 # called a name in free-fall "neutral". Per frame, in that frame's own bars.
-STRUCT_LOOKBACK = {'d': 120, 'w': 52, 'h4': 120}
+STRUCT_LOOKBACK = {'d': 120, 'w': 52, 'm': 24, 'h4': 120}
+# How much daily history to pull. NOT 10y — this board's deepest frame is
+# monthly, and 24 monthly bars plus an ATR(14) warmup is 38 months. 4y covers
+# that with room (48 monthly, 208 weekly, ~1000 daily) and costs 60% less than
+# the card refresher's 10y, which it needs only for its 200-week EMA seed.
+FETCH_RANGE = "4y"
+# Bars a frame needs before its read is trustworthy: its lookback plus the
+# ATR(14) warmup the significance thresholds depend on.
+ATR_WARMUP = 14
 # When structure falls back to comparing window halves, how far the extremes
 # have to shift before it counts as a trend rather than noise.
 HALVES_MIN_ATR = 1.0
@@ -114,7 +132,11 @@ CROSS_OVERLAP = 0.5
 # Zones older than this many bars are history, not current structure. Without a
 # cap the "nearest" level can be years old, and it grades weak by construction:
 # revisits accumulate for as long as the zone has existed.
-MAX_ZONE_AGE = 504          # ~2 years of daily bars
+MAX_ZONE_AGE = 252          # ~1 year of daily bars.
+# Was 2 years, which is why EVERY zone graded "weak": revisits accumulate for as
+# long as a zone exists, so an 18-month-old level is worn out by construction
+# and the grading carried no information. The working frames here are weekly and
+# daily; monthly is the overall view, not a source of tradeable levels.
 
 
 # ── swings and structure ────────────────────────────────────────────────────
@@ -532,10 +554,22 @@ def obv_slope(close: list[float], volume: list[float], look: int = 10) -> int:
 
 # ── per-ticker read ─────────────────────────────────────────────────────────
 
+def _frame_ok(bars: list[dict], frame: str, ticker: str) -> bool:
+    """Enough bars for this frame's lookback plus the ATR warmup? A frame read
+    off half a window is a guess, and it should say so rather than score."""
+    need = STRUCT_LOOKBACK[frame] + ATR_WARMUP
+    if len(bars) >= need:
+        return True
+    print(f"  {ticker}: {frame} frame has {len(bars)} bars, needs {need} — "
+          f"scoring it 0", file=sys.stderr)
+    return False
+
+
 def read_ticker(ticker: str, want_intraday: bool = True,
                 flow: dict | None = None) -> dict:
-    daily = fetch_yahoo(ticker)
+    daily = fetch_yahoo(ticker, FETCH_RANGE)
     weekly = ind.resample(daily, 'W')
+    monthly = ind.resample(daily, 'M')
 
     close = [b["c"] for b in daily]
     high = [b["h"] for b in daily]
@@ -550,12 +584,22 @@ def read_ticker(ticker: str, want_intraday: bool = True,
 
     d_struct = classify_structure(
         significant_swings(swings(high, low), atr_series),
-        daily, STRUCT_LOOKBACK['d'])
+        daily, STRUCT_LOOKBACK['d']) if _frame_ok(daily, 'd', ticker) else 'neutral'
     w_atr = ind.atr([b["h"] for b in weekly], [b["l"] for b in weekly],
                     [b["c"] for b in weekly])
     w_struct = classify_structure(significant_swings(
         swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr),
-        weekly, STRUCT_LOOKBACK['w'])
+        weekly, STRUCT_LOOKBACK['w']) if _frame_ok(weekly, 'w', ticker) else 'neutral'
+
+    # Monthly is the overall view — context, deliberately NOT a scoring term.
+    # The methodology's score is 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (its M
+    # is the MACD histogram, not the month); bolting a monthly term on would
+    # change the formula and make every past score incomparable.
+    m_atr = ind.atr([b["h"] for b in monthly], [b["l"] for b in monthly],
+                    [b["c"] for b in monthly])
+    m_struct = classify_structure(significant_swings(
+        swings([b["h"] for b in monthly], [b["l"] for b in monthly]), m_atr),
+        monthly, STRUCT_LOOKBACK['m']) if _frame_ok(monthly, 'm', ticker) else None
 
     h4_struct, h4_note = 'neutral', 'no intraday data'
     if want_intraday:
@@ -605,13 +649,17 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'price': round(price, 2),
         'atr': round(a, 2) if a else None,
         'atrPct': round(a / price * 100, 2) if a else None,
-        # Recent ATR history, kept only so --compare can tell a stale figure
-        # from a wrong one. Stripped before board.js is written.
+        # ATR history, kept only so --compare can tell a stale figure from a
+        # wrong one. ~6 months: 25 sessions was too short to rule out a vintage
+        # from earlier in the season, which made the verdict over-confident.
+        # Stripped before board.js is written.
         '_atrHist': [(daily[i]["date"].isoformat(), round(v, 2))
                      for i, v in enumerate(atr_series)
-                     if v is not None][-25:],
-        'structure': {'w': w_struct, 'd': d_struct, 'h4': h4_struct,
-                      'h4Note': h4_note},
+                     if v is not None][-130:],
+        'structure': {'m': m_struct, 'w': w_struct, 'd': d_struct,
+                      'h4': h4_struct, 'h4Note': h4_note,
+                      'bars': {'d': len(daily), 'w': len(weekly),
+                               'm': len(monthly)}},
         'ind': {
             'rsi': round(rsi_d, 2) if rsi_d is not None else None,
             'macdHist': round(hist_d[-1], 3) if hist_d[-1] is not None else None,
@@ -831,9 +879,19 @@ def compare(rows: list[dict], old: dict) -> list[str]:
                            f"{when} — the old figure is a different session, "
                            f"not a different formula")
             else:
-                out.append(f"       ATR {o['atr']} does not appear in the last "
-                           f"{len(r.get('_atrHist') or [])} sessions — a real "
-                           f"disagreement, check the price basis")
+                hist = r.get('_atrHist') or []
+                vals = [v for _, v in hist]
+                if vals and not (min(vals) <= o['atr'] <= max(vals)):
+                    out.append(
+                        f"       ATR {o['atr']} is OUTSIDE this ticker's whole "
+                        f"{len(hist)}-session range ({min(vals)}–{max(vals)}) — "
+                        f"vintage is ruled out, so the old figure is on a "
+                        f"different basis (period, smoothing or session hours)")
+                else:
+                    out.append(
+                        f"       ATR {o['atr']} is inside the {len(hist)}-session "
+                        f"range ({min(vals)}–{max(vals)}) but matches no single "
+                        f"session — likely a different smoothing, not a stale date")
 
         dh, dn = _zone_overlap(r.get("demand"), o.get("demand"))
         sh, sn = _zone_overlap(r.get("supply"), o.get("supply"))
@@ -921,6 +979,9 @@ def main() -> int:
             f"[W{p['W']:+d} D{p['D']:+d} H{p['H']:+d} R{p['R']:+d} "
             f"M{p['M']:+d} O{p['O']:+d} Z{p['Z']:+d}]  "
             f"ATR {r['atr']} ({r['atrPct']}%)  {r['structure']['h4Note']}\n"
+            f"       frames: monthly {r['structure']['m'] or 'n/a'} (context, "
+            f"unscored) · weekly {r['structure']['w']} · daily "
+            f"{r['structure']['d']} · 4H {r['structure']['h4']}\n"
             f"       demand {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['demand']) or '—'}\n"
             f"       supply {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['supply']) or '—'}\n"
             f"       {r['position']}")
