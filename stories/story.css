@@ -11,6 +11,15 @@
   --body: 'Inter', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
   --ink: #FFFFFF;
+
+  /* Semantic accent aliases. A deck's palette keeps naming its hues
+     --purple/--pink/--yellow (bull / bear / highlight); components paint with
+     these aliases instead so the light theme can darken them per deck without
+     touching a single deck file. In dark they resolve to the same values. */
+  --up: var(--purple);
+  --dn: var(--pink);
+  --hi: var(--yellow);
+  --mark: #FFFFFF;      /* neutral chart mark — was a hardcoded #fff */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -177,25 +186,25 @@ h1 .p, h1 .k, h1 .y {
   .slide{justify-content:center;overflow:hidden;}
   .slide-inner{width:100%;padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 86px;transform-origin:center center;display:flex;flex-direction:column;}
 
-  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--pink);
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dn);
     display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
     padding:7px 12px;border-radius:8px;margin-bottom:18px;}
-  .eyebrow.p{color:var(--purple);} .eyebrow.y{color:var(--yellow);}
+  .eyebrow.p{color:var(--up);} .eyebrow.y{color:var(--hi);}
 
   h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
-  h1 .p{color:var(--purple);} h1 .k{color:var(--pink);} h1 .y{color:var(--yellow);}
+  h1 .p{color:var(--up);} h1 .k{color:var(--dn);} h1 .y{color:var(--hi);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
   .sub{font-size:15.5px;line-height:1.55;color:var(--sub);margin-bottom:14px;max-width:40ch;}
   .sub strong{color:var(--ink);font-weight:700;}
-  .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
+  .sub .k{color:var(--dn);font-weight:700;} .sub .p{color:var(--up);font-weight:700;}
 
   .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
   .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
   .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
-  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--yellow);white-space:nowrap;}
+  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--hi);white-space:nowrap;}
   .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
-  .indi p strong{color:var(--ink);} .indi p .k{color:var(--pink);font-weight:700;}
+  .indi p strong{color:var(--ink);} .indi p .k{color:var(--dn);font-weight:700;}
 
   .chart{width:100%;margin:6px 0 2px;}
   .chart svg{width:100%;height:auto;display:block;overflow:visible;}
@@ -203,16 +212,16 @@ h1 .p, h1 .k, h1 .y {
   svg .ax{font-size:13px;font-weight:600;}
   svg .cap{font-size:12px;font-weight:600;}
   svg .capm{font-size:11px;fill:var(--muted);}
-  .f-k{fill:var(--pink);} .f-p{fill:var(--purple);} .f-y{fill:var(--yellow);} .f-w{fill:#fff;} .f-m{fill:var(--muted);}
-  .s-k{stroke:var(--pink);} .s-p{stroke:var(--purple);} .s-y{stroke:var(--yellow);} .s-w{stroke:#fff;} .s-line{stroke:var(--line);}
+  .f-k{fill:var(--dn);} .f-p{fill:var(--up);} .f-y{fill:var(--hi);} .f-w{fill:var(--mark);} .f-m{fill:var(--muted);}
+  .s-k{stroke:var(--dn);} .s-p{stroke:var(--up);} .s-y{stroke:var(--hi);} .s-w{stroke:var(--mark);} .s-line{stroke:var(--line);}
   .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
-  .price{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,255,255,.25));}
-  .legdn{fill:none;stroke:var(--pink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 55%,transparent));}
-  .legup{fill:none;stroke:var(--purple);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .bounce{fill:none;stroke:var(--purple);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 55%,transparent));}
-  .dot-k{fill:var(--pink);stroke:var(--bg);stroke-width:2;}
-  .dot-p{fill:var(--purple);stroke:var(--bg);stroke-width:2;}
-  .dot-y{fill:var(--yellow);stroke:var(--bg);stroke-width:2;}
+  .price{fill:none;stroke:var(--mark);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--mark) 25%,transparent));}
+  .legdn{fill:none;stroke:var(--dn);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--dn) 55%,transparent));}
+  .legup{fill:none;stroke:var(--up);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--up) 55%,transparent));}
+  .bounce{fill:none;stroke:var(--up);stroke-width:2.5;stroke-dasharray:6 5;stroke-linecap:round;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--up) 55%,transparent));}
+  .dot-k{fill:var(--dn);stroke:var(--bg);stroke-width:2;}
+  .dot-p{fill:var(--up);stroke:var(--bg);stroke-width:2;}
+  .dot-y{fill:var(--hi);stroke:var(--bg);stroke-width:2;}
 
   .chart .draw{stroke-dasharray:1;stroke-dashoffset:1;}
   .chart .fade{opacity:0;}
@@ -234,27 +243,27 @@ h1 .p, h1 .k, h1 .y {
     .slide.active .chart *{animation:none !important;}
   }
 
-  .candle-body{fill:var(--pink);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--pink) 45%,transparent));}
-  .candle-wick{stroke:var(--pink);stroke-width:5;stroke-linecap:round;}
-  .candle-body.up{fill:var(--purple);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--purple) 45%,transparent));}
-  .candle-wick.up{stroke:var(--purple);}
+  .candle-body{fill:var(--dn);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--dn) 45%,transparent));}
+  .candle-wick{stroke:var(--dn);stroke-width:5;stroke-linecap:round;}
+  .candle-body.up{fill:var(--up);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--up) 45%,transparent));}
+  .candle-wick.up{stroke:var(--up);}
   .anno{font-size:12.5px;} .anno .h{fill:var(--ink);font-weight:700;}
 
   .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 40%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
   .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
   .verdict.y{border-color:color-mix(in srgb,var(--yellow) 40%,var(--line));background:rgba(245,165,36,.07);}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--pink);display:flex;align-items:center;gap:7px;}
-  .verdict.p .vh{color:var(--purple);}
-  .verdict.y .vh{color:var(--yellow);}
+  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--dn);display:flex;align-items:center;gap:7px;}
+  .verdict.p .vh{color:var(--up);}
+  .verdict.y .vh{color:var(--hi);}
   /* .k is the explicit pink variant (same as the default) for decks whose default is overridden */
   .verdict.k{border-color:color-mix(in srgb,var(--pink) 42%,var(--line));background:rgba(251,93,116,.07);}
-  .verdict.k .vh{color:var(--pink);}
+  .verdict.k .vh{color:var(--dn);}
   .verdict p{font-size:13px;line-height:1.55;color:var(--sub);}
   .verdict p strong{color:var(--ink);font-weight:700;}
-  .verdict p .k{color:var(--pink);font-weight:700;} .verdict p .p{color:var(--purple);font-weight:700;}
+  .verdict p .k{color:var(--dn);font-weight:700;} .verdict p .p{color:var(--up);font-weight:700;}
 
   .tg{margin-top:16px;font-size:15px;line-height:1.55;color:var(--sub);}
-  .tg a{color:var(--yellow);text-decoration:none;font-weight:700;}
+  .tg a{color:var(--hi);text-decoration:none;font-weight:700;}
   .disclaim{margin-top:10px;font-size:11px;line-height:1.5;color:var(--muted);opacity:.8;}
 
   .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
@@ -264,8 +273,8 @@ h1 .p, h1 .k, h1 .y {
   .rung:last-child{border-bottom:0}
   .rung .px{font-family:var(--mono);font-weight:600;font-size:17px;width:124px;flex-shrink:0;}
   .rung .lbl{font-size:14px;color:var(--muted);line-height:1.35;}
-  .rung.res .px{color:var(--pink)}
-  .rung.sup .px{color:var(--purple)}
+  .rung.res .px{color:var(--dn)}
+  .rung.sup .px{color:var(--up)}
   .rung.now{background:var(--yellow);}
   .rung.now .px{color:var(--deep)}
   .rung.now .lbl{color:var(--deep);font-weight:700;}
@@ -275,9 +284,9 @@ h1 .p, h1 .k, h1 .y {
   .tpl .rg:last-child{border-bottom:0;}
   .tpl .rg .l{display:flex;flex-direction:column;gap:1px;}
   .tpl .rg .cap2{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:18px;color:var(--pink);}
-  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:23px;color:var(--pink);}
-  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--yellow);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:14px;font-weight:600;}
+  .tpl .rg .px{font-family:var(--mono);font-weight:600;font-size:18px;color:var(--dn);}
+  .tpl .rg .r{font-family:var(--display);font-weight:700;font-size:23px;color:var(--dn);}
+  .tpl .rg.entry .px{color:var(--ink);} .tpl .rg.entry .cap2{color:var(--hi);} .tpl .rg.entry .r{color:var(--muted);font-family:var(--mono);font-size:14px;font-weight:600;}
   .tpl .rg.stop .px{color:var(--muted);} .tpl .rg.stop .cap2{color:var(--muted);} .tpl .rg.stop .r{color:var(--muted);font-family:var(--mono);font-size:14px;font-weight:600;}
   .tpl .riser{position:absolute;left:0;right:0;top:0;height:20%;z-index:1;transform:translateY(100%);
     background:linear-gradient(90deg, rgba(251,93,116,.30), rgba(251,93,116,.12));
@@ -295,8 +304,8 @@ h1 .p, h1 .k, h1 .y {
   .preview .tpl .riser{transform:translateY(400%);}
   @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
 
-  .note{margin-top:14px;font-size:14px;line-height:1.55;color:var(--sub);border-left:3px solid var(--yellow);padding-left:11px;}
-  .note.k{border-left-color:var(--pink);} .note.p{border-left-color:var(--purple);}
+  .note{margin-top:14px;font-size:14px;line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
+  .note.k{border-left-color:var(--dn);} .note.p{border-left-color:var(--up);}
 
   /* ── Text-focus slides ──────────────────────────────────────────────────
      The daily-read slide (data-noclick) and the closing plan slide are
@@ -363,3 +372,39 @@ h1 .p, h1 .k, h1 .y {
   .nav button svg{width:22px;height:22px;}
   .nav button[disabled]{opacity:.26;pointer-events:none;box-shadow:none;}
   .preview .nav{display:none;}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Light theme — opt-in via data-theme="light" on <html>, set before first
+   paint by the inline script in each deck's <head>. Decks share an origin with
+   the gallery, so they read the same 'ib-theme' localStorage key and a deck
+   opened directly (not through the overlay) themes itself correctly too.
+
+   Only the structural tokens are re-pointed here; each deck keeps its OWN hues
+   in --purple/--pink/--yellow, and the --up/--dn/--hi aliases darken whatever
+   those hues are so every deck stays on-brand without a per-deck light palette.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root[data-theme="light"] {
+  --page-bg: #FAF9F7;
+  --bg: #FFFFFF;
+  --panel: #F6F5F2;
+  --panel2: #FFFFFF;
+  --line: #E4E2DD;
+  --ink: #15121C;
+  --sub: #3A3545;
+  --muted: #6A6577;
+  --mark: #2A2533;                                        /* chart marks: dark, not white */
+  --up: color-mix(in srgb, var(--purple) 62%, #04060A);   /* darkened per deck */
+  --dn: color-mix(in srgb, var(--pink)   70%, #04060A);
+  --hi: color-mix(in srgb, var(--yellow) 70%, #180E00);
+}
+/* Card shadows are tuned for a dark stage; on white they read as smudges. */
+[data-theme="light"] .ladder,
+[data-theme="light"] .tpl { box-shadow: 0 1px 2px rgba(16,12,24,.05), 0 8px 22px rgba(16,12,24,.07); }
+/* Verdict tints are hardcoded for the dark stage — restate them on the deck's
+   own hue so the box tints correctly on white whatever the palette is. */
+[data-theme="light"] .verdict,
+[data-theme="light"] .verdict.k { background: color-mix(in srgb, var(--pink) 8%, #fff); }
+[data-theme="light"] .verdict.p { background: color-mix(in srgb, var(--purple) 8%, #fff); }
+[data-theme="light"] .verdict.y { background: color-mix(in srgb, var(--yellow) 10%, #fff); }
+/* The 64px grid wash reads heavier on white than on the dark stage. */
+[data-theme="light"] .stage::before { opacity: .5; }
