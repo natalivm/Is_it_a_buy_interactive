@@ -189,6 +189,12 @@ h1 .p, h1 .k, h1 .y {
   .sub{font-size:15.5px;line-height:1.55;color:var(--sub);margin-bottom:14px;max-width:40ch;}
   .sub strong{color:var(--ink);font-weight:700;}
   .sub .k{color:var(--pink);font-weight:700;} .sub .p{color:var(--purple);font-weight:700;}
+  /* ONE THOUGHT PER LINE. A .sub written as a single dense block reads as a
+     wall on a phone; adding `lines` lets a deck break it with <br> and gives
+     each break real air, so the eye lands on one fact at a time. Slightly
+     wider than 40ch because each line is short and should not wrap. */
+  .sub.lines{max-width:46ch;}
+  .sub.lines br{content:"";display:block;height:.46em;}
 
   .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
   .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
