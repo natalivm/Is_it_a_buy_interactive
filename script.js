@@ -456,6 +456,167 @@ function renderLeaderboard() {
     });
 }
 
+// ── Structure board (plain table view) ──────────────────────────────────────
+// Renders BOARD from board.js — a SEPARATE element from the STOCKS cards. The
+// same ticker can sit in both and read differently: a card carries a traded
+// plan, this board carries structure. Neither is derived from the other, so
+// nothing here touches data.js.
+//
+// Rows whose ticker also has a card stay clickable (they open that deck); rows
+// with no card — the board is allowed to cover names the gallery doesn't — are
+// plain text.
+const BOARD_DATA = (typeof BOARD !== 'undefined') ? BOARD : null;
+
+// board.js marks emphasis as **markdown bold**. Escape as text FIRST, then turn
+// the markers into <b> — so a row can never inject markup, only bold words.
+function md(text) {
+    return esc(text == null ? '' : text).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+}
+
+const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
+
+function structCell(s) {
+    if (!s) return '—';
+    const one = (label, v) => v
+        ? `${label} ${STRUCT_MARK[v] || ''} ${v}`
+        : `${label} —`;
+    return [one('W', s.w), one('D', s.d), one('4H', s.h4)].join('<br>');
+}
+
+// A zone list → "$107.27–108.70 weak · repeatedly tested". Generated rows carry
+// touch counts; seeded ones carry the original note.
+function zoneCell(list) {
+    if (!list || !list.length) return '—';
+    return list.map(z => {
+        const range = z.lo === z.hi
+            ? `$${fmtNum(z.lo)}`
+            : `$${fmtNum(z.lo)}–${fmtNum(z.hi)}`;
+        const detail = z.note != null ? z.note
+            : (z.touches != null ? `${z.touches} touch${z.touches === 1 ? '' : 'es'}` : '');
+        return `<b>${range}</b> ${esc(z.strength || '')}${detail ? ` · ${esc(detail)}` : ''}`;
+    }).join('<br>');
+}
+
+function fmtNum(n) {
+    if (typeof n !== 'number') return esc(n);
+    return n >= 1000 ? n.toLocaleString('en-US', { maximumFractionDigits: 2 })
+        : String(Number(n.toFixed(2)));
+}
+
+// The bias score, with its own terms beside it. A seeded row has no score, and
+// that renders as "—" rather than 0 — an unscored row must not read as neutral.
+function scoreCell(row) {
+    if (row.score == null) {
+        return '<span class="bt-unscored">— not scored</span>';
+    }
+    const p = row.parts || {};
+    const terms = ['W', 'D', 'H', 'R', 'M', 'O', 'Z']
+        .map(k => `${k}${p[k] > 0 ? '+' : ''}${p[k] == null ? '?' : p[k]}`)
+        .join(' ');
+    const s = row.score > 0 ? `+${row.score}` : String(row.score);
+    return `<b>${esc(s)}</b><br><span class="bt-parts">${esc(terms)}</span>`;
+}
+
+// Order-flow metrics from tools/flow.py, each shown against the ticker's own
+// baseline — these are only meaningful as a deviation from its normal. Absent
+// on every row until the paid feed is configured, so the column self-hides.
+function flowCell(row) {
+    const f = row.flow;
+    if (!f) return '<span class="bt-unscored">—</span>';
+    const base = f.baseline || {};
+    const delta = (now, was) => {
+        if (was == null || now == null) return '';
+        const d = now - was;
+        return ` <span class="bt-parts">(${d >= 0 ? '+' : ''}${d.toFixed(1)} vs ${was})</span>`;
+    };
+    const line = (label, v, unit, was) => v == null
+        ? `${label} —`
+        : `${label} <b>${v > 0 && label === 'imb' ? '+' : ''}${v}${unit}</b>${delta(v, was)}`;
+    return [
+        line('imb', f.imbalance, '%', base.imbalance),
+        line('block', f.blockShare, '%', base.blockShare),
+        line('odd', f.oddLotShare, '%', base.oddLotShare),
+        line('off-exch', f.offExchShare, '%', base.offExchShare),
+    ].join('<br>');
+}
+
+function boardRowHtml(row) {
+    const hasCard = !!findStock(slugify(row.ticker));
+    const h4 = row.h4
+        ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
+        : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
+    const px = row.price != null ? `$${fmtNum(row.price)}` : '—';
+    const atr = row.atr != null
+        ? `$${fmtNum(row.atr)}${row.atrPct != null ? ` / ${row.atrPct}%` : ''}`
+        : '—';
+    // data-ticker on EVERY row (the search filters on it); data-symbol only on
+    // rows that have a deck to open.
+    return `
+        <tr data-ticker="${esc(row.ticker)}"${hasCard ? ` data-symbol="${esc(row.ticker)}" tabindex="0" role="button"
+            aria-label="Open ${esc(row.ticker)} story"` : ''}>
+            <td><b>${esc(row.ticker)}</b><br>${px}${row.seeded ? '<br><span class="bt-unscored">seeded</span>' : ''}</td>
+            <td>${structCell(row.structure)}</td>
+            <td>${esc(atr)}</td>
+            <td>${flowCell(row)}</td>
+            <td>${scoreCell(row)}</td>
+            <td>${md(row.bias)}</td>
+            <td>${h4}</td>
+            <td>${zoneCell(row.demand)}</td>
+            <td>${zoneCell(row.supply)}</td>
+            <td>${md(row.position)}</td>
+            <td>${md(row.bull)}</td>
+            <td>${md(row.bear)}</td>
+            <td>${md(row.retest)}</td>
+        </tr>`;
+}
+
+function renderBoardTable() {
+    const body = document.getElementById('boardTableBody');
+    const section = document.getElementById('boardTable');
+    if (!body || !section) return;
+    if (!BOARD_DATA || !Array.isArray(BOARD_DATA.rows) || !BOARD_DATA.rows.length) {
+        body.innerHTML = '';
+        const empty = document.getElementById('boardTableEmpty');
+        if (empty) empty.hidden = false;
+        return;
+    }
+    body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
+
+    // No flow feed configured yet → drop the column rather than show a wall of
+    // dashes. It reappears by itself once flow.py has run.
+    const anyFlow = BOARD_DATA.rows.some(r => r.flow);
+    section.classList.toggle('bt-no-flow', !anyFlow);
+
+    const meta = document.getElementById('boardTableMeta');
+    if (meta) {
+        const src = BOARD_DATA.generatedBy ? ` · ${esc(BOARD_DATA.generatedBy)}` : '';
+        meta.innerHTML = `as of ${esc(fmtDate(BOARD_DATA.updated) || BOARD_DATA.updated || '')}${src}`;
+    }
+    const note = document.getElementById('boardTableNote');
+    if (note) note.innerHTML = md(BOARD_DATA.note || '');
+    const method = document.getElementById('boardTableMethod');
+    if (method) method.innerHTML = md(BOARD_DATA.method || '');
+
+    const rank = document.getElementById('boardTableRanking');
+    if (rank) {
+        const items = (BOARD_DATA.ranking || []).map(r => `<li>${md(r)}</li>`).join('');
+        rank.innerHTML = items
+            ? `<h3 class="bt-rank-title">Most actionable</h3><ol class="bt-rank-list">${items}</ol>`
+              + (BOARD_DATA.rankingNote ? `<p class="bt-rank-note">${md(BOARD_DATA.rankingNote)}</p>` : '')
+            : '';
+    }
+
+    // Rows for tickers that also have a card open that deck; board-only names
+    // (AKAM, TE, …) are plain rows.
+    body.querySelectorAll('tr[data-symbol]').forEach(el => {
+        const symbol = el.dataset.symbol;
+        el.addEventListener('click', () => openStory(symbol));
+        el.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
+        });
+    });
+}
+
 function renderGallery() {
     const container = document.getElementById('gallery');
     const empty = document.getElementById('galleryEmpty');
@@ -678,6 +839,35 @@ function initThemeToggle() {
     else if (mq.addListener) mq.addListener(onChange);
 }
 
+// ── View toggle (cards ⇄ plain table) ───────────────────────────────────────
+// Same shape as the theme toggle: the attribute is set pre-paint by the inline
+// script in index.html, CSS does the swap, and this only wires the button and
+// persists the choice. Nothing is re-rendered — both views are always in the
+// DOM, so switching keeps the search filter and the scroll position.
+const VIEW_KEY = 'ib-view';
+
+function applyView(view) {
+    document.documentElement.setAttribute('data-view', view);
+    const btn = document.getElementById('tableBtn');
+    if (btn) {
+        const table = view === 'table';
+        btn.setAttribute('aria-pressed', String(table));
+        btn.setAttribute('aria-label', table ? 'Switch to card view' : 'Switch to plain table view');
+        btn.setAttribute('title', table ? 'Card view' : 'Table view');
+    }
+}
+
+function initViewToggle() {
+    applyView(document.documentElement.getAttribute('data-view') === 'table' ? 'table' : 'cards');
+    const btn = document.getElementById('tableBtn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-view') === 'table' ? 'cards' : 'table';
+        applyView(next);
+        try { localStorage.setItem(VIEW_KEY, next); } catch (e) { /* private mode */ }
+    });
+}
+
 // ── Stock search ─────────────────────────────────────────────────────────────
 // Filters the tile grid in-place by ticker (or article title) — no re-render,
 // just hides tiles that don't match. Lives beside the leaderboard title.
@@ -702,11 +892,14 @@ function initStockSearch() {
         });
         if (searchEmpty) searchEmpty.hidden = !(q && visible === 0);
 
-        // Keep the ranking table in step — the search box sits in its header, so
-        // an unfiltered table beside a filtered gallery reads as a broken filter.
-        document.querySelectorAll('#leaderboardBody tr[data-symbol]').forEach(row => {
-            const symbol = (row.dataset.symbol || '').toLowerCase();
-            row.hidden = !(!q || symbol.includes(q));
+        // Keep the ranking table and the structure board in step — the search
+        // box sits in the ranking header, so an unfiltered table beside a
+        // filtered gallery reads as a broken filter. The board is matched on
+        // data-ticker, not data-symbol: board-only names (AKAM, TE, …) carry no
+        // symbol, and filtering on that left them permanently visible.
+        document.querySelectorAll('#leaderboardBody tr[data-symbol], #boardTableBody tr[data-ticker]').forEach(row => {
+            const key = (row.dataset.ticker || row.dataset.symbol || '').toLowerCase();
+            row.hidden = !(!q || key.includes(q));
         });
     }
 
@@ -723,11 +916,13 @@ function initStockSearch() {
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
+    initViewToggle();      // cards ⇄ plain table (attribute already set pre-paint)
     initInstallButton();
     renderTrendMeter();    // index regime read (needle computed from MARKET.checks)
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
     renderBooked();        // "booked at targets" strip (reuses accents too)
+    renderBoardTable();    // the plain-table view of the same board
     initStockSearch();     // filters the tile grid by ticker
 
     const overlay = document.getElementById('storyOverlay');

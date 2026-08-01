@@ -1,10 +1,11 @@
-const CACHE_NAME = 'isitabuy-v69';
+const CACHE_NAME = 'isitabuy-v70';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
   BASE + 'index.html',
   BASE + 'styles.css',
   BASE + 'data.js',
+  BASE + 'board.js',
   BASE + 'script.js',
   BASE + 'manifest.json',
   BASE + 'icon-192.png',

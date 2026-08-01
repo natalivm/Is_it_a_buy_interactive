@@ -843,3 +843,124 @@ body.story-open { overflow: hidden; }
 [data-theme="light"] .tile-excerpt {
     color: var(--txt);
 }
+
+/* ── Plain table view ──────────────────────────────────────────────────────
+   The whole board as one bordered table: no tiles, no glow, no colour coding —
+   a print-style read of the same STOCKS entries (see renderBoardTable()). The
+   view is swapped by data-view on <html>, set pre-paint by the inline script in
+   index.html, so a reload in table view never flashes the grid. */
+.board-table { display: none; margin-bottom: 40px; }
+[data-view="table"] .board-table { display: block; }
+
+/* In table view the table IS the board: the cockpit, the booked strip, the
+   ranking table and the tile grid all step aside. The ranking header stays so
+   the ticker search keeps working — only its title text goes, and the grid's
+   "no match" line is left standing so a search that finds nothing still says
+   so (the table's own rows filter with the tiles). */
+[data-view="table"] #trendMeter,
+[data-view="table"] #bookedStrip,
+[data-view="table"] #gallery,
+[data-view="table"] #galleryEmpty,
+[data-view="table"] .lb-head-text,
+[data-view="table"] .lb-scroll,
+[data-view="table"] .lb-foot { display: none; }
+[data-view="table"] .leaderboard { margin-bottom: 18px; }
+[data-view="table"] .lb-head { margin-bottom: 0; justify-content: flex-end; }
+
+/* Show the icon for the view you'd switch TO (same trick as the theme button). */
+#tableBtn .ico-table { display: block; }
+#tableBtn .ico-cards { display: none; }
+[data-view="table"] #tableBtn .ico-table { display: none; }
+[data-view="table"] #tableBtn .ico-cards { display: block; }
+
+.bt-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.board-table .board {
+    --bt-line: color-mix(in srgb, var(--txt) 34%, transparent);
+    width: 100%;
+    min-width: 1500px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background: var(--panel);
+    border: 1px solid var(--bt-line);
+    font-size: 12px;
+    line-height: 1.35;
+}
+.board-table .board th,
+.board-table .board td {
+    border: 1px solid var(--bt-line);
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: break-word;
+}
+.board-table .board thead th {
+    font-weight: 700;
+    font-size: 11px;
+    white-space: nowrap;
+    color: var(--txt);
+}
+.board-table .board tbody td { color: var(--txt); }
+.board-table .board tbody td:first-child b { font-size: 13px; }
+.board-table .board tbody tr { cursor: pointer; }
+.board-table .board tbody tr:hover,
+.board-table .board tbody tr:focus-visible {
+    background: color-mix(in srgb, var(--txt) 7%, transparent);
+    outline: none;
+}
+/* Column widths — fixed layout so one long 4H narrative can't starve the level
+   columns. Order: ticker · structure · ATR · flow · score · bias · 4H ·
+   demand · supply · position · bull · bear · retest. */
+.board-table .board th:nth-child(1) { width: 5%; }
+.board-table .board th:nth-child(2) { width: 6%; }
+.board-table .board th:nth-child(3) { width: 6%; }
+.board-table .board th:nth-child(4) { width: 8%; }
+.board-table .board th:nth-child(5) { width: 5%; }
+.board-table .board th:nth-child(6) { width: 9%; }
+.board-table .board th:nth-child(7) { width: 14%; }
+.board-table .board th:nth-child(8) { width: 8%; }
+.board-table .board th:nth-child(9) { width: 8%; }
+.board-table .board th:nth-child(10) { width: 8%; }
+.board-table .board th:nth-child(11) { width: 8%; }
+.board-table .board th:nth-child(12) { width: 8%; }
+.board-table .board th:nth-child(13) { width: 7%; }
+/* Ticker, structure and ATR are single tokens — never break "$8.62 / 9.56%". */
+.board-table .board td:nth-child(1),
+.board-table .board td:nth-child(2),
+.board-table .board td:nth-child(3) { white-space: nowrap; }
+
+/* No flow feed configured → hide the column outright (a wall of dashes reads
+   as broken data rather than as an unconfigured optional feed). */
+.bt-no-flow .board th:nth-child(4),
+.bt-no-flow .board td:nth-child(4) { display: none; }
+
+/* Header above the table: title + "as of" and the one-line board note. */
+.bt-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 6px;
+}
+.bt-title {
+    font-family: var(--disp); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(20px, 3.4vw, 28px); line-height: 1; letter-spacing: 0.02em;
+}
+.bt-meta, .bt-note { font-size: 12px; color: var(--mut); }
+.bt-note { margin-bottom: 14px; max-width: 78ch; }
+
+/* A row with no computed score says so, quietly — it must never read as 0. */
+.bt-unscored { color: var(--mut); font-style: italic; }
+.bt-parts { font-family: var(--mono); font-size: 10px; color: var(--mut); }
+
+.bt-rank { margin-top: 18px; }
+.bt-rank-title {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--mut);
+    margin-bottom: 8px;
+}
+.bt-rank-list { margin: 0 0 8px 18px; font-size: 13px; }
+.bt-rank-list li { margin-bottom: 4px; }
+.bt-rank-note { font-size: 12px; color: var(--mut); max-width: 78ch; }
+
+.bt-foot { margin-top: 10px; font-size: 12px; color: var(--mut); max-width: 90ch; }
+.bt-foot code { font-family: var(--mono); font-size: 11px; }
+
+/* Light theme: the reference look — black hairlines on white paper. */
+[data-theme="light"] .board-table .board { --bt-line: #000; background: #fff; }
