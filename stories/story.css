@@ -209,7 +209,7 @@ h1 .p, h1 .k, h1 .y {
   .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
   .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
   .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--hi);white-space:nowrap;}
-  .indi p{font-size:14px;line-height:1.5;color:var(--muted);}
+  .indi p{font-size:16px;line-height:1.5;color:var(--muted);}
   .indi p strong{color:var(--ink);} .indi p .k{color:var(--dn);font-weight:700;}
 
   .chart{width:100%;margin:6px 0 2px;}
@@ -264,7 +264,7 @@ h1 .p, h1 .k, h1 .y {
   .verdict.y .vh{color:var(--hi);}
   /* .k is the explicit pink variant (same as the default) for decks whose default is overridden */
   .verdict.k .vh{color:var(--dn);}
-  .verdict p{font-size:14px;line-height:1.55;color:var(--sub);}
+  .verdict p{font-size:16px;line-height:1.55;color:var(--sub);}
   .verdict p strong{color:var(--ink);font-weight:700;}
   .verdict p .k{color:var(--dn);font-weight:700;} .verdict p .p{color:var(--up);font-weight:700;}
 
@@ -293,7 +293,7 @@ h1 .p, h1 .k, h1 .y {
   .ind{padding-left:14px;}
   .cond{list-style:none;margin:7px 0 9px;display:flex;flex-direction:column;gap:5px;padding-left:16px;}
   .cond li{line-height:1.45;}
-  .note{margin-top:14px;font-size:14px;line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
+  .note{margin-top:14px;font-size:16px;line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
   .note.k{border-left-color:var(--dn);} .note.p{border-left-color:var(--up);}
 
   /* ── Text-focus slides ──────────────────────────────────────────────────
@@ -316,10 +316,12 @@ h1 .p, h1 .k, h1 .y {
 
   .slide[data-noclick] .note, .slide:last-child .note, .slide:last-child .sub{max-width:none;}
 
-  /* data-text: chartless prose slides (long copy, taps kept). Same fixed
-     type scale as everywhere else — only the column uses the FULL width
-     (no 40ch cap) since there's no chart beside it. */
-  .slide[data-text] .sub{max-width:none;}
+  /* data-text: chartless prose slides (long copy, taps kept). The column uses
+     the FULL width (no 40ch cap) since there's no chart beside it, and the copy
+     sits at the body-small tier (16px) rather than .sub's 15.5px — on a slide
+     that is nothing BUT prose the body text is the content, so it reads at the
+     same size as a .note/.verdict paragraph instead of a hair under it. */
+  .slide[data-text] .sub{max-width:none;font-size:16px;}
 
   /* ── Levels slides ──────────────────────────────────────────────────────
      Same principle for the ladder: top-align the column and let the ladder
