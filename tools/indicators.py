@@ -191,7 +191,10 @@ class Frame:
             f"{'':<8} RSI {f(self.rsi)} · MACD {f(self.macd)} (sig {f(self.macd_sig)}) · "
             f"{hist}\n"
             f"{'':<8} Stoch %K {f(self.stoch_k)} / %D {f(self.stoch_d)}\n"
-            f"{'':<8} OBV {f(self.obv, 0)} · BB {f(self.bb_lo)} / {f(self.bb_mid)} / {f(self.bb_up)}\n"
+            # Indices (VIX, VXN, NDX) publish no volume, so OBV is a flat zero
+            # rather than a reading. Say so instead of printing a fake 0.
+            f"{'':<8} OBV {'n/a (no volume)' if not self.v and not self.obv else f(self.obv, 0)}"
+            f" · BB {f(self.bb_lo)} / {f(self.bb_mid)} / {f(self.bb_up)}\n"
             f"{'':<8} EMA9 {f(self.ema9)} · EMA50 {f(self.ema50)} · EMA200 {f(self.ema200)}"
         )
 

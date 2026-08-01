@@ -34,6 +34,7 @@ import json
 import re
 import subprocess
 import sys
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -45,6 +46,19 @@ UA = {"User-Agent": "Mozilla/5.0 (board-refresh)"}
 
 # Tickers whose Stooq symbol is not <ticker>.us
 STOOQ_OVERRIDES = {"DRAM": "dram.us"}
+
+# The regime layer: indices and vol gauges that drive MARKET in data.js but are
+# not tradeable cards, so they never appear in STOCKS. Fetched on a full run and
+# reported ahead of the names. Keys are what you type; values are Yahoo symbols
+# (^-prefixed ones are indices and are Yahoo-only — Stooq does not carry them).
+MARKET_SYMBOLS = {
+    "QQQ": "QQQ",     # Nasdaq-100 ETF — the index the board actually references
+    "SMH": "SMH",     # semis ETF — the board's barometer and its long gate
+    "NDX": "^NDX",    # Nasdaq-100 index itself
+    "VIX": "^VIX",    # broad-market fear
+    "VXN": "^VXN",    # Nasdaq-specific fear
+}
+INDEX_ONLY = {k for k, v in MARKET_SYMBOLS.items() if v.startswith("^")}
 
 
 # ── board ───────────────────────────────────────────────────────────────────
@@ -78,7 +92,8 @@ def fetch_yahoo(ticker: str) -> list[dict]:
     """Yahoo's chart endpoint — the same data the site's own charts render, so
     the numbers here line up with what you see there. Uses raw `close`, not
     `adjclose`: the chart quotes unadjusted prices and so do the cards."""
-    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+    sym = urllib.parse.quote(MARKET_SYMBOLS.get(ticker, ticker))
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
            f"?range=5y&interval=1d")
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=30) as r:
@@ -321,16 +336,32 @@ def main() -> int:
 
     board = load_board()
     stocks = {s["symbol"]: s for s in board["STOCKS"]}
-    want = parse_tickers(args.tickers) or list(stocks)
+    # A full run covers the regime layer (indices + vol gauges) AND the cards.
+    # The indices are not in STOCKS — they drive MARKET — so they are added
+    # explicitly rather than derived from the board.
+    asked = parse_tickers(args.tickers)
+    if asked:
+        want = asked
+    else:
+        want = list(MARKET_SYMBOLS) + [s for s in stocks if s not in MARKET_SYMBOLS]
 
-    unknown = [t for t in want if t not in stocks]
+    known = set(stocks) | set(MARKET_SYMBOLS)
+    unknown = [t for t in want if t not in known]
     if unknown:
-        print(f"— not on the board, skipping: {', '.join(unknown)}", file=sys.stderr)
-        print(f"  board has: {', '.join(sorted(stocks))}", file=sys.stderr)
-        want = [t for t in want if t in stocks]
+        print(f"— not recognised, skipping: {', '.join(unknown)}", file=sys.stderr)
+        print(f"  board: {', '.join(sorted(stocks))}", file=sys.stderr)
+        print(f"  indices: {', '.join(sorted(MARKET_SYMBOLS))}", file=sys.stderr)
+        want = [t for t in want if t in known]
     if not want:
         print("Nothing to do — no recognised tickers.", file=sys.stderr)
         return 1
+
+    if args.source != "yahoo":
+        blocked = [t for t in want if t in INDEX_ONLY]
+        if blocked:
+            print(f"— {args.source} does not carry indices, skipping: "
+                  f"{', '.join(blocked)} (use --source yahoo)", file=sys.stderr)
+            want = [t for t in want if t not in INDEX_ONLY]
 
     closes: dict[str, float] = {}
     report: list[str] = []
@@ -351,9 +382,12 @@ def main() -> int:
             closes[t] = fs[0].c
             prev = bars[-2]["c"] if len(bars) > 1 else fs[0].c
             chg = (fs[0].c - prev) / prev * 100 if prev else 0.0
+            tag = "  [regime — not a card]" if t in MARKET_SYMBOLS else ""
+            unit = "" if t in INDEX_ONLY else "$"   # VIX/VXN/NDX are levels
             emit()
             emit("=" * 78)
-            emit(f"{t}  ${fs[0].c:,.2f}  ({chg:+.2f}%)   bar {bars[-1]['date']}")
+            emit(f"{t}  {unit}{fs[0].c:,.2f}  ({chg:+.2f}%)   "
+                 f"bar {bars[-1]['date']}{tag}")
             emit("=" * 78)
             for f in fs:
                 emit(f.line())
