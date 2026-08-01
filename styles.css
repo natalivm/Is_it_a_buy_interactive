@@ -803,4 +803,6 @@ body.story-open { overflow: hidden; }
    note, tile theses and article excerpts all need a dark ink on white. */
 [data-theme="light"] .tm-boardnote,
 [data-theme="light"] .tile-signal,
-[data-theme="light"] .tile-excerpt,
+[data-theme="light"] .tile-excerpt {
+    color: var(--txt);
+}
