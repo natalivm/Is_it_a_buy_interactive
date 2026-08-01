@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
 *.pyc
+
+# local runs of tools/refresh.py — the Action force-adds its own report
+tools/reports/

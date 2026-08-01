@@ -1,0 +1,132 @@
+name: Board refresh
+
+# Pulls OHLCV for every ticker in data.js after the US close, recomputes every
+# indicator the cards quote, and audits each card's `lead` against the fresh
+# price. It NEVER edits data.js — judgement calls stay human. The report goes to
+# the run summary and, on a schedule, to a long-lived PR so the numbers arrive
+# as a notification instead of a chore.
+
+on:
+  schedule:
+    # 21:30 UTC on weekdays. Deliberately DST-proof: 17:30 ET in summer,
+    # 16:30 ET in winter — always after the 16:00 ET close.
+    - cron: '30 21 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: 'Space-separated tickers (blank = every ticker in data.js)'
+        required: false
+        default: ''
+      source:
+        description: 'Data source'
+        required: false
+        default: 'yahoo'
+        type: choice
+        options: [yahoo, stooq]
+      open_pr:
+        description: 'Open/update the report PR (the schedule always does)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: board-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refresh and audit
+        id: run
+        env:
+          TICKERS: ${{ inputs.tickers }}
+          SOURCE: ${{ inputs.source || 'yahoo' }}
+        run: |
+          set -uo pipefail
+          mkdir -p tools/reports
+          # A single bad ticker must not fail the run — refresh.py logs
+          # per-ticker failures to stderr and carries on.
+          python3 tools/refresh.py $TICKERS \
+            --source "$SOURCE" \
+            --out tools/reports/latest.txt 2> tools/reports/errors.txt || true
+          # Fall back to the offline audit so a data outage still says something.
+          if [ ! -s tools/reports/latest.txt ]; then
+            echo "fetch_failed=true" >> "$GITHUB_OUTPUT"
+            python3 tools/refresh.py --audit-only --out tools/reports/latest.txt || true
+          fi
+          FINDINGS=$(grep -cE '^  [A-Z]{2,5}:' tools/reports/latest.txt || true)
+          echo "findings=${FINDINGS:-0}" >> "$GITHUB_OUTPUT"
+          # Stash it: the PR step checks out another branch over the worktree.
+          cp tools/reports/latest.txt "$RUNNER_TEMP/latest.txt"
+
+      - name: Write run summary
+        run: |
+          {
+            echo "## Board refresh — $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo
+            echo "Source \`${{ inputs.source || 'yahoo' }}\` · audit findings **${{ steps.run.outputs.findings }}**"
+            echo
+            if [ -s tools/reports/errors.txt ]; then
+              echo "<details><summary>Fetch warnings</summary>"
+              echo
+              echo '```'
+              cat tools/reports/errors.txt
+              echo '```'
+              echo "</details>"
+              echo
+            fi
+            echo '```'
+            cat tools/reports/latest.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: board-report
+          path: tools/reports/
+          retention-days: 30
+
+      - name: Open or update the report PR
+        if: github.event_name == 'schedule' || inputs.open_pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          BRANCH=bot/board-refresh
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Start the branch from the base each time: the report is a snapshot,
+          # not history worth accumulating.
+          git checkout -B "$BRANCH" "origin/$BASE"
+          mkdir -p tools/reports
+          cp "$RUNNER_TEMP/latest.txt" tools/reports/latest.txt
+
+          git add -f tools/reports/latest.txt
+          if git diff --cached --quiet; then
+            echo "Report identical to base — nothing to open (likely a market holiday)."
+            exit 0
+          fi
+
+          git commit -q -m "Board refresh $(date -u '+%Y-%m-%d') — ${{ steps.run.outputs.findings }} audit finding(s)"
+          git push -q -f -u origin "$BRANCH"
+
+          OPEN=$(gh pr list --head "$BRANCH" --state open --json number -q '.[].number' | head -1)
+          if [ -z "$OPEN" ]; then
+            gh pr create --base "$BASE" --head "$BRANCH" \
+              --title "Board refresh — recomputed numbers and card audit" \
+              --body-file .github/board-refresh-pr-body.md
+          else
+            echo "PR #$OPEN already open — force-pushed the new report to it."
+          fi
