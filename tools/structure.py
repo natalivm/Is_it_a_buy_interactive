@@ -129,14 +129,18 @@ MERGE_OVERLAP = 0.5
 # nothing. When a demand and a supply zone overlap this much, the more recent
 # one wins and the other is dropped.
 CROSS_OVERLAP = 0.5
-# Zones older than this many bars are history, not current structure. Without a
-# cap the "nearest" level can be years old, and it grades weak by construction:
-# revisits accumulate for as long as the zone has existed.
-MAX_ZONE_AGE = 252          # ~1 year of daily bars.
-# Was 2 years, which is why EVERY zone graded "weak": revisits accumulate for as
-# long as a zone exists, so an 18-month-old level is worn out by construction
-# and the grading carried no information. The working frames here are weekly and
-# daily; monthly is the overall view, not a source of tradeable levels.
+# Zones older than this many bars are history, not current structure. 1 year,
+# not 2: at 2 years EVERY zone graded "weak", because revisits accumulate for as
+# long as a zone exists, so an 18-month-old level is worn out by construction and
+# the grade carried no information. The working frames here are weekly and daily;
+# monthly is the overall view, not a source of tradeable levels.
+MAX_ZONE_AGE = 252          # ~1 year of daily bars
+
+# Volume thresholds, all RELATIVE to the ticker's own trailing median — a raw
+# share count compares neither across tickers nor across time on one ticker.
+VOL_BASE = 50            # bars in the trailing median
+VOL_HEAVY = 1.5          # a bar at 1.5x its own normal is "high volume"
+VOL_STRONG_FORM = 1.3    # displacement on this much volume is a strong origin
 
 
 # ── swings and structure ────────────────────────────────────────────────────
@@ -264,12 +268,28 @@ class Zone:
     atr_at: float = 0.0    # ATR when it formed — the width cap is measured in it
     touches: int = 0
     closes_in: int = 0
+    # Volume, relative to the ticker's own recent median — an absolute share
+    # count says nothing across tickers, and nothing across time on one ticker.
+    form_vol: float = 0.0   # of the displacement leg that created the zone
+    heavy_touches: int = 0  # revisits that arrived on above-average volume
     strength: str = 'fresh'
     extra: dict = field(default_factory=dict)
 
     @property
     def mid(self) -> float:
         return (self.lo + self.hi) / 2
+
+
+def rel_volume(bars: list[dict], i: int, n: int = VOL_BASE) -> float:
+    """Bar i's volume against the median of the n bars before it. Median, not
+    mean, because one earnings-day spike drags a mean enough to make every
+    ordinary bar afterwards look quiet."""
+    lo = max(0, i - n)
+    prior = sorted(b["v"] for b in bars[lo:i] if b["v"] > 0)
+    if not prior or not bars[i]["v"]:
+        return 0.0
+    mid = prior[len(prior) // 2]
+    return bars[i]["v"] / mid if mid else 0.0
 
 
 def _base_span(bars, j, kind: str) -> tuple[int, int]:
@@ -285,6 +305,16 @@ def _base_span(bars, j, kind: str) -> tuple[int, int]:
             break
         start = k
     return start, j
+
+
+def _leg_vol(bars: list[dict], i: int) -> float:
+    """Mean relative volume across the displacement leg. A zone left behind by
+    a leg that traded well above normal has a stronger origin than one left by
+    a drift on thin volume — the methodology's "strong displacement away"."""
+    win = range(i, min(i + DISPLACE_BARS, len(bars)))
+    vals = [rel_volume(bars, k) for k in win]
+    vals = [v for v in vals if v > 0]
+    return sum(vals) / len(vals) if vals else 0.0
 
 
 def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
@@ -324,7 +354,8 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
             out.append(Zone('demand',
                             lo=min(x["l"] for x in base),               # wick
                             hi=max(max(x["o"], x["c"]) for x in base),  # body
-                            i=hi_i, date=bars[hi_i]["date"], atr_at=a))
+                            i=hi_i, date=bars[hi_i]["date"], atr_at=a,
+                            form_vol=round(_leg_vol(bars, i), 2)))
         else:
             prior = [s for s in lows if s.i < i]
             if not prior or dn_to >= prior[-1].price:
@@ -335,7 +366,8 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
             out.append(Zone('supply',
                             lo=min(min(x["o"], x["c"]) for x in base),  # body
                             hi=max(x["h"] for x in base),               # wick
-                            i=hi_i, date=bars[hi_i]["date"], atr_at=a))
+                            i=hi_i, date=bars[hi_i]["date"], atr_at=a,
+                            form_vol=round(_leg_vol(bars, i), 2)))
         # Skip past the leg so one displacement leaves one zone, not three.
         i += DISPLACE_BARS
 
@@ -355,25 +387,29 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
 
 
 def _score_zone(z: Zone, bars: list[dict]) -> None:
-    """fresh / tested / weak, by revisits and — the rule that matters — whether
-    price CLOSED inside (acceptance) or only wicked in (rejection)."""
+    """fresh / tested / weak, per the written rules: revisit count, whether
+    price CLOSED inside (acceptance) rather than only wicking in (rejection),
+    and — the clause volume answers — whether the selling arriving into demand
+    (or the buying into supply) came on HIGH volume.
+
+    A quiet revisit and a revisit on twice-normal volume are not the same
+    event. The first is a test; the second is supply being absorbed or demand
+    being eaten, and it consumes the zone faster."""
     pad = (z.hi - z.lo) * REVISIT_PAD
     inside = False
-    for b in bars[z.i + 2:]:
+    for k in range(z.i + 2, len(bars)):
+        b = bars[k]
         touching = b["l"] <= z.hi + pad and b["h"] >= z.lo - pad
         if touching and not inside:
             z.touches += 1
             inside = True
+            if rel_volume(bars, k) >= VOL_HEAVY:
+                z.heavy_touches += 1
         elif not touching:
             inside = False
         if touching and z.lo <= b["c"] <= z.hi:
             z.closes_in += 1
-    if z.touches >= 3 or z.closes_in >= 2:
-        z.strength = 'weak'
-    elif z.touches >= 1:
-        z.strength = 'tested'
-    else:
-        z.strength = 'fresh'
+    _restrength(z)
 
 
 def _merge(zones: list[Zone]) -> list[Zone]:
@@ -396,6 +432,8 @@ def _merge(zones: list[Zone]) -> list[Zone]:
             p.atr_at = max(p.atr_at, z.atr_at)
             p.touches = max(p.touches, z.touches)
             p.closes_in = max(p.closes_in, z.closes_in)
+            p.heavy_touches = max(p.heavy_touches, z.heavy_touches)
+            p.form_vol = max(p.form_vol, z.form_vol)
             if z.i > p.i:
                 p.i, p.date = z.i, z.date
             _restrength(p)
@@ -430,8 +468,14 @@ def _resolve_cross(zones: list[Zone]) -> list[Zone]:
 
 
 def _restrength(z: Zone) -> None:
-    z.strength = 'weak' if (z.touches >= 3 or z.closes_in >= 2) else \
-                 'tested' if z.touches >= 1 else 'fresh'
+    # Two heavy-volume revisits consume a zone as surely as three quiet ones —
+    # "high-volume selling enters demand, or high-volume buying enters supply".
+    if z.touches >= 3 or z.closes_in >= 2 or z.heavy_touches >= 2:
+        z.strength = 'weak'
+    elif z.touches >= 1:
+        z.strength = 'tested'
+    else:
+        z.strength = 'fresh'
 
 
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
@@ -686,6 +730,10 @@ def read_ticker(ticker: str, want_intraday: bool = True,
 def _zone_json(z: Zone) -> dict:
     return {'lo': round(z.lo, 2), 'hi': round(z.hi, 2), 'strength': z.strength,
             'touches': z.touches, 'closesIn': z.closes_in,
+            # Volume evidence: how heavily the zone was created, and how many
+            # revisits arrived on high volume.
+            'formVol': z.form_vol, 'heavyTouches': z.heavy_touches,
+            'origin': 'strong' if z.form_vol >= VOL_STRONG_FORM else 'thin',
             'since': z.date.isoformat()}
 
 

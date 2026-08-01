@@ -8,9 +8,13 @@ name: Structure board
 # Everything on the board is computed per the written methodology (ATR(14)
 # Wilder, confirmed swings, displacement-formed zones with wick/body edges,
 # revisit-and-acceptance strength, and the bias score
-# 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z) — see tools/structure.py. Unlike the
-# card refresh, this one DOES write its output file: every field is arithmetic,
-# so there is no judgement to preserve.
+# 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z) — see tools/structure.py.
+#
+# THIS BOT DOES NOT COMMIT. It fetches, computes, and uploads the proposed
+# board.js plus its audit trail as a run ARTIFACT. Nothing reaches the
+# repository until a human has read the numbers and chosen to apply them.
+# Running with apply=true is the only path that commits, and the schedule never
+# takes it.
 
 on:
   schedule:
@@ -34,8 +38,8 @@ on:
         required: false
         default: true
         type: boolean
-      open_pr:
-        description: 'Open/update the board PR (the schedule always does)'
+      apply:
+        description: 'COMMIT the proposed board to a PR (default: artifact only)'
         required: false
         default: false
         type: boolean
@@ -120,9 +124,14 @@ jobs:
           # Surface must-agree drift in the PR title area, not buried in a log.
           DRIFT=$(grep -c '⚠' tools/reports/structure.txt || true)
           echo "drift=${DRIFT:-0}" >> "$GITHUB_OUTPUT"
-          # Stash both: the PR step checks another branch out over the worktree.
+          # The proposed board goes to the artifact under a name that cannot be
+          # mistaken for the live file, and the working tree is put back exactly
+          # as checked out — this job leaves no changes behind.
+          cp board.js tools/reports/board.proposed.js
           cp board.js "$RUNNER_TEMP/board.js"
           cp tools/reports/structure.txt "$RUNNER_TEMP/structure.txt" 2>/dev/null || true
+          git checkout -- board.js
+          git diff --quiet && echo "worktree clean — nothing applied" 
 
       - name: Write run summary
         if: always()
@@ -130,7 +139,14 @@ jobs:
           {
             echo "## Structure board — $(date -u '+%Y-%m-%d %H:%M UTC')"
             echo
-            echo "Rows **${{ steps.run.outputs.rows }}** · board.js changed: **${{ steps.run.outputs.changed || 'false' }}** · flow: **${{ steps.flow.outputs.have || 'not configured' }}**"
+            echo "Rows **${{ steps.run.outputs.rows }}** · would change board.js: **${{ steps.run.outputs.changed || 'false' }}** · flow: **${{ steps.flow.outputs.have || 'not configured' }}** · drift flags: **${{ steps.run.outputs.drift }}**"
+            echo
+            if [ "${{ inputs.apply }}" = "true" ]; then
+              echo "**apply=true** — this run will open/update the board PR."
+            else
+              echo "_Nothing committed._ The proposed board is in the "
+              echo "\`structure-board\` artifact as \`board.proposed.js\`. "
+              echo "Re-run with **apply=true** to commit it."
             echo
             if [ -s tools/reports/flow-errors.txt ]; then
               echo "<details><summary>Flow warnings</summary>"
@@ -164,8 +180,10 @@ jobs:
           path: tools/reports/
           retention-days: 30
 
+      # Opt-in only. Never fires on the schedule: `inputs.apply` is unset there,
+      # so a scheduled run can only ever produce an artifact to review.
       - name: Open or update the board PR
-        if: (github.event_name == 'schedule' || inputs.open_pr) && steps.run.outputs.changed == 'true'
+        if: inputs.apply && steps.run.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BASE: ${{ github.ref_name }}

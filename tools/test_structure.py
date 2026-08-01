@@ -192,6 +192,35 @@ check("the zone price is INSIDE is nearest demand",
 check("position agrees with the zone lists",
       st._position(p, dem, st.nearest(held, p, 'supply'), held).startswith("inside"), True)
 
+# ── volume in zone strength ─────────────────────────────────────────────────
+print("\nVolume — 'high-volume selling enters demand' (the written rule)")
+
+
+def _graded(touches, closes_in, heavy):
+    z = Z('demand', 99.0, 100.0, 70, dt.date(2025, 6, 1), atr_at=2.0)
+    z.touches, z.closes_in, z.heavy_touches = touches, closes_in, heavy
+    st._restrength(z)
+    return z.strength
+
+
+# Two revisits, identical price action — volume is the only variable.
+check("2 quiet revisits stay 'tested'", _graded(2, 0, 0), 'tested')
+check("2 HEAVY revisits consume the zone", _graded(2, 0, 2), 'weak')
+# The price-only paths must not have shifted.
+check("3 revisits still weak", _graded(3, 0, 0), 'weak')
+check("2 closes inside still weak", _graded(1, 2, 0), 'weak')
+check("1 quiet touch still tested", _graded(1, 0, 0), 'tested')
+check("untouched still fresh", _graded(0, 0, 0), 'fresh')
+
+_vb = [{"date": dt.date(2025, 1, 1), "o": 1, "h": 1, "l": 1, "c": 1, "v": 1_000_000}
+       for _ in range(60)]
+_vb.append({"date": dt.date(2025, 4, 1), "o": 1, "h": 1, "l": 1, "c": 1, "v": 3_000_000})
+check("rel_volume is a multiple of the trailing median",
+      round(st.rel_volume(_vb, 60), 2), 3.0)
+check("a zero-volume bar reads 0, not a crash",
+      st.rel_volume([{"date": dt.date(2025, 1, 1), "o": 1, "h": 1, "l": 1,
+                      "c": 1, "v": 0}] * 5, 4), 0.0)
+
 # ── flow signing ────────────────────────────────────────────────────────────
 print("\nOrder flow — signing")
 check("quote rule: at ask / at bid / inside",
