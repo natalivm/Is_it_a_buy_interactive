@@ -142,11 +142,39 @@ body.story-open { overflow: hidden; }
     border-left: 1px solid var(--hair);
     padding-left: 16px;
 }
+.navbar-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+/* Theme toggle — icon-only, sized to match the Install button's height. */
+.theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: transparent;
+    color: var(--mut);
+    border: 1px solid var(--hair);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.theme-btn:hover, .theme-btn:focus-visible {
+    color: var(--yellow);
+    border-color: color-mix(in srgb, var(--yellow) 45%, var(--hair));
+    background: color-mix(in srgb, var(--yellow) 8%, transparent);
+    outline: none;
+}
+/* Show the icon for the theme you'd switch TO. */
+.theme-btn .ico-sun { display: block; }
+.theme-btn .ico-moon { display: none; }
+[data-theme="light"] .theme-btn .ico-sun { display: none; }
+[data-theme="light"] .theme-btn .ico-moon { display: block; }
+
 .install-btn {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-left: auto;
     padding: 8px 14px;
     background: var(--purple-deep);
     color: #fff;
@@ -761,3 +789,104 @@ body.story-open { overflow: hidden; }
 
 /* Site-wide disclaimer under the gallery */
 .site-disclaim { max-width: 1200px; margin: 28px auto 20px; padding: 0 24px; font-size: 12px; color: var(--muted, #8a86a8); opacity: .75; text-align: center; }
+
+/* ── Light theme ───────────────────────────────────────────────────────────
+   Opt-in via data-theme="light" on <html> (set pre-paint by the inline script
+   in index.html, toggled by initThemeToggle() in script.js). The palette is
+   almost entirely variable-driven, so this block re-points the tokens and then
+   patches only the handful of rules that hardcode a colour for the dark
+   surface. Decks in stories/ keep their own dark palettes — the overlay scrim
+   stays dark on purpose so opening a deck is not a brightness jolt. */
+:root[data-theme="light"] {
+    --ink: #FFFFFF;
+    --bg: #FAF9F7;
+    --panel: #FFFFFF;
+    --panel2: #F6F5F2;
+    --hair: #E4E2DD;
+    --purple: #7C3AED;
+    --purple-deep: #6D28D9;
+    --pink: #DB2777;
+    --pink-soft: #BE185D;
+    --yellow: #A16207;
+    --green: #047857;
+    --txt: #17151C;
+    --mut: #6A6577;
+    --muted: #6A6577;
+    --red: #DC2626;
+    --shadow: 0 1px 2px rgba(16, 12, 24, 0.04), 0 10px 30px rgba(16, 12, 24, 0.06);
+}
+/* The page wash: near-invisible warm tint instead of the dark glow. */
+[data-theme="light"] body::before {
+    background:
+        radial-gradient(120% 50% at 50% -10%, rgba(124, 58, 237, 0.05), transparent 60%),
+        radial-gradient(120% 55% at 50% 110%, rgba(219, 39, 119, 0.04), transparent 60%);
+}
+[data-theme="light"] .navbar { background: rgba(255, 255, 255, 0.82); }
+[data-theme="light"] .macro-banner {
+    background: linear-gradient(92deg, rgba(124, 58, 237, 0.07), rgba(219, 39, 119, 0.05));
+}
+[data-theme="light"] .macro-text b { color: var(--txt); }
+
+/* Leaderboard — the reference look: white surface, grey header band, and a
+   full hairline grid (light surfaces need the structure the dark theme gets
+   from its glow). */
+[data-theme="light"] .lb-scroll { background: var(--panel); }
+[data-theme="light"] .lb-table thead th {
+    background: var(--panel2);
+    color: #5F5A6B;
+    border-bottom: 1px solid var(--hair);
+}
+[data-theme="light"] .lb-table th + th,
+[data-theme="light"] .lb-table td + td { border-left: 1px solid var(--hair); }
+[data-theme="light"] .lb-table tbody tr:hover { background: rgba(124, 58, 237, 0.05); }
+[data-theme="light"] .lb-top { background: rgba(161, 98, 7, 0.06); }
+
+/* Trend-meter needles are white pins on a dark track — invert for light. */
+[data-theme="light"] .tm-needle,
+[data-theme="light"] .tm-minineedle { background: #2A2533; }
+[data-theme="light"] .tm-needle { box-shadow: 0 0 0 2px var(--ink), 0 0 10px rgba(42, 37, 51, 0.28); }
+[data-theme="light"] .tm-minineedle { box-shadow: 0 0 0 1.5px var(--ink), 0 0 8px rgba(42, 37, 51, 0.24); }
+
+/* Status/side pills: rebuilt on the light tokens so tint, text and ring all
+   move together instead of staying keyed to the dark palette's rgba values. */
+[data-theme="light"] .lb-status.lb-live,
+[data-theme="light"] .lb-status.lb-booked,
+[data-theme="light"] .chip-long {
+    background: color-mix(in srgb, var(--green) 12%, #fff);
+    color: var(--green);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--green) 34%, #fff);
+}
+[data-theme="light"] .lb-status.lb-wait {
+    background: color-mix(in srgb, var(--yellow) 12%, #fff);
+    color: var(--yellow);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--yellow) 34%, #fff);
+}
+[data-theme="light"] .chip-short {
+    background: color-mix(in srgb, var(--pink) 10%, #fff);
+    color: var(--pink);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pink) 30%, #fff);
+}
+[data-theme="light"] .booked-chip.booked-loss {
+    background: color-mix(in srgb, var(--red) 7%, #fff);
+    border-color: color-mix(in srgb, var(--red) 32%, var(--hair));
+}
+
+/* Tiles: the dark theme fades into --ink (near-black); on white that reads as
+   a flat card, so keep the accent wash at the top and settle to white. */
+[data-theme="light"] .tile {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--tile-a) 8%, #fff), var(--panel));
+}
+[data-theme="light"] .tile:hover, [data-theme="light"] .tile:focus-visible {
+    box-shadow: 0 16px 38px rgba(16, 12, 24, 0.10),
+                0 0 0 1px color-mix(in srgb, var(--tile-a) 38%, transparent);
+}
+[data-theme="light"] .toast { background: #17151C; color: #FAF9F7; border-color: #2A2533; }
+
+/* Body copy that hardcodes a pale lavender for the dark surface — the board
+   note, tile theses and article excerpts all need a dark ink on white. */
+[data-theme="light"] .tm-boardnote,
+[data-theme="light"] .tile-signal,
+[data-theme="light"] .tile-excerpt,
+[data-theme="light"] .macro-text { color: #413B4E; }
+/* .macro-tag paints near-black on --yellow; the light amber needs white. */
+[data-theme="light"] .macro-tag { color: #fff; }
