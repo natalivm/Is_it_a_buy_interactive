@@ -418,3 +418,17 @@ h1 .p, h1 .k, h1 .y {
 [data-theme="light"] .verdict.y { background: color-mix(in srgb, var(--yellow) 10%, #fff); }
 /* The 64px grid wash reads heavier on white than on the dark stage. */
 [data-theme="light"] .stage::before { opacity: .5; }
+
+/* ── Light theme: no neon ──────────────────────────────────────────────────
+   Every glow in this file is a dark-stage effect. On white a halo does not
+   read as light coming off the number, it reads as a smudged or out-of-focus
+   glyph, so the light theme drops them all. Dark is untouched. */
+:root[data-theme="light"] :is(.big, .big-num, .rr, .rung .px, .tc-row .r, .gauge .tag,
+  .lev .x, .stat .v, .v, h1 .p, h1 .k, h1 .y, .glow-p, .glow-k, .glow-y) {
+  text-shadow: none;
+  animation: none;            /* also stops the dataThrob pulse */
+}
+:root[data-theme="light"] .hl { filter: none; }
+:root[data-theme="light"] :is(.rung.now, .rung.hi) { box-shadow: none; }
+:root[data-theme="light"] :is(.price, .legdn, .legup, .bounce,
+  .candle-body, .candle-body.up) { filter: none; }
