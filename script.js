@@ -691,9 +691,8 @@ function initStockSearch() {
     function applyFilter() {
         const q = input.value.trim().toLowerCase();
         if (clearBtn) clearBtn.hidden = !q;
-        const tiles = gallery.querySelectorAll('.tile');
         let visible = 0;
-        tiles.forEach(tile => {
+        gallery.querySelectorAll('.tile').forEach(tile => {
             const symbol = (tile.dataset.symbol || '').toLowerCase();
             const titleEl = tile.querySelector('.tile-title');
             const title = titleEl ? titleEl.textContent.toLowerCase() : '';
@@ -702,6 +701,13 @@ function initStockSearch() {
             if (match) visible++;
         });
         if (searchEmpty) searchEmpty.hidden = !(q && visible === 0);
+
+        // Keep the ranking table in step — the search box sits in its header, so
+        // an unfiltered table beside a filtered gallery reads as a broken filter.
+        document.querySelectorAll('#leaderboardBody tr[data-symbol]').forEach(row => {
+            const symbol = (row.dataset.symbol || '').toLowerCase();
+            row.hidden = !(!q || symbol.includes(q));
+        });
     }
 
     input.addEventListener('input', applyFilter);

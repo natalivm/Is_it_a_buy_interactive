@@ -463,6 +463,9 @@ body.story-open { overflow: hidden; }
     overflow: hidden;
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
+/* `display:flex` above outranks the UA [hidden] rule — the search filter hides
+   tiles with the attribute, so it needs restating. */
+.tile[hidden] { display: none; }
 .tile::before {
     content: "";
     position: absolute;
