@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$AAOI — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -49,7 +50,7 @@
       Головний tell: 1H OBV <strong>ДОСІ −6.85M</strong>.<br>
       Ледь зрушив із −7.12M — це покриття, не акумуляція.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",28,"$120","стоп · reclaim = кінець плану",0.05],["k",54,"$113","re-arm вхід · ≈ +21% в руці",0.10],["k",82,"$101.58","1H 200-EMA · перший структурний ремонт",0.16],["k",108,"$92.12","1H верхня BB · 1H close вище = сквіз далі",0.21],["p",132,"$90–92","🎯 reject тут = долив · верх зони + ✓ T1",0.26],["y",158,"$88.92","ЗАРАЗ · +16.20% · 2:36 ET · OBV −6.85M",0.31],["m",184,"$86.6","1H 9-EMA · 1H close нижче = старт доливу",0.36],["p",212,"$82","✓ T2 + мід-бенд $81.42 · нижче = повний ре-арм",0.41],["p",240,"$74.66","вчорашній AH-лоу",0.45],["p",268,"$58","🕳️ T3 · тижнева 21-MA",0.49]]' viewBox="0 0 470 300" role="img" aria-label="AAOI bounced 16.20 percent to 88.92, into the top of the 80 to 90 add zone, with on-balance volume still negative 6.85 million and the short from 113 still up about 21 percent">
+        <svg data-lv='[["k",28,"$120","стоп · reclaim = кінець плану",0.05],["k",54,"$113","re-arm вхід · ≈ +21% в руці",0.10],["k",82,"$101.58","1H 200-EMA · перший структурний ремонт",0.16],["k",108,"$92.12","1H верхня BB · 1H close вище = сквіз далі",0.21],["p",132,"$90–92","🎯 reject тут = долив · верх зони + ✓ T1",0.26],["y",158,"$88.92","ЗАРАЗ · +16.20% · 2:36 ET · OBV −6.85M",0.31],["m",184,"$86.6","1H 9-EMA · 1H close нижче = старт доливу",0.36],["p",212,"$82","✓ T2 + мід-бенд $81.42 · нижче = повний ре-арм",0.41],["p",240,"$74.66","вчорашнє AH-дно",0.45],["p",268,"$58","🕳️ T3 · тижнева 21-MA",0.49]]' viewBox="0 0 470 300" role="img" aria-label="AAOI bounced 16.20 percent to 88.92, into the top of the 80 to 90 add zone, with on-balance volume still negative 6.85 million and the short from 113 still up about 21 percent">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.8s" d="M75,70 L150,160 L220,240"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.35s;animation-duration:.8s" d="M220,240 L285,205 L350,158"/>
           <circle class="dot-y pop" style="animation-delay:2.2s" cx="350" cy="158" r="6"/>
@@ -80,7 +81,7 @@
         ["now", "$88.92", "ТУТ · +16.20% (2:36 ET) · OBV −6.85M досі мінус"],
         ["sup", "$86.6", "1H 9-EMA · 1H close нижче = старт доливу"],
         ["sup", "$82", "✓ T2 + мід-бенд $81.42 · 1H close нижче = повний ре-арм"],
-        ["sup", "$74.66", "Вчорашній AH-лоу"],
+        ["sup", "$74.66", "Вчорашнє AH-дно"],
         ["sup", "$58", "🕳️ Тижнева 21-MA · T3 · остання ціль (глибше — 50-week $47)"]]'></div>
       <p class="note rv">Дві лінії вирішують: <span class="k">$90–92</span> (rejection + 1H close під $86.6 = долив; під $82 — повний ре-арм → $74.66 → $58) і <span class="k">$92.12</span> (1H close вище = сквіз до $101.58; лише reclaim $120 закриває).</p>
     </section>
@@ -89,7 +90,7 @@
     <section class="slide" data-label="AAOI · ПЛАН">
       <div class="eyebrow rv">PLAN · THE BOUNCE IS THE ADD · REJECTION FIRST</div>
       <h1 class="rv">The bounce came — <span class="hl">add it right</span></h1>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> рефлекс-відскок, який картка замовила, прийшов у зону — але додаємо <strong>через rejection, не маркетом у сквіз</strong>: reject <strong>$90–92</strong> + 1H close під ≈<strong>$86.6</strong> = долив; 1H close під <strong>$82/$81.42</strong> = повний ре-арм → $74.66 → 🕳️ <strong>T3 $58</strong>. 1H close над $92.12 = сквіз до $101.58 (перший ремонт); лише reclaim <strong>$120</strong> закриває план.</p>
+      <p class="note k rv">🎯 <strong>Тригер —</strong> рефлекс-відскок, який картка замовила, прийшов у зону — але додаємо <strong>через rejection, не маркетом у сквіз</strong>: reject <strong>$90–92</strong> + 1H close під ≈<strong>$86.6</strong> = долив; 1H close під <strong>$82/$81.42</strong> = повний ре-арм → $74.66 → 🕳️ <strong>T3 $58</strong>. 1H close над $92.12 = сквіз до $101.58 (перший ремонт); лише reclaim <strong>$120</strong> закриває план.</p>
       <p class="note rv">Чому шорт живий, коли все довкола фліпається: <strong>OBV −6.85M — покриття, не попит</strong>, єдиний із оптики без обсягу за биками. T1 + T2 у банку, ≈ +21% від $113 у руці — позиція дозволяє чекати підтвердження. 🕳️ Глибша мапа $58 → 50-week $47 незмінна.</p>
     </section>
 

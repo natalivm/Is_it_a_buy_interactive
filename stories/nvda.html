@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$NVDA — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@
       Друга — ні: прибита ДО <strong>$194</strong> без закриття вище.<br>
       Вхід ≈ флет (+0.3%), частина забанкована в T1.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",32,"$206","стоп · reclaim = лонг назад",0.05],["k",60,"$202.64","1H 200-EMA · верх зони фейду",0.1],["k",84,"$200.22","1H верхня BB",0.15],["k",108,"$197.38","1H 50-EMA · низ зони фейду $197–203",0.2],["k",136,"$194.91","mid-BB",0.25],["y",162,"$193.44","ТУТ · +1.81% · прибитий ДО $194",0.3],["p",186,"$192.53","VWAP",0.34],["p",214,"$189","✓ T1 / 200-day · ВТРИМАНО",0.38],["p",242,"$183.66","лоу флашу",0.42],["p",270,"$182 → $174","T2 → 🕳️ T3 · лише під $189",0.46]]' viewBox="0 0 470 300" role="img" aria-label="NVDA is 193.44 up 1.81 percent at 2:26 ET, pinned on the 194 flip line with RSI at 49 — the control group barely moving while the cohort squeezes double digits">
+        <svg data-lv='[["k",32,"$206","стоп · reclaim = лонг назад",0.05],["k",60,"$202.64","1H 200-EMA · верх зони фейду",0.1],["k",84,"$200.22","1H верхня BB",0.15],["k",108,"$197.38","1H 50-EMA · низ зони фейду $197–203",0.2],["k",136,"$194.91","mid-BB",0.25],["y",162,"$193.44","ТУТ · +1.81% · прибитий ДО $194",0.3],["p",186,"$192.53","VWAP",0.34],["p",214,"$189","✓ T1 / 200-day · ВТРИМАНО",0.38],["p",242,"$183.66","дно флашу",0.42],["p",270,"$182 → $174","T2 → 🕳️ T3 · лише під $189",0.46]]' viewBox="0 0 470 300" role="img" aria-label="NVDA is 193.44 up 1.81 percent at 2:26 ET, pinned on the 194 flip line with RSI at 49 — the control group barely moving while the cohort squeezes double digits">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.8s" d="M70,60 L150,112 L228,152"/>
           <path class="legdn draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.5s;opacity:.7" d="M228,152 L285,212"/>
           <path class="legup draw" pathLength="1" style="animation-delay:2s;animation-duration:.5s" d="M285,212 L345,155"/>

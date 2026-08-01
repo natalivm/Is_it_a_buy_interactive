@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$CRWV — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -47,7 +48,7 @@
       Погана новина + 22% + нуль накопичення.<br>
       = форма провального відскоку.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",32,"$88","повна негація шорту",0.05],["k",62,"$81","🚨 стоп · лише ~9% зверху",0.11],["k",92,"$77.78","1H 200-EMA · верх смуги рішення",0.17],["k",112,"$76.48","1H верхня BB",0.22],["y",138,"$74.47","ТУТ · +22.43% · 2:06 ET",0.27],["p",168,"$71.31","1H 9-EMA · close нижче = ВІДКИДАННЯ підтверджено",0.32],["p",198,"$65.57","mid-BB · перша ціль",0.36],["p",228,"$59.6","зламаний лой",0.4],["p",256,"$49.4","🎯 T1 · пост-IPO полиця",0.44],["p",280,"$40","🕳️ T2 · IPO-база",0.47]]' viewBox="0 0 470 300" role="img" aria-label="CRWV is 74.47 up 22.43 percent at 2:06 ET, squeezed into the 74 to 78 fade zone under the 1H 200-EMA 77.78 with the 81 stop just above, targets 49.4 then 40">
+        <svg data-lv='[["k",32,"$88","повна негація шорту",0.05],["k",62,"$81","🚨 стоп · лише ~9% зверху",0.11],["k",92,"$77.78","1H 200-EMA · верх смуги рішення",0.17],["k",112,"$76.48","1H верхня BB",0.22],["y",138,"$74.47","ТУТ · +22.43% · 2:06 ET",0.27],["p",168,"$71.31","1H 9-EMA · close нижче = ВІДКИДАННЯ підтверджено",0.32],["p",198,"$65.57","mid-BB · перша ціль",0.36],["p",228,"$59.6","зламане дно",0.4],["p",256,"$49.4","🎯 T1 · пост-IPO полиця",0.44],["p",280,"$40","🕳️ T2 · IPO-база",0.47]]' viewBox="0 0 470 300" role="img" aria-label="CRWV is 74.47 up 22.43 percent at 2:06 ET, squeezed into the 74 to 78 fade zone under the 1H 200-EMA 77.78 with the 81 stop just above, targets 49.4 then 40">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M70,55 L160,95 L250,128 L340,166"/>
           <circle class="dot-y pop" style="animation-delay:1.85s" cx="340" cy="166" r="6"/>
         </svg>
@@ -104,7 +105,7 @@
         ["now", "$74.47", "ТУТ · 2:06 ET +22.43% (+$13.65) · у зоні фейду — тригер ЖИВИЙ, але чекаємо відкидання"],
         ["sup", "$71.31", "1H 9-EMA · 1H-close нижче = ВІДКИДАННЯ підтверджено, вхід оформлено"],
         ["sup", "$65.57", "Mid-BB · перша ціль після входу"],
-        ["sup", "$59.6", "Зламаний лой · друга ціль"],
+        ["sup", "$59.6", "Зламане дно · друга ціль"],
         ["sup", "$49.4", "T1 · пост-IPO полиця — єдина протестована структура нижче"],
         ["sup", "$40", "🕳️ T2 · IPO-база · deep"]]'></div>
       <p class="note k rv">Дві лінії вирішують: <span class="y">$74–78</span> (відкидання = вхід, підтвердження — 1H-close під $71.31) і <span class="y">$81</span> (стоп, ~9% — reclaim ремонтує; &gt; $88 шорт неправий). Ризик малий, R:R ≈ 5:1 до 🎯 $49.4.</p>
@@ -114,7 +115,7 @@
     <section class="slide" data-label="CRWV · ПЛАН">
       <div class="eyebrow p rv">PLAN · WAIT FOR META · FADE $65–74 / BREAK &lt;$59.6</div>
       <h1 class="rv">Let META print — <span class="hl">then fade the bounce</span></h1>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> у діру під weekly-бендом не шортимо і <strong>через принт META позицію не носимо</strong> (урок тижня: TER/BE/STX — пампи здуваються, але перша реакція бреше). Після принту: <strong>провалений відскок у $65–74</strong> (4H 9-EMA → daily 9-EMA → 4H 50-EMA на зламаному низі діапазону) = вхід, стоп <strong>$81</strong> — АБО <strong>рішучий брейк AH-лоу $59.6</strong> = продовження. Цілі: <strong>T1 $49.4</strong> (пост-IPO полиця) → 🕳️ <strong>T2 $40</strong> (IPO-база). Reclaim $81 ремонтує, &gt; $88 негує.</p>
+      <p class="note k rv">🎯 <strong>Тригер —</strong> у діру під weekly-бендом не шортимо і <strong>через принт META позицію не носимо</strong> (урок тижня: TER/BE/STX — пампи здуваються, але перша реакція бреше). Після принту: <strong>провалений відскок у $65–74</strong> (4H 9-EMA → daily 9-EMA → 4H 50-EMA на зламаному низі діапазону) = вхід, стоп <strong>$81</strong> — АБО <strong>рішучий брейк AH-дна $59.6</strong> = продовження. Цілі: <strong>T1 $49.4</strong> (пост-IPO полиця) → 🕳️ <strong>T2 $40</strong> (IPO-база). Reclaim $81 ремонтує, &gt; $88 негує.</p>
       <p class="note rv">CRWV — чистий AI-capacity provider: капекс-коментар META поведе його сильніше за власну динаміку — бінар в обидва боки. Фон групи: SMH AH-флашем узяв 0.618 $478 і відбився — якщо групу відскочить, зона $65–74 прийде швидко; якщо META підтвердить страх капексу — $49.4 прийде так само швидко.</p>
     </section>
 

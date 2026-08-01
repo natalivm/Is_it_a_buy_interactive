@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$NBIS — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -38,7 +39,7 @@
       <div class="eyebrow y rv">❗ 1:52 ET +27.59% → $189.12 · +26% СТАЛО +5.4%</div>
       <h1 class="rv">first to <span class="hl">crack</span></h1>
       <p class="sub lines rv">Три жорстокі дні: −15.02% → −9.68% → −12.65%.<br>
-      Закінчились на <strong>$147.06</strong> — і це був <strong>лой</strong>.<br>
+      Закінчились на <strong>$147.06</strong> — і це було <strong>дно</strong>.<br>
       NBIS <strong>$189.12 (+27.59%, +$40.90)</strong>.<br>
       Ціна вище взятих <span class="p">T1 $160</span> і <span class="p">T2 $147</span>.<br>
       Зона доливу <span class="m">$155–174</span> <strong>недійсна</strong>.<br>
@@ -46,7 +47,7 @@
       Вхід $200 — лише за 6%.<br>
       Реклеймлено <span class="k">30-хв 200-EMA $180.01</span>.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",34,"$213","стоп · 2-й close = out · ~13% зверху",0.05],["k",68,"$200","вхід шорта · ~6% зверху",0.11],["k",98,"≈$196","хай спайку — перше місце відкидання",0.17],["y",130,"$189.12","ТУТ · +27.59% · 1:52 ET",0.23],["p",164,"$180.01","30-хв 200-EMA · реклеймлено · close нижче = фейд назад",0.28],["p",198,"$169.62","30-хв 50-EMA · перша ціль re-arm",0.33],["p",230,"$160","T1 — історія · ціль на розворот",0.38],["p",262,"$147","T2 — історія · лой ходу",0.43]]' viewBox="0 0 470 300" role="img" aria-label="NBIS is 189.12 up 27.59 percent at 1:52 ET, back above T1 160 and T2 147, having reclaimed the 30-minute 200-EMA 180.01, with the 200 entry six percent above">
+        <svg data-lv='[["k",34,"$213","стоп · 2-й close = out · ~13% зверху",0.05],["k",68,"$200","вхід шорта · ~6% зверху",0.11],["k",98,"≈$196","хай спайку — перше місце відкидання",0.17],["y",130,"$189.12","ТУТ · +27.59% · 1:52 ET",0.23],["p",164,"$180.01","30-хв 200-EMA · реклеймлено · close нижче = фейд назад",0.28],["p",198,"$169.62","30-хв 50-EMA · перша ціль re-arm",0.33],["p",230,"$160","T1 — історія · ціль на розворот",0.38],["p",262,"$147","T2 — історія · дно ходу",0.43]]' viewBox="0 0 470 300" role="img" aria-label="NBIS is 189.12 up 27.59 percent at 1:52 ET, back above T1 160 and T2 147, having reclaimed the 30-minute 200-EMA 180.01, with the 200 entry six percent above">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.1s" d="M80,58 L160,102 L240,150 L310,190 L368,216"/>
           <circle class="dot-y pop" style="animation-delay:2s" cx="368" cy="216" r="6"/>
         </svg>
@@ -61,7 +62,7 @@
         <div class="vh">⚠️ Гістограма MACD ЧЕРВОНА, Stoch котиться, OBV усе ще мінус</div>
         <p>Сквіз справжній: реклеймлено <strong>30-хв 200-EMA $180.01</strong>, ціна вище взятих T1 $160 і T2 $147, а зона доливу $155–174 <strong>недійсна</strong>.</p>
         <p>Але саме тут стрічка <strong>слабне</strong>: лінія MACD плюсова (7.50), а <strong>гістограма вже ЧЕРВОНА</strong>; Stoch <strong>83.06</strong> котиться з ~90; <strong>OBV усе ще МІНУС (−21.3M)</strong> — краще за −32.7M, але «краще й мінус» = шортокрий сам себе оплачує.</p>
-        <p>Тому це <strong>перший реальний кандидат на фейд</strong> на дошці. Край +5.4% під входом $200 за 6% не варто захищати: <strong>банкуй/трейль</strong>.</p>
+        <p>Тому це <strong>перший реальний кандидат на фейд</strong> серед решти імен. Край +5.4% під входом $200 за 6% не варто захищати: <strong>банкуй/трейль</strong>.</p>
       </div>
     </section>
 
@@ -78,7 +79,7 @@
         ["sup", "$169.62", "30-хв 50-EMA · перша ціль на re-arm"],
         ["sup", "$160", "T1 — реалізована історія · ціль, якщо ціна розвернеться"],
         ["sup", "$155–174", "Стара зона доливу · знесена — НЕДІЙСНА"],
-        ["sup", "$147", "T2 — історія · лой ходу"],
+        ["sup", "$147", "T2 — історія · дно ходу"],
         ["sup", "$130", "🕳️ T3 · потребує нового сетапу"]]'></div>
       <p class="note rv">Дві лінії: долив на відскоку в <span class="k">$155–174</span> (зона спустилась із $181–196), не гонитва за low; 2-й close над <span class="k">$213</span> знімає шорт.</p>
     </section>
@@ -88,7 +89,7 @@
       <div class="eyebrow y rv">PLAN · БАНКУЙ · +26% → +5.4%</div>
       <h1 class="rv">Bank it —<br><span class="hl">don’t defend 5%</span></h1>
       <p class="note k rv">🎯 <strong>$189.12 (+27.59%)</strong> — край шорту впав із +26% до <strong>+5.4%</strong>, а вхід $200 лише за 6%. <strong>Банкуй/трейль</strong>, не захищай. Re-arm — тільки <strong>відкидання</strong> на ≈$196/$200 плюс <strong>30-хв close під $180.01</strong> → цілі $169.62 → $160.</p>
-      <p class="note rv">⚠️ Але тут <strong>єдиний сигнал слабкості</strong> на дошці: гістограма MACD червона, Stoch котиться, OBV мінус. Якщо когорт розвернеться — <strong>почнеться звідси</strong>.</p>
+      <p class="note rv">⚠️ Але тут <strong>єдиний сигнал слабкості</strong> серед решти імен: гістограма MACD червона, Stoch котиться, OBV мінус. Якщо когорт розвернеться — <strong>почнеться звідси</strong>.</p>
     </section>
 
   </div>

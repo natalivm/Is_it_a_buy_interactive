@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$INTC — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -48,7 +49,7 @@
       Це <strong>чистий шортокрий без попиту</strong>.<br>
       Ні в лонг, ні тиснути шорт.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",36,"$98–102","негує шорт остаточно",0.05],["k",72,"$96.38","1H 200-EMA · разом із $98–102 = одна смуга рішення",0.11],["y",112,"$92.21","ТУТ · +12.62% · 1:56 ET",0.17],["p",146,"$89","⛓️ гейт ВІДІБРАНО · 1H-close нижче = шорт знову живий",0.23],["p",180,"$87.72","1H 50-EMA",0.28],["p",212,"$85.11","mid-BB",0.33],["p",246,"$75","T1 · денна 200-EMA — потребує нової ноги",0.38],["p",276,"$66","🕳️ незакритий геп",0.43]]' viewBox="0 0 470 300" role="img" aria-label="INTC is 92.21 up 12.62 percent at 1:56 ET, reclaiming the 92 line that stalls the fade, with the 96.38 to 102 band the decision zone and OBV still stuck at minus 590 million">
+        <svg data-lv='[["k",36,"$98–102","негує шорт остаточно",0.05],["k",72,"$96.38","1H 200-EMA · разом із $98–102 = одна смуга рішення",0.11],["y",112,"$92.21","ТУТ · +12.62% · 1:56 ET",0.17],["p",146,"$89","⛓️ рівень ВІДІБРАНО · 1H-close нижче = шорт знову живий",0.23],["p",180,"$87.72","1H 50-EMA",0.28],["p",212,"$85.11","mid-BB",0.33],["p",246,"$75","T1 · денна 200-EMA — потребує нової ноги",0.38],["p",276,"$66","🕳️ незакритий геп",0.43]]' viewBox="0 0 470 300" role="img" aria-label="INTC is 92.21 up 12.62 percent at 1:56 ET, reclaiming the 92 line that stalls the fade, with the 96.38 to 102 band the decision zone and OBV still stuck at minus 590 million">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:1.2s" d="M96,60 L180,96 L260,120 L340,152 L400,178"/>
           <circle class="dot-y pop" style="animation-delay:2.15s" cx="400" cy="178" r="6"/>
         </svg>
@@ -62,7 +63,7 @@
       <div class="verdict y rv">
         <div class="vh">⚠️ OBV −590M НЕ зрушив — це чистий шортокрий, а не попит</div>
         <p>Гейт $89–92 <strong>відібрано</strong>, зона re-short $86–89 <strong>недійсна</strong>. Фейд <strong>зупинено</strong> ($92), але не негований ($98–102).</p>
-        <p>І ось що відрізняє INTC від усього когорту: <strong>OBV усе ще −590M</strong> — найгірший на дошці й <strong>не зрушив</strong>. У всіх інших OBV пішов за ціною (MU 235M росте, SMH 57.2M → 61.3M, NBIS −32.7M → −21.3M).</p>
+        <p>І ось що відрізняє INTC від усього когорту: <strong>OBV усе ще −590M</strong> — найгірший серед напівпровідників й <strong>не зрушив</strong>. У всіх інших OBV пішов за ціною (MU 235M росте, SMH 57.2M → 61.3M, NBIS −32.7M → −21.3M).</p>
         <p>Плюс MACD щойно перетнув нуль (0.33), гістограма вже червоніє, Stoch 92.46. Отже: <strong>не флipай у лонг</strong> — попиту в даних немає, є лише відсутність продавця. І шорт тут не тисни: <strong>стій осторонь</strong>.</p>
       </div>
     </section>

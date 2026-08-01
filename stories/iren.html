@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$IREN — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,7 +46,7 @@
       Але <strong>ранер на 🕳️ $27 мертвий</strong>.<br>
       Позиція ≈ <strong>+4%</strong> (було ≈ +25%).</p>
       <div class="chart rv">
-        <svg data-lv='[["k",40,"$42","стоп · ~12% зверху",0.05],["k",72,"$41.70","reclaim = фліп у лонг",0.11],["k",104,"$38.90","вхід шорта · ціна ТУТ",0.17],["y",134,"$37.31","ТУТ · +27.28%",0.23],["k",160,"$36.79","верхній BB · вище нього",0.28],["m",188,"$35.61","50-EMA / VWAP · re-arm нижче",0.32],["p",214,"$34","✓ T1 узято",0.36],["p",244,"$30","✓ T2 узято",0.4],["m",274,"$29.20","лой ходу · ранер $27 мертвий",0.44]]' viewBox="0 0 470 300" role="img" aria-label="IREN is 37.31 up 27.28 percent at 10:00 ET, a vertical squeeze from 29.20 back to the 38.90 short entry, taking the 31 to 34 add zone and both banked targets">
+        <svg data-lv='[["k",40,"$42","стоп · ~12% зверху",0.05],["k",72,"$41.70","reclaim = фліп у лонг",0.11],["k",104,"$38.90","вхід шорта · ціна ТУТ",0.17],["y",134,"$37.31","ТУТ · +27.28%",0.23],["k",160,"$36.79","верхній BB · вище нього",0.28],["m",188,"$35.61","50-EMA / VWAP · re-arm нижче",0.32],["p",214,"$34","✓ T1 узято",0.36],["p",244,"$30","✓ T2 узято",0.4],["m",274,"$29.20","дно ходу · ранер $27 мертвий",0.44]]' viewBox="0 0 470 300" role="img" aria-label="IREN is 37.31 up 27.28 percent at 10:00 ET, a vertical squeeze from 29.20 back to the 38.90 short entry, taking the 31 to 34 add zone and both banked targets">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.8s" d="M96,150 L170,214 L240,274"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.4s;animation-duration:.8s" d="M240,274 L300,214 L348,160 L378,134"/>
           <circle class="dot-y pop" style="animation-delay:2.4s" cx="378" cy="134" r="6"/>

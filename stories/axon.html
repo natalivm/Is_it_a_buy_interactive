@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$AXON — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -36,7 +37,7 @@
       <div class="cover-ticker rv">AXON</div>
       <div class="eyebrow rv">📅 31/07 CLOSE $527.76 (+0.47%) · 🌙 AH $527.30 · ⭐ ЗАКРИВСЯ У ВЕРХНІХ 20% ДІАПАЗОНУ</div>
       <h1 class="rv">Єдиний, хто <span class="hl">закрився вгорі.</span></h1>
-      <p class="sub lines rv">Дошка тестувала рівні зверху й віддавала хід.<br>
+      <p class="sub lines rv">Решта імен тестувала рівні зверху й віддавала хід.<br>
       AXON зробив протилежне.<br>
       O $519.06, H $530.97, L $514.76, C <strong>$527.76</strong>.<br>
       Закриття у <span class="k">верхніх 20% діапазону</span> (80.2%).<br>
@@ -46,7 +47,7 @@
       Тут як <span class="k">контрольний зразок</span>:<br>
       чи була п’ятниця ризик-оффом узагалі.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",28,"$627.00","верхня денна BB",0.05],["k",70,"$562.06","липневий спайк-хай",0.10],["k",104,"$546.51","середина денної BB · перший тест",0.16],["y",148,"$527.76","ЗАРАЗ · +0.47% · 80% діапазону · 🌙 AH $527.30",0.22],["m",168,"$525.95","daily EMA9 · лише $1.81 під ціною",0.28],["p",192,"$516.99","⭐ daily EMA200 · ціна ВИЩЕ",0.34],["w",212,"$514.76","лоу п’ятниці · рівень стопа",0.40],["p",244,"$500.83","EMA50 + weekly 9-EMA $501.73 · кластер ≈$500",0.46]]' viewBox="0 0 470 300" role="img" aria-label="AXON closed 527.76 in the top 20 percent of its daily range, above the daily 200-EMA at 516.99, with the mid Bollinger band 546.51 as the first test overhead">
+        <svg data-lv='[["k",28,"$627.00","верхня денна BB",0.05],["k",70,"$562.06","липневий спайк-хай",0.10],["k",104,"$546.51","середина денної BB · перший тест",0.16],["y",148,"$527.76","ЗАРАЗ · +0.47% · 80% діапазону · 🌙 AH $527.30",0.22],["m",168,"$525.95","daily EMA9 · лише $1.81 під ціною",0.28],["p",192,"$516.99","⭐ daily EMA200 · ціна ВИЩЕ",0.34],["w",212,"$514.76","дно п’ятниці · рівень стопа",0.40],["p",244,"$500.83","EMA50 + weekly 9-EMA $501.73 · кластер ≈$500",0.46]]' viewBox="0 0 470 300" role="img" aria-label="AXON closed 527.76 in the top 20 percent of its daily range, above the daily 200-EMA at 516.99, with the mid Bollinger band 546.51 as the first test overhead">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.7s" d="M60,120 L165,215"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.25s;animation-duration:.9s" d="M165,215 L265,175 L360,148"/>
           <circle class="dot-y pop" style="animation-delay:2.2s" cx="360" cy="148" r="6"/>
@@ -67,7 +68,7 @@
     <!-- 3 · RELATIVE STRENGTH -->
     <section class="slide" data-text data-label="AXON · vs ДОШКА">
       <div class="eyebrow y rv">RELATIVE STRENGTH · ⭐ ТИЖНЕВИЙ ТРЕНД НЕ ЗЛАМАНО</div>
-      <h1 class="rv">Найсильніший<br><span class="hl">тижневий на дошці.</span></h1>
+      <h1 class="rv">Найсильніший<br><span class="hl">тижневий серед решти імен.</span></h1>
       <p class="sub lines rv">⭐ На головному вимірі записки AXON — перший.<br>
       Тижнева гістограма <strong>+18.39</strong>, плюс десять барів.<br>
       Лише три імені мають плюсову тижневу гістограму.<br>
@@ -96,15 +97,15 @@
         ["sup", "$514.76", "Лоу п’ятниці · рівень стопа"],
         ["key", "$500.83", "Кластер ≈$500: daily EMA50 + weekly 9-EMA $501.73"],
         ["sup", "$466.01", "Нижня денна BB"]]'></div>
-      <p class="note rv">Вузол <span class="k">$514.76–527.76</span>: лоу п’ятниці, EMA200 $516.99 і EMA9 $525.95 — усе в межах $13. Поки він тримається, ремонт живий; денний close під <span class="k">$500</span> знімає його повністю.</p>
+      <p class="note rv">Вузол <span class="k">$514.76–527.76</span>: дно п’ятниці, EMA200 $516.99 і EMA9 $525.95 — усе в межах $13. Поки він тримається, ремонт живий; денний close під <span class="k">$500</span> знімає його повністю.</p>
     </section>
 
     <!-- 5 · PLAN -->
     <section class="slide" data-label="AXON · ПЛАН">
       <div class="eyebrow rv">PLAN · 🔍 РОЗВІДКА · НАЙБЛИЖЧИЙ ДО ДОШКИ</div>
       <h1 class="rv">Лонг-вотч із <span class="hl">7:1 на повну мапу</span></h1>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> тримати вузол <strong>$514.76–527.76</strong> (лоу п’ятниці + EMA200 $516.99). Стоп: daily close під <strong>$514</strong> — ризик <strong>2.6%</strong>. Цілі: <strong>$546.51</strong> (середина BB, +3.6%) → <strong>$562.06</strong> (липневий хай, +6.5%) → <strong>$627.00</strong> (верхня BB, +18.8%). На повну мапу це <strong>~7:1</strong> — найкраще співвідношення серед розвідки. Підтвердження: daily close над <strong>$546.51</strong>, який заодно почне зшивати EMA50 з EMA200.</p>
-      <p class="note rv">⚠️ Чому все ще розвідка, а не дошка: «хрест смерті» на денному не зшито (EMA50 на $16.16 під EMA200), місячна гістограма досі −29.76, і ціна на −40.4% від хаю $885.92 — це ремонт, а не тренд. Плюс RSI 52.13 / Stoch 46.95 дають рівно нуль переваги в моменті. 🚦 На відміну від напівпровідників, AXON <strong>не залежить</strong> від гейта SMH $547–550 — він поза сектором, і це його головна цінність тут. 📐 Дані з графіка: EMA200 $516.99 (в аудиті $516.34), OBV 26.3m денний / 164m тижневий (в аудиті 147m / 196m). ⚠️ Місячний рядок аудиту (H $665.07) не сходиться з видимим липневим діапазоном на денному й тижневому — на нього тут не спираємось.</p>
+      <p class="note k rv">🎯 <strong>Тригер —</strong> тримати вузол <strong>$514.76–527.76</strong> (дно п’ятниці + EMA200 $516.99). Стоп: daily close під <strong>$514</strong> — ризик <strong>2.6%</strong>. Цілі: <strong>$546.51</strong> (середина BB, +3.6%) → <strong>$562.06</strong> (липневий хай, +6.5%) → <strong>$627.00</strong> (верхня BB, +18.8%). На повну мапу це <strong>~7:1</strong> — найкраще співвідношення серед розвідки. Підтвердження: daily close над <strong>$546.51</strong>, який заодно почне зшивати EMA50 з EMA200.</p>
+      <p class="note rv">⚠️ Чому все ще розвідка, а не дошка: «хрест смерті» на денному не зшито (EMA50 на $16.16 під EMA200), місячна гістограма досі −29.76, і ціна на −40.4% від хаю $885.92 — це ремонт, а не тренд. Плюс RSI 52.13 / Stoch 46.95 дають рівно нуль переваги в моменті. 🚦 На відміну від напівпровідників, AXON <strong>не залежить</strong> від рівня SMH $547–550 — він поза сектором, і це його головна цінність тут.</p>
     </section>
 
   </div>

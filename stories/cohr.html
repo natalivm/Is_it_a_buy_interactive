@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$COHR — Торговий план</title>
-<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,16 +38,16 @@
       <div class="eyebrow rv">2:07 ET +11.19% · ВІДСКОК ВІД ДВЕРЕЙ T3 · НАЗАД НА T2 $247</div>
       <h1 class="rv">back at <span class="hl">the zone</span></h1>
       <p class="sub lines rv">AH-принт <strong>$218.01</strong> — за ~1.4% від 🕳️ T3 $215.<br>
-      <span class="k">І був лоєм</span>.<br>
+      <span class="k">І був дном</span>.<br>
       «Банкуй у тег, не тисни ціль» — нижня точка.<br>
       Тепер <strong>$246.88 (+11.19%, +$24.83 о 2:07 ET)</strong>.<br>
-      +13% від лоу — <span class="p">НА зламану T2 $247 у цент</span>.<br>
+      +13% від дна — <span class="p">НА зламану T2 $247 у цент</span>.<br>
       Під нижньою губою зони доливу <span class="k">$252–266</span>.<br>
       Шорт від $310 досі ≈ <strong>+20%</strong> у руці.<br>
       Єдина з чотирьох, де сквіз ПРИНОСИТЬ ціну в зону.<br>
       А не анулює її.</p>
       <div class="chart rv">
-        <svg data-lv='[["k",30,"$321","стоп · 21-week · повний ремонт",0.05],["k",58,"$279.90","1H 200-EMA · ~13% вгору",0.10],["k",88,"$266","зламана денна 200-EMA · верх зони · daily close вище = перший ремонт",0.16],["k",116,"$252–266","🎯 зона доливу · лише на rejection",0.22],["y",148,"$246.88","ЗАРАЗ · +11.19% · 2:07 ET · на T2 $247",0.27],["m",178,"$240","1H 9-EMA · 1H close нижче = ре-арм",0.32],["w",208,"$230.20","1H мід-бенд",0.37],["p",244,"$215","🕳️ T3 · не тегнуто · AH $218.01 був лоєм",0.42]]' viewBox="0 0 470 300" role="img" aria-label="COHR bounced 13 percent off the 218 after-hours low back to the broken T2 247, pressing the 252 to 266 re-load zone, short from 310 still up about 20 percent">
+        <svg data-lv='[["k",30,"$321","стоп · 21-week · повний ремонт",0.05],["k",58,"$279.90","1H 200-EMA · ~13% вгору",0.10],["k",88,"$266","зламана денна 200-EMA · верх зони · daily close вище = перший ремонт",0.16],["k",116,"$252–266","🎯 зона доливу · лише на rejection",0.22],["y",148,"$246.88","ЗАРАЗ · +11.19% · 2:07 ET · на T2 $247",0.27],["m",178,"$240","1H 9-EMA · 1H close нижче = ре-арм",0.32],["w",208,"$230.20","1H мід-бенд",0.37],["p",244,"$215","🕳️ T3 · не тегнуто · AH $218.01 був дном",0.42]]' viewBox="0 0 470 300" role="img" aria-label="COHR bounced 13 percent off the 218 after-hours low back to the broken T2 247, pressing the 252 to 266 re-load zone, short from 310 still up about 20 percent">
           <path class="legdn draw" pathLength="1" style="animation-delay:.5s;animation-duration:.8s" d="M75,80 L150,165 L220,240"/>
           <path class="legup draw" pathLength="1" style="animation-delay:1.35s;animation-duration:.8s" d="M220,240 L285,200 L350,148"/>
           <circle class="dot-y pop" style="animation-delay:2.2s" cx="350" cy="148" r="6"/>
@@ -76,7 +77,7 @@
         ["now", "$246.88", "ТУТ · +11.19% (2:07 ET) · на T2 $247 у цент · шорт від $310 ще ≈ +20%"],
         ["sup", "$240", "1H 9-EMA · 1H close нижче = ре-арм → мапа вниз"],
         ["sup", "$230.20", "1H мід-бенд"],
-        ["sup", "$215", "🕳️ T3 · НЕ тегнуто · AH $218.01 був лоєм · ціль жива"]]'></div>
+        ["sup", "$215", "🕳️ T3 · НЕ тегнуто · AH $218.01 був дном · ціль жива"]]'></div>
       <p class="note k rv">Дві лінії вирішують: <span class="y">$252–266</span> (rejection + 1H close під $240 = долив → $230.20 → $218 → $215) і <span class="y">$266</span> (daily close вище = перший структурний ремонт → $279.90 → $321).</p>
     </section>
 
@@ -84,7 +85,7 @@
     <section class="slide" data-label="COHR · ПЛАН">
       <div class="eyebrow rv">PLAN · THE SQUEEZE DELIVERS THE ZONE · REJECTION ONLY</div>
       <h1 class="rv">The zone arrived — <span class="hl">wait for the rejection</span></h1>
-      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> не продавати в сквіз — долив ЛИШЕ на <strong>rejection у $252–266</strong>, підтверджений <strong>1H close назад під $240</strong> → мапа $230.20 → $218 → 🕳️ T3 $215 лишається живою. <strong>Daily close над $266</strong> (зламана денна 200-EMA) — перший структурний ремонт слайду → $279.90 → $321; лише reclaim $321 ремонтує повністю.</p>
+      <p class="note k rv">🎯 <strong>Тригер —</strong> не продавати в сквіз — долив ЛИШЕ на <strong>rejection у $252–266</strong>, підтверджений <strong>1H close назад під $240</strong> → мапа $230.20 → $218 → 🕳️ T3 $215 лишається живою. <strong>Daily close над $266</strong> (зламана денна 200-EMA) — перший структурний ремонт слайду → $279.90 → $321; лише reclaim $321 ремонтує повністю.</p>
       <p class="note rv">T1 + T2 у банку, шорт від $310 досі ≈ +20% у руці — позиція дозволяє чекати підтвердження, а не вгадувати. Структура ще зламана (21-week $321 не відвойовано), але оптика сквізиться разом: GLW +8% у своїй зоні, AAOI/LITE stale — комплекс ходить одним рухом.</p>
     </section>
 
