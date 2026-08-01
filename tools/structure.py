@@ -389,7 +389,8 @@ def obv_slope(close: list[float], volume: list[float], look: int = 10) -> int:
 
 # ── per-ticker read ─────────────────────────────────────────────────────────
 
-def read_ticker(ticker: str, want_intraday: bool = True) -> dict:
+def read_ticker(ticker: str, want_intraday: bool = True,
+                flow: dict | None = None) -> dict:
     daily = fetch_yahoo(ticker)
     weekly = ind.resample(daily, 'W')
 
@@ -447,7 +448,7 @@ def read_ticker(ticker: str, want_intraday: bool = True) -> dict:
     score = (2 * parts['W'] + parts['D'] + 0.5 * parts['H'] + 0.5 * parts['R']
              + 0.5 * parts['M'] + 0.5 * parts['O'] + parts['Z'])
 
-    return {
+    row = {
         'ticker': ticker,
         'date': daily[-1]["date"].isoformat(),
         'price': round(price, 2),
@@ -470,6 +471,12 @@ def read_ticker(ticker: str, want_intraday: bool = True) -> dict:
         'bear': _bear(price, dem),
         'retest': _retest(price, dem, sup),
     }
+    # Order-flow metrics from tools/flow.py, if that ran. Deliberately NOT in
+    # `parts` or `score`: the methodology is 2W+D+0.5H+0.5R+0.5M+0.5O+Z, and
+    # silently adding an eighth term would make every past score incomparable.
+    if flow:
+        row['flow'] = flow
+    return row
 
 
 def _zone_json(z: Zone) -> dict:
@@ -577,13 +584,27 @@ def main() -> int:
     ap.add_argument("--report", default=None, help="also write the audit trail here")
     ap.add_argument("--no-intraday", action="store_true",
                     help="skip the 60m fetch; the H term scores 0")
+    ap.add_argument("--flow", default=None,
+                    help="flow.json from tools/flow.py — embedded per row, never scored")
     args = ap.parse_args()
 
     want = [t.upper() for t in args.tickers] or board_tickers()
+
+    flows = {}
+    if args.flow:
+        fp = Path(args.flow)
+        if fp.exists():
+            flows = (json.loads(fp.read_text('utf-8')) or {}).get('tickers', {})
+            print(f"flow: {len(flows)} ticker(s) from {fp}", file=sys.stderr)
+        else:
+            print(f"flow: {fp} missing — board ships without flow columns",
+                  file=sys.stderr)
+
     rows, log, failed = [], [], []
     for t in want:
         try:
-            r = read_ticker(t, want_intraday=not args.no_intraday)
+            r = read_ticker(t, want_intraday=not args.no_intraday,
+                            flow=flows.get(t))
         except Exception as e:                       # noqa: BLE001 — reported
             failed.append(f"{t}: {e}")
             print(f"  {t}: FAILED — {e}", file=sys.stderr)

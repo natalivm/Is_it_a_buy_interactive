@@ -517,6 +517,29 @@ function scoreCell(row) {
     return `<b>${esc(s)}</b><br><span class="bt-parts">${esc(terms)}</span>`;
 }
 
+// Order-flow metrics from tools/flow.py, each shown against the ticker's own
+// baseline — these are only meaningful as a deviation from its normal. Absent
+// on every row until the paid feed is configured, so the column self-hides.
+function flowCell(row) {
+    const f = row.flow;
+    if (!f) return '<span class="bt-unscored">—</span>';
+    const base = f.baseline || {};
+    const delta = (now, was) => {
+        if (was == null || now == null) return '';
+        const d = now - was;
+        return ` <span class="bt-parts">(${d >= 0 ? '+' : ''}${d.toFixed(1)} vs ${was})</span>`;
+    };
+    const line = (label, v, unit, was) => v == null
+        ? `${label} —`
+        : `${label} <b>${v > 0 && label === 'imb' ? '+' : ''}${v}${unit}</b>${delta(v, was)}`;
+    return [
+        line('imb', f.imbalance, '%', base.imbalance),
+        line('block', f.blockShare, '%', base.blockShare),
+        line('odd', f.oddLotShare, '%', base.oddLotShare),
+        line('off-exch', f.offExchShare, '%', base.offExchShare),
+    ].join('<br>');
+}
+
 function boardRowHtml(row) {
     const hasCard = !!findStock(slugify(row.ticker));
     const h4 = row.h4
@@ -534,6 +557,7 @@ function boardRowHtml(row) {
             <td><b>${esc(row.ticker)}</b><br>${px}${row.seeded ? '<br><span class="bt-unscored">seeded</span>' : ''}</td>
             <td>${structCell(row.structure)}</td>
             <td>${esc(atr)}</td>
+            <td>${flowCell(row)}</td>
             <td>${scoreCell(row)}</td>
             <td>${md(row.bias)}</td>
             <td>${h4}</td>
@@ -557,6 +581,11 @@ function renderBoardTable() {
         return;
     }
     body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
+
+    // No flow feed configured yet → drop the column rather than show a wall of
+    // dashes. It reappears by itself once flow.py has run.
+    const anyFlow = BOARD_DATA.rows.some(r => r.flow);
+    section.classList.toggle('bt-no-flow', !anyFlow);
 
     const meta = document.getElementById('boardTableMeta');
     if (meta) {

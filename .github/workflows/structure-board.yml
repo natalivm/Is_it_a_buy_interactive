@@ -29,6 +29,11 @@ on:
         required: false
         default: true
         type: boolean
+      flow:
+        description: 'Also pull trade-level order flow (needs the FLOW_API_KEY secret)'
+        required: false
+        default: true
+        type: boolean
       open_pr:
         description: 'Open/update the board PR (the schedule always does)'
         required: false
@@ -52,6 +57,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Optional and paid. Without FLOW_SOURCE/FLOW_API_KEY set, flow.py exits
+      # 78 ("not configured") and the board simply ships without flow columns —
+      # the UI hides them rather than printing a wall of dashes.
+      - name: Pull order flow
+        id: flow
+        if: inputs.flow != false
+        continue-on-error: true
+        env:
+          FLOW_SOURCE: ${{ vars.FLOW_SOURCE }}
+          FLOW_API_KEY: ${{ secrets.FLOW_API_KEY }}
+          FLOW_DATASET: ${{ vars.FLOW_DATASET }}
+        run: |
+          set -uo pipefail
+          mkdir -p tools/reports
+          python3 tools/flow.py --out tools/reports/flow.json \
+            2> tools/reports/flow-errors.txt
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          [ -s tools/reports/flow.json ] && echo "have=true" >> "$GITHUB_OUTPUT"
+
       - name: Regenerate the structure board
         id: run
         env:
@@ -64,7 +88,8 @@ jobs:
           [ "$INTRADAY" = yes ] && INTRA= || INTRA=--no-intraday
           # structure.py logs per-ticker failures and carries on; it refuses to
           # write an empty board, so a total outage leaves board.js untouched.
-          python3 tools/structure.py $TICKERS $INTRA \
+          [ -s tools/reports/flow.json ] && FLOW="--flow tools/reports/flow.json" || FLOW=
+          python3 tools/structure.py $TICKERS $INTRA $FLOW \
             --report tools/reports/structure.txt 2> tools/reports/structure-errors.txt
           echo "exit=$?" >> "$GITHUB_OUTPUT"
           if [ -n "$(git status --porcelain board.js)" ]; then
@@ -81,8 +106,17 @@ jobs:
           {
             echo "## Structure board — $(date -u '+%Y-%m-%d %H:%M UTC')"
             echo
-            echo "Rows **${{ steps.run.outputs.rows }}** · board.js changed: **${{ steps.run.outputs.changed || 'false' }}**"
+            echo "Rows **${{ steps.run.outputs.rows }}** · board.js changed: **${{ steps.run.outputs.changed || 'false' }}** · flow: **${{ steps.flow.outputs.have || 'not configured' }}**"
             echo
+            if [ -s tools/reports/flow-errors.txt ]; then
+              echo "<details><summary>Flow warnings</summary>"
+              echo
+              echo '```'
+              cat tools/reports/flow-errors.txt
+              echo '```'
+              echo "</details>"
+              echo
+            fi
             if [ -s tools/reports/structure-errors.txt ]; then
               echo "<details><summary>Fetch warnings</summary>"
               echo

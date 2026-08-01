@@ -908,24 +908,30 @@ body.story-open { overflow: hidden; }
     outline: none;
 }
 /* Column widths — fixed layout so one long 4H narrative can't starve the level
-   columns. Order: ticker · structure · ATR · score · bias · 4H · demand ·
-   supply · position · bull · bear · retest. */
-.board-table .board th:nth-child(1) { width: 6%; }
-.board-table .board th:nth-child(2) { width: 7%; }
+   columns. Order: ticker · structure · ATR · flow · score · bias · 4H ·
+   demand · supply · position · bull · bear · retest. */
+.board-table .board th:nth-child(1) { width: 5%; }
+.board-table .board th:nth-child(2) { width: 6%; }
 .board-table .board th:nth-child(3) { width: 6%; }
-.board-table .board th:nth-child(4) { width: 6%; }
-.board-table .board th:nth-child(5) { width: 10%; }
-.board-table .board th:nth-child(6) { width: 15%; }
-.board-table .board th:nth-child(7) { width: 9%; }
-.board-table .board th:nth-child(8) { width: 9%; }
+.board-table .board th:nth-child(4) { width: 8%; }
+.board-table .board th:nth-child(5) { width: 5%; }
+.board-table .board th:nth-child(6) { width: 9%; }
+.board-table .board th:nth-child(7) { width: 14%; }
+.board-table .board th:nth-child(8) { width: 8%; }
 .board-table .board th:nth-child(9) { width: 8%; }
 .board-table .board th:nth-child(10) { width: 8%; }
 .board-table .board th:nth-child(11) { width: 8%; }
 .board-table .board th:nth-child(12) { width: 8%; }
+.board-table .board th:nth-child(13) { width: 7%; }
 /* Ticker, structure and ATR are single tokens — never break "$8.62 / 9.56%". */
 .board-table .board td:nth-child(1),
 .board-table .board td:nth-child(2),
 .board-table .board td:nth-child(3) { white-space: nowrap; }
+
+/* No flow feed configured → hide the column outright (a wall of dashes reads
+   as broken data rather than as an unconfigured optional feed). */
+.bt-no-flow .board th:nth-child(4),
+.bt-no-flow .board td:nth-child(4) { display: none; }
 
 /* Header above the table: title + "as of" and the one-line board note. */
 .bt-head {
