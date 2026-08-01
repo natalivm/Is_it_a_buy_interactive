@@ -73,8 +73,16 @@ jobs:
           mkdir -p tools/reports
           python3 tools/flow.py --out tools/reports/flow.json \
             2> tools/reports/flow-errors.txt
-          echo "code=$?" >> "$GITHUB_OUTPUT"
+          CODE=$?
+          echo "code=$CODE" >> "$GITHUB_OUTPUT"
+          if [ "$CODE" = 78 ]; then
+            echo "No FLOW_SOURCE/FLOW_API_KEY configured — board ships without"
+            echo "flow columns. This is the expected path, not a failure."
+          fi
+          # Exit clean either way: an unconfigured optional feed must not render
+          # as a red ✗ next to a run that otherwise did its whole job.
           [ -s tools/reports/flow.json ] && echo "have=true" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Regenerate the structure board
         id: run
