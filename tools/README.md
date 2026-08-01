@@ -14,12 +14,29 @@ node tools/dump_board.js > /tmp/board.json   # data.js as JSON (sanity check)
 python3 tools/refresh.py                     # every ticker on the board
 python3 tools/refresh.py MU SNDK WDC         # a few
 python3 tools/refresh.py --audit-only        # no network — just check the cards
+python3 tools/refresh.py --out report.txt    # also write the report to a file
+python3 tools/refresh.py --source stooq      # fallback feed
 python3 tools/refresh.py --source yfinance   # if `pip install yfinance`
 ```
 
-No API key and no third-party packages are required: the default source is
-Stooq's plain CSV endpoint, and the indicator math is hand-rolled in
-`indicators.py` precisely so a dependency bump cannot silently change a reading.
+No API key and no third-party packages are required. The default source is
+**Yahoo's chart endpoint — the same data the charts on the site render**, so the
+values here line up with the ones being read off those charts. It uses raw
+`close`, not `adjclose`, because the chart quotes unadjusted prices and so do
+the cards. The indicator math is hand-rolled in `indicators.py` precisely so a
+dependency bump cannot silently change a reading.
+
+## Running it automatically
+
+`.github/workflows/board-refresh.yml` runs this at **21:30 UTC on weekdays** —
+DST-proof, since that is 17:30 ET in summer and 16:30 ET in winter, always after
+the 16:00 ET close. It writes the report to the run summary, uploads it as an
+artifact, and force-updates a single long-lived PR from `bot/board-refresh` so
+the numbers arrive as a notification rather than a chore. If the report is
+identical to the base (a market holiday), it opens nothing.
+
+Trigger it by hand from the Actions tab with `workflow_dispatch` — it takes a
+ticker list, a source, and a flag for whether to touch the PR.
 
 ## What it prints
 

@@ -59,6 +59,45 @@ def load_board() -> dict:
 
 # ── fetch ───────────────────────────────────────────────────────────────────
 
+def fetch_yahoo(ticker: str) -> list[dict]:
+    """Yahoo's chart endpoint — the same data the site's own charts render, so
+    the numbers here line up with what you see there. Uses raw `close`, not
+    `adjclose`: the chart quotes unadjusted prices and so do the cards."""
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+           f"?range=5y&interval=1d")
+    req = urllib.request.Request(url, headers=UA)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        payload = json.loads(r.read().decode())
+
+    chart = payload.get("chart") or {}
+    if chart.get("error"):
+        raise RuntimeError(f"{ticker}: Yahoo said {chart['error']}")
+    results = chart.get("result") or []
+    if not results:
+        raise RuntimeError(f"{ticker}: Yahoo returned no result block")
+
+    res = results[0]
+    ts = res.get("timestamp") or []
+    q = ((res.get("indicators") or {}).get("quote") or [{}])[0]
+    o, h, lo, c, v = (q.get(k) or [] for k in ("open", "high", "low", "close", "volume"))
+
+    bars = []
+    for i, t in enumerate(ts):
+        row = (o[i] if i < len(o) else None, h[i] if i < len(h) else None,
+               lo[i] if i < len(lo) else None, c[i] if i < len(c) else None)
+        if any(x is None for x in row):
+            continue                      # holiday / halted bar
+        bars.append({
+            "date": dt.datetime.utcfromtimestamp(t).date(),
+            "o": float(row[0]), "h": float(row[1]),
+            "l": float(row[2]), "c": float(row[3]),
+            "v": float(v[i] or 0) if i < len(v) else 0.0,
+        })
+    if not bars:
+        raise RuntimeError(f"{ticker}: Yahoo returned no usable bars")
+    return bars
+
+
 def fetch_stooq(ticker: str) -> list[dict]:
     sym = STOOQ_OVERRIDES.get(ticker, f"{ticker.lower()}.us")
     url = f"https://stooq.com/q/d/l/?s={sym}&i=d"
@@ -95,7 +134,7 @@ def fetch_yfinance(ticker: str) -> list[dict]:
     } for idx, r in zip(df.index, df.itertuples())]
 
 
-FETCHERS = {"stooq": fetch_stooq, "yfinance": fetch_yfinance}
+FETCHERS = {"yahoo": fetch_yahoo, "stooq": fetch_stooq, "yfinance": fetch_yfinance}
 
 
 def frames(bars: list[dict]) -> list[Frame]:
@@ -197,7 +236,8 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("tickers", nargs="*", help="default: everything in data.js")
-    ap.add_argument("--source", choices=sorted(FETCHERS), default="stooq")
+    ap.add_argument("--source", choices=sorted(FETCHERS), default="yahoo")
+    ap.add_argument("--out", metavar="FILE", help="also write the report here")
     ap.add_argument("--audit-only", action="store_true", help="no network")
     args = ap.parse_args()
 
@@ -206,6 +246,11 @@ def main() -> int:
     want = [t.upper() for t in args.tickers] or list(stocks)
 
     closes: dict[str, float] = {}
+    report: list[str] = []
+
+    def emit(line: str = "") -> None:
+        print(line)
+        report.append(line)
 
     if not args.audit_only:
         fetch = FETCHERS[args.source]
@@ -222,22 +267,32 @@ def main() -> int:
             closes[t] = fs[0].c
             prev = bars[-2]["c"] if len(bars) > 1 else fs[0].c
             chg = (fs[0].c - prev) / prev * 100 if prev else 0.0
-            print(f"\n{'=' * 78}\n{t}  ${fs[0].c:,.2f}  ({chg:+.2f}%)   "
-                  f"bar {bars[-1]['date']}\n{'=' * 78}")
+            emit()
+            emit("=" * 78)
+            emit(f"{t}  ${fs[0].c:,.2f}  ({chg:+.2f}%)   bar {bars[-1]['date']}")
+            emit("=" * 78)
             for f in fs:
-                print(f.line())
+                emit(f.line())
 
-    print(f"\n{'=' * 78}\nCARD AUDIT — mechanical checks only\n{'=' * 78}")
+    emit()
+    emit("=" * 78)
+    emit("CARD AUDIT — mechanical checks only")
+    emit("=" * 78)
     findings = 0
     for t in want:
         s = stocks.get(t)
         if not s:
             continue
         for line in audit_card(s, closes.get(t)):
-            print(" ", line)
+            emit(f"  {line}")
             findings += 1
-    print(f"\n{findings} finding(s). Judgement calls are not automated — "
-          f"read these, then edit data.js yourself.")
+    emit()
+    emit(f"{findings} finding(s). Judgement calls are not automated — "
+         f"read these, then edit data.js yourself.")
+
+    if args.out:
+        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.out).write_text("\n".join(report) + "\n", encoding="utf-8")
     return 0
 
 
