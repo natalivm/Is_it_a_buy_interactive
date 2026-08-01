@@ -678,6 +678,42 @@ function initThemeToggle() {
     else if (mq.addListener) mq.addListener(onChange);
 }
 
+// ── Stock search ─────────────────────────────────────────────────────────────
+// Filters the tile grid in-place by ticker (or article title) — no re-render,
+// just hides tiles that don't match. Lives beside the leaderboard title.
+function initStockSearch() {
+    const input = document.getElementById('stockSearchInput');
+    const clearBtn = document.getElementById('stockSearchClear');
+    const gallery = document.getElementById('gallery');
+    const searchEmpty = document.getElementById('gallerySearchEmpty');
+    if (!input || !gallery) return;
+
+    function applyFilter() {
+        const q = input.value.trim().toLowerCase();
+        if (clearBtn) clearBtn.hidden = !q;
+        const tiles = gallery.querySelectorAll('.tile');
+        let visible = 0;
+        tiles.forEach(tile => {
+            const symbol = (tile.dataset.symbol || '').toLowerCase();
+            const titleEl = tile.querySelector('.tile-title');
+            const title = titleEl ? titleEl.textContent.toLowerCase() : '';
+            const match = !q || symbol.includes(q) || title.includes(q);
+            tile.hidden = !match;
+            if (match) visible++;
+        });
+        if (searchEmpty) searchEmpty.hidden = !(q && visible === 0);
+    }
+
+    input.addEventListener('input', applyFilter);
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            applyFilter();
+            input.focus();
+        });
+    }
+}
+
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
@@ -686,6 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
     renderBooked();        // "booked at targets" strip (reuses accents too)
+    initStockSearch();     // filters the tile grid by ticker
 
     const overlay = document.getElementById('storyOverlay');
     const close = document.getElementById('storyClose');
