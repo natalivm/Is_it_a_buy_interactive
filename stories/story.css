@@ -192,7 +192,9 @@ h1 .p, h1 .k, h1 .y {
   .eyebrow.p{color:var(--up);} .eyebrow.y{color:var(--hi);}
 
   h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
-  h1 .p{color:var(--up);} h1 .k{color:var(--dn);} h1 .y{color:var(--hi);}
+  /* Large titles run plain — the accent spans keep their markup but no colour.
+     The .hl highlighter below is deliberately kept. */
+  h1 .p, h1 .k, h1 .y{color:var(--ink);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
   .sub{font-size:15.5px;line-height:1.55;color:var(--sub);margin-bottom:14px;max-width:40ch;}
@@ -266,7 +268,7 @@ h1 .p, h1 .k, h1 .y {
   .tg a{color:var(--hi);text-decoration:none;font-weight:700;}
   .disclaim{margin-top:10px;font-size:11px;line-height:1.5;color:var(--muted);opacity:.8;}
 
-  .cover-ticker{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+  .cover-ticker{font-family:var(--display);font-weight:700;color:var(--ink);font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
 
   .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
   .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
@@ -304,6 +306,14 @@ h1 .p, h1 .k, h1 .y {
   .preview .tpl .riser{transform:translateY(400%);}
   @media (prefers-reduced-motion: reduce){ .slide.active .tpl .riser{animation:none;transform:translateY(400%);} }
 
+  /* Condition list inside a .note — one line per branch instead of a run-on
+     sentence. Plain indent, no bullet glyph. */
+  /* Indented sub-paragraph inside a verdict/note block, and breathing room
+     when a block is split into several short paragraphs instead of one wall. */
+  .verdict p + p, .note p + p{margin-top:7px;}
+  .ind{padding-left:14px;}
+  .cond{list-style:none;margin:7px 0 9px;display:flex;flex-direction:column;gap:5px;padding-left:16px;}
+  .cond li{line-height:1.45;}
   .note{margin-top:14px;font-size:14px;line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
   .note.k{border-left-color:var(--dn);} .note.p{border-left-color:var(--up);}
 

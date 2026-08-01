@@ -203,10 +203,8 @@ body.story-open { overflow: hidden; }
     letter-spacing: 0.01em;
 }
 .intro-title .grad {
-    background: var(--grad);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    /* Large headings run plain — no gradient fill. */
+    color: var(--txt);
 }
 .intro-sub {
     margin: 14px auto 0;
@@ -426,7 +424,7 @@ body.story-open { overflow: hidden; }
     font-family: var(--disp); font-weight: 700; text-transform: uppercase;
     font-size: clamp(22px, 4.4vw, 34px); line-height: 1; letter-spacing: 0.02em;
 }
-.lb-title .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lb-title .grad { color: var(--txt); }   /* large headings run plain — no gradient fill */
 .lb-sub { margin-top: 8px; font-size: 14px; color: var(--mut); }
 .lb-scroll {
     overflow-x: auto; -webkit-overflow-scrolling: touch;
