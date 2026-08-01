@@ -145,6 +145,34 @@ def frames(bars: list[dict]) -> list[Frame]:
     ]
 
 
+def cascade(fs: list[Frame]) -> str:
+    """How far a momentum rollover has climbed the timeframes.
+
+    Fast frames turn first and slow frames confirm later, so the useful
+    question is not 'is momentum negative' but 'which frames have gone yet'.
+    Three stages per frame, in order of severity:
+        curling   histogram still positive but contracting — losing thrust
+        crossed   histogram negative: MACD under its signal, both may be > 0
+        rolled    histogram negative AND widening — under way, not starting
+    """
+    def stage(f: Frame) -> str:
+        if f.macd_hist is None:
+            return "n/a"
+        if f.hist_sign == "positive":
+            return "curling" if f.hist_dir == "contracting" else "rising"
+        return "rolled" if f.hist_dir == "expanding" else "crossed"
+
+    stages = [stage(f) for f in fs]
+    parts = " → ".join(f"{f.label.lower()} {s}" for f, s in zip(fs, stages))
+
+    m = fs[2]
+    note = ""
+    if m.macd is not None and m.macd_sig is not None and m.hist_sign == "positive":
+        note = (f"  · monthly needs {abs(m.macd - m.macd_sig):,.0f} more points "
+                f"of MACD decline to cross")
+    return f"{'CASCADE':<8} {parts}{note}"
+
+
 # ── audit ───────────────────────────────────────────────────────────────────
 
 def nums(s) -> list[float]:
@@ -273,6 +301,7 @@ def main() -> int:
             emit("=" * 78)
             for f in fs:
                 emit(f.line())
+            emit(cascade(fs))
 
     emit()
     emit("=" * 78)
