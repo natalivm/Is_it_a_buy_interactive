@@ -187,6 +187,24 @@ contract — notably that `entry` must be numeric-clean because `planProgress()`
 parses every digit in it — and a self-check covering stop placement, target
 ordering, recomputed Move/R:R, and `status`/`rrStar` accuracy.
 
+**"Was the zone reached?" is arithmetic, not a paraphrase** — compare the
+session's actual high/low against the zone's numeric bounds (`high >= zoneLow`
+for a short's rejection zone, `low <= zoneHigh` for a long's dip zone), not a
+remembered impression of "close to it." CRWV's $78.50 print against an
+"$78–81" zone and IREN's $40.81 against a redrawn "$40.8–44" floor were both
+*inside* by every arithmetic reading, yet both got written up as "never
+reached" — a wrong tag comparison, not a data problem. Re-verify with the
+actual numbers before writing "not reached" anywhere, on a card or a deck.
+
+**When a zone truly isn't reached, redraw it to where the print actually
+happened — don't loosen the tagged/not-tagged test.** IREN is the pattern:
+the original $41.70–44 zone (a real confluence: old flip line + 1H upper band
++ 200-day + mid-band) never printed, so the entry was redrawn to $40.80,
+where supply actually showed up — "a zone price cannot reach is not a plan."
+That keeps the entry priced at genuine resistance/support instead of
+manufacturing a fill with a tolerance band, which would just mean selling
+short closer to the average price instead of the top of a real rejection.
+
 ## Adding a stock
 
 1. Author `stories/<symbol>.html` (copy an existing story as a template).
