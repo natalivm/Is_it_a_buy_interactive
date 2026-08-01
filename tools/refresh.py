@@ -49,6 +49,21 @@ STOOQ_OVERRIDES = {"DRAM": "dram.us"}
 
 # ── board ───────────────────────────────────────────────────────────────────
 
+def parse_tickers(raw: list[str]) -> list[str]:
+    """Accept whatever separators a human actually types.
+
+    "MU SNDK", "MU, SNDK", "MU,SNDK" and "mu; sndk" all mean the same thing.
+    The shell has usually already split on spaces, so each element may still
+    carry a trailing comma — strip punctuation rather than trusting the split.
+    """
+    out: list[str] = []
+    for chunk in re.split(r"[,;|\s]+", " ".join(raw)):
+        sym = chunk.strip().strip(".,;:|").upper()
+        if sym and sym not in out:
+            out.append(sym)
+    return out
+
+
 def load_board() -> dict:
     out = subprocess.run(
         ["node", str(ROOT / "tools" / "dump_board.js")],
@@ -88,7 +103,7 @@ def fetch_yahoo(ticker: str) -> list[dict]:
         if any(x is None for x in row):
             continue                      # holiday / halted bar
         bars.append({
-            "date": dt.datetime.utcfromtimestamp(t).date(),
+            "date": dt.datetime.fromtimestamp(t, dt.timezone.utc).date(),
             "o": float(row[0]), "h": float(row[1]),
             "l": float(row[2]), "c": float(row[3]),
             "v": float(v[i] or 0) if i < len(v) else 0.0,
@@ -303,7 +318,16 @@ def main() -> int:
 
     board = load_board()
     stocks = {s["symbol"]: s for s in board["STOCKS"]}
-    want = [t.upper() for t in args.tickers] or list(stocks)
+    want = parse_tickers(args.tickers) or list(stocks)
+
+    unknown = [t for t in want if t not in stocks]
+    if unknown:
+        print(f"— not on the board, skipping: {', '.join(unknown)}", file=sys.stderr)
+        print(f"  board has: {', '.join(sorted(stocks))}", file=sys.stderr)
+        want = [t for t in want if t in stocks]
+    if not want:
+        print("Nothing to do — no recognised tickers.", file=sys.stderr)
+        return 1
 
     closes: dict[str, float] = {}
     report: list[str] = []
@@ -315,9 +339,6 @@ def main() -> int:
     if not args.audit_only:
         fetch = FETCHERS[args.source]
         for t in want:
-            if t not in stocks:
-                print(f"— {t}: not on the board, skipping", file=sys.stderr)
-                continue
             try:
                 bars = fetch(t)
             except Exception as e:  # noqa: BLE001 — one bad ticker must not stop the run
