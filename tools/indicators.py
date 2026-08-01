@@ -154,6 +154,8 @@ class Frame:
     macd: float | None
     macd_sig: float | None
     macd_hist: float | None
+    hist_sign: str          # 'green' (MACD above signal) | 'red' | 'n/a'
+    hist_run: int           # how many consecutive bars it has been that colour
     stoch_k: float | None
     stoch_d: float | None
     obv: float | None
@@ -167,10 +169,19 @@ class Frame:
     def line(self) -> str:
         def f(x, nd=2):
             return "n/a" if x is None else f"{x:,.{nd}f}"
+        # Spell the histogram out. Reading its colour off the right edge of a
+        # chart is exactly the judgement call that produced a wrong claim once.
+        if self.hist_sign == "n/a":
+            hist = "hist n/a"
+        else:
+            flip = " ⚠️ JUST FLIPPED" if self.hist_run == 1 else ""
+            hist = (f"hist {f(self.macd_hist)} {self.hist_sign.upper()} "
+                    f"({self.hist_run} bar{'s' if self.hist_run != 1 else ''}){flip}")
         return (
             f"{self.label:<8} O {f(self.o)} · H {f(self.h)} · L {f(self.l)} · C {f(self.c)}\n"
-            f"{'':<8} RSI {f(self.rsi)} · MACD {f(self.macd)} (sig {f(self.macd_sig)}, "
-            f"hist {f(self.macd_hist)}) · Stoch %K {f(self.stoch_k)} / %D {f(self.stoch_d)}\n"
+            f"{'':<8} RSI {f(self.rsi)} · MACD {f(self.macd)} (sig {f(self.macd_sig)}) · "
+            f"{hist}\n"
+            f"{'':<8} Stoch %K {f(self.stoch_k)} / %D {f(self.stoch_d)}\n"
             f"{'':<8} OBV {f(self.obv, 0)} · BB {f(self.bb_lo)} / {f(self.bb_mid)} / {f(self.bb_up)}\n"
             f"{'':<8} EMA9 {f(self.ema9)} · EMA50 {f(self.ema50)} · EMA200 {f(self.ema200)}"
         )
@@ -192,9 +203,21 @@ def read_frame(label: str, bars: list[dict]) -> Frame:
     bl, bm, bu = bollinger(c)
     e9, e50, e200 = ema(c, 9), ema(c, 50), ema(c, 200)
 
+    # Histogram colour and how long it has held it — so "did it just flip red?"
+    # is a printed fact rather than a squint at the last few bars.
+    sign, run = "n/a", 0
+    if mh[i] is not None:
+        sign = "green" if mh[i] >= 0 else "red"
+        run = 1
+        for j in range(i - 1, -1, -1):
+            if mh[j] is None or (mh[j] >= 0) != (mh[i] >= 0):
+                break
+            run += 1
+
     return Frame(
         label=label, o=o[i], h=h[i], l=lo[i], c=c[i], v=v[i],
         rsi=r[i], macd=ml[i], macd_sig=ms[i], macd_hist=mh[i],
+        hist_sign=sign, hist_run=run,
         stoch_k=sk[i], stoch_d=sd[i], obv=ob[i],
         bb_lo=bl[i], bb_mid=bm[i], bb_up=bu[i],
         ema9=e9[i], ema50=e50[i], ema200=e200[i],
