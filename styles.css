@@ -877,7 +877,7 @@ body.story-open { overflow: hidden; }
 .board-table .board {
     --bt-line: color-mix(in srgb, var(--txt) 34%, transparent);
     width: 100%;
-    min-width: 1120px;
+    min-width: 1500px;
     table-layout: fixed;
     border-collapse: collapse;
     background: var(--panel);
@@ -907,24 +907,53 @@ body.story-open { overflow: hidden; }
     background: color-mix(in srgb, var(--txt) 7%, transparent);
     outline: none;
 }
-/* Column widths — fixed layout so one long change-narrative can't starve the
-   plan columns. Order: ticker · price · setup · entry · stop · targets · move ·
-   R:R · progress · read. */
-.board-table .board th:nth-child(1) { width: 12%; }
-.board-table .board th:nth-child(2) { width: 18%; }
-.board-table .board th:nth-child(3) { width: 7%; }
-.board-table .board th:nth-child(4) { width: 11%; }
-.board-table .board th:nth-child(5) { width: 8%; }
-.board-table .board th:nth-child(6) { width: 11%; }
-.board-table .board th:nth-child(7) { width: 6%; }
-.board-table .board th:nth-child(8) { width: 5%; }
+/* Column widths — fixed layout so one long 4H narrative can't starve the level
+   columns. Order: ticker · structure · ATR · score · bias · 4H · demand ·
+   supply · position · bull · bear · retest. */
+.board-table .board th:nth-child(1) { width: 6%; }
+.board-table .board th:nth-child(2) { width: 7%; }
+.board-table .board th:nth-child(3) { width: 6%; }
+.board-table .board th:nth-child(4) { width: 6%; }
+.board-table .board th:nth-child(5) { width: 10%; }
+.board-table .board th:nth-child(6) { width: 15%; }
+.board-table .board th:nth-child(7) { width: 9%; }
+.board-table .board th:nth-child(8) { width: 9%; }
 .board-table .board th:nth-child(9) { width: 8%; }
-.board-table .board th:nth-child(10) { width: 14%; }
-/* Move and R:R are single tokens — never break "+27.7%" across two lines. */
-.board-table .board td:nth-child(7),
-.board-table .board td:nth-child(8) { white-space: nowrap; }
+.board-table .board th:nth-child(10) { width: 8%; }
+.board-table .board th:nth-child(11) { width: 8%; }
+.board-table .board th:nth-child(12) { width: 8%; }
+/* Ticker, structure and ATR are single tokens — never break "$8.62 / 9.56%". */
+.board-table .board td:nth-child(1),
+.board-table .board td:nth-child(2),
+.board-table .board td:nth-child(3) { white-space: nowrap; }
 
-.bt-foot { margin-top: 10px; font-size: 12px; color: var(--mut); }
+/* Header above the table: title + "as of" and the one-line board note. */
+.bt-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 6px;
+}
+.bt-title {
+    font-family: var(--disp); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(20px, 3.4vw, 28px); line-height: 1; letter-spacing: 0.02em;
+}
+.bt-meta, .bt-note { font-size: 12px; color: var(--mut); }
+.bt-note { margin-bottom: 14px; max-width: 78ch; }
+
+/* A row with no computed score says so, quietly — it must never read as 0. */
+.bt-unscored { color: var(--mut); font-style: italic; }
+.bt-parts { font-family: var(--mono); font-size: 10px; color: var(--mut); }
+
+.bt-rank { margin-top: 18px; }
+.bt-rank-title {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--mut);
+    margin-bottom: 8px;
+}
+.bt-rank-list { margin: 0 0 8px 18px; font-size: 13px; }
+.bt-rank-list li { margin-bottom: 4px; }
+.bt-rank-note { font-size: 12px; color: var(--mut); max-width: 78ch; }
+
+.bt-foot { margin-top: 10px; font-size: 12px; color: var(--mut); max-width: 90ch; }
 .bt-foot code { font-family: var(--mono); font-size: 11px; }
 
 /* Light theme: the reference look — black hairlines on white paper. */

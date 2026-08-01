@@ -1,0 +1,155 @@
+name: Structure board
+
+# Regenerates board.js — the standalone structure board behind the table-view
+# button — from OHLCV alone. It is a SEPARATE element from the cards: this
+# workflow never reads or writes data.js, and board-refresh.yml never touches
+# board.js, so the two boards can disagree without either overwriting the other.
+#
+# Everything on the board is computed per the written methodology (ATR(14)
+# Wilder, confirmed swings, displacement-formed zones with wick/body edges,
+# revisit-and-acceptance strength, and the bias score
+# 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z) — see tools/structure.py. Unlike the
+# card refresh, this one DOES write its output file: every field is arithmetic,
+# so there is no judgement to preserve.
+
+on:
+  schedule:
+    # 22:00 UTC on weekdays — after board-refresh at 21:30, so the two bots
+    # never race for the same PR checkout. DST-proof: 18:00 ET summer, 17:00 ET
+    # winter, always past the 16:00 ET close.
+    - cron: '0 22 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: "Space-separated tickers (blank = the board's current roster)"
+        required: false
+        default: ''
+      intraday:
+        description: 'Fetch 60m bars for the 4H term (off = H scores 0)'
+        required: false
+        default: true
+        type: boolean
+      open_pr:
+        description: 'Open/update the board PR (the schedule always does)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: structure-board
+  cancel-in-progress: false
+
+jobs:
+  board:
+    runs-on: ubuntu-latest
+    steps:
+      # Node24-era action majors, same pinning rationale as board-refresh.yml.
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Regenerate the structure board
+        id: run
+        env:
+          TICKERS: ${{ inputs.tickers }}
+          # Default ON: a blank input on the cron schedule must still fetch 60m.
+          INTRADAY: ${{ inputs.intraday == false && 'no' || 'yes' }}
+        run: |
+          set -uo pipefail
+          mkdir -p tools/reports
+          [ "$INTRADAY" = yes ] && INTRA= || INTRA=--no-intraday
+          # structure.py logs per-ticker failures and carries on; it refuses to
+          # write an empty board, so a total outage leaves board.js untouched.
+          python3 tools/structure.py $TICKERS $INTRA \
+            --report tools/reports/structure.txt 2> tools/reports/structure-errors.txt
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+          if [ -n "$(git status --porcelain board.js)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "rows=$(grep -c '"ticker"' board.js || echo 0)" >> "$GITHUB_OUTPUT"
+          # Stash both: the PR step checks another branch out over the worktree.
+          cp board.js "$RUNNER_TEMP/board.js"
+          cp tools/reports/structure.txt "$RUNNER_TEMP/structure.txt" 2>/dev/null || true
+
+      - name: Write run summary
+        if: always()
+        run: |
+          {
+            echo "## Structure board — $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo
+            echo "Rows **${{ steps.run.outputs.rows }}** · board.js changed: **${{ steps.run.outputs.changed || 'false' }}**"
+            echo
+            if [ -s tools/reports/structure-errors.txt ]; then
+              echo "<details><summary>Fetch warnings</summary>"
+              echo
+              echo '```'
+              cat tools/reports/structure-errors.txt
+              echo '```'
+              echo "</details>"
+              echo
+            fi
+            if [ -s tools/reports/structure.txt ]; then
+              echo '```'
+              cat tools/reports/structure.txt
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: structure-board
+          path: tools/reports/
+          retention-days: 30
+
+      - name: Open or update the board PR
+        if: (github.event_name == 'schedule' || inputs.open_pr) && steps.run.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          BRANCH=bot/structure-board
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Start from the base each time: the board is a snapshot of the latest
+          # close, not history worth accumulating.
+          git checkout -f -B "$BRANCH" "origin/$BASE"
+          cp "$RUNNER_TEMP/board.js" board.js
+          mkdir -p tools/reports
+          cp "$RUNNER_TEMP/structure.txt" tools/reports/structure.txt 2>/dev/null || true
+
+          git add board.js
+          git add -f tools/reports/structure.txt 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Board identical to base — nothing to open (likely a market holiday)."
+            exit 0
+          fi
+
+          git commit -q -m "Structure board $(date -u '+%Y-%m-%d') — ${{ steps.run.outputs.rows }} row(s) recomputed"
+          git push -q -f -u origin "$BRANCH"
+
+          OPEN=$(gh pr list --head "$BRANCH" --state open --json number -q '.[].number' | head -1)
+          if [ -z "$OPEN" ]; then
+            gh pr create --base "$BASE" --head "$BRANCH" \
+              --title "Structure board — recomputed zones, structure and bias" \
+              --body "Regenerated \`board.js\` from OHLCV by \`tools/structure.py\`.
+
+          Every cell is arithmetic — ATR(14) Wilder, confirmed swings (2 candles
+          each side), displacement-formed demand/supply with wick/body edges,
+          revisit-and-acceptance strength grading, and the bias score
+          \`2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z\`. Each row carries \`parts\`,
+          so any bias in the diff can be checked against its own terms.
+
+          This board is independent of the cards in \`data.js\`: a ticker may be
+          long on its card and bearish here, and neither side is corrected to
+          match the other. The per-ticker audit trail is in the run summary and
+          the \`structure-board\` artifact."
+          else
+            echo "PR #$OPEN already open — force-pushed the new board to it."
+          fi

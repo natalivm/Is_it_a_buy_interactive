@@ -456,88 +456,129 @@ function renderLeaderboard() {
     });
 }
 
-// ── Plain table view ────────────────────────────────────────────────────────
-// The same board, rendered as one bordered table instead of tiles: every stock
-// on a row, the plan in columns. Nothing new is typed for it — Move, R:R and
-// Progress come from the same planProgress()/priceInZone() the ranking table
-// uses, so the two views can never disagree. Ranked plans lead (by lead.rank),
-// then the unranked cards newest-first.
+// ── Structure board (plain table view) ──────────────────────────────────────
+// Renders BOARD from board.js — a SEPARATE element from the STOCKS cards. The
+// same ticker can sit in both and read differently: a card carries a traded
+// plan, this board carries structure. Neither is derived from the other, so
+// nothing here touches data.js.
+//
+// Rows whose ticker also has a card stay clickable (they open that deck); rows
+// with no card — the board is allowed to cover names the gallery doesn't — are
+// plain text.
+const BOARD_DATA = (typeof BOARD !== 'undefined') ? BOARD : null;
 
-// data.js copy carries a little inline HTML (<strong>, <span class="k">) meant
-// for the decks; the table wants words only.
-function plainText(html) {
-    return String(html == null ? '' : html)
-        .replace(/<[^>]*>/g, '')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
+// board.js marks emphasis as **markdown bold**. Escape as text FIRST, then turn
+// the markers into <b> — so a row can never inject markup, only bold words.
+function md(text) {
+    return esc(text == null ? '' : text).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
 }
 
-// First sentence of a thesis, capped — the table shows the headline, the deck
-// has the argument. Cuts on a word boundary when no sentence end is in reach.
-function firstSentence(text, max) {
-    const t = plainText(text);
-    if (t.length <= max) return t;
-    const m = t.slice(0, max + 60).match(/^[\s\S]{40,}?[.!?](?=\s)/);
-    if (m) return m[0];
-    const cut = t.slice(0, max);
-    return cut.slice(0, Math.max(cut.lastIndexOf(' '), 1)) + '…';
+const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
+
+function structCell(s) {
+    if (!s) return '—';
+    const one = (label, v) => v
+        ? `${label} ${STRUCT_MARK[v] || ''} ${v}`
+        : `${label} —`;
+    return [one('W', s.w), one('D', s.d), one('4H', s.h4)].join('<br>');
 }
 
-const BT_STATUS = {
-    live: '🎯 at trigger',
-    wait: '⏳ wait for level',
-    booked: '✅ target reached',
-};
-
-function boardTableOrder() {
-    const ranked = STOCK_LIST.filter(s => s.lead)
-        .sort((a, b) => (a.lead.rank || 0) - (b.lead.rank || 0));
-    const rest = STOCK_LIST.filter(s => !s.lead)
-        .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-    return [...ranked, ...rest];
+// A zone list → "$107.27–108.70 weak · repeatedly tested". Generated rows carry
+// touch counts; seeded ones carry the original note.
+function zoneCell(list) {
+    if (!list || !list.length) return '—';
+    return list.map(z => {
+        const range = z.lo === z.hi
+            ? `$${fmtNum(z.lo)}`
+            : `$${fmtNum(z.lo)}–${fmtNum(z.hi)}`;
+        const detail = z.note != null ? z.note
+            : (z.touches != null ? `${z.touches} touch${z.touches === 1 ? '' : 'es'}` : '');
+        return `<b>${range}</b> ${esc(z.strength || '')}${detail ? ` · ${esc(detail)}` : ''}`;
+    }).join('<br>');
 }
 
-function boardRowHtml(stock) {
-    const L = stock.lead;
-    const side = ['long', 'short'].includes(stock.side) ? stock.side : 'long';
-    const prog = planProgress(stock);
-    // Same definitions as the ranking table: Move is the entry-zone midpoint →
-    // deepest target signed by price direction, and the R:R asterisk means
-    // "only if price returns to the zone".
-    const move = !L ? '—'
-        : prog ? pct(side === 'short' ? -prog.target : prog.target)
-        : (L.downside || '—');
-    const inZone = priceInZone(stock);
-    const star = L ? (inZone === null ? !!L.rrStar : !inZone) : false;
-    const rr = L && L.rr ? `${esc(L.rr)}${star ? '<sup>*</sup>' : ''}` : '—';
-    const status = L ? (BT_STATUS[L.status] || '—') : 'not ranked';
-    const progress = !L ? '—' : !prog ? '—'
-        : L.status === 'booked' ? `${pct(prog.earned)} · booked`
-        : prog.filled ? `${pct(prog.earned)} · ${pct(prog.left)} left`
-        : `0% · ${pct(prog.left)} left`;
-    const read = firstSentence((L && L.edge) || stock.edge || stock.signal, 180);
-    const date = stock.date ? ` · ${esc(fmtDate(stock.date))}` : '';
+function fmtNum(n) {
+    if (typeof n !== 'number') return esc(n);
+    return n >= 1000 ? n.toLocaleString('en-US', { maximumFractionDigits: 2 })
+        : String(Number(n.toFixed(2)));
+}
+
+// The bias score, with its own terms beside it. A seeded row has no score, and
+// that renders as "—" rather than 0 — an unscored row must not read as neutral.
+function scoreCell(row) {
+    if (row.score == null) {
+        return '<span class="bt-unscored">— not scored</span>';
+    }
+    const p = row.parts || {};
+    const terms = ['W', 'D', 'H', 'R', 'M', 'O', 'Z']
+        .map(k => `${k}${p[k] > 0 ? '+' : ''}${p[k] == null ? '?' : p[k]}`)
+        .join(' ');
+    const s = row.score > 0 ? `+${row.score}` : String(row.score);
+    return `<b>${esc(s)}</b><br><span class="bt-parts">${esc(terms)}</span>`;
+}
+
+function boardRowHtml(row) {
+    const hasCard = !!findStock(slugify(row.ticker));
+    const h4 = row.h4
+        ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
+        : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
+    const px = row.price != null ? `$${fmtNum(row.price)}` : '—';
+    const atr = row.atr != null
+        ? `$${fmtNum(row.atr)}${row.atrPct != null ? ` / ${row.atrPct}%` : ''}`
+        : '—';
+    // data-ticker on EVERY row (the search filters on it); data-symbol only on
+    // rows that have a deck to open.
     return `
-        <tr data-symbol="${esc(stock.symbol)}" tabindex="0" role="button"
-            aria-label="Open ${esc(stock.symbol)} story">
-            <td><b>${esc(stock.symbol)}</b> — ${esc(stock.exchange || '')} · ${SIDE_LABEL[side]}${date}</td>
-            <td>${esc(stock.price || '')}${stock.change ? ` — ${esc(stock.change)}` : ''}</td>
-            <td>${esc(status)}</td>
-            <td>${L ? esc(L.entry) : '—'}</td>
-            <td>${L ? esc(L.stop) : '—'}</td>
-            <td>${L ? esc(L.targets) : '—'}</td>
-            <td>${esc(move)}</td>
-            <td>${rr}</td>
-            <td>${esc(progress)}</td>
-            <td>${esc(read)}</td>
+        <tr data-ticker="${esc(row.ticker)}"${hasCard ? ` data-symbol="${esc(row.ticker)}" tabindex="0" role="button"
+            aria-label="Open ${esc(row.ticker)} story"` : ''}>
+            <td><b>${esc(row.ticker)}</b><br>${px}${row.seeded ? '<br><span class="bt-unscored">seeded</span>' : ''}</td>
+            <td>${structCell(row.structure)}</td>
+            <td>${esc(atr)}</td>
+            <td>${scoreCell(row)}</td>
+            <td>${md(row.bias)}</td>
+            <td>${h4}</td>
+            <td>${zoneCell(row.demand)}</td>
+            <td>${zoneCell(row.supply)}</td>
+            <td>${md(row.position)}</td>
+            <td>${md(row.bull)}</td>
+            <td>${md(row.bear)}</td>
+            <td>${md(row.retest)}</td>
         </tr>`;
 }
 
 function renderBoardTable() {
     const body = document.getElementById('boardTableBody');
-    if (!body) return;
-    body.innerHTML = boardTableOrder().map(boardRowHtml).join('');
+    const section = document.getElementById('boardTable');
+    if (!body || !section) return;
+    if (!BOARD_DATA || !Array.isArray(BOARD_DATA.rows) || !BOARD_DATA.rows.length) {
+        body.innerHTML = '';
+        const empty = document.getElementById('boardTableEmpty');
+        if (empty) empty.hidden = false;
+        return;
+    }
+    body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
+
+    const meta = document.getElementById('boardTableMeta');
+    if (meta) {
+        const src = BOARD_DATA.generatedBy ? ` · ${esc(BOARD_DATA.generatedBy)}` : '';
+        meta.innerHTML = `as of ${esc(fmtDate(BOARD_DATA.updated) || BOARD_DATA.updated || '')}${src}`;
+    }
+    const note = document.getElementById('boardTableNote');
+    if (note) note.innerHTML = md(BOARD_DATA.note || '');
+    const method = document.getElementById('boardTableMethod');
+    if (method) method.innerHTML = md(BOARD_DATA.method || '');
+
+    const rank = document.getElementById('boardTableRanking');
+    if (rank) {
+        const items = (BOARD_DATA.ranking || []).map(r => `<li>${md(r)}</li>`).join('');
+        rank.innerHTML = items
+            ? `<h3 class="bt-rank-title">Most actionable</h3><ol class="bt-rank-list">${items}</ol>`
+              + (BOARD_DATA.rankingNote ? `<p class="bt-rank-note">${md(BOARD_DATA.rankingNote)}</p>` : '')
+            : '';
+    }
+
+    // Rows for tickers that also have a card open that deck; board-only names
+    // (AKAM, TE, …) are plain rows.
     body.querySelectorAll('tr[data-symbol]').forEach(el => {
         const symbol = el.dataset.symbol;
         el.addEventListener('click', () => openStory(symbol));
@@ -822,12 +863,14 @@ function initStockSearch() {
         });
         if (searchEmpty) searchEmpty.hidden = !(q && visible === 0);
 
-        // Keep the ranking table and the plain table view in step — the search
+        // Keep the ranking table and the structure board in step — the search
         // box sits in the ranking header, so an unfiltered table beside a
-        // filtered gallery reads as a broken filter.
-        document.querySelectorAll('#leaderboardBody tr[data-symbol], #boardTableBody tr[data-symbol]').forEach(row => {
-            const symbol = (row.dataset.symbol || '').toLowerCase();
-            row.hidden = !(!q || symbol.includes(q));
+        // filtered gallery reads as a broken filter. The board is matched on
+        // data-ticker, not data-symbol: board-only names (AKAM, TE, …) carry no
+        // symbol, and filtering on that left them permanently visible.
+        document.querySelectorAll('#leaderboardBody tr[data-symbol], #boardTableBody tr[data-ticker]').forEach(row => {
+            const key = (row.dataset.ticker || row.dataset.symbol || '').toLowerCase();
+            row.hidden = !(!q || key.includes(q));
         });
     }
 

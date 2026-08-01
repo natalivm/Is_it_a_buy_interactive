@@ -130,6 +130,32 @@ def obv(close: list[float], volume: list[float]) -> list[float]:
     return out
 
 
+def atr(high, low, close, n: int = 14) -> list[float | None]:
+    """ATR(14), Wilder — the same smoothing TradingView draws.
+
+        TR_t  = max(H-L, |H - C_prev|, |L - C_prev|)
+        ATR_n = mean of the first n true ranges (the seed)
+        ATR_t = (13 * ATR_prev + TR_t) / 14
+
+    The first bar has no previous close, so its TR is the bar range and it is
+    excluded from the seed window (a synthetic first TR biases the seed).
+    """
+    out: list[float | None] = [None] * len(close)
+    if len(close) <= n:
+        return out
+    tr = [high[0] - low[0]]
+    for i in range(1, len(close)):
+        tr.append(max(high[i] - low[i],
+                      abs(high[i] - close[i - 1]),
+                      abs(low[i] - close[i - 1])))
+    prev = sum(tr[1:n + 1]) / n
+    out[n] = prev
+    for i in range(n + 1, len(close)):
+        prev = (prev * (n - 1) + tr[i]) / n     # Wilder
+        out[i] = prev
+    return out
+
+
 def bollinger(close: list[float], n=21, mult=2.0):
     mid = sma(close, n)
     sd = stddev_pop(close, n)
