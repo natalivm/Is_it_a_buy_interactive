@@ -4,6 +4,7 @@
     python3 tools/refresh.py                 # every ticker in data.js
     python3 tools/refresh.py MU SNDK WDC     # just these
     python3 tools/refresh.py --audit-only    # skip the fetch, check the cards
+    python3 tools/refresh.py --days 5        # show 5 sessions, not 3
 
 What it does
   1. reads the board (node tools/dump_board.js)
@@ -18,10 +19,10 @@ What it does NOT do, on purpose
   and the arithmetic, which is where the errors actually come from.
 
 Data source
-  Default is Stooq (no API key, plain CSV). `--source yfinance` uses yfinance
-  if installed. Both are unofficial free feeds: fine for a personal board,
-  swap in a keyed provider (Tiingo / Polygon / Alpaca) if this ever needs to
-  run unattended.
+  Default is Yahoo's chart endpoint — the same data the site's own charts
+  render, so values line up with them. `--source stooq` and `--source yfinance`
+  are fallbacks. All are unofficial free feeds: fine for a personal board, swap
+  in a keyed provider (Tiingo / Polygon / Alpaca) to run unattended.
 """
 
 from __future__ import annotations
@@ -207,6 +208,38 @@ def frames(bars: list[dict]) -> list[Frame]:
     ]
 
 
+def recent(bars: list[dict], n: int) -> str:
+    """The last n daily sessions, plus the swing they describe.
+
+    One close is a snapshot; three tell you whether Friday broke a rally or
+    ended one. This also makes the 50% retracement COMPUTED rather than derived
+    — the Monday decider on every card had to be reconstructed from prior
+    percentage gains before this existed.
+    """
+    win = bars[-max(n, 2):]
+    out = [f"{'RECENT':<8} last {len(win)} sessions"]
+    for i, b in enumerate(win):
+        prev = bars[bars.index(b) - 1]["c"] if bars.index(b) > 0 else b["c"]
+        chg = (b["c"] - prev) / prev * 100 if prev else 0.0
+        out.append(f"{'':<8} {b['date']}  O {b['o']:>10,.2f} H {b['h']:>10,.2f} "
+                   f"L {b['l']:>10,.2f} C {b['c']:>10,.2f}  {chg:>+7.2f}%")
+
+    # Swing: lowest CLOSE in the window, then the highest HIGH at or after it.
+    lo_i = min(range(len(win)), key=lambda i: win[i]["c"])
+    hi_i = max(range(lo_i, len(win)), key=lambda i: win[i]["h"])
+    lo, hi, last = win[lo_i]["c"], win[hi_i]["h"], win[-1]["c"]
+    if hi > lo:
+        half = lo + (hi - lo) / 2
+        run = (hi - lo) / lo * 100
+        gave = (hi - last) / (hi - lo) * 100
+        d = (last - half) / half * 100
+        where = ("BELOW it" if d < -0.3 else "ON it" if abs(d) <= 1.5
+                 else f"{d:+.1f}% above it")
+        out.append(f"{'':<8} swing {lo:,.2f} → {hi:,.2f} (+{run:.1f}%) · gave back "
+                   f"{gave:.0f}% · 50% line {half:,.2f} — close is {where}")
+    return "\n".join(out)
+
+
 def levels(monthly: list[dict]) -> str:
     """What the monthly frame is actually FOR: structural highs and lows.
 
@@ -364,6 +397,8 @@ def main() -> int:
     ap.add_argument("tickers", nargs="*", help="default: everything in data.js")
     ap.add_argument("--source", choices=sorted(FETCHERS), default="yahoo")
     ap.add_argument("--out", metavar="FILE", help="also write the report here")
+    ap.add_argument("--days", type=int, default=3, metavar="N",
+                    help="daily sessions to print with the swing (default 3)")
     ap.add_argument("--audit-only", action="store_true", help="no network")
     args = ap.parse_args()
 
@@ -432,6 +467,7 @@ def main() -> int:
                 emit(f.line())
             emit(cascade(fs))
             emit(levels(resample(bars, "M")))
+            emit(recent(bars, args.days))
 
     emit()
     emit("=" * 78)
