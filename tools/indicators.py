@@ -182,7 +182,14 @@ class Frame:
             def run(n):
                 return f"{n} bar{'s' if n != 1 else ''}"
             flip = " ⚠️ JUST TURNED" if self.hist_dir_run == 1 else ""
-            colour = "RED" if self.hist_dir == "contracting" else "GREEN"
+            # Colour follows the bar's SLOPE, not its magnitude. hist_dir is
+            # computed on abs(), so "expanding" means away from zero in either
+            # direction: for a positive histogram that is rising (GREEN), but
+            # for a negative one it is falling harder (RED). Deriving the
+            # colour from hist_dir alone inverts every negative histogram —
+            # which is most of a board in a downtrend.
+            rising = (self.hist_sign == "positive") == (self.hist_dir == "expanding")
+            colour = "GREEN" if rising else "RED"
             hist = (f"hist {f(self.macd_hist)} — {self.hist_sign} "
                     f"({run(self.hist_run)}), {self.hist_dir} "
                     f"({run(self.hist_dir_run)}) → renders {colour}{flip}")
