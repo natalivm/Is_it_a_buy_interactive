@@ -219,6 +219,27 @@ def _halves(win: list[dict]) -> str:
     return 'neutral'
 
 
+def explain_structure(sw: list[Swing], bars: list[dict], lookback: int) -> str:
+    """One line saying HOW a frame reached its verdict, so a surprising read is
+    checkable rather than mysterious. LITE printing 'weekly bullish' while its
+    4H is bearish is a legitimate output — but only if you can see the two
+    swing highs and lows it compared, or that it fell back to window halves."""
+    inwin = [s for s in sw if s.i >= len(bars) - lookback]
+    highs = [s.price for s in inwin if s.kind == 'high'][-2:]
+    lows = [s.price for s in inwin if s.kind == 'low'][-2:]
+    if len(highs) < 2 or len(lows) < 2:
+        win = bars[-lookback:]
+        mid = len(win) // 2
+        if len(win) < 10:
+            return "too few bars"
+        old, new = win[:mid], win[mid:]
+        return (f"halves (too few pivots): high "
+                f"{max(b['h'] for b in old):.2f}->{max(b['h'] for b in new):.2f}, "
+                f"low {min(b['l'] for b in old):.2f}->{min(b['l'] for b in new):.2f}")
+    return (f"pivots: highs {highs[0]:.2f}->{highs[1]:.2f}, "
+            f"lows {lows[0]:.2f}->{lows[1]:.2f}")
+
+
 def classify_structure(sw: list[Swing], bars: list[dict] | None = None,
                        lookback: int | None = None) -> str:
     """bullish = higher high AND higher low; bearish = lower high AND lower low;
@@ -478,6 +499,33 @@ def _restrength(z: Zone) -> None:
         z.strength = 'fresh'
 
 
+def structural_levels(sw: list[Swing], price: float, kind: str,
+                      n: int = 2) -> list[dict]:
+    """Significant swing lows below price (or highs above) as SUPPORT/RESISTANCE
+    references, for when no zone exists on that side.
+
+    A name in a sustained decline has no demand zone behind it by construction:
+    every displacement is downward, so every zone it leaves is supply. Reporting
+    "no demand within range" is structurally true and useless — price still has
+    swing lows under it, and those are the levels a chart reader would name.
+    Flagged `structural` so they are never confused with a real zone."""
+    if kind == 'demand':
+        cand = sorted((s for s in sw if s.kind == 'low' and s.price < price),
+                      key=lambda s: price - s.price)
+    else:
+        cand = sorted((s for s in sw if s.kind == 'high' and s.price > price),
+                      key=lambda s: s.price - price)
+    out = []
+    for s in cand[:n]:
+        if abs(s.price - price) / price > MAX_ZONE_DIST:
+            continue
+        out.append({'lo': round(s.price, 2), 'hi': round(s.price, 2),
+                    'strength': 'structural', 'touches': None,
+                    'note': f"swing {'low' if kind == 'demand' else 'high'}, "
+                            f"no zone formed"})
+    return out
+
+
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
     """The n nearest zones of a kind on the correct side of price: demand below,
     supply above. A 'demand' zone above price is resistance, not demand."""
@@ -626,14 +674,17 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     rsi_d = ind.rsi(close)[-1]
     _, _, hist_d = ind.macd(close)
 
-    d_struct = classify_structure(
-        significant_swings(swings(high, low), atr_series),
-        daily, STRUCT_LOOKBACK['d']) if _frame_ok(daily, 'd', ticker) else 'neutral'
+    d_sig = significant_swings(swings(high, low), atr_series)
+    d_struct = classify_structure(d_sig, daily, STRUCT_LOOKBACK['d']) \
+        if _frame_ok(daily, 'd', ticker) else 'neutral'
+    d_why = explain_structure(d_sig, daily, STRUCT_LOOKBACK['d'])
     w_atr = ind.atr([b["h"] for b in weekly], [b["l"] for b in weekly],
                     [b["c"] for b in weekly])
-    w_struct = classify_structure(significant_swings(
-        swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr),
-        weekly, STRUCT_LOOKBACK['w']) if _frame_ok(weekly, 'w', ticker) else 'neutral'
+    w_sig = significant_swings(
+        swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr)
+    w_struct = classify_structure(w_sig, weekly, STRUCT_LOOKBACK['w']) \
+        if _frame_ok(weekly, 'w', ticker) else 'neutral'
+    w_why = explain_structure(w_sig, weekly, STRUCT_LOOKBACK['w'])
 
     # Monthly is the overall view — context, deliberately NOT a scoring term.
     # The methodology's score is 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (its M
@@ -659,8 +710,16 @@ def read_ticker(ticker: str, want_intraday: bool = True,
             h4_note = f"unavailable ({e})"
 
     zones = find_zones(daily, atr_series)
-    dem = nearest(zones, price, 'demand')
-    sup = nearest(zones, price, 'supply')
+    dem = [_zone_json(z) for z in nearest(zones, price, 'demand')]
+    sup = [_zone_json(z) for z in nearest(zones, price, 'supply')]
+    # No zone on a side does NOT mean nothing is there. A name in a sustained
+    # decline leaves only supply behind it, but it still has swing lows under
+    # price, and those are the levels a chart reader would name.
+    win_sw = [x for x in d_sig if x.i >= len(daily) - MAX_ZONE_AGE]
+    if not dem:
+        dem = structural_levels(win_sw, price, 'demand')
+    if not sup:
+        sup = structural_levels(win_sw, price, 'supply')
 
     # Z: inside a CONFIRMED (fresh or tested — not consumed) zone.
     z_term = 0
@@ -702,6 +761,9 @@ def read_ticker(ticker: str, want_intraday: bool = True,
                      if v is not None][-130:],
         'structure': {'m': m_struct, 'w': w_struct, 'd': d_struct,
                       'h4': h4_struct, 'h4Note': h4_note,
+                      # How each read was reached, so a surprising verdict is
+                      # checkable against the numbers it compared.
+                      'why': {'d': d_why, 'w': w_why},
                       'bars': {'d': len(daily), 'w': len(weekly),
                                'm': len(monthly)}},
         'ind': {
@@ -712,8 +774,8 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'parts': parts,
         'score': round(score, 2),
         'bias': bias_label(score),
-        'demand': [_zone_json(z) for z in dem],
-        'supply': [_zone_json(z) for z in sup],
+        'demand': dem,
+        'supply': sup,
         'position': _position(price, dem, sup, zones),
         'bull': _bull(price, sup),
         'bear': _bear(price, dem),
@@ -742,14 +804,22 @@ def _fmt(z: Zone | dict) -> str:
     return f"${lo:,.2f}–{hi:,.2f}"
 
 
+def _hi(z):
+    return z['hi'] if isinstance(z, dict) else z.hi
+
+
+def _lo(z):
+    return z['lo'] if isinstance(z, dict) else z.lo
+
+
 def _position(price, dem, sup, zones) -> str:
     for z in zones:
         if z.lo <= price <= z.hi:
             return f"inside {z.strength} {z.kind} {_fmt(z)}"
     if dem and sup:
         return (f"between demand {_fmt(dem[0])} "
-                f"({(price - dem[0].hi) / price * 100:.1f}% below) and supply "
-                f"{_fmt(sup[0])} ({(sup[0].lo - price) / price * 100:.1f}% above)")
+                f"({(price - _hi(dem[0])) / price * 100:.1f}% below) and supply "
+                f"{_fmt(sup[0])} ({(_lo(sup[0]) - price) / price * 100:.1f}% above)")
     if sup:
         return f"below supply {_fmt(sup[0])}, no demand within range"
     if dem:
@@ -1030,6 +1100,8 @@ def main() -> int:
             f"       frames: monthly {r['structure']['m'] or 'n/a'} (context, "
             f"unscored) · weekly {r['structure']['w']} · daily "
             f"{r['structure']['d']} · 4H {r['structure']['h4']}\n"
+            f"         weekly via {r['structure']['why']['w']}\n"
+            f"         daily  via {r['structure']['why']['d']}\n"
             f"       demand {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['demand']) or '—'}\n"
             f"       supply {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['supply']) or '—'}\n"
             f"       {r['position']}")

@@ -192,6 +192,39 @@ check("the zone price is INSIDE is nearest demand",
 check("position agrees with the zone lists",
       st._position(p, dem, st.nearest(held, p, 'supply'), held).startswith("inside"), True)
 
+# ── structural levels when a side has no zone ───────────────────────────────
+print("\nStructural fallback — a decline leaves no demand zone behind it")
+random.seed(4)
+_db, _p, _dd = [], 180.0, dt.date(2025, 8, 1)
+for _ in range(300):
+    _o = _p
+    _c = _p - 0.35 + random.uniform(-2.2, 2.2)
+    _db.append({"date": _dd, "o": _o, "h": max(_o, _c) + 2.2,
+                "l": min(_o, _c) - 2.2, "c": _c, "v": 1e6})
+    _p, _dd = _c, _dd + dt.timedelta(days=1)
+_dh = [b["h"] for b in _db]
+_dl = [b["l"] for b in _db]
+_dc = [b["c"] for b in _db]
+_da = ind.atr(_dh, _dl, _dc)
+_price = _dc[-1]
+_zs = st.find_zones(_db, _da)
+check("a sustained decline forms no demand zone",
+      len(st.nearest(_zs, _price, 'demand')), 0)
+check("…but it does form supply", len(st.nearest(_zs, _price, 'supply')) > 0, True)
+
+_sig = st.significant_swings(st.swings(_dh, _dl), _da)
+_win = [x for x in _sig if x.i >= len(_db) - st.MAX_ZONE_AGE]
+_fb = st.structural_levels(_win, _price, 'demand')
+check("fallback names swing lows instead", len(_fb) > 0, True)
+check("all below price", all(z['lo'] < _price for z in _fb), True)
+check("nearest first", _fb == sorted(_fb, key=lambda z: _price - z['lo']), True)
+check("flagged structural, never as a zone",
+      all(z['strength'] == 'structural' and z['touches'] is None for z in _fb), True)
+
+check("frame evidence names the pivots it compared",
+      st.explain_structure(_sig, _db, st.STRUCT_LOOKBACK['d']).startswith('pivots: highs'),
+      True)
+
 # ── volume in zone strength ─────────────────────────────────────────────────
 print("\nVolume — 'high-volume selling enters demand' (the written rule)")
 
