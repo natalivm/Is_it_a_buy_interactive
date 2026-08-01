@@ -122,7 +122,10 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   лонг», «був лонг → сетап перевернувся в шорт»). Also banned: «гейт»/«ворота»
   for a decisive group-wide level — write «рівень» («SMH-рівень», «рівень не
   взято»); «шортокрий» for short covering — keep the English term, same as
-  OBV/MACD/RSI/Stoch/VWAP.
+  OBV/MACD/RSI/Stoch/VWAP; «ре-арм»/«re-arm» for a setup becoming tradeable
+  again — write «оживає»/«оживання» («1H close нижче = шорт оживає»); «хрест
+  смерті» / «(не) зшито» for two EMAs that haven't crossed back — just say so
+  plainly («EMA50 усе ще нижче за EMA200 — вони ще не перетнулись»).
 - **One thought per line.** A `.sub` written as a single dense block reads as a
   wall on a phone. Give the paragraph the `lines` class and break it with
   `<br>`, one fact per line, each line short enough not to wrap — the column is
