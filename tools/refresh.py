@@ -252,8 +252,11 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     confirm_style = bool(re.search(r"\b(over|above|acceptance|reclaim)\b",
                                    str(lead.get("entry", "")), re.I))
 
-    # 2. a short's zone has to sit ABOVE price or there is nothing to reject from
-    if entry and side == "short" and min(entry) <= px * 1.02:
+    # 2. a short's zone has to sit ABOVE price or there is nothing to reject
+    #    from. The test is strict — zone floor at or BELOW price. An earlier
+    #    2% buffer flagged zones sitting legitimately just overhead (GLW at
+    #    141 vs 138.25), which is exactly where a post-rejection fade belongs.
+    if entry and side == "short" and min(entry) <= px:
         out.append(f"{sym}: ⚠️ SHORT zone {min(entry):g}-{max(entry):g} is not above "
                    f"price {px:g} — a fade with no resistance under it")
 
