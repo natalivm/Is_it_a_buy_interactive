@@ -66,8 +66,17 @@
                  The whole section is hidden if no entry has a `lead`. -->
             <section class="leaderboard" id="leaderboard" aria-label="Sharpest trades right now" hidden>
                 <div class="lb-head">
-                    <h2 class="lb-title">Sharpest trades <span class="grad">right now</span></h2>
-                    <p class="lb-sub">Ranked by setup quality × reward. Tap a card below for the full plan.</p>
+                    <div class="lb-head-text">
+                        <h2 class="lb-title">Sharpest trades <span class="grad">right now</span></h2>
+                        <p class="lb-sub">Ranked by setup quality × reward. Tap a card below for the full plan.</p>
+                    </div>
+                    <form class="stock-search" id="stockSearch" role="search" aria-label="Search stocks" onsubmit="return false">
+                        <svg class="stock-search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="search" id="stockSearchInput" class="stock-search-input" placeholder="Search ticker…" aria-label="Search stocks by ticker" autocomplete="off" spellcheck="false">
+                        <button type="button" id="stockSearchClear" class="stock-search-clear" aria-label="Clear search" hidden>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </form>
                 </div>
                 <div class="lb-scroll">
                     <table class="lb-table">
@@ -85,6 +94,7 @@
             <section class="gallery-section">
                 <div class="gallery" id="gallery"></div>
                 <div class="empty-state" id="galleryEmpty" hidden>No stories yet. Add one to <code>data.js</code>.</div>
+                <div class="empty-state" id="gallerySearchEmpty" hidden>No stocks match your search.</div>
             </section>
         </div>
 
