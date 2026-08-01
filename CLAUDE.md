@@ -67,6 +67,27 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 - Ukrainian copy NEVER uses the anglicism «тейп» ("the tape") — it means
   nothing to readers. Write «ринок», «хід торгів» or «динаміка» instead.
   (English copy may still say "the tape".)
+- Nor «клоуз» — write «закриття». Note the gender changes with it: «клоуз» is
+  masculine but «закриття» is neuter, so the adjective has to follow —
+  «денний клоуз» becomes «денне закриття», «на денному клоузі» becomes «на
+  денному закритті». (English copy may still say "close".)
+- Nor «додатна» for a positive value — write «плюсова» (and «плюсовий»,
+  «плюсову»… to match).
+- Nor «лой»/«лоу» for a swing low — write «дно». Neuter again, so everything
+  agreeing with it moves: «зламаний лой» → «зламане дно», «вчорашній AH-лоу» →
+  «вчорашнє AH-дно», «лой $515.68 втримав» → «дно $515.68 втримало», «це був
+  лой» → «це було дно». «був лоєм» keeps its verb («був дном») because the verb
+  agrees with the subject, not the instrumental predicate. Genitive is «дна»
+  («+16% від дна», «брейк AH-дна»).
+- «дошка» is fine for the board itself («записка дошки») but NOT in the
+  comparison sense — there write «решта імен» or «напівпровідники»
+  («шорти решти імен», «смуга по решті імен»).
+- **One thought per line.** A `.sub` written as a single dense block reads as a
+  wall on a phone. Give the paragraph the `lines` class and break it with
+  `<br>`, one fact per line, each line short enough not to wrap — the column is
+  46ch, so keep lines at or under ~52 characters of visible text. Condense
+  rather than merely splitting: the goal is less prose, not the same prose in
+  a taller shape.
 
 ## Trend meter (`MARKET` in data.js)
 
