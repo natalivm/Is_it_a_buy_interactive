@@ -594,8 +594,49 @@ function initInstallButton() {
     });
 }
 
+// ── Theme toggle ───────────────────────────────────────────────────────────
+// The theme itself is applied before first paint by the inline script in
+// index.html; this only wires the button and persists the choice. An explicit
+// pick wins over the OS preference from then on, and the browser chrome colour
+// is kept in step so the PWA's status bar matches the page.
+const THEME_KEY = 'ib-theme';
+const THEME_COLOR = { dark: '#070410', light: '#FAF9F7' };
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', THEME_COLOR[theme] || THEME_COLOR.dark);
+    const btn = document.getElementById('themeBtn');
+    if (btn) {
+        btn.setAttribute('aria-pressed', String(theme === 'light'));
+        btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+    }
+}
+
+function initThemeToggle() {
+    const btn = document.getElementById('themeBtn');
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(next);
+            try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* private mode */ }
+        });
+    }
+    // Follow the OS only while the user has not made an explicit choice.
+    const mq = window.matchMedia('(prefers-color-scheme: light)');
+    const onChange = e => {
+        let stored = null;
+        try { stored = localStorage.getItem(THEME_KEY); } catch (err) { /* private mode */ }
+        if (!stored) applyTheme(e.matches ? 'light' : 'dark');
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+}
+
 // ── Wiring ─────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     initInstallButton();
     renderTrendMeter();    // index regime read (needle computed from MARKET.checks)
     renderGallery();       // assigns tile accents (fills accentBySymbol)
