@@ -37,6 +37,7 @@ jobs:
             -o dist/index.html index.html
           cleancss -o dist/styles.css styles.css
           terser data.js   -o dist/data.js   --compress --mangle
+          terser board.js  -o dist/board.js  --compress --mangle
           terser script.js -o dist/script.js --compress --mangle
           CACHE_VER=$(git rev-parse --short HEAD)
           sed "s/isitabuy-v[0-9]*/isitabuy-${CACHE_VER}/" sw.js > /tmp/sw_ver.js
