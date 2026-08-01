@@ -130,6 +130,40 @@ for name, gen, want in cases:
     got = {read_structure(gen(s)) for s in SEEDS}
     check(name, got.pop() if len(got) == 1 else sorted(got), want)
 
+# ── frames: monthly / weekly / daily off one 4y daily pull ──────────────────
+print("\nFrames — 4y of daily must feed every frame")
+random.seed(5)
+_bars, _px, _d = [], 100.0, dt.date(2022, 8, 1)
+for _n, _step in ((504, +0.30), (504, -0.28)):
+    for _ in range(_n):
+        while _d.weekday() > 4:
+            _d += dt.timedelta(days=1)
+        _o = _px
+        _c = _px + _step + random.uniform(-1.2, 1.2)
+        _bars.append({"date": _d, "o": _o, "h": max(_o, _c) + 1.2,
+                      "l": min(_o, _c) - 1.2, "c": _c, "v": 1e6})
+        _px, _d = _c, _d + dt.timedelta(days=1)
+_wk, _mo = ind.resample(_bars, 'W'), ind.resample(_bars, 'M')
+for _f, _seq in (('d', _bars), ('w', _wk), ('m', _mo)):
+    _need = st.STRUCT_LOOKBACK[_f] + st.ATR_WARMUP
+    check(f"{_f} frame has its lookback + warmup ({_need} bars)",
+          len(_seq) >= _need, True)
+
+
+def _read(seq, frame):
+    h, l, c = ([b['h'] for b in seq], [b['l'] for b in seq], [b['c'] for b in seq])
+    return st.classify_structure(
+        st.significant_swings(st.swings(h, l), ind.atr(h, l, c)),
+        seq, st.STRUCT_LOOKBACK[frame])
+
+
+# 2y advance then 2y decline: every lookback ends inside the decline.
+check("monthly reads the current regime", _read(_mo, 'm'), 'bearish')
+check("weekly reads the current regime", _read(_wk, 'w'), 'bearish')
+check("daily reads the current regime", _read(_bars, 'd'), 'bearish')
+check("an under-fed frame refuses to score",
+      st._frame_ok(ind.resample(_bars[-252:], 'M'), 'm', 'TEST'), False)
+
 # ── zones ───────────────────────────────────────────────────────────────────
 print("\nZones")
 random.seed(11)
@@ -157,6 +191,35 @@ check("the zone price is INSIDE is nearest demand",
       (dem[0].lo, dem[0].hi), (680.0, 785.0))
 check("position agrees with the zone lists",
       st._position(p, dem, st.nearest(held, p, 'supply'), held).startswith("inside"), True)
+
+# ── volume in zone strength ─────────────────────────────────────────────────
+print("\nVolume — 'high-volume selling enters demand' (the written rule)")
+
+
+def _graded(touches, closes_in, heavy):
+    z = Z('demand', 99.0, 100.0, 70, dt.date(2025, 6, 1), atr_at=2.0)
+    z.touches, z.closes_in, z.heavy_touches = touches, closes_in, heavy
+    st._restrength(z)
+    return z.strength
+
+
+# Two revisits, identical price action — volume is the only variable.
+check("2 quiet revisits stay 'tested'", _graded(2, 0, 0), 'tested')
+check("2 HEAVY revisits consume the zone", _graded(2, 0, 2), 'weak')
+# The price-only paths must not have shifted.
+check("3 revisits still weak", _graded(3, 0, 0), 'weak')
+check("2 closes inside still weak", _graded(1, 2, 0), 'weak')
+check("1 quiet touch still tested", _graded(1, 0, 0), 'tested')
+check("untouched still fresh", _graded(0, 0, 0), 'fresh')
+
+_vb = [{"date": dt.date(2025, 1, 1), "o": 1, "h": 1, "l": 1, "c": 1, "v": 1_000_000}
+       for _ in range(60)]
+_vb.append({"date": dt.date(2025, 4, 1), "o": 1, "h": 1, "l": 1, "c": 1, "v": 3_000_000})
+check("rel_volume is a multiple of the trailing median",
+      round(st.rel_volume(_vb, 60), 2), 3.0)
+check("a zero-volume bar reads 0, not a crash",
+      st.rel_volume([{"date": dt.date(2025, 1, 1), "o": 1, "h": 1, "l": 1,
+                      "c": 1, "v": 0}] * 5, 4), 0.0)
 
 # ── flow signing ────────────────────────────────────────────────────────────
 print("\nOrder flow — signing")

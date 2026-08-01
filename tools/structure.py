@@ -36,6 +36,16 @@ reproducible from one OHLC source instead of from judgement:
               >= 3 strongly bullish · 1.5..3 bullish · -1.5..1.5 neutral
               -3..-1.5 bearish · <= -3 strongly bearish
 
+Frames: MONTHLY for the overall view, WEEKLY and DAILY as the working frames,
+plus 4H for entry timing. Monthly is context only — it is NOT a scoring term,
+because the score above is fixed and adding one would make every past score
+incomparable (its M is the MACD histogram, not the month).
+
+Only 4y of daily history is pulled, sized to the deepest frame that uses it:
+24 monthly bars + an ATR(14) warmup is 38 months. The card refresher fetches
+10y because it quotes a 200-week EMA; nothing here needs that. A frame without
+enough bars for its lookback + warmup says so and scores 0 instead of guessing.
+
 The 4H term needs intraday bars, which the daily fetcher cannot supply: Yahoo
 serves 60m for ~730d, and 4H is built by resampling those (US equities have no
 native 4H bar — see resample_4h). If intraday is unavailable for a ticker, H
@@ -88,7 +98,15 @@ SWING_MIN_ATR = 0.75
 # Structure is a read on the CURRENT regime, so only swings inside this window
 # count. Without it the classifier compared two pivots from an earlier era and
 # called a name in free-fall "neutral". Per frame, in that frame's own bars.
-STRUCT_LOOKBACK = {'d': 120, 'w': 52, 'h4': 120}
+STRUCT_LOOKBACK = {'d': 120, 'w': 52, 'm': 24, 'h4': 120}
+# How much daily history to pull. NOT 10y — this board's deepest frame is
+# monthly, and 24 monthly bars plus an ATR(14) warmup is 38 months. 4y covers
+# that with room (48 monthly, 208 weekly, ~1000 daily) and costs 60% less than
+# the card refresher's 10y, which it needs only for its 200-week EMA seed.
+FETCH_RANGE = "4y"
+# Bars a frame needs before its read is trustworthy: its lookback plus the
+# ATR(14) warmup the significance thresholds depend on.
+ATR_WARMUP = 14
 # When structure falls back to comparing window halves, how far the extremes
 # have to shift before it counts as a trend rather than noise.
 HALVES_MIN_ATR = 1.0
@@ -111,10 +129,18 @@ MERGE_OVERLAP = 0.5
 # nothing. When a demand and a supply zone overlap this much, the more recent
 # one wins and the other is dropped.
 CROSS_OVERLAP = 0.5
-# Zones older than this many bars are history, not current structure. Without a
-# cap the "nearest" level can be years old, and it grades weak by construction:
-# revisits accumulate for as long as the zone has existed.
-MAX_ZONE_AGE = 504          # ~2 years of daily bars
+# Zones older than this many bars are history, not current structure. 1 year,
+# not 2: at 2 years EVERY zone graded "weak", because revisits accumulate for as
+# long as a zone exists, so an 18-month-old level is worn out by construction and
+# the grade carried no information. The working frames here are weekly and daily;
+# monthly is the overall view, not a source of tradeable levels.
+MAX_ZONE_AGE = 252          # ~1 year of daily bars
+
+# Volume thresholds, all RELATIVE to the ticker's own trailing median — a raw
+# share count compares neither across tickers nor across time on one ticker.
+VOL_BASE = 50            # bars in the trailing median
+VOL_HEAVY = 1.5          # a bar at 1.5x its own normal is "high volume"
+VOL_STRONG_FORM = 1.3    # displacement on this much volume is a strong origin
 
 
 # ── swings and structure ────────────────────────────────────────────────────
@@ -242,12 +268,28 @@ class Zone:
     atr_at: float = 0.0    # ATR when it formed — the width cap is measured in it
     touches: int = 0
     closes_in: int = 0
+    # Volume, relative to the ticker's own recent median — an absolute share
+    # count says nothing across tickers, and nothing across time on one ticker.
+    form_vol: float = 0.0   # of the displacement leg that created the zone
+    heavy_touches: int = 0  # revisits that arrived on above-average volume
     strength: str = 'fresh'
     extra: dict = field(default_factory=dict)
 
     @property
     def mid(self) -> float:
         return (self.lo + self.hi) / 2
+
+
+def rel_volume(bars: list[dict], i: int, n: int = VOL_BASE) -> float:
+    """Bar i's volume against the median of the n bars before it. Median, not
+    mean, because one earnings-day spike drags a mean enough to make every
+    ordinary bar afterwards look quiet."""
+    lo = max(0, i - n)
+    prior = sorted(b["v"] for b in bars[lo:i] if b["v"] > 0)
+    if not prior or not bars[i]["v"]:
+        return 0.0
+    mid = prior[len(prior) // 2]
+    return bars[i]["v"] / mid if mid else 0.0
 
 
 def _base_span(bars, j, kind: str) -> tuple[int, int]:
@@ -263,6 +305,16 @@ def _base_span(bars, j, kind: str) -> tuple[int, int]:
             break
         start = k
     return start, j
+
+
+def _leg_vol(bars: list[dict], i: int) -> float:
+    """Mean relative volume across the displacement leg. A zone left behind by
+    a leg that traded well above normal has a stronger origin than one left by
+    a drift on thin volume — the methodology's "strong displacement away"."""
+    win = range(i, min(i + DISPLACE_BARS, len(bars)))
+    vals = [rel_volume(bars, k) for k in win]
+    vals = [v for v in vals if v > 0]
+    return sum(vals) / len(vals) if vals else 0.0
 
 
 def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
@@ -302,7 +354,8 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
             out.append(Zone('demand',
                             lo=min(x["l"] for x in base),               # wick
                             hi=max(max(x["o"], x["c"]) for x in base),  # body
-                            i=hi_i, date=bars[hi_i]["date"], atr_at=a))
+                            i=hi_i, date=bars[hi_i]["date"], atr_at=a,
+                            form_vol=round(_leg_vol(bars, i), 2)))
         else:
             prior = [s for s in lows if s.i < i]
             if not prior or dn_to >= prior[-1].price:
@@ -313,7 +366,8 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
             out.append(Zone('supply',
                             lo=min(min(x["o"], x["c"]) for x in base),  # body
                             hi=max(x["h"] for x in base),               # wick
-                            i=hi_i, date=bars[hi_i]["date"], atr_at=a))
+                            i=hi_i, date=bars[hi_i]["date"], atr_at=a,
+                            form_vol=round(_leg_vol(bars, i), 2)))
         # Skip past the leg so one displacement leaves one zone, not three.
         i += DISPLACE_BARS
 
@@ -333,25 +387,29 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
 
 
 def _score_zone(z: Zone, bars: list[dict]) -> None:
-    """fresh / tested / weak, by revisits and — the rule that matters — whether
-    price CLOSED inside (acceptance) or only wicked in (rejection)."""
+    """fresh / tested / weak, per the written rules: revisit count, whether
+    price CLOSED inside (acceptance) rather than only wicking in (rejection),
+    and — the clause volume answers — whether the selling arriving into demand
+    (or the buying into supply) came on HIGH volume.
+
+    A quiet revisit and a revisit on twice-normal volume are not the same
+    event. The first is a test; the second is supply being absorbed or demand
+    being eaten, and it consumes the zone faster."""
     pad = (z.hi - z.lo) * REVISIT_PAD
     inside = False
-    for b in bars[z.i + 2:]:
+    for k in range(z.i + 2, len(bars)):
+        b = bars[k]
         touching = b["l"] <= z.hi + pad and b["h"] >= z.lo - pad
         if touching and not inside:
             z.touches += 1
             inside = True
+            if rel_volume(bars, k) >= VOL_HEAVY:
+                z.heavy_touches += 1
         elif not touching:
             inside = False
         if touching and z.lo <= b["c"] <= z.hi:
             z.closes_in += 1
-    if z.touches >= 3 or z.closes_in >= 2:
-        z.strength = 'weak'
-    elif z.touches >= 1:
-        z.strength = 'tested'
-    else:
-        z.strength = 'fresh'
+    _restrength(z)
 
 
 def _merge(zones: list[Zone]) -> list[Zone]:
@@ -374,6 +432,8 @@ def _merge(zones: list[Zone]) -> list[Zone]:
             p.atr_at = max(p.atr_at, z.atr_at)
             p.touches = max(p.touches, z.touches)
             p.closes_in = max(p.closes_in, z.closes_in)
+            p.heavy_touches = max(p.heavy_touches, z.heavy_touches)
+            p.form_vol = max(p.form_vol, z.form_vol)
             if z.i > p.i:
                 p.i, p.date = z.i, z.date
             _restrength(p)
@@ -408,8 +468,14 @@ def _resolve_cross(zones: list[Zone]) -> list[Zone]:
 
 
 def _restrength(z: Zone) -> None:
-    z.strength = 'weak' if (z.touches >= 3 or z.closes_in >= 2) else \
-                 'tested' if z.touches >= 1 else 'fresh'
+    # Two heavy-volume revisits consume a zone as surely as three quiet ones —
+    # "high-volume selling enters demand, or high-volume buying enters supply".
+    if z.touches >= 3 or z.closes_in >= 2 or z.heavy_touches >= 2:
+        z.strength = 'weak'
+    elif z.touches >= 1:
+        z.strength = 'tested'
+    else:
+        z.strength = 'fresh'
 
 
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
@@ -532,10 +598,22 @@ def obv_slope(close: list[float], volume: list[float], look: int = 10) -> int:
 
 # ── per-ticker read ─────────────────────────────────────────────────────────
 
+def _frame_ok(bars: list[dict], frame: str, ticker: str) -> bool:
+    """Enough bars for this frame's lookback plus the ATR warmup? A frame read
+    off half a window is a guess, and it should say so rather than score."""
+    need = STRUCT_LOOKBACK[frame] + ATR_WARMUP
+    if len(bars) >= need:
+        return True
+    print(f"  {ticker}: {frame} frame has {len(bars)} bars, needs {need} — "
+          f"scoring it 0", file=sys.stderr)
+    return False
+
+
 def read_ticker(ticker: str, want_intraday: bool = True,
                 flow: dict | None = None) -> dict:
-    daily = fetch_yahoo(ticker)
+    daily = fetch_yahoo(ticker, FETCH_RANGE)
     weekly = ind.resample(daily, 'W')
+    monthly = ind.resample(daily, 'M')
 
     close = [b["c"] for b in daily]
     high = [b["h"] for b in daily]
@@ -550,12 +628,22 @@ def read_ticker(ticker: str, want_intraday: bool = True,
 
     d_struct = classify_structure(
         significant_swings(swings(high, low), atr_series),
-        daily, STRUCT_LOOKBACK['d'])
+        daily, STRUCT_LOOKBACK['d']) if _frame_ok(daily, 'd', ticker) else 'neutral'
     w_atr = ind.atr([b["h"] for b in weekly], [b["l"] for b in weekly],
                     [b["c"] for b in weekly])
     w_struct = classify_structure(significant_swings(
         swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr),
-        weekly, STRUCT_LOOKBACK['w'])
+        weekly, STRUCT_LOOKBACK['w']) if _frame_ok(weekly, 'w', ticker) else 'neutral'
+
+    # Monthly is the overall view — context, deliberately NOT a scoring term.
+    # The methodology's score is 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (its M
+    # is the MACD histogram, not the month); bolting a monthly term on would
+    # change the formula and make every past score incomparable.
+    m_atr = ind.atr([b["h"] for b in monthly], [b["l"] for b in monthly],
+                    [b["c"] for b in monthly])
+    m_struct = classify_structure(significant_swings(
+        swings([b["h"] for b in monthly], [b["l"] for b in monthly]), m_atr),
+        monthly, STRUCT_LOOKBACK['m']) if _frame_ok(monthly, 'm', ticker) else None
 
     h4_struct, h4_note = 'neutral', 'no intraday data'
     if want_intraday:
@@ -605,13 +693,17 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'price': round(price, 2),
         'atr': round(a, 2) if a else None,
         'atrPct': round(a / price * 100, 2) if a else None,
-        # Recent ATR history, kept only so --compare can tell a stale figure
-        # from a wrong one. Stripped before board.js is written.
+        # ATR history, kept only so --compare can tell a stale figure from a
+        # wrong one. ~6 months: 25 sessions was too short to rule out a vintage
+        # from earlier in the season, which made the verdict over-confident.
+        # Stripped before board.js is written.
         '_atrHist': [(daily[i]["date"].isoformat(), round(v, 2))
                      for i, v in enumerate(atr_series)
-                     if v is not None][-25:],
-        'structure': {'w': w_struct, 'd': d_struct, 'h4': h4_struct,
-                      'h4Note': h4_note},
+                     if v is not None][-130:],
+        'structure': {'m': m_struct, 'w': w_struct, 'd': d_struct,
+                      'h4': h4_struct, 'h4Note': h4_note,
+                      'bars': {'d': len(daily), 'w': len(weekly),
+                               'm': len(monthly)}},
         'ind': {
             'rsi': round(rsi_d, 2) if rsi_d is not None else None,
             'macdHist': round(hist_d[-1], 3) if hist_d[-1] is not None else None,
@@ -638,6 +730,10 @@ def read_ticker(ticker: str, want_intraday: bool = True,
 def _zone_json(z: Zone) -> dict:
     return {'lo': round(z.lo, 2), 'hi': round(z.hi, 2), 'strength': z.strength,
             'touches': z.touches, 'closesIn': z.closes_in,
+            # Volume evidence: how heavily the zone was created, and how many
+            # revisits arrived on high volume.
+            'formVol': z.form_vol, 'heavyTouches': z.heavy_touches,
+            'origin': 'strong' if z.form_vol >= VOL_STRONG_FORM else 'thin',
             'since': z.date.isoformat()}
 
 
@@ -831,9 +927,19 @@ def compare(rows: list[dict], old: dict) -> list[str]:
                            f"{when} — the old figure is a different session, "
                            f"not a different formula")
             else:
-                out.append(f"       ATR {o['atr']} does not appear in the last "
-                           f"{len(r.get('_atrHist') or [])} sessions — a real "
-                           f"disagreement, check the price basis")
+                hist = r.get('_atrHist') or []
+                vals = [v for _, v in hist]
+                if vals and not (min(vals) <= o['atr'] <= max(vals)):
+                    out.append(
+                        f"       ATR {o['atr']} is OUTSIDE this ticker's whole "
+                        f"{len(hist)}-session range ({min(vals)}–{max(vals)}) — "
+                        f"vintage is ruled out, so the old figure is on a "
+                        f"different basis (period, smoothing or session hours)")
+                else:
+                    out.append(
+                        f"       ATR {o['atr']} is inside the {len(hist)}-session "
+                        f"range ({min(vals)}–{max(vals)}) but matches no single "
+                        f"session — likely a different smoothing, not a stale date")
 
         dh, dn = _zone_overlap(r.get("demand"), o.get("demand"))
         sh, sn = _zone_overlap(r.get("supply"), o.get("supply"))
@@ -921,6 +1027,9 @@ def main() -> int:
             f"[W{p['W']:+d} D{p['D']:+d} H{p['H']:+d} R{p['R']:+d} "
             f"M{p['M']:+d} O{p['O']:+d} Z{p['Z']:+d}]  "
             f"ATR {r['atr']} ({r['atrPct']}%)  {r['structure']['h4Note']}\n"
+            f"       frames: monthly {r['structure']['m'] or 'n/a'} (context, "
+            f"unscored) · weekly {r['structure']['w']} · daily "
+            f"{r['structure']['d']} · 4H {r['structure']['h4']}\n"
             f"       demand {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['demand']) or '—'}\n"
             f"       supply {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['supply']) or '—'}\n"
             f"       {r['position']}")

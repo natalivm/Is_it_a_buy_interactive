@@ -6,11 +6,11 @@ name: Board refresh
 # the run summary and, on a schedule, to a long-lived PR so the numbers arrive
 # as a notification instead of a chore.
 #
-# It DOES re-cut one thing: each deck's ТУТ ladder rung, which duplicates its
-# card's close and so goes stale on every refresh. That is pure arithmetic off
-# data.js (close, day %, date, entry zone) — the indicator readings beside it
-# are dropped rather than guessed, and the whole diff arrives in the PR for
-# review like everything else. Set fix_rungs=false to get a report only.
+# THIS BOT DOES NOT COMMIT unless asked. It reports, and it can re-cut each
+# deck's ТУТ ladder rung — pure arithmetic off data.js (close, day %, date,
+# entry zone) — but that re-cut now ships as a PATCH inside the run artifact,
+# not as a commit. Nothing reaches the repository until a human has read the
+# numbers and re-run with apply=true.
 
 on:
   schedule:
@@ -29,13 +29,13 @@ on:
         default: 'yahoo'
         type: choice
         options: [yahoo, stooq]
-      open_pr:
-        description: 'Open/update the report PR (the schedule always does)'
+      apply:
+        description: 'COMMIT the report and any rung re-cut to a PR (default: artifact only)'
         required: false
         default: false
         type: boolean
       fix_rungs:
-        description: "Re-cut each deck's ТУТ rung to its card's close"
+        description: "Compute the ТУТ rung re-cut (shipped as a patch, applied only with apply=true)"
         required: false
         default: true
         type: boolean
@@ -94,12 +94,21 @@ jobs:
           # Stash both: the PR step checks out another branch over the worktree.
           cp tools/reports/latest.txt "$RUNNER_TEMP/latest.txt"
           git diff -- stories/ > "$RUNNER_TEMP/rungs.patch" || true
+          # Ship the re-cut as a reviewable patch and put the decks back. A
+          # scheduled run must leave the worktree exactly as it checked out.
+          cp "$RUNNER_TEMP/rungs.patch" tools/reports/rungs.patch || true
+          git checkout -- stories/ || true
 
       - name: Write run summary
         run: |
           {
             echo "## Board refresh — $(date -u '+%Y-%m-%d %H:%M UTC')"
             echo
+            if [ "${{ inputs.apply }}" != "true" ]; then
+              echo "_Nothing committed._ Report and any rung patch are in the "
+              echo "\`board-report\` artifact. Re-run with **apply=true** to commit."
+              echo
+            fi
             echo "Source \`${{ inputs.source || 'yahoo' }}\` · audit findings **${{ steps.run.outputs.findings }}**"
             if [ "${{ steps.run.outputs.recut }}" = true ]; then
               echo " · ТУТ rungs re-cut in **${{ steps.run.outputs.recut_n }}** deck(s)"
@@ -129,8 +138,10 @@ jobs:
           path: tools/reports/
           retention-days: 30
 
+      # Opt-in only. Never fires on the schedule: `inputs.apply` is unset there,
+      # so a scheduled run can only ever produce an artifact to review.
       - name: Open or update the report PR
-        if: github.event_name == 'schedule' || inputs.open_pr
+        if: inputs.apply
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BASE: ${{ github.ref_name }}

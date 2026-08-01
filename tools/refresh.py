@@ -95,18 +95,22 @@ def load_board() -> dict:
 
 # ── fetch ───────────────────────────────────────────────────────────────────
 
-def fetch_yahoo(ticker: str) -> list[dict]:
+def fetch_yahoo(ticker: str, rng: str = "10y") -> list[dict]:
     """Yahoo's chart endpoint — the same data the site's own charts render, so
     the numbers here line up with what you see there. Uses raw `close`, not
-    `adjclose`: the chart quotes unadjusted prices and so do the cards."""
+    `adjclose`: the chart quotes unadjusted prices and so do the cards.
+
+    `rng` defaults to 10y because THIS bot needs it: the cards quote a 200-week
+    EMA, which needs ~500 weekly bars to seed honestly. A caller whose deepest
+    frame is shallower should ask for less — tools/structure.py pulls 4y, sized
+    to its own monthly lookback. Never pass range=max: Yahoo silently DOWNGRADES
+    the interval when max is paired with interval=1d, returning coarse bars with
+    a 200 response rather than an error, which collapses the daily/weekly/monthly
+    frames into each other and yields nonsense indicators.
+    """
     sym = urllib.parse.quote(MARKET_SYMBOLS.get(ticker, ticker))
-    # 10y, NOT max. Yahoo silently DOWNGRADES the interval when range=max is
-    # paired with interval=1d — it returns coarse (monthly-ish) bars with a 200
-    # response rather than an error, which produced identical daily/weekly/
-    # monthly frames and nonsense indicators. 10y keeps daily granularity while
-    # still giving ~500 weekly bars, enough to seed a 200-week EMA properly.
     url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
-           f"?range=10y&interval=1d")
+           f"?range={rng}&interval=1d")
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         payload = json.loads(r.read().decode())

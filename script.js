@@ -475,12 +475,16 @@ function md(text) {
 
 const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
 
+// Monthly first — the overall view — then the working frames and the timing
+// frame. M is context only and never enters the score, so it is dimmed to say
+// so rather than sitting flush with the terms that do count.
 function structCell(s) {
     if (!s) return '—';
     const one = (label, v) => v
         ? `${label} ${STRUCT_MARK[v] || ''} ${v}`
         : `${label} —`;
-    return [one('W', s.w), one('D', s.d), one('4H', s.h4)].join('<br>');
+    return [`<span class="bt-context">${one('M', s.m)}</span>`,
+            one('W', s.w), one('D', s.d), one('4H', s.h4)].join('<br>');
 }
 
 // A zone list → "$107.27–108.70 weak · repeatedly tested". Generated rows carry
@@ -491,8 +495,18 @@ function zoneCell(list) {
         const range = z.lo === z.hi
             ? `$${fmtNum(z.lo)}`
             : `$${fmtNum(z.lo)}–${fmtNum(z.hi)}`;
-        const detail = z.note != null ? z.note
-            : (z.touches != null ? `${z.touches} touch${z.touches === 1 ? '' : 'es'}` : '');
+        // Volume evidence, where the extractor computed it: how many revisits
+        // arrived on high volume, and whether the zone's own displacement leg
+        // traded heavily. Seeded rows carry a prose note instead.
+        let detail = '';
+        if (z.note != null) {
+            detail = z.note;
+        } else if (z.touches != null) {
+            const bits = [`${z.touches} touch${z.touches === 1 ? '' : 'es'}`];
+            if (z.heavyTouches) bits.push(`${z.heavyTouches} on heavy vol`);
+            if (z.origin) bits.push(`${z.origin} origin`);
+            detail = bits.join(', ');
+        }
         return `<b>${range}</b> ${esc(z.strength || '')}${detail ? ` · ${esc(detail)}` : ''}`;
     }).join('<br>');
 }
