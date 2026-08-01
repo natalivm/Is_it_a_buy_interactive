@@ -60,6 +60,12 @@ MARKET_SYMBOLS = {
 }
 INDEX_ONLY = {k for k, v in MARKET_SYMBOLS.items() if v.startswith("^")}
 
+# How far a card's price may drift from the real close before it is worth
+# reporting. Below these, differences are vendor noise (EMA seeding, after-hours
+# in the current bar) and flagging them just buries the findings that matter.
+TOL_INDEX = 0.5   # % — indices move less, so a smaller gap is meaningful
+TOL_STOCK = 1.0   # %
+
 
 # ── board ───────────────────────────────────────────────────────────────────
 
@@ -319,12 +325,13 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
             out.append(f"{sym}: downside '{lead['downside']}' vs computed "
                        f"{shown} to {t:g} — off by {abs(abs(stated[0]) - abs(left)):.1f}pp")
 
-    # 7. card price vs the real close
+    # 7. card price vs the real close, against the tolerance for its type
     if close is not None and card_px is not None:
         drift = abs(card_px - close) / close * 100
-        if drift > 0.5:
+        tol = TOL_INDEX if sym in MARKET_SYMBOLS else TOL_STOCK
+        if drift > tol:
             out.append(f"{sym}: card price {card_px:g} vs close {close:g} "
-                       f"({drift:.1f}% stale) — needs a refresh")
+                       f"({drift:.1f}% stale, tolerance {tol:g}%) — needs a refresh")
     return out
 
 

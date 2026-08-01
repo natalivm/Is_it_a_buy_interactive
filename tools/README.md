@@ -94,3 +94,12 @@ expected:
 Bars are fetched with `range=max` so the 200-period EMAs are properly seeded on
 the weekly and monthly frames; a 5-year window left the 200-WEEK average with
 ~260 bars and drifted ~0.9% against the chart.
+
+### Tolerance
+
+Differences below **0.5% for indices** and **1% for stocks** are treated as
+vendor noise and are not reported — flagging them only buries the findings that
+matter. Those thresholds are `TOL_INDEX` / `TOL_STOCK` in `refresh.py` and drive
+the card-price staleness check. By that standard the daily 200-EMA gap seen on
+QQQ (0.2%) is nothing; the weekly one (0.9%) crossed the index threshold, which
+is what `range=max` fixed.
