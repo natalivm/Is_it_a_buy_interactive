@@ -145,6 +145,24 @@ def frames(bars: list[dict]) -> list[Frame]:
     ]
 
 
+def levels(monthly: list[dict]) -> str:
+    """What the monthly frame is actually FOR: structural highs and lows.
+
+    The board trades the daily and confirms trend on the weekly. The monthly
+    contributes support and resistance — the levels price has to deal with —
+    not signals. Its oscillators are background, so they are not surfaced here.
+    """
+    cur = monthly[-1]
+    prev = monthly[-2] if len(monthly) > 1 else None
+    win = monthly[-12:]
+    parts = [f"this month H {cur['h']:,.2f} / L {cur['l']:,.2f}"]
+    if prev:
+        parts.append(f"prior month H {prev['h']:,.2f} / L {prev['l']:,.2f}")
+    parts.append(f"12-mo H {max(b['h'] for b in win):,.2f} "
+                 f"/ L {min(b['l'] for b in win):,.2f}")
+    return f"{'LEVELS':<8} " + " · ".join(parts)
+
+
 def cascade(fs: list[Frame]) -> str:
     """How far a momentum rollover has climbed the timeframes.
 
@@ -165,12 +183,26 @@ def cascade(fs: list[Frame]) -> str:
     stages = [stage(f) for f in fs]
     parts = " → ".join(f"{f.label.lower()} {s}" for f, s in zip(fs, stages))
 
+    out = [f"{'CASCADE':<8} {parts}"]
+
+    # How solid is the WEEKLY cross? That is the trend-confirmation layer, and a
+    # fresh shallow cross is the kind that gets negated by one good bounce.
+    # Depth = |histogram| as a share of |MACD|: a few percent is a graze.
+    w = fs[1]
+    if w.macd_hist is not None and w.macd and w.hist_sign == "negative":
+        depth = abs(w.macd_hist) / abs(w.macd) * 100
+        grade = ("FRAGILE" if depth < 10 or w.hist_run <= 2
+                 else "holding" if depth < 25 else "ESTABLISHED")
+        need = abs(w.macd_sig - w.macd) if w.macd_sig is not None else 0
+        out.append(f"{'':<8} weekly cross {grade}: {w.hist_run} bar(s) deep, "
+                   f"hist {abs(w.macd_hist):,.2f} = {depth:.1f}% of MACD · "
+                   f"MACD must regain {need:,.2f} pts to un-cross")
+
     m = fs[2]
-    note = ""
     if m.macd is not None and m.macd_sig is not None and m.hist_sign == "positive":
-        note = (f"  · monthly needs {abs(m.macd - m.macd_sig):,.0f} more points "
-                f"of MACD decline to cross")
-    return f"{'CASCADE':<8} {parts}{note}"
+        out.append(f"{'':<8} monthly is {abs(m.macd - m.macd_sig):,.0f} pts from "
+                   f"crossing — months away, not weeks")
+    return "\n".join(out)
 
 
 # ── audit ───────────────────────────────────────────────────────────────────
@@ -302,6 +334,7 @@ def main() -> int:
             for f in fs:
                 emit(f.line())
             emit(cascade(fs))
+            emit(levels(resample(bars, "M")))
 
     emit()
     emit("=" * 78)
