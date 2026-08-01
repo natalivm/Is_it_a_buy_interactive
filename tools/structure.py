@@ -63,6 +63,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import subprocess                # noqa: E402
 import indicators as ind          # noqa: E402
 from refresh import UA, fetch_yahoo, load_board  # noqa: E402
 
@@ -563,6 +564,104 @@ def emit_board(rows: list[dict], updated: str) -> str:
     return f"{HEADER}const BOARD = {body};\n"
 
 
+# ── comparison against the board being replaced ─────────────────────────────
+# Answers one question, with numbers: where do the computed figures agree with
+# the board they replace, and where do they not? Some columns MUST agree and a
+# gap is a bug; others are expected to differ, because they were discretionary
+# before and are rule-derived now. The report says which is which rather than
+# printing one undifferentiated diff.
+
+# Tolerance for the columns that are pure formulas on the same OHLC. ATR(14)
+# Wilder off the same closes is deterministic — anything past this is a real
+# disagreement (usually a different price basis), not rounding.
+ALIGN_TOL = 0.5     # percent
+
+
+def load_existing() -> dict:
+    """The board.js on disk, before it is overwritten."""
+    try:
+        out = subprocess.run(["node", str(Path(__file__).parent / "dump_structure.js")],
+                             capture_output=True, text=True, check=True)
+        return {r["ticker"]: r for r in (json.loads(out.stdout) or {}).get("rows", [])}
+    except Exception as e:                           # noqa: BLE001 — reported
+        print(f"compare: could not read the current board ({e})", file=sys.stderr)
+        return {}
+
+
+def _drift(new, old) -> float | None:
+    if new is None or old is None or not old:
+        return None
+    return (new - old) / abs(old) * 100
+
+
+def _zone_overlap(new_zones, old_zones) -> tuple[int, int]:
+    """How many of the OLD zones a computed zone actually overlaps. Zone
+    boundaries are drawn differently by eye and by rule, so 'did we find the
+    same level at all' is the meaningful question, not 'are the edges equal'."""
+    hit = 0
+    for o in old_zones or []:
+        lo, hi = o.get("lo"), o.get("hi")
+        if lo is None or hi is None:
+            continue
+        if any(n["lo"] <= hi and n["hi"] >= lo for n in new_zones or []):
+            hit += 1
+    return hit, len([o for o in (old_zones or []) if o.get("lo") is not None])
+
+
+def compare(rows: list[dict], old: dict) -> list[str]:
+    """A per-ticker drift report, split into must-agree and may-differ."""
+    if not old:
+        return ["compare: no previous board to diff against."]
+    out = ["", "=" * 78,
+           "COMPARISON vs the board being replaced",
+           "=" * 78,
+           f"MUST AGREE (same formula, same OHLC) — flagged past {ALIGN_TOL}%:",
+           "  price, ATR(14), ATR%",
+           "MAY DIFFER BY DESIGN (was discretionary, is now rule-derived):",
+           "  zone boundaries, zone strength, bias, 4H structure",
+           ""]
+    flagged = 0
+    for r in rows:
+        o = old.get(r["ticker"])
+        if not o:
+            out.append(f"{r['ticker']:6} new row — nothing to compare")
+            continue
+        bits, bad = [], False
+        for field, label in (("price", "price"), ("atr", "ATR"), ("atrPct", "ATR%")):
+            d = _drift(r.get(field), o.get(field))
+            if d is None:
+                bits.append(f"{label} n/a")
+                continue
+            mark = "  ⚠" if abs(d) > ALIGN_TOL else ""
+            bad = bad or abs(d) > ALIGN_TOL
+            bits.append(f"{label} {r.get(field)} vs {o.get(field)} ({d:+.2f}%){mark}")
+        flagged += bad
+        out.append(f"{r['ticker']:6} {' · '.join(bits)}")
+
+        dh, dn = _zone_overlap(r.get("demand"), o.get("demand"))
+        sh, sn = _zone_overlap(r.get("supply"), o.get("supply"))
+        out.append(f"       zones matched: demand {dh}/{dn} · supply {sh}/{sn}"
+                   f"   (computed {len(r.get('demand') or [])} demand, "
+                   f"{len(r.get('supply') or [])} supply)")
+
+        # Bias: direction only. The old board's bias is prose and was
+        # discretionary — the honest check is "does it point the same way",
+        # not string equality.
+        old_bias = str(o.get("bias") or "").lower()
+        want = ("bear" if "bear" in old_bias else
+                "bull" if "bull" in old_bias else
+                "neutral" if "neutral" in old_bias else "?")
+        got = ("bear" if "bear" in r["bias"] else
+               "bull" if "bull" in r["bias"] else "neutral")
+        agree = "same direction" if want == got else \
+                "no prior score" if o.get("score") is None and want == "?" else \
+                f"DIFFERS — was {want}"
+        out.append(f"       bias: {r['bias']} (score {r['score']:+.2f}) · {agree}")
+    out.append("")
+    out.append(f"{flagged} ticker(s) with a must-agree column past {ALIGN_TOL}%.")
+    return out
+
+
 def board_tickers() -> list[str]:
     """Tickers already on the generated board, so a re-run keeps its roster
     without needing them passed again. Falls back to the card board."""
@@ -586,9 +685,12 @@ def main() -> int:
                     help="skip the 60m fetch; the H term scores 0")
     ap.add_argument("--flow", default=None,
                     help="flow.json from tools/flow.py — embedded per row, never scored")
+    ap.add_argument("--compare", action="store_true",
+                    help="diff the fresh numbers against the board being replaced")
     args = ap.parse_args()
 
     want = [t.upper() for t in args.tickers] or board_tickers()
+    previous = load_existing() if args.compare else {}
 
     flows = {}
     if args.flow:
@@ -629,6 +731,10 @@ def main() -> int:
     updated = max(r['date'] for r in rows)
     Path(args.out).write_text(emit_board(rows, updated), encoding="utf-8")
     print(f"wrote {args.out} — {len(rows)} row(s), as of {updated}", file=sys.stderr)
+
+    if args.compare:
+        log += compare(rows, previous)
+        print("\n".join(compare(rows, previous)), file=sys.stderr)
 
     if args.report:
         text = "\n".join(log)

@@ -89,13 +89,19 @@ jobs:
           # structure.py logs per-ticker failures and carries on; it refuses to
           # write an empty board, so a total outage leaves board.js untouched.
           [ -s tools/reports/flow.json ] && FLOW="--flow tools/reports/flow.json" || FLOW=
-          python3 tools/structure.py $TICKERS $INTRA $FLOW \
+          # --compare diffs the fresh numbers against the board being replaced
+          # and splits the result into must-agree columns (price/ATR — same
+          # formula, same OHLC) and may-differ ones (zones/bias — discretionary
+          # before, rule-derived now). The PR carries that report.
+          python3 tools/structure.py $TICKERS $INTRA $FLOW --compare \
             --report tools/reports/structure.txt 2> tools/reports/structure-errors.txt
           echo "exit=$?" >> "$GITHUB_OUTPUT"
           if [ -n "$(git status --porcelain board.js)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
           echo "rows=$(grep -c '"ticker"' board.js || echo 0)" >> "$GITHUB_OUTPUT"
+          # Surface must-agree drift in the PR title area, not buried in a log.
+          echo "drift=$(grep -c '⚠' tools/reports/structure.txt || echo 0)" >> "$GITHUB_OUTPUT"
           # Stash both: the PR step checks another branch out over the worktree.
           cp board.js "$RUNNER_TEMP/board.js"
           cp tools/reports/structure.txt "$RUNNER_TEMP/structure.txt" 2>/dev/null || true
@@ -165,7 +171,7 @@ jobs:
             exit 0
           fi
 
-          git commit -q -m "Structure board $(date -u '+%Y-%m-%d') — ${{ steps.run.outputs.rows }} row(s) recomputed"
+          git commit -q -m "Structure board $(date -u '+%Y-%m-%d') — ${{ steps.run.outputs.rows }} row(s) recomputed, ${{ steps.run.outputs.drift }} drift flag(s)"
           git push -q -f -u origin "$BRANCH"
 
           OPEN=$(gh pr list --head "$BRANCH" --state open --json number -q '.[].number' | head -1)
