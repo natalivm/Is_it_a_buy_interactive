@@ -1,0 +1,978 @@
+==============================================================================
+ТУТ RUNG RE-CUT
+==============================================================================
+
+Indicator readings (OBV, Stoch, distance to the next level) are NOT restated — they were measured intraday and this step only does the arithmetic the card already carries. Re-add a close-based read where a deck needs one.
+
+
+==============================================================================
+QQQ  $687.99  (+0.65%)   bar 2026-07-31  [regime — not a card]
+==============================================================================
+DAILY    O 692.11 · H 695.77 · L 680.05 · C 687.99
+         RSI 45.09 · MACD -10.02 (sig -7.48) · hist -2.53 — negative (40 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 26.27 / %D 17.15
+         OBV 3,230,589,900 · BB 667.27 / 701.57 / 735.87
+         EMA9 686.33 · EMA50 699.86 · EMA200 649.61
+WEEKLY   O 691.68 · H 695.77 · L 661.14 · C 687.99
+         RSI 54.04 · MACD 23.43 (sig 27.71) · hist -4.28 — negative (2 bars), expanding (2 bars) → renders RED
+         Stoch %K 45.86 / %D 61.70
+         OBV 5,245,767,500 · BB 566.27 / 675.07 / 783.87
+         EMA9 699.56 · EMA50 638.12 · EMA200 503.46
+MONTHLY  O 729.19 · H 731.92 · L 661.14 · C 687.99
+         RSI 67.12 · MACD 66.61 (sig 58.79) · hist 7.82 — positive (4 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 89.48 / %D 92.85
+         OBV 17,370,624,900 · BB 433.06 / 585.80 / 738.53
+         EMA9 659.55 · EMA50 495.92 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 2 bar(s) deep, hist 4.28 = 18.3% of MACD · MACD must regain 4.28 pts to un-cross
+         monthly is 8 pts from crossing — months away, not weeks
+LEVELS   this month H 731.92 / L 661.14 · prior month H 748.65 / L 686.37 · 12-mo H 748.65 / L 551.68
+RECENT   last 3 sessions
+         2026-07-29  O     675.51 H     680.05 L     661.14 C     661.73    -2.04%
+         2026-07-30  O     674.76 H     685.12 L     673.30 C     683.55    +3.30%
+         2026-07-31  O     692.11 H     695.77 L     680.05 C     687.99    +0.65%
+         swing 661.73 → 695.77 (+5.1%) · gave back 23% · 50% line 678.75 — close is ON it
+
+==============================================================================
+SMH  $540.53  (+0.30%)   bar 2026-07-31  [regime — not a card]
+==============================================================================
+DAILY    O 557.50 · H 561.44 · L 535.24 · C 540.53
+         RSI 42.66 · MACD -18.07 (sig -12.69) · hist -5.37 — negative (28 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 23.03 / %D 15.82
+         OBV 350,228,000 · BB 517.21 / 572.62 / 628.02
+         EMA9 547.46 · EMA50 570.59 · EMA200 470.32
+WEEKLY   O 565.94 · H 567.62 · L 503.63 · C 540.53
+         RSI 54.44 · MACD 47.63 (sig 56.04) · hist -8.41 — negative (3 bars), expanding (2 bars) → renders RED
+         Stoch %K 43.35 / %D 56.98
+         OBV 1,973,778,000 · BB 356.83 / 527.47 / 698.10
+         EMA9 570.35 · EMA50 450.84 · EMA200 288.26
+MONTHLY  O 634.35 · H 639.89 · L 503.63 · C 540.53
+         RSI 69.14 · MACD 92.37 (sig 66.64) · hist 25.74 — positive (13 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 87.73 / %D 92.71
+         OBV 4,901,865,000 · BB 98.50 / 351.34 / 604.19
+         EMA9 486.58 · EMA50 282.47 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross holding: 3 bar(s) deep, hist 8.41 = 17.7% of MACD · MACD must regain 8.41 pts to un-cross
+         monthly is 26 pts from crossing — months away, not weeks
+LEVELS   this month H 639.89 / L 503.63 · prior month H 671.83 / L 554.66 · 12-mo H 671.83 / L 279.19
+RECENT   last 3 sessions
+         2026-07-29  O     525.99 H     532.17 L     503.63 C     504.22    -4.79%
+         2026-07-30  O     529.86 H     544.64 L     524.56 C     538.90    +6.88%
+         2026-07-31  O     557.50 H     561.44 L     535.24 C     540.53    +0.30%
+         swing 504.22 → 561.44 (+11.3%) · gave back 37% · 50% line 532.83 — close is ON it
+
+==============================================================================
+NDX  28,274.20  (+0.60%)   bar 2026-07-31  [regime — not a card]
+==============================================================================
+DAILY    O 28,446.99 · H 28,606.78 · L 27,954.24 · C 28,274.20
+         RSI 44.96 · MACD -411.74 (sig -306.03) · hist -105.71 — negative (40 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 26.25 / %D 17.09
+         OBV 1,290,904,860,000 · BB 27,428.67 / 28,842.48 / 30,256.30
+         EMA9 28,212.61 · EMA50 28,767.24 · EMA200 26,697.81
+WEEKLY   O 28,412.31 · H 28,606.78 · L 27,176.03 · C 28,274.20
+         RSI 54.07 · MACD 966.79 (sig 1,142.48) · hist -175.69 — negative (2 bars), expanding (2 bars) → renders RED
+         Stoch %K 45.95 / %D 61.91
+         OBV 1,479,339,240,000 · BB 23,272.05 / 27,747.74 / 32,223.43
+         EMA9 28,760.33 · EMA50 26,226.81 · EMA200 20,684.82
+MONTHLY  O 29,914.28 · H 30,084.78 · L 27,176.03 · C 28,274.20
+         RSI 67.18 · MACD 2,739.64 (sig 2,418.53) · hist 321.11 — positive (4 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 89.55 / %D 92.93
+         OBV 3,204,397,570,000 · BB 17,804.08 / 24,077.11 / 30,350.14
+         EMA9 27,108.67 · EMA50 20,377.84 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 2 bar(s) deep, hist 175.69 = 18.2% of MACD · MACD must regain 175.69 pts to un-cross
+         monthly is 321 pts from crossing — months away, not weeks
+LEVELS   this month H 30,084.78 / L 27,176.03 · prior month H 30,762.20 / L 28,196.90 · 12-mo H 30,762.20 / L 22,673.88
+RECENT   last 3 sessions
+         2026-07-29  O  27,780.46 H  27,954.91 L  27,176.03 C  27,192.31    -2.06%
+         2026-07-30  O  27,755.46 H  28,168.42 L  27,686.37 C  28,106.35    +3.36%
+         2026-07-31  O  28,446.99 H  28,606.78 L  27,954.24 C  28,274.20    +0.60%
+         swing 27,192.31 → 28,606.78 (+5.2%) · gave back 24% · 50% line 27,899.54 — close is ON it
+
+==============================================================================
+VIX  15.99  (-6.44%)   bar 2026-07-31  [regime — not a card]
+==============================================================================
+DAILY    O 16.82 · H 18.70 · L 15.82 · C 15.99
+         RSI 44.95 · MACD 0.15 (sig 0.15) · hist 0.00 — positive (11 bars), contracting (2 bars) → renders RED
+         Stoch %K 43.54 / %D 60.19
+         OBV n/a (no volume) · BB 14.41 / 17.18 / 19.95
+         EMA9 17.75 · EMA50 17.73 · EMA200 18.49
+WEEKLY   O 17.62 · H 20.88 · L 15.82 · C 15.99
+         RSI 45.97 · MACD -0.69 (sig -0.47) · hist -0.22 — negative (16 bars), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 33.65 / %D 26.90
+         OBV n/a (no volume) · BB 11.00 / 19.40 / 27.80
+         EMA9 17.42 · EMA50 18.56 · EMA200 18.46
+MONTHLY  O 17.11 · H 20.88 · L 14.96 · C 15.99
+         RSI 47.70 · MACD -0.15 (sig 0.00) · hist -0.15 — negative (2 bars), expanding (2 bars) → renders RED
+         Stoch %K 10.02 / %D 10.31
+         OBV n/a (no volume) · BB 11.85 / 17.79 / 23.72
+         EMA9 17.32 · EMA50 17.94 · EMA200 n/a
+CASCADE  daily curling → weekly rolled → monthly rolled
+         weekly cross ESTABLISHED: 16 bar(s) deep, hist 0.22 = 32.3% of MACD · MACD must regain 0.22 pts to un-cross
+LEVELS   this month H 20.88 / L 14.96 · prior month H 23.34 / L 15.18 · 12-mo H 35.30 / L 13.38
+RECENT   last 3 sessions
+         2026-07-29  O      18.27 H      20.88 L      17.45 C      20.66   +13.45%
+         2026-07-30  O      19.56 H      20.08 L      17.00 C      17.09   -17.28%
+         2026-07-31  O      16.82 H      18.70 L      15.82 C      15.99    -6.44%
+         swing 15.99 → 18.70 (+16.9%) · gave back 100% · 50% line 17.35 — close is BELOW it
+
+==============================================================================
+VXN  26.00  (-5.63%)   bar 2026-07-31  [regime — not a card]
+==============================================================================
+DAILY    O 26.57 · H 28.74 · L 25.42 · C 26.00
+         RSI 45.16 · MACD 0.18 (sig 0.25) · hist -0.06 — negative (1 bar), contracting (2 bars) → renders GREEN
+         Stoch %K 49.56 / %D 64.22
+         OBV n/a (no volume) · BB 24.95 / 27.52 / 30.10
+         EMA9 27.88 · EMA50 27.15 · EMA200 24.88
+WEEKLY   O 27.95 · H 30.98 · L 25.42 · C 26.00
+         RSI 50.31 · MACD 1.01 (sig 1.01) · hist -0.00 — negative (1 bar), contracting (1 bar) → renders GREEN ⚠️ JUST TURNED
+         Stoch %K 51.02 / %D 48.84
+         OBV n/a (no volume) · BB 19.92 / 26.44 / 32.96
+         EMA9 27.08 · EMA50 24.62 · EMA200 23.01
+MONTHLY  O 27.85 · H 30.98 · L 24.66 · C 26.00
+         RSI 54.94 · MACD 0.99 (sig 0.40) · hist 0.59 — positive (25 bars), expanding (2 bars) → renders GREEN
+         Stoch %K 43.22 / %D 31.76
+         OBV n/a (no volume) · BB 15.88 / 22.20 / 28.52
+         EMA9 24.10 · EMA50 22.54 · EMA200 n/a
+CASCADE  daily crossed → weekly crossed → monthly rising
+         weekly cross FRAGILE: 1 bar(s) deep, hist 0.00 = 0.2% of MACD · MACD must regain 0.00 pts to un-cross
+         monthly is 1 pts from crossing — months away, not weeks
+LEVELS   this month H 30.98 / L 24.66 · prior month H 34.37 / L 23.09 · 12-mo H 34.37 / L 16.49
+RECENT   last 3 sessions
+         2026-07-29  O      28.83 H      30.98 L      27.98 C      30.84    +7.79%
+         2026-07-30  O      27.92 H      28.99 L      27.30 C      27.55   -10.67%
+         2026-07-31  O      26.57 H      28.74 L      25.42 C      26.00    -5.63%
+         swing 26.00 → 28.74 (+10.5%) · gave back 100% · 50% line 27.37 — close is BELOW it
+
+==============================================================================
+META  $556.71  (+3.28%)   bar 2026-07-31
+==============================================================================
+DAILY    O 543.60 · H 558.33 · L 540.22 · C 556.71
+         RSI 37.83 · MACD -9.55 (sig 1.59) · hist -11.14 — negative (7 bars), expanding (7 bars) → renders RED
+         Stoch %K 10.73 / %D 10.35
+         OBV 1,455,765,500 · BB 544.31 / 619.00 / 693.68
+         EMA9 587.25 · EMA50 606.99 · EMA200 629.26
+WEEKLY   O 607.22 · H 611.26 · L 524.49 · C 556.71
+         RSI 43.01 · MACD -13.36 (sig -13.57) · hist 0.21 — positive (4 bars), contracting (2 bars) → renders RED
+         Stoch %K 42.52 / %D 56.56
+         OBV 2,480,627,400 · BB 523.88 / 605.42 / 686.96
+         EMA9 599.22 · EMA50 626.46 · EMA200 517.87
+MONTHLY  O 607.91 · H 686.08 · L 524.49 · C 556.71
+         RSI 47.51 · MACD 30.58 (sig 57.32) · hist -26.74 — negative (9 bars), expanding (2 bars) → renders RED
+         Stoch %K 25.69 / %D 33.54
+         OBV 5,770,858,300 · BB 511.10 / 644.39 / 777.69
+         EMA9 611.90 · EMA50 503.42 · EMA200 n/a
+CASCADE  daily rolled → weekly curling → monthly rolled
+LEVELS   this month H 686.08 / L 524.49 · prior month H 642.40 / L 540.18 · 12-mo H 796.25 / L 520.26
+RECENT   last 3 sessions
+         2026-07-29  O     593.25 H     599.97 L     582.22 C     585.61    -1.31%
+         2026-07-30  O     526.00 H     539.88 L     524.49 C     539.03    -7.95%
+         2026-07-31  O     543.60 H     558.33 L     540.22 C     556.71    +3.28%
+         swing 539.03 → 558.33 (+3.6%) · gave back 8% · 50% line 548.68 — close is ON it
+
+==============================================================================
+TSLA  $311.21  (+0.76%)   bar 2026-07-31
+==============================================================================
+DAILY    O 309.69 · H 315.50 · L 301.97 · C 311.21
+         RSI 31.70 · MACD -25.72 (sig -18.79) · hist -6.93 — negative (14 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 7.99 / %D 5.85
+         OBV 18,579,765,900 · BB 283.38 / 365.34 / 447.29
+         EMA9 324.63 · EMA50 376.69 · EMA200 390.49
+WEEKLY   O 313.24 · H 317.00 · L 297.38 · C 311.21
+         RSI 34.95 · MACD -14.04 (sig -4.65) · hist -9.39 — negative (6 bars), expanding (3 bars) → renders RED
+         Stoch %K 14.70 / %D 31.10
+         OBV 35,685,952,300 · BB 319.80 / 385.46 / 451.11
+         EMA9 366.23 · EMA50 384.75 · EMA200 307.53
+MONTHLY  O 421.46 · H 432.86 · L 297.38 · C 311.21
+         RSI 46.28 · MACD 32.17 (sig 40.31) · hist -8.14 — negative (2 bars), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 53.45 / %D 61.63
+         OBV 47,333,622,500 · BB 253.00 / 372.82 / 492.64
+         EMA9 385.67 · EMA50 302.12 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly rolled
+         weekly cross ESTABLISHED: 6 bar(s) deep, hist 9.39 = 66.9% of MACD · MACD must regain 9.39 pts to un-cross
+LEVELS   this month H 432.86 / L 297.38 · prior month H 433.60 / L 368.60 · 12-mo H 498.83 / L 297.38
+RECENT   last 3 sessions
+         2026-07-29  O     307.14 H     309.06 L     297.38 C     298.32    -2.97%
+         2026-07-30  O     302.70 H     310.87 L     301.33 C     308.85    +3.53%
+         2026-07-31  O     309.69 H     315.50 L     301.97 C     311.21    +0.76%
+         swing 298.32 → 315.50 (+5.8%) · gave back 25% · 50% line 306.91 — close is ON it
+
+==============================================================================
+CRWV  $71.77  (-2.88%)   bar 2026-07-31
+==============================================================================
+DAILY    O 77.04 · H 78.50 · L 69.97 · C 71.77
+         RSI 41.59 · MACD -7.13 (sig -7.15) · hist 0.02 — positive (1 bar), contracting (2 bars) → renders RED
+         Stoch %K 30.75 / %D 18.57
+         OBV 211,629,300 · BB 62.90 / 78.08 / 93.26
+         EMA9 72.39 · EMA50 88.56 · EMA200 96.86
+WEEKLY   O 73.80 · H 78.50 · L 60.55 · C 71.77
+         RSI 40.76 · MACD -4.62 (sig -0.55) · hist -4.07 — negative (5 bars), expanding (5 bars) → renders RED
+         Stoch %K 8.67 / %D 10.77
+         OBV 339,516,100 · BB 63.32 / 95.57 / 127.83
+         EMA9 85.26 · EMA50 96.41 · EMA200 n/a
+MONTHLY  O 88.86 · H 95.14 · L 60.55 · C 71.77
+         RSI 53.67 · MACD n/a (sig n/a) · hist n/a
+         Stoch %K 32.41 / %D n/a
+         OBV -2,094,357,900 · BB n/a / n/a / n/a
+         EMA9 92.21 · EMA50 n/a · EMA200 n/a
+CASCADE  daily curling → weekly rolled → monthly n/a
+         weekly cross ESTABLISHED: 5 bar(s) deep, hist 4.07 = 88.0% of MACD · MACD must regain 4.07 pts to un-cross
+LEVELS   this month H 95.14 / L 60.55 · prior month H 132.15 / L 89.55 · 12-mo H 153.20 / L 60.55
+RECENT   last 3 sessions
+         2026-07-29  O      66.67 H      66.89 L      60.55 C      60.82    -9.63%
+         2026-07-30  O      68.30 H      75.87 L      67.55 C      73.90   +21.51%
+         2026-07-31  O      77.04 H      78.50 L      69.97 C      71.77    -2.88%
+         swing 60.82 → 78.50 (+29.1%) · gave back 38% · 50% line 69.66 — close is +3.0% above it
+
+==============================================================================
+LITE  $713.94  (+2.99%)   bar 2026-07-31
+==============================================================================
+DAILY    O 748.00 · H 772.60 · L 691.10 · C 713.94
+         RSI 45.54 · MACD -37.24 (sig -31.12) · hist -6.12 — negative (4 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 24.82 / %D 18.95
+         OBV 372,899,000 · BB 625.47 / 744.30 / 863.12
+         EMA9 714.33 · EMA50 793.03 · EMA200 633.51
+WEEKLY   O 767.85 · H 772.60 · L 594.84 · C 713.94
+         RSI 49.30 · MACD 58.93 (sig 99.50) · hist -40.57 — negative (9 bars), expanding (9 bars) → renders RED
+         Stoch %K 22.97 / %D 23.53
+         OBV 363,912,600 · BB 636.92 / 826.19 / 1,015.46
+         EMA9 782.68 · EMA50 586.30 · EMA200 263.98
+MONTHLY  O 818.41 · H 897.00 · L 594.84 · C 713.94
+         RSI 73.84 · MACD 195.34 (sig 135.84) · hist 59.50 — positive (30 bars), contracting (2 bars) → renders RED
+         Stoch %K 72.98 / %D 80.65
+         OBV 806,228,700 · BB -275.13 / 335.27 / 945.68
+         EMA9 649.05 · EMA50 255.64 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 9 bar(s) deep, hist 40.57 = 68.8% of MACD · MACD must regain 40.57 pts to un-cross
+         monthly is 60 pts from crossing — months away, not weeks
+LEVELS   this month H 897.00 / L 594.84 · prior month H 1,049.53 / L 754.00 · 12-mo H 1,085.68 / L 101.61
+RECENT   last 3 sessions
+         2026-07-29  O     655.21 H     655.21 L     594.84 C     602.35    -7.61%
+         2026-07-30  O     661.91 H     698.28 L     650.00 C     693.24   +15.09%
+         2026-07-31  O     748.00 H     772.60 L     691.10 C     713.94    +2.99%
+         swing 602.35 → 772.60 (+28.3%) · gave back 34% · 50% line 687.48 — close is +3.8% above it
+
+==============================================================================
+NVDA  $200.75  (+2.93%)   bar 2026-07-31
+==============================================================================
+DAILY    O 198.44 · H 202.00 · L 194.95 · C 200.75
+         RSI 48.29 · MACD -1.96 (sig -0.99) · hist -0.96 — negative (5 bars), contracting (1 bar) → renders GREEN ⚠️ JUST TURNED
+         Stoch %K 21.56 / %D 14.70
+         OBV 90,137,186,700 · BB 189.99 / 202.89 / 215.80
+         EMA9 199.82 · EMA50 203.44 · EMA200 191.53
+WEEKLY   O 208.20 · H 208.75 · L 190.01 · C 200.75
+         RSI 51.64 · MACD 5.06 (sig 6.29) · hist -1.23 — negative (6 bars), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 31.16 / %D 39.79
+         OBV 165,137,738,900 · BB 170.14 / 199.60 / 229.06
+         EMA9 203.54 · EMA50 187.00 · EMA200 124.81
+MONTHLY  O 196.20 · H 214.39 · L 190.01 · C 200.75
+         RSI 66.31 · MACD 28.27 (sig 28.93) · hist -0.66 — negative (2 bars), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 72.89 / %D 77.69
+         OBV 354,896,586,100 · BB 101.26 / 166.04 / 230.82
+         EMA9 191.18 · EMA50 120.08 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly rolled
+         weekly cross holding: 6 bar(s) deep, hist 1.23 = 24.3% of MACD · MACD must regain 1.23 pts to un-cross
+LEVELS   this month H 214.39 / L 190.01 · prior month H 232.28 / L 189.80 · 12-mo H 236.54 / L 164.07
+RECENT   last 3 sessions
+         2026-07-29  O     195.85 H     197.07 L     190.01 C     190.01    -3.55%
+         2026-07-30  O     193.45 H     197.25 L     191.52 C     195.04    +2.65%
+         2026-07-31  O     198.44 H     202.00 L     194.95 C     200.75    +2.93%
+         swing 190.01 → 202.00 (+6.3%) · gave back 10% · 50% line 196.00 — close is +2.4% above it
+
+==============================================================================
+COHR  $262.89  (+5.55%)   bar 2026-07-31
+==============================================================================
+DAILY    O 275.90 · H 281.99 · L 257.13 · C 262.89
+         RSI 40.40 · MACD -27.76 (sig -24.17) · hist -3.58 — negative (28 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 22.39 / %D 15.77
+         OBV 265,919,600 · BB 232.71 / 294.44 / 356.16
+         EMA9 267.27 · EMA50 320.80 · EMA200 265.96
+WEEKLY   O 282.12 · H 283.20 · L 220.68 · C 262.89
+         RSI 42.90 · MACD 19.84 (sig 37.37) · hist -17.53 — negative (5 bars), expanding (5 bars) → renders RED
+         Stoch %K 15.38 / %D 24.22
+         OBV 580,847,100 · BB 222.85 / 323.13 / 423.42
+         EMA9 313.10 · EMA50 248.99 · EMA200 134.67
+MONTHLY  O 370.11 · H 386.74 · L 220.68 · C 262.89
+         RSI 60.84 · MACD 67.05 (sig 48.05) · hist 19.00 — positive (13 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 75.14 / %D 81.40
+         OBV 519,735,400 · BB -34.52 / 166.15 / 366.81
+         EMA9 268.75 · EMA50 130.21 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 5 bar(s) deep, hist 17.53 = 88.4% of MACD · MACD must regain 17.53 pts to un-cross
+         monthly is 19 pts from crossing — months away, not weeks
+LEVELS   this month H 386.74 / L 220.68 · prior month H 440.00 / L 335.48 · 12-mo H 440.00 / L 84.35
+RECENT   last 3 sessions
+         2026-07-29  O     243.93 H     245.00 L     220.68 C     222.05    -8.75%
+         2026-07-30  O     243.40 H     250.59 L     239.30 C     249.06   +12.16%
+         2026-07-31  O     275.90 H     281.99 L     257.13 C     262.89    +5.55%
+         swing 222.05 → 281.99 (+27.0%) · gave back 32% · 50% line 252.02 — close is +4.3% above it
+
+==============================================================================
+IREN  $36.80  (-3.82%)   bar 2026-07-31
+==============================================================================
+DAILY    O 40.81 · H 40.81 · L 35.16 · C 36.80
+         RSI 44.21 · MACD -3.51 (sig -3.78) · hist 0.27 — positive (2 bars), expanding (1 bar) → renders GREEN ⚠️ JUST TURNED
+         Stoch %K 39.62 / %D 27.04
+         OBV 213,409,300 · BB 31.64 / 38.46 / 45.28
+         EMA9 36.58 · EMA50 44.43 · EMA200 43.60
+WEEKLY   O 37.59 · H 40.81 · L 28.93 · C 36.80
+         RSI 43.76 · MACD -1.15 (sig 1.35) · hist -2.49 — negative (5 bars), expanding (5 bars) → renders RED
+         Stoch %K 11.69 / %D 13.06
+         OBV 1,303,349,400 · BB 27.62 / 46.65 / 65.68
+         EMA9 42.64 · EMA50 41.36 · EMA200 22.40
+MONTHLY  O 44.04 · H 45.54 · L 28.93 · C 36.80
+         RSI 52.77 · MACD 9.75 (sig 9.32) · hist 0.43 — positive (14 bars), contracting (2 bars) → renders RED
+         Stoch %K 59.68 / %D 61.24
+         OBV 2,021,407,400 · BB -7.81 / 30.16 / 68.12
+         EMA9 42.80 · EMA50 19.51 · EMA200 n/a
+CASCADE  daily rising → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 5 bar(s) deep, hist 2.49 = 217.6% of MACD · MACD must regain 2.49 pts to un-cross
+         monthly is 0 pts from crossing — months away, not weeks
+LEVELS   this month H 45.54 / L 28.93 · prior month H 70.71 / L 43.89 · 12-mo H 76.87 / L 14.72
+RECENT   last 3 sessions
+         2026-07-29  O      34.08 H      34.24 L      28.93 C      29.31   -13.62%
+         2026-07-30  O      32.51 H      38.33 L      32.32 C      38.26   +30.54%
+         2026-07-31  O      40.81 H      40.81 L      35.16 C      36.80    -3.82%
+         swing 29.31 → 40.81 (+39.3%) · gave back 35% · 50% line 35.06 — close is +5.0% above it
+
+==============================================================================
+DRAM  $50.37  (-3.76%)   bar 2026-07-31
+==============================================================================
+DAILY    O 54.70 · H 55.45 · L 50.26 · C 50.37
+         RSI 42.63 · MACD -3.60 (sig -2.80) · hist -0.80 — negative (25 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 27.64 / %D 19.12
+         OBV 197,028,400 · BB 45.67 / 56.45 / 67.22
+         EMA9 52.02 · EMA50 56.04 · EMA200 n/a
+WEEKLY   O 54.92 · H 55.45 · L 44.40 · C 50.37
+         RSI 60.50 · MACD n/a (sig n/a) · hist n/a
+         Stoch %K 37.57 / %D 47.75
+         OBV -469,525,400 · BB n/a / n/a / n/a
+         EMA9 55.95 · EMA50 n/a · EMA200 n/a
+MONTHLY  O 67.66 · H 68.69 · L 44.40 · C 50.37
+         RSI n/a · MACD n/a (sig n/a) · hist n/a
+         Stoch %K n/a / %D n/a
+         OBV 71,458,300 · BB n/a / n/a / n/a
+         EMA9 n/a · EMA50 n/a · EMA200 n/a
+CASCADE  daily crossed → weekly n/a → monthly n/a
+LEVELS   this month H 68.69 / L 44.40 · prior month H 81.34 / L 55.38 · 12-mo H 81.34 / L 26.14
+RECENT   last 3 sessions
+         2026-07-29  O      47.63 H      48.70 L      44.40 C      44.85    -6.11%
+         2026-07-30  O      48.02 H      52.34 L      47.93 C      52.34   +16.70%
+         2026-07-31  O      54.70 H      55.45 L      50.26 C      50.37    -3.76%
+         swing 44.85 → 55.45 (+23.6%) · gave back 48% · 50% line 50.15 — close is ON it
+
+==============================================================================
+AAOI  $94.32  (+4.67%)   bar 2026-07-31
+==============================================================================
+DAILY    O 100.10 · H 103.20 · L 91.03 · C 94.32
+         RSI 40.88 · MACD -14.75 (sig -14.45) · hist -0.30 — negative (4 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 20.97 / %D 15.24
+         OBV 218,003,400 · BB 81.74 / 107.44 / 133.14
+         EMA9 96.21 · EMA50 127.70 · EMA200 101.79
+WEEKLY   O 100.56 · H 103.20 · L 76.01 · C 94.32
+         RSI 43.32 · MACD 8.32 (sig 20.34) · hist -12.02 — negative (6 bars), expanding (6 bars) → renders RED
+         Stoch %K 8.46 / %D 10.80
+         OBV 525,559,200 · BB 71.02 / 138.22 / 205.43
+         EMA9 121.32 · EMA50 92.79 · EMA200 43.08
+MONTHLY  O 143.56 · H 147.54 · L 76.01 · C 94.32
+         RSI 59.22 · MACD 29.37 (sig 19.49) · hist 9.88 — positive (11 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 54.66 / %D 67.76
+         OBV 515,157,400 · BB -40.36 / 54.52 / 149.41
+         EMA9 100.12 · EMA50 41.02 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 6 bar(s) deep, hist 12.02 = 144.4% of MACD · MACD must regain 12.02 pts to un-cross
+         monthly is 10 pts from crossing — months away, not weeks
+LEVELS   this month H 147.54 / L 76.01 · prior month H 209.64 / L 127.01 · 12-mo H 233.67 / L 18.50
+RECENT   last 3 sessions
+         2026-07-29  O      88.19 H      88.28 L      76.01 C      76.52   -13.18%
+         2026-07-30  O      83.35 H      90.68 L      82.80 C      90.11   +17.76%
+         2026-07-31  O     100.10 H     103.20 L      91.03 C      94.32    +4.67%
+         swing 76.52 → 103.20 (+34.9%) · gave back 33% · 50% line 89.86 — close is +5.0% above it
+
+==============================================================================
+WDC  $544.84  (+2.21%)   bar 2026-07-31
+==============================================================================
+DAILY    O 569.11 · H 580.00 · L 530.55 · C 544.84
+         RSI 51.02 · MACD -16.41 (sig -16.36) · hist -0.05 — negative (25 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 54.43 / %D 40.31
+         OBV 1,093,267,715 · BB 452.53 / 528.96 / 605.39
+         EMA9 516.75 · EMA50 529.28 · EMA200 369.77
+WEEKLY   O 523.00 · H 580.00 · L 422.11 · C 544.84
+         RSI 59.07 · MACD 78.93 (sig 87.40) · hist -8.48 — negative (3 bars), expanding (2 bars) → renders RED
+         Stoch %K 35.14 / %D 40.79
+         OBV 1,864,831,115 · BB 224.78 / 463.59 / 702.41
+         EMA9 533.86 · EMA50 340.78 · EMA200 152.87
+MONTHLY  O 604.56 · H 617.39 · L 422.11 · C 544.84
+         RSI 80.54 · MACD 123.27 (sig 73.71) · hist 49.56 — positive (14 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 80.13 / %D 87.78
+         OBV 3,094,981,887 · BB -172.03 / 195.85 / 563.73
+         EMA9 401.84 · EMA50 152.89 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross holding: 3 bar(s) deep, hist 8.48 = 10.7% of MACD · MACD must regain 8.48 pts to un-cross
+         monthly is 50 pts from crossing — months away, not weeks
+LEVELS   this month H 617.39 / L 422.11 · prior month H 799.87 / L 480.87 · 12-mo H 799.87 / L 73.14
+RECENT   last 3 sessions
+         2026-07-29  O     480.40 H     499.19 L     456.72 C     462.04    -0.32%
+         2026-07-30  O     511.65 H     547.07 L     507.00 C     533.04   +15.37%
+         2026-07-31  O     569.11 H     580.00 L     530.55 C     544.84    +2.21%
+         swing 462.04 → 580.00 (+25.5%) · gave back 30% · 50% line 521.02 — close is +4.6% above it
+
+==============================================================================
+INTC  $90.20  (-1.02%)   bar 2026-07-31
+==============================================================================
+DAILY    O 96.72 · H 97.90 · L 90.13 · C 90.20
+         RSI 39.94 · MACD -7.51 (sig -6.25) · hist -1.26 — negative (22 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 21.37 / %D 14.80
+         OBV 2,222,045,900 · BB 80.48 / 101.44 / 122.41
+         EMA9 92.55 · EMA50 103.89 · EMA200 75.30
+WEEKLY   O 92.46 · H 97.90 · L 81.79 · C 90.20
+         RSI 51.21 · MACD 13.44 (sig 17.47) · hist -4.03 — negative (3 bars), expanding (2 bars) → renders RED
+         Stoch %K 30.70 / %D 46.45
+         OBV 8,170,108,100 · BB 34.53 / 93.25 / 151.97
+         EMA9 102.99 · EMA50 70.52 · EMA200 45.30
+MONTHLY  O 135.00 · H 135.74 · L 81.79 · C 90.20
+         RSI 62.05 · MACD 18.48 (sig 8.91) · hist 9.57 — positive (12 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 79.94 / %D 86.08
+         OBV 12,151,446,900 · BB -22.81 / 44.87 / 112.56
+         EMA9 80.41 · EMA50 45.84 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 3 bar(s) deep, hist 4.03 = 30.0% of MACD · MACD must regain 4.03 pts to un-cross
+         monthly is 10 pts from crossing — months away, not weeks
+LEVELS   this month H 135.74 / L 81.79 · prior month H 142.35 / L 98.33 · 12-mo H 142.35 / L 18.97
+RECENT   last 3 sessions
+         2026-07-29  O      86.57 H      88.47 L      81.79 C      81.88    -5.12%
+         2026-07-30  O      86.51 H      94.10 L      85.97 C      91.13   +11.30%
+         2026-07-31  O      96.72 H      97.90 L      90.13 C      90.20    -1.02%
+         swing 81.88 → 97.90 (+19.6%) · gave back 48% · 50% line 89.89 — close is ON it
+
+==============================================================================
+MU  $823.03  (-5.90%)   bar 2026-07-31
+==============================================================================
+DAILY    O 919.65 · H 930.88 · L 818.00 · C 823.03
+         RSI 43.58 · MACD -37.41 (sig -23.06) · hist -14.35 — negative (24 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 27.15 / %D 22.14
+         OBV 3,712,593,900 · BB 778.74 / 914.73 / 1,050.72
+         EMA9 864.96 · EMA50 892.61 · EMA200 593.64
+WEEKLY   O 932.45 · H 935.00 · L 737.88 · C 823.03
+         RSI 56.26 · MACD 149.96 (sig 160.66) · hist -10.70 — negative (1 bar), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 51.64 / %D 58.52
+         OBV 5,409,159,100 · BB 220.43 / 730.49 / 1,240.55
+         EMA9 894.08 · EMA50 545.25 · EMA200 248.66
+MONTHLY  O 1,082.01 · H 1,097.00 · L 737.88 · C 823.03
+         RSI 68.82 · MACD 194.33 (sig 110.40) · hist 83.93 — positive (12 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 84.38 / %D 89.12
+         OBV 8,469,768,000 · BB -301.27 / 310.49 / 922.25
+         EMA9 641.43 · EMA50 246.44 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 1 bar(s) deep, hist 10.70 = 7.1% of MACD · MACD must regain 10.70 pts to un-cross
+         monthly is 84 pts from crossing — months away, not weeks
+LEVELS   this month H 1,097.00 / L 737.88 · prior month H 1,255.00 / L 854.35 · 12-mo H 1,255.00 / L 103.38
+RECENT   last 3 sessions
+         2026-07-29  O     833.00 H     841.80 L     737.88 C     739.00    -9.94%
+         2026-07-30  O     793.14 H     882.50 L     789.00 C     874.66   +18.36%
+         2026-07-31  O     919.65 H     930.88 L     818.00 C     823.03    -5.90%
+         swing 739.00 → 930.88 (+26.0%) · gave back 56% · 50% line 834.94 — close is BELOW it
+
+==============================================================================
+TER  $367.69  (+0.60%)   bar 2026-07-31
+==============================================================================
+DAILY    O 382.99 · H 392.00 · L 362.23 · C 367.69
+         RSI 51.14 · MACD -10.42 (sig -12.37) · hist 1.95 — positive (1 bar), expanding (1 bar) → renders GREEN ⚠️ JUST TURNED
+         Stoch %K 61.75 / %D 46.73
+         OBV 456,737,900 · BB 312.25 / 350.27 / 388.29
+         EMA9 350.16 · EMA50 366.66 · EMA200 299.77
+WEEKLY   O 349.93 · H 392.00 · L 301.00 · C 367.69
+         RSI 55.45 · MACD 28.35 (sig 38.28) · hist -9.93 — negative (5 bars), contracting (1 bar) → renders GREEN ⚠️ JUST TURNED
+         Stoch %K 26.08 / %D 26.61
+         OBV 914,875,500 · BB 274.46 / 358.54 / 442.61
+         EMA9 365.56 · EMA50 283.00 · EMA200 171.10
+MONTHLY  O 461.00 · H 463.66 · L 296.82 · C 367.69
+         RSI 66.36 · MACD 73.85 (sig 46.41) · hist 27.43 — positive (11 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 85.43 / %D 85.22
+         OBV 1,684,679,600 · BB -38.14 / 196.87 / 431.88
+         EMA9 322.82 · EMA50 171.18 · EMA200 n/a
+CASCADE  daily rising → weekly crossed → monthly curling
+         weekly cross ESTABLISHED: 5 bar(s) deep, hist 9.93 = 35.0% of MACD · MACD must regain 9.93 pts to un-cross
+         monthly is 27 pts from crossing — months away, not weeks
+LEVELS   this month H 463.66 / L 296.82 · prior month H 487.91 / L 340.34 · 12-mo H 487.91 / L 102.42
+RECENT   last 3 sessions
+         2026-07-29  O     367.90 H     372.23 L     319.19 C     319.41    -0.39%
+         2026-07-30  O     347.90 H     369.00 L     344.50 C     365.49   +14.43%
+         2026-07-31  O     382.99 H     392.00 L     362.23 C     367.69    +0.60%
+         swing 319.41 → 392.00 (+22.7%) · gave back 33% · 50% line 355.71 — close is +3.4% above it
+
+==============================================================================
+GLW  $138.25  (+2.24%)   bar 2026-07-31
+==============================================================================
+DAILY    O 143.79 · H 147.00 · L 138.23 · C 138.25
+         RSI 38.08 · MACD -16.11 (sig -12.88) · hist -3.23 — negative (20 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 22.73 / %D 17.16
+         OBV 874,319,600 · BB 117.90 / 163.89 / 209.87
+         EMA9 142.72 · EMA50 171.72 · EMA200 141.98
+WEEKLY   O 145.75 · H 148.69 · L 114.50 · C 138.25
+         RSI 44.26 · MACD 11.49 (sig 19.52) · hist -8.03 — negative (4 bars), expanding (3 bars) → renders RED
+         Stoch %K 7.27 / %D 17.65
+         OBV 1,488,915,200 · BB 119.28 / 169.62 / 219.97
+         EMA9 167.98 · EMA50 133.31 · EMA200 75.75
+MONTHLY  O 239.50 · H 240.87 · L 114.50 · C 138.25
+         RSI 56.65 · MACD 36.15 (sig 25.47) · hist 10.67 — positive (29 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 71.76 / %D 81.24
+         OBV 2,656,930,100 · BB -15.44 / 94.88 / 205.21
+         EMA9 150.22 · EMA50 75.73 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 4 bar(s) deep, hist 8.03 = 69.9% of MACD · MACD must regain 8.03 pts to un-cross
+         monthly is 11 pts from crossing — months away, not weeks
+LEVELS   this month H 240.87 / L 114.50 · prior month H 271.78 / L 166.00 · 12-mo H 271.78 / L 61.44
+RECENT   last 3 sessions
+         2026-07-29  O     126.30 H     130.87 L     122.62 C     124.05    -1.56%
+         2026-07-30  O     130.42 H     136.09 L     130.00 C     135.22    +9.00%
+         2026-07-31  O     143.79 H     147.00 L     138.23 C     138.25    +2.24%
+         swing 124.05 → 147.00 (+18.5%) · gave back 38% · 50% line 135.53 — close is +2.0% above it
+
+==============================================================================
+SNDK  $1,214.83  (-5.09%)   bar 2026-07-31
+==============================================================================
+DAILY    O 1,383.69 · H 1,404.99 · L 1,187.26 · C 1,214.83
+         RSI 40.71 · MACD -159.93 (sig -117.03) · hist -42.89 — negative (22 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 21.02 / %D 13.24
+         OBV 446,748,100 · BB 1,034.81 / 1,520.61 / 2,006.40
+         EMA9 1,306.51 · EMA50 1,543.93 · EMA200 1,000.39
+WEEKLY   O 1,462.99 · H 1,462.99 · L 998.19 · C 1,214.83
+         RSI 49.44 · MACD 258.95 (sig 326.67) · hist -67.72 — negative (3 bars), expanding (2 bars) → renders RED
+         Stoch %K 28.98 / %D 44.79
+         OBV 1,459,150,800 · BB 389.34 / 1,345.91 / 2,302.47
+         EMA9 1,542.06 · EMA50 904.14 · EMA200 n/a
+MONTHLY  O 2,085.17 · H 2,129.98 · L 998.19 · C 1,214.83
+         RSI 64.00 · MACD n/a (sig n/a) · hist n/a
+         Stoch %K 82.18 / %D 91.01
+         OBV 1,859,051,000 · BB n/a / n/a / n/a
+         EMA9 1,086.54 · EMA50 n/a · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly n/a
+         weekly cross ESTABLISHED: 3 bar(s) deep, hist 67.72 = 26.2% of MACD · MACD must regain 67.72 pts to un-cross
+LEVELS   this month H 2,129.98 / L 998.19 · prior month H 2,354.39 / L 1,514.36 · 12-mo H 2,354.39 / L 40.10
+RECENT   last 3 sessions
+         2026-07-29  O   1,119.33 H   1,124.80 L     998.19 C   1,015.89    -7.32%
+         2026-07-30  O   1,135.01 H   1,285.48 L   1,124.00 C   1,279.96   +25.99%
+         2026-07-31  O   1,383.69 H   1,404.99 L   1,187.26 C   1,214.83    -5.09%
+         swing 1,015.89 → 1,404.99 (+38.3%) · gave back 49% · 50% line 1,210.44 — close is ON it
+
+==============================================================================
+STX  $856.13  (+0.52%)   bar 2026-07-31
+==============================================================================
+DAILY    O 901.68 · H 921.78 · L 837.73 · C 856.13
+         RSI 50.07 · MACD -18.47 (sig -17.23) · hist -1.24 — negative (5 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 52.67 / %D 40.79
+         OBV 722,944,900 · BB 742.13 / 841.95 / 941.76
+         EMA9 831.97 · EMA50 837.81 · EMA200 583.17
+WEEKLY   O 855.99 · H 921.78 · L 698.99 · C 856.13
+         RSI 60.76 · MACD 127.26 (sig 138.67) · hist -11.40 — negative (3 bars), expanding (2 bars) → renders RED
+         Stoch %K 49.45 / %D 53.61
+         OBV 1,334,071,900 · BB 322.34 / 724.46 / 1,126.59
+         EMA9 845.44 · EMA50 540.09 · EMA200 252.09
+MONTHLY  O 896.74 · H 937.54 · L 698.99 · C 856.13
+         RSI 82.96 · MACD 186.16 (sig 111.67) · hist 74.49 — positive (15 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 83.94 / %D 89.35
+         OBV 1,843,091,000 · BB -230.59 / 322.59 / 875.78
+         EMA9 631.15 · EMA50 251.55 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 3 bar(s) deep, hist 11.40 = 9.0% of MACD · MACD must regain 11.40 pts to un-cross
+         monthly is 74 pts from crossing — months away, not weeks
+LEVELS   this month H 937.54 / L 698.99 · prior month H 1,145.00 / L 801.89 · 12-mo H 1,145.00 / L 144.75
+RECENT   last 3 sessions
+         2026-07-29  O     786.85 H     814.97 L     747.55 C     764.43    +2.29%
+         2026-07-30  O     878.91 H     901.18 L     831.00 C     851.68   +11.41%
+         2026-07-31  O     901.68 H     921.78 L     837.73 C     856.13    +0.52%
+         swing 764.43 → 921.78 (+20.6%) · gave back 42% · 50% line 843.11 — close is +1.5% above it
+
+==============================================================================
+ASTS  $58.98  (+0.92%)   bar 2026-07-31
+==============================================================================
+DAILY    O 60.65 · H 61.20 · L 56.24 · C 58.98
+         RSI 41.74 · MACD -6.40 (sig -6.70) · hist 0.29 — positive (1 bar), expanding (1 bar) → renders GREEN ⚠️ JUST TURNED
+         Stoch %K 20.52 / %D 15.71
+         OBV 633,631,800 · BB 46.95 / 64.81 / 82.67
+         EMA9 58.72 · EMA50 73.45 · EMA200 76.03
+WEEKLY   O 56.43 · H 61.20 · L 52.80 · C 58.98
+         RSI 41.68 · MACD -4.40 (sig -0.04) · hist -4.36 — negative (8 bars), expanding (4 bars) → renders RED
+         Stoch %K 5.58 / %D 10.03
+         OBV 572,379,400 · BB 53.09 / 81.56 / 110.04
+         EMA9 70.53 · EMA50 72.94 · EMA200 41.25
+MONTHLY  O 86.91 · H 91.82 · L 52.80 · C 58.98
+         RSI 51.13 · MACD 17.53 (sig 17.09) · hist 0.44 — positive (27 bars), contracting (2 bars) → renders RED
+         Stoch %K 58.18 / %D 61.82
+         OBV 1,051,463,400 · BB -2.03 / 56.03 / 114.10
+         EMA9 77.10 · EMA50 39.61 · EMA200 n/a
+CASCADE  daily rising → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 8 bar(s) deep, hist 4.36 = 99.1% of MACD · MACD must regain 4.36 pts to un-cross
+         monthly is 0 pts from crossing — months away, not weeks
+LEVELS   this month H 91.82 / L 52.80 · prior month H 118.74 / L 63.72 · 12-mo H 133.86 / L 36.08
+RECENT   last 3 sessions
+         2026-07-29  O      57.36 H      59.37 L      52.80 C      53.03    -6.22%
+         2026-07-30  O      55.05 H      58.51 L      54.40 C      58.44   +10.20%
+         2026-07-31  O      60.65 H      61.20 L      56.24 C      58.98    +0.92%
+         swing 53.03 → 61.20 (+15.4%) · gave back 27% · 50% line 57.11 — close is +3.3% above it
+
+==============================================================================
+NBIS  $190.41  (+1.05%)   bar 2026-07-31
+==============================================================================
+DAILY    O 200.93 · H 204.57 · L 182.50 · C 190.41
+         RSI 46.69 · MACD -12.53 (sig -11.16) · hist -1.37 — negative (6 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 35.37 / %D 24.66
+         OBV 533,106,600 · BB 157.88 / 197.18 / 236.48
+         EMA9 186.59 · EMA50 204.78 · EMA200 152.73
+WEEKLY   O 196.73 · H 204.57 · L 145.80 · C 190.41
+         RSI 53.67 · MACD 24.71 (sig 30.56) · hist -5.85 — negative (3 bars), expanding (2 bars) → renders RED
+         Stoch %K 31.46 / %D 39.75
+         OBV 1,511,898,800 · BB 85.16 / 184.05 / 282.94
+         EMA9 203.45 · EMA50 141.19 · EMA200 n/a
+MONTHLY  O 240.27 · H 246.49 · L 145.80 · C 190.41
+         RSI 66.12 · MACD n/a (sig n/a) · hist n/a
+         Stoch %K 82.98 / %D 85.22
+         OBV 2,336,297,300 · BB -46.68 / 91.01 / 228.70
+         EMA9 161.15 · EMA50 n/a · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly n/a
+         weekly cross holding: 3 bar(s) deep, hist 5.85 = 23.7% of MACD · MACD must regain 5.85 pts to un-cross
+LEVELS   this month H 246.49 / L 145.80 · prior month H 299.86 / L 200.30 · 12-mo H 299.86 / L 50.10
+RECENT   last 3 sessions
+         2026-07-29  O     170.45 H     172.00 L     145.80 C     148.22   -12.65%
+         2026-07-30  O     172.18 H     195.89 L     169.08 C     188.43   +27.13%
+         2026-07-31  O     200.93 H     204.57 L     182.50 C     190.41    +1.05%
+         swing 148.22 → 204.57 (+38.0%) · gave back 25% · 50% line 176.39 — close is +7.9% above it
+
+==============================================================================
+AMAT  $507.67  (+1.18%)   bar 2026-07-31
+==============================================================================
+DAILY    O 531.69 · H 536.54 · L 502.91 · C 507.67
+         RSI 45.29 · MACD -19.92 (sig -9.21) · hist -10.72 — negative (20 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 25.66 / %D 15.84
+         OBV 1,191,193,100 · BB 464.07 / 549.31 / 634.55
+         EMA9 511.50 · EMA50 528.07 · EMA200 400.94
+WEEKLY   O 539.54 · H 548.55 · L 436.33 · C 507.67
+         RSI 58.54 · MACD 64.42 (sig 66.66) · hist -2.25 — negative (1 bar), contracting (5 bars) → renders GREEN
+         Stoch %K 40.67 / %D 49.76
+         OBV 1,894,813,900 · BB 277.83 / 465.92 / 654.01
+         EMA9 534.14 · EMA50 381.00 · EMA200 234.35
+MONTHLY  O 668.41 · H 693.78 · L 436.33 · C 507.67
+         RSI 64.49 · MACD 92.63 (sig 55.18) · hist 37.45 — positive (10 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 84.63 / %D 89.60
+         OBV 4,314,416,000 · BB -19.32 / 271.95 / 563.22
+         EMA9 428.94 · EMA50 232.41 · EMA200 n/a
+CASCADE  daily crossed → weekly crossed → monthly curling
+         weekly cross FRAGILE: 1 bar(s) deep, hist 2.25 = 3.5% of MACD · MACD must regain 2.25 pts to un-cross
+         monthly is 37 pts from crossing — months away, not weeks
+LEVELS   this month H 693.78 / L 436.33 · prior month H 739.67 / L 438.22 · 12-mo H 739.67 / L 154.47
+RECENT   last 3 sessions
+         2026-07-29  O     463.42 H     475.00 L     436.33 C     436.45    -8.40%
+         2026-07-30  O     482.48 H     508.54 L     476.12 C     501.77   +14.97%
+         2026-07-31  O     531.69 H     536.54 L     502.91 C     507.67    +1.18%
+         swing 436.45 → 536.54 (+22.9%) · gave back 29% · 50% line 486.49 — close is +4.4% above it
+
+==============================================================================
+BE  $205.81  (-0.63%)   bar 2026-07-31
+==============================================================================
+DAILY    O 230.77 · H 235.49 · L 205.43 · C 205.81
+         RSI 44.87 · MACD -21.92 (sig -20.67) · hist -1.25 — negative (25 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 36.86 / %D 22.66
+         OBV 364,653,800 · BB 156.46 / 224.04 / 291.61
+         EMA9 198.95 · EMA50 238.79 · EMA200 186.75
+WEEKLY   O 190.51 · H 235.49 · L 157.33 · C 205.81
+         RSI 49.22 · MACD 20.80 (sig 33.67) · hist -12.88 — negative (4 bars), expanding (4 bars) → renders RED
+         Stoch %K 17.83 / %D 30.96
+         OBV 1,024,622,800 · BB 116.65 / 229.53 / 342.42
+         EMA9 232.28 · EMA50 171.23 · EMA200 77.45
+MONTHLY  O 290.63 · H 320.00 · L 157.33 · C 205.81
+         RSI 62.52 · MACD 59.95 (sig 41.54) · hist 18.41 — positive (21 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 76.52 / %D 83.75
+         OBV 1,282,198,200 · BB -81.83 / 104.77 / 291.37
+         EMA9 199.52 · EMA50 77.84 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 4 bar(s) deep, hist 12.88 = 61.9% of MACD · MACD must regain 12.88 pts to un-cross
+         monthly is 18 pts from crossing — months away, not weeks
+LEVELS   this month H 320.00 / L 157.33 · prior month H 351.28 / L 230.60 · 12-mo H 351.28 / L 32.52
+RECENT   last 3 sessions
+         2026-07-29  O     183.50 H     185.66 L     157.33 C     163.75    -1.85%
+         2026-07-30  O     186.25 H     215.74 L     184.88 C     207.12   +26.49%
+         2026-07-31  O     230.77 H     235.49 L     205.43 C     205.81    -0.63%
+         swing 163.75 → 235.49 (+43.8%) · gave back 41% · 50% line 199.62 — close is +3.1% above it
+
+==============================================================================
+ALAB  $311.23  (+3.85%)   bar 2026-07-31
+==============================================================================
+DAILY    O 328.32 · H 342.00 · L 305.00 · C 311.23
+         RSI 46.33 · MACD -22.75 (sig -16.75) · hist -6.00 — negative (21 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 27.57 / %D 15.75
+         OBV 179,575,900 · BB 235.99 / 339.29 / 442.60
+         EMA9 299.59 · EMA50 323.81 · EMA200 232.95
+WEEKLY   O 295.00 · H 342.00 · L 244.61 · C 311.23
+         RSI 56.23 · MACD 48.95 (sig 50.04) · hist -1.09 — negative (1 bar), contracting (6 bars) → renders GREEN
+         Stoch %K 40.77 / %D 53.25
+         OBV 386,138,900 · BB 53.74 / 262.17 / 470.60
+         EMA9 328.47 · EMA50 221.11 · EMA200 n/a
+MONTHLY  O 468.00 · H 468.07 · L 244.61 · C 311.23
+         RSI 60.87 · MACD 70.46 (sig n/a) · hist n/a
+         Stoch %K 82.34 / %D 77.94
+         OBV 219,618,900 · BB -36.60 / 164.47 / 365.54
+         EMA9 258.94 · EMA50 n/a · EMA200 n/a
+CASCADE  daily crossed → weekly crossed → monthly n/a
+         weekly cross FRAGILE: 1 bar(s) deep, hist 1.09 = 2.2% of MACD · MACD must regain 1.09 pts to un-cross
+LEVELS   this month H 468.07 / L 244.61 · prior month H 499.48 / L 303.00 · 12-mo H 499.48 / L 97.89
+RECENT   last 3 sessions
+         2026-07-29  O     260.24 H     273.80 L     244.61 C     249.74    -4.03%
+         2026-07-30  O     282.17 H     300.10 L     273.01 C     299.69   +20.00%
+         2026-07-31  O     328.32 H     342.00 L     305.00 C     311.23    +3.85%
+         swing 249.74 → 342.00 (+36.9%) · gave back 33% · 50% line 295.87 — close is +5.2% above it
+
+==============================================================================
+CRDO  $206.99  (+2.94%)   bar 2026-07-31
+==============================================================================
+DAILY    O 215.89 · H 216.99 · L 199.39 · C 206.99
+         RSI 45.35 · MACD -11.24 (sig -7.69) · hist -3.56 — negative (25 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 23.99 / %D 16.07
+         OBV 185,239,400 · BB 177.71 / 226.01 / 274.32
+         EMA9 206.97 · EMA50 220.01 · EMA200 172.31
+WEEKLY   O 216.95 · H 220.00 · L 177.00 · C 206.99
+         RSI 53.28 · MACD 23.53 (sig 25.15) · hist -1.62 — negative (1 bar), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 39.79 / %D 51.79
+         OBV 352,062,400 · BB 82.81 / 189.65 / 296.49
+         EMA9 219.61 · EMA50 163.62 · EMA200 77.71
+MONTHLY  O 261.55 · H 280.50 · L 177.00 · C 206.99
+         RSI 62.66 · MACD 44.67 (sig 34.85) · hist 9.82 — positive (4 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 80.98 / %D 79.61
+         OBV 471,559,600 · BB -6.13 / 123.23 / 252.59
+         EMA9 181.52 · EMA50 72.30 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 1 bar(s) deep, hist 1.62 = 6.9% of MACD · MACD must regain 1.62 pts to un-cross
+         monthly is 10 pts from crossing — months away, not weeks
+LEVELS   this month H 280.50 / L 177.00 · prior month H 308.67 / L 200.00 · 12-mo H 308.67 / L 86.49
+RECENT   last 3 sessions
+         2026-07-29  O     189.55 H     193.59 L     177.00 C     177.45    -7.71%
+         2026-07-30  O     187.13 H     201.35 L     186.53 C     201.08   +13.32%
+         2026-07-31  O     215.89 H     216.99 L     199.39 C     206.99    +2.94%
+         swing 177.45 → 216.99 (+22.3%) · gave back 25% · 50% line 197.22 — close is +5.0% above it
+
+==============================================================================
+DELL  $405.37  (+0.14%)   bar 2026-07-31
+==============================================================================
+DAILY    O 419.00 · H 431.43 · L 400.25 · C 405.37
+         RSI 49.77 · MACD 1.81 (sig 6.95) · hist -5.13 — negative (36 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 32.88 / %D 32.03
+         OBV 967,268,863 · BB 369.52 / 415.67 / 461.82
+         EMA9 407.01 · EMA50 380.29 · EMA200 252.27
+WEEKLY   O 435.49 · H 447.88 · L 358.88 · C 405.37
+         RSI 67.27 · MACD 70.84 (sig 64.33) · hist 6.51 — positive (23 bars), contracting (7 bars) → renders RED
+         Stoch %K 79.81 / %D 81.17
+         OBV 1,939,056,038 · BB 87.72 / 302.00 / 516.28
+         EMA9 391.51 · EMA50 239.43 · EMA200 137.26
+MONTHLY  O 418.00 · H 463.48 · L 358.88 · C 405.37
+         RSI 80.95 · MACD 67.29 (sig 35.63) · hist 31.66 — positive (5 bars), expanding (5 bars) → renders GREEN
+         Stoch %K 90.00 / %D 91.19
+         OBV 4,719,832,325 · BB -39.61 / 170.34 / 380.30
+         EMA9 281.60 · EMA50 137.84 · EMA200 n/a
+CASCADE  daily crossed → weekly curling → monthly rising
+         monthly is 32 pts from crossing — months away, not weeks
+LEVELS   this month H 463.48 / L 358.88 · prior month H 469.47 / L 357.07 · 12-mo H 469.47 / L 110.22
+RECENT   last 3 sessions
+         2026-07-29  O     388.50 H     394.96 L     364.17 C     369.64    -5.73%
+         2026-07-30  O     384.89 H     413.00 L     383.00 C     404.81    +9.51%
+         2026-07-31  O     419.00 H     431.43 L     400.25 C     405.37    +0.14%
+         swing 369.64 → 431.43 (+16.7%) · gave back 42% · 50% line 400.54 — close is ON it
+
+==============================================================================
+MRVL  $187.56  (+2.32%)   bar 2026-07-31
+==============================================================================
+DAILY    O 199.38 · H 201.35 · L 187.12 · C 187.56
+         RSI 41.59 · MACD -17.81 (sig -15.47) · hist -2.34 — negative (28 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 21.95 / %D 14.31
+         OBV 2,155,757,400 · BB 160.27 / 208.31 / 256.36
+         EMA9 189.15 · EMA50 214.58 · EMA200 155.39
+WEEKLY   O 198.72 · H 201.35 · L 162.90 · C 187.56
+         RSI 52.34 · MACD 30.05 (sig 36.27) · hist -6.22 — negative (2 bars), expanding (2 bars) → renders RED
+         Stoch %K 26.40 / %D 38.59
+         OBV 1,600,988,200 · BB 59.13 / 185.51 / 311.88
+         EMA9 213.43 · EMA50 146.32 · EMA200 91.72
+MONTHLY  O 282.47 · H 292.50 · L 162.90 · C 187.56
+         RSI 60.62 · MACD 34.16 (sig 17.96) · hist 16.20 — positive (5 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 76.01 / %D 84.59
+         OBV 5,818,529,400 · BB -6.67 / 108.38 / 223.44
+         EMA9 163.15 · EMA50 90.57 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 2 bar(s) deep, hist 6.22 = 20.7% of MACD · MACD must regain 6.22 pts to un-cross
+         monthly is 16 pts from crossing — months away, not weeks
+LEVELS   this month H 292.50 / L 162.90 · prior month H 329.88 / L 195.12 · 12-mo H 329.88 / L 61.44
+RECENT   last 3 sessions
+         2026-07-29  O     174.03 H     177.80 L     162.90 C     163.40    -6.34%
+         2026-07-30  O     178.38 H     184.35 L     175.15 C     183.30   +12.18%
+         2026-07-31  O     199.38 H     201.35 L     187.12 C     187.56    +2.32%
+         swing 163.40 → 201.35 (+23.2%) · gave back 36% · 50% line 182.38 — close is +2.8% above it
+
+==============================================================================
+AVGO  $389.28  (+0.37%)   bar 2026-07-31
+==============================================================================
+DAILY    O 394.83 · H 399.92 · L 379.71 · C 389.28
+         RSI 51.46 · MACD -1.68 (sig -2.57) · hist 0.90 — positive (2 bars), expanding (2 bars) → renders GREEN
+         Stoch %K 58.57 / %D 49.87
+         OBV 4,102,476,900 · BB 362.58 / 383.57 / 404.57
+         EMA9 384.11 · EMA50 388.08 · EMA200 360.39
+WEEKLY   O 389.82 · H 399.92 · L 369.51 · C 389.28
+         RSI 52.82 · MACD 10.05 (sig 14.37) · hist -4.32 — negative (6 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 17.50 / %D 24.80
+         OBV 4,342,170,100 · BB 300.52 / 382.51 / 464.50
+         EMA9 385.98 · EMA50 349.98 · EMA200 225.20
+MONTHLY  O 371.87 · H 407.52 · L 356.43 · C 389.28
+         RSI 63.84 · MACD 63.51 (sig 60.60) · hist 2.91 — positive (41 bars), contracting (2 bars) → renders RED
+         Stoch %K 72.82 / %D 81.30
+         OBV 15,265,371,900 · BB 136.45 / 301.12 / 465.79
+         EMA9 367.66 · EMA50 218.88 · EMA200 n/a
+CASCADE  daily rising → weekly crossed → monthly curling
+         weekly cross ESTABLISHED: 6 bar(s) deep, hist 4.32 = 43.0% of MACD · MACD must regain 4.32 pts to un-cross
+         monthly is 3 pts from crossing — months away, not weeks
+LEVELS   this month H 407.52 / L 356.43 · prior month H 495.00 / L 360.46 · 12-mo H 495.00 / L 281.61
+RECENT   last 3 sessions
+         2026-07-29  O     380.64 H     386.12 L     369.51 C     370.32    -2.78%
+         2026-07-30  O     380.35 H     388.68 L     377.54 C     387.84    +4.73%
+         2026-07-31  O     394.83 H     399.92 L     379.71 C     389.28    +0.37%
+         swing 370.32 → 399.92 (+8.0%) · gave back 36% · 50% line 385.12 — close is ON it
+
+==============================================================================
+AXON  $527.76  (+0.47%)   bar 2026-07-31
+==============================================================================
+DAILY    O 519.06 · H 530.97 · L 514.76 · C 527.76
+         RSI 52.13 · MACD 6.16 (sig 10.25) · hist -4.09 — negative (14 bars), contracting (6 bars) → renders GREEN
+         Stoch %K 46.95 / %D 46.42
+         OBV 147,252,000 · BB 466.01 / 546.51 / 627.00
+         EMA9 525.95 · EMA50 500.83 · EMA200 516.34
+WEEKLY   O 517.00 · H 564.24 · L 502.72 · C 527.76
+         RSI 53.32 · MACD -0.19 (sig -18.58) · hist 18.39 — positive (10 bars), contracting (3 bars) → renders RED
+         Stoch %K 50.56 / %D 59.47
+         OBV 195,930,200 · BB 328.03 / 453.95 / 579.86
+         EMA9 501.73 · EMA50 520.93 · EMA200 432.76
+MONTHLY  O 580.52 · H 665.07 · L 485.75 · C 527.76
+         RSI 51.42 · MACD 23.19 (sig 52.94) · hist -29.76 — negative (9 bars), contracting (3 bars) → renders GREEN
+         Stoch %K 31.70 / %D 22.72
+         OBV 316,708,600 · BB 365.02 / 599.51 / 834.00
+         EMA9 523.78 · EMA50 422.43 · EMA200 n/a
+CASCADE  daily crossed → weekly curling → monthly crossed
+LEVELS   this month H 665.07 / L 485.75 · prior month H 562.06 / L 402.00 · 12-mo H 885.92 / L 339.01
+RECENT   last 3 sessions
+         2026-07-29  O     544.51 H     564.24 L     526.16 C     531.20    -3.00%
+         2026-07-30  O     517.02 H     526.03 L     502.72 C     525.30    -1.11%
+         2026-07-31  O     519.06 H     530.97 L     514.76 C     527.76    +0.47%
+         swing 525.30 → 530.97 (+1.1%) · gave back 57% · 50% line 528.13 — close is ON it
+
+==============================================================================
+CIEN  $377.05  (+1.34%)   bar 2026-07-31
+==============================================================================
+DAILY    O 393.98 · H 401.00 · L 374.38 · C 377.05
+         RSI 42.43 · MACD -27.53 (sig -25.96) · hist -1.57 — negative (12 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 25.49 / %D 18.05
+         OBV 207,660,400 · BB 334.66 / 404.94 / 475.21
+         EMA9 376.77 · EMA50 436.35 · EMA200 363.95
+WEEKLY   O 388.19 · H 401.00 · L 323.29 · C 377.05
+         RSI 46.28 · MACD 23.11 (sig 49.39) · hist -26.28 — negative (8 bars), expanding (8 bars) → renders RED
+         Stoch %K 11.37 / %D 14.11
+         OBV 482,602,400 · BB 322.87 / 464.96 / 607.06
+         EMA9 426.62 · EMA50 339.57 · EMA200 166.71
+MONTHLY  O 466.20 · H 485.69 · L 323.29 · C 377.05
+         RSI 63.44 · MACD 106.35 (sig 76.50) · hist 29.85 — positive (31 bars), contracting (2 bars) → renders RED
+         Stoch %K 74.54 / %D 85.88
+         OBV 1,337,123,000 · BB -114.30 / 215.95 / 546.19
+         EMA9 381.83 · EMA50 164.49 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross ESTABLISHED: 8 bar(s) deep, hist 26.28 = 113.7% of MACD · MACD must regain 26.28 pts to un-cross
+         monthly is 30 pts from crossing — months away, not weeks
+LEVELS   this month H 485.69 / L 323.29 · prior month H 637.51 / L 417.34 · 12-mo H 637.51 / L 84.41
+RECENT   last 3 sessions
+         2026-07-29  O     349.64 H     350.80 L     323.29 C     330.37    -5.75%
+         2026-07-30  O     359.27 H     373.09 L     355.00 C     372.07   +12.62%
+         2026-07-31  O     393.98 H     401.00 L     374.38 C     377.05    +1.34%
+         swing 330.37 → 401.00 (+21.4%) · gave back 34% · 50% line 365.68 — close is +3.1% above it
+
+==============================================================================
+AMD  $476.15  (-1.90%)   bar 2026-07-31
+==============================================================================
+DAILY    O 510.28 · H 515.62 · L 475.76 · C 476.15
+         RSI 45.18 · MACD -10.32 (sig -1.32) · hist -9.00 — negative (39 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 26.42 / %D 19.63
+         OBV 7,209,045,300 · BB 448.63 / 515.19 / 581.75
+         EMA9 488.62 · EMA50 486.27 · EMA200 344.47
+WEEKLY   O 527.51 · H 528.00 · L 424.03 · C 476.15
+         RSI 59.65 · MACD 74.54 (sig 74.84) · hist -0.30 — negative (1 bar), contracting (9 bars) → renders GREEN
+         Stoch %K 71.48 / %D 78.98
+         OBV 22,729,569,600 · BB 151.78 / 405.49 / 659.21
+         EMA9 493.67 · EMA50 325.80 · EMA200 191.49
+MONTHLY  O 557.53 · H 574.20 · L 424.03 · C 476.15
+         RSI 69.61 · MACD 85.70 (sig 48.15) · hist 37.55 — positive (12 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 91.28 / %D 92.71
+         OBV 16,813,699,500 · BB -53.41 / 223.00 / 499.41
+         EMA9 371.31 · EMA50 190.60 · EMA200 n/a
+CASCADE  daily crossed → weekly crossed → monthly curling
+         weekly cross FRAGILE: 1 bar(s) deep, hist 0.30 = 0.4% of MACD · MACD must regain 0.30 pts to un-cross
+         monthly is 38 pts from crossing — months away, not weeks
+LEVELS   this month H 574.20 / L 424.03 · prior month H 584.73 / L 437.23 · 12-mo H 584.73 / L 149.22
+RECENT   last 3 sessions
+         2026-07-29  O     452.68 H     457.22 L     424.03 C     429.56    -5.51%
+         2026-07-30  O     460.00 H     498.20 L     457.68 C     485.39   +13.00%
+         2026-07-31  O     510.28 H     515.62 L     475.76 C     476.15    -1.90%
+         swing 429.56 → 515.62 (+20.0%) · gave back 46% · 50% line 472.59 — close is ON it
+
+==============================================================================
+ASML  $1,629.00  (-1.36%)   bar 2026-07-31
+==============================================================================
+DAILY    O 1,683.38 · H 1,692.15 · L 1,624.71 · C 1,629.00
+         RSI 42.57 · MACD -38.15 (sig -15.99) · hist -22.16 — negative (27 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 24.70 / %D 17.81
+         OBV 119,256,700 · BB 1,585.18 / 1,739.67 / 1,894.16
+         EMA9 1,670.01 · EMA50 1,706.87 · EMA200 1,427.08
+WEEKLY   O 1,739.19 · H 1,746.70 · L 1,530.64 · C 1,629.00
+         RSI 54.51 · MACD 132.02 (sig 146.03) · hist -14.02 — negative (2 bars), expanding (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 54.54 / %D 62.17
+         OBV 203,211,000 · BB 1,214.11 / 1,589.28 / 1,964.45
+         EMA9 1,714.75 · EMA50 1,372.98 · EMA200 951.33
+MONTHLY  O 1,916.28 · H 1,943.00 · L 1,530.64 · C 1,629.00
+         RSI 64.99 · MACD 244.99 (sig 163.43) · hist 81.56 — positive (11 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 89.06 / %D 90.33
+         OBV 560,302,300 · BB 272.60 / 1,055.05 / 1,837.50
+         EMA9 1,468.65 · EMA50 935.27 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 2 bar(s) deep, hist 14.02 = 10.6% of MACD · MACD must regain 14.02 pts to un-cross
+         monthly is 82 pts from crossing — months away, not weeks
+LEVELS   this month H 1,943.00 / L 1,530.64 · prior month H 1,999.96 / L 1,585.61 · 12-mo H 1,999.96 / L 683.48
+RECENT   last 3 sessions
+         2026-07-29  O   1,569.39 H   1,621.46 L   1,530.64 C   1,550.69    -2.04%
+         2026-07-30  O   1,645.07 H   1,676.78 L   1,626.44 C   1,651.44    +6.50%
+         2026-07-31  O   1,683.38 H   1,692.15 L   1,624.71 C   1,629.00    -1.36%
+         swing 1,550.69 → 1,692.15 (+9.1%) · gave back 45% · 50% line 1,621.42 — close is ON it
+
+==============================================================================
+LRCX  $293.02  (-1.58%)   bar 2026-07-31
+==============================================================================
+DAILY    O 315.37 · H 318.40 · L 292.93 · C 293.02
+         RSI 43.56 · MACD -17.65 (sig -13.16) · hist -4.50 — negative (21 bars), contracting (2 bars) → renders GREEN
+         Stoch %K 28.60 / %D 18.64
+         OBV 2,255,468,900 · BB 265.56 / 318.45 / 371.34
+         EMA9 295.38 · EMA50 320.42 · EMA200 252.16
+WEEKLY   O 306.31 · H 319.50 · L 250.50 · C 293.02
+         RSI 52.32 · MACD 31.63 (sig 38.18) · hist -6.55 — negative (2 bars), expanding (2 bars) → renders RED
+         Stoch %K 31.61 / %D 42.69
+         OBV 2,827,345,000 · BB 190.41 / 294.28 / 398.16
+         EMA9 320.48 · EMA50 238.09 · EMA200 133.78
+MONTHLY  O 404.97 · H 415.49 · L 250.50 · C 293.02
+         RSI 63.49 · MACD 64.36 (sig 42.90) · hist 21.46 — positive (13 bars), contracting (1 bar) → renders RED ⚠️ JUST TURNED
+         Stoch %K 84.16 / %D 89.14
+         OBV 9,324,152,800 · BB -33.68 / 163.02 / 359.71
+         EMA9 267.16 · EMA50 132.06 · EMA200 n/a
+CASCADE  daily crossed → weekly rolled → monthly curling
+         weekly cross FRAGILE: 2 bar(s) deep, hist 6.55 = 20.7% of MACD · MACD must regain 6.55 pts to un-cross
+         monthly is 21 pts from crossing — months away, not weeks
+LEVELS   this month H 415.49 / L 250.50 · prior month H 438.50 / L 302.74 · 12-mo H 438.50 / L 92.47
+RECENT   last 3 sessions
+         2026-07-29  O     264.51 H     273.46 L     250.50 C     252.35    -6.40%
+         2026-07-30  O     318.29 H     319.50 L     294.25 C     297.72   +17.98%
+         2026-07-31  O     315.37 H     318.40 L     292.93 C     293.02    -1.58%
+         swing 252.35 → 319.50 (+26.6%) · gave back 39% · 50% line 285.93 — close is +2.5% above it
+
+==============================================================================
+CARD AUDIT — mechanical checks only
+==============================================================================
+
+0 finding(s). Judgement calls are not automated — read these, then edit data.js yourself.
