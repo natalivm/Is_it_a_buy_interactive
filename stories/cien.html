@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>$CIEN — Торговий план</title>
+<script>if(/[?&]preview\b/.test(location.search))document.documentElement.classList.add('preview');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="story.css">
+<style>
+  :root{
+    --page-bg:#1A0710;
+    --bg:#260B18;
+    --panel:#3E1226;
+    --panel2:#330E1F;
+    --line:#66203D;
+    --muted:#D89BB0;
+    --purple:#FB7185;
+    --pink:#FB5D74;
+    --yellow:#F5A524;
+    --deep:#1A0710;
+    --sub:#F7DEE6;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · COVER -->
+    <section class="slide active" data-label="CIEN · 1D">
+      <div class="cover-ticker rv">CIEN</div>
+      <div class="eyebrow rv">📅 31/07 CLOSE $377.05 (+1.34%) · 🌙 AH $373.38 (−0.97%) · ⚠️ ЗАКРИВСЯ В НИЖНІХ 10% ДІАПАЗОНУ</div>
+      <h1 class="rv">Зелений на табло. <span class="hl">Відкид у свічці.</span></h1>
+      <p class="sub rv">Гепнувся на <strong>+5.89%</strong> ($393.98), сходив на <strong>$401.00</strong> (+7.78% від попереднього закриття $372.07) — і завалився до <strong>$377.05</strong>, у <span class="p">нижні 10% денного діапазону</span>. Віддано <strong>90.0%</strong> денного ходу — це далеко за межами смуги дошки 25–56% (медіана ~41%). Постмаркет забрав решту: <strong>$373.38</strong>, лише <span class="p">+0.35% від четверга</span>. Плюс +1.34% у стрічці — це те, що лишилось від майже +8%.</p>
+      <div class="chart rv">
+        <svg data-lv='[["k",26,"$436.35","daily EMA50 · −13.6% звідси, спадає",0.05],["k",58,"$404.94","середина денної BB",0.10],["p",84,"$401.00","🎯 хай п’ятниці · ВІДКИД надрукований",0.16],["w",110,"$393.98","відкриття · верх зони шорта",0.22],["y",150,"$377.05","ЗАРАЗ · +1.34% · 10% діапазону · 🌙 AH $373.38",0.28],["m",178,"$363.95","daily EMA200 · єдина підтримка, −3.6%",0.34],["k",212,"$339.57","weekly EMA50",0.40],["p",246,"$323.29","лоу місяця й тижня · washout",0.46]]' viewBox="0 0 470 300" role="img" aria-label="CIEN gapped up 5.89 percent, ran to 401.00 and collapsed to close 377.05 in the bottom 10 percent of its range, giving back 90 percent of the day">
+          <path class="legup draw" pathLength="1" style="animation-delay:.5s;animation-duration:.7s" d="M60,168 L175,84"/>
+          <path class="legdn draw" pathLength="1" style="animation-delay:1.25s;animation-duration:.9s" d="M175,84 L300,172 L360,150"/>
+          <circle class="dot-y pop" style="animation-delay:2.2s" cx="360" cy="150" r="6"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2 · DAILY CANDLE -->
+    <section class="slide" data-noclick data-label="CIEN · 1D">
+      <div class="eyebrow rv">DAILY CANDLE</div>
+      <h1 class="rv">Затиснутий між<br><span class="hl">200-ю і 50-ю.</span></h1>
+      <div class="verdict rv">
+        <div class="vh">⚠️ Уся структура вниз: EMA50 на 13.6% ВИЩЕ і спадає, EMA200 на 3.6% нижче</div>
+        <p>Ціна $377.05 сидить рівно на <strong>EMA9 $376.77</strong>, а решта конструкції ворожа: <strong>EMA50 $436.35</strong> — за <span class="p">13.6% угору</span> і спадає, тобто це стеля, а не мета; <strong>EMA200 $363.95</strong> — лише за 3.6% унизу, і це <span class="k">єдина підтримка, що залишилась</span>. Денна гістограма −1.57, мінус 12 барів, звужується 2 — спроба відскоку всередині низхідного тренду, не розворот. RSI 42.43 під серединою, Stoch %K 25.49 над %D 18.05 — відскок є, палива під нього мало. Місячний фрейм додає: ціна <strong>нижче monthly 9-EMA $381.83</strong>, а сам місяць закрився −19.1% від відкриття $466.20.</p>
+      </div>
+    </section>
+
+    <!-- 3 · RELATIVE STRENGTH -->
+    <section class="slide" data-text data-label="CIEN · vs ДОШКА">
+      <div class="eyebrow y rv">RELATIVE STRENGTH · ⚠️ «ОПТИКА ЗАКРИЛАСЬ У ПЛЮСІ» — ФОРМАЛЬНО ТАК</div>
+      <h1 class="rv">Найглибший перетин,<br><span class="hl">який ми бачили.</span></h1>
+      <p class="sub rv">⚠️ Записка дошки каже: «пам’ять ламається, тоді як сховище, semicap та <strong>оптика закрилися в плюсі</strong>». CIEN — оптика, і формально закрився в плюсі: <strong>+1.34%</strong>. Але це той випадок, коли <span class="p">закриття бреше</span>: −90.0% денного ходу віддано, закриття в нижніх 10% діапазону, постмаркет −0.97%. Жодне інше ім’я на дошці не віддало 90% — смуга там 25–56%. Тобто «оптика в плюсі» тримається на друкованій цифрі, а не на поведінці.</p>
+      <div class="indi rv">
+        <div class="indi-top"><span class="t">⚠️ Тижневий перетин: гістограма −26.28 = 113.7% від MACD, розширюється 8 барів</span><span class="v">Гістограма БІЛЬША за сам MACD · проти BE 61.9% і AVGO 43.0%</span></div>
+        <p>Це <strong>найглибший перетин на дошці</strong> — і єдиний, що досі <span class="p">РОЗШИРЮЄТЬСЯ</span>, вже вісім барів поспіль. Записка сортує дошку так: «у лонгів перетини свіжі й неглибокі, у шортів — старі й уже підтверджені». CIEN — не просто в другій групі, він її <strong>еталон</strong>: щоб зняти перетин, MACD треба відіграти всі 26.28 пункти, тобто більше, ніж він сам зараз коштує. Weekly RSI 46.28 втратив середину, weekly Stoch 11.37 під %D 14.11 — усе ще падає. І довгий фрейм у тому ж напрямку: <strong>−40.9%</strong> від хаю 12 місяців $637.51. ⭐ Чесний контраргумент: тиждень мав лоу $323.29, і від нього ціна вже <strong>+16.6%</strong> — CIEN у сквізі БУВ, на відміну від AVGO. Тому це не «падає без відскоків», а «відскок, який щойно відкинули».</p>
+      </div>
+    </section>
+
+    <!-- 4 · LEVELS -->
+    <section class="slide" data-label="CIEN · РІВНІ">
+      <div class="eyebrow rv">LEVELS · STRUCTURE</div>
+      <h1 class="rv">Level <span class="hl">map</span></h1>
+      <div class="ladder rv" data-rungs='[
+        ["res", "$436.35", "Daily EMA50 · 13.6% вище і СПАДАЄ · стеля, не мета"],
+        ["res", "$404.94", "Середина денної BB · верх зони інвалідації"],
+        ["res", "$393–401", "🎯 ЗОНА ШОРТА · відкриття $393.98 → хай $401.00 · відкид уже надрукований"],
+        ["now", "$377.05", "ТУТ · +1.34% · нижні 10% діапазону · 🌙 AH $373.38"],
+        ["sup", "$376.77", "Daily EMA9 · ціна сидить рівно на ній"],
+        ["key", "$363.95", "🎯 Daily EMA200 · ЄДИНА підтримка · перша ціль"],
+        ["sup", "$339.57", "Weekly EMA50 · друга ціль"],
+        ["sup", "$323.29", "Лоу місяця й тижня · washout · третя ціль"]]'></div>
+      <p class="note rv">Все вирішує <span class="k">$393–401</span>. Ретест цієї зони з відкидом — це шорт із ризиком 2%. Denний close над <span class="k">$405</span> — сетап знято, і тоді $436.35 стає магнітом угору.</p>
+    </section>
+
+    <!-- 5 · PLAN -->
+    <section class="slide" data-label="CIEN · ПЛАН">
+      <div class="eyebrow rv">PLAN · 🔍 РОЗВІДКА · ШОРТ НА РЕТЕСТІ</div>
+      <h1 class="rv">Шорт — але <span class="hl">на ретесті, не тут</span></h1>
+      <p class="note k rv">🎯 <strong>Тригер від сьогодні:</strong> НЕ шортимо на $377.05 — ціна вже за 3.6% від першої цілі $363.95, це погана математика. Чекаємо <strong>ретест $393–401</strong> (відкриття п’ятниці → її хай) і <strong>відкид звідти</strong>. Стоп: daily close над <strong>$405</strong> (над серединою BB $404.94) — це ризик близько <strong>2%</strong> від зони. Цілі: <strong>$363.95</strong> (EMA200) → <strong>$339.57</strong> (weekly EMA50) → <strong>$323.29</strong> (лоу місяця). Від середини зони це <strong>~9:1</strong> — і саме тому сетап вартий очікування, а не входу з ринку.</p>
+      <p class="note rv">⚠️ Шорт, а не лонг — картка стоїть на тижневому перетині 113.7% глибини, який розширюється 8 барів, і на ціні під monthly 9-EMA $381.83. Перший ризик: <strong>$363.95</strong> — денний close нижче прискорює падіння, але й лишає ціну без опори взагалі. Другий: якщо ретесту $393–401 не буде і ціна поповзе вгору по EMA9, сетапу просто немає — не переслідуємо. 📐 Дані з графіка: тижневі значення на скріні (RSI 45.90, MACD 22.81/49.33/−26.52) враховують постмаркет $373.38; тут використано регулярні — RSI 46.28, гістограма −26.28.</p>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+<script>
+  createStory();
+</script>
+</body>
+</html>
