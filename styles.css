@@ -849,7 +849,10 @@ body.story-open { overflow: hidden; }
    a print-style read of the same STOCKS entries (see renderBoardTable()). The
    view is swapped by data-view on <html>, set pre-paint by the inline script in
    index.html, so a reload in table view never flashes the grid. */
-.board-table { display: none; margin-bottom: 40px; }
+/* Full width by position, not by trickery: the section sits outside
+   .page-container (see index.html), so it spans .main-content and only needs
+   its own gutter. The 1200px column still governs everything else. */
+.board-table { display: none; margin-bottom: 40px; padding-inline: clamp(16px, 2vw, 40px); }
 [data-view="table"] .board-table { display: block; }
 
 /* In table view the table IS the board: the cockpit, the booked strip, the
@@ -877,7 +880,10 @@ body.story-open { overflow: hidden; }
 .board-table .board {
     --bt-line: color-mix(in srgb, var(--txt) 34%, transparent);
     width: 100%;
-    min-width: 1500px;
+    /* Floor, not target: below this the columns crush, so the box scrolls
+       instead. Trimmed from 1500 so a 1440px laptop fits the whole board
+       without scrolling sideways — at 1440 the gutters leave ~1360. */
+    min-width: 1360px;
     table-layout: fixed;
     border-collapse: collapse;
     background: var(--panel);
