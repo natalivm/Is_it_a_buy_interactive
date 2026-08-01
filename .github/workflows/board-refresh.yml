@@ -95,7 +95,11 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v4
+      # v5 runs on Node24. v4 is Node20-based and emits the EOL deprecation
+      # warning — harmless until Node20 leaves the runner image in the autumn,
+      # but there is no reason to carry it. If this ever fails to resolve, drop
+      # back to @v4: the error is immediate and unmistakable.
+      - uses: actions/upload-artifact@v5
         with:
           name: board-report
           path: tools/reports/

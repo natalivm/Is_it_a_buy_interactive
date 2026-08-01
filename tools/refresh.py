@@ -93,8 +93,12 @@ def fetch_yahoo(ticker: str) -> list[dict]:
     the numbers here line up with what you see there. Uses raw `close`, not
     `adjclose`: the chart quotes unadjusted prices and so do the cards."""
     sym = urllib.parse.quote(MARKET_SYMBOLS.get(ticker, ticker))
+    # range=max, not 5y. A 200-period EMA needs a long seed, and 5 years is only
+    # ~260 weekly bars for a 200-WEEK average — barely seeded, which showed up
+    # as ~0.9% drift against the chart's weekly 200-EMA. Daily was fine either
+    # way; the weekly and monthly frames are what this buys.
     url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
-           f"?range=5y&interval=1d")
+           f"?range=max&interval=1d")
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         payload = json.loads(r.read().decode())

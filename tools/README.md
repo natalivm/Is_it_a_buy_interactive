@@ -72,9 +72,25 @@ numbers rather than recomputed ones — but it is push-per-condition, not a way 
 pull a table of 25 tickers, so it complements this script rather than replacing
 it.
 
-## Accuracy
+## Accuracy — checked against the charts
 
-Readings land within a few tenths of a chart's, not to the last decimal:
-vendors differ on EMA seeding and on adjusted-vs-raw closes. That is immaterial
-to the decisions the board makes (*is RSI above the midline, is Stochastics
-washed out*) — and it is why the report prints **values, not verdicts**.
+Verified on MU and QQQ. OHLC, RSI, Bollinger bands, the 9/50-EMAs and
+Stochastics reproduce the chart **exactly**. Four differences are known and
+expected:
+
+1. **The chart's MACD pill shows the SIGNAL line, not the MACD line.** Confirmed
+   on both names (QQQ daily pill −7.48 = signal; MACD is −10.02). Anything
+   transcribed from that pill is the signal.
+2. **The chart's histogram is tinted by DIRECTION, not sign.** A histogram that
+   is positive but contracting draws a RED bar. Red means "the gap is closing",
+   never "momentum went negative" — so this report prints sign and direction
+   separately, each with a bar count.
+3. **The chart's current bar can include after-hours.** QQQ's weekly bar closed
+   684.47 on the chart (the AH print) against the 687.99 regular close used
+   here, which is enough to move weekly RSI by ~0.7.
+4. **OBV levels will not match and should not be expected to.** OBV is
+   cumulative from an arbitrary first bar, so only its DIRECTION carries meaning.
+
+Bars are fetched with `range=max` so the 200-period EMAs are properly seeded on
+the weekly and monthly frames; a 5-year window left the 200-WEEK average with
+~260 bars and drifted ~0.9% against the chart.
