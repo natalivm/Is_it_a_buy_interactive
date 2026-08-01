@@ -67,6 +67,18 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
 - Ukrainian copy NEVER uses the anglicism «тейп» ("the tape") — it means
   nothing to readers. Write «ринок», «хід торгів» or «динаміка» instead.
   (English copy may still say "the tape".)
+- Nor «клоуз» — write «закриття». Note the gender changes with it: «клоуз» is
+  masculine but «закриття» is neuter, so the adjective has to follow —
+  «денний клоуз» becomes «денне закриття», «на денному клоузі» becomes «на
+  денному закритті». (English copy may still say "close".)
+- Nor «додатна» for a positive value — write «плюсова» (and «плюсовий»,
+  «плюсову»… to match).
+- **One thought per line.** A `.sub` written as a single dense block reads as a
+  wall on a phone. Give the paragraph the `lines` class and break it with
+  `<br>`, one fact per line, each line short enough not to wrap — the column is
+  46ch, so keep lines at or under ~52 characters of visible text. Condense
+  rather than merely splitting: the goal is less prose, not the same prose in
+  a taller shape.
 
 ## Trend meter (`MARKET` in data.js)
 
