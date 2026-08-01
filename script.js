@@ -704,10 +704,32 @@ function initStockSearch() {
 
         // Keep the ranking table in step — the search box sits in its header, so
         // an unfiltered table beside a filtered gallery reads as a broken filter.
-        document.querySelectorAll('#leaderboardBody tr[data-symbol]').forEach(row => {
+        const rows = document.querySelectorAll('#leaderboardBody tr[data-symbol]');
+        let ranked = 0;
+        rows.forEach(row => {
             const symbol = (row.dataset.symbol || '').toLowerCase();
-            row.hidden = !(!q || symbol.includes(q));
+            const match = !q || symbol.includes(q);
+            row.hidden = !match;
+            if (match) ranked++;
         });
+        // Only ranked names (an entry with a `lead`) have a table row, so a search
+        // for an unranked stock legitimately empties the table. Swap the headers
+        // and footnote for a one-liner rather than leaving a hollow table shell —
+        // the header stays put either way, it holds the search box.
+        const bare = !!q && rows.length > 0 && ranked === 0;
+        const scroll = document.getElementById('leaderboardScroll');
+        const foot = document.getElementById('leaderboardFoot');
+        const lbEmpty = document.getElementById('leaderboardEmpty');
+        if (scroll) scroll.hidden = bare;
+        if (foot) foot.hidden = bare;
+        if (lbEmpty) {
+            lbEmpty.hidden = !bare;
+            if (bare) {
+                lbEmpty.textContent = visible
+                    ? `No ranked trade matches “${input.value.trim()}” — see its card below.`
+                    : `No ranked trade matches “${input.value.trim()}”.`;
+            }
+        }
     }
 
     input.addEventListener('input', applyFilter);
