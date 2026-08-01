@@ -41,7 +41,13 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Node20 is EOL and runners default to Node24 since 2026-06-16, so the
+      # JavaScript actions here are pinned to majors built for Node24. Do NOT
+      # set ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION — that is the opt-OUT, and
+      # it only works until Node20 is removed from the runner image.
+      # The rest of this job is plain python3/bash/git/gh, which the Node
+      # migration does not touch at all.
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 

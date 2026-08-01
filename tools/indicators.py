@@ -154,6 +154,13 @@ class Frame:
     macd: float | None
     macd_sig: float | None
     macd_hist: float | None
+    hist_sign: str          # 'positive' (MACD above signal) | 'negative' | 'n/a'
+    hist_run: int           # consecutive bars on that side of zero
+    hist_dir: str           # 'expanding' | 'contracting' — the bar COLOUR on a
+                            # chart that tints by direction (Yahoo does). A
+                            # positive-but-contracting histogram renders RED,
+                            # which is why sign alone cannot be read off colour.
+    hist_dir_run: int       # consecutive bars moving that way
     stoch_k: float | None
     stoch_d: float | None
     obv: float | None
@@ -167,10 +174,23 @@ class Frame:
     def line(self) -> str:
         def f(x, nd=2):
             return "n/a" if x is None else f"{x:,.{nd}f}"
+        # Spell the histogram out. Reading its colour off the right edge of a
+        # chart is exactly the judgement call that produced a wrong claim once.
+        if self.hist_sign == "n/a":
+            hist = "hist n/a"
+        else:
+            def run(n):
+                return f"{n} bar{'s' if n != 1 else ''}"
+            flip = " ⚠️ JUST TURNED" if self.hist_dir_run == 1 else ""
+            colour = "RED" if self.hist_dir == "contracting" else "GREEN"
+            hist = (f"hist {f(self.macd_hist)} — {self.hist_sign} "
+                    f"({run(self.hist_run)}), {self.hist_dir} "
+                    f"({run(self.hist_dir_run)}) → renders {colour}{flip}")
         return (
             f"{self.label:<8} O {f(self.o)} · H {f(self.h)} · L {f(self.l)} · C {f(self.c)}\n"
-            f"{'':<8} RSI {f(self.rsi)} · MACD {f(self.macd)} (sig {f(self.macd_sig)}, "
-            f"hist {f(self.macd_hist)}) · Stoch %K {f(self.stoch_k)} / %D {f(self.stoch_d)}\n"
+            f"{'':<8} RSI {f(self.rsi)} · MACD {f(self.macd)} (sig {f(self.macd_sig)}) · "
+            f"{hist}\n"
+            f"{'':<8} Stoch %K {f(self.stoch_k)} / %D {f(self.stoch_d)}\n"
             f"{'':<8} OBV {f(self.obv, 0)} · BB {f(self.bb_lo)} / {f(self.bb_mid)} / {f(self.bb_up)}\n"
             f"{'':<8} EMA9 {f(self.ema9)} · EMA50 {f(self.ema50)} · EMA200 {f(self.ema200)}"
         )
@@ -192,9 +212,36 @@ def read_frame(label: str, bars: list[dict]) -> Frame:
     bl, bm, bu = bollinger(c)
     e9, e50, e200 = ema(c, 9), ema(c, 50), ema(c, 200)
 
+    # Two INDEPENDENT facts about the histogram, because a chart's bar colour
+    # only carries one of them:
+    #   sign  — above or below zero (is MACD over its signal at all)
+    #   dir   — expanding or contracting (is the gap widening or closing)
+    # Yahoo tints by DIRECTION, so a positive-but-contracting histogram draws a
+    # RED bar. Reading "red" as "negative" is the mistake that has to be
+    # designed out, so both are reported.
+    sign, run, direction, drun = "n/a", 0, "n/a", 0
+    if mh[i] is not None:
+        sign = "positive" if mh[i] >= 0 else "negative"
+        run = 1
+        for j in range(i - 1, -1, -1):
+            if mh[j] is None or (mh[j] >= 0) != (mh[i] >= 0):
+                break
+            run += 1
+        if i > 0 and mh[i - 1] is not None:
+            growing = abs(mh[i]) >= abs(mh[i - 1])
+            direction = "expanding" if growing else "contracting"
+            drun = 1
+            for j in range(i - 1, 0, -1):
+                if mh[j] is None or mh[j - 1] is None:
+                    break
+                if (abs(mh[j]) >= abs(mh[j - 1])) != growing:
+                    break
+                drun += 1
+
     return Frame(
         label=label, o=o[i], h=h[i], l=lo[i], c=c[i], v=v[i],
         rsi=r[i], macd=ml[i], macd_sig=ms[i], macd_hist=mh[i],
+        hist_sign=sign, hist_run=run, hist_dir=direction, hist_dir_run=drun,
         stoch_k=sk[i], stoch_d=sd[i], obv=ob[i],
         bb_lo=bl[i], bb_mid=bm[i], bb_up=bu[i],
         ema9=e9[i], ema50=e50[i], ema200=e200[i],
