@@ -57,6 +57,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Offline, no network, ~1s. Catches the arithmetic regressions before a
+      # run spends API calls proving the same thing.
+      - name: Self-test the extractor
+        run: python3 tools/test_structure.py
+
       # Optional and paid. Without FLOW_SOURCE/FLOW_API_KEY set, flow.py exits
       # 78 ("not configured") and the board simply ships without flow columns —
       # the UI hides them rather than printing a wall of dashes.
@@ -73,8 +78,16 @@ jobs:
           mkdir -p tools/reports
           python3 tools/flow.py --out tools/reports/flow.json \
             2> tools/reports/flow-errors.txt
-          echo "code=$?" >> "$GITHUB_OUTPUT"
+          CODE=$?
+          echo "code=$CODE" >> "$GITHUB_OUTPUT"
+          if [ "$CODE" = 78 ]; then
+            echo "No FLOW_SOURCE/FLOW_API_KEY configured — board ships without"
+            echo "flow columns. This is the expected path, not a failure."
+          fi
+          # Exit clean either way: an unconfigured optional feed must not render
+          # as a red ✗ next to a run that otherwise did its whole job.
           [ -s tools/reports/flow.json ] && echo "have=true" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Regenerate the structure board
         id: run
@@ -99,9 +112,14 @@ jobs:
           if [ -n "$(git status --porcelain board.js)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-          echo "rows=$(grep -c '"ticker"' board.js || echo 0)" >> "$GITHUB_OUTPUT"
+          # grep -c PRINTS "0" and EXITS 1 when nothing matches, so a
+          # `$(grep -c … || echo 0)` emits two lines and Actions rejects the
+          # second as "Invalid format '0'". Capture first, default after.
+          ROWS=$(grep -c '"ticker"' board.js || true)
+          echo "rows=${ROWS:-0}" >> "$GITHUB_OUTPUT"
           # Surface must-agree drift in the PR title area, not buried in a log.
-          echo "drift=$(grep -c '⚠' tools/reports/structure.txt || echo 0)" >> "$GITHUB_OUTPUT"
+          DRIFT=$(grep -c '⚠' tools/reports/structure.txt || true)
+          echo "drift=${DRIFT:-0}" >> "$GITHUB_OUTPUT"
           # Stash both: the PR step checks another branch out over the worktree.
           cp board.js "$RUNNER_TEMP/board.js"
           cp tools/reports/structure.txt "$RUNNER_TEMP/structure.txt" 2>/dev/null || true
