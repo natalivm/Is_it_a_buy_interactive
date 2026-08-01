@@ -20,6 +20,14 @@
   --dn: var(--pink);
   --hi: var(--yellow);
   --mark: #FFFFFF;      /* neutral chart mark — was a hardcoded #fff */
+
+  /* Title tiers — see the full explanation where they're used, just above
+     the `h1{}` rule below. Declared here (not scoped to .stage) because a
+     custom property resolves cqw at the point it's READ via var(), not at
+     the point it's declared, so this is safe despite living outside .stage's
+     container-query context. */
+  --title-lg: clamp(30px, 9.6cqw, 48px);
+  --title-sm: clamp(19px, 5.5cqw, 24px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -186,12 +194,34 @@ h1 .p, h1 .k, h1 .y {
   .slide{justify-content:center;overflow:hidden;}
   .slide-inner{width:100%;padding:calc(env(safe-area-inset-top,0px) + 26px) 24px 86px;transform-origin:center center;display:flex;flex-direction:column;}
 
+  /* ── Type scale — FIXED, app-wide, no CONTENT-driven exceptions ───────────
+     Every size below is a named tier, used the same way on every deck. The
+     only thing allowed to change a slide's rendered size is fit() in
+     engine.js, which scales a whole slide down as a UNIT (title and body
+     shrink together, proportionally) when its content is taller than the
+     screen — never enlarged, so a short slide sits at the plain sizes below
+     rather than stretching to fill the page. If a slide needs fit() to
+     shrink it a lot, that's a signal the copy is too long, not something to
+     silence by special-casing a size back up.
+       --title-lg  hero title       h1 on chart/cover slides   clamp(30px, 9.6cqw, 48px)
+       --title-sm  section title    h1 on text-focus slides, and
+                                     .verdict .vh (was a boxed badge,
+                                     now the slide's own headline)    clamp(19px, 5.5cqw, 24px)
+       eyebrow     small title      11px, unchanged everywhere
+       .sub        body, large      15.5px, unchanged everywhere
+       .indi p / .note / .verdict p  body, small     14px, unchanged everywhere
+     --title-sm exists as ONE variable (declared in the :root block above)
+     specifically so h1(text-focus) and .verdict .vh can never drift apart
+     again — both rules read the same custom property. .indi-top .t/.v are a
+     separate, smaller in-content label tier (heads one data block inside a
+     longer slide, not the slide itself) and keep their own fixed sizes
+     further down. */
   .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dn);
     display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
     padding:7px 12px;border-radius:8px;margin-bottom:18px;}
   .eyebrow.p{color:var(--up);} .eyebrow.y{color:var(--hi);}
 
-  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 9.6cqw, 48px);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
+  h1{font-family:var(--display);font-weight:700;font-size:var(--title-lg);line-height:1.03;letter-spacing:.005em;text-transform:uppercase;margin-bottom:16px;overflow-wrap:break-word;}
   /* Large titles run plain — the accent spans keep their markup but no colour.
      The .hl highlighter below is deliberately kept. */
   h1 .p, h1 .k, h1 .y{color:var(--ink);}
@@ -211,7 +241,7 @@ h1 .p, h1 .k, h1 .y {
   .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
   .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
   .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--hi);white-space:nowrap;}
-  .indi p{font-size:13px;line-height:1.5;color:var(--muted);}
+  .indi p{font-size:14px;line-height:1.5;color:var(--muted);}
   .indi p strong{color:var(--ink);} .indi p .k{color:var(--dn);font-weight:700;}
 
   .chart{width:100%;margin:6px 0 2px;}
@@ -257,16 +287,18 @@ h1 .p, h1 .k, h1 .y {
   .candle-wick.up{stroke:var(--up);}
   .anno{font-size:12.5px;} .anno .h{fill:var(--ink);font-weight:700;}
 
-  .verdict{margin-top:14px;border:1px solid color-mix(in srgb,var(--pink) 40%,var(--line));border-radius:14px;background:rgba(251,93,116,.07);padding:13px 15px;}
-  .verdict.p{border-color:color-mix(in srgb,var(--purple) 40%,var(--line));background:rgba(52,211,153,.07);}
-  .verdict.y{border-color:color-mix(in srgb,var(--yellow) 40%,var(--line));background:rgba(245,165,36,.07);}
-  .verdict .vh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--dn);display:flex;align-items:center;gap:7px;}
+  /* .verdict is unboxed — no card, no border, no background. Its .vh IS the
+     slide's title on a data-noclick slide (see h1(text-focus) sizing below,
+     which shares --title-sm with .vh so the two can never mismatch): the
+     colour variant (.p/.y/.k) is carried entirely by .vh's text colour now,
+     nothing left to tint a background with. */
+  .verdict{margin-top:18px;}
+  .verdict .vh{font-family:var(--display);font-weight:700;font-size:var(--title-sm);line-height:1.15;letter-spacing:.005em;text-transform:uppercase;margin-bottom:10px;color:var(--dn);display:flex;align-items:center;gap:7px;}
   .verdict.p .vh{color:var(--up);}
   .verdict.y .vh{color:var(--hi);}
   /* .k is the explicit pink variant (same as the default) for decks whose default is overridden */
-  .verdict.k{border-color:color-mix(in srgb,var(--pink) 42%,var(--line));background:rgba(251,93,116,.07);}
   .verdict.k .vh{color:var(--dn);}
-  .verdict p{font-size:13px;line-height:1.55;color:var(--sub);}
+  .verdict p{font-size:14px;line-height:1.55;color:var(--sub);}
   .verdict p strong{color:var(--ink);font-weight:700;}
   .verdict p .k{color:var(--dn);font-weight:700;} .verdict p .p{color:var(--up);font-weight:700;}
 
@@ -325,41 +357,28 @@ h1 .p, h1 .k, h1 .y {
 
   /* ── Text-focus slides ──────────────────────────────────────────────────
      The daily-read slide (data-noclick) and the closing plan slide are
-     text-only, so their copy renders ~3× the body size and uses the WHOLE
-     page: the column is top-aligned (not a centred band with dead space
-     above and below) and the copy block grows into the leftover height, so
-     big type survives instead of being shrunk by the engine's fit(). Sizes
-     are cqw-based — the stage is a fixed 9:16 box, so inline size tracks the
-     page — and fit() still rescues anything that genuinely overflows.
-     NOTE: never give .slide-inner flex:1 here — it would pin the box to the
-     slide height, fit() would measure need == avail, and long copy would be
-     silently clipped by .slide{overflow:hidden}. The inner must stay
-     auto-height so fit() sees the truth; min-height on the copy box is what
-     fills the page. */
+     text-only, so they use the WHOLE page: the column is top-aligned (not a
+     centred band with dead space above and below) instead of vertically
+     centred like a chart slide. Their title runs at --title-sm, not
+     --title-lg — a full hero title has no chart beside it to balance here
+     and would dwarf the body copy, so it's sized to MATCH .verdict .vh
+     (same variable, both declared with the type scale up top): whichever of
+     the two appears on a given slide reads as that slide's headline at one
+     consistent size. Body copy is the same fixed sizes as every other slide.
+     fit() in engine.js still shrinks the whole slide as a unit if this much
+     copy doesn't fit the screen — it only ever shrinks, never enlarges, so a
+     short slide here stays at these plain base sizes rather than stretching
+     to fill the page. */
   .slide[data-noclick], .slide[data-text], .slide:last-child{justify-content:flex-start;}
-  .slide[data-noclick] h1, .slide[data-text] h1, .slide:last-child h1{font-size:clamp(24px, 7cqw, 36px);margin-bottom:12px;}
+  .slide[data-noclick] h1, .slide[data-text] h1, .slide:last-child h1{font-size:var(--title-sm);margin-bottom:12px;}
   .slide[data-noclick] .eyebrow, .slide[data-text] .eyebrow, .slide:last-child .eyebrow{margin-bottom:12px;}
-  .slide[data-noclick] .verdict, .slide[data-noclick] .indi{
-    min-height:88cqw;display:flex;flex-direction:column;justify-content:center;padding:20px 22px;}
-  .slide[data-noclick] .verdict p + p{margin-top:.7em;}
 
-  .slide[data-noclick] .verdict p, .slide[data-noclick] .indi p, .slide[data-noclick] .note,
-  .slide:last-child .note, .slide:last-child .sub{
-    font-size:clamp(23px, 6.2cqw, 32px);line-height:1.34;max-width:none;}
-  .slide[data-noclick] .verdict .vh, .slide[data-noclick] .indi-top .t{
-    font-size:clamp(16px, 4.3cqw, 22px);line-height:1.25;}
-  .slide[data-noclick] .indi-top .v{font-size:clamp(15px, 3.8cqw, 20px);white-space:normal;}
-  .slide:last-child .tg{font-size:clamp(16px, 4.2cqw, 21px);}
+  .slide[data-noclick] .note, .slide:last-child .note, .slide:last-child .sub{max-width:none;}
 
-  /* data-text: chartless prose slides (long copy, taps kept). The copy uses
-     the FULL width — no 40ch cap — and larger type; sizes stay moderate
-     because these slides carry long paragraphs, and fit() still rescales
-     anything that genuinely overflows. */
-  .slide[data-text] .sub{font-size:clamp(19px, 5.6cqw, 28px);line-height:1.42;max-width:none;}
-  .slide[data-text] .indi p{font-size:clamp(16px, 4.9cqw, 24px);line-height:1.42;}
-  .slide[data-text] .indi-top .t{font-size:clamp(17px, 5cqw, 24px);line-height:1.3;}
-  .slide[data-text] .indi-top .v{font-size:clamp(14px, 4cqw, 20px);white-space:normal;}
-  .slide[data-text] .note{font-size:clamp(16px, 4.6cqw, 22px);}
+  /* data-text: chartless prose slides (long copy, taps kept). Same fixed
+     type scale as everywhere else — only the column uses the FULL width
+     (no 40ch cap) since there's no chart beside it. */
+  .slide[data-text] .sub{max-width:none;}
 
   /* ── Levels slides ──────────────────────────────────────────────────────
      Same principle for the ladder: top-align the column and let the ladder
@@ -416,12 +435,6 @@ h1 .p, h1 .k, h1 .y {
 /* Card shadows are tuned for a dark stage; on white they read as smudges. */
 [data-theme="light"] .ladder,
 [data-theme="light"] .tpl { box-shadow: 0 1px 2px rgba(16,12,24,.05), 0 8px 22px rgba(16,12,24,.07); }
-/* Verdict tints are hardcoded for the dark stage — restate them on the deck's
-   own hue so the box tints correctly on white whatever the palette is. */
-[data-theme="light"] .verdict,
-[data-theme="light"] .verdict.k { background: color-mix(in srgb, var(--pink) 8%, #fff); }
-[data-theme="light"] .verdict.p { background: color-mix(in srgb, var(--purple) 8%, #fff); }
-[data-theme="light"] .verdict.y { background: color-mix(in srgb, var(--yellow) 10%, #fff); }
 /* The 64px grid wash reads heavier on white than on the dark stage. */
 [data-theme="light"] .stage::before { opacity: .5; }
 

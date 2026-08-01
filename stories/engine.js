@@ -16,7 +16,12 @@
      total:   selector showing the slide count       [default '#tot']
      label:   selector updated from each slide's data-label [default '#foot-tag']
      hint:    selector of a first-slide hint to hide after advancing (optional)
-     fit:     scale each slide's .slide-inner to fit its height? (default true)
+     fit:     scale each slide's .slide-inner to fit its height? (default true —
+              every slide starts from the SAME fixed type scale in story.css;
+              fit() only ever shrinks a slide as a unit when its content is
+              taller than the screen, and never enlarges one that has room to
+              spare, so a short slide stays at the plain base size instead of
+              stretching to fill the page)
      onShow:  callback(idx, total, slide) after each transition (optional)
    Returns { show, next, prev }.
 
