@@ -75,6 +75,23 @@ SWING_N = 2
 # A displacement leg has to move at least this many ATRs to count as one — it is
 # what separates "price drifted up" from "price left the zone".
 DISPLACE_ATR = 1.0
+# …measured over a WINDOW, not one candle. Requiring a single body of >= 1 ATR
+# is impossible on a high-ATR name (LITE's ATR is 10.6% of price — no one candle
+# does that), so those tickers produced almost no zones. A displacement is a
+# leg, and legs run a few bars.
+DISPLACE_BARS = 3
+# Pivots closer together than this are noise, not structure. Without the filter
+# classify_structure compares the last two MICRO-pivots out of ten years of
+# bars — days apart, meaningless — and returns neutral for a name in an obvious
+# trend (LITE scored W+0 D+0 while in a clear downtrend).
+SWING_MIN_ATR = 0.75
+# Structure is a read on the CURRENT regime, so only swings inside this window
+# count. Without it the classifier compared two pivots from an earlier era and
+# called a name in free-fall "neutral". Per frame, in that frame's own bars.
+STRUCT_LOOKBACK = {'d': 120, 'w': 52, 'h4': 120}
+# When structure falls back to comparing window halves, how far the extremes
+# have to shift before it counts as a trend rather than noise.
+HALVES_MIN_ATR = 1.0
 # How close to a zone counts as a revisit (fraction of the zone's own height).
 REVISIT_PAD = 0.15
 # Zones are reported only if they sit within this fraction of price; a level 60%
@@ -115,21 +132,89 @@ def swings(high: list[float], low: list[float], n: int = SWING_N) -> list[Swing]
     return out
 
 
-def classify_structure(sw: list[Swing]) -> str:
-    """bullish = higher high AND higher low; bearish = lower high AND lower low;
-    anything mixed is neutral. Two bars of micro-sequence are not a trend, which
-    is handled by only ever looking at CONFIRMED swings."""
-    highs = [s.price for s in sw if s.kind == 'high'][-2:]
-    lows = [s.price for s in sw if s.kind == 'low'][-2:]
-    if len(highs) < 2 or len(lows) < 2:
+def significant_swings(sw: list[Swing], atr_series) -> list[Swing]:
+    """Collapse micro-pivots into an alternating high/low zigzag, keeping only
+    legs worth at least SWING_MIN_ATR. Consecutive pivots of the same kind
+    collapse to the more extreme one, so the result alternates."""
+    out: list[Swing] = []
+    for s in sorted(sw, key=lambda x: x.i):
+        if not out:
+            out.append(s)
+            continue
+        last = out[-1]
+        if s.kind == last.kind:
+            if (s.kind == 'high' and s.price > last.price) or \
+               (s.kind == 'low' and s.price < last.price):
+                out[-1] = s
+            continue
+        a = atr_series[s.i] if s.i < len(atr_series) else None
+        if a and abs(s.price - last.price) < SWING_MIN_ATR * a:
+            continue                                  # leg too small to count
+        out.append(s)
+    return out
+
+
+def _halves(win: list[dict]) -> str:
+    """The same higher-high/higher-low test, measured on the two halves of the
+    window instead of on pivots.
+
+    A steadily trending market makes NO confirmed pivots: in a clean decline
+    every bar's low is under the last, so no bar has two higher lows on both
+    sides and the pivot test has nothing to compare. That is the strongest
+    possible trend, and pivots alone score it neutral. The definition still
+    holds — it just has to be measured against the window's own extremes."""
+    if len(win) < 10:
         return 'neutral'
-    hh, hl = highs[-1] > highs[-2], lows[-1] > lows[-2]
-    lh, ll = highs[-1] < highs[-2], lows[-1] < lows[-2]
-    if hh and hl:
+    mid = len(win) // 2
+    old, new = win[:mid], win[mid:]
+    oh, nh = max(b["h"] for b in old), max(b["h"] for b in new)
+    ol, nl = min(b["l"] for b in old), min(b["l"] for b in new)
+    # The shift has to be worth something. Comparing two halves of a FLAT range
+    # is comparing noise: whichever half happened to print the higher extreme
+    # wins, and a directionless market gets scored as a trend. Demand a move of
+    # at least HALVES_MIN_ATR before calling either side.
+    a = ind.atr([b["h"] for b in win], [b["l"] for b in win],
+                [b["c"] for b in win])[-1]
+    thr = HALVES_MIN_ATR * a if a else 0.0
+    if nh - oh > thr and nl - ol > thr:
         return 'bullish'
-    if lh and ll:
+    if oh - nh > thr and ol - nl > thr:
         return 'bearish'
     return 'neutral'
+
+
+def classify_structure(sw: list[Swing], bars: list[dict] | None = None,
+                       lookback: int | None = None) -> str:
+    """bullish = higher high AND higher low; bearish = lower high AND lower low;
+    anything mixed is neutral. Only CONFIRMED, significant swings inside the
+    lookback window count — a pivot from a previous regime says nothing about
+    this one. With too few pivots in the window, the same test falls back to
+    the window's halves (see _halves)."""
+    if bars and lookback:
+        cutoff = len(bars) - lookback
+        sw = [s for s in sw if s.i >= cutoff]
+    highs = [s.price for s in sw if s.kind == 'high'][-2:]
+    lows = [s.price for s in sw if s.kind == 'low'][-2:]
+
+    if len(highs) < 2 or len(lows) < 2:
+        return _halves(bars[-lookback:]) if bars and lookback else 'neutral'
+
+    hh, hl = highs[-1] > highs[-2], lows[-1] > lows[-2]
+    lh, ll = highs[-1] < highs[-2], lows[-1] < lows[-2]
+    pivot = 'bullish' if (hh and hl) else 'bearish' if (lh and ll) else 'neutral'
+    if not (bars and lookback):
+        return pivot                     # plain swing-list form: pivots only
+
+    # Two independent reads, and they have to agree.
+    #
+    # The last two swings alone are a coin flip in a directionless range: noise
+    # regularly prints a marginally higher high and higher low, and the pivot
+    # test dutifully calls that an uptrend. The window's halves are steady but
+    # blind to a fresh turn. Requiring both to say the same thing is exactly the
+    # methodology's own rule — conflicting structure is neutral — and it is what
+    # stops a flat range from being scored as a trend.
+    halves = _halves(bars[-lookback:])
+    return pivot if pivot == halves else 'neutral'
 
 
 STRUCT_SCORE = {'bullish': 1, 'bearish': -1, 'neutral': 0}
@@ -174,22 +259,33 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
     """Zones are formed by DISPLACEMENT that breaks structure, per the rule set:
     an up-move breaking a prior swing high leaves demand behind it; a down-move
     breaking a prior swing low leaves supply above it."""
-    sw = swings([b["h"] for b in bars], [b["l"] for b in bars])
+    raw = swings([b["h"] for b in bars], [b["l"] for b in bars])
+    sw = significant_swings(raw, atr_series)
     highs = [s for s in sw if s.kind == 'high']
     lows = [s for s in sw if s.kind == 'low']
     out: list[Zone] = []
 
-    for i in range(1, len(bars)):
+    i = 1
+    while i < len(bars):
         a = atr_series[i] if i < len(atr_series) else None
         if not a:
+            i += 1
             continue
         b = bars[i]
-        leg = b["c"] - b["o"]
+        # The leg runs over the next few bars, measured from this bar's open to
+        # the furthest CLOSE in the window — a wick alone is not displacement.
+        win = bars[i:i + DISPLACE_BARS]
+        up_to = max(x["c"] for x in win)
+        dn_to = min(x["c"] for x in win)
+        up_leg, dn_leg = up_to - b["o"], b["o"] - dn_to
+        leg = up_leg if up_leg >= dn_leg else -dn_leg
         if abs(leg) < DISPLACE_ATR * a:
+            i += 1
             continue                                   # not a displacement
         if leg > 0:
             prior = [s for s in highs if s.i < i]
-            if not prior or b["c"] <= prior[-1].price:
+            if not prior or up_to <= prior[-1].price:
+                i += 1
                 continue                               # broke no swing high
             lo_i, hi_i = _base_span(bars, i - 1, 'demand')
             base = bars[lo_i:hi_i + 1] or [bars[i - 1]]
@@ -199,7 +295,8 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
                             i=hi_i, date=bars[hi_i]["date"], atr_at=a))
         else:
             prior = [s for s in lows if s.i < i]
-            if not prior or b["c"] >= prior[-1].price:
+            if not prior or dn_to >= prior[-1].price:
+                i += 1
                 continue                               # broke no swing low
             lo_i, hi_i = _base_span(bars, i - 1, 'supply')
             base = bars[lo_i:hi_i + 1] or [bars[i - 1]]
@@ -207,6 +304,8 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
                             lo=min(min(x["o"], x["c"]) for x in base),  # body
                             hi=max(x["h"] for x in base),               # wick
                             i=hi_i, date=bars[hi_i]["date"], atr_at=a))
+        # Skip past the leg so one displacement leaves one zone, not three.
+        i += DISPLACE_BARS
 
     # A base wider than the cap is a range, not a zone — drop it rather than
     # quoting a level nobody can trade against.
@@ -276,12 +375,15 @@ def _restrength(z: Zone) -> None:
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
     """The n nearest zones of a kind on the correct side of price: demand below,
     supply above. A 'demand' zone above price is resistance, not demand."""
+    # A zone price is sitting INSIDE is the nearest one, at distance zero — the
+    # old bounds (hi <= price, lo >= price) excluded exactly that zone, so the
+    # demand list disagreed with the position line beside it.
     if kind == 'demand':
-        cand = [z for z in zones if z.kind == 'demand' and z.hi <= price * 1.01]
-        cand.sort(key=lambda z: price - z.hi)
+        cand = [z for z in zones if z.kind == 'demand' and z.lo <= price]
+        cand.sort(key=lambda z: max(0.0, price - z.hi))
     else:
-        cand = [z for z in zones if z.kind == 'supply' and z.lo >= price * 0.99]
-        cand.sort(key=lambda z: z.lo - price)
+        cand = [z for z in zones if z.kind == 'supply' and z.hi >= price]
+        cand.sort(key=lambda z: max(0.0, z.lo - price))
     return [z for z in cand if abs(z.mid - price) / price <= MAX_ZONE_DIST][:n]
 
 
@@ -406,16 +508,24 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     rsi_d = ind.rsi(close)[-1]
     _, _, hist_d = ind.macd(close)
 
-    d_struct = classify_structure(swings(high, low))
-    w_struct = classify_structure(swings([b["h"] for b in weekly],
-                                         [b["l"] for b in weekly]))
+    d_struct = classify_structure(
+        significant_swings(swings(high, low), atr_series),
+        daily, STRUCT_LOOKBACK['d'])
+    w_atr = ind.atr([b["h"] for b in weekly], [b["l"] for b in weekly],
+                    [b["c"] for b in weekly])
+    w_struct = classify_structure(significant_swings(
+        swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr),
+        weekly, STRUCT_LOOKBACK['w'])
 
     h4_struct, h4_note = 'neutral', 'no intraday data'
     if want_intraday:
         try:
             h4 = resample_4h(fetch_yahoo_intraday(ticker))
-            h4_struct = classify_structure(swings([b["h"] for b in h4],
-                                                  [b["l"] for b in h4]))
+            h4_atr = ind.atr([b["h"] for b in h4], [b["l"] for b in h4],
+                             [b["c"] for b in h4])
+            h4_struct = classify_structure(significant_swings(
+                swings([b["h"] for b in h4], [b["l"] for b in h4]), h4_atr),
+                h4, STRUCT_LOOKBACK['h4'])
             h4_note = f"{len(h4)} 4H bars"
         except Exception as e:                       # noqa: BLE001 — reported
             h4_note = f"unavailable ({e})"
@@ -689,7 +799,10 @@ def main() -> int:
                     help="diff the fresh numbers against the board being replaced")
     args = ap.parse_args()
 
-    want = [t.upper() for t in args.tickers] or board_tickers()
+    # "AKAM, LITE" is a natural thing to type into a workflow input, and the
+    # shell splits it on whitespace alone — leaving the ticker "AKAM," to 404.
+    want = [t for t in re.split(r"[,\s]+", " ".join(args.tickers).upper()) if t] \
+        or board_tickers()
     previous = load_existing() if args.compare else {}
 
     flows = {}
