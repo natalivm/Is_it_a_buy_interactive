@@ -335,15 +335,27 @@ def audit_fields(stock: dict) -> list[str]:
         return out
 
     # The deck's own "you are here" rung is hand-written, so it goes stale the
-    # moment the card is refreshed without reopening the slideshow.
+    # moment the card is refreshed without reopening the slideshow. It quotes the
+    # REGULAR-SESSION CLOSE — the first number in `price`, not the 🌙 after-hours
+    # print that may follow it.
     card_px = (nums(stock.get("price")) or [None])[0]
-    m = re.search(r'\["now",\s*"([^"]+)"', story.read_text(encoding="utf-8"))
+    m = re.search(r'\["now",\s*"([^"]+)",\s*"([^"]*)"', story.read_text(encoding="utf-8"))
     if m and card_px:
         deck_px = (nums(m.group(1)) or [None])[0]
         if deck_px and abs(deck_px - card_px) / card_px * 100 > 1.0:
-            out.append(f"{sym}: deck ladder still says ТУТ {deck_px:g} while the card "
-                       f"says {card_px:g} ({(deck_px - card_px) / card_px * 100:+.1f}%) "
+            out.append(f"{sym}: deck ladder still says ТУТ {deck_px:g} while the card's "
+                       f"close is {card_px:g} ({(deck_px - card_px) / card_px * 100:+.1f}%) "
                        f"— {stock.get('story')} needs the same refresh")
+        # An intraday clock in the label means the rung was cut mid-session and
+        # never re-cut to the close, so its % and its indicator readings are a
+        # snapshot of a moment that has passed — stale even if the price happens
+        # to line up. Same for a pre-market or after-hours read.
+        label = m.group(2)
+        when = re.search(r"\d{1,2}:\d{2}\s*ET", label) or re.search(r"\bPM\b|\bAH\b", label)
+        if when:
+            out.append(f"{sym}: deck ladder's ТУТ rung reads '{when.group(0)}' — the rung "
+                       f"quotes the regular-session CLOSE, not an intraday, pre-market or "
+                       f"after-hours print. Re-cut it (and its indicator readings) to the close.")
     return out
 
 

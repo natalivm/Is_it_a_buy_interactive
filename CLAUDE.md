@@ -49,10 +49,16 @@ Decks share almost everything through `story.css`/`engine.js`; keep them lean:
   `<div class="ladder rv" data-rungs='[["res","$390","label"], …]'></div>`
   with entries `[kind res|sup|now|key, price, label]`, hydrated by
   `engine.js`. To change a level, edit the JSON — never hand-write rung divs.
-  ⚠️ The `now` rung is the deck's copy of the current price and is the thing
-  most likely to go stale: refreshing a card in `data.js` without reopening its
-  deck leaves the ladder quoting an older session. `refresh.py --audit-only`
-  compares the two and flags any deck more than 1% out.
+  ⚠️ **The `now` rung quotes the REGULAR-SESSION CLOSE** — the same number as
+  the first half of the card's `price`, never the `🌙` after-hours print and
+  never an intraday quote. It is the thing most likely to go stale: refreshing
+  a card in `data.js` without re-cutting its deck leaves the ladder on an older
+  reading, and a rung whose label carries a clock (`+13.81% (2:36 ET)`) is a
+  mid-session snapshot whose percentage AND indicator readings (OBV, Stoch,
+  distance to the next level) all belong to a moment that has passed — stale
+  even when the price happens to line up. Re-cut the whole rung to the close,
+  not just its price. `refresh.py --audit-only` flags both: a rung more than 1%
+  off the card's close, and any rung label reading `… ET` / `PM` / `AH`.
 - **Navigation**: tap left/right zones, swipe, arrow keys, and mouse wheel all
   advance slides. The tap zones are TOUCH-ONLY (built when the primary pointer
   is coarse) — on desktop they'd steal clicks from text selection while
