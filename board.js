@@ -110,7 +110,7 @@ const BOARD = {
                   + 'trend has only just turned, so it joins on either a $482 '
                   + 'breakout-retest or a pullback with a 4H higher low.' },
             { label: 'Best trend-following shorts', side: 'short',
-              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD'] },
+              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD', 'GLW'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
               tickers: ['SMH', 'META', 'CIEN', 'MU'] },
             // NOW is the odd one here: every other member is still bearish on
@@ -118,7 +118,7 @@ const BOARD = {
             // and 4H have already turned up. It is countertrend all the same —
             // its monthly is a downtrend, not a correction inside an uptrend.
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -666,6 +666,56 @@ const BOARD = {
             bear: 'Reject **$74–80** and lose $69–70 → **$65–60**; close below $60 and fail reclaim → **$49–52**',
             longCandidate: 'Long only after **$60–65** holds and **$74–80** is reclaimed.',
             retest: 'Breakdown below $60 may retest **$60–65** from underneath; reclaim above $80 may retest **$74–80** as support',
+        },
+        {
+            // ⚠ THIS ROW DISAGREES WITH GLW'S CARD, WHICH IS SIDE: LONG — the
+            // second such split after MU, and the sharper one, because here the
+            // board does not merely prefer the other side: it removes the
+            // card's stop. The card risks $145.50 → $137, but the nearest
+            // demand on this read is $122–126, so $137 sits in a gap with
+            // nothing named under it. At ATR $14.69 that stop is 0.58 ATR wide
+            // — noise on a name whose ATR is 10.62% of price — and a stop below
+            // real demand turns the card's ~3:1 into ~1.1:1. Neither side is
+            // corrected to match; the disagreement is the information.
+            //
+            // Monthly is NEUTRAL on the MRVL precedent, and the words are
+            // almost identical: "long-term uptrend intact, but the parabolic
+            // phase has broken; major correction and transition". MU got
+            // bullish because its read said it "remains in a powerful monthly
+            // uptrend" — correcting, not transitioning. This one transitions.
+            //
+            // ATR pair implies $138.32 against the card's $138.25 close —
+            // 0.053%, inside the board's 0.08% band. The two reads are looking
+            // at the same session and still reach opposite conclusions.
+            ticker: 'GLW', seeded: true, date: '2026-08-02',
+            price: 138.32, atr: 14.69, atrPct: 10.62,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term uptrend intact, but the parabolic phase has broken — major correction and transition',
+                          w: 'confirmed downtrend with lower highs and lower lows; momentum still weak',
+                          d: 'downtrend — the sharp rebound off the low is testing resistance, not confirming a reversal',
+                          h4: 'bearish — the rebound from $114.50 has formed a potential lower high at $143–150 and stays below the falling averages' },
+            preferred: '**Short preferred** with the weekly, daily and 4H trends; long only after a confirmed countertrend reversal.',
+            score: null, parts: null,
+            bias: '**Short-first, but not into demand.** The monthly uptrend is intact while its parabolic phase breaks, and weekly, daily and 4H are all lower highs and lower lows. The trade is the rebound failing at **$143–150** — do not chase a breakdown straight into $122–126 demand. ⚠ ATR is **10.62% of price**, second-widest on the board, so size down and give levels room: a stop inside one ATR of entry is noise here, not risk control.',
+            h4: 'Bearish. The rebound from **$114.50** has run into immediate resistance and is shaping a potential lower high at **$143–150**, still under the major falling averages.',
+            demand: [
+                { lo: 122, hi: 126, strength: 'tested', note: 'immediate' },
+                { lo: 114, hi: 120, strength: 'tested', note: 'stronger — the $114.50 rebound low' },
+                { lo: 100, hi: 105, strength: 'fresh', note: 'major lower demand' },
+            ],
+            supply: [
+                { lo: 143, hi: 150, strength: 'tested', note: 'immediate — where the rebound stalled' },
+                { lo: 156, hi: 165, strength: 'tested', note: 'secondary' },
+                { lo: 178, hi: 192, strength: 'tested', note: 'major — the weekly trend stays damaged below it' },
+            ],
+            position: 'In the gap between **$143–150** supply and **$122–126** demand — closer to supply, with no named demand for 9% beneath price',
+            bull: 'Reclaim **$145–150** → **$156–165**, then **$178**',
+            longSetup: 'Hold **$122–126** or **$114–120**, form a 4H higher low and reclaim **$145–150** → **$156–165**, then **$178**. A stronger daily reversal needs acceptance above **$160–165**.',
+            longCandidate: 'Countertrend only, and it needs all three: demand holding, a 4H higher low, and acceptance back above **$145–150**. The weekly stays damaged below **$178–192**.',
+            bear: 'Reject **$143–150** or **$156–165** → **$126–122**, then **$120–114**',
+            shortSetup: 'The cleaner short is a rejection from **$143–150**, or a stronger bounce into **$156–165** → $126–122, then $120–114. A daily close below **$114** with a failed reclaim opens **$105–100**. Do not chase a breakdown directly into $122–126.',
+            retest: 'The current rebound is retesting **$143–150**; a rejection can revisit **$126–122**. A breakdown below $114 may retest **$114–120** from underneath',
         },
         {
             ticker: 'LITE', seeded: true, date: '2026-08-01',
