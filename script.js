@@ -475,16 +475,6 @@ function md(text) {
 
 const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
 
-// Which direction groups a ticker belongs to. Derived from BOARD.direction —
-// the group lists are the single source of truth, so a row can never drift out
-// of step with the block rendered under the table. A ticker in two groups is
-// normal: a correction inside a larger uptrend is also a countertrend bounce
-// candidate, and both statements are true of the same chart.
-function directionOf(ticker) {
-    const groups = (BOARD_DATA && BOARD_DATA.direction && BOARD_DATA.direction.groups) || [];
-    return groups.filter(g => (g.tickers || []).includes(ticker));
-}
-
 // Monthly first — the overall view — then the working frames and the timing
 // frame. M is context only and never enters the score, so it is dimmed to say
 // so rather than sitting flush with the terms that do count.
@@ -614,8 +604,6 @@ function boardRowHtml(row) {
             <div class="bt-id-bias">${md(row.bias)}</div>
             ${row.parts ? `<div class="bt-parts">${['W', 'D', 'H', 'R', 'M', 'O', 'Z']
                 .map(k => `${k}${row.parts[k] > 0 ? '+' : ''}${row.parts[k]}`).join(' ')}</div>` : ''}
-            ${directionOf(row.ticker).map(g =>
-                `<div class="bt-dir bt-dir-${esc(g.side)}">${esc(g.label)}</div>`).join('')}
         </div>`;
 
     return `
