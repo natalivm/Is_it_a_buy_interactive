@@ -118,7 +118,7 @@ const BOARD = {
             // and 4H have already turned up. It is countertrend all the same —
             // its monthly is a downtrend, not a correction inside an uptrend.
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW', 'ADBE'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -402,6 +402,58 @@ const BOARD = {
             bear: 'Reject **$116–118** → **$108–106**, then **$105–103**',
             shortSetup: 'Rejection from **$116–118** with a 4H lower high → $108–106, then $105–103. The higher-quality swing short is a rejection of the falling 200-day at **$123–126**. A breakdown short needs a daily close below **$103–104** and a failed reclaim → **$99–101**, then **$94–96**.',
             retest: 'The likeliest upside retest is **$112–114**, then **$116–118** if buyers keep control; on a pullback **$106–108** is tested first, and **$103–105** is the critical trend test',
+        },
+        {
+            // The board's SECOND inverted row — monthly and weekly down, daily
+            // and 4H up — and the pair with NOW is the clearest argument for
+            // why order_key sorts on the row's own verdict instead of
+            // recomputing its frames. ADBE and NOW carry the IDENTICAL frame
+            // set (M▼ W▼ D▲ 4H▲) and the identical conviction (−0.5), yet the
+            // reads reach opposite conclusions: NOW's is "tactical long
+            // preferred", ADBE's is "short preferred from higher-timeframe
+            // supply, tactical longs allowed". So they land adjacent but on
+            // opposite sides of the block divider — NOW last among the longs,
+            // ADBE first among the shorts. Arithmetic alone could not tell
+            // them apart; the verdict can.
+            //
+            // GROUPS: countertrend-bounce only. Its short does NOT belong in
+            // "best trend-following shorts" — that group means weekly, daily
+            // and 4H aligned bearish, and ADBE's daily and 4H are up. Its
+            // short is a rejection into higher-timeframe supply, which no
+            // group covers, and one row does not justify inventing one.
+            //
+            // ATR pair implies $250.58 (12.98 / 5.18%). No ADBE card in
+            // data.js, so there is nothing to reconcile it against.
+            ticker: 'ADBE', seeded: true, date: '2026-08-02',
+            price: 250.58, atr: 12.98, atrPct: 5.18,
+            structure: { m: 'bearish', w: 'bearish', d: 'bullish', h4: 'bullish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'downtrend, deeply oversold', w: 'downtrend, basing $200–250',
+                          d: 'countertrend recovery', h4: 'uptrend, below $263–266' },
+            preferred: '**Short preferred**; tactical longs allowed',
+            score: null, parts: null,
+            bias: '**Short-first on the higher frames, but the daily and 4H have turned up.** The rebound off $200 is countertrend.',
+            h4: 'Short-term uptrend consolidating above the moving-average cluster, holding under **$263–266**.',
+            h4Effect: 'The tactical long lives here: while $239–243 holds, a 4H higher low targets $263–266. It is the frame that would break first — losing $239 hands the read back to the weekly downtrend.',
+            demand: [
+                { lo: 239, hi: 243, strength: 'tested', note: 'immediate' },
+                { lo: 225, hi: 231, strength: 'tested', note: 'stronger' },
+                { lo: 200, hi: 205, strength: 'tested', note: 'major — the area the rebound came from' },
+                { lo: 185, hi: 190, strength: 'fresh', note: 'lower demand' },
+            ],
+            supply: [
+                { lo: 263, hi: 266, strength: 'tested', note: 'immediate' },
+                { lo: 273, hi: 284, strength: 'tested', note: 'main — the falling 200-day at $274–278' },
+                { lo: 300, hi: 316, strength: 'tested', note: 'secondary' },
+                { lo: 340, hi: 350, strength: 'tested', note: 'major' },
+            ],
+            position: 'Between **$239–243** demand and **$263–266** supply, under the falling 200-day at $274–278',
+            bull: 'Break **$263–266** → **$273–284**, then **$300–316**',
+            longSetup: 'Hold **$239–243** and form a 4H higher low → **$263–266**. A daily close above **$266** with a successful retest opens **$273–284**, then **$300–316**.',
+            longCandidate: 'Countertrend only, and only while **$239–243** holds. Acceptance above **$284** would weaken the short case outright.',
+            bear: 'Reject **$263–274** → **$243–239**, then **$231–225**',
+            shortSetup: 'Rejection at **$263–274**, into the falling 200-day and recent supply → $243–239, then $231–225. A daily close below **$225** with a failed reclaim opens **$205–200**.',
+            retest: 'The likeliest pullback retest is **$239–243**; a breakout above $266 may retest **$250–263** as support',
         },
         {
             ticker: 'STX', seeded: true, date: '2026-08-01',
@@ -906,15 +958,35 @@ const BOARD = {
             retest: 'Breakout above $119 may retest **$115–119** as support',
         },
         {
-            ticker: 'INTC', seeded: true, date: '2026-08-01',
+            // 4H read from the chart, 31 Jul — the last row that had none, so
+            // the italic "read from charts" placeholder is now gone from the
+            // board entirely. (Crosshair checked: OHLC C:89.23 matches the
+            // price pill and every indicator label matches its pill, so unlike
+            // SMH this chart's labels are current and either source would do.)
+            //
+            // BEARISH, not neutral, and the EMA stack is what decides it. SMH
+            // and CIEN were graded neutral for the same bounce-then-fade shape
+            // because each had slipped under only its nearest average; INTC is
+            // below ALL THREE — 9-EMA $91.12, 50-EMA $94.40, 200-EMA $105.04 —
+            // plus VWAP $93.06. That is MU's and MRVL's wording exactly, and
+            // both are bearish. Stoch %K 68.93 has crossed DOWN through its
+            // %D 80.00 from overbought and OBV is at −445m, new lows.
+            //
+            // The one thing arguing the other way, recorded rather than
+            // buried: MACD −0.48 sits ABOVE its −1.35 signal, a positive 0.87
+            // histogram — but the bars are contracting and turning red, so it
+            // is a fading bullish cross beneath zero, not a turn.
+            ticker: 'INTC', seeded: true, date: '2026-08-02',
             price: 90.17, atr: 8.62, atrPct: 9.56,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
                          h4Note: 'read from charts' },
             // Per-frame trend, in the words it was read in. The enum above has
             // three values, so hedged wording maps to the conservative one and
             // the full phrasing is kept here.
             trendProse: { m: 'uptrend under correction', w: 'downtrend',
-                          d: 'downtrend', h4: 'not reviewed' },
+                          d: 'downtrend', h4: 'below all EMAs, rolling over' },
+            h4: 'Below all three EMAs (**$91.12 / $94.40 / $105.04**). The bounce is fading and OBV is at new lows.',
+            h4Effect: 'Keeps the short read intact. The rebound stalled under the 9-EMA $91.12 with Stoch crossing down from overbought; losing the $88.60 midline re-opens the $79.99 lower band.',
             preferred: '**Short preferred**',
             longSetup: 'Hold $80–84 and reclaim **$95** → $100–104',
             shortSetup: 'Reject $90–95 or lose **$80** → $75–70',
