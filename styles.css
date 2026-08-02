@@ -939,7 +939,7 @@ body.story-open { overflow: hidden; }
 .board-table .board tbody td { color: var(--txt); }
 /* Rows no longer open a deck — this board is a separate element from the
    cards, so it should not look clickable either. Hover stays as a reading aid
-   for tracking a row across eight columns; the pointer cursor is gone. */
+   for tracking a row across seven wide columns; the pointer cursor is gone. */
 .board-table .board tbody tr:hover {
     background: color-mix(in srgb, var(--txt) 7%, transparent);
 }
@@ -948,13 +948,17 @@ body.story-open { overflow: hidden; }
    "Current position" no longer has its own column: it says where price is now,
    and "likely retest" says where it is likely to go back to — one thought, so
    they share a cell. */
-.board-table .board th:nth-child(1) { width: 14%; }
-.board-table .board th:nth-child(2) { width: 22%; }
-.board-table .board th:nth-child(3) { width: 11%; }
-.board-table .board th:nth-child(4) { width: 11%; }
-.board-table .board th:nth-child(5) { width: 15%; }
-.board-table .board th:nth-child(6) { width: 15%; }
-.board-table .board th:nth-child(7) { width: 12%; }
+/* THEAD only: the direction bands in the body are a single th[colspan=7],
+   and an unscoped `th:nth-child(1)` matched those too — handing a
+   full-width cell a 14% width declaration. Harmless while colspan wins,
+   but it is a trap for the next layout change. */
+.board-table .board thead th:nth-child(1) { width: 14%; }
+.board-table .board thead th:nth-child(2) { width: 22%; }
+.board-table .board thead th:nth-child(3) { width: 11%; }
+.board-table .board thead th:nth-child(4) { width: 11%; }
+.board-table .board thead th:nth-child(5) { width: 15%; }
+.board-table .board thead th:nth-child(6) { width: 15%; }
+.board-table .board thead th:nth-child(7) { width: 12%; }
 
 /* ── Identity cell ─────────────────────────────────────────────────────────
    Ticker, price, ATR, score, bias, preferred direction and group badges in one
@@ -977,6 +981,26 @@ body.story-open { overflow: hidden; }
 .board-table .board td.bt-lean-long { --lean: var(--green); }
 .board-table .board td.bt-lean-short { --lean: var(--pink); }
 .board-table .board td.bt-lean-flat { --lean: var(--mut); }
+
+/* ── Direction bands ───────────────────────────────────────────────────────
+   The board runs best-longs-first to best-shorts-last, which is only useful if
+   you can see where one block ends. A full-width band per direction, in that
+   block's own colour. Quiet by design — it is a divider, not a heading that
+   competes with the rows. */
+.board-table .board tr.bt-band > th {
+    --lean: var(--mut);
+    padding: 13px 11px 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--lean) 45%, transparent);
+    background: color-mix(in srgb, var(--lean) 11%, transparent);
+    font-family: var(--disp); font-weight: 700; font-size: 12px;
+    letter-spacing: 0.11em; text-transform: uppercase;
+    color: var(--lean); text-align: left;
+}
+/* The first band butts straight against the column header, which already
+   separates it, so it drops the extra top padding the later ones need. */
+.board-table .board tr.bt-band:first-child > th { padding-top: 7px; }
+.board-table .board tr.bt-band-long > th { --lean: var(--green); }
+.board-table .board tr.bt-band-short > th { --lean: var(--pink); }
 .bt-id-top {
     display: flex; align-items: baseline; justify-content: space-between;
     gap: 8px; flex-wrap: wrap;
@@ -985,13 +1009,13 @@ body.story-open { overflow: hidden; }
     font-family: var(--disp); font-weight: 700; font-size: 19px;
     letter-spacing: 0.03em; color: var(--lean);
 }
-.bt-id-px { font-family: var(--mono); font-size: 14px; }
+/* Bold: the price is the number you scan the column for. */
+.bt-id-px { font-family: var(--mono); font-size: 14px; font-weight: 700; }
 .bt-id-atr {
     margin-top: 3px; font-family: var(--mono); font-size: 12px; color: var(--mut);
 }
 .bt-id-bias { margin-top: 4px; }
 .bt-id .bt-pref { margin-top: 5px; font-weight: 600; color: var(--lean); }
-.bt-id .bt-parts { display: block; margin-top: 4px; }
 
 /* The per-frame reads, tucked under the 4H narrative they qualify. Set larger
    and heavier than the prose above them: these four lines are the frame

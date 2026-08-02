@@ -475,6 +475,37 @@ function md(text) {
 
 const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
 
+// Which way a row leans — its own verdict, read from the preferred direction
+// where there is one, else the computed score, else the bias prose.
+//
+// ONE definition, used twice: it tints the identity cell green/pink, and
+// tools/structure.py ports it verbatim as the board's primary sort key. The
+// board is emitted best-longs-first, so if these two ever disagree a green row
+// appears inside the short block. The CI order guard re-derives the emitted
+// order from THIS function and fails on a mismatch, so the port cannot drift
+// away unnoticed.
+function boardLean(row) {
+    const t = `${row.preferred || ''} ${row.bias || ''}`.toLowerCase();
+    if (row.preferred) {
+        if (/short/.test(t) && !/long preferred/.test(t)) return 'short';
+        if (/long/.test(t)) return 'long';
+    }
+    if (typeof row.score === 'number' && row.score) return row.score > 0 ? 'long' : 'short';
+    if (/bear/.test(t)) return 'short';
+    if (/bull/.test(t)) return 'long';
+    return 'flat';
+}
+
+// The band that introduces each direction block. The rows arrive already
+// grouped (file order is the order), so this only has to notice the boundary —
+// it never reorders anything, and a board that somehow arrives ungrouped gets
+// repeated headers rather than a silently wrong one.
+const LEAN_BAND = {
+    long: 'Long setups — strongest first',
+    flat: 'No clear edge',
+    short: 'Short setups — strongest last',
+};
+
 // Monthly first — the overall view — then the working frames and the timing
 // frame. M is context only and never enters the score, so it is dimmed to say
 // so rather than sitting flush with the terms that do count.
@@ -517,34 +548,35 @@ function zoneCell(list) {
     }).join('<br>');
 }
 
+// Trailing zeros stripped — right for a ZONE, where "$60–65" beats
+// "$60.00–65.00" and the bounds are approximate anyway.
 function fmtNum(n) {
     if (typeof n !== 'number') return esc(n);
     return n >= 1000 ? n.toLocaleString('en-US', { maximumFractionDigits: 2 })
         : String(Number(n.toFixed(2)));
 }
 
-// The bias score, with its own terms beside it. A seeded row has no score, and
-// that renders as "—" rather than 0 — an unscored row must not read as neutral.
-function scoreCell(row) {
-    if (row.score == null) {
-        return '<span class="bt-unscored">— not scored</span>';
-    }
-    const p = row.parts || {};
-    const terms = ['W', 'D', 'H', 'R', 'M', 'O', 'Z']
-        .map(k => `${k}${p[k] > 0 ? '+' : ''}${p[k] == null ? '?' : p[k]}`)
-        .join(' ');
-    const s = row.score > 0 ? `+${row.score}` : String(row.score);
-    return `<b>${esc(s)}</b><br><span class="bt-parts">${esc(terms)}</span>`;
+// ALWAYS two decimals — for the ticker cell's price and ATR pair, which are
+// exact figures stacked in a mono column you read straight down. fmtNum's
+// stripping made that column ragged ("$356.6" over "$1,147.63", "11%" under
+// "3.17%"), and on MU it disagreed with the row's own prose, which writes the
+// same number as "11.00% of price".
+function fmtFixed(n) {
+    if (typeof n !== 'number') return esc(n);
+    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 // Order-flow metrics from tools/flow.py, each shown against the ticker's own
 // baseline — these are only meaningful as a deviation from its normal. Absent
-// on every row until the paid feed is configured, so the column self-hides.
-function flowCell(row, inline) {
+// on every row until the paid feed is configured, so it renders nothing at all
+// rather than a dash line in every row.
+//
+// (There was a scoreCell() here too, from when score had its own column. The
+// identity cell has inlined the score since the eight-column compaction and
+// nothing called it — deleted rather than left to rot.)
+function flowCell(row) {
     const f = row.flow;
-    // Inline in the 4H cell now: with no feed configured there is nothing to
-    // say, and an empty dash line in every row is noise, not information.
-    if (!f) return inline ? '' : '<span class="bt-unscored">—</span>';
+    if (!f) return '';
     const base = f.baseline || {};
     const delta = (now, was) => {
         if (was == null || now == null) return '';
@@ -560,50 +592,49 @@ function flowCell(row, inline) {
         line('odd', f.oddLotShare, '%', base.oddLotShare),
         line('off-exch', f.offExchShare, '%', base.offExchShare),
     ].join('<br>');
-    return inline ? `<div class="bt-frames bt-flow">${body}</div>` : body;
+    return `<div class="bt-frames bt-flow">${body}</div>`;
 }
 
 function boardRowHtml(row) {
     const h4 = row.h4
         ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
         : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
-    const px = row.price != null ? `$${fmtNum(row.price)}` : '—';
+    const px = row.price != null ? `$${fmtFixed(row.price)}` : '—';
     const atr = row.atr != null
-        ? `$${fmtNum(row.atr)}${row.atrPct != null ? ` / ${row.atrPct}%` : ''}`
+        ? `$${fmtFixed(row.atr)}${row.atrPct != null ? ` / ${fmtFixed(row.atrPct)}%` : ''}`
         : '—';
     // data-ticker only, for the search. Rows deliberately carry NO link to a
     // card: this board is a separate element from the gallery, the two are
     // allowed to disagree, and a row that opens a deck invites reading the
     // deck's plan as this board's conclusion.
-    // Which way the row leans, for the identity cell's tint. Read from the
-    // preferred direction where there is one, else the computed score, else the
-    // bias prose — the same green/pink language the tiles use for a side.
-    const lean = (() => {
-        const t = `${row.preferred || ''} ${row.bias || ''}`.toLowerCase();
-        if (row.preferred) {
-            if (/short/.test(t) && !/long preferred/.test(t)) return 'short';
-            if (/long/.test(t)) return 'long';
-        }
-        if (typeof row.score === 'number' && row.score) return row.score > 0 ? 'long' : 'short';
-        if (/bear/.test(t)) return 'short';
-        if (/bull/.test(t)) return 'long';
-        return 'flat';
-    })();
+    // Which way the row leans, for the identity cell's tint — the same
+    // green/pink language the tiles use for a side, and the same call that
+    // orders the board.
+    const lean = boardLean(row);
 
-    // Compact layout: eight columns. Identity (ticker · price · ATR · score ·
-    // bias · preferred · groups) collapses into one stacked cell, and the
-    // per-frame reads sit under the 4H narrative they qualify — thirteen
-    // columns of one-line cells wasted most of their width on whitespace.
+    // ── THE TICKER CELL — FOUR LINES, FIXED ────────────────────────────────
+    // Ticker + bold price · ATR(14) · preferred direction · bias. That is the
+    // whole cell, on every row, with nothing conditional in it: a column you
+    // read down should have the same shape in every cell, and anything that
+    // appears on some rows only makes it ragged.
+    //
+    // So this template has NO optional branches, and adding one is the thing
+    // not to do here. Two used to be here and are deliberately gone: a
+    // `· score ±N` suffix on the ATR line and a W/D/H/R/M/O/Z parts line, both
+    // of which render on generated rows only — meaning the cell would silently
+    // grow two extra lines the first time the bot ran. If the score needs to
+    // be visible again it gets its own column, not a fifth line here.
+    //
+    // All four fields are required on every row. The board guard fails a row
+    // missing one rather than letting the cell render short.
+    // Documented in CLAUDE.md ("Structure board") and in board.js.
     const identity = `
         <div class="bt-id">
             <div class="bt-id-top"><b class="bt-id-sym">${esc(row.ticker)}</b>
-                <span class="bt-id-px">${px}</span></div>
-            <div class="bt-id-atr">ATR(14) ${esc(atr)}${
-                row.score != null ? ` · score ${row.score > 0 ? '+' : ''}${row.score}` : ''}</div>
-            ${row.preferred ? `<div class="bt-pref">${md(row.preferred)}</div>` : ''}
+                <b class="bt-id-px">${px}</b></div>
+            <div class="bt-id-atr">ATR(14) ${esc(atr)}</div>
+            <div class="bt-pref">${md(row.preferred)}</div>
             <div class="bt-id-bias">${md(row.bias)}</div>
-            ${row.parts ? `<div class="bt-parts">${['W', 'D', 'H', 'R', 'M', 'O', 'Z']
-                .map(k => `${k}${row.parts[k] > 0 ? '+' : ''}${row.parts[k]}`).join(' ')}</div>` : ''}
         </div>`;
 
     return `
@@ -611,7 +642,7 @@ function boardRowHtml(row) {
             <td class="bt-cell-id bt-lean-${lean}">${identity}</td>
             <td>${h4}
                 <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
-                ${flowCell(row, true)}</td>
+                ${flowCell(row)}</td>
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
             <td>${md(row.bull)}${row.longSetup
@@ -668,7 +699,22 @@ function renderBoardTable() {
         if (empty) empty.hidden = false;
         return;
     }
-    body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
+    // A band ahead of each direction block, so the ordering explains itself: a
+    // silently re-sorted table just looks shuffled. Rendered from the rows as
+    // they arrive — the order is the file's, not this function's.
+    let band = null;
+    body.innerHTML = BOARD_DATA.rows.map(row => {
+        const lean = boardLean(row);
+        // scope="rowgroup", not aria-hidden: the band is the only thing that
+        // says which block a row is in, and a screen-reader user cannot see
+        // the green/pink tint that says it visually.
+        const head = lean === band ? '' : `
+            <tr class="bt-band bt-band-${lean}">
+                <th colspan="7" scope="rowgroup">${esc(LEAN_BAND[lean] || '')}</th>
+            </tr>`;
+        band = lean;
+        return head + boardRowHtml(row);
+    }).join('');
 
     const method = document.getElementById('boardTableMethod');
     if (method) method.innerHTML = md(BOARD_DATA.method || '');
@@ -984,6 +1030,26 @@ function initStockSearch() {
             const key = (row.dataset.ticker || row.dataset.symbol || '').toLowerCase();
             row.hidden = !(!q || key.includes(q));
         });
+
+        // A direction band labels the rows beneath it, so it has to disappear
+        // with them: filtering to one long left "Short setups — strongest last"
+        // sitting over an empty block. The band owns every row down to the next
+        // band, and hides when none of them survived the filter.
+        const boardBody = document.getElementById('boardTableBody');
+        if (boardBody) {
+            let band = null, kept = 0;
+            const settle = () => { if (band) band.hidden = !kept; };
+            for (const row of boardBody.children) {
+                if (row.classList.contains('bt-band')) {
+                    settle();
+                    band = row;
+                    kept = 0;
+                } else if (!row.hidden) {
+                    kept++;
+                }
+            }
+            settle();
+        }
     }
 
     input.addEventListener('input', applyFilter);

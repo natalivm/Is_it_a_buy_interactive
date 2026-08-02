@@ -30,6 +30,17 @@
 // reason to grow the shape. Anything that must be said and has nowhere to go
 // belongs in a comment on the row, which costs nothing downstream.
 //
+// ⚠ THE TICKER CELL IS FOUR LINES, on every row, always:
+//     LLY                    $1,147.63     ticker + price (price BOLD)
+//     ATR(14) $36.38 / 3.17%               the ATR pair, nothing appended
+//     Long preferred                       preferred direction
+//     Neutral-to-bullish. Prefer …         bias
+// So `price`, `atr`, `atrPct`, `preferred` and `bias` are REQUIRED on every
+// row — boardRowHtml() renders them with no optional branch, and the CI board
+// guard fails a row missing one instead of letting the cell render short. A
+// new row that cannot fill all four does not get added until it can.
+// Full rationale in CLAUDE.md, "Structure board".
+//
 // The complete field list, and all there is:
 //   row    ticker · seeded · date · price · atr · atrPct · structure ·
 //          trendProse · preferred · score · parts · bias · h4 · h4Effect ·
@@ -53,7 +64,10 @@
 // Emphasis is **markdown bold** — script.js escapes each field as text first
 // and only then turns `**…**` into <b>, so no raw HTML is ever injected.
 const BOARD = {
-    updated: '2026-08-01',
+    // The "as of" label. Tracks the NEWEST row date, not the oldest — five
+    // single-ticker additions in a row left this reading 08-01 while eight rows
+    // were dated 08-02, so the board under-reported itself by a day.
+    updated: '2026-08-02',
     generatedBy: 'hand-seeded — awaiting the first tools/structure.py run',
     method: 'Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z '
         + '(W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; '
@@ -65,7 +79,10 @@ const BOARD = {
         '**LITE short** — strongest alignment across weekly, daily and 4H.',
         '**STX short** — needs $842 and preferably $818 to fail.',
         '**AKAM rejection short** — if it remains below $118 and loses $112.',
-        '**AXON long** — only after a confirmed $535–545 breakout.',
+        // $545–550, matching AXON's own row — this said $535–545, which
+        // contradicted the three places the row states the trigger
+        // (`bull`, `longSetup`, `longCandidate`) and its $545–565 supply zone.
+        '**AXON long** — only after a confirmed $545–550 breakout.',
         '**TE long** — weakest confirmation; demand reacted, but the 4H rebound is already fading.',
     ],
     rankingNote: 'The biggest update is TE: it remains a possible countertrend long, '
@@ -74,8 +91,15 @@ const BOARD = {
     // terms. A ticker can appear in more than one group on purpose: META, SMH
     // and CIEN are corrections inside larger monthly uptrends AND countertrend
     // bounce candidates, which are two true statements about the same chart.
-    // This is the single source of truth — each row's membership label is
-    // derived from these lists at render time, never restated per row.
+    // This is the single source of truth for membership, and it is rendered
+    // ONCE, as its own block under the table. Rows used to carry a derived
+    // badge each; that was dropped as clutter, so nothing restates a group
+    // per row and a ticker's membership is stated in exactly one place.
+    //
+    // A group's `side` is the side the group is about, NOT the side each
+    // member currently leans: every name in "countertrend bounce candidates
+    // only" is a short-leaning row by definition, which is the point of the
+    // group. So a mismatch here is expected and is not a finding.
     direction: {
         groups: [
             { label: 'Best trend-following longs', side: 'long',
@@ -86,7 +110,7 @@ const BOARD = {
                   + 'trend has only just turned, so it joins on either a $482 '
                   + 'breakout-retest or a pullback with a 4H higher low.' },
             { label: 'Best trend-following shorts', side: 'short',
-              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD'] },
+              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD', 'GLW'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
               tickers: ['SMH', 'META', 'CIEN', 'MU'] },
             // NOW is the odd one here: every other member is still bearish on
@@ -94,7 +118,7 @@ const BOARD = {
             // and 4H have already turned up. It is countertrend all the same —
             // its monthly is a downtrend, not a correction inside an uptrend.
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -102,35 +126,36 @@ const BOARD = {
             + 'stronger confirmation than a normal trend-following long.',
     },
     // `price` on a seeded row is IMPLIED from its own ATR pair (atr / atrPct *
-    // 100). That is not a guess: for every ticker that also has a card, the
-    // implied price lands within 0.07% of our own close — so these ATR figures
-    // and our OHLC are on the same basis.
+    // 100). That is not a guess: across the 12 tickers that also have a card,
+    // the implied price lands within 0.08% of our own close (widest: AVGO,
+    // 0.080%) — so these ATR figures and our OHLC are on the same basis.
+    //
+    // A SNAPSHOT, not an invariant: a card refreshes its close far more often
+    // than this board refreshes its ATRs, so the gap widens on its own between
+    // runs. It is not worth a CI check that would go red on every card
+    // refresh; re-measure it when re-seeding, and update the number here.
+    // (This read 0.07% until AVGO's card moved past it.)
+    //
+    // ── ROW ORDER: best longs at the top, best shorts at the bottom ─────────
+    // One continuous axis, most bullish first to most bearish last, keyed by
+    // order_key() in tools/structure.py — direction (the row's own verdict,
+    // from `preferred`/`bias`), then the structure terms of the score
+    // (2W + D + 0.5H + Z) descending, then ticker to break ties.
+    //
+    // FILE ORDER IS THE ORDER. Nothing re-sorts downstream: script.js renders
+    // `rows` as written and tsv.js exports them as written, so the screen, the
+    // clipboard and the bot's output cannot disagree about where a row sits.
+    // Do not hand-reorder — change the key and re-emit, or the next bot run
+    // silently undoes it. The CI order guard fails on a board that is out of
+    // key order.
+    //
+    // What this order does NOT encode is actionability. The key sees frame
+    // agreement and whether price sits inside a zone; it cannot see "extended
+    // three ATRs into supply but not yet touching it", which is why MSFT sorts
+    // above LLY here while being the worse trade to put on today. `ranking` —
+    // the hand-written list rendered under the table — is where actionability
+    // lives, and it stays hand-written for exactly that reason.
     rows: [
-        {
-            ticker: 'AKAM', seeded: true, date: '2026-08-01',
-            price: 115.19, atr: 5.46, atrPct: 4.74,
-            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'neutral',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'transition after uptrend', w: 'downtrend',
-                          d: 'bearish range/bounce', h4: 'bounce stalling' },
-            preferred: '**Short preferred**',
-            longSetup: 'Trend changes only above **$119.22** → $124–126',
-            shortSetup: 'Reject **$115–119** or lose **$107.27** → $102–104',
-            score: null, parts: null,
-            bias: '**Neutral-to-bearish.** Wait for resolution.',
-            h4: 'Bounce is stalling beneath **$116.8–118**. MACD momentum is fading and stochastic is rolling over from overbought.',
-            h4Effect: 'Keeps the **neutral-to-bearish** bias. Failure below $118 favors **$112**, then **$108**. A 4H close above $118 would open $121–124.',
-            demand: [{ lo: 107.27, hi: 108.70, strength: 'weak', note: 'repeatedly tested, weakening' }],
-            supply: [{ lo: 115, hi: 119.22, strength: 'tested', note: 'tested several times' }],
-            position: 'Directly beneath/inside supply',
-            bull: 'Close above **$119.22** → **$124–126**',
-            bear: 'Loss of **$107.27** → **$102–104**, then **$98–91**',
-            longCandidate: 'Long only after acceptance above **$119.22**.',
-            retest: 'Breakout above $119 may retest **$115–119** as support',
-        },
         {
             // `structure` is a three-value enum (bullish | bearish | neutral),
             // so hedged prose maps to the CONSERVATIVE value and the full
@@ -167,104 +192,6 @@ const BOARD = {
             bear: 'Reject $396–405 and lose **$378** → **$369–357**; below $357 → **$345–350**',
             longCandidate: 'Trend-following long if **$378–383** holds and price reclaims **$396–405**.',
             retest: 'Breakout above $405 may retest **$396–405**; breakdown below $378 may retest **$378–383** from underneath',
-        },
-        {
-            ticker: 'AXON', seeded: true, date: '2026-08-01',
-            price: 527.64, atr: 29.02, atrPct: 5.50,
-            structure: { m: 'neutral', w: 'neutral', d: 'neutral', h4: 'neutral',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'transition', w: 'recovery/transition',
-                          d: 'range', h4: 'range above support' },
-            preferred: '**Neutral with slight long preference**',
-            longSetup: 'Break and hold **$545–550** → $580–600',
-            shortSetup: 'Lose $508–515 and fail reclaim → $490–500',
-            score: null, parts: null,
-            bias: '**Neutral with slight bullish tilt.** Prefer confirmed breakout long.',
-            h4: 'Tight balance above approximately **$508–515**, with price holding around $520–530. Momentum is neutral but stabilizing.',
-            h4Effect: 'Slight bullish tilt remains. Long confirmation requires a break of **$535–545**. Loss of **$508** would shift the setup bearish toward $490–500.',
-            demand: [
-                { lo: 515, hi: 525, strength: 'tested', note: 'immediate' },
-                { lo: 485, hi: 500, strength: 'tested', note: 'secondary' },
-                { lo: 419, hi: 430, strength: 'fresh', note: 'major' },
-            ],
-            supply: [
-                { lo: 545, hi: 565, strength: 'tested', note: 'immediate' },
-                { lo: 580, hi: 600, strength: 'tested', note: 'main' },
-                { lo: 625, hi: 665, strength: 'fresh', note: 'higher' },
-            ],
-            position: 'Holding demand but still below supply',
-            bull: 'Close above **$545–550**, then hold/retest → **$580–600**, then **$625**',
-            bear: 'Close below **$515** and fail to reclaim → **$490–500**, then **$466–430**',
-            longCandidate: 'Breakout long above **$545–550** with a successful retest.',
-            retest: 'Upside breakout may retest **$525–545** as support',
-        },
-        {
-            ticker: 'CIEN', seeded: true, date: '2026-08-01',
-            price: 376.98, atr: 31.44, atrPct: 8.34,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'uptrend correcting', w: 'downtrend',
-                          d: 'downtrend', h4: 'not reviewed' },
-            preferred: '**Short preferred, but near demand**',
-            longSetup: 'Hold $355–365 and reclaim **$405–420** → $445–475',
-            shortSetup: 'Reject $400–420 or lose **$355** → $340–320',
-            score: null, parts: null,
-            bias: '**Neutral-to-bearish with bounce potential.** Long only after confirmation; otherwise reject supply.',
-            demand: [
-                { lo: 355, hi: 382, strength: 'tested', note: 'immediate' },
-                { lo: 320, hi: 340, strength: 'fresh', note: 'stronger secondary' },
-            ],
-            supply: [
-                { lo: 400, hi: 420, strength: 'tested', note: 'immediate' },
-                { lo: 445, hi: 475, strength: 'tested', note: 'main' },
-                { lo: 500, hi: 550, strength: 'fresh', note: 'higher' },
-            ],
-            position: 'Inside immediate demand after rejecting $400',
-            bull: 'Hold **$355–365**, form higher low and reclaim **$405–420** → **$445–475**',
-            bear: 'Reject **$400–420**, or close below **$355** → **$340–320**; below $320 → approximately **$300**',
-            longCandidate: 'Long after **$355–365** holds and **$405–420** is reclaimed.',
-            retest: 'Breakdown may retest **$355–380** from underneath',
-        },
-        {
-            // Monthly is 'limited history' — CRWV's listing is too young for a
-            // 24-bar monthly lookback, so the frame is null rather than a guess.
-            // The extractor reaches the same conclusion on its own: _frame_ok()
-            // refuses to read a frame short of its lookback + ATR warmup.
-            ticker: 'CRWV', seeded: true, date: '2026-08-01',
-            price: 71.72, atr: 7.1, atrPct: 9.9,
-            structure: { m: null, w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'insufficient history', w: 'downtrend',
-                          d: 'downtrend', h4: 'downtrend' },
-            preferred: '**Short preferred**',
-            longSetup: 'Countertrend only after $60–65 holds and **$80** is reclaimed',
-            shortSetup: 'Reject $74–80 or lose **$60** → $49–52',
-            score: null, parts: null,
-            bias: '**Strongly bearish with bounce risk.** Prefer rejection short from supply rather than chasing near demand.',
-            h4: 'Relief bounce is failing — price is back under the 4H resistance and moving averages.',
-            demand: [
-                { lo: 60, hi: 65, strength: 'tested', note: 'major' },
-                { lo: 49, hi: 52, strength: 'fresh', note: 'lower demand' },
-            ],
-            supply: [
-                { lo: 74, hi: 80, strength: 'tested', note: 'immediate' },
-                { lo: 86, hi: 97, strength: 'tested', note: 'main' },
-                { lo: 106, hi: 125, strength: 'fresh', note: 'higher' },
-            ],
-            position: 'Below 4H resistance and moving averages, but only about one ATR above major demand',
-            bull: 'Defend $60–65, form higher low and reclaim **$79–80** → **$86–90**, then **$96–100**',
-            bear: 'Reject **$74–80** and lose $69–70 → **$65–60**; close below $60 and fail reclaim → **$49–52**',
-            longCandidate: 'Long only after **$60–65** holds and **$74–80** is reclaimed.',
-            retest: 'Breakdown below $60 may retest **$60–65** from underneath; reclaim above $80 may retest **$74–80** as support',
         },
         {
             // Weekly is BULLISH on the read's own words — "the monthly and
@@ -307,174 +234,6 @@ const BOARD = {
             bear: 'Repeated failure below **$358–376**, then loss of **$333** → **$326–321**',
             shortSetup: 'Repeated failure below **$358–376**, followed by loss of **$333**, opens $326–321; below $321 → **$318–312**',
             retest: 'A successful breakout above $376 would likely retest **$358–376**; failure below $333 could retest **$333–340** from underneath',
-        },
-        {
-            ticker: 'INTC', seeded: true, date: '2026-08-01',
-            price: 90.17, atr: 8.62, atrPct: 9.56,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'uptrend under correction', w: 'downtrend',
-                          d: 'downtrend', h4: 'not reviewed' },
-            preferred: '**Short preferred**',
-            longSetup: 'Hold $80–84 and reclaim **$95** → $100–104',
-            shortSetup: 'Reject $90–95 or lose **$80** → $75–70',
-            score: null, parts: null,
-            bias: '**Bearish-to-neutral.** Prefer rejection short; long only after demand confirmation.',
-            demand: [
-                { lo: 80, hi: 84, strength: 'tested', note: 'immediate' },
-                { lo: 70, hi: 75, strength: 'tested', note: 'secondary' },
-                { lo: 49, hi: 50, strength: 'fresh', note: 'major' },
-            ],
-            supply: [
-                { lo: 90, hi: 95, strength: 'tested', note: 'immediate' },
-                { lo: 100, hi: 104, strength: 'tested', note: 'main' },
-                { lo: 110, hi: 115, strength: 'fresh', note: 'secondary' },
-            ],
-            position: 'Weak bounce attempt below resistance',
-            bull: 'Defend $80–84 and reclaim **$95** → **$100–104**; above $104 → **$110–115**',
-            bear: 'Reject **$90–95** or $100–104 → **$84–80**; below $80 → **$75–70**',
-            longCandidate: 'Long after **$80–84** holds and price reclaims **$95**.',
-            retest: 'Breakdown may retest **$80–84** from underneath',
-        },
-        {
-            ticker: 'LITE', seeded: true, date: '2026-08-01',
-            price: 713.62, atr: 76, atrPct: 10.65,
-            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'parabolic trend breaking', w: 'downtrend',
-                          d: 'downtrend', h4: 'failed relief bounce' },
-            preferred: '**Strong short preference**',
-            longSetup: 'Countertrend only above **$750** → $801–835',
-            shortSetup: 'Weak bounce into **$719–750**, or loss of $700 → $681–662, then $620–575',
-            score: null, parts: null,
-            bias: '**Strongly bearish.** Continuation short preferred.',
-            h4: 'Clear bearish structure: price below the $748, $781 and $813 averages. The rebound has rolled over near resistance.',
-            h4Effect: 'Confirms LITE as the **strongest bearish setup**. Short a failed reclaim of **$719–735**, or a breakdown below **$674**. Targets: $620–590, then approximately $575. Do not chase while price is already sitting near its lower band.',
-            demand: [
-                { lo: 700, hi: 703, strength: 'tested', note: 'control' },
-                { lo: 662, hi: 681, strength: 'tested', note: 'support' },
-                { lo: 575, hi: 620, strength: 'weak', note: 'tested/weak demand' },
-            ],
-            supply: [
-                { lo: 735, hi: 750, strength: 'tested', note: 'resistance' },
-                { lo: 801, hi: 835, strength: 'fresh', note: 'main supply' },
-            ],
-            position: 'Near monthly control after heavy selling',
-            bull: 'Strong close above **$750** → **$801–835**',
-            bear: 'Weak green close below $750, then break of its low; or loss of **$700** → **$680–662**, **$611–595**, then **$575**',
-            longCandidate: 'Currently the **weakest** long candidate — better to wait for confirmed demand around **$575–620** or a major structural reclaim.',
-            retest: 'Breakdown may retest **$700–703** from underneath',
-        },
-        {
-            ticker: 'LLY', seeded: true, date: '2026-08-01',
-            price: 1147.63, atr: 36.38, atrPct: 3.17,
-            structure: { m: 'bullish', w: 'bullish', d: 'bearish', h4: null,
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'uptrend', w: 'uptrend',
-                          d: 'corrective downtrend', h4: 'not reviewed' },
-            preferred: '**Long preferred**',
-            longSetup: 'Hold $1,119–1,130 and reclaim **$1,175** → $1,200–1,250',
-            shortSetup: 'Short only after loss and failed reclaim of **$1,119** → $1,050',
-            score: null, parts: null,
-            bias: '**Neutral-to-bullish.** Prefer confirmed long from demand.',
-            demand: [
-                { lo: 1119, hi: 1130, strength: 'tested', note: 'immediate' },
-                { lo: 1040, hi: 1060, strength: 'tested', note: 'secondary' },
-                { lo: 1000, hi: 1020, strength: 'fresh', note: 'major' },
-            ],
-            supply: [
-                { lo: 1175, hi: 1200, strength: 'tested', note: 'immediate' },
-                { lo: 1230, hi: 1250, strength: 'fresh', note: 'major' },
-            ],
-            position: 'Testing daily demand and 50-day area',
-            bull: 'Hold $1,119–1,130 and reclaim **$1,175–1,180** → **$1,200**, then **$1,230–1,250**',
-            bear: 'Close below **$1,119** and fail to reclaim → **$1,050**, then **$1,000–1,020**',
-            longCandidate: 'Long from **$1,119–1,130** demand after a higher low and reclaim of **$1,175**.',
-            retest: 'Reclaim may retest **$1,150–1,175** as support',
-        },
-        {
-            // ATR is explicitly PENDING on this read, so atr/atrPct stay null —
-            // and with no ATR pair there is nothing to imply a price from, so
-            // that is null too rather than borrowed from META's card. The first
-            // bot run fills all three; the levels below stand on their own.
-            ticker: 'META', seeded: true, date: '2026-08-01',
-            price: 557.08, atr: 25.18, atrPct: 4.52,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'uptrend under pressure', w: 'downtrend',
-                          d: 'downtrend', h4: 'bearish rebound attempt' },
-            preferred: '**Short trend; long only countertrend**',
-            longSetup: 'Hold $520–545, form higher low and reclaim **$575–590** → $599–635',
-            shortSetup: 'Reject $575–610, or lose **$520** → $500–490, then $470–450',
-            score: null, parts: null,
-            bias: '**Bearish correction with countertrend bounce potential.** Long only after confirmation from demand; rejection short is cleaner from higher prices.',
-            h4: 'Attempting a rebound — an attempt, not yet a turn, so the 4H frame is read neutral rather than bullish.',
-            demand: [
-                { lo: 520, hi: 545, strength: 'tested', note: 'immediate' },
-                { lo: 490, hi: 505, strength: 'tested', note: 'secondary' },
-                { lo: 450, hi: 470, strength: 'fresh', note: 'lower demand' },
-            ],
-            supply: [
-                { lo: 575, hi: 590, strength: 'tested', note: 'first' },
-                { lo: 599, hi: 610, strength: 'tested', note: 'main' },
-                { lo: 625, hi: 635, strength: 'fresh', note: 'major' },
-            ],
-            position: 'Recovering from weekly demand but still below every important daily resistance',
-            bull: 'Hold $520–545, form higher low and reclaim **$575–590** → **$599–610**, then **$625–635**',
-            bear: 'Reject **$575–610**, or lose **$520** and fail to reclaim → **$500–490**, then **$470–450**',
-            longCandidate: 'Countertrend long from **$520–545** after 4H confirmation.',
-            retest: 'Reclaim above $590 may retest **$575–590**; breakdown below $520 may retest **$520–545** from underneath',
-        },
-        {
-            // Monthly is NEUTRAL: "uptrend intact but the parabolic phase
-            // broken; sharp correction and transition" is a regime in
-            // transition, not a structural downtrend. Weekly, daily and 4H are
-            // all bearish as written — the weekly explicitly confirms lower
-            // highs AND lower lows.
-            //
-            // ATR pair implies $187.52, consistent with the $185–188 the read
-            // quotes as current.
-            ticker: 'MRVL', seeded: true, date: '2026-08-02',
-            price: 187.52, atr: 19.54, atrPct: 10.42,
-            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            trendProse: { m: 'long-term uptrend intact but the parabolic phase broken — sharp correction and transition',
-                          w: 'confirmed bearish correction, lower highs and lower lows, still above major weekly trend support',
-                          d: 'downtrend below the short- and intermediate-term averages; momentum weak but approaching oversold',
-                          h4: 'bearish — the rebound formed a lower high near $199–201 and price remains below the 9, 50 and 200 EMAs' },
-            preferred: '**Short preferred** with the weekly, daily and 4H trends; do not chase near demand. Longs are countertrend until structure improves.',
-            score: null, parts: null,
-            bias: '**Trend-following short candidate, but not a chase at $185–188** — MRVL is already closer to demand ($160–170) than to major supply, so shorting aggressively near the lows is poor positioning. The cleaner trade is a bounce into supply followed by rejection.',
-            h4: 'Rebound formed a **lower high near $199–201**; price remains below the 9, 50 and 200 EMAs.',
-            demand: [
-                { lo: 160, hi: 170, strength: 'tested', note: 'immediate' },
-                { lo: 143, hi: 155, strength: 'tested', note: 'stronger' },
-                { lo: 125, hi: 140, strength: 'fresh', note: 'major lower demand' },
-            ],
-            supply: [
-                { lo: 193, hi: 201, strength: 'tested', note: 'immediate' },
-                { lo: 213, hi: 225, strength: 'tested', note: 'main' },
-                { lo: 245, hi: 260, strength: 'fresh', note: 'major' },
-            ],
-            position: 'Closer to demand than to major supply — approaching **$160–170**, which is why shorting the lows is poor positioning',
-            bull: 'Reclaim **$193–201** → **$213–225**',
-            longSetup: 'Hold **$160–170**, form a 4H higher low, reclaim **$193–201** → **$213–225**. A stronger trend reversal requires acceptance above **$213–225**.',
-            longCandidate: 'Countertrend only — **$160–170** must produce a genuine structure change, not merely one green candle.',
-            bear: 'Bounce into **$193–201** and reject → **$170–160**, then **$155–143**',
-            shortSetup: 'Wait for a rebound toward **$193–201** and assess whether sellers return; reject → $170–160, then $155–143. A daily close below **$160** with a failed reclaim → $155–143, then **$140–125**.',
-            retest: 'An upside rebound may retest **$193–201**; a breakdown below $160 may retest **$160–170** from underneath',
         },
         {
             // Weekly is 'bullish breakout/transition; NOT yet a confirmed
@@ -521,44 +280,74 @@ const BOARD = {
             retest: 'First likely retest **$449–451**; a deeper gap retest could reach **$432–438**',
         },
         {
-            // Monthly is BULLISH, unlike MRVL's neutral, and the difference is
-            // in the words: MRVL's parabolic phase is "broken … transition",
-            // MU's is "correcting" while the read states outright that MU
-            // "remains in a powerful monthly uptrend". A distribution candle
-            // inside an intact uptrend is a correction, not a regime change.
-            // Weekly, daily and 4H are bearish as written.
-            //
-            // ATR pair implies $823.09 against the card's $823.03 — 0.006%,
-            // the closest reconciliation on the board.
-            ticker: 'MU', seeded: true, date: '2026-08-02',
-            price: 823.09, atr: 90.54, atrPct: 11.00,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
+            // 4H read from the chart, 31 Jul. The only one of these four graded
+            // BEARISH rather than neutral, and the difference is that LLY has
+            // no bounce yet: SMH, CIEN and META each rallied off a low and are
+            // fading, while LLY is three bars into stabilising after the fall
+            // from $1,225 and is still under every 4H average.
+            ticker: 'LLY', seeded: true, date: '2026-08-02',
+            price: 1147.63, atr: 36.38, atrPct: 3.17,
+            structure: { m: 'bullish', w: 'bullish', d: 'bearish', h4: 'bearish',
                          h4Note: 'read from charts' },
-            trendProse: { m: 'strong long-term uptrend intact, but the parabolic phase is correcting — July produced a major bearish distribution candle',
-                          w: 'bearish correction with lower highs and lower lows, still above the major long-term weekly averages',
-                          d: 'downtrend below the 9 and 50 EMAs, above the 200 EMA; momentum remains negative',
-                          h4: 'bearish range below the 9, 50 and 200 EMAs — the recent rebound failed and momentum is rolling over' },
-            preferred: '**Short preferred** with the weekly, daily and 4H trends; avoid chasing near demand. Longs remain countertrend until resistance is reclaimed.',
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend', w: 'uptrend',
+                          d: 'corrective downtrend',
+                          h4: 'downtrend beneath the whole average band, oversold' },
+            h4: 'Fell from **$1,225** to a **$1,142** low and has spent three bars stabilising, not turning. Price **$1,147.63** is below the entire 4H average band, **$1,152.71** through **$1,181.19**. RSI **30.52** is deeply oversold and OBV is still making new lows — stretched to the downside, with no higher low yet.',
+            preferred: '**Long preferred**',
+            longSetup: 'Hold $1,119–1,130 and reclaim **$1,175** → $1,200–1,250',
+            shortSetup: 'Short only after loss and failed reclaim of **$1,119** → $1,050',
             score: null, parts: null,
-            bias: '**A correction inside a powerful monthly uptrend.** July shows serious distribution after a parabolic run and the daily bounce failed below the $890–940 average/supply cluster — but do not chase near $730–760 demand. ⚠ ATR is **11.00% of price**, so position size has to be materially smaller than for an average name.',
-            h4: 'Bearish range below the 9, 50 and 200 EMAs; the recent rebound **failed** and momentum is rolling over.',
+            bias: '**Neutral-to-bullish.** Prefer confirmed long from demand.',
             demand: [
-                { lo: 730, hi: 760, strength: 'tested', note: 'immediate' },
-                { lo: 640, hi: 680, strength: 'tested', note: 'secondary' },
-                { lo: 590, hi: 610, strength: 'fresh', note: 'major lower demand' },
+                { lo: 1119, hi: 1130, strength: 'tested', note: 'immediate' },
+                { lo: 1040, hi: 1060, strength: 'tested', note: 'secondary' },
+                { lo: 1000, hi: 1020, strength: 'fresh', note: 'major' },
             ],
             supply: [
-                { lo: 890, hi: 940, strength: 'tested', note: 'immediate' },
-                { lo: 1000, hi: 1050, strength: 'tested', note: 'main' },
-                { lo: 1150, hi: 1250, strength: 'fresh', note: 'major' },
+                { lo: 1175, hi: 1200, strength: 'tested', note: 'immediate' },
+                { lo: 1230, hi: 1250, strength: 'fresh', note: 'major' },
             ],
-            position: 'Below the failed **$890–940** average and supply cluster, nearer immediate demand than major supply',
-            bull: 'Reclaim **$890–940** → **$1,000–1,050**',
-            longSetup: 'Hold **$730–760**, form a 4H higher low, reclaim **$890–940** → **$1,000–1,050**. A stronger bullish reversal requires acceptance above **$1,050**.',
-            longCandidate: 'Countertrend until MU holds **$730–760**, forms a higher low and reclaims at least **$890–940**.',
-            bear: 'Bounce into **$890–940** and reject → **$760–730**',
-            shortSetup: 'The cleaner short is a weak rebound into **$890–940** followed by rejection → $760–730. A daily close below **$730** with a failed reclaim opens **$680–640**, then **$610–590**.',
-            retest: 'An upside rebound may retest **$890–940**; a breakdown below $730 may retest **$730–760** from underneath',
+            position: 'Testing daily demand and 50-day area',
+            bull: 'Hold $1,119–1,130 and reclaim **$1,175–1,180** → **$1,200**, then **$1,230–1,250**',
+            bear: 'Close below **$1,119** and fail to reclaim → **$1,050**, then **$1,000–1,020**',
+            longCandidate: 'Long from **$1,119–1,130** demand after a higher low and reclaim of **$1,175**.',
+            retest: 'Reclaim may retest **$1,150–1,175** as support',
+        },
+        {
+            ticker: 'AXON', seeded: true, date: '2026-08-01',
+            price: 527.64, atr: 29.02, atrPct: 5.50,
+            structure: { m: 'neutral', w: 'neutral', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'transition', w: 'recovery/transition',
+                          d: 'range', h4: 'range above support' },
+            preferred: '**Neutral with slight long preference**',
+            longSetup: 'Break and hold **$545–550** → $580–600',
+            shortSetup: 'Lose $508–515 and fail reclaim → $490–500',
+            score: null, parts: null,
+            bias: '**Neutral with slight bullish tilt.** Prefer confirmed breakout long.',
+            h4: 'Tight balance above approximately **$508–515**, with price holding around $520–530. Momentum is neutral but stabilizing.',
+            h4Effect: 'Slight bullish tilt remains. Long confirmation requires a break of **$535–545**. Loss of **$508** would shift the setup bearish toward $490–500.',
+            demand: [
+                { lo: 515, hi: 525, strength: 'tested', note: 'immediate' },
+                { lo: 485, hi: 500, strength: 'tested', note: 'secondary' },
+                { lo: 419, hi: 430, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 545, hi: 565, strength: 'tested', note: 'immediate' },
+                { lo: 580, hi: 600, strength: 'tested', note: 'main' },
+                { lo: 625, hi: 665, strength: 'fresh', note: 'higher' },
+            ],
+            position: 'Holding demand but still below supply',
+            bull: 'Close above **$545–550**, then hold/retest → **$580–600**, then **$625**',
+            bear: 'Close below **$515** and fail to reclaim → **$490–500**, then **$466–430**',
+            longCandidate: 'Breakout long above **$545–550** with a successful retest.',
+            retest: 'Upside breakout may retest **$525–545** as support',
         },
         {
             // The board's first INVERTED row: monthly and weekly down, daily
@@ -615,37 +404,6 @@ const BOARD = {
             retest: 'The likeliest upside retest is **$112–114**, then **$116–118** if buyers keep control; on a pullback **$106–108** is tested first, and **$103–105** is the critical trend test',
         },
         {
-            ticker: 'SMH', seeded: true, date: '2026-08-01',
-            price: 540.89, atr: 27.91, atrPct: 5.16,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'uptrend', w: 'bearish correction',
-                          d: 'downtrend/stretched', h4: 'not reviewed' },
-            preferred: '**Short during correction**',
-            longSetup: 'Hold $503–520 and reclaim **$570** → $590–605',
-            shortSetup: 'Reject $557–571 or lose **$503** → $486–469',
-            score: null, parts: null,
-            bias: '**Neutral-to-bearish with bounce potential.** Prefer rejection short from supply.',
-            demand: [
-                { lo: 503, hi: 520, strength: 'tested', note: 'tested demand' },
-                { lo: 469, hi: 487, strength: 'tested', note: 'secondary' },
-                { lo: 419, hi: 449, strength: 'fresh', note: 'major' },
-            ],
-            supply: [
-                { lo: 557, hi: 571, strength: 'tested', note: 'immediate' },
-                { lo: 590, hi: 605, strength: 'tested', note: 'main' },
-                { lo: 628, hi: 640, strength: 'fresh', note: 'top supply' },
-            ],
-            position: 'Holding near demand after a sharp correction',
-            bull: 'Hold $503–520 and reclaim **$570** → **$590–605**; above $605 → **$628–640**',
-            bear: 'Reject **$557–571** or lose **$503** → **$486–469**; below $469 → **$449–419**',
-            longCandidate: 'Long if **$503–520** holds and price reclaims **$557–570**.',
-            retest: 'Break below $503 may retest **$503–520** from underneath',
-        },
-        {
             ticker: 'STX', seeded: true, date: '2026-08-01',
             price: 856.41, atr: 82.13, atrPct: 9.59,
             structure: { m: 'bullish', w: 'neutral', d: 'neutral', h4: 'bearish',
@@ -678,35 +436,40 @@ const BOARD = {
             retest: 'Breakdown may retest **$832–856** from underneath',
         },
         {
-            ticker: 'TE', seeded: true, date: '2026-08-01',
-            price: 4.11, atr: 0.19, atrPct: 4.62,
-            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+            // 4H read from the chart, 31 Jul. Same shape as SMH — a bounce off
+            // the low that has faded back under its nearest average — which is
+            // why both are graded neutral rather than bearish: the swing low is
+            // higher, so the structure conflicts rather than continuing down.
+            ticker: 'CIEN', seeded: true, date: '2026-08-02',
+            price: 376.98, atr: 31.44, atrPct: 8.34,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'neutral',
                          h4Note: 'read from charts' },
             // Per-frame trend, in the words it was read in. The enum above has
             // three values, so hedged wording maps to the conservative one and
             // the full phrasing is kept here.
-            trendProse: { m: 'transition/breakdown', w: 'downtrend',
-                          d: 'downtrend, oversold', h4: 'bounce failing' },
-            preferred: '**Short trend; long only countertrend**',
-            longSetup: 'Hold $3.65–3.70 and reclaim **$4.30–4.53** → $4.72–5.34',
-            shortSetup: 'Reject $4.53–4.72 or lose **$3.50** → $3.00–2.50',
+            trendProse: { m: 'uptrend correcting', w: 'downtrend',
+                          d: 'downtrend',
+                          h4: 'bounce off $325 fading back under $380.70' },
+            h4: 'Bounced from the **$325** low to roughly **$400** and has faded back under the **$380.70** average, closing **$373.38** — the last bar wicked down to $365.60. The slow line sits far above at **$430.25**. RSI **51.06** is right on the midline and OBV is slipping: the bounce is spent, but the low is higher than the last one.',
+            preferred: '**Short preferred, but near demand**',
+            longSetup: 'Hold $355–365 and reclaim **$405–420** → $445–475',
+            shortSetup: 'Reject $400–420 or lose **$355** → $340–320',
             score: null, parts: null,
-            bias: '**Countertrend bullish.** Long candidate from demand.',
-            h4: 'The bounce from $3.55–3.70 is losing momentum. Price remains below all important 4H averages, while stochastic is rolling down.',
-            h4Effect: 'The countertrend long is **not confirmed yet**. Better long trigger: hold $3.65–3.70 and reclaim **$4.30–4.53**. Below $3.55 invalidates the immediate bounce thesis.',
+            bias: '**Neutral-to-bearish with bounce potential.** Long only after confirmation; otherwise reject supply.',
             demand: [
-                { lo: 3.65, hi: 4.20, strength: 'tested', note: 'current demand' },
-                { lo: 2.50, hi: 3.00, strength: 'fresh', note: 'lower demand' },
+                { lo: 355, hi: 382, strength: 'tested', note: 'immediate' },
+                { lo: 320, hi: 340, strength: 'fresh', note: 'stronger secondary' },
             ],
             supply: [
-                { lo: 4.53, hi: 4.72, strength: 'tested', note: 'immediate' },
-                { lo: 5.00, hi: 5.34, strength: 'tested', note: 'next' },
+                { lo: 400, hi: 420, strength: 'tested', note: 'immediate' },
+                { lo: 445, hi: 475, strength: 'tested', note: 'main' },
+                { lo: 500, hi: 550, strength: 'fresh', note: 'higher' },
             ],
-            position: 'Inside demand with daily RSI near 30',
-            bull: 'Hold $3.65–3.70, form higher low and reclaim **$4.17** → **$4.53–4.72**, then **$5.00–5.34**',
-            bear: 'Close below **$3.50–3.60** → **$3.00–2.50**',
-            longCandidate: 'Countertrend long if **$3.65–3.70** holds and **$4.30–4.53** is reclaimed.',
-            retest: 'Reclaim of $4.17 may retest **$4.00–4.17**',
+            position: 'Inside immediate demand after rejecting $400',
+            bull: 'Hold **$355–365**, form higher low and reclaim **$405–420** → **$445–475**',
+            bear: 'Reject **$400–420**, or close below **$355** → **$340–320**; below $320 → approximately **$300**',
+            longCandidate: 'Long after **$355–365** holds and **$405–420** is reclaimed.',
+            retest: 'Breakdown may retest **$355–380** from underneath',
         },
         {
             // The one row whose ATR arrives with its own derivation, and it
@@ -749,6 +512,321 @@ const BOARD = {
             bear: 'Reject **$324–330** or **$350–365** → **$305–297**',
             shortSetup: 'Wait for a bounce toward **$324–330**, then short only after rejection AND a break of the 4H rejection candle\'s low → $305–297. A daily close below **$297** with a failed reclaim targets **$286–282**, then **$260–250**.',
             retest: 'An upside bounce may retest **$324–330**; a breakdown may retest **$297–305** from underneath',
+        },
+        {
+            ticker: 'TE', seeded: true, date: '2026-08-01',
+            price: 4.11, atr: 0.19, atrPct: 4.62,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'transition/breakdown', w: 'downtrend',
+                          d: 'downtrend, oversold', h4: 'bounce failing' },
+            preferred: '**Short trend; long only countertrend**',
+            longSetup: 'Hold $3.65–3.70 and reclaim **$4.30–4.53** → $4.72–5.34',
+            shortSetup: 'Reject $4.53–4.72 or lose **$3.50** → $3.00–2.50',
+            score: null, parts: null,
+            bias: '**Countertrend bullish.** Long candidate from demand.',
+            h4: 'The bounce from $3.55–3.70 is losing momentum. Price remains below all important 4H averages, while stochastic is rolling down.',
+            h4Effect: 'The countertrend long is **not confirmed yet**. Better long trigger: hold $3.65–3.70 and reclaim **$4.30–4.53**. Below $3.55 invalidates the immediate bounce thesis.',
+            demand: [
+                { lo: 3.65, hi: 4.20, strength: 'tested', note: 'current demand' },
+                { lo: 2.50, hi: 3.00, strength: 'fresh', note: 'lower demand' },
+            ],
+            supply: [
+                { lo: 4.53, hi: 4.72, strength: 'tested', note: 'immediate' },
+                { lo: 5.00, hi: 5.34, strength: 'tested', note: 'next' },
+            ],
+            position: 'Inside demand with daily RSI near 30',
+            bull: 'Hold $3.65–3.70, form higher low and reclaim **$4.17** → **$4.53–4.72**, then **$5.00–5.34**',
+            bear: 'Close below **$3.50–3.60** → **$3.00–2.50**',
+            longCandidate: 'Countertrend long if **$3.65–3.70** holds and **$4.30–4.53** is reclaimed.',
+            retest: 'Reclaim of $4.17 may retest **$4.00–4.17**',
+        },
+        {
+            // ATR is explicitly PENDING on this read, so atr/atrPct stay null —
+            // and with no ATR pair there is nothing to imply a price from, so
+            // that is null too rather than borrowed from META's card. The first
+            // bot run fills all three; the levels below stand on their own.
+            // 4H CORRECTED to neutral, 31 Jul. The enum said 'bearish' and the
+            // frame line read "bearish rebound attempt" while the prose beside
+            // them said the frame "is read neutral rather than bullish" — the
+            // cell contradicted itself, showing "4H ▼ bearish" under a sentence
+            // claiming neutral. The chart settles it as neutral: the low at
+            // $529.10 is a HIGHER low and the bounce made a higher high, so the
+            // swings conflict, which is what neutral means here. It is not
+            // bullish either — $577.34 was rejected hard and price is still
+            // under the $589.24 and $605.65 averages.
+            ticker: 'META', seeded: true, date: '2026-08-02',
+            price: 557.08, atr: 25.18, atrPct: 4.52,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend under pressure', w: 'downtrend',
+                          d: 'downtrend',
+                          h4: 'rebound off $529.10, rejected at $577.34 — conflicting swings' },
+            preferred: '**Short trend; long only countertrend**',
+            longSetup: 'Hold $520–545, form higher low and reclaim **$575–590** → $599–635',
+            shortSetup: 'Reject $575–610, or lose **$520** → $500–490, then $470–450',
+            score: null, parts: null,
+            bias: '**Bearish correction with countertrend bounce potential.** Long only after confirmation from demand; rejection short is cleaner from higher prices.',
+            h4: 'Attempting a rebound — an attempt, not yet a turn, so the 4H frame is read **neutral** rather than bullish. Bounced off the **$529.10** low to **$577.34** and handed nearly all of it back to close **$553.90**, still beneath the **$589.24** and **$605.65** averages. RSI **38.44** is climbing off oversold and OBV has turned up from its low — the first improvement in either, and not yet a higher high that holds.',
+            demand: [
+                { lo: 520, hi: 545, strength: 'tested', note: 'immediate' },
+                { lo: 490, hi: 505, strength: 'tested', note: 'secondary' },
+                { lo: 450, hi: 470, strength: 'fresh', note: 'lower demand' },
+            ],
+            supply: [
+                { lo: 575, hi: 590, strength: 'tested', note: 'first' },
+                { lo: 599, hi: 610, strength: 'tested', note: 'main' },
+                { lo: 625, hi: 635, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Recovering from weekly demand but still below every important daily resistance',
+            bull: 'Hold $520–545, form higher low and reclaim **$575–590** → **$599–610**, then **$625–635**',
+            bear: 'Reject **$575–610**, or lose **$520** and fail to reclaim → **$500–490**, then **$470–450**',
+            longCandidate: 'Countertrend long from **$520–545** after 4H confirmation.',
+            retest: 'Reclaim above $590 may retest **$575–590**; breakdown below $520 may retest **$520–545** from underneath',
+        },
+        {
+            // 4H read from the chart, 31 Jul.
+            //
+            // ⚠ THE CROSSHAIR GOTCHA, and this chart is a live example of it:
+            // the OHLC box reads O:567.92 H:571.00 L:563.00 C:564.53 with
+            // "rsi (14) 33.49" and OBV 140,436,931 — all of which belong to a
+            // mid-July bar the cursor was parked on, not to the last one. The
+            // RIGHT-AXIS PILLS carry the current values: RSI 47.60 and OBV
+            // 129m. Those are the ones used below. (LLY, META and CIEN had the
+            // cursor on the last bar, so their labels and pills agree.)
+            ticker: 'SMH', seeded: true, date: '2026-08-02',
+            price: 540.89, atr: 27.91, atrPct: 5.16,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend', w: 'bearish correction',
+                          d: 'downtrend/stretched',
+                          h4: 'bounce off $495 stalling back under $552.87' },
+            h4: 'Bounced hard off the **$495** low to **$552.87**, then stalled — price **$539.30** has slipped back under that average, with the slow line up at **$579.03** still far overhead. RSI **47.60** sits just under the midline and OBV is drifting lower again. A rebound that has run out, not a reversal.',
+            preferred: '**Short during correction**',
+            longSetup: 'Hold $503–520 and reclaim **$570** → $590–605',
+            shortSetup: 'Reject $557–571 or lose **$503** → $486–469',
+            score: null, parts: null,
+            bias: '**Neutral-to-bearish with bounce potential.** Prefer rejection short from supply.',
+            demand: [
+                { lo: 503, hi: 520, strength: 'tested', note: 'tested demand' },
+                { lo: 469, hi: 487, strength: 'tested', note: 'secondary' },
+                { lo: 419, hi: 449, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 557, hi: 571, strength: 'tested', note: 'immediate' },
+                { lo: 590, hi: 605, strength: 'tested', note: 'main' },
+                { lo: 628, hi: 640, strength: 'fresh', note: 'top supply' },
+            ],
+            position: 'Holding near demand after a sharp correction',
+            bull: 'Hold $503–520 and reclaim **$570** → **$590–605**; above $605 → **$628–640**',
+            bear: 'Reject **$557–571** or lose **$503** → **$486–469**; below $469 → **$449–419**',
+            longCandidate: 'Long if **$503–520** holds and price reclaims **$557–570**.',
+            retest: 'Break below $503 may retest **$503–520** from underneath',
+        },
+        {
+            // Monthly is 'limited history' — CRWV's listing is too young for a
+            // 24-bar monthly lookback, so the frame is null rather than a guess.
+            // The extractor reaches the same conclusion on its own: _frame_ok()
+            // refuses to read a frame short of its lookback + ATR warmup.
+            ticker: 'CRWV', seeded: true, date: '2026-08-01',
+            price: 71.72, atr: 7.1, atrPct: 9.9,
+            structure: { m: null, w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'insufficient history', w: 'downtrend',
+                          d: 'downtrend', h4: 'downtrend' },
+            preferred: '**Short preferred**',
+            longSetup: 'Countertrend only after $60–65 holds and **$80** is reclaimed',
+            shortSetup: 'Reject $74–80 or lose **$60** → $49–52',
+            score: null, parts: null,
+            bias: '**Strongly bearish with bounce risk.** Prefer rejection short from supply rather than chasing near demand.',
+            h4: 'Relief bounce is failing — price is back under the 4H resistance and moving averages.',
+            demand: [
+                { lo: 60, hi: 65, strength: 'tested', note: 'major' },
+                { lo: 49, hi: 52, strength: 'fresh', note: 'lower demand' },
+            ],
+            supply: [
+                { lo: 74, hi: 80, strength: 'tested', note: 'immediate' },
+                { lo: 86, hi: 97, strength: 'tested', note: 'main' },
+                { lo: 106, hi: 125, strength: 'fresh', note: 'higher' },
+            ],
+            position: 'Below 4H resistance and moving averages, but only about one ATR above major demand',
+            bull: 'Defend $60–65, form higher low and reclaim **$79–80** → **$86–90**, then **$96–100**',
+            bear: 'Reject **$74–80** and lose $69–70 → **$65–60**; close below $60 and fail reclaim → **$49–52**',
+            longCandidate: 'Long only after **$60–65** holds and **$74–80** is reclaimed.',
+            retest: 'Breakdown below $60 may retest **$60–65** from underneath; reclaim above $80 may retest **$74–80** as support',
+        },
+        {
+            // ⚠ THIS ROW DISAGREES WITH GLW'S CARD, WHICH IS SIDE: LONG — the
+            // second such split after MU, and the sharper one, because here the
+            // board does not merely prefer the other side: it removes the
+            // card's stop. The card risks $145.50 → $137, but the nearest
+            // demand on this read is $122–126, so $137 sits in a gap with
+            // nothing named under it. At ATR $14.69 that stop is 0.58 ATR wide
+            // — noise on a name whose ATR is 10.62% of price — and a stop below
+            // real demand turns the card's ~3:1 into ~1.1:1. Neither side is
+            // corrected to match; the disagreement is the information.
+            //
+            // Monthly is NEUTRAL on the MRVL precedent, and the words are
+            // almost identical: "long-term uptrend intact, but the parabolic
+            // phase has broken; major correction and transition". MU got
+            // bullish because its read said it "remains in a powerful monthly
+            // uptrend" — correcting, not transitioning. This one transitions.
+            //
+            // ATR pair implies $138.32 against the card's $138.25 close —
+            // 0.053%, inside the board's 0.08% band. The two reads are looking
+            // at the same session and still reach opposite conclusions.
+            ticker: 'GLW', seeded: true, date: '2026-08-02',
+            price: 138.32, atr: 14.69, atrPct: 10.62,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term uptrend intact, but the parabolic phase has broken — major correction and transition',
+                          w: 'confirmed downtrend with lower highs and lower lows; momentum still weak',
+                          d: 'downtrend — the sharp rebound off the low is testing resistance, not confirming a reversal',
+                          h4: 'bearish — the rebound from $114.50 has formed a potential lower high at $143–150 and stays below the falling averages' },
+            preferred: '**Short preferred** with the weekly, daily and 4H trends; long only after a confirmed countertrend reversal.',
+            score: null, parts: null,
+            bias: '**Short-first, but not into demand.** The monthly uptrend is intact while its parabolic phase breaks, and weekly, daily and 4H are all lower highs and lower lows. The trade is the rebound failing at **$143–150** — do not chase a breakdown straight into $122–126 demand. ⚠ ATR is **10.62% of price**, second-widest on the board, so size down and give levels room: a stop inside one ATR of entry is noise here, not risk control.',
+            h4: 'Bearish. The rebound from **$114.50** has run into immediate resistance and is shaping a potential lower high at **$143–150**, still under the major falling averages.',
+            demand: [
+                { lo: 122, hi: 126, strength: 'tested', note: 'immediate' },
+                { lo: 114, hi: 120, strength: 'tested', note: 'stronger — the $114.50 rebound low' },
+                { lo: 100, hi: 105, strength: 'fresh', note: 'major lower demand' },
+            ],
+            supply: [
+                { lo: 143, hi: 150, strength: 'tested', note: 'immediate — where the rebound stalled' },
+                { lo: 156, hi: 165, strength: 'tested', note: 'secondary' },
+                { lo: 178, hi: 192, strength: 'tested', note: 'major — the weekly trend stays damaged below it' },
+            ],
+            position: 'In the gap between **$143–150** supply and **$122–126** demand — closer to supply, with no named demand for 9% beneath price',
+            bull: 'Reclaim **$145–150** → **$156–165**, then **$178**',
+            longSetup: 'Hold **$122–126** or **$114–120**, form a 4H higher low and reclaim **$145–150** → **$156–165**, then **$178**. A stronger daily reversal needs acceptance above **$160–165**.',
+            longCandidate: 'Countertrend only, and it needs all three: demand holding, a 4H higher low, and acceptance back above **$145–150**. The weekly stays damaged below **$178–192**.',
+            bear: 'Reject **$143–150** or **$156–165** → **$126–122**, then **$120–114**',
+            shortSetup: 'The cleaner short is a rejection from **$143–150**, or a stronger bounce into **$156–165** → $126–122, then $120–114. A daily close below **$114** with a failed reclaim opens **$105–100**. Do not chase a breakdown directly into $122–126.',
+            retest: 'The current rebound is retesting **$143–150**; a rejection can revisit **$126–122**. A breakdown below $114 may retest **$114–120** from underneath',
+        },
+        {
+            ticker: 'LITE', seeded: true, date: '2026-08-01',
+            price: 713.62, atr: 76, atrPct: 10.65,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'parabolic trend breaking', w: 'downtrend',
+                          d: 'downtrend', h4: 'failed relief bounce' },
+            preferred: '**Strong short preference**',
+            longSetup: 'Countertrend only above **$750** → $801–835',
+            shortSetup: 'Weak bounce into **$719–750**, or loss of $700 → $681–662, then $620–575',
+            score: null, parts: null,
+            bias: '**Strongly bearish.** Continuation short preferred.',
+            h4: 'Clear bearish structure: price below the $748, $781 and $813 averages. The rebound has rolled over near resistance.',
+            h4Effect: 'Confirms LITE as the **strongest bearish setup**. Short a failed reclaim of **$719–735**, or a breakdown below **$674**. Targets: $620–590, then approximately $575. Do not chase while price is already sitting near its lower band.',
+            demand: [
+                { lo: 700, hi: 703, strength: 'tested', note: 'control' },
+                { lo: 662, hi: 681, strength: 'tested', note: 'support' },
+                { lo: 575, hi: 620, strength: 'weak', note: 'tested/weak demand' },
+            ],
+            supply: [
+                { lo: 735, hi: 750, strength: 'tested', note: 'resistance' },
+                { lo: 801, hi: 835, strength: 'fresh', note: 'main supply' },
+            ],
+            position: 'Near monthly control after heavy selling',
+            bull: 'Strong close above **$750** → **$801–835**',
+            bear: 'Weak green close below $750, then break of its low; or loss of **$700** → **$680–662**, **$611–595**, then **$575**',
+            longCandidate: 'Currently the **weakest** long candidate — better to wait for confirmed demand around **$575–620** or a major structural reclaim.',
+            retest: 'Breakdown may retest **$700–703** from underneath',
+        },
+        {
+            // Monthly is NEUTRAL: "uptrend intact but the parabolic phase
+            // broken; sharp correction and transition" is a regime in
+            // transition, not a structural downtrend. Weekly, daily and 4H are
+            // all bearish as written — the weekly explicitly confirms lower
+            // highs AND lower lows.
+            //
+            // ATR pair implies $187.52, consistent with the $185–188 the read
+            // quotes as current.
+            ticker: 'MRVL', seeded: true, date: '2026-08-02',
+            price: 187.52, atr: 19.54, atrPct: 10.42,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term uptrend intact but the parabolic phase broken — sharp correction and transition',
+                          w: 'confirmed bearish correction, lower highs and lower lows, still above major weekly trend support',
+                          d: 'downtrend below the short- and intermediate-term averages; momentum weak but approaching oversold',
+                          h4: 'bearish — the rebound formed a lower high near $199–201 and price remains below the 9, 50 and 200 EMAs' },
+            preferred: '**Short preferred** with the weekly, daily and 4H trends; do not chase near demand. Longs are countertrend until structure improves.',
+            score: null, parts: null,
+            bias: '**Trend-following short candidate, but not a chase at $185–188** — MRVL is already closer to demand ($160–170) than to major supply, so shorting aggressively near the lows is poor positioning. The cleaner trade is a bounce into supply followed by rejection.',
+            h4: 'Rebound formed a **lower high near $199–201**; price remains below the 9, 50 and 200 EMAs.',
+            demand: [
+                { lo: 160, hi: 170, strength: 'tested', note: 'immediate' },
+                { lo: 143, hi: 155, strength: 'tested', note: 'stronger' },
+                { lo: 125, hi: 140, strength: 'fresh', note: 'major lower demand' },
+            ],
+            supply: [
+                { lo: 193, hi: 201, strength: 'tested', note: 'immediate' },
+                { lo: 213, hi: 225, strength: 'tested', note: 'main' },
+                { lo: 245, hi: 260, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Closer to demand than to major supply — approaching **$160–170**, which is why shorting the lows is poor positioning',
+            bull: 'Reclaim **$193–201** → **$213–225**',
+            longSetup: 'Hold **$160–170**, form a 4H higher low, reclaim **$193–201** → **$213–225**. A stronger trend reversal requires acceptance above **$213–225**.',
+            longCandidate: 'Countertrend only — **$160–170** must produce a genuine structure change, not merely one green candle.',
+            bear: 'Bounce into **$193–201** and reject → **$170–160**, then **$155–143**',
+            shortSetup: 'Wait for a rebound toward **$193–201** and assess whether sellers return; reject → $170–160, then $155–143. A daily close below **$160** with a failed reclaim → $155–143, then **$140–125**.',
+            retest: 'An upside rebound may retest **$193–201**; a breakdown below $160 may retest **$160–170** from underneath',
+        },
+        {
+            // Monthly is BULLISH, unlike MRVL's neutral, and the difference is
+            // in the words: MRVL's parabolic phase is "broken … transition",
+            // MU's is "correcting" while the read states outright that MU
+            // "remains in a powerful monthly uptrend". A distribution candle
+            // inside an intact uptrend is a correction, not a regime change.
+            // Weekly, daily and 4H are bearish as written.
+            //
+            // ATR pair implies $823.09 against the card's $823.03 — 0.006%,
+            // the closest reconciliation on the board.
+            ticker: 'MU', seeded: true, date: '2026-08-02',
+            price: 823.09, atr: 90.54, atrPct: 11.00,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'strong long-term uptrend intact, but the parabolic phase is correcting — July produced a major bearish distribution candle',
+                          w: 'bearish correction with lower highs and lower lows, still above the major long-term weekly averages',
+                          d: 'downtrend below the 9 and 50 EMAs, above the 200 EMA; momentum remains negative',
+                          h4: 'bearish range below the 9, 50 and 200 EMAs — the recent rebound failed and momentum is rolling over' },
+            preferred: '**Short preferred** with the weekly, daily and 4H trends; avoid chasing near demand. Longs remain countertrend until resistance is reclaimed.',
+            score: null, parts: null,
+            bias: '**A correction inside a powerful monthly uptrend.** July shows serious distribution after a parabolic run and the daily bounce failed below the $890–940 average/supply cluster — but do not chase near $730–760 demand. ⚠ ATR is **11.00% of price**, so position size has to be materially smaller than for an average name.',
+            h4: 'Bearish range below the 9, 50 and 200 EMAs; the recent rebound **failed** and momentum is rolling over.',
+            demand: [
+                { lo: 730, hi: 760, strength: 'tested', note: 'immediate' },
+                { lo: 640, hi: 680, strength: 'tested', note: 'secondary' },
+                { lo: 590, hi: 610, strength: 'fresh', note: 'major lower demand' },
+            ],
+            supply: [
+                { lo: 890, hi: 940, strength: 'tested', note: 'immediate' },
+                { lo: 1000, hi: 1050, strength: 'tested', note: 'main' },
+                { lo: 1150, hi: 1250, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Below the failed **$890–940** average and supply cluster, nearer immediate demand than major supply',
+            bull: 'Reclaim **$890–940** → **$1,000–1,050**',
+            longSetup: 'Hold **$730–760**, form a 4H higher low, reclaim **$890–940** → **$1,000–1,050**. A stronger bullish reversal requires acceptance above **$1,050**.',
+            longCandidate: 'Countertrend until MU holds **$730–760**, forms a higher low and reclaims at least **$890–940**.',
+            bear: 'Bounce into **$890–940** and reject → **$760–730**',
+            shortSetup: 'The cleaner short is a weak rebound into **$890–940** followed by rejection → $760–730. A daily close below **$730** with a failed reclaim opens **$680–640**, then **$610–590**.',
+            retest: 'An upside rebound may retest **$890–940**; a breakdown below $730 may retest **$730–760** from underneath',
         },
         {
             // All four frames bearish — the first row on the board with no
@@ -801,6 +879,62 @@ const BOARD = {
             bear: 'Reject **$18.7–19.5** → **$17.7–17.4**, then **$17.0–16.5**',
             shortSetup: 'Rejection from **$18.7–19.5** with a 4H lower high → $17.7–17.4, then $17.0–16.5. The stronger short is **$20.2–20.7** if it is reached and rejected. A daily close below **$17.3** with a failed reclaim → **$16.5–16.0**, with **$15.5** as the extended target.',
             retest: 'Oversold 4H momentum at demand makes an initial bounce toward **$18.3–18.7** likely; the critical upside retest is **$19.1–19.5**. If $17.3 fails, expect a retest of **$17.3–17.7** from underneath before continuation toward **$16.5–16.0**',
+        },
+        {
+            ticker: 'AKAM', seeded: true, date: '2026-08-01',
+            price: 115.19, atr: 5.46, atrPct: 4.74,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'transition after uptrend', w: 'downtrend',
+                          d: 'bearish range/bounce', h4: 'bounce stalling' },
+            preferred: '**Short preferred**',
+            longSetup: 'Trend changes only above **$119.22** → $124–126',
+            shortSetup: 'Reject **$115–119** or lose **$107.27** → $102–104',
+            score: null, parts: null,
+            bias: '**Neutral-to-bearish.** Wait for resolution.',
+            h4: 'Bounce is stalling beneath **$116.8–118**. MACD momentum is fading and stochastic is rolling over from overbought.',
+            h4Effect: 'Keeps the **neutral-to-bearish** bias. Failure below $118 favors **$112**, then **$108**. A 4H close above $118 would open $121–124.',
+            demand: [{ lo: 107.27, hi: 108.70, strength: 'weak', note: 'repeatedly tested, weakening' }],
+            supply: [{ lo: 115, hi: 119.22, strength: 'tested', note: 'tested several times' }],
+            position: 'Directly beneath/inside supply',
+            bull: 'Close above **$119.22** → **$124–126**',
+            bear: 'Loss of **$107.27** → **$102–104**, then **$98–91**',
+            longCandidate: 'Long only after acceptance above **$119.22**.',
+            retest: 'Breakout above $119 may retest **$115–119** as support',
+        },
+        {
+            ticker: 'INTC', seeded: true, date: '2026-08-01',
+            price: 90.17, atr: 8.62, atrPct: 9.56,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend under correction', w: 'downtrend',
+                          d: 'downtrend', h4: 'not reviewed' },
+            preferred: '**Short preferred**',
+            longSetup: 'Hold $80–84 and reclaim **$95** → $100–104',
+            shortSetup: 'Reject $90–95 or lose **$80** → $75–70',
+            score: null, parts: null,
+            bias: '**Bearish-to-neutral.** Prefer rejection short; long only after demand confirmation.',
+            demand: [
+                { lo: 80, hi: 84, strength: 'tested', note: 'immediate' },
+                { lo: 70, hi: 75, strength: 'tested', note: 'secondary' },
+                { lo: 49, hi: 50, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 90, hi: 95, strength: 'tested', note: 'immediate' },
+                { lo: 100, hi: 104, strength: 'tested', note: 'main' },
+                { lo: 110, hi: 115, strength: 'fresh', note: 'secondary' },
+            ],
+            position: 'Weak bounce attempt below resistance',
+            bull: 'Defend $80–84 and reclaim **$95** → **$100–104**; above $104 → **$110–115**',
+            bear: 'Reject **$90–95** or $100–104 → **$84–80**; below $80 → **$75–70**',
+            longCandidate: 'Long after **$80–84** holds and price reclaims **$95**.',
+            retest: 'Breakdown may retest **$80–84** from underneath',
         },
     ],
 };

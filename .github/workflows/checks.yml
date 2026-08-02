@@ -67,7 +67,12 @@ jobs:
             if (!Array.isArray(B.rows) || !B.rows.length) {
               throw new Error('board.js has no rows');
             }
-            const need = ['ticker', 'demand', 'supply', 'position', 'bull', 'bear'];
+            // price/atr/atrPct/preferred/bias are the TICKER CELL's four fixed
+            // lines. That template has no optional branches by design, so a row
+            // missing one renders a short, ragged cell instead of degrading —
+            // it has to fail here instead. See CLAUDE.md, 'Structure board'.
+            const need = ['ticker', 'demand', 'supply', 'position', 'bull', 'bear',
+                          'price', 'atr', 'atrPct', 'preferred', 'bias'];
             for (const r of B.rows) {
               for (const k of need) {
                 if (r[k] == null) throw new Error(\`\${r.ticker || '?'} is missing \${k}\`);
@@ -89,5 +94,21 @@ jobs:
                 }
               }
             }
-            console.log(\`ok  board.js — \${B.rows.length} rows\`);
+            // The 'as of' label. Five single-ticker additions in a row each
+            // left this behind, so the board quietly under-reported itself by
+            // a day. It is derivable, so it gets checked rather than trusted.
+            const newest = B.rows.map(r => r.date).filter(Boolean).sort().pop();
+            if (newest && B.updated !== newest) {
+              throw new Error(
+                \`board updated '\${B.updated}' but the newest row is '\${newest}'\`);
+            }
+            console.log(\`ok  board.js — \${B.rows.length} rows, as of \${B.updated}\`);
           "
+
+      # The board is emitted best-longs-first / best-shorts-last and file order
+      # IS the order — nothing re-sorts downstream. So a hand-reordered row
+      # looks right until the next bot run silently undoes it, and the Python
+      # sort key drifting from the JS tint would put a green row in the short
+      # block. Both are invisible without this.
+      - name: Validate the board's row order
+        run: python3 tools/check_board_order.py

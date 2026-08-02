@@ -1035,9 +1035,106 @@ HEADER = """// ── Structure board — GENERATED, do not hand-edit ───�
 // ATR(14) Wilder, confirmed swings (2 candles each side), displacement-formed
 // zones with wick/body boundaries, revisit-and-acceptance strength grading, and
 // the bias score  Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z.
-// `parts` carries each term so any bias on screen can be checked against its
-// own inputs.
+// `parts` carries each term, so a bias can be checked against its own inputs
+// here and in the TSV export — the ticker cell does not render either (see
+// below), so this file is where that check happens.
+//
+// ⚠ THE TICKER CELL IS FOUR LINES, on every row, always: ticker + bold price /
+// ATR(14) pair / preferred direction / bias. `price`, `atr`, `atrPct`,
+// `preferred` and `bias` are therefore REQUIRED on every row — the renderer
+// has no optional branch and the CI board guard fails a row missing one.
+// `preferred` is not computed: it is carried from the previous board (see
+// CARRY), so a NEW ticker needs one written before its first run.
+// Full rationale in CLAUDE.md, "Structure board".
+//
+// Rows are ordered best-longs-first / best-shorts-last by order_key(), and
+// FILE ORDER IS THE ORDER — nothing re-sorts downstream.
 """
+
+
+# ── board order ─────────────────────────────────────────────────────────────
+# Best long setups at the top, best shorts at the bottom, as ONE continuous
+# ranking: most bullish first, most bearish last. There is exactly one sort and
+# it lives here, because the emitted file order IS the order — the screen and
+# the TSV export both walk `rows` as written, so neither re-sorts and neither
+# can disagree with this.
+
+_LEAN_RANK = {'long': 0, 'flat': 1, 'short': 2}
+_FRAME_V = {'bullish': 1, 'bearish': -1, 'neutral': 0}
+
+
+def lean(row: dict) -> str:
+    """Which side the row is a candidate for — its OWN verdict, read from
+    `preferred`/`bias`, not a recomputation of the frames. NOW is the case that
+    forces this: its weekly is a downtrend yet its read prefers a tactical
+    long, and the board must show it where its verdict puts it, not where the
+    arithmetic would.
+
+    ⚠ A LITERAL PORT of boardLean() in script.js, which tints the row. If the
+    two drift, a green row lands in the short block — visible and wrong. The
+    order guard in .github/workflows/checks.yml re-derives this side in JS and
+    fails if the emitted order disagrees, so the pair cannot silently separate.
+    """
+    t = f"{row.get('preferred') or ''} {row.get('bias') or ''}".lower()
+    if row.get('preferred'):
+        if 'short' in t and 'long preferred' not in t:
+            return 'short'
+        if 'long' in t:
+            return 'long'
+    s = row.get('score')
+    if isinstance(s, (int, float)) and s:
+        return 'long' if s > 0 else 'short'
+    if 'bear' in t:
+        return 'short'
+    if 'bull' in t:
+        return 'long'
+    return 'flat'
+
+
+def conviction(row: dict) -> float:
+    """The STRUCTURE terms of the documented score — 2W + D + 0.5H + Z — which
+    is what orders rows inside a direction block.
+
+    The oscillator terms (0.5R + 0.5M + 0.5O) are deliberately left out even on
+    a generated row that has them. A seeded row carries no `ind` to compute
+    them from, so including them would rank half the board on more evidence
+    than the other half, and a ranking whose key changes meaning halfway down
+    is not a ranking. Every row is scored on the terms every row has.
+
+    Reads `parts` where the extractor already computed the terms, and derives
+    them from `structure` + the zone lists otherwise — the same quantity either
+    way.
+    """
+    p = row.get('parts') or {}
+    if all(p.get(k) is not None for k in ('W', 'D', 'H', 'Z')):
+        return 2 * p['W'] + p['D'] + 0.5 * p['H'] + p['Z']
+    s = row.get('structure') or {}
+    w = _FRAME_V.get(s.get('w'), 0)
+    d = _FRAME_V.get(s.get('d'), 0)
+    h = _FRAME_V.get(s.get('h4'), 0)
+    price, z = row.get('price'), 0
+    if isinstance(price, (int, float)):
+        inside = lambda zones: any(
+            z_.get('lo') is not None and z_.get('hi') is not None
+            and z_['lo'] <= price <= z_['hi'] for z_ in (zones or []))
+        z = 1 if inside(row.get('demand')) else (-1 if inside(row.get('supply')) else 0)
+    return 2 * w + d + 0.5 * h + z
+
+
+def order_key(row: dict):
+    """Direction first, then conviction descending, then ticker.
+
+    Conviction descends inside EVERY block, which is what makes the board read
+    as one axis rather than two lists: the strongest long is the first row, the
+    strongest short is the last one.
+
+    Ticker breaks ties so a row never moves without a reason. That was the
+    whole point of the alphabetical sort this replaces — most-bearish-first
+    reshuffled the board every run as scores drifted. This key is far steadier:
+    a row only moves when its verdict flips or a FRAME does, both of which are
+    events worth noticing, not noise.
+    """
+    return (_LEAN_RANK[lean(row)], -conviction(row), row['ticker'])
 
 
 def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str:
@@ -1051,12 +1148,14 @@ def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str
                   '(W weekly, D daily, H 4H structure; R RSI vs 50; '
                   'M MACD histogram slope; O OBV slope; '
                   'Z inside confirmed demand +1 / supply −1)',
-        # Alphabetical by ticker. Was most-bearish-first, which reshuffled the
-        # whole board every run as scores moved — a row you were reading would
-        # be somewhere else the next day. A ticker's position should be a fact
-        # about its name, not about today's number.
+        # Best long setups first, best shorts last — see order_key. Was
+        # alphabetical, and before that most-bearish-first by raw score, which
+        # reshuffled the whole board every run. order_key keeps the useful half
+        # of that idea (the board reads as one bullish→bearish axis) without
+        # the churn: it turns on verdicts and frames, not on today's decimals,
+        # and falls back to the ticker so ties never wander.
         'rows': [{k: v for k, v in r.items() if not k.startswith('_')}
-                 for r in sorted(rows, key=lambda r: r['ticker'])],
+                 for r in sorted(rows, key=order_key)],
     }
     for k in ('note', 'ranking', 'rankingNote'):
         if carry and carry.get(k):
@@ -1306,6 +1405,26 @@ def main() -> int:
         for k in CARRY:
             if old.get(k) and not r.get(k):
                 r[k] = old[k]
+
+    # `preferred` is the ticker cell's third line AND the sort's direction
+    # input, but nothing here computes it — it is analyst prose, carried across
+    # runs by the loop above. A ticker appearing for the FIRST time has nothing
+    # to carry, and the cell has no optional branch to fall back on, so the row
+    # would render short and fail the board guard. Derive one from the only
+    # directional thing that IS computed: the score.
+    #
+    # Runs AFTER the carry, never before: a hand-written line must win over a
+    # generated one, and doing this first would silently overwrite the
+    # analyst's wording on every single run.
+    for r in rows:
+        if r.get('preferred'):
+            continue
+        s = r.get('score')
+        side = ('**Long preferred**' if isinstance(s, (int, float)) and s > 0 else
+                '**Short preferred**' if isinstance(s, (int, float)) and s < 0 else
+                '**Neutral — no computed edge**')
+        # Says so out loud: this is arithmetic, not a read, and wants replacing.
+        r['preferred'] = f'{side} — computed from the score, not yet reviewed.'
 
     # Rows for tickers this run did NOT compute are carried over untouched.
     # Running `structure.py AKAM LITE` used to emit a two-row board and delete
