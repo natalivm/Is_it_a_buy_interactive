@@ -578,7 +578,9 @@ function boardRowHtml(row) {
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
             <td>${md(row.position)}</td>
-            <td>${md(row.bull)}</td>
+            <td>${md(row.bull)}${row.longCandidate
+                ? `<br><span class="bt-long">Long candidate — ${md(row.longCandidate)}</span>`
+                : ''}</td>
             <td>${md(row.bear)}</td>
             <td>${md(row.retest)}</td>
         </tr>`;

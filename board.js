@@ -78,6 +78,7 @@ const BOARD = {
             position: 'Near monthly control after heavy selling',
             bull: 'Strong close above **$750** → **$801–835**',
             bear: 'Weak green close below $750, then break of its low; or loss of **$700** → **$680–662**, **$611–595**, then **$575**',
+            longCandidate: 'Currently the **weakest** long candidate — better to wait for confirmed demand around **$575–620** or a major structural reclaim.',
             retest: 'Breakdown may retest **$700–703** from underneath',
         },
         {
@@ -104,6 +105,7 @@ const BOARD = {
             position: 'Below 4H resistance and moving averages, but only about one ATR above major demand',
             bull: 'Defend $60–65, form higher low and reclaim **$79–80** → **$86–90**, then **$96–100**',
             bear: 'Reject **$74–80** and lose $69–70 → **$65–60**; close below $60 and fail reclaim → **$49–52**',
+            longCandidate: 'Long only after **$60–65** holds and **$74–80** is reclaimed.',
             retest: 'Breakdown below $60 may retest **$60–65** from underneath; reclaim above $80 may retest **$74–80** as support',
         },
         {
@@ -132,6 +134,7 @@ const BOARD = {
             position: 'Trapped around the $382–390 moving-average cluster, directly below resistance',
             bull: 'Hold $378–383 and reclaim **$405** → **$419–425**, then **$450–466**',
             bear: 'Reject $396–405 and lose **$378** → **$369–357**; below $357 → **$345–350**',
+            longCandidate: 'Trend-following long if **$378–383** holds and price reclaims **$396–405**.',
             retest: 'Breakout above $405 may retest **$396–405**; breakdown below $378 may retest **$378–383** from underneath',
         },
         {
@@ -159,6 +162,7 @@ const BOARD = {
             position: 'Recovering from weekly demand but still below every important daily resistance',
             bull: 'Hold $520–545, form higher low and reclaim **$575–590** → **$599–610**, then **$625–635**',
             bear: 'Reject **$575–610**, or lose **$520** and fail to reclaim → **$500–490**, then **$470–450**',
+            longCandidate: 'Countertrend long from **$520–545** after 4H confirmation.',
             retest: 'Reclaim above $590 may retest **$575–590**; breakdown below $520 may retest **$520–545** from underneath',
         },
         {
@@ -181,6 +185,7 @@ const BOARD = {
             position: 'Holding **$832–838** support after rejection above $900',
             bull: 'Defend **$786–800**, reclaim **$800–815**, form higher low → **$838–856**, then **$885**',
             bear: 'Reject **$885–922**, or close below **$832–838** and fail to reclaim → **$800–786**; below $786 → **$750–700**',
+            longCandidate: 'Long after confirmed defense of **$786–800**.',
             retest: 'Breakdown may retest **$832–856** from underneath',
         },
         {
@@ -196,6 +201,7 @@ const BOARD = {
             position: 'Directly beneath/inside supply',
             bull: 'Close above **$119.22** → **$124–126**',
             bear: 'Loss of **$107.27** → **$102–104**, then **$98–91**',
+            longCandidate: 'Long only after acceptance above **$119.22**.',
             retest: 'Breakout above $119 may retest **$115–119** as support',
         },
         {
@@ -219,6 +225,7 @@ const BOARD = {
             position: 'Holding demand but still below supply',
             bull: 'Close above **$545–550**, then hold/retest → **$580–600**, then **$625**',
             bear: 'Close below **$515** and fail to reclaim → **$490–500**, then **$466–430**',
+            longCandidate: 'Breakout long above **$545–550** with a successful retest.',
             retest: 'Upside breakout may retest **$525–545** as support',
         },
         {
@@ -240,6 +247,7 @@ const BOARD = {
             position: 'Inside demand with daily RSI near 30',
             bull: 'Hold $3.65–3.70, form higher low and reclaim **$4.17** → **$4.53–4.72**, then **$5.00–5.34**',
             bear: 'Close below **$3.50–3.60** → **$3.00–2.50**',
+            longCandidate: 'Countertrend long if **$3.65–3.70** holds and **$4.30–4.53** is reclaimed.',
             retest: 'Reclaim of $4.17 may retest **$4.00–4.17**',
         },
         {
@@ -261,6 +269,7 @@ const BOARD = {
             position: 'Holding near demand after a sharp correction',
             bull: 'Hold $503–520 and reclaim **$570** → **$590–605**; above $605 → **$628–640**',
             bear: 'Reject **$557–571** or lose **$503** → **$486–469**; below $469 → **$449–419**',
+            longCandidate: 'Long if **$503–520** holds and price reclaims **$557–570**.',
             retest: 'Break below $503 may retest **$503–520** from underneath',
         },
         {
@@ -282,6 +291,7 @@ const BOARD = {
             position: 'Weak bounce attempt below resistance',
             bull: 'Defend $80–84 and reclaim **$95** → **$100–104**; above $104 → **$110–115**',
             bear: 'Reject **$90–95** or $100–104 → **$84–80**; below $80 → **$75–70**',
+            longCandidate: 'Long after **$80–84** holds and price reclaims **$95**.',
             retest: 'Breakdown may retest **$80–84** from underneath',
         },
         {
@@ -302,6 +312,7 @@ const BOARD = {
             position: 'Inside immediate demand after rejecting $400',
             bull: 'Hold **$355–365**, form higher low and reclaim **$405–420** → **$445–475**',
             bear: 'Reject **$400–420**, or close below **$355** → **$340–320**; below $320 → approximately **$300**',
+            longCandidate: 'Long after **$355–365** holds and **$405–420** is reclaimed.',
             retest: 'Breakdown may retest **$355–380** from underneath',
         },
         {
@@ -322,6 +333,7 @@ const BOARD = {
             position: 'Testing daily demand and 50-day area',
             bull: 'Hold $1,119–1,130 and reclaim **$1,175–1,180** → **$1,200**, then **$1,230–1,250**',
             bear: 'Close below **$1,119** and fail to reclaim → **$1,050**, then **$1,000–1,020**',
+            longCandidate: 'Long from **$1,119–1,130** demand after a higher low and reclaim of **$1,175**.',
             retest: 'Reclaim may retest **$1,150–1,175** as support',
         },
     ],

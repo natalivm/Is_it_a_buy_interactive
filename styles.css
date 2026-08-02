@@ -956,6 +956,13 @@ body.story-open { overflow: hidden; }
 .bt-parts { font-family: var(--mono); font-size: 10px; color: var(--mut); }
 /* The monthly frame is an overall-view reading, not a scoring term. */
 .bt-context { color: var(--mut); }
+/* The long-candidate line is an analyst judgement sitting under a computed
+   trigger, so it is set apart rather than reading as more derived output. */
+.bt-long {
+    display: inline-block; margin-top: 6px; padding-top: 6px;
+    border-top: 1px dotted var(--bt-line, var(--hair));
+    color: var(--mut); font-size: 11px;
+}
 
 .bt-rank { margin-top: 18px; }
 .bt-rank-title {
