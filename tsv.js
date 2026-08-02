@@ -99,6 +99,10 @@
         ['Short setup', function (r) { return plain(r.shortSetup); }],
         ['Likely retest', function (r) { return plain(r.retest); }],
         ['4H read', function (r) { return plain(r.h4); }],
+        // Not rendered in the 4H cell — that column is one paragraph plus
+        // the four frames, with no optional second block. It lives here so
+        // the reasoning still leaves the file, same as score/parts.
+        ['4H effect', function (r) { return plain(r.h4Effect); }],
         ['As of', function (r, board) { return r.date || board.updated || ''; }],
         ['Source', function (r) { return r.seeded ? 'seeded' : 'computed'; }],
     ];
