@@ -199,6 +199,15 @@ it ragged. So `price`, `atr`, `atrPct`, `preferred` and `bias` are REQUIRED on
 every row — the CI board guard fails a row missing any of them rather than
 letting the cell render short.
 
+Same shape is not the same as same size, so the two prose fields have budgets:
+`preferred` **under ~45 characters** (1–2 lines) and `bias` **under ~115** (2–4
+lines). They had drifted to 238 and 448 — a cell twelve times the height of
+LLY's — because later rows restated levels the Bullish/Bearish trigger columns
+already carry. State the verdict here; the levels belong in the setup fields,
+and anything else in a row comment. Price and the ATR pair render at **exactly
+two decimals** (`fmtFixed`), not `fmtNum`'s stripped form: it is a mono column
+read straight down, and `$356.6` over `$1,147.63` is what raggedness looks like.
+
 Two things used to render here and are deliberately gone: a `· score ±N` suffix
 on the ATR line and a `W+1 D+0 …` parts line, both of which appear on generated
 rows only — meaning the cell would have silently grown two extra lines the
@@ -207,6 +216,36 @@ gets its own column, not a fifth line in this cell.** Note the trade-off that
 buys: with `score`/`parts` unrendered, a generated row's bias cannot be checked
 against its own inputs on screen — only in `board.js` or the TSV export, which
 still carry both.
+
+**The 4H cell is ONE paragraph, then the four frames** — the same discipline,
+in the next column:
+
+```
+Rebound off $529.10 rejected at $577.34 — an        ← h4, ~2 lines
+attempt, not a turn, so the frame reads neutral.
+─────────────────────────────────────────────       ← divider
+M ▲ uptrend under pressure                          ← trendProse.m
+W ▼ downtrend                                       ← .w
+D ▼ downtrend                                       ← .d
+4H = rebound off $529, rejected                     ← .h4
+```
+
+Two budgets keep the column scannable, and they are what went wrong before:
+keep `h4` **under ~100 characters** (2 lines) and every `trendProse` phrase
+**under ~28 characters** so each frame stays on ONE line. Frames had drifted to
+158 characters — four wrapped lines in a cell whose neighbour had four short
+ones — because the original rows used clipped phrases (`downtrend`, `bounce
+stalling`) and every row added later used full sentences. Write the phrase, not
+the sentence; the reasoning goes in `h4`, and anything longer goes in a comment.
+
+`h4Effect` is NOT rendered. It used to print as a second paragraph, which made
+the seven rows carrying one visibly taller than the rest — same problem as the
+ticker cell's score line. It is exported in the TSV instead, so the reasoning
+still leaves the file.
+
+A row with no 4H read (only INTC now) shows an italic muted `h4Note`
+placeholder rather than prose. That is deliberate: styling absent evidence like
+evidence is the same error as rendering an unscored row as 0.
 
 Row ORDER is best longs at the top, best shorts at the bottom — one continuous
 axis, keyed by `order_key()` in `tools/structure.py` (direction from the row's

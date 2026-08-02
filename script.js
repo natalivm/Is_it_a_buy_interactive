@@ -596,8 +596,16 @@ function flowCell(row) {
 }
 
 function boardRowHtml(row) {
+    // ── THE 4H CELL — ONE PARAGRAPH, THEN THE FOUR FRAMES ──────────────────
+    // Same discipline as the ticker cell: no optional branches, so every cell
+    // down the column has the same shape. `h4Effect` used to render here as a
+    // SECOND paragraph, which made the seven rows carrying one visibly taller
+    // than the rest — it is exported in the TSV instead, the way score/parts
+    // are. Keep `h4` to roughly two lines and each trendProse phrase under ~28
+    // characters so the four frames stay one line each; that is what makes the
+    // column scannable. See CLAUDE.md, "Structure board".
     const h4 = row.h4
-        ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
+        ? md(row.h4)
         : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
     const px = row.price != null ? `$${fmtFixed(row.price)}` : '—';
     const atr = row.atr != null
