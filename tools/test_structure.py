@@ -207,6 +207,50 @@ check("the zone price is INSIDE is nearest demand",
 check("position agrees with the zone lists",
       st._position(p, dem, st.nearest(held, p, 'supply'), held).startswith("inside"), True)
 
+# ── break of structure ──────────────────────────────────────────────────────
+print("\nBreak of structure — a lost level invalidates the read")
+
+
+def _bos_shape(final, bounce_to=820.0, seed=5):
+    """LITE's actual weekly shape: H 960 -> L 317 -> H 1085 -> L 780.5 -> a
+    SMALL bounce -> decline to `final`.
+
+    The bounce is deliberately under the 0.75-ATR significance floor, so
+    significant_swings drops it and the stale HH/HL survives — which is exactly
+    why LITE kept printing 'weekly bullish' while trading below the very low
+    that read depends on. The fixture has to reproduce that or it tests
+    nothing: an ordinary monotonic tail never confirms the low as a pivot at
+    all, and the break can never be detected."""
+    random.seed(seed)
+    legs = [(6, 900.0, 960.0), (10, 960.0, 317.0), (10, 317.0, 700.0),
+            (8, 700.0, 1085.0), (6, 1085.0, 780.5), (4, 780.5, bounce_to),
+            (8, bounce_to, final)]
+    bars, d = [], dt.date(2025, 1, 6)
+    for n, a_, b_ in legs:
+        for i in range(n):
+            o = a_ + (b_ - a_) * i / n
+            c_ = a_ + (b_ - a_) * (i + 1) / n
+            bars.append({"date": d, "o": o,
+                         "h": max(o, c_) + random.uniform(1, 6),
+                         "l": min(o, c_) - random.uniform(1, 6),
+                         "c": c_, "v": 1e6})
+            d += dt.timedelta(days=7)
+    return bars
+
+
+def _bos_read(bars):
+    h, l, c = ([b['h'] for b in bars], [b['l'] for b in bars], [b['c'] for b in bars])
+    return st.classify_structure(
+        st.significant_swings(st.swings(h, l), ind.atr(h, l, c)), bars, 52)
+
+
+check("HH/HL holding above the last low stays bullish", _bos_read(_bos_shape(830.0)),
+      'bullish')
+check("…the SAME shape closing below that low is neutral",
+      _bos_read(_bos_shape(713.94)), 'neutral')
+check("a lost level never flips the read to the opposite trend",
+      _bos_read(_bos_shape(713.94)) != 'bearish', True)
+
 # ── standardized per-timeframe trend score ──────────────────────────────────
 print("\nTrendScore = 3S + 2E + A + M")
 check("band: +7 / +5", (st.trend_band(7), st.trend_band(5)),

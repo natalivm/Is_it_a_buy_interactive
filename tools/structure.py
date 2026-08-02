@@ -261,25 +261,53 @@ def classify_structure(sw: list[Swing], bars: list[dict] | None = None,
     highs = [s.price for s in sw if s.kind == 'high'][-2:]
     lows = [s.price for s in sw if s.kind == 'low'][-2:]
 
-    if len(highs) < 2 or len(lows) < 2:
-        return _halves(bars[-lookback:]) if bars and lookback else 'neutral'
+    if len(highs) >= 2 and len(lows) >= 2:
+        hh, hl = highs[-1] > highs[-2], lows[-1] > lows[-2]
+        lh, ll = highs[-1] < highs[-2], lows[-1] < lows[-2]
+        verdict = 'bullish' if (hh and hl) else 'bearish' if (lh and ll) else 'neutral'
+        if not (bars and lookback):
+            return verdict               # plain swing-list form: pivots only
+        # Two independent reads, and they have to agree.
+        #
+        # The last two swings alone are a coin flip in a directionless range:
+        # noise regularly prints a marginally higher high and higher low, and
+        # the pivot test dutifully calls that an uptrend. The window's halves
+        # are steady but blind to a fresh turn. Requiring both to say the same
+        # thing is the methodology's own rule — conflicting structure is
+        # neutral — and it is what stops a flat range being scored as a trend.
+        if verdict != _halves(bars[-lookback:]):
+            verdict = 'neutral'
+    elif bars and lookback:
+        verdict = _halves(bars[-lookback:])
+    else:
+        return 'neutral'
 
-    hh, hl = highs[-1] > highs[-2], lows[-1] > lows[-2]
-    lh, ll = highs[-1] < highs[-2], lows[-1] < lows[-2]
-    pivot = 'bullish' if (hh and hl) else 'bearish' if (lh and ll) else 'neutral'
-    if not (bars and lookback):
-        return pivot                     # plain swing-list form: pivots only
-
-    # Two independent reads, and they have to agree.
+    # BREAK OF STRUCTURE — applied to WHICHEVER path produced the verdict.
     #
-    # The last two swings alone are a coin flip in a directionless range: noise
-    # regularly prints a marginally higher high and higher low, and the pivot
-    # test dutifully calls that an uptrend. The window's halves are steady but
-    # blind to a fresh turn. Requiring both to say the same thing is exactly the
-    # methodology's own rule — conflicting structure is neutral — and it is what
-    # stops a flat range from being scored as a trend.
-    halves = _halves(bars[-lookback:])
-    return pivot if pivot == halves else 'neutral'
+    # A pivot needs two bars to its right to confirm, so the most recent action
+    # is invisible to the comparisons above, and an uptrend whose last higher
+    # low has already been lost still reads bullish off stale pivots. LITE
+    # printed exactly that: weekly highs 960 -> 1085.68 and lows 317.44 ->
+    # 780.48, a textbook HH/HL, while price sat at 713.94 — BELOW the 780.48 low
+    # the read depends on.
+    #
+    # It has to sit outside the pivot branch: with only one confirmed low in the
+    # window the read comes from the halves instead, and a check living inside
+    # the pivot path would skip the break entirely. One low is enough to know it
+    # was broken.
+    #
+    # This is the rules' own neutral clause — "structure is bearish but price
+    # has reclaimed the moving averages, or vice versa" — so a broken level
+    # demotes the read to neutral rather than inventing the opposite trend.
+    if bars:
+        price = bars[-1]["c"]
+        all_lows = [s.price for s in sw if s.kind == 'low']
+        all_highs = [s.price for s in sw if s.kind == 'high']
+        if verdict == 'bullish' and all_lows and price < all_lows[-1]:
+            return 'neutral'
+        if verdict == 'bearish' and all_highs and price > all_highs[-1]:
+            return 'neutral'
+    return verdict
 
 
 STRUCT_SCORE = {'bullish': 1, 'bearish': -1, 'neutral': 0}
@@ -361,8 +389,16 @@ def trend_score(bars: list[dict], struct: str) -> dict:
         M = -1
 
     score = 3 * S + 2 * E + A + M
+    # With a component missing the score cannot span the full ±7, yet the bands
+    # are calibrated for it: a monthly frame with no EMAs tops out at ±4 and so
+    # can never reach "strong uptrend" however one-sided it is. Report the range
+    # the score was actually free to move in, so the band is read for what it is.
+    reach = 3 + (2 if '50 EMA' not in missing else 0) \
+              + (1 if '200 EMA' not in missing else 0) \
+              + (1 if 'RSI/MACD' not in missing else 0)
     return {'score': score, 'band': trend_band(score),
             'S': S, 'E': E, 'A': A, 'M': M,
+            'reach': reach, 'full': reach == 7,
             'rsi': round(r, 2) if r is not None else None,
             'ema50': round(e50[-1], 2) if e50[-1] is not None else None,
             'ema200': round(e200[-1], 2) if e200[-1] is not None else None,
@@ -1238,7 +1274,9 @@ def main() -> int:
             + "".join(
                 f"       trend {k:2}: {v['score']:+d} {v['band']:<18} "
                 f"[S{v['S']:+d} E{v['E']:+d} A{v['A']:+d} M{v['M']:+d}]"
-                + (f"  (no {', '.join(v['missing'])})" if v['missing'] else "")
+                + ("" if v['full'] else
+                   f"  (reduced basis: max ±{v['reach']} of ±7, "
+                   f"no {', '.join(v['missing'])})")
                 + "\n"
                 for k, v in r.get('trend', {}).items())
             + f"       combo: {r.get('combo', '—')}\n"
