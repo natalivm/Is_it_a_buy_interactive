@@ -68,11 +68,11 @@ const BOARD = {
                   + 'trend has only just turned, so it joins on either a $482 '
                   + 'breakout-retest or a pullback with a 4H higher low.' },
             { label: 'Best trend-following shorts', side: 'short',
-              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM'] },
+              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
               tickers: ['SMH', 'META', 'CIEN'] },
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -84,6 +84,48 @@ const BOARD = {
     // implied price lands within 0.07% of our own close — so these ATR figures
     // and our OHLC are on the same basis.
     rows: [
+        {
+            // The one row whose ATR arrives with its own derivation, and it
+            // checks out exactly: the July 30 ATR of $17.08 rolled forward with
+            // July 31's $13.53 true range is (13 x 17.08 + 13.53) / 14 = 16.83,
+            // which is the Wilder recursion indicators.atr() implements. 16.83
+            // on the $311.21 close is 5.41%, and the pair implies $311.09 —
+            // 0.04% from the stated close.
+            //
+            // Monthly is NEUTRAL: "weakening / transition" is not a structural
+            // downtrend, and calling it bearish would overstate the read. 4H is
+            // NEUTRAL too — balance after bearish displacement is not a turn.
+            ticker: 'TSLA', seeded: true, date: '2026-08-02',
+            price: 311.21, atr: 16.83, atrPct: 5.41,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term uptrend weakening / transition',
+                          w: 'confirmed downtrend — lower highs and lower lows, below the short- and intermediate-term averages',
+                          d: 'strong downtrend, but short-term oversold (RSI near 32, stochastic near the bottom)',
+                          h4: 'balance after bearish displacement; relief-bounce attempt' },
+            preferred: '**Short preferred with trend**; countertrend long only after confirmation.',
+            score: null, parts: null,
+            bias: '**Not a long-first stock.** The monthly regime is still broadly constructive but momentum is deteriorating, while weekly and daily are clearly down. Price is near support and daily-oversold, so **chasing a new short around $311 is poor positioning** — the trade is the bounce, not the spot.',
+            h4: 'Stabilising around **$300–311**, but still below the declining **$329**, **$342** and **$372** resistance averages.',
+            demand: [
+                { lo: 297, hi: 312, strength: 'tested', note: 'immediate' },
+                { lo: 282, hi: 286, strength: 'tested', note: 'stronger' },
+                { lo: 250, hi: 260, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 324, hi: 330, strength: 'tested', note: 'immediate' },
+                { lo: 350, hi: 365, strength: 'tested', note: 'secondary' },
+                { lo: 380, hi: 405, strength: 'fresh', note: 'major' },
+                { lo: 419, hi: 430, strength: 'fresh', note: 'higher' },
+            ],
+            position: 'Near support and daily-oversold after a bearish displacement — stretched, not turning',
+            bull: 'Reclaim **$315**, then **$324–330** → **$350–365**',
+            longSetup: 'Hold **$297–305**, form a 4H higher low, reclaim **$315** then **$324–330** → targets **$350–365**. A stronger reversal only above **$365–387**; below that region the dominant trend stays bearish.',
+            longCandidate: 'A **bounce trade only** — countertrend until TSLA recovers $365–387.',
+            bear: 'Reject **$324–330** or **$350–365** → **$305–297**',
+            shortSetup: 'Wait for a bounce toward **$324–330**, then short only after rejection AND a break of the 4H rejection candle\'s low → $305–297. A daily close below **$297** with a failed reclaim targets **$286–282**, then **$260–250**.',
+            retest: 'An upside bounce may retest **$324–330**; a breakdown may retest **$297–305** from underneath',
+        },
         {
             // Weekly is BULLISH on the read's own words — "the monthly and
             // weekly trends are up" — though the frame is described as
