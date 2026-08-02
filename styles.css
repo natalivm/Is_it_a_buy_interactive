@@ -992,16 +992,21 @@ body.story-open { overflow: hidden; }
 .bt-id-bias { margin-top: 4px; }
 .bt-id .bt-pref { margin-top: 5px; font-weight: 600; color: var(--lean); }
 .bt-id .bt-parts { display: block; margin-top: 4px; }
-.bt-id .bt-dir { margin-top: 4px; }
 
-/* The per-frame reads, tucked under the 4H narrative they qualify. */
+/* The per-frame reads, tucked under the 4H narrative they qualify. Set larger
+   and heavier than the prose above them: these four lines are the frame
+   verdicts, and mono at a small weight was the hardest thing on the board to
+   read. */
 .bt-frames {
-    margin-top: 8px; padding-top: 7px;
+    margin-top: 9px; padding-top: 8px;
     border-top: 1px dotted var(--bt-line, var(--hair));
-    font-family: var(--mono); font-size: 12.5px; line-height: 1.65;
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.75;
     color: var(--mut);
 }
-.bt-flow { font-size: 12px; }
+.bt-flow { font-size: 13px; font-weight: 500; }
 
 /* Header above the table: title + "as of" and the one-line board note. */
 .bt-head {
@@ -1069,13 +1074,6 @@ body.story-open { overflow: hidden; }
     margin-top: 4px; font-family: var(--mono); font-size: 13px; font-weight: 600;
 }
 .bt-dir-note { margin-top: 4px; font-size: 12.5px; color: var(--mut); }
-/* …and the same label inline on the row it applies to. */
-.bt-dir {
-    display: inline-block; margin-top: 4px; padding: 1px 5px; border-radius: 5px;
-    font-size: 11px; line-height: 1.4; white-space: normal;
-    border: 1px solid color-mix(in srgb, var(--d, var(--mut)) 35%, var(--hair));
-    color: var(--d, var(--mut));
-}
 /* Preferred direction leads its cell — it is the verdict the rest supports. */
 .bt-pref { margin-bottom: 5px; font-size: 13.5px; }
 .bt-rank-list { margin: 0 0 8px 18px; font-size: 14px; }

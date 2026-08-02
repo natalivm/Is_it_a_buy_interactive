@@ -23,6 +23,24 @@
 // verdict. A null score renders as "—", never as 0: an unscored row must not
 // look like a neutral one.
 //
+// ⚠ THE SCHEMA IS FROZEN. This board is being POPULATED now, not designed, so
+// no new field gets added — not for a column in a pasted table, not for a
+// caveat that seems worth keeping. A read arriving with something the schema
+// has no home for is mapped onto the fields below or LEFT OUT; it is never a
+// reason to grow the shape. Anything that must be said and has nowhere to go
+// belongs in a comment on the row, which costs nothing downstream.
+//
+// The complete field list, and all there is:
+//   row    ticker · seeded · date · price · atr · atrPct · structure ·
+//          trendProse · preferred · score · parts · bias · h4 · h4Effect ·
+//          demand · supply · position · bull · longSetup · longCandidate ·
+//          bear · shortSetup · retest
+//   board  updated · generatedBy · method · note · ranking · rankingNote ·
+//          direction · rows
+//
+// Adding one is not a local edit either: tsv.js columns, the CI board guard,
+// the renderer and the bot's CARRY list all key off this list.
+//
 // Row shape (generated):
 //   ticker · date · price · atr · atrPct
 //   structure { w, d, h4, h4Note }   — bullish | bearish | neutral per frame
