@@ -906,15 +906,35 @@ const BOARD = {
             retest: 'Breakout above $119 may retest **$115–119** as support',
         },
         {
-            ticker: 'INTC', seeded: true, date: '2026-08-01',
+            // 4H read from the chart, 31 Jul — the last row that had none, so
+            // the italic "read from charts" placeholder is now gone from the
+            // board entirely. (Crosshair checked: OHLC C:89.23 matches the
+            // price pill and every indicator label matches its pill, so unlike
+            // SMH this chart's labels are current and either source would do.)
+            //
+            // BEARISH, not neutral, and the EMA stack is what decides it. SMH
+            // and CIEN were graded neutral for the same bounce-then-fade shape
+            // because each had slipped under only its nearest average; INTC is
+            // below ALL THREE — 9-EMA $91.12, 50-EMA $94.40, 200-EMA $105.04 —
+            // plus VWAP $93.06. That is MU's and MRVL's wording exactly, and
+            // both are bearish. Stoch %K 68.93 has crossed DOWN through its
+            // %D 80.00 from overbought and OBV is at −445m, new lows.
+            //
+            // The one thing arguing the other way, recorded rather than
+            // buried: MACD −0.48 sits ABOVE its −1.35 signal, a positive 0.87
+            // histogram — but the bars are contracting and turning red, so it
+            // is a fading bullish cross beneath zero, not a turn.
+            ticker: 'INTC', seeded: true, date: '2026-08-02',
             price: 90.17, atr: 8.62, atrPct: 9.56,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
                          h4Note: 'read from charts' },
             // Per-frame trend, in the words it was read in. The enum above has
             // three values, so hedged wording maps to the conservative one and
             // the full phrasing is kept here.
             trendProse: { m: 'uptrend under correction', w: 'downtrend',
-                          d: 'downtrend', h4: 'not reviewed' },
+                          d: 'downtrend', h4: 'below all EMAs, rolling over' },
+            h4: 'Below all three EMAs (**$91.12 / $94.40 / $105.04**). The bounce is fading and OBV is at new lows.',
+            h4Effect: 'Keeps the short read intact. The rebound stalled under the 9-EMA $91.12 with Stoch crossing down from overbought; losing the $88.60 midline re-opens the $79.99 lower band.',
             preferred: '**Short preferred**',
             longSetup: 'Hold $80–84 and reclaim **$95** → $100–104',
             shortSetup: 'Reject $90–95 or lose **$80** → $75–70',
