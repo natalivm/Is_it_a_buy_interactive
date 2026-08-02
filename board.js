@@ -107,6 +107,61 @@ const BOARD = {
             retest: 'Breakdown below $60 may retest **$60–65** from underneath; reclaim above $80 may retest **$74–80** as support',
         },
         {
+            // `structure` is a three-value enum (bullish | bearish | neutral),
+            // so hedged prose maps to the CONSERVATIVE value and the full
+            // wording is kept in `bias`: "neutral-to-bullish" weekly, "daily
+            // balancing" and "4H compressed" are all neutral here — none is a
+            // confirmed higher-high-and-higher-low read.
+            ticker: 'AVGO', seeded: true, date: '2026-08-01',
+            price: 388.97, atr: 16.57, atrPct: 4.26,
+            structure: { m: 'bullish', w: 'neutral', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts — 4H compressed' },
+            score: null, parts: null,
+            bias: '**Neutral-to-bullish.** Prefer pullback hold or confirmed breakout long; short only after support failure.',
+            h4: 'Compressed — coiling under the $382–390 moving-average cluster rather than trending.',
+            demand: [
+                { lo: 378, hi: 383, strength: 'tested', note: 'immediate' },
+                { lo: 357, hi: 369, strength: 'tested', note: 'stronger' },
+                { lo: 345, hi: 350, strength: 'fresh', note: 'secondary' },
+            ],
+            supply: [
+                { lo: 396, hi: 405, strength: 'tested', note: 'immediate' },
+                { lo: 419, hi: 425, strength: 'fresh', note: 'breakout zone' },
+                { lo: 450, hi: 466, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Trapped around the $382–390 moving-average cluster, directly below resistance',
+            bull: 'Hold $378–383 and reclaim **$405** → **$419–425**, then **$450–466**',
+            bear: 'Reject $396–405 and lose **$378** → **$369–357**; below $357 → **$345–350**',
+            retest: 'Breakout above $405 may retest **$396–405**; breakdown below $378 may retest **$378–383** from underneath',
+        },
+        {
+            // ATR is explicitly PENDING on this read, so atr/atrPct stay null —
+            // and with no ATR pair there is nothing to imply a price from, so
+            // that is null too rather than borrowed from META's card. The first
+            // bot run fills all three; the levels below stand on their own.
+            ticker: 'META', seeded: true, date: '2026-08-01',
+            price: null, atr: null, atrPct: null,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts — ATR pending' },
+            score: null, parts: null,
+            bias: '**ATR pending — Bearish correction with countertrend bounce potential.** Long only after confirmation from demand; rejection short is cleaner from higher prices.',
+            h4: 'Attempting a rebound — an attempt, not yet a turn, so the 4H frame is read neutral rather than bullish.',
+            demand: [
+                { lo: 520, hi: 545, strength: 'tested', note: 'immediate' },
+                { lo: 490, hi: 505, strength: 'tested', note: 'secondary' },
+                { lo: 450, hi: 470, strength: 'fresh', note: 'lower demand' },
+            ],
+            supply: [
+                { lo: 575, hi: 590, strength: 'tested', note: 'first' },
+                { lo: 599, hi: 610, strength: 'tested', note: 'main' },
+                { lo: 625, hi: 635, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Recovering from weekly demand but still below every important daily resistance',
+            bull: 'Hold $520–545, form higher low and reclaim **$575–590** → **$599–610**, then **$625–635**',
+            bear: 'Reject **$575–610**, or lose **$520** and fail to reclaim → **$500–490**, then **$470–450**',
+            retest: 'Reclaim above $590 may retest **$575–590**; breakdown below $520 may retest **$520–545** from underneath',
+        },
+        {
             ticker: 'STX', seeded: true, date: '2026-08-01',
             price: 856.41, atr: 82.13, atrPct: 9.59,
             structure: { w: 'neutral', d: 'bearish', h4: 'bearish', h4Note: 'read from charts' },
