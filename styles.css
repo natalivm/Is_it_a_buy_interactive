@@ -879,6 +879,7 @@ body.story-open { overflow: hidden; }
 /* The board's own horizontal scroller. Given a visible, always-present
    scrollbar: a table that is deliberately wider than the screen has to advertise
    that there is more to the right. */
+/* Horizontal scroll only; the page's own scroll handles the vertical. */
 .bt-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -886,7 +887,7 @@ body.story-open { overflow: hidden; }
     scrollbar-color: color-mix(in srgb, var(--txt) 35%, transparent) transparent;
     padding-bottom: 4px;
 }
-.bt-scroll::-webkit-scrollbar { height: 12px; }
+.bt-scroll::-webkit-scrollbar { height: 12px; width: 12px; }
 .bt-scroll::-webkit-scrollbar-track {
     background: color-mix(in srgb, var(--txt) 6%, transparent); border-radius: 8px;
 }
@@ -933,6 +934,7 @@ body.story-open { overflow: hidden; }
     font-size: 12.5px;
     white-space: nowrap;
     color: var(--txt);
+    background: var(--panel);
 }
 .board-table .board tbody td { color: var(--txt); }
 /* Rows no longer open a deck — this board is a separate element from the
@@ -959,16 +961,22 @@ body.story-open { overflow: hidden; }
    stacked block instead of seven one-line columns, which spent most of their
    width on whitespace. Tinted by which way the row leans, in the same
    green/pink the tiles use for a side. */
-.board-table .board td.bt-cell-id { padding: 0; vertical-align: top; }
-.bt-id {
+/* The lean tint lives on the CELL, not on an inner div. `height: 100%` inside
+   a table cell does not resolve against the cell, so the colour stopped where
+   the text stopped and left the rest of a tall row untinted. */
+.board-table .board td.bt-cell-id {
     --lean: var(--mut);
-    height: 100%; padding: 8px 10px;
+    padding: 9px 11px;
     border-left: 3px solid var(--lean);
     background: color-mix(in srgb, var(--lean) 9%, transparent);
 }
-.bt-lean-long { --lean: var(--green); }
-.bt-lean-short { --lean: var(--pink); }
-.bt-lean-flat { --lean: var(--mut); }
+/* Specificity has to MATCH the rule that sets the --lean fallback above. When
+   the lean class lived on an inner div these could be plain class selectors and
+   simply won by source order; on the cell they are outranked by
+   `.board-table .board td.bt-cell-id`, and every row silently went grey. */
+.board-table .board td.bt-lean-long { --lean: var(--green); }
+.board-table .board td.bt-lean-short { --lean: var(--pink); }
+.board-table .board td.bt-lean-flat { --lean: var(--mut); }
 .bt-id-top {
     display: flex; align-items: baseline; justify-content: space-between;
     gap: 8px; flex-wrap: wrap;

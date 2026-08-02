@@ -39,8 +39,7 @@ const BOARD = {
     generatedBy: 'hand-seeded — awaiting the first tools/structure.py run',
     method: 'Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z '
         + '(W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; '
-        + 'O OBV slope; Z inside confirmed demand +1 / supply −1). '
-        + 'Not yet applied to the seeded rows — their bias is the original discretionary read.',
+        + 'O OBV slope; Z inside confirmed demand +1 / supply −1).',
     note: 'Structure only — where demand and supply sit and what triggers which way. '
         + 'Independent of the traded plans on the cards; the two are allowed to disagree.',
     // The 4H pass, most actionable first. Rendered under the table.
@@ -62,7 +61,7 @@ const BOARD = {
     direction: {
         groups: [
             { label: 'Best trend-following longs', side: 'long',
-              tickers: ['LLY', 'AVGO'] },
+              tickers: ['LLY', 'AVGO', 'GOOGL'] },
             { label: 'Possible longs after breakout confirmation', side: 'long',
               tickers: ['AXON', 'STX', 'MSFT'],
               note: 'AXON first, then STX. MSFT is long-first but its weekly '
@@ -85,6 +84,48 @@ const BOARD = {
     // implied price lands within 0.07% of our own close — so these ATR figures
     // and our OHLC are on the same basis.
     rows: [
+        {
+            // Weekly is BULLISH on the read's own words — "the monthly and
+            // weekly trends are up" — though the frame is described as
+            // correcting. Daily and 4H are NEUTRAL: a breakout attempt with a
+            // significant rejection wick is not clean acceptance above
+            // resistance, and 4H RSI near 72 says the move is short-term
+            // extended rather than confirmed.
+            //
+            // The ATR pair could NOT be confirmed: the source charts did not
+            // display ATR. It implies $356.60, consistent with the "near $356"
+            // in the read, but that is corroboration, not confirmation — the
+            // first bot run recomputes it from daily OHLC.
+            ticker: 'GOOGL', seeded: true, date: '2026-08-02',
+            price: 356.60, atr: 12.16, atrPct: 3.41,
+            structure: { m: 'bullish', w: 'bullish', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'strong uptrend',
+                          w: 'uptrend undergoing correction/recovery',
+                          d: 'bullish transition, still below the 9/50 EMA',
+                          h4: 'bullish breakout attempt, rejected from $376 and short-term extended' },
+            preferred: '**Long preferred**, but do not chase the rejection candle.',
+            score: null, parts: null,
+            bias: '**Long-first — monthly and weekly are up.** But the 4H move was REJECTED at resistance: a breakout attempt with a significant rejection wick is not clean acceptance, and 4H RSI near 72 says it is short-term extended.',
+            h4: 'Bullish breakout attempt rejected from **$376** with a significant wick — not clean acceptance above resistance. 4H RSI near **72**.',
+            demand: [
+                { lo: 333, hi: 340, strength: 'tested', note: 'immediate' },
+                { lo: 321, hi: 326, strength: 'tested', note: 'secondary' },
+                { lo: 312, hi: 318, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 358, hi: 376, strength: 'tested', note: 'immediate' },
+                { lo: 390, hi: 405, strength: 'fresh', note: 'major' },
+                { lo: 419, hi: 420, strength: 'fresh', note: 'higher supply' },
+            ],
+            position: 'Rejected from **$376** and short-term extended, sitting just under immediate supply',
+            bull: 'Reclaim **$350–359** → **$376**; a daily close above **$376** opens **$390–405**',
+            longSetup: '**Pullback long:** hold $333–340, form a 4H higher low and reclaim **$350–359** → $376. **Breakout long:** daily close above **$376**, then a successful retest → $390–405',
+            longCandidate: 'Long-first, but a pullback that holds **$333–340** is cleaner than chasing near **$356**.',
+            bear: 'Repeated failure below **$358–376**, then loss of **$333** → **$326–321**',
+            shortSetup: 'Repeated failure below **$358–376**, followed by loss of **$333**, opens $326–321; below $321 → **$318–312**',
+            retest: 'A successful breakout above $376 would likely retest **$358–376**; failure below $333 could retest **$333–340** from underneath',
+        },
         {
             // Weekly is 'bullish breakout/transition; NOT yet a confirmed
             // HH-HL uptrend' — so the enum is NEUTRAL, not bullish. One large

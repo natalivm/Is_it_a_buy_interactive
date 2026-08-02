@@ -605,7 +605,7 @@ function boardRowHtml(row) {
     // per-frame reads sit under the 4H narrative they qualify — thirteen
     // columns of one-line cells wasted most of their width on whitespace.
     const identity = `
-        <div class="bt-id bt-lean-${lean}">
+        <div class="bt-id">
             <div class="bt-id-top"><b class="bt-id-sym">${esc(row.ticker)}</b>
                 <span class="bt-id-px">${px}</span></div>
             <div class="bt-id-atr">ATR(14) ${esc(atr)}${
@@ -614,14 +614,13 @@ function boardRowHtml(row) {
             <div class="bt-id-bias">${md(row.bias)}</div>
             ${row.parts ? `<div class="bt-parts">${['W', 'D', 'H', 'R', 'M', 'O', 'Z']
                 .map(k => `${k}${row.parts[k] > 0 ? '+' : ''}${row.parts[k]}`).join(' ')}</div>` : ''}
-            ${row.seeded ? '<div class="bt-unscored">seeded</div>' : ''}
             ${directionOf(row.ticker).map(g =>
                 `<div class="bt-dir bt-dir-${esc(g.side)}">${esc(g.label)}</div>`).join('')}
         </div>`;
 
     return `
         <tr data-ticker="${esc(row.ticker)}">
-            <td class="bt-cell-id">${identity}</td>
+            <td class="bt-cell-id bt-lean-${lean}">${identity}</td>
             <td>${h4}
                 <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
                 ${flowCell(row, true)}</td>
@@ -683,13 +682,6 @@ function renderBoardTable() {
     }
     body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
 
-    const meta = document.getElementById('boardTableMeta');
-    if (meta) {
-        const src = BOARD_DATA.generatedBy ? ` · ${esc(BOARD_DATA.generatedBy)}` : '';
-        meta.innerHTML = `as of ${esc(fmtDate(BOARD_DATA.updated) || BOARD_DATA.updated || '')}${src}`;
-    }
-    const note = document.getElementById('boardTableNote');
-    if (note) note.innerHTML = md(BOARD_DATA.note || '');
     const method = document.getElementById('boardTableMethod');
     if (method) method.innerHTML = md(BOARD_DATA.method || '');
 
