@@ -124,6 +124,15 @@ jobs:
           # Surface must-agree drift in the PR title area, not buried in a log.
           DRIFT=$(grep -c '⚠' tools/reports/structure.txt || true)
           echo "drift=${DRIFT:-0}" >> "$GITHUB_OUTPUT"
+          # …and the same board as TSV, built by the SAME tsv.js the page's
+          # "Copy for Sheets" button uses, so the artifact and the clipboard can
+          # never disagree on columns. Paste straight into Google Sheets.
+          node -e "
+            const fs = require('fs');
+            eval(fs.readFileSync('board.js', 'utf8') + ';globalThis.BOARD = BOARD');
+            eval(fs.readFileSync('tsv.js', 'utf8'));
+            fs.writeFileSync('tools/reports/board.tsv', boardTsv(BOARD));
+          "
           # The proposed board goes to the artifact under a name that cannot be
           # mistaken for the live file, and the working tree is put back exactly
           # as checked out — this job leaves no changes behind.

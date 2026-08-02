@@ -606,6 +606,40 @@ function boardRowHtml(row) {
         </tr>`;
 }
 
+// Copies the board as TSV so it can be pasted straight into Google Sheets.
+// Uses the shared builder in tsv.js — the same one the bot writes board.tsv
+// with — so the clipboard and the artifact can never disagree on columns.
+function initBoardCopy() {
+    const btn = document.getElementById('boardCopyBtn');
+    if (!btn || typeof boardTsv !== 'function') return;
+    const label = document.getElementById('boardCopyLabel');
+    const say = msg => {
+        if (!label) return;
+        label.textContent = msg;
+        setTimeout(() => { label.textContent = 'Copy for Sheets'; }, 1800);
+    };
+    btn.addEventListener('click', async () => {
+        const tsv = boardTsv(BOARD_DATA);
+        if (!tsv) { say('nothing to copy'); return; }
+        try {
+            await navigator.clipboard.writeText(tsv);
+            say(`copied ${BOARD_DATA.rows.length} rows`);
+        } catch (e) {
+            // clipboard API needs a secure context and permission; the
+            // textarea route works from file:// and older browsers too.
+            const ta = document.createElement('textarea');
+            ta.value = tsv;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand('copy');
+            ta.remove();
+            say(ok ? `copied ${BOARD_DATA.rows.length} rows` : 'copy failed');
+        }
+    });
+}
+
 function renderBoardTable() {
     const body = document.getElementById('boardTableBody');
     const section = document.getElementById('boardTable');
@@ -974,7 +1008,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
     renderBooked();        // "booked at targets" strip (reuses accents too)
-    renderBoardTable();    // the plain-table view of the same board
+    renderBoardTable();
+    initBoardCopy();    // the plain-table view of the same board
     initStockSearch();     // filters the tile grid by ticker
 
     const overlay = document.getElementById('storyOverlay');
