@@ -86,11 +86,11 @@ const BOARD = {
                   + 'trend has only just turned, so it joins on either a $482 '
                   + 'breakout-retest or a pullback with a 4H higher low.' },
             { label: 'Best trend-following shorts', side: 'short',
-              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA'] },
+              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
               tickers: ['SMH', 'META', 'CIEN'] },
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -432,6 +432,45 @@ const BOARD = {
             bear: 'Reject **$575–610**, or lose **$520** and fail to reclaim → **$500–490**, then **$470–450**',
             longCandidate: 'Countertrend long from **$520–545** after 4H confirmation.',
             retest: 'Reclaim above $590 may retest **$575–590**; breakdown below $520 may retest **$520–545** from underneath',
+        },
+        {
+            // Monthly is NEUTRAL: "uptrend intact but the parabolic phase
+            // broken; sharp correction and transition" is a regime in
+            // transition, not a structural downtrend. Weekly, daily and 4H are
+            // all bearish as written — the weekly explicitly confirms lower
+            // highs AND lower lows.
+            //
+            // ATR pair implies $187.52, consistent with the $185–188 the read
+            // quotes as current.
+            ticker: 'MRVL', seeded: true, date: '2026-08-02',
+            price: 187.52, atr: 19.54, atrPct: 10.42,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term uptrend intact but the parabolic phase broken — sharp correction and transition',
+                          w: 'confirmed bearish correction, lower highs and lower lows, still above major weekly trend support',
+                          d: 'downtrend below the short- and intermediate-term averages; momentum weak but approaching oversold',
+                          h4: 'bearish — the rebound formed a lower high near $199–201 and price remains below the 9, 50 and 200 EMAs' },
+            preferred: '**Short preferred** with the weekly, daily and 4H trends; do not chase near demand. Longs are countertrend until structure improves.',
+            score: null, parts: null,
+            bias: '**Trend-following short candidate, but not a chase at $185–188** — MRVL is already closer to demand ($160–170) than to major supply, so shorting aggressively near the lows is poor positioning. The cleaner trade is a bounce into supply followed by rejection.',
+            h4: 'Rebound formed a **lower high near $199–201**; price remains below the 9, 50 and 200 EMAs.',
+            demand: [
+                { lo: 160, hi: 170, strength: 'tested', note: 'immediate' },
+                { lo: 143, hi: 155, strength: 'tested', note: 'stronger' },
+                { lo: 125, hi: 140, strength: 'fresh', note: 'major lower demand' },
+            ],
+            supply: [
+                { lo: 193, hi: 201, strength: 'tested', note: 'immediate' },
+                { lo: 213, hi: 225, strength: 'tested', note: 'main' },
+                { lo: 245, hi: 260, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Closer to demand than to major supply — approaching **$160–170**, which is why shorting the lows is poor positioning',
+            bull: 'Reclaim **$193–201** → **$213–225**',
+            longSetup: 'Hold **$160–170**, form a 4H higher low, reclaim **$193–201** → **$213–225**. A stronger trend reversal requires acceptance above **$213–225**.',
+            longCandidate: 'Countertrend only — **$160–170** must produce a genuine structure change, not merely one green candle.',
+            bear: 'Bounce into **$193–201** and reject → **$170–160**, then **$155–143**',
+            shortSetup: 'Wait for a rebound toward **$193–201** and assess whether sellers return; reject → $170–160, then $155–143. A daily close below **$160** with a failed reclaim → $155–143, then **$140–125**.',
+            retest: 'An upside rebound may retest **$193–201**; a breakdown below $160 may retest **$160–170** from underneath',
         },
         {
             // Weekly is 'bullish breakout/transition; NOT yet a confirmed
