@@ -53,6 +53,31 @@ const BOARD = {
     ],
     rankingNote: 'The biggest update is TE: it remains a possible countertrend long, '
         + 'but the 4H chart says wait, not buy yet.',
+    // Direction ranking — which side each name is a candidate for, and on what
+    // terms. A ticker can appear in more than one group on purpose: META, SMH
+    // and CIEN are corrections inside larger monthly uptrends AND countertrend
+    // bounce candidates, which are two true statements about the same chart.
+    // This is the single source of truth — each row's membership label is
+    // derived from these lists at render time, never restated per row.
+    direction: {
+        groups: [
+            { label: 'Best trend-following longs', side: 'long',
+              tickers: ['LLY', 'AVGO'] },
+            { label: 'Possible longs after breakout confirmation', side: 'long',
+              tickers: ['AXON', 'STX'],
+              note: 'AXON first, then STX.' },
+            { label: 'Best trend-following shorts', side: 'short',
+              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM'] },
+            { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
+              tickers: ['SMH', 'META', 'CIEN'] },
+            { label: 'Countertrend bounce candidates only', side: 'long',
+              tickers: ['TE', 'META', 'SMH', 'CIEN'] },
+        ],
+        note: 'The biggest correction to the earlier board is **TE**: being oversold '
+            + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
+            + 'trends all remain down. The long is therefore **countertrend** and needs '
+            + 'stronger confirmation than a normal trend-following long.',
+    },
     // `price` on a seeded row is IMPLIED from its own ATR pair (atr / atrPct *
     // 100). That is not a guess: for every ticker that also has a card, the
     // implied price lands within 0.07% of our own close — so these ATR figures
@@ -61,7 +86,16 @@ const BOARD = {
         {
             ticker: 'LITE', seeded: true, date: '2026-08-01',
             price: 713.62, atr: 76, atrPct: 10.65,
-            structure: { w: 'bearish', d: 'bearish', h4: 'bearish', h4Note: 'read from charts' },
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'parabolic trend breaking', w: 'downtrend',
+                          d: 'downtrend', h4: 'failed relief bounce' },
+            preferred: '**Strong short preference**',
+            longSetup: 'Countertrend only above **$750** → $801–835',
+            shortSetup: 'Weak bounce into **$719–750**, or loss of $700 → $681–662, then $620–575',
             score: null, parts: null,
             bias: '**Strongly bearish.** Continuation short preferred.',
             h4: 'Clear bearish structure: price below the $748, $781 and $813 averages. The rebound has rolled over near resistance.',
@@ -89,7 +123,15 @@ const BOARD = {
             ticker: 'CRWV', seeded: true, date: '2026-08-01',
             price: 71.72, atr: 7.1, atrPct: 9.9,
             structure: { m: null, w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts — limited monthly history' },
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'insufficient history', w: 'downtrend',
+                          d: 'downtrend', h4: 'downtrend' },
+            preferred: '**Short preferred**',
+            longSetup: 'Countertrend only after $60–65 holds and **$80** is reclaimed',
+            shortSetup: 'Reject $74–80 or lose **$60** → $49–52',
             score: null, parts: null,
             bias: '**Strongly bearish with bounce risk.** Prefer rejection short from supply rather than chasing near demand.',
             h4: 'Relief bounce is failing — price is back under the 4H resistance and moving averages.',
@@ -116,8 +158,16 @@ const BOARD = {
             // confirmed higher-high-and-higher-low read.
             ticker: 'AVGO', seeded: true, date: '2026-08-01',
             price: 388.97, atr: 16.57, atrPct: 4.26,
-            structure: { m: 'bullish', w: 'neutral', d: 'neutral', h4: 'neutral',
-                         h4Note: 'read from charts — 4H compressed' },
+            structure: { m: 'bullish', w: 'bullish', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend', w: 'uptrend/consolidation',
+                          d: 'range', h4: 'compressed range' },
+            preferred: '**Long preferred**',
+            longSetup: 'Hold $378–383 and reclaim **$396–405** → $419–425, then $450–466',
+            shortSetup: 'Short only after loss and failed reclaim of **$378** → $369–357',
             score: null, parts: null,
             bias: '**Neutral-to-bullish.** Prefer pullback hold or confirmed breakout long; short only after support failure.',
             h4: 'Compressed — coiling under the $382–390 moving-average cluster rather than trending.',
@@ -143,11 +193,19 @@ const BOARD = {
             // that is null too rather than borrowed from META's card. The first
             // bot run fills all three; the levels below stand on their own.
             ticker: 'META', seeded: true, date: '2026-08-01',
-            price: null, atr: null, atrPct: null,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'neutral',
-                         h4Note: 'read from charts — ATR pending' },
+            price: 557.08, atr: 25.18, atrPct: 4.52,
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend under pressure', w: 'downtrend',
+                          d: 'downtrend', h4: 'bearish rebound attempt' },
+            preferred: '**Short trend; long only countertrend**',
+            longSetup: 'Hold $520–545, form higher low and reclaim **$575–590** → $599–635',
+            shortSetup: 'Reject $575–610, or lose **$520** → $500–490, then $470–450',
             score: null, parts: null,
-            bias: '**ATR pending — Bearish correction with countertrend bounce potential.** Long only after confirmation from demand; rejection short is cleaner from higher prices.',
+            bias: '**Bearish correction with countertrend bounce potential.** Long only after confirmation from demand; rejection short is cleaner from higher prices.',
             h4: 'Attempting a rebound — an attempt, not yet a turn, so the 4H frame is read neutral rather than bullish.',
             demand: [
                 { lo: 520, hi: 545, strength: 'tested', note: 'immediate' },
@@ -168,7 +226,16 @@ const BOARD = {
         {
             ticker: 'STX', seeded: true, date: '2026-08-01',
             price: 856.41, atr: 82.13, atrPct: 9.59,
-            structure: { w: 'neutral', d: 'bearish', h4: 'bearish', h4Note: 'read from charts' },
+            structure: { m: 'bullish', w: 'neutral', d: 'neutral', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend', w: 'range/correction',
+                          d: 'range', h4: 'weakening beneath resistance' },
+            preferred: '**Neutral — wait for resolution**',
+            longSetup: 'Defend **$786–800**, reclaim $815–838 → $885',
+            shortSetup: 'Reject **$885–922**, or lose $832 then $818 → $800–786',
             score: null, parts: null,
             bias: '**Neutral-to-bearish short term.** Short confirmed weakness toward the gap; long only after gap confirmation.',
             h4: 'Rally toward $900 produced a lower high and is rolling over. Price is now testing the **$842–860** moving-average cluster.',
@@ -191,7 +258,16 @@ const BOARD = {
         {
             ticker: 'AKAM', seeded: true, date: '2026-08-01',
             price: 115.19, atr: 5.46, atrPct: 4.74,
-            structure: { w: 'bearish', d: 'neutral', h4: 'neutral', h4Note: 'read from charts' },
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'transition after uptrend', w: 'downtrend',
+                          d: 'bearish range/bounce', h4: 'bounce stalling' },
+            preferred: '**Short preferred**',
+            longSetup: 'Trend changes only above **$119.22** → $124–126',
+            shortSetup: 'Reject **$115–119** or lose **$107.27** → $102–104',
             score: null, parts: null,
             bias: '**Neutral-to-bearish.** Wait for resolution.',
             h4: 'Bounce is stalling beneath **$116.8–118**. MACD momentum is fading and stochastic is rolling over from overbought.',
@@ -207,7 +283,16 @@ const BOARD = {
         {
             ticker: 'AXON', seeded: true, date: '2026-08-01',
             price: 527.64, atr: 29.02, atrPct: 5.50,
-            structure: { w: 'bullish', d: 'neutral', h4: 'neutral', h4Note: 'read from charts' },
+            structure: { m: 'neutral', w: 'neutral', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'transition', w: 'recovery/transition',
+                          d: 'range', h4: 'range above support' },
+            preferred: '**Neutral with slight long preference**',
+            longSetup: 'Break and hold **$545–550** → $580–600',
+            shortSetup: 'Lose $508–515 and fail reclaim → $490–500',
             score: null, parts: null,
             bias: '**Neutral with slight bullish tilt.** Prefer confirmed breakout long.',
             h4: 'Tight balance above approximately **$508–515**, with price holding around $520–530. Momentum is neutral but stabilizing.',
@@ -231,7 +316,16 @@ const BOARD = {
         {
             ticker: 'TE', seeded: true, date: '2026-08-01',
             price: 4.11, atr: 0.19, atrPct: 4.62,
-            structure: { w: 'bearish', d: 'bearish', h4: 'bearish', h4Note: 'read from charts' },
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'transition/breakdown', w: 'downtrend',
+                          d: 'downtrend, oversold', h4: 'bounce failing' },
+            preferred: '**Short trend; long only countertrend**',
+            longSetup: 'Hold $3.65–3.70 and reclaim **$4.30–4.53** → $4.72–5.34',
+            shortSetup: 'Reject $4.53–4.72 or lose **$3.50** → $3.00–2.50',
             score: null, parts: null,
             bias: '**Countertrend bullish.** Long candidate from demand.',
             h4: 'The bounce from $3.55–3.70 is losing momentum. Price remains below all important 4H averages, while stochastic is rolling down.',
@@ -253,7 +347,16 @@ const BOARD = {
         {
             ticker: 'SMH', seeded: true, date: '2026-08-01',
             price: 540.89, atr: 27.91, atrPct: 5.16,
-            structure: { w: 'bearish', d: 'bearish', h4: null, h4Note: 'no 4H read yet' },
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend', w: 'bearish correction',
+                          d: 'downtrend/stretched', h4: 'not reviewed' },
+            preferred: '**Short during correction**',
+            longSetup: 'Hold $503–520 and reclaim **$570** → $590–605',
+            shortSetup: 'Reject $557–571 or lose **$503** → $486–469',
             score: null, parts: null,
             bias: '**Neutral-to-bearish with bounce potential.** Prefer rejection short from supply.',
             demand: [
@@ -275,7 +378,16 @@ const BOARD = {
         {
             ticker: 'INTC', seeded: true, date: '2026-08-01',
             price: 90.17, atr: 8.62, atrPct: 9.56,
-            structure: { w: 'bearish', d: 'bearish', h4: null, h4Note: 'no 4H read yet' },
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend under correction', w: 'downtrend',
+                          d: 'downtrend', h4: 'not reviewed' },
+            preferred: '**Short preferred**',
+            longSetup: 'Hold $80–84 and reclaim **$95** → $100–104',
+            shortSetup: 'Reject $90–95 or lose **$80** → $75–70',
             score: null, parts: null,
             bias: '**Bearish-to-neutral.** Prefer rejection short; long only after demand confirmation.',
             demand: [
@@ -297,7 +409,16 @@ const BOARD = {
         {
             ticker: 'CIEN', seeded: true, date: '2026-08-01',
             price: 376.98, atr: 31.44, atrPct: 8.34,
-            structure: { w: 'bearish', d: 'bearish', h4: null, h4Note: 'no 4H read yet' },
+            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend correcting', w: 'downtrend',
+                          d: 'downtrend', h4: 'not reviewed' },
+            preferred: '**Short preferred, but near demand**',
+            longSetup: 'Hold $355–365 and reclaim **$405–420** → $445–475',
+            shortSetup: 'Reject $400–420 or lose **$355** → $340–320',
             score: null, parts: null,
             bias: '**Neutral-to-bearish with bounce potential.** Long only after confirmation; otherwise reject supply.',
             demand: [
@@ -318,7 +439,16 @@ const BOARD = {
         {
             ticker: 'LLY', seeded: true, date: '2026-08-01',
             price: 1147.63, atr: 36.38, atrPct: 3.17,
-            structure: { w: 'bullish', d: 'neutral', h4: null, h4Note: 'no 4H read yet' },
+            structure: { m: 'bullish', w: 'bullish', d: 'bearish', h4: null,
+                         h4Note: 'read from charts' },
+            // Per-frame trend, in the words it was read in. The enum above has
+            // three values, so hedged wording maps to the conservative one and
+            // the full phrasing is kept here.
+            trendProse: { m: 'uptrend', w: 'uptrend',
+                          d: 'corrective downtrend', h4: 'not reviewed' },
+            preferred: '**Long preferred**',
+            longSetup: 'Hold $1,119–1,130 and reclaim **$1,175** → $1,200–1,250',
+            shortSetup: 'Short only after loss and failed reclaim of **$1,119** → $1,050',
             score: null, parts: null,
             bias: '**Neutral-to-bullish.** Prefer confirmed long from demand.',
             demand: [

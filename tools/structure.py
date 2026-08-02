@@ -1256,7 +1256,8 @@ def main() -> int:
     # carry them onto the freshly computed row instead of dropping them. The
     # long-candidate line, the 4H prose and any per-row note are analyst text;
     # everything else on the row is recomputed from bars.
-    CARRY = ('longCandidate', 'h4', 'h4Effect', 'note')
+    CARRY = ('longCandidate', 'longSetup', 'shortSetup', 'preferred',
+             'trendProse', 'h4', 'h4Effect', 'note')
     for r in rows:
         old = previous.get(r['ticker'])
         if not old:
