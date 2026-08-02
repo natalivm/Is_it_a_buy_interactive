@@ -550,9 +550,11 @@ function scoreCell(row) {
 // Order-flow metrics from tools/flow.py, each shown against the ticker's own
 // baseline — these are only meaningful as a deviation from its normal. Absent
 // on every row until the paid feed is configured, so the column self-hides.
-function flowCell(row) {
+function flowCell(row, inline) {
     const f = row.flow;
-    if (!f) return '<span class="bt-unscored">—</span>';
+    // Inline in the 4H cell now: with no feed configured there is nothing to
+    // say, and an empty dash line in every row is noise, not information.
+    if (!f) return inline ? '' : '<span class="bt-unscored">—</span>';
     const base = f.baseline || {};
     const delta = (now, was) => {
         if (was == null || now == null) return '';
@@ -562,12 +564,13 @@ function flowCell(row) {
     const line = (label, v, unit, was) => v == null
         ? `${label} —`
         : `${label} <b>${v > 0 && label === 'imb' ? '+' : ''}${v}${unit}</b>${delta(v, was)}`;
-    return [
+    const body = [
         line('imb', f.imbalance, '%', base.imbalance),
         line('block', f.blockShare, '%', base.blockShare),
         line('odd', f.oddLotShare, '%', base.oddLotShare),
         line('off-exch', f.offExchShare, '%', base.offExchShare),
     ].join('<br>');
+    return inline ? `<div class="bt-frames bt-flow">${body}</div>` : body;
 }
 
 function boardRowHtml(row) {
@@ -581,19 +584,47 @@ function boardRowHtml(row) {
         : '—';
     // data-ticker on EVERY row (the search filters on it); data-symbol only on
     // rows that have a deck to open.
+    // Which way the row leans, for the identity cell's tint. Read from the
+    // preferred direction where there is one, else the computed score, else the
+    // bias prose — the same green/pink language the tiles use for a side.
+    const lean = (() => {
+        const t = `${row.preferred || ''} ${row.bias || ''}`.toLowerCase();
+        if (row.preferred) {
+            if (/short/.test(t) && !/long preferred/.test(t)) return 'short';
+            if (/long/.test(t)) return 'long';
+        }
+        if (typeof row.score === 'number' && row.score) return row.score > 0 ? 'long' : 'short';
+        if (/bear/.test(t)) return 'short';
+        if (/bull/.test(t)) return 'long';
+        return 'flat';
+    })();
+
+    // Compact layout: eight columns. Identity (ticker · price · ATR · score ·
+    // bias · preferred · groups) collapses into one stacked cell, and the
+    // per-frame reads sit under the 4H narrative they qualify — thirteen
+    // columns of one-line cells wasted most of their width on whitespace.
+    const identity = `
+        <div class="bt-id bt-lean-${lean}">
+            <div class="bt-id-top"><b class="bt-id-sym">${esc(row.ticker)}</b>
+                <span class="bt-id-px">${px}</span></div>
+            <div class="bt-id-atr">ATR(14) ${esc(atr)}${
+                row.score != null ? ` · score ${row.score > 0 ? '+' : ''}${row.score}` : ''}</div>
+            ${row.preferred ? `<div class="bt-pref">${md(row.preferred)}</div>` : ''}
+            <div class="bt-id-bias">${md(row.bias)}</div>
+            ${row.parts ? `<div class="bt-parts">${['W', 'D', 'H', 'R', 'M', 'O', 'Z']
+                .map(k => `${k}${row.parts[k] > 0 ? '+' : ''}${row.parts[k]}`).join(' ')}</div>` : ''}
+            ${row.seeded ? '<div class="bt-unscored">seeded</div>' : ''}
+            ${directionOf(row.ticker).map(g =>
+                `<div class="bt-dir bt-dir-${esc(g.side)}">${esc(g.label)}</div>`).join('')}
+        </div>`;
+
     return `
         <tr data-ticker="${esc(row.ticker)}"${hasCard ? ` data-symbol="${esc(row.ticker)}" tabindex="0" role="button"
             aria-label="Open ${esc(row.ticker)} story"` : ''}>
-            <td><b>${esc(row.ticker)}</b><br>${px}${row.seeded ? '<br><span class="bt-unscored">seeded</span>' : ''}${
-                directionOf(row.ticker).map(g =>
-                    `<br><span class="bt-dir bt-dir-${esc(g.side)}">${esc(g.label)}</span>`).join('')}</td>
-            <td>${structCell(row.structure, row.trendProse)}</td>
-            <td>${esc(atr)}</td>
-            <td>${flowCell(row)}</td>
-            <td>${scoreCell(row)}</td>
-            <td>${row.preferred
-                ? `<div class="bt-pref">${md(row.preferred)}</div>` : ''}${md(row.bias)}</td>
-            <td>${h4}</td>
+            <td class="bt-cell-id">${identity}</td>
+            <td>${h4}
+                <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
+                ${flowCell(row, true)}</td>
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
             <td>${md(row.position)}</td>
@@ -651,11 +682,6 @@ function renderBoardTable() {
         return;
     }
     body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
-
-    // No flow feed configured yet → drop the column rather than show a wall of
-    // dashes. It reappears by itself once flow.py has run.
-    const anyFlow = BOARD_DATA.rows.some(r => r.flow);
-    section.classList.toggle('bt-no-flow', !anyFlow);
 
     const meta = document.getElementById('boardTableMeta');
     if (meta) {

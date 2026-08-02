@@ -64,8 +64,10 @@ const BOARD = {
             { label: 'Best trend-following longs', side: 'long',
               tickers: ['LLY', 'AVGO'] },
             { label: 'Possible longs after breakout confirmation', side: 'long',
-              tickers: ['AXON', 'STX'],
-              note: 'AXON first, then STX.' },
+              tickers: ['AXON', 'STX', 'MSFT'],
+              note: 'AXON first, then STX. MSFT is long-first but its weekly '
+                  + 'trend has only just turned, so it joins on either a $482 '
+                  + 'breakout-retest or a pullback with a 4H higher low.' },
             { label: 'Best trend-following shorts', side: 'short',
               tickers: ['LITE', 'CRWV', 'INTC', 'AKAM'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
@@ -83,6 +85,50 @@ const BOARD = {
     // implied price lands within 0.07% of our own close — so these ATR figures
     // and our OHLC are on the same basis.
     rows: [
+        {
+            // Weekly is 'bullish breakout/transition; NOT yet a confirmed
+            // HH-HL uptrend' — so the enum is NEUTRAL, not bullish. One large
+            // displacement candle is not a higher-high-and-higher-low
+            // sequence, which is the same distinction classify_structure
+            // enforces: a break needs a confirmed pivot behind it, and this
+            // one has not made its higher low yet.
+            //
+            // Price is the stated $464.72 close; the ATR pair implies $464.35,
+            // a 0.08% reconciliation. The read explicitly EXCLUDES a second
+            // feed showing a materially lower ATR rather than averaging the
+            // two — mixing methodologies is what made the earlier board's ATRs
+            // inconsistent, so a single basis is kept here too.
+            ticker: 'MSFT', seeded: true, date: '2026-08-02',
+            price: 464.72, atr: 16.02, atrPct: 3.45,
+            structure: { m: 'bullish', w: 'neutral', d: 'bullish', h4: 'bullish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term uptrend, recovering below prior high',
+                          w: 'bullish breakout/transition — not yet a confirmed HH-HL uptrend',
+                          d: 'strong bullish breakout, extended',
+                          h4: 'uptrend, but stretched after the gap' },
+            preferred: '**Long preferred.** Do not chase the two-day expansion; prioritise a pullback or a confirmed breakout-retest.',
+            score: null, parts: null,
+            bias: '**Long-first, but the weekly trend has only just turned.** The earnings gap is genuine bullish displacement; one large candle is not a completed higher-high/higher-low sequence.',
+            h4: 'Uptrend but stretched: at $465 price sits roughly THREE ATRs above the pre-earnings area, so the attractive long is not simply buying here.',
+            demand: [
+                { lo: 449, hi: 451, strength: 'fresh', note: 'immediate' },
+                { lo: 432, hi: 438, strength: 'fresh', note: 'earnings-gap support' },
+                { lo: 419, hi: 423, strength: 'tested', note: 'major breakout shelf' },
+                { lo: 389, hi: 400, strength: 'tested', note: 'lower gap base' },
+            ],
+            supply: [
+                { lo: 466, hi: 482, strength: 'tested', note: 'immediate' },
+                { lo: 500, hi: 505, strength: 'tested', note: 'next' },
+                { lo: 537, hi: 550, strength: 'fresh', note: 'major supply / prior high' },
+            ],
+            position: 'About **three ATRs** above the pre-earnings area after a two-day expansion — extended, directly under immediate supply',
+            bull: 'Close above **$482**, hold the retest of $466–482 → **$500–505**, then **$537–550**',
+            longSetup: '**Breakout:** close above **$482**, then hold/retest $466–482 → **$500–505**, then **$537–550**. **Pullback:** defend $432–438 or $419–423, form a 4H higher low and reclaim the zone → **$466–482**',
+            longCandidate: 'Long-first, but wait: either a pullback into **$449–451** or **$432–438** with a 4H higher low, or a **$482** break with a successful retest.',
+            bear: 'Loss of **$432** → **$419–423**',
+            shortSetup: 'Loss of **$432** → $419–423. A short only becomes structurally clean after a close below **$419** and a failed reclaim → **$400–389**',
+            retest: 'First likely retest **$449–451**; a deeper gap retest could reach **$432–438**',
+        },
         {
             ticker: 'LITE', seeded: true, date: '2026-08-01',
             price: 713.62, atr: 76, atrPct: 10.65,

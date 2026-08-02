@@ -881,9 +881,10 @@ body.story-open { overflow: hidden; }
     --bt-line: color-mix(in srgb, var(--txt) 34%, transparent);
     width: 100%;
     /* Floor, not target: below this the columns crush, so the box scrolls
-       instead. Trimmed from 1500 so a 1440px laptop fits the whole board
-       without scrolling sideways — at 1440 the gutters leave ~1360. */
-    min-width: 1360px;
+       instead. Eight columns need far less than the thirteen did — 1100 lets a
+       1280px laptop show the whole board, and narrower screens scroll the box
+       rather than squeezing eight columns into a phone. */
+    min-width: 1100px;
     table-layout: fixed;
     border-collapse: collapse;
     background: var(--panel);
@@ -913,31 +914,59 @@ body.story-open { overflow: hidden; }
     background: color-mix(in srgb, var(--txt) 7%, transparent);
     outline: none;
 }
-/* Column widths — fixed layout so one long 4H narrative can't starve the level
-   columns. Order: ticker · structure · ATR · flow · score · bias · 4H ·
-   demand · supply · position · bull · bear · retest. */
-.board-table .board th:nth-child(1) { width: 5%; }
-.board-table .board th:nth-child(2) { width: 6%; }
-.board-table .board th:nth-child(3) { width: 6%; }
-.board-table .board th:nth-child(4) { width: 8%; }
-.board-table .board th:nth-child(5) { width: 5%; }
-.board-table .board th:nth-child(6) { width: 9%; }
-.board-table .board th:nth-child(7) { width: 14%; }
-.board-table .board th:nth-child(8) { width: 8%; }
-.board-table .board th:nth-child(9) { width: 8%; }
-.board-table .board th:nth-child(10) { width: 8%; }
-.board-table .board th:nth-child(11) { width: 8%; }
-.board-table .board th:nth-child(12) { width: 8%; }
-.board-table .board th:nth-child(13) { width: 7%; }
-/* Ticker, structure and ATR are single tokens — never break "$8.62 / 9.56%". */
-.board-table .board td:nth-child(1),
-.board-table .board td:nth-child(2),
-.board-table .board td:nth-child(3) { white-space: nowrap; }
+/* Column widths — eight columns, fixed layout. Order: identity · 4H read +
+   frames · demand · supply · position · bullish · bearish · retest.
+   The wide narrative columns get the room; the level columns are numeric and
+   stay tight. */
+.board-table .board th:nth-child(1) { width: 13%; }
+.board-table .board th:nth-child(2) { width: 21%; }
+.board-table .board th:nth-child(3) { width: 10%; }
+.board-table .board th:nth-child(4) { width: 10%; }
+.board-table .board th:nth-child(5) { width: 10%; }
+.board-table .board th:nth-child(6) { width: 13%; }
+.board-table .board th:nth-child(7) { width: 13%; }
+.board-table .board th:nth-child(8) { width: 10%; }
 
-/* No flow feed configured → hide the column outright (a wall of dashes reads
-   as broken data rather than as an unconfigured optional feed). */
-.bt-no-flow .board th:nth-child(4),
-.bt-no-flow .board td:nth-child(4) { display: none; }
+/* ── Identity cell ─────────────────────────────────────────────────────────
+   Ticker, price, ATR, score, bias, preferred direction and group badges in one
+   stacked block instead of seven one-line columns, which spent most of their
+   width on whitespace. Tinted by which way the row leans, in the same
+   green/pink the tiles use for a side. */
+.board-table .board td.bt-cell-id { padding: 0; vertical-align: top; }
+.bt-id {
+    --lean: var(--mut);
+    height: 100%; padding: 8px 10px;
+    border-left: 3px solid var(--lean);
+    background: color-mix(in srgb, var(--lean) 9%, transparent);
+}
+.bt-lean-long { --lean: var(--green); }
+.bt-lean-short { --lean: var(--pink); }
+.bt-lean-flat { --lean: var(--mut); }
+.bt-id-top {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 8px; flex-wrap: wrap;
+}
+.bt-id-sym {
+    font-family: var(--disp); font-weight: 700; font-size: 16px;
+    letter-spacing: 0.03em; color: var(--lean);
+}
+.bt-id-px { font-family: var(--mono); font-size: 12px; }
+.bt-id-atr {
+    margin-top: 2px; font-family: var(--mono); font-size: 10px; color: var(--mut);
+}
+.bt-id-bias { margin-top: 4px; }
+.bt-id .bt-pref { margin-top: 5px; font-weight: 600; color: var(--lean); }
+.bt-id .bt-parts { display: block; margin-top: 4px; }
+.bt-id .bt-dir { margin-top: 4px; }
+
+/* The per-frame reads, tucked under the 4H narrative they qualify. */
+.bt-frames {
+    margin-top: 8px; padding-top: 7px;
+    border-top: 1px dotted var(--bt-line, var(--hair));
+    font-family: var(--mono); font-size: 10px; line-height: 1.6;
+    color: var(--mut);
+}
+.bt-flow { font-size: 10px; }
 
 /* Header above the table: title + "as of" and the one-line board note. */
 .bt-head {
