@@ -399,6 +399,83 @@ for raw in ("AKAM, LITE, TE", " akam,lite ,, te "):
     check(f"{raw!r} splits on commas too",
           [t for t in re.split(r"[,\s]+", raw.upper()) if t], ['AKAM', 'LITE', 'TE'])
 
+# ── board order: best longs first, best shorts last ─────────────────────────
+print("\nBoard order — best longs at the top, best shorts at the bottom")
+
+_LONG = {"preferred": "**Long preferred**"}
+_SHORT = {"preferred": "**Short preferred**"}
+
+check("a preferred long leans long", st.lean(_LONG), 'long')
+check("a preferred short leans short", st.lean(_SHORT), 'short')
+# The one case the substring test exists for: a row that prefers a long while
+# naming the conditions for a short must not be read as a short. This is NOW.
+check("'long preferred' survives the word 'short' later in the row",
+      st.lean({"preferred": "**Tactical long preferred** while $103 holds. "
+                                   "Short only after rejection from $116–126."}),
+      'long')
+check("no preferred: a positive score leans long", st.lean({"score": 2.5}), 'long')
+check("no preferred: a negative score leans short", st.lean({"score": -2.5}), 'short')
+check("no preferred and no score: bias prose decides",
+      st.lean({"bias": "**Neutral-to-bearish.** Wait."}), 'short')
+check("nothing to go on is flat, not a direction", st.lean({}), 'flat')
+
+# Conviction is the STRUCTURE terms only — 2W + D + 0.5H + Z — so a seeded row
+# and a generated one are ranked on the same evidence.
+_frames = lambda w, d, h: {"structure": {"w": w, "d": d, "h4": h}}
+check("2W + D + 0.5H with no zone term",
+      st.conviction(_frames('bullish', 'bullish', 'bullish')), 3.5)
+check("weekly carries double weight",
+      st.conviction(_frames('bullish', 'bearish', 'neutral')), 1.0)
+check("all bearish is the floor",
+      st.conviction(_frames('bearish', 'bearish', 'bearish')), -3.5)
+check("inside demand adds +1",
+      st.conviction({**_frames('bearish', 'bearish', 'neutral'), "price": 50,
+                            "demand": [{"lo": 48, "hi": 52}]}), -2.0)
+check("inside supply subtracts 1",
+      st.conviction({**_frames('bearish', 'bearish', 'neutral'), "price": 50,
+                            "supply": [{"lo": 48, "hi": 52}]}), -4.0)
+check("outside every zone is 0, not a guess",
+      st.conviction({**_frames('bearish', 'bearish', 'neutral'), "price": 60,
+                            "demand": [{"lo": 48, "hi": 52}]}), -3.0)
+check("`parts` is used where the extractor computed the terms",
+      st.conviction({"parts": {"W": 1, "D": 1, "H": 1, "Z": 1},
+                            "structure": {"w": 'bearish', "d": 'bearish', "h4": 'bearish'}}),
+      4.5)
+# The oscillator terms are deliberately absent: R/M/O exist only on generated
+# rows, and a key that reads more evidence for some rows than others is not one
+# ranking. Same parts, opposite oscillators, same position on the board.
+check("R/M/O never move a row",
+      st.conviction({"parts": {"W": 1, "D": 0, "H": 0, "Z": 0, "R": 1, "M": 1, "O": 1}}),
+      st.conviction({"parts": {"W": 1, "D": 0, "H": 0, "Z": 0, "R": -1, "M": -1, "O": -1}}))
+
+_row = lambda t, pref, w, d, h: {"ticker": t, "preferred": pref,
+                                 "structure": {"w": w, "d": d, "h4": h}}
+_board = [
+    _row('SHORTEST', '**Short preferred**', 'bearish', 'bearish', 'bearish'),
+    _row('WEAKLONG', '**Long preferred**', 'neutral', 'neutral', 'neutral'),
+    _row('MILDSHORT', '**Short preferred**', 'neutral', 'bearish', 'neutral'),
+    _row('BESTLONG', '**Long preferred**', 'bullish', 'bullish', 'bullish'),
+]
+check("longs on top, shorts at the bottom, strongest at each end",
+      [r['ticker'] for r in sorted(_board, key=st.order_key)],
+      ['BESTLONG', 'WEAKLONG', 'MILDSHORT', 'SHORTEST'])
+# A row whose verdict is a long belongs in the long block even when its frames
+# are net bearish — the board shows the analyst's side, not the arithmetic's.
+# NOW is exactly this: weekly down, daily and 4H up, tactical long preferred.
+_ctr = _row('COUNTER', '**Tactical long preferred** while support holds.',
+            'bearish', 'bullish', 'bullish')
+check("a countertrend long sorts into the LONG block",
+      [r['ticker'] for r in sorted([_ctr, _board[2]], key=st.order_key)],
+      ['COUNTER', 'MILDSHORT'])
+check("…and it is negative on structure, so it sits last among longs",
+      st.conviction(_ctr) < 0, True)
+check("ties break on ticker, so a row never wanders",
+      [r['ticker'] for r in sorted(
+          [_row('ZZ', '**Long preferred**', 'bullish', 'neutral', 'neutral'),
+           _row('AA', '**Long preferred**', 'bullish', 'neutral', 'neutral')],
+          key=st.order_key)],
+      ['AA', 'ZZ'])
+
 print()
 if FAILURES:
     print(f"{len(FAILURES)} FAILURE(S): " + ", ".join(FAILURES))

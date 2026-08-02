@@ -475,6 +475,37 @@ function md(text) {
 
 const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
 
+// Which way a row leans — its own verdict, read from the preferred direction
+// where there is one, else the computed score, else the bias prose.
+//
+// ONE definition, used twice: it tints the identity cell green/pink, and
+// tools/structure.py ports it verbatim as the board's primary sort key. The
+// board is emitted best-longs-first, so if these two ever disagree a green row
+// appears inside the short block. The CI order guard re-derives the emitted
+// order from THIS function and fails on a mismatch, so the port cannot drift
+// away unnoticed.
+function boardLean(row) {
+    const t = `${row.preferred || ''} ${row.bias || ''}`.toLowerCase();
+    if (row.preferred) {
+        if (/short/.test(t) && !/long preferred/.test(t)) return 'short';
+        if (/long/.test(t)) return 'long';
+    }
+    if (typeof row.score === 'number' && row.score) return row.score > 0 ? 'long' : 'short';
+    if (/bear/.test(t)) return 'short';
+    if (/bull/.test(t)) return 'long';
+    return 'flat';
+}
+
+// The band that introduces each direction block. The rows arrive already
+// grouped (file order is the order), so this only has to notice the boundary —
+// it never reorders anything, and a board that somehow arrives ungrouped gets
+// repeated headers rather than a silently wrong one.
+const LEAN_BAND = {
+    long: 'Long setups — strongest first',
+    flat: 'No clear edge',
+    short: 'Short setups — strongest last',
+};
+
 // Monthly first — the overall view — then the working frames and the timing
 // frame. M is context only and never enters the score, so it is dimmed to say
 // so rather than sitting flush with the terms that do count.
@@ -575,20 +606,10 @@ function boardRowHtml(row) {
     // card: this board is a separate element from the gallery, the two are
     // allowed to disagree, and a row that opens a deck invites reading the
     // deck's plan as this board's conclusion.
-    // Which way the row leans, for the identity cell's tint. Read from the
-    // preferred direction where there is one, else the computed score, else the
-    // bias prose — the same green/pink language the tiles use for a side.
-    const lean = (() => {
-        const t = `${row.preferred || ''} ${row.bias || ''}`.toLowerCase();
-        if (row.preferred) {
-            if (/short/.test(t) && !/long preferred/.test(t)) return 'short';
-            if (/long/.test(t)) return 'long';
-        }
-        if (typeof row.score === 'number' && row.score) return row.score > 0 ? 'long' : 'short';
-        if (/bear/.test(t)) return 'short';
-        if (/bull/.test(t)) return 'long';
-        return 'flat';
-    })();
+    // Which way the row leans, for the identity cell's tint — the same
+    // green/pink language the tiles use for a side, and the same call that
+    // orders the board.
+    const lean = boardLean(row);
 
     // Compact layout: eight columns. Identity (ticker · price · ATR · score ·
     // bias · preferred · groups) collapses into one stacked cell, and the
@@ -668,7 +689,22 @@ function renderBoardTable() {
         if (empty) empty.hidden = false;
         return;
     }
-    body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
+    // A band ahead of each direction block, so the ordering explains itself: a
+    // silently re-sorted table just looks shuffled. Rendered from the rows as
+    // they arrive — the order is the file's, not this function's.
+    let band = null;
+    body.innerHTML = BOARD_DATA.rows.map(row => {
+        const lean = boardLean(row);
+        // scope="rowgroup", not aria-hidden: the band is the only thing that
+        // says which block a row is in, and a screen-reader user cannot see
+        // the green/pink tint that says it visually.
+        const head = lean === band ? '' : `
+            <tr class="bt-band bt-band-${lean}">
+                <th colspan="7" scope="rowgroup">${esc(LEAN_BAND[lean] || '')}</th>
+            </tr>`;
+        band = lean;
+        return head + boardRowHtml(row);
+    }).join('');
 
     const method = document.getElementById('boardTableMethod');
     if (method) method.innerHTML = md(BOARD_DATA.method || '');

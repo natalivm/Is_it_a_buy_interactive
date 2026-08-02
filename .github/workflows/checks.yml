@@ -91,3 +91,11 @@ jobs:
             }
             console.log(\`ok  board.js — \${B.rows.length} rows\`);
           "
+
+      # The board is emitted best-longs-first / best-shorts-last and file order
+      # IS the order — nothing re-sorts downstream. So a hand-reordered row
+      # looks right until the next bot run silently undoes it, and the Python
+      # sort key drifting from the JS tint would put a green row in the short
+      # block. Both are invisible without this.
+      - name: Validate the board's row order
+        run: python3 tools/check_board_order.py

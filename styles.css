@@ -977,6 +977,26 @@ body.story-open { overflow: hidden; }
 .board-table .board td.bt-lean-long { --lean: var(--green); }
 .board-table .board td.bt-lean-short { --lean: var(--pink); }
 .board-table .board td.bt-lean-flat { --lean: var(--mut); }
+
+/* ── Direction bands ───────────────────────────────────────────────────────
+   The board runs best-longs-first to best-shorts-last, which is only useful if
+   you can see where one block ends. A full-width band per direction, in that
+   block's own colour. Quiet by design — it is a divider, not a heading that
+   competes with the rows. */
+.board-table .board tr.bt-band > th {
+    --lean: var(--mut);
+    padding: 13px 11px 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--lean) 45%, transparent);
+    background: color-mix(in srgb, var(--lean) 11%, transparent);
+    font-family: var(--disp); font-weight: 700; font-size: 12px;
+    letter-spacing: 0.11em; text-transform: uppercase;
+    color: var(--lean); text-align: left;
+}
+/* The first band butts straight against the column header, which already
+   separates it, so it drops the extra top padding the later ones need. */
+.board-table .board tr.bt-band:first-child > th { padding-top: 7px; }
+.board-table .board tr.bt-band-long > th { --lean: var(--green); }
+.board-table .board tr.bt-band-short > th { --lean: var(--pink); }
 .bt-id-top {
     display: flex; align-items: baseline; justify-content: space-between;
     gap: 8px; flex-wrap: wrap;
