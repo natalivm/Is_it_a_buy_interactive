@@ -1051,9 +1051,12 @@ def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str
                   '(W weekly, D daily, H 4H structure; R RSI vs 50; '
                   'M MACD histogram slope; O OBV slope; '
                   'Z inside confirmed demand +1 / supply −1)',
+        # Alphabetical by ticker. Was most-bearish-first, which reshuffled the
+        # whole board every run as scores moved — a row you were reading would
+        # be somewhere else the next day. A ticker's position should be a fact
+        # about its name, not about today's number.
         'rows': [{k: v for k, v in r.items() if not k.startswith('_')}
-                 for r in sorted(rows, key=lambda r: (r.get('score') is None,
-                                                      r.get('score') or 0))],
+                 for r in sorted(rows, key=lambda r: r['ticker'])],
     }
     for k in ('note', 'ranking', 'rankingNote'):
         if carry and carry.get(k):
