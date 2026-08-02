@@ -574,7 +574,6 @@ function flowCell(row, inline) {
 }
 
 function boardRowHtml(row) {
-    const hasCard = !!findStock(slugify(row.ticker));
     const h4 = row.h4
         ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
         : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
@@ -582,8 +581,10 @@ function boardRowHtml(row) {
     const atr = row.atr != null
         ? `$${fmtNum(row.atr)}${row.atrPct != null ? ` / ${row.atrPct}%` : ''}`
         : '—';
-    // data-ticker on EVERY row (the search filters on it); data-symbol only on
-    // rows that have a deck to open.
+    // data-ticker only, for the search. Rows deliberately carry NO link to a
+    // card: this board is a separate element from the gallery, the two are
+    // allowed to disagree, and a row that opens a deck invites reading the
+    // deck's plan as this board's conclusion.
     // Which way the row leans, for the identity cell's tint. Read from the
     // preferred direction where there is one, else the computed score, else the
     // bias prose — the same green/pink language the tiles use for a side.
@@ -619,21 +620,20 @@ function boardRowHtml(row) {
         </div>`;
 
     return `
-        <tr data-ticker="${esc(row.ticker)}"${hasCard ? ` data-symbol="${esc(row.ticker)}" tabindex="0" role="button"
-            aria-label="Open ${esc(row.ticker)} story"` : ''}>
+        <tr data-ticker="${esc(row.ticker)}">
             <td class="bt-cell-id">${identity}</td>
             <td>${h4}
                 <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
                 ${flowCell(row, true)}</td>
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
-            <td>${md(row.position)}</td>
             <td>${md(row.bull)}${row.longSetup
                 ? `<br><span class="bt-long">Setup — ${md(row.longSetup)}</span>` : ''}${row.longCandidate
                 ? `<br><span class="bt-long">Candidate — ${md(row.longCandidate)}</span>` : ''}</td>
             <td>${md(row.bear)}${row.shortSetup
                 ? `<br><span class="bt-long">Setup — ${md(row.shortSetup)}</span>` : ''}</td>
-            <td>${md(row.retest)}</td>
+            <td>${md(row.position)}${row.retest
+                ? `<br><span class="bt-long">Likely retest — ${md(row.retest)}</span>` : ''}</td>
         </tr>`;
 }
 
@@ -718,15 +718,6 @@ function renderBoardTable() {
             : '';
     }
 
-    // Rows for tickers that also have a card open that deck; board-only names
-    // (AKAM, TE, …) are plain rows.
-    body.querySelectorAll('tr[data-symbol]').forEach(el => {
-        const symbol = el.dataset.symbol;
-        el.addEventListener('click', () => openStory(symbol));
-        el.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
-        });
-    });
 }
 
 function renderGallery() {

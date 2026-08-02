@@ -876,56 +876,83 @@ body.story-open { overflow: hidden; }
 [data-view="table"] #tableBtn .ico-table { display: none; }
 [data-view="table"] #tableBtn .ico-cards { display: block; }
 
-.bt-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* The board's own horizontal scroller. Given a visible, always-present
+   scrollbar: a table that is deliberately wider than the screen has to advertise
+   that there is more to the right. */
+.bt-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: auto;
+    scrollbar-color: color-mix(in srgb, var(--txt) 35%, transparent) transparent;
+    padding-bottom: 4px;
+}
+.bt-scroll::-webkit-scrollbar { height: 12px; }
+.bt-scroll::-webkit-scrollbar-track {
+    background: color-mix(in srgb, var(--txt) 6%, transparent); border-radius: 8px;
+}
+.bt-scroll::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--txt) 30%, transparent); border-radius: 8px;
+}
+.bt-scroll::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--txt) 45%, transparent);
+}
+.board-table {
+    /* No dimmed text on this board. Redefining --mut here rather than editing
+       every rule means anything that reaches for the muted tint — frames,
+       score parts, seeded tags, setup lines, footnotes — resolves to full-
+       strength body colour instead, which is near-black in the light theme and
+       near-white in the dark one. Scoped to the board, so the trend meter and
+       the gallery keep their own hierarchy. */
+    --mut: var(--txt);
+}
 .board-table .board {
     --bt-line: color-mix(in srgb, var(--txt) 34%, transparent);
     width: 100%;
-    /* Floor, not target: below this the columns crush, so the box scrolls
-       instead. Eight columns need far less than the thirteen did — 1100 lets a
-       1280px laptop show the whole board, and narrower screens scroll the box
-       rather than squeezing eight columns into a phone. */
-    min-width: 1100px;
+    /* Larger type needs more room per column, and cramming it would undo the
+       size increase. The board is explicitly allowed to be wider than the
+       viewport and scroll sideways instead — .bt-scroll owns that scrollbar,
+       so the page itself never scrolls horizontally. */
+    min-width: 1800px;
     table-layout: fixed;
     border-collapse: collapse;
     background: var(--panel);
     border: 1px solid var(--bt-line);
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.35;
 }
 .board-table .board th,
 .board-table .board td {
     border: 1px solid var(--bt-line);
-    padding: 6px 8px;
+    padding: 9px 11px;
     text-align: left;
     vertical-align: top;
     overflow-wrap: break-word;
 }
 .board-table .board thead th {
     font-weight: 700;
-    font-size: 11px;
+    font-size: 12.5px;
     white-space: nowrap;
     color: var(--txt);
 }
 .board-table .board tbody td { color: var(--txt); }
-.board-table .board tbody td:first-child b { font-size: 13px; }
-.board-table .board tbody tr { cursor: pointer; }
-.board-table .board tbody tr:hover,
-.board-table .board tbody tr:focus-visible {
+/* Rows no longer open a deck — this board is a separate element from the
+   cards, so it should not look clickable either. Hover stays as a reading aid
+   for tracking a row across eight columns; the pointer cursor is gone. */
+.board-table .board tbody tr:hover {
     background: color-mix(in srgb, var(--txt) 7%, transparent);
-    outline: none;
 }
-/* Column widths — eight columns, fixed layout. Order: identity · 4H read +
-   frames · demand · supply · position · bullish · bearish · retest.
-   The wide narrative columns get the room; the level columns are numeric and
-   stay tight. */
-.board-table .board th:nth-child(1) { width: 13%; }
-.board-table .board th:nth-child(2) { width: 21%; }
-.board-table .board th:nth-child(3) { width: 10%; }
-.board-table .board th:nth-child(4) { width: 10%; }
-.board-table .board th:nth-child(5) { width: 10%; }
-.board-table .board th:nth-child(6) { width: 13%; }
-.board-table .board th:nth-child(7) { width: 13%; }
-.board-table .board th:nth-child(8) { width: 10%; }
+/* Column widths — seven columns, fixed layout. Order: identity · 4H read +
+   frames · demand · supply · bullish · bearish · position + retest.
+   "Current position" no longer has its own column: it says where price is now,
+   and "likely retest" says where it is likely to go back to — one thought, so
+   they share a cell. */
+.board-table .board th:nth-child(1) { width: 14%; }
+.board-table .board th:nth-child(2) { width: 22%; }
+.board-table .board th:nth-child(3) { width: 11%; }
+.board-table .board th:nth-child(4) { width: 11%; }
+.board-table .board th:nth-child(5) { width: 15%; }
+.board-table .board th:nth-child(6) { width: 15%; }
+.board-table .board th:nth-child(7) { width: 12%; }
 
 /* ── Identity cell ─────────────────────────────────────────────────────────
    Ticker, price, ATR, score, bias, preferred direction and group badges in one
@@ -947,12 +974,12 @@ body.story-open { overflow: hidden; }
     gap: 8px; flex-wrap: wrap;
 }
 .bt-id-sym {
-    font-family: var(--disp); font-weight: 700; font-size: 16px;
+    font-family: var(--disp); font-weight: 700; font-size: 19px;
     letter-spacing: 0.03em; color: var(--lean);
 }
-.bt-id-px { font-family: var(--mono); font-size: 12px; }
+.bt-id-px { font-family: var(--mono); font-size: 14px; }
 .bt-id-atr {
-    margin-top: 2px; font-family: var(--mono); font-size: 10px; color: var(--mut);
+    margin-top: 3px; font-family: var(--mono); font-size: 12px; color: var(--mut);
 }
 .bt-id-bias { margin-top: 4px; }
 .bt-id .bt-pref { margin-top: 5px; font-weight: 600; color: var(--lean); }
@@ -963,10 +990,10 @@ body.story-open { overflow: hidden; }
 .bt-frames {
     margin-top: 8px; padding-top: 7px;
     border-top: 1px dotted var(--bt-line, var(--hair));
-    font-family: var(--mono); font-size: 10px; line-height: 1.6;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.65;
     color: var(--mut);
 }
-.bt-flow { font-size: 10px; }
+.bt-flow { font-size: 12px; }
 
 /* Header above the table: title + "as of" and the one-line board note. */
 .bt-head {
@@ -977,7 +1004,7 @@ body.story-open { overflow: hidden; }
     font-family: var(--disp); font-weight: 700; text-transform: uppercase;
     font-size: clamp(20px, 3.4vw, 28px); line-height: 1; letter-spacing: 0.02em;
 }
-.bt-meta, .bt-note { font-size: 12px; color: var(--mut); }
+.bt-meta, .bt-note { font-size: 13px; color: var(--mut); }
 .bt-copy {
     display: inline-flex; align-items: center; gap: 6px;
     margin-left: auto; padding: 5px 10px;
@@ -996,7 +1023,7 @@ body.story-open { overflow: hidden; }
 
 /* A row with no computed score says so, quietly — it must never read as 0. */
 .bt-unscored { color: var(--mut); font-style: italic; }
-.bt-parts { font-family: var(--mono); font-size: 10px; color: var(--mut); }
+.bt-parts { font-family: var(--mono); font-size: 11.5px; color: var(--mut); }
 /* The monthly frame is an overall-view reading, not a scoring term. */
 .bt-context { color: var(--mut); }
 /* The long-candidate line is an analyst judgement sitting under a computed
@@ -1004,7 +1031,7 @@ body.story-open { overflow: hidden; }
 .bt-long {
     display: inline-block; margin-top: 6px; padding-top: 6px;
     border-top: 1px dotted var(--bt-line, var(--hair));
-    color: var(--mut); font-size: 11px;
+    color: var(--mut); font-size: 13px;
 }
 
 .bt-rank { margin-top: 18px; }
@@ -1028,26 +1055,26 @@ body.story-open { overflow: hidden; }
 .bt-dir-long { --d: var(--green); }
 .bt-dir-short { --d: var(--pink); }
 .bt-dir-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: var(--d);
+    font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em; color: var(--d);
 }
 .bt-dir-tickers {
     margin-top: 4px; font-family: var(--mono); font-size: 13px; font-weight: 600;
 }
-.bt-dir-note { margin-top: 4px; font-size: 11px; color: var(--mut); }
+.bt-dir-note { margin-top: 4px; font-size: 12.5px; color: var(--mut); }
 /* …and the same label inline on the row it applies to. */
 .bt-dir {
     display: inline-block; margin-top: 4px; padding: 1px 5px; border-radius: 5px;
-    font-size: 9px; line-height: 1.35; white-space: normal;
+    font-size: 11px; line-height: 1.4; white-space: normal;
     border: 1px solid color-mix(in srgb, var(--d, var(--mut)) 35%, var(--hair));
     color: var(--d, var(--mut));
 }
 /* Preferred direction leads its cell — it is the verdict the rest supports. */
-.bt-pref { margin-bottom: 4px; font-size: 12px; }
-.bt-rank-list { margin: 0 0 8px 18px; font-size: 13px; }
+.bt-pref { margin-bottom: 5px; font-size: 13.5px; }
+.bt-rank-list { margin: 0 0 8px 18px; font-size: 14px; }
 .bt-rank-list li { margin-bottom: 4px; }
-.bt-rank-note { font-size: 12px; color: var(--mut); max-width: 78ch; }
+.bt-rank-note { font-size: 13px; color: var(--mut); max-width: 78ch; }
 
-.bt-foot { margin-top: 10px; font-size: 12px; color: var(--mut); max-width: 90ch; }
+.bt-foot { margin-top: 10px; font-size: 13px; color: var(--mut); max-width: 90ch; }
 .bt-foot code { font-family: var(--mono); font-size: 11px; }
 
 /* Light theme: the reference look — black hairlines on white paper. */
