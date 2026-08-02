@@ -67,7 +67,12 @@ jobs:
             if (!Array.isArray(B.rows) || !B.rows.length) {
               throw new Error('board.js has no rows');
             }
-            const need = ['ticker', 'demand', 'supply', 'position', 'bull', 'bear'];
+            // price/atr/atrPct/preferred/bias are the TICKER CELL's four fixed
+            // lines. That template has no optional branches by design, so a row
+            // missing one renders a short, ragged cell instead of degrading —
+            // it has to fail here instead. See CLAUDE.md, 'Structure board'.
+            const need = ['ticker', 'demand', 'supply', 'position', 'bull', 'bear',
+                          'price', 'atr', 'atrPct', 'preferred', 'bias'];
             for (const r of B.rows) {
               for (const k of need) {
                 if (r[k] == null) throw new Error(\`\${r.ticker || '?'} is missing \${k}\`);

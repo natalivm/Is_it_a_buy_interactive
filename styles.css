@@ -1009,13 +1009,13 @@ body.story-open { overflow: hidden; }
     font-family: var(--disp); font-weight: 700; font-size: 19px;
     letter-spacing: 0.03em; color: var(--lean);
 }
-.bt-id-px { font-family: var(--mono); font-size: 14px; }
+/* Bold: the price is the number you scan the column for. */
+.bt-id-px { font-family: var(--mono); font-size: 14px; font-weight: 700; }
 .bt-id-atr {
     margin-top: 3px; font-family: var(--mono); font-size: 12px; color: var(--mut);
 }
 .bt-id-bias { margin-top: 4px; }
 .bt-id .bt-pref { margin-top: 5px; font-weight: 600; color: var(--lean); }
-.bt-id .bt-parts { display: block; margin-top: 4px; }
 
 /* The per-frame reads, tucked under the 4H narrative they qualify. Set larger
    and heavier than the prose above them: these four lines are the frame

@@ -548,10 +548,22 @@ function zoneCell(list) {
     }).join('<br>');
 }
 
+// Trailing zeros stripped — right for a ZONE, where "$60–65" beats
+// "$60.00–65.00" and the bounds are approximate anyway.
 function fmtNum(n) {
     if (typeof n !== 'number') return esc(n);
     return n >= 1000 ? n.toLocaleString('en-US', { maximumFractionDigits: 2 })
         : String(Number(n.toFixed(2)));
+}
+
+// ALWAYS two decimals — for the ticker cell's price and ATR pair, which are
+// exact figures stacked in a mono column you read straight down. fmtNum's
+// stripping made that column ragged ("$356.6" over "$1,147.63", "11%" under
+// "3.17%"), and on MU it disagreed with the row's own prose, which writes the
+// same number as "11.00% of price".
+function fmtFixed(n) {
+    if (typeof n !== 'number') return esc(n);
+    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 // Order-flow metrics from tools/flow.py, each shown against the ticker's own
@@ -587,9 +599,9 @@ function boardRowHtml(row) {
     const h4 = row.h4
         ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
         : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
-    const px = row.price != null ? `$${fmtNum(row.price)}` : '—';
+    const px = row.price != null ? `$${fmtFixed(row.price)}` : '—';
     const atr = row.atr != null
-        ? `$${fmtNum(row.atr)}${row.atrPct != null ? ` / ${row.atrPct}%` : ''}`
+        ? `$${fmtFixed(row.atr)}${row.atrPct != null ? ` / ${fmtFixed(row.atrPct)}%` : ''}`
         : '—';
     // data-ticker only, for the search. Rows deliberately carry NO link to a
     // card: this board is a separate element from the gallery, the two are
@@ -600,22 +612,29 @@ function boardRowHtml(row) {
     // orders the board.
     const lean = boardLean(row);
 
-    // Compact layout: seven columns. Identity (ticker · price · ATR · score ·
-    // preferred · bias) collapses into one stacked cell, and the per-frame
-    // reads sit under the 4H narrative they qualify — thirteen columns of
-    // one-line cells wasted most of their width on whitespace. Direction-group
-    // membership was in here too and is not any more: it is rendered once,
-    // under the table, instead of restated on every row.
+    // ── THE TICKER CELL — FOUR LINES, FIXED ────────────────────────────────
+    // Ticker + bold price · ATR(14) · preferred direction · bias. That is the
+    // whole cell, on every row, with nothing conditional in it: a column you
+    // read down should have the same shape in every cell, and anything that
+    // appears on some rows only makes it ragged.
+    //
+    // So this template has NO optional branches, and adding one is the thing
+    // not to do here. Two used to be here and are deliberately gone: a
+    // `· score ±N` suffix on the ATR line and a W/D/H/R/M/O/Z parts line, both
+    // of which render on generated rows only — meaning the cell would silently
+    // grow two extra lines the first time the bot ran. If the score needs to
+    // be visible again it gets its own column, not a fifth line here.
+    //
+    // All four fields are required on every row. The board guard fails a row
+    // missing one rather than letting the cell render short.
+    // Documented in CLAUDE.md ("Structure board") and in board.js.
     const identity = `
         <div class="bt-id">
             <div class="bt-id-top"><b class="bt-id-sym">${esc(row.ticker)}</b>
-                <span class="bt-id-px">${px}</span></div>
-            <div class="bt-id-atr">ATR(14) ${esc(atr)}${
-                row.score != null ? ` · score ${row.score > 0 ? '+' : ''}${row.score}` : ''}</div>
-            ${row.preferred ? `<div class="bt-pref">${md(row.preferred)}</div>` : ''}
+                <b class="bt-id-px">${px}</b></div>
+            <div class="bt-id-atr">ATR(14) ${esc(atr)}</div>
+            <div class="bt-pref">${md(row.preferred)}</div>
             <div class="bt-id-bias">${md(row.bias)}</div>
-            ${row.parts ? `<div class="bt-parts">${['W', 'D', 'H', 'R', 'M', 'O', 'Z']
-                .map(k => `${k}${row.parts[k] > 0 ? '+' : ''}${row.parts[k]}`).join(' ')}</div>` : ''}
         </div>`;
 
     return `

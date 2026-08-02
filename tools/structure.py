@@ -1035,8 +1035,20 @@ HEADER = """// ── Structure board — GENERATED, do not hand-edit ───�
 // ATR(14) Wilder, confirmed swings (2 candles each side), displacement-formed
 // zones with wick/body boundaries, revisit-and-acceptance strength grading, and
 // the bias score  Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z.
-// `parts` carries each term so any bias on screen can be checked against its
-// own inputs.
+// `parts` carries each term, so a bias can be checked against its own inputs
+// here and in the TSV export — the ticker cell does not render either (see
+// below), so this file is where that check happens.
+//
+// ⚠ THE TICKER CELL IS FOUR LINES, on every row, always: ticker + bold price /
+// ATR(14) pair / preferred direction / bias. `price`, `atr`, `atrPct`,
+// `preferred` and `bias` are therefore REQUIRED on every row — the renderer
+// has no optional branch and the CI board guard fails a row missing one.
+// `preferred` is not computed: it is carried from the previous board (see
+// CARRY), so a NEW ticker needs one written before its first run.
+// Full rationale in CLAUDE.md, "Structure board".
+//
+// Rows are ordered best-longs-first / best-shorts-last by order_key(), and
+// FILE ORDER IS THE ORDER — nothing re-sorts downstream.
 """
 
 
@@ -1393,6 +1405,26 @@ def main() -> int:
         for k in CARRY:
             if old.get(k) and not r.get(k):
                 r[k] = old[k]
+
+    # `preferred` is the ticker cell's third line AND the sort's direction
+    # input, but nothing here computes it — it is analyst prose, carried across
+    # runs by the loop above. A ticker appearing for the FIRST time has nothing
+    # to carry, and the cell has no optional branch to fall back on, so the row
+    # would render short and fail the board guard. Derive one from the only
+    # directional thing that IS computed: the score.
+    #
+    # Runs AFTER the carry, never before: a hand-written line must win over a
+    # generated one, and doing this first would silently overwrite the
+    # analyst's wording on every single run.
+    for r in rows:
+        if r.get('preferred'):
+            continue
+        s = r.get('score')
+        side = ('**Long preferred**' if isinstance(s, (int, float)) and s > 0 else
+                '**Short preferred**' if isinstance(s, (int, float)) and s < 0 else
+                '**Neutral — no computed edge**')
+        # Says so out loud: this is arithmetic, not a read, and wants replacing.
+        r['preferred'] = f'{side} — computed from the score, not yet reviewed.'
 
     # Rows for tickers this run did NOT compute are carried over untouched.
     # Running `structure.py AKAM LITE` used to emit a two-row board and delete

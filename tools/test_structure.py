@@ -469,6 +469,21 @@ check("a countertrend long sorts into the LONG block",
       ['COUNTER', 'MILDSHORT'])
 check("…and it is negative on structure, so it sits last among longs",
       st.conviction(_ctr) < 0, True)
+# The generated fallback for `preferred` on a first-seen ticker has to survive
+# lean() as the side its score already says, or a new row sorts into the wrong
+# block on its first appearance.
+check("generated 'Long preferred' fallback leans long",
+      st.lean({"preferred": "**Long preferred** — computed from the score, not yet reviewed.",
+               "score": 2.5}), 'long')
+check("generated 'Short preferred' fallback leans short",
+      st.lean({"preferred": "**Short preferred** — computed from the score, not yet reviewed.",
+               "score": -2.5}), 'short')
+# The neutral wording contains neither 'long' nor 'short', so lean() falls
+# through the prose branch to the score — which is what should decide it.
+check("neutral fallback defers to the score, not the prose",
+      st.lean({"preferred": "**Neutral — no computed edge** — computed from the score, not yet reviewed.",
+               "score": -1.5}), 'short')
+
 check("ties break on ticker, so a row never wanders",
       [r['ticker'] for r in sorted(
           [_row('ZZ', '**Long preferred**', 'bullish', 'neutral', 'neutral'),

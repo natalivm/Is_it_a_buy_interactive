@@ -30,6 +30,17 @@
 // reason to grow the shape. Anything that must be said and has nowhere to go
 // belongs in a comment on the row, which costs nothing downstream.
 //
+// ⚠ THE TICKER CELL IS FOUR LINES, on every row, always:
+//     LLY                    $1,147.63     ticker + price (price BOLD)
+//     ATR(14) $36.38 / 3.17%               the ATR pair, nothing appended
+//     Long preferred                       preferred direction
+//     Neutral-to-bullish. Prefer …         bias
+// So `price`, `atr`, `atrPct`, `preferred` and `bias` are REQUIRED on every
+// row — boardRowHtml() renders them with no optional branch, and the CI board
+// guard fails a row missing one instead of letting the cell render short. A
+// new row that cannot fill all four does not get added until it can.
+// Full rationale in CLAUDE.md, "Structure board".
+//
 // The complete field list, and all there is:
 //   row    ticker · seeded · date · price · atr · atrPct · structure ·
 //          trendProse · preferred · score · parts · bias · h4 · h4Effect ·
