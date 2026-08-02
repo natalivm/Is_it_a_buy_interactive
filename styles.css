@@ -939,7 +939,7 @@ body.story-open { overflow: hidden; }
 .board-table .board tbody td { color: var(--txt); }
 /* Rows no longer open a deck — this board is a separate element from the
    cards, so it should not look clickable either. Hover stays as a reading aid
-   for tracking a row across eight columns; the pointer cursor is gone. */
+   for tracking a row across seven wide columns; the pointer cursor is gone. */
 .board-table .board tbody tr:hover {
     background: color-mix(in srgb, var(--txt) 7%, transparent);
 }
@@ -948,13 +948,17 @@ body.story-open { overflow: hidden; }
    "Current position" no longer has its own column: it says where price is now,
    and "likely retest" says where it is likely to go back to — one thought, so
    they share a cell. */
-.board-table .board th:nth-child(1) { width: 14%; }
-.board-table .board th:nth-child(2) { width: 22%; }
-.board-table .board th:nth-child(3) { width: 11%; }
-.board-table .board th:nth-child(4) { width: 11%; }
-.board-table .board th:nth-child(5) { width: 15%; }
-.board-table .board th:nth-child(6) { width: 15%; }
-.board-table .board th:nth-child(7) { width: 12%; }
+/* THEAD only: the direction bands in the body are a single th[colspan=7],
+   and an unscoped `th:nth-child(1)` matched those too — handing a
+   full-width cell a 14% width declaration. Harmless while colspan wins,
+   but it is a trap for the next layout change. */
+.board-table .board thead th:nth-child(1) { width: 14%; }
+.board-table .board thead th:nth-child(2) { width: 22%; }
+.board-table .board thead th:nth-child(3) { width: 11%; }
+.board-table .board thead th:nth-child(4) { width: 11%; }
+.board-table .board thead th:nth-child(5) { width: 15%; }
+.board-table .board thead th:nth-child(6) { width: 15%; }
+.board-table .board thead th:nth-child(7) { width: 12%; }
 
 /* ── Identity cell ─────────────────────────────────────────────────────────
    Ticker, price, ATR, score, bias, preferred direction and group badges in one

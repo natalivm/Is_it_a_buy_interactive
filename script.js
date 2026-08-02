@@ -554,28 +554,17 @@ function fmtNum(n) {
         : String(Number(n.toFixed(2)));
 }
 
-// The bias score, with its own terms beside it. A seeded row has no score, and
-// that renders as "—" rather than 0 — an unscored row must not read as neutral.
-function scoreCell(row) {
-    if (row.score == null) {
-        return '<span class="bt-unscored">— not scored</span>';
-    }
-    const p = row.parts || {};
-    const terms = ['W', 'D', 'H', 'R', 'M', 'O', 'Z']
-        .map(k => `${k}${p[k] > 0 ? '+' : ''}${p[k] == null ? '?' : p[k]}`)
-        .join(' ');
-    const s = row.score > 0 ? `+${row.score}` : String(row.score);
-    return `<b>${esc(s)}</b><br><span class="bt-parts">${esc(terms)}</span>`;
-}
-
 // Order-flow metrics from tools/flow.py, each shown against the ticker's own
 // baseline — these are only meaningful as a deviation from its normal. Absent
-// on every row until the paid feed is configured, so the column self-hides.
-function flowCell(row, inline) {
+// on every row until the paid feed is configured, so it renders nothing at all
+// rather than a dash line in every row.
+//
+// (There was a scoreCell() here too, from when score had its own column. The
+// identity cell has inlined the score since the eight-column compaction and
+// nothing called it — deleted rather than left to rot.)
+function flowCell(row) {
     const f = row.flow;
-    // Inline in the 4H cell now: with no feed configured there is nothing to
-    // say, and an empty dash line in every row is noise, not information.
-    if (!f) return inline ? '' : '<span class="bt-unscored">—</span>';
+    if (!f) return '';
     const base = f.baseline || {};
     const delta = (now, was) => {
         if (was == null || now == null) return '';
@@ -591,7 +580,7 @@ function flowCell(row, inline) {
         line('odd', f.oddLotShare, '%', base.oddLotShare),
         line('off-exch', f.offExchShare, '%', base.offExchShare),
     ].join('<br>');
-    return inline ? `<div class="bt-frames bt-flow">${body}</div>` : body;
+    return `<div class="bt-frames bt-flow">${body}</div>`;
 }
 
 function boardRowHtml(row) {
@@ -611,10 +600,12 @@ function boardRowHtml(row) {
     // orders the board.
     const lean = boardLean(row);
 
-    // Compact layout: eight columns. Identity (ticker · price · ATR · score ·
-    // bias · preferred · groups) collapses into one stacked cell, and the
-    // per-frame reads sit under the 4H narrative they qualify — thirteen
-    // columns of one-line cells wasted most of their width on whitespace.
+    // Compact layout: seven columns. Identity (ticker · price · ATR · score ·
+    // preferred · bias) collapses into one stacked cell, and the per-frame
+    // reads sit under the 4H narrative they qualify — thirteen columns of
+    // one-line cells wasted most of their width on whitespace. Direction-group
+    // membership was in here too and is not any more: it is rendered once,
+    // under the table, instead of restated on every row.
     const identity = `
         <div class="bt-id">
             <div class="bt-id-top"><b class="bt-id-sym">${esc(row.ticker)}</b>
@@ -632,7 +623,7 @@ function boardRowHtml(row) {
             <td class="bt-cell-id bt-lean-${lean}">${identity}</td>
             <td>${h4}
                 <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
-                ${flowCell(row, true)}</td>
+                ${flowCell(row)}</td>
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
             <td>${md(row.bull)}${row.longSetup
@@ -1020,6 +1011,26 @@ function initStockSearch() {
             const key = (row.dataset.ticker || row.dataset.symbol || '').toLowerCase();
             row.hidden = !(!q || key.includes(q));
         });
+
+        // A direction band labels the rows beneath it, so it has to disappear
+        // with them: filtering to one long left "Short setups — strongest last"
+        // sitting over an empty block. The band owns every row down to the next
+        // band, and hides when none of them survived the filter.
+        const boardBody = document.getElementById('boardTableBody');
+        if (boardBody) {
+            let band = null, kept = 0;
+            const settle = () => { if (band) band.hidden = !kept; };
+            for (const row of boardBody.children) {
+                if (row.classList.contains('bt-band')) {
+                    settle();
+                    band = row;
+                    kept = 0;
+                } else if (!row.hidden) {
+                    kept++;
+                }
+            }
+            settle();
+        }
     }
 
     input.addEventListener('input', applyFilter);

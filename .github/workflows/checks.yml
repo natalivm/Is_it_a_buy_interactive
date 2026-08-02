@@ -89,7 +89,15 @@ jobs:
                 }
               }
             }
-            console.log(\`ok  board.js — \${B.rows.length} rows\`);
+            // The 'as of' label. Five single-ticker additions in a row each
+            // left this behind, so the board quietly under-reported itself by
+            // a day. It is derivable, so it gets checked rather than trusted.
+            const newest = B.rows.map(r => r.date).filter(Boolean).sort().pop();
+            if (newest && B.updated !== newest) {
+              throw new Error(
+                \`board updated '\${B.updated}' but the newest row is '\${newest}'\`);
+            }
+            console.log(\`ok  board.js — \${B.rows.length} rows, as of \${B.updated}\`);
           "
 
       # The board is emitted best-longs-first / best-shorts-last and file order

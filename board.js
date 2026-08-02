@@ -53,7 +53,10 @@
 // Emphasis is **markdown bold** — script.js escapes each field as text first
 // and only then turns `**…**` into <b>, so no raw HTML is ever injected.
 const BOARD = {
-    updated: '2026-08-01',
+    // The "as of" label. Tracks the NEWEST row date, not the oldest — five
+    // single-ticker additions in a row left this reading 08-01 while eight rows
+    // were dated 08-02, so the board under-reported itself by a day.
+    updated: '2026-08-02',
     generatedBy: 'hand-seeded — awaiting the first tools/structure.py run',
     method: 'Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z '
         + '(W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; '
@@ -65,7 +68,10 @@ const BOARD = {
         '**LITE short** — strongest alignment across weekly, daily and 4H.',
         '**STX short** — needs $842 and preferably $818 to fail.',
         '**AKAM rejection short** — if it remains below $118 and loses $112.',
-        '**AXON long** — only after a confirmed $535–545 breakout.',
+        // $545–550, matching AXON's own row — this said $535–545, which
+        // contradicted the three places the row states the trigger
+        // (`bull`, `longSetup`, `longCandidate`) and its $545–565 supply zone.
+        '**AXON long** — only after a confirmed $545–550 breakout.',
         '**TE long** — weakest confirmation; demand reacted, but the 4H rebound is already fading.',
     ],
     rankingNote: 'The biggest update is TE: it remains a possible countertrend long, '
@@ -74,8 +80,15 @@ const BOARD = {
     // terms. A ticker can appear in more than one group on purpose: META, SMH
     // and CIEN are corrections inside larger monthly uptrends AND countertrend
     // bounce candidates, which are two true statements about the same chart.
-    // This is the single source of truth — each row's membership label is
-    // derived from these lists at render time, never restated per row.
+    // This is the single source of truth for membership, and it is rendered
+    // ONCE, as its own block under the table. Rows used to carry a derived
+    // badge each; that was dropped as clutter, so nothing restates a group
+    // per row and a ticker's membership is stated in exactly one place.
+    //
+    // A group's `side` is the side the group is about, NOT the side each
+    // member currently leans: every name in "countertrend bounce candidates
+    // only" is a short-leaning row by definition, which is the point of the
+    // group. So a mismatch here is expected and is not a finding.
     direction: {
         groups: [
             { label: 'Best trend-following longs', side: 'long',
@@ -102,9 +115,15 @@ const BOARD = {
             + 'stronger confirmation than a normal trend-following long.',
     },
     // `price` on a seeded row is IMPLIED from its own ATR pair (atr / atrPct *
-    // 100). That is not a guess: for every ticker that also has a card, the
-    // implied price lands within 0.07% of our own close — so these ATR figures
-    // and our OHLC are on the same basis.
+    // 100). That is not a guess: across the 12 tickers that also have a card,
+    // the implied price lands within 0.08% of our own close (widest: AVGO,
+    // 0.080%) — so these ATR figures and our OHLC are on the same basis.
+    //
+    // A SNAPSHOT, not an invariant: a card refreshes its close far more often
+    // than this board refreshes its ATRs, so the gap widens on its own between
+    // runs. It is not worth a CI check that would go red on every card
+    // refresh; re-measure it when re-seeding, and update the number here.
+    // (This read 0.07% until AVGO's card moved past it.)
     //
     // ── ROW ORDER: best longs at the top, best shorts at the bottom ─────────
     // One continuous axis, most bullish first to most bearish last, keyed by
