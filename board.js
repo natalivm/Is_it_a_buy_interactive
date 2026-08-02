@@ -86,11 +86,15 @@ const BOARD = {
                   + 'trend has only just turned, so it joins on either a $482 '
                   + 'breakout-retest or a pullback with a 4H higher low.' },
             { label: 'Best trend-following shorts', side: 'short',
-              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL'] },
+              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
               tickers: ['SMH', 'META', 'CIEN', 'MU'] },
+            // NOW is the odd one here: every other member is still bearish on
+            // the working frames and waiting for a bounce, while NOW's daily
+            // and 4H have already turned up. It is countertrend all the same —
+            // its monthly is a downtrend, not a correction inside an uptrend.
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -557,6 +561,60 @@ const BOARD = {
             retest: 'An upside rebound may retest **$890–940**; a breakdown below $730 may retest **$730–760** from underneath',
         },
         {
+            // The board's first INVERTED row: monthly and weekly down, daily
+            // and 4H up. Every other countertrend-bounce name (TE, META, SMH,
+            // CIEN, TSLA, MRVL, MU) is still bearish on the working frames and
+            // is waiting for a bounce; NOW's bounce is already running, which
+            // is why the read prefers the long outright rather than as a
+            // candidate. It is countertrend all the same — the monthly is a
+            // downtrend, not a correction, so this does NOT belong in
+            // "bearish corrections inside larger monthly uptrends".
+            //
+            // Hedged frames map conservatively, both ways: a downtrend
+            // "transitioning into a base" is still bearish on the weekly, the
+            // same rule that made AKAM's "transition after uptrend" neutral
+            // rather than bullish. The improvement lives in trendProse.
+            //
+            // $94–96 is graded TESTED, not fresh: the monthly read says price
+            // rebounded from the $91–95 area, so that zone is the origin of
+            // the move, not an untouched level below it.
+            //
+            // ATR pair implies $111.15 (6.78 / 6.10%). No card for NOW in
+            // data.js, so there is nothing to reconcile it against.
+            ticker: 'NOW', seeded: true, date: '2026-08-02',
+            price: 111.15, atr: 6.78, atrPct: 6.10,
+            structure: { m: 'bearish', w: 'bearish', d: 'bullish', h4: 'bullish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'long-term downtrend, but rebounding from the $91–95 area — the monthly stochastic is turning up from oversold',
+                          w: 'downtrend transitioning into a multi-month base; momentum and OBV are improving, but price is still below the declining major averages',
+                          d: 'confirmed short-term recovery — above the 9- and 50-day averages with positive MACD, but below the declining 200-day near $123–126',
+                          h4: 'bullish recovery followed by consolidation; structure stays constructive while above the $103–105 moving-average cluster' },
+            preferred: '**Tactical long preferred** while price holds **$103–106**, taking profit into overhead supply because the higher-timeframe trend remains bearish. Short only after rejection from **$116–126** or a confirmed loss of **$103–104**.',
+            score: null, parts: null,
+            bias: '**A daily and 4H recovery inside a monthly and weekly downtrend.** The long is the preferred side while $103–106 holds, but it is a trade into supply rather than a trend to hold: the 200-day near **$123–126** is still declining and the major weekly averages are still overhead. Nothing here is a reversal until $123–126 is accepted.',
+            h4: 'Bullish recovery followed by consolidation; structure stays **constructive while above the $103–105** moving-average cluster.',
+            h4Effect: 'This is the frame carrying the long. Holding $103–105 keeps the tactical long live; a 4H break of **$112–114** opens $116–118, while losing the cluster hands the read back to the weekly downtrend.',
+            demand: [
+                { lo: 106, hi: 108, strength: 'tested', note: 'immediate' },
+                { lo: 103, hi: 105, strength: 'tested', note: 'strongest nearby demand · moving-average cluster' },
+                { lo: 99, hi: 101, strength: 'tested', note: 'secondary' },
+                { lo: 94, hi: 96, strength: 'tested', note: 'major lower demand — the area the monthly rebounded from' },
+            ],
+            supply: [
+                { lo: 112, hi: 114, strength: 'tested', note: 'immediate' },
+                { lo: 116, hi: 118, strength: 'tested', note: 'recent high · upper daily band' },
+                { lo: 123, hi: 126, strength: 'tested', note: 'major — declining 200-day and trend resistance' },
+                { lo: 136, hi: 138, strength: 'fresh', note: 'weekly supply' },
+            ],
+            position: 'Just beneath immediate supply **$112–114**, with the **$103–105** average cluster as the trend test underneath',
+            bull: 'Break **$112–114** → **$116–118**, then **$123–126**',
+            longSetup: 'Hold or reclaim **$106–108**, form a 4H higher low and break **$112–114** → **$116–118**, then **$123–126**. Daily acceptance above **$118** strengthens the long; sustained acceptance above **$123–126** would mark a larger trend reversal and open **$136–138**.',
+            longCandidate: 'The preferred side while **$103–106** holds, but countertrend to the monthly and weekly — sell into supply rather than holding for the reversal.',
+            bear: 'Reject **$116–118** → **$108–106**, then **$105–103**',
+            shortSetup: 'Rejection from **$116–118** with a 4H lower high → $108–106, then $105–103. The higher-quality swing short is a rejection of the falling 200-day at **$123–126**. A breakdown short needs a daily close below **$103–104** and a failed reclaim → **$99–101**, then **$94–96**.',
+            retest: 'The likeliest upside retest is **$112–114**, then **$116–118** if buyers keep control; on a pullback **$106–108** is tested first, and **$103–105** is the critical trend test',
+        },
+        {
             ticker: 'SMH', seeded: true, date: '2026-08-01',
             price: 540.89, atr: 27.91, atrPct: 5.16,
             structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: null,
@@ -691,6 +749,58 @@ const BOARD = {
             bear: 'Reject **$324–330** or **$350–365** → **$305–297**',
             shortSetup: 'Wait for a bounce toward **$324–330**, then short only after rejection AND a break of the 4H rejection candle\'s low → $305–297. A daily close below **$297** with a failed reclaim targets **$286–282**, then **$260–250**.',
             retest: 'An upside bounce may retest **$324–330**; a breakdown may retest **$297–305** from underneath',
+        },
+        {
+            // All four frames bearish — the first row on the board with no
+            // frame disagreeing at all. It still is NOT a short here, and the
+            // reason is positioning rather than structure: price sits between
+            // immediate demand $17.4–17.7 and immediate supply $18.3–18.7 with
+            // 4H momentum oversold. Same shape as MRVL and TSLA, so it joins
+            // "best trend-following shorts" (the trade is the bounce failing,
+            // not the spot) AND "countertrend bounce candidates only".
+            //
+            // Hedged frames map conservatively: the daily "bearish-to-neutral
+            // base" is graded bearish — price is below the 9-, 50- AND 200-day
+            // and keeps failing at $19.5–20.5, so the neutral half of that
+            // phrase is the base forming, not the trend turning.
+            //
+            // $15.5–16.0 is FRESH, unlike TTD's upper two zones: the weekly
+            // read puts the compression at $16–20, so that zone sits at and
+            // below the base's low rather than inside worked-through price.
+            //
+            // ATR pair implies $17.86 (0.97 / 5.43%). No card for TTD in
+            // data.js, so there is nothing to reconcile it against.
+            ticker: 'TTD', seeded: true, date: '2026-08-02',
+            price: 17.86, atr: 0.97, atrPct: 5.43,
+            structure: { m: 'bearish', w: 'bearish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'severe long-term downtrend — far below the declining major averages, though the monthly stochastic is deeply oversold',
+                          w: 'confirmed downtrend now compressing near the lows around $16–20; MACD is improving but still negative, so this is stabilisation rather than reversal',
+                          d: 'bearish-to-neutral base — below the 9-, 50- and 200-day averages, with repeated failure around $19.5–20.5',
+                          h4: 'short-term downtrend after rejection from $19.5; near lower-band demand with oversold momentum — conditions for a relief bounce, not a confirmed reversal' },
+            preferred: '**Two-way watch.** A tactical long is available from confirmed demand because 4H momentum is stretched, but it stays countertrend. The primary swing short is the preferred trade on rejection from **$18.7–19.5** or after a confirmed loss of **$17.3**.',
+            score: null, parts: null,
+            bias: '**Confirmed downtrend, but a poor place to start a short.** Every frame is bearish, yet price sits close to demand with 4H momentum stretched, so initiating here is bad positioning. The nearer opportunity is a tactical countertrend long off **$17.4–17.7**; the higher-quality short is a rejection of **$19.1–20.7** or a confirmed breakdown and failed reclaim of **$17.3**. Neither side is confirmed — this is a watch, with a slight tactical lean toward the bounce.',
+            h4: 'Short-term downtrend after rejection from **$19.5**. Price is near lower-band demand with momentum oversold — the setup for a relief bounce, not a reversal.',
+            h4Effect: 'This frame is what makes it a two-way watch rather than a short: oversold at demand argues a bounce toward **$18.3–18.7** first, and the cleaner short is that bounce failing at **$18.7–19.5**.',
+            demand: [
+                { lo: 17.4, hi: 17.7, strength: 'tested', note: 'immediate' },
+                { lo: 16.5, hi: 17.0, strength: 'tested', note: 'stronger' },
+                { lo: 15.5, hi: 16.0, strength: 'fresh', note: 'major lower demand' },
+            ],
+            supply: [
+                { lo: 18.3, hi: 18.7, strength: 'tested', note: 'immediate' },
+                { lo: 19.1, hi: 19.5, strength: 'tested', note: 'stronger — the 4H rejection' },
+                { lo: 20.2, hi: 20.7, strength: 'tested', note: 'major daily supply' },
+                { lo: 23.5, hi: 24.5, strength: 'fresh', note: 'higher weekly supply' },
+            ],
+            position: 'Between immediate demand **$17.4–17.7** and immediate supply **$18.3–18.7** — nearer demand, which is why a fresh short here is poor positioning',
+            bull: 'Reclaim **$18.2–18.3** → **$18.7**, then **$19.1–19.5**',
+            longSetup: 'Hold **$17.4–17.7**, form a 4H higher low and reclaim **$18.2–18.3** → **$18.7**, then **$19.1–19.5**. Daily acceptance above **$19.5** opens **$20.2–20.7**; a credible trend reversal needs a breakout above **$20.7** and a successful retest, which opens **$23.5–24.5**.',
+            longCandidate: 'Countertrend, and only after **$17.4–17.7** holds and **$18.2–18.3** is reclaimed. Not a credible swing long until TTD accepts above **$19.5–20.7**.',
+            bear: 'Reject **$18.7–19.5** → **$17.7–17.4**, then **$17.0–16.5**',
+            shortSetup: 'Rejection from **$18.7–19.5** with a 4H lower high → $17.7–17.4, then $17.0–16.5. The stronger short is **$20.2–20.7** if it is reached and rejected. A daily close below **$17.3** with a failed reclaim → **$16.5–16.0**, with **$15.5** as the extended target.',
+            retest: 'Oversold 4H momentum at demand makes an initial bounce toward **$18.3–18.7** likely; the critical upside retest is **$19.1–19.5**. If $17.3 fails, expect a retest of **$17.3–17.7** from underneath before continuation toward **$16.5–16.0**',
         },
     ],
 };
