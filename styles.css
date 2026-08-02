@@ -993,14 +993,20 @@ body.story-open { overflow: hidden; }
 .bt-id .bt-pref { margin-top: 5px; font-weight: 600; color: var(--lean); }
 .bt-id .bt-parts { display: block; margin-top: 4px; }
 
-/* The per-frame reads, tucked under the 4H narrative they qualify. */
+/* The per-frame reads, tucked under the 4H narrative they qualify. Set larger
+   and heavier than the prose above them: these four lines are the frame
+   verdicts, and mono at a small weight was the hardest thing on the board to
+   read. */
 .bt-frames {
-    margin-top: 8px; padding-top: 7px;
+    margin-top: 9px; padding-top: 8px;
     border-top: 1px dotted var(--bt-line, var(--hair));
-    font-family: var(--mono); font-size: 12.5px; line-height: 1.65;
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.75;
     color: var(--mut);
 }
-.bt-flow { font-size: 12px; }
+.bt-flow { font-size: 13px; font-weight: 500; }
 
 /* Header above the table: title + "as of" and the one-line board note. */
 .bt-head {
