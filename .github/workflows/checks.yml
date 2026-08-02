@@ -78,5 +78,16 @@ jobs:
                 throw new Error(\`\${r.ticker}: seeded row must have score null\`);
               }
             }
+            // Direction groups are the single source of truth for each row's
+            // membership badge, so a mistyped ticker there silently labels
+            // nothing. Fail instead.
+            const known = new Set(B.rows.map(r => r.ticker));
+            for (const g of (B.direction && B.direction.groups) || []) {
+              for (const t of g.tickers || []) {
+                if (!known.has(t)) {
+                  throw new Error(\`direction group '\${g.label}' names unknown ticker \${t}\`);
+                }
+              }
+            }
             console.log(\`ok  board.js — \${B.rows.length} rows\`);
           "

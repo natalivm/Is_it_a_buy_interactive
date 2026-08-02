@@ -956,6 +956,13 @@ body.story-open { overflow: hidden; }
 .bt-parts { font-family: var(--mono); font-size: 10px; color: var(--mut); }
 /* The monthly frame is an overall-view reading, not a scoring term. */
 .bt-context { color: var(--mut); }
+/* The long-candidate line is an analyst judgement sitting under a computed
+   trigger, so it is set apart rather than reading as more derived output. */
+.bt-long {
+    display: inline-block; margin-top: 6px; padding-top: 6px;
+    border-top: 1px dotted var(--bt-line, var(--hair));
+    color: var(--mut); font-size: 11px;
+}
 
 .bt-rank { margin-top: 18px; }
 .bt-rank-title {
@@ -963,6 +970,36 @@ body.story-open { overflow: hidden; }
     letter-spacing: 0.1em; text-transform: uppercase; color: var(--mut);
     margin-bottom: 8px;
 }
+/* Direction ranking — the long/short candidacy groups. Side is colour-coded
+   the same way the tiles chip a long or a short. */
+.bt-dir-groups {
+    display: grid; gap: 10px; margin-bottom: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.bt-dir-group {
+    --d: var(--mut);
+    padding: 10px 12px; border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--d) 30%, var(--hair));
+    background: color-mix(in srgb, var(--d) 7%, transparent);
+}
+.bt-dir-long { --d: var(--green); }
+.bt-dir-short { --d: var(--pink); }
+.bt-dir-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: var(--d);
+}
+.bt-dir-tickers {
+    margin-top: 4px; font-family: var(--mono); font-size: 13px; font-weight: 600;
+}
+.bt-dir-note { margin-top: 4px; font-size: 11px; color: var(--mut); }
+/* …and the same label inline on the row it applies to. */
+.bt-dir {
+    display: inline-block; margin-top: 4px; padding: 1px 5px; border-radius: 5px;
+    font-size: 9px; line-height: 1.35; white-space: normal;
+    border: 1px solid color-mix(in srgb, var(--d, var(--mut)) 35%, var(--hair));
+    color: var(--d, var(--mut));
+}
+/* Preferred direction leads its cell — it is the verdict the rest supports. */
+.bt-pref { margin-bottom: 4px; font-size: 12px; }
 .bt-rank-list { margin: 0 0 8px 18px; font-size: 13px; }
 .bt-rank-list li { margin-bottom: 4px; }
 .bt-rank-note { font-size: 12px; color: var(--mut); max-width: 78ch; }

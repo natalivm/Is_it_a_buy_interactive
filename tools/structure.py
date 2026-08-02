@@ -99,11 +99,15 @@ SWING_MIN_ATR = 0.75
 # count. Without it the classifier compared two pivots from an earlier era and
 # called a name in free-fall "neutral". Per frame, in that frame's own bars.
 STRUCT_LOOKBACK = {'d': 120, 'w': 52, 'm': 24, 'h4': 120}
-# How much daily history to pull. NOT 10y — this board's deepest frame is
-# monthly, and 24 monthly bars plus an ATR(14) warmup is 38 months. 4y covers
-# that with room (48 monthly, 208 weekly, ~1000 daily) and costs 60% less than
-# the card refresher's 10y, which it needs only for its 200-week EMA seed.
-FETCH_RANGE = "4y"
+# How much daily history to pull. The binding constraint is the trend rules'
+# 200 EMA, taken PER TIMEFRAME: a weekly 200 EMA needs 200 weekly bars, and 4y
+# gave only 208 — barely seeded, no convergence. 6y gives 312 weekly, 1512
+# daily and 72 monthly, and is still a 40% cut from the card refresher's 10y.
+#
+# A 200-MONTH EMA needs ~17 years and is not obtainable at any sane fetch, so
+# the monthly frame's EMA-cross term is reported unavailable rather than
+# guessed (see trend_score: unavailable components score 0 and are named).
+FETCH_RANGE = "6y"
 # Bars a frame needs before its read is trustworthy: its lookback plus the
 # ATR(14) warmup the significance thresholds depend on.
 ATR_WARMUP = 14
@@ -153,17 +157,21 @@ class Swing:
 
 
 def swings(high: list[float], low: list[float], n: int = SWING_N) -> list[Swing]:
-    """Confirmed swing points. A pivot needs n candles on BOTH sides, so the
-    last n bars can never contain a confirmed swing — which is the point: an
-    unconfirmed pivot is not structure yet."""
+    """Confirmed swing points, five-candle pivot rule:
+
+        swing high   H_t > H_t-1, H_t-2, H_t+1, H_t+2
+        swing low    L_t < L_t-1, L_t-2, L_t+1, L_t+2
+
+    STRICTLY greater/less on every side — a bar tying its neighbour is not a
+    pivot. The last n bars can never contain a confirmed swing, which is the
+    point: an unconfirmed pivot is not structure yet, and every individual
+    candle high is not a structural level."""
     out: list[Swing] = []
     for i in range(n, len(high) - n):
-        window = range(i - n, i + n + 1)
-        if all(high[i] >= high[j] for j in window) and \
-           any(high[i] > high[j] for j in window if j != i):
+        others = [j for j in range(i - n, i + n + 1) if j != i]
+        if all(high[i] > high[j] for j in others):
             out.append(Swing(i, high[i], 'high'))
-        if all(low[i] <= low[j] for j in window) and \
-           any(low[i] < low[j] for j in window if j != i):
+        if all(low[i] < low[j] for j in others):
             out.append(Swing(i, low[i], 'low'))
     return out
 
@@ -219,6 +227,27 @@ def _halves(win: list[dict]) -> str:
     return 'neutral'
 
 
+def explain_structure(sw: list[Swing], bars: list[dict], lookback: int) -> str:
+    """One line saying HOW a frame reached its verdict, so a surprising read is
+    checkable rather than mysterious. LITE printing 'weekly bullish' while its
+    4H is bearish is a legitimate output — but only if you can see the two
+    swing highs and lows it compared, or that it fell back to window halves."""
+    inwin = [s for s in sw if s.i >= len(bars) - lookback]
+    highs = [s.price for s in inwin if s.kind == 'high'][-2:]
+    lows = [s.price for s in inwin if s.kind == 'low'][-2:]
+    if len(highs) < 2 or len(lows) < 2:
+        win = bars[-lookback:]
+        mid = len(win) // 2
+        if len(win) < 10:
+            return "too few bars"
+        old, new = win[:mid], win[mid:]
+        return (f"halves (too few pivots): high "
+                f"{max(b['h'] for b in old):.2f}->{max(b['h'] for b in new):.2f}, "
+                f"low {min(b['l'] for b in old):.2f}->{min(b['l'] for b in new):.2f}")
+    return (f"pivots: highs {highs[0]:.2f}->{highs[1]:.2f}, "
+            f"lows {lows[0]:.2f}->{lows[1]:.2f}")
+
+
 def classify_structure(sw: list[Swing], bars: list[dict] | None = None,
                        lookback: int | None = None) -> str:
     """bullish = higher high AND higher low; bearish = lower high AND lower low;
@@ -254,6 +283,115 @@ def classify_structure(sw: list[Swing], bars: list[dict] | None = None,
 
 
 STRUCT_SCORE = {'bullish': 1, 'bearish': -1, 'neutral': 0}
+
+# ── standardized per-timeframe trend score ──────────────────────────────────
+#     TrendScore = 3S + 2E + A + M          (range -7 … +7)
+#
+#   S  +1 HH/HL · -1 LH/LL · 0 mixed          (structure — the largest weight)
+#   E  +1 price above a RISING 50 EMA · -1 below a FALLING 50 EMA · else 0
+#   A  +1 50 EMA above 200 EMA · -1 below
+#   M  +1 RSI > 50 AND MACD momentum positive · -1 both negative · else 0
+#
+# This is a separate instrument from the board's bias score. The bias score
+# (2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z) combines FRAMES; this classifies ONE
+# frame. They are deliberately not merged: the bias score already carries RSI
+# and MACD as its own R and M terms, so feeding a trend band — which contains
+# RSI and MACD inside its own M — into W/D/H would count both twice.
+TREND_BANDS = ((5, 'strong uptrend'), (2, 'uptrend'), (-1, 'range / transition'),
+               (-4, 'downtrend'), (-7, 'strong downtrend'))
+# Bars needed before an EMA term is trustworthy: a 50 EMA wants twice its
+# period to converge, a 200 EMA at least half as much again.
+EMA_FAST_BARS, EMA_SLOW_BARS = 100, 300
+# Bars back used to call a moving average rising or falling.
+SLOPE_LOOK = 5
+
+
+def trend_band(score: float) -> str:
+    for floor, label in TREND_BANDS:
+        if score >= floor:
+            return label
+    return 'strong downtrend'
+
+
+def _slope(series, look: int = SLOPE_LOOK) -> int:
+    vals = [v for v in series if v is not None]
+    if len(vals) <= look:
+        return 0
+    return sign(vals[-1] - vals[-look - 1])
+
+
+def trend_score(bars: list[dict], struct: str) -> dict:
+    """3S + 2E + A + M for one timeframe, with every component reported.
+
+    A component whose data is not there scores 0 and is NAMED in `missing`,
+    never quietly treated as neutral evidence — a monthly frame has no
+    200-month EMA, and that is a gap in the inputs, not a flat market."""
+    close = [b["c"] for b in bars]
+    price = close[-1]
+    missing: list[str] = []
+
+    S = STRUCT_SCORE[struct]
+
+    e50 = ind.ema(close, 50)
+    e200 = ind.ema(close, 200)
+    E = 0
+    if len(close) >= EMA_FAST_BARS and e50[-1] is not None:
+        rise = _slope(e50)
+        if price > e50[-1] and rise > 0:
+            E = 1
+        elif price < e50[-1] and rise < 0:
+            E = -1
+    else:
+        missing.append('50 EMA')
+
+    A = 0
+    if len(close) >= EMA_SLOW_BARS and e50[-1] is not None and e200[-1] is not None:
+        A = sign(e50[-1] - e200[-1])
+    else:
+        missing.append('200 EMA')
+
+    r = ind.rsi(close)[-1]
+    hist = ind.macd(close)[2][-1]
+    M = 0
+    if r is None or hist is None:
+        missing.append('RSI/MACD')
+    elif r > 50 and hist > 0:
+        M = 1
+    elif r < 50 and hist < 0:
+        M = -1
+
+    score = 3 * S + 2 * E + A + M
+    return {'score': score, 'band': trend_band(score),
+            'S': S, 'E': E, 'A': A, 'M': M,
+            'rsi': round(r, 2) if r is not None else None,
+            'ema50': round(e50[-1], 2) if e50[-1] is not None else None,
+            'ema200': round(e200[-1], 2) if e200[-1] is not None else None,
+            'missing': missing}
+
+
+def _dir(band: str) -> str:
+    return ('up' if 'uptrend' in band else
+            'down' if 'downtrend' in band else 'range')
+
+
+def combo_read(m_band, w_band, d_band) -> str:
+    """The mixed-structure table, as written: what a monthly/weekly/daily
+    combination MEANS, rather than three labels the reader has to combine."""
+    m, w, d = (_dir(b) if b else None for b in (m_band, w_band, d_band))
+    if m == 'up' and w == 'down':
+        return 'correction inside a larger uptrend'
+    if w == 'up' and d == 'down':
+        return 'daily pullback inside a weekly uptrend'
+    if w == 'down' and d == 'up':
+        return 'countertrend bounce — usually better used to find a short'
+    if w == 'range' and d == 'range':
+        return 'no directional edge'
+    if w == 'up' and d == 'up':
+        return 'aligned uptrend — weekly and daily agree'
+    if w == 'down' and d == 'down':
+        return 'aligned downtrend — weekly and daily agree'
+    return f'weekly {w}, daily {d}'
+
 
 
 # ── supply / demand zones ───────────────────────────────────────────────────
@@ -478,6 +616,33 @@ def _restrength(z: Zone) -> None:
         z.strength = 'fresh'
 
 
+def structural_levels(sw: list[Swing], price: float, kind: str,
+                      n: int = 2) -> list[dict]:
+    """Significant swing lows below price (or highs above) as SUPPORT/RESISTANCE
+    references, for when no zone exists on that side.
+
+    A name in a sustained decline has no demand zone behind it by construction:
+    every displacement is downward, so every zone it leaves is supply. Reporting
+    "no demand within range" is structurally true and useless — price still has
+    swing lows under it, and those are the levels a chart reader would name.
+    Flagged `structural` so they are never confused with a real zone."""
+    if kind == 'demand':
+        cand = sorted((s for s in sw if s.kind == 'low' and s.price < price),
+                      key=lambda s: price - s.price)
+    else:
+        cand = sorted((s for s in sw if s.kind == 'high' and s.price > price),
+                      key=lambda s: s.price - price)
+    out = []
+    for s in cand[:n]:
+        if abs(s.price - price) / price > MAX_ZONE_DIST:
+            continue
+        out.append({'lo': round(s.price, 2), 'hi': round(s.price, 2),
+                    'strength': 'structural', 'touches': None,
+                    'note': f"swing {'low' if kind == 'demand' else 'high'}, "
+                            f"no zone formed"})
+    return out
+
+
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
     """The n nearest zones of a kind on the correct side of price: demand below,
     supply above. A 'demand' zone above price is resistance, not demand."""
@@ -626,14 +791,17 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     rsi_d = ind.rsi(close)[-1]
     _, _, hist_d = ind.macd(close)
 
-    d_struct = classify_structure(
-        significant_swings(swings(high, low), atr_series),
-        daily, STRUCT_LOOKBACK['d']) if _frame_ok(daily, 'd', ticker) else 'neutral'
+    d_sig = significant_swings(swings(high, low), atr_series)
+    d_struct = classify_structure(d_sig, daily, STRUCT_LOOKBACK['d']) \
+        if _frame_ok(daily, 'd', ticker) else 'neutral'
+    d_why = explain_structure(d_sig, daily, STRUCT_LOOKBACK['d'])
     w_atr = ind.atr([b["h"] for b in weekly], [b["l"] for b in weekly],
                     [b["c"] for b in weekly])
-    w_struct = classify_structure(significant_swings(
-        swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr),
-        weekly, STRUCT_LOOKBACK['w']) if _frame_ok(weekly, 'w', ticker) else 'neutral'
+    w_sig = significant_swings(
+        swings([b["h"] for b in weekly], [b["l"] for b in weekly]), w_atr)
+    w_struct = classify_structure(w_sig, weekly, STRUCT_LOOKBACK['w']) \
+        if _frame_ok(weekly, 'w', ticker) else 'neutral'
+    w_why = explain_structure(w_sig, weekly, STRUCT_LOOKBACK['w'])
 
     # Monthly is the overall view — context, deliberately NOT a scoring term.
     # The methodology's score is 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (its M
@@ -645,7 +813,16 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         swings([b["h"] for b in monthly], [b["l"] for b in monthly]), m_atr),
         monthly, STRUCT_LOOKBACK['m']) if _frame_ok(monthly, 'm', ticker) else None
 
-    h4_struct, h4_note = 'neutral', 'no intraday data'
+    # The standardized per-timeframe trend read: 3S + 2E + A + M, one per
+    # frame. Weekly carries the most weight for swing trades, so it leads.
+    trends = {
+        'w': trend_score(weekly, w_struct),
+        'd': trend_score(daily, d_struct),
+    }
+    if m_struct:
+        trends['m'] = trend_score(monthly, m_struct)
+
+    h4_struct, h4_note, h4_trend = 'neutral', 'no intraday data', None
     if want_intraday:
         try:
             h4 = resample_4h(fetch_yahoo_intraday(ticker))
@@ -654,13 +831,22 @@ def read_ticker(ticker: str, want_intraday: bool = True,
             h4_struct = classify_structure(significant_swings(
                 swings([b["h"] for b in h4], [b["l"] for b in h4]), h4_atr),
                 h4, STRUCT_LOOKBACK['h4'])
+            h4_trend = trend_score(h4, h4_struct)
             h4_note = f"{len(h4)} 4H bars"
         except Exception as e:                       # noqa: BLE001 — reported
             h4_note = f"unavailable ({e})"
 
     zones = find_zones(daily, atr_series)
-    dem = nearest(zones, price, 'demand')
-    sup = nearest(zones, price, 'supply')
+    dem = [_zone_json(z) for z in nearest(zones, price, 'demand')]
+    sup = [_zone_json(z) for z in nearest(zones, price, 'supply')]
+    # No zone on a side does NOT mean nothing is there. A name in a sustained
+    # decline leaves only supply behind it, but it still has swing lows under
+    # price, and those are the levels a chart reader would name.
+    win_sw = [x for x in d_sig if x.i >= len(daily) - MAX_ZONE_AGE]
+    if not dem:
+        dem = structural_levels(win_sw, price, 'demand')
+    if not sup:
+        sup = structural_levels(win_sw, price, 'supply')
 
     # Z: inside a CONFIRMED (fresh or tested — not consumed) zone.
     z_term = 0
@@ -702,6 +888,9 @@ def read_ticker(ticker: str, want_intraday: bool = True,
                      if v is not None][-130:],
         'structure': {'m': m_struct, 'w': w_struct, 'd': d_struct,
                       'h4': h4_struct, 'h4Note': h4_note,
+                      # How each read was reached, so a surprising verdict is
+                      # checkable against the numbers it compared.
+                      'why': {'d': d_why, 'w': w_why},
                       'bars': {'d': len(daily), 'w': len(weekly),
                                'm': len(monthly)}},
         'ind': {
@@ -712,8 +901,14 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'parts': parts,
         'score': round(score, 2),
         'bias': bias_label(score),
-        'demand': [_zone_json(z) for z in dem],
-        'supply': [_zone_json(z) for z in sup],
+        # Per-timeframe trend, the standardized read. Separate from `score`
+        # above by design — see the note on TREND_BANDS.
+        'trend': {k: v for k, v in
+                  {**trends, **({'h4': h4_trend} if h4_trend else {})}.items()},
+        'combo': combo_read(trends.get('m', {}).get('band'),
+                            trends['w']['band'], trends['d']['band']),
+        'demand': dem,
+        'supply': sup,
         'position': _position(price, dem, sup, zones),
         'bull': _bull(price, sup),
         'bear': _bear(price, dem),
@@ -742,14 +937,22 @@ def _fmt(z: Zone | dict) -> str:
     return f"${lo:,.2f}–{hi:,.2f}"
 
 
+def _hi(z):
+    return z['hi'] if isinstance(z, dict) else z.hi
+
+
+def _lo(z):
+    return z['lo'] if isinstance(z, dict) else z.lo
+
+
 def _position(price, dem, sup, zones) -> str:
     for z in zones:
         if z.lo <= price <= z.hi:
             return f"inside {z.strength} {z.kind} {_fmt(z)}"
     if dem and sup:
         return (f"between demand {_fmt(dem[0])} "
-                f"({(price - dem[0].hi) / price * 100:.1f}% below) and supply "
-                f"{_fmt(sup[0])} ({(sup[0].lo - price) / price * 100:.1f}% above)")
+                f"({(price - _hi(dem[0])) / price * 100:.1f}% below) and supply "
+                f"{_fmt(sup[0])} ({(_lo(sup[0]) - price) / price * 100:.1f}% above)")
     if sup:
         return f"below supply {_fmt(sup[0])}, no demand within range"
     if dem:
@@ -1030,6 +1233,15 @@ def main() -> int:
             f"       frames: monthly {r['structure']['m'] or 'n/a'} (context, "
             f"unscored) · weekly {r['structure']['w']} · daily "
             f"{r['structure']['d']} · 4H {r['structure']['h4']}\n"
+            f"         weekly via {r['structure']['why']['w']}\n"
+            f"         daily  via {r['structure']['why']['d']}\n"
+            + "".join(
+                f"       trend {k:2}: {v['score']:+d} {v['band']:<18} "
+                f"[S{v['S']:+d} E{v['E']:+d} A{v['A']:+d} M{v['M']:+d}]"
+                + (f"  (no {', '.join(v['missing'])})" if v['missing'] else "")
+                + "\n"
+                for k, v in r.get('trend', {}).items())
+            + f"       combo: {r.get('combo', '—')}\n"
             f"       demand {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['demand']) or '—'}\n"
             f"       supply {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['supply']) or '—'}\n"
             f"       {r['position']}")
@@ -1039,6 +1251,20 @@ def main() -> int:
         print("no ticker produced a row — refusing to write an empty board",
               file=sys.stderr)
         return 1
+
+    # Hand-written fields are not derivable from OHLCV, so a regeneration must
+    # carry them onto the freshly computed row instead of dropping them. The
+    # long-candidate line, the 4H prose and any per-row note are analyst text;
+    # everything else on the row is recomputed from bars.
+    CARRY = ('longCandidate', 'longSetup', 'shortSetup', 'preferred',
+             'trendProse', 'h4', 'h4Effect', 'note')
+    for r in rows:
+        old = previous.get(r['ticker'])
+        if not old:
+            continue
+        for k in CARRY:
+            if old.get(k) and not r.get(k):
+                r[k] = old[k]
 
     # Rows for tickers this run did NOT compute are carried over untouched.
     # Running `structure.py AKAM LITE` used to emit a two-row board and delete

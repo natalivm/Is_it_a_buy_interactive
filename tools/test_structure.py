@@ -41,11 +41,22 @@ def check(name: str, got, want) -> None:
 
 
 def bars_from(closes: list[float], noise: float = 0.4) -> list[dict]:
+    """Bars with an INDEPENDENT wick per bar.
+
+    A fixture that sets high = max(open, close) + a CONSTANT, with open equal to
+    the previous close, cannot produce a strictly-confirmed pivot at all: every
+    high either ties or monotonically tracks a neighbour, so `H_t > H_t±1` never
+    holds. The old non-strict pivot rule masked that; the five-candle rule does
+    not. Random wicks are both more realistic and what makes these fixtures
+    exercise the pivot logic rather than defeat it."""
+    random.seed(len(closes))
     out, d = [], dt.date(2020, 1, 1)
     for i, c in enumerate(closes):
         o = closes[i - 1] if i else c
-        out.append({"date": d, "o": o, "h": max(o, c) + noise,
-                    "l": min(o, c) - noise, "c": c, "v": 1e6})
+        out.append({"date": d, "o": o,
+                    "h": max(o, c) + random.uniform(0.05, noise * 2),
+                    "l": min(o, c) - random.uniform(0.05, noise * 2),
+                    "c": c, "v": 1e6})
         d += dt.timedelta(days=1)
     return out
 
@@ -140,8 +151,10 @@ for _n, _step in ((504, +0.30), (504, -0.28)):
             _d += dt.timedelta(days=1)
         _o = _px
         _c = _px + _step + random.uniform(-1.2, 1.2)
-        _bars.append({"date": _d, "o": _o, "h": max(_o, _c) + 1.2,
-                      "l": min(_o, _c) - 1.2, "c": _c, "v": 1e6})
+        _bars.append({"date": _d, "o": _o,
+                      "h": max(_o, _c) + random.uniform(0.1, 1.2),
+                      "l": min(_o, _c) - random.uniform(0.1, 1.2),
+                      "c": _c, "v": 1e6})
         _px, _d = _c, _d + dt.timedelta(days=1)
 _wk, _mo = ind.resample(_bars, 'W'), ind.resample(_bars, 'M')
 for _f, _seq in (('d', _bars), ('w', _wk), ('m', _mo)):
@@ -172,7 +185,9 @@ for n, step, vol in ((80, 0, 25), (10, -28, 25), (40, 0, 25), (10, 26, 25), (40,
     for _ in range(n):
         o = px
         cl = px + step + random.uniform(-vol, vol)
-        bars.append({"date": d, "o": o, "h": max(o, cl) + vol, "l": min(o, cl) - vol,
+        bars.append({"date": d, "o": o,
+                     "h": max(o, cl) + random.uniform(1, vol),
+                     "l": min(o, cl) - random.uniform(1, vol),
                      "c": cl, "v": 1e6})
         px, d = cl, d + dt.timedelta(days=1)
 atr = ind.atr([b["h"] for b in bars], [b["l"] for b in bars], [b["c"] for b in bars])
@@ -191,6 +206,98 @@ check("the zone price is INSIDE is nearest demand",
       (dem[0].lo, dem[0].hi), (680.0, 785.0))
 check("position agrees with the zone lists",
       st._position(p, dem, st.nearest(held, p, 'supply'), held).startswith("inside"), True)
+
+# ── standardized per-timeframe trend score ──────────────────────────────────
+print("\nTrendScore = 3S + 2E + A + M")
+check("band: +7 / +5", (st.trend_band(7), st.trend_band(5)),
+      ('strong uptrend', 'strong uptrend'))
+check("band: +4 / +2", (st.trend_band(4), st.trend_band(2)), ('uptrend', 'uptrend'))
+check("band: +1 / -1", (st.trend_band(1), st.trend_band(-1)),
+      ('range / transition', 'range / transition'))
+check("band: -2 / -4", (st.trend_band(-2), st.trend_band(-4)),
+      ('downtrend', 'downtrend'))
+check("band: -5 / -7", (st.trend_band(-5), st.trend_band(-7)),
+      ('strong downtrend', 'strong downtrend'))
+
+
+def _tbars(n, step, seed, start=100.0):
+    random.seed(seed)
+    px, out, d = start, [], dt.date(2020, 1, 1)
+    for _ in range(n):
+        o = px
+        c = px + step + random.uniform(-0.5, 0.5)
+        out.append({"date": d, "o": o,
+                    "h": max(o, c) + random.uniform(0.05, 0.5),
+                    "l": min(o, c) - random.uniform(0.05, 0.5),
+                    "c": c, "v": 1e6})
+        px, d = c, d + dt.timedelta(days=1)
+    return out
+
+
+_up = st.trend_score(_tbars(500, +0.6, 7), 'bullish')
+_dn = st.trend_score(_tbars(500, -0.6, 7), 'bearish')
+check("a sustained advance scores an uptrend band",
+      _dir_ok := _up['band'] in ('uptrend', 'strong uptrend'), True)
+check("a sustained decline scores a downtrend band",
+      _dn['band'] in ('downtrend', 'strong downtrend'), True)
+check("score equals 3S + 2E + A + M",
+      _up['score'], 3 * _up['S'] + 2 * _up['E'] + _up['A'] + _up['M'])
+check("structure carries the largest weight", abs(3 * _up['S']) >= abs(2 * _up['E']), True)
+
+_short = st.trend_score(_tbars(60, +0.5, 3), 'bullish')
+check("a short history NAMES its missing components",
+      sorted(_short['missing']), ['200 EMA', '50 EMA'])
+check("…and scores those components 0, not neutral evidence",
+      (_short['E'], _short['A']), (0, 0))
+
+# The mixed-structure table, verbatim from the rules.
+check("monthly up + weekly down", st.combo_read('uptrend', 'downtrend', 'downtrend'),
+      'correction inside a larger uptrend')
+check("weekly up + daily down", st.combo_read('uptrend', 'uptrend', 'downtrend'),
+      'daily pullback inside a weekly uptrend')
+check("weekly down + daily bounce", st.combo_read('downtrend', 'downtrend', 'uptrend'),
+      'countertrend bounce — usually better used to find a short')
+check("weekly and daily both range",
+      st.combo_read('range / transition', 'range / transition', 'range / transition'),
+      'no directional edge')
+
+# Five-candle pivots are STRICT on both sides.
+check("a tie is not a pivot", st.swings([1, 2, 9, 9, 3, 2, 1], [1, 2, 9, 9, 3, 2, 1]), [])
+
+# ── structural levels when a side has no zone ───────────────────────────────
+print("\nStructural fallback — a decline leaves no demand zone behind it")
+random.seed(4)
+_db, _p, _dd = [], 180.0, dt.date(2025, 8, 1)
+for _ in range(300):
+    _o = _p
+    _c = _p - 0.35 + random.uniform(-2.2, 2.2)
+    _db.append({"date": _dd, "o": _o,
+                "h": max(_o, _c) + random.uniform(0.2, 2.2),
+                "l": min(_o, _c) - random.uniform(0.2, 2.2),
+                "c": _c, "v": 1e6})
+    _p, _dd = _c, _dd + dt.timedelta(days=1)
+_dh = [b["h"] for b in _db]
+_dl = [b["l"] for b in _db]
+_dc = [b["c"] for b in _db]
+_da = ind.atr(_dh, _dl, _dc)
+_price = _dc[-1]
+_zs = st.find_zones(_db, _da)
+check("a sustained decline forms no demand zone",
+      len(st.nearest(_zs, _price, 'demand')), 0)
+check("…but it does form supply", len(st.nearest(_zs, _price, 'supply')) > 0, True)
+
+_sig = st.significant_swings(st.swings(_dh, _dl), _da)
+_win = [x for x in _sig if x.i >= len(_db) - st.MAX_ZONE_AGE]
+_fb = st.structural_levels(_win, _price, 'demand')
+check("fallback names swing lows instead", len(_fb) > 0, True)
+check("all below price", all(z['lo'] < _price for z in _fb), True)
+check("nearest first", _fb == sorted(_fb, key=lambda z: _price - z['lo']), True)
+check("flagged structural, never as a zone",
+      all(z['strength'] == 'structural' and z['touches'] is None for z in _fb), True)
+
+check("frame evidence names the pivots it compared",
+      st.explain_structure(_sig, _db, st.STRUCT_LOOKBACK['d']).startswith('pivots: highs'),
+      True)
 
 # ── volume in zone strength ─────────────────────────────────────────────────
 print("\nVolume — 'high-volume selling enters demand' (the written rule)")

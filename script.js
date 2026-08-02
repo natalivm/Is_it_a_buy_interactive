@@ -475,16 +475,32 @@ function md(text) {
 
 const STRUCT_MARK = { bullish: '▲', bearish: '▼', neutral: '=' };
 
+// Which direction groups a ticker belongs to. Derived from BOARD.direction —
+// the group lists are the single source of truth, so a row can never drift out
+// of step with the block rendered under the table. A ticker in two groups is
+// normal: a correction inside a larger uptrend is also a countertrend bounce
+// candidate, and both statements are true of the same chart.
+function directionOf(ticker) {
+    const groups = (BOARD_DATA && BOARD_DATA.direction && BOARD_DATA.direction.groups) || [];
+    return groups.filter(g => (g.tickers || []).includes(ticker));
+}
+
 // Monthly first — the overall view — then the working frames and the timing
 // frame. M is context only and never enters the score, so it is dimmed to say
 // so rather than sitting flush with the terms that do count.
-function structCell(s) {
+function structCell(s, prose) {
     if (!s) return '—';
-    const one = (label, v) => v
-        ? `${label} ${STRUCT_MARK[v] || ''} ${v}`
-        : `${label} —`;
-    return [`<span class="bt-context">${one('M', s.m)}</span>`,
-            one('W', s.w), one('D', s.d), one('4H', s.h4)].join('<br>');
+    // The enum drives the arrow; the prose, where a row has it, is what was
+    // actually read — "bearish range/bounce" says more than "bearish".
+    const one = (label, k) => {
+        const v = s[k];
+        const words = (prose && prose[k]) || v;
+        return words
+            ? `${label} ${STRUCT_MARK[v] || '·'} ${esc(words)}`
+            : `${label} —`;
+    };
+    return [`<span class="bt-context">${one('M', 'm')}</span>`,
+            one('W', 'w'), one('D', 'd'), one('4H', 'h4')].join('<br>');
 }
 
 // A zone list → "$107.27–108.70 weak · repeatedly tested". Generated rows carry
@@ -568,18 +584,24 @@ function boardRowHtml(row) {
     return `
         <tr data-ticker="${esc(row.ticker)}"${hasCard ? ` data-symbol="${esc(row.ticker)}" tabindex="0" role="button"
             aria-label="Open ${esc(row.ticker)} story"` : ''}>
-            <td><b>${esc(row.ticker)}</b><br>${px}${row.seeded ? '<br><span class="bt-unscored">seeded</span>' : ''}</td>
-            <td>${structCell(row.structure)}</td>
+            <td><b>${esc(row.ticker)}</b><br>${px}${row.seeded ? '<br><span class="bt-unscored">seeded</span>' : ''}${
+                directionOf(row.ticker).map(g =>
+                    `<br><span class="bt-dir bt-dir-${esc(g.side)}">${esc(g.label)}</span>`).join('')}</td>
+            <td>${structCell(row.structure, row.trendProse)}</td>
             <td>${esc(atr)}</td>
             <td>${flowCell(row)}</td>
             <td>${scoreCell(row)}</td>
-            <td>${md(row.bias)}</td>
+            <td>${row.preferred
+                ? `<div class="bt-pref">${md(row.preferred)}</div>` : ''}${md(row.bias)}</td>
             <td>${h4}</td>
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
             <td>${md(row.position)}</td>
-            <td>${md(row.bull)}</td>
-            <td>${md(row.bear)}</td>
+            <td>${md(row.bull)}${row.longSetup
+                ? `<br><span class="bt-long">Setup — ${md(row.longSetup)}</span>` : ''}${row.longCandidate
+                ? `<br><span class="bt-long">Candidate — ${md(row.longCandidate)}</span>` : ''}</td>
+            <td>${md(row.bear)}${row.shortSetup
+                ? `<br><span class="bt-long">Setup — ${md(row.shortSetup)}</span>` : ''}</td>
             <td>${md(row.retest)}</td>
         </tr>`;
 }
@@ -610,6 +632,22 @@ function renderBoardTable() {
     if (note) note.innerHTML = md(BOARD_DATA.note || '');
     const method = document.getElementById('boardTableMethod');
     if (method) method.innerHTML = md(BOARD_DATA.method || '');
+
+    const dir = document.getElementById('boardTableDirection');
+    if (dir) {
+        const D = BOARD_DATA.direction;
+        const groups = (D && D.groups) || [];
+        dir.innerHTML = groups.length
+            ? '<h3 class="bt-rank-title">Direction ranking</h3>'
+              + '<div class="bt-dir-groups">' + groups.map(g =>
+                  `<div class="bt-dir-group bt-dir-${esc(g.side)}">`
+                  + `<div class="bt-dir-label">${esc(g.label)}</div>`
+                  + `<div class="bt-dir-tickers">${(g.tickers || []).map(esc).join(' · ')}</div>`
+                  + (g.note ? `<div class="bt-dir-note">${md(g.note)}</div>` : '')
+                  + '</div>').join('') + '</div>'
+              + (D.note ? `<p class="bt-rank-note">${md(D.note)}</p>` : '')
+            : '';
+    }
 
     const rank = document.getElementById('boardTableRanking');
     if (rank) {
