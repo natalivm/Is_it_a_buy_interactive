@@ -574,7 +574,6 @@ function flowCell(row, inline) {
 }
 
 function boardRowHtml(row) {
-    const hasCard = !!findStock(slugify(row.ticker));
     const h4 = row.h4
         ? `${md(row.h4)}${row.h4Effect ? `<br><br>${md(row.h4Effect)}` : ''}`
         : `<span class="bt-unscored">${esc((row.structure && row.structure.h4Note) || '—')}</span>`;
@@ -582,8 +581,10 @@ function boardRowHtml(row) {
     const atr = row.atr != null
         ? `$${fmtNum(row.atr)}${row.atrPct != null ? ` / ${row.atrPct}%` : ''}`
         : '—';
-    // data-ticker on EVERY row (the search filters on it); data-symbol only on
-    // rows that have a deck to open.
+    // data-ticker only, for the search. Rows deliberately carry NO link to a
+    // card: this board is a separate element from the gallery, the two are
+    // allowed to disagree, and a row that opens a deck invites reading the
+    // deck's plan as this board's conclusion.
     // Which way the row leans, for the identity cell's tint. Read from the
     // preferred direction where there is one, else the computed score, else the
     // bias prose — the same green/pink language the tiles use for a side.
@@ -604,7 +605,7 @@ function boardRowHtml(row) {
     // per-frame reads sit under the 4H narrative they qualify — thirteen
     // columns of one-line cells wasted most of their width on whitespace.
     const identity = `
-        <div class="bt-id bt-lean-${lean}">
+        <div class="bt-id">
             <div class="bt-id-top"><b class="bt-id-sym">${esc(row.ticker)}</b>
                 <span class="bt-id-px">${px}</span></div>
             <div class="bt-id-atr">ATR(14) ${esc(atr)}${
@@ -613,27 +614,25 @@ function boardRowHtml(row) {
             <div class="bt-id-bias">${md(row.bias)}</div>
             ${row.parts ? `<div class="bt-parts">${['W', 'D', 'H', 'R', 'M', 'O', 'Z']
                 .map(k => `${k}${row.parts[k] > 0 ? '+' : ''}${row.parts[k]}`).join(' ')}</div>` : ''}
-            ${row.seeded ? '<div class="bt-unscored">seeded</div>' : ''}
             ${directionOf(row.ticker).map(g =>
                 `<div class="bt-dir bt-dir-${esc(g.side)}">${esc(g.label)}</div>`).join('')}
         </div>`;
 
     return `
-        <tr data-ticker="${esc(row.ticker)}"${hasCard ? ` data-symbol="${esc(row.ticker)}" tabindex="0" role="button"
-            aria-label="Open ${esc(row.ticker)} story"` : ''}>
-            <td class="bt-cell-id">${identity}</td>
+        <tr data-ticker="${esc(row.ticker)}">
+            <td class="bt-cell-id bt-lean-${lean}">${identity}</td>
             <td>${h4}
                 <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
                 ${flowCell(row, true)}</td>
             <td>${zoneCell(row.demand)}</td>
             <td>${zoneCell(row.supply)}</td>
-            <td>${md(row.position)}</td>
             <td>${md(row.bull)}${row.longSetup
                 ? `<br><span class="bt-long">Setup — ${md(row.longSetup)}</span>` : ''}${row.longCandidate
                 ? `<br><span class="bt-long">Candidate — ${md(row.longCandidate)}</span>` : ''}</td>
             <td>${md(row.bear)}${row.shortSetup
                 ? `<br><span class="bt-long">Setup — ${md(row.shortSetup)}</span>` : ''}</td>
-            <td>${md(row.retest)}</td>
+            <td>${md(row.position)}${row.retest
+                ? `<br><span class="bt-long">Likely retest — ${md(row.retest)}</span>` : ''}</td>
         </tr>`;
 }
 
@@ -683,13 +682,6 @@ function renderBoardTable() {
     }
     body.innerHTML = BOARD_DATA.rows.map(boardRowHtml).join('');
 
-    const meta = document.getElementById('boardTableMeta');
-    if (meta) {
-        const src = BOARD_DATA.generatedBy ? ` · ${esc(BOARD_DATA.generatedBy)}` : '';
-        meta.innerHTML = `as of ${esc(fmtDate(BOARD_DATA.updated) || BOARD_DATA.updated || '')}${src}`;
-    }
-    const note = document.getElementById('boardTableNote');
-    if (note) note.innerHTML = md(BOARD_DATA.note || '');
     const method = document.getElementById('boardTableMethod');
     if (method) method.innerHTML = md(BOARD_DATA.method || '');
 
@@ -718,15 +710,6 @@ function renderBoardTable() {
             : '';
     }
 
-    // Rows for tickers that also have a card open that deck; board-only names
-    // (AKAM, TE, …) are plain rows.
-    body.querySelectorAll('tr[data-symbol]').forEach(el => {
-        const symbol = el.dataset.symbol;
-        el.addEventListener('click', () => openStory(symbol));
-        el.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(symbol); }
-        });
-    });
 }
 
 function renderGallery() {

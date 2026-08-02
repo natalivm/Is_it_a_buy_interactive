@@ -125,7 +125,6 @@
         <section class="board-table" id="boardTable" aria-label="Structure board">
             <div class="bt-head">
                 <h2 class="bt-title">Structure board</h2>
-                <span class="bt-meta" id="boardTableMeta"></span>
                 <!-- Copies the board as TSV. Pasting TSV into Google Sheets
                      splits it into columns with no import step. -->
                 <button type="button" id="boardCopyBtn" class="bt-copy"
@@ -134,7 +133,6 @@
                     <span id="boardCopyLabel">Copy for Sheets</span>
                 </button>
             </div>
-            <p class="bt-note" id="boardTableNote"></p>
             <div class="bt-scroll">
                 <table class="board">
                     <thead>
@@ -143,10 +141,9 @@
                             <th>4H read · frames</th>
                             <th>Nearest demand</th>
                             <th>Nearest supply</th>
-                            <th>Current position</th>
                             <th>Bullish trigger / targets</th>
                             <th>Bearish trigger / targets</th>
-                            <th>Likely retest</th>
+                            <th>Position · likely retest</th>
                         </tr>
                     </thead>
                     <tbody id="boardTableBody"></tbody>
@@ -156,7 +153,7 @@
             <div class="bt-rank" id="boardTableDirection"></div>
             <div class="bt-rank" id="boardTableRanking"></div>
             <p class="bt-foot" id="boardTableMethod"></p>
-            <p class="bt-foot">Independent of the cards — a ticker can be long on its card and bearish here; that disagreement is information, not an error. Rows for tickers that also have a card open that deck.</p>
+            <p class="bt-foot">Independent of the cards — a ticker can be long on its card and bearish here; that disagreement is information, not an error. Rows deliberately do not link to a deck: this board is its own read, not a route into the gallery. Scroll sideways for the remaining columns.</p>
         </section>
 
         <footer class="site-disclaim">Не є інвестиційною рекомендацією. Освітній контент — рішення та ризики ваші.</footer>
