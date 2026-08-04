@@ -478,6 +478,24 @@ the card states the trade-off outright and quotes the ATR-proof alternative —
 GLW's card is the model ("still only 0.54 ATR, and that is a deliberate choice…
 if you want a stop the ATR cannot reach, it is $156 and the R:R is ~1.8:1").
 
+⚠️ **Rule B is an ENTRY filter and must not be pointed at a held position.** Read
+literally ("the stop must sit 1 ATR from the entry midpoint") it would tell you to
+WIDEN the stop on a position that is already winning, which is backwards. For a
+FILLED trade the test is cushion from CURRENT price and the action is trailing UP:
+
+| | fill | stop | ATR from FILL | ATR from PRICE NOW |
+|---|---|---|---|---|
+| TSLA | $307 | $297 | 0.59 ✗ | **1.49 ✓** |
+| META | $535 | $515 | 0.79 ✗ | **2.99 ✓** |
+| DELL | $406 | $393 | 0.47 ✗ | **1.32 ✓** |
+
+All three failed the entry test and all three now carry more than 1 ATR of live
+cushion, so there was nothing to fix — the failing numbers were history. Widening
+them would have cost real edge for nothing: TSLA 5.8:1 → 2.2:1 at the structural
+level, DELL 4.3:1 → 2.0:1. The corollary is the useful half: a stop can be too FAR
+as well as too near. META sat 2.99 ATR below price, i.e. risking 3.7% back to the
+fill when 1.00 ATR ($565) would still be outside noise and lock +5.6%.
+
 ⚠️ This is also the honest answer to "should high-beta names have their own rule":
 no. Express every stop in ATR units and the difference handles itself — a 3% stop
 is 0.55 ATR on MRVL and 0.66 ATR on META, and those are different trades. A
