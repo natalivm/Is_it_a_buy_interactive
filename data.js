@@ -946,6 +946,21 @@ const STOCKS = [
     date: '2026-08-03',
     story: 'stories/ftnt.html',
   },
+  // Fresh single-write scouting card, 2026-08-04 — the last verified session
+  // fetched via tools/refresh.py is 31.07 ($147.61, −2.63%), so the OHLCV
+  // below is dated to that bar rather than backfilled to today; `date` still
+  // bumps to today per the tile-date rule. Structure is two-way and not yet
+  // resolved either direction, so this carries no `lead` — it is a watch,
+  // same footing as CIEN/TTD before a side confirms.
+  {
+    symbol: 'QCOM', exchange: 'NASDAQ',
+    price: '$147.61',
+    change: '📅 CLOSE 31.07 $147.61 (−2.63%) — gave back the ENTIRE 3-session swing $147.61→$153.73 (+4.1%), closing $0.39 UNDER the $148–152 demand zone · daily RSI 28.87, Stoch 6.11/6.22 deeply oversold · weekly cross ESTABLISHED, hist −5.85 (165.7% of MACD) · 🔍 scouting',
+    signal: '📅 CLOSE 31.07 — 🔍 SCOUTING, THE MOST RECENT VERIFIED SESSION. QCOM closed $147.61 (−2.63%), O $152.96 · H $153.73 · L $146.15, giving back the ENTIRE 4.1% three-session swing off $147.61 → $153.73 and closing BELOW the 50% retracement line $150.67 — and, by $0.39, under the $148–152 demand zone the plan below is built on. Daily RSI 28.87 and Stoch %K 6.11/%D 6.22 are deeply oversold, price sits under every daily EMA (9 $161.29 · 50 $182.23 · 200 $172.38), and the daily histogram −1.84 is negative 40 bars and EXPANDING a fourth. The weekly closed AT its own $146.00 low too, with an ESTABLISHED cross — hist −5.85, 165.7% of MACD (3.53 vs sig 9.37) — three bars deep and still widening: a confirmed downtrend testing major support, not a bottom yet. Monthly is the one frame not broken: RSI 47.29, hist still POSITIVE at +0.92 though contracting a second bar and only 1 point from its own cross — the long-term uptrend is damaged and transitioning, not reversed, which is why the monthly reads neutral rather than bearish on the structure board (board.js, QCOM row). 📐 STRUCTURE, BOTH WAYS. Short: the cleaner trigger is a rejection from $160–162 or, preferably, $168–172 — not a fade of the $148–152 zone price is already testing from underneath. Stop above $163 or $174 depending on entry; targets $150 → $142–145 → $134–138. A breakdown short needs a daily close below $142 AND a failed retest, opening $134–138 then $121–125. Long: countertrend only — hold $148–152 and get a 4H close above $160–162, enter the retest, stop below $148 or $142 depending on entry; targets $168–172 → $178–180 → $188–196. A genuine trend reversal needs acceptance above $172–180, not a single reclaim. ⚠️ DO NOT CHASE EITHER SIDE HERE. The close sits $0.39 under the demand a tactical long needs to hold, and $12–13 under the supply a short wants to fade — neither trigger has printed. ATR(14) is $9.55, 6.30% of price; a stop under $142 from a $150 short entry is under 1 ATR, so size the position to the level, not to a round number. Most likely first move is a retest of $160–162; acceptance there opens $168–172. Rejection sends price back toward $148–152, possibly $142–145. No fill either side yet — unranked.',
+    side: 'short',
+    date: '2026-08-04',
+    story: 'stories/qcom.html',
+  },
 ];
 
 // ── Articles ──────────────────────────────────────────────────────────────

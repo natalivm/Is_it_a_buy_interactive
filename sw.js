@@ -50,6 +50,7 @@ const ASSETS = [
   BASE + 'stories/crwd.html',
   BASE + 'stories/ftnt.html',
   BASE + 'stories/pltr.html',
+  BASE + 'stories/qcom.html',
   BASE + 'stories/articles/ai-dumping.html',
   BASE + 'stories/articles/chinese-models.png',
   BASE + 'stories/articles/warsh-liquidity.html',
