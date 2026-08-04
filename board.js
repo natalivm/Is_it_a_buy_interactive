@@ -67,7 +67,7 @@ const BOARD = {
     // The "as of" label. Tracks the NEWEST row date, not the oldest — five
     // single-ticker additions in a row left this reading 08-01 while eight rows
     // were dated 08-02, so the board under-reported itself by a day.
-    updated: '2026-08-02',
+    updated: '2026-08-04',
     generatedBy: 'hand-seeded — awaiting the first tools/structure.py run',
     method: 'Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z '
         + '(W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; '
@@ -83,10 +83,17 @@ const BOARD = {
         // contradicted the three places the row states the trigger
         // (`bull`, `longSetup`, `longCandidate`) and its $545–565 supply zone.
         '**AXON long** — only after a confirmed $545–550 breakout.',
+        // Sorts first in `rows` on conviction and belongs HERE well down the
+        // list: the structure is the board's best long and the entry does not
+        // exist yet. That gap between order and actionability is why this list
+        // stays hand-written.
+        '**PLTR long** — only on a $141–143 hold with a 4H higher low, or acceptance above $150. Do not chase a 3.4-ATR gap.',
         '**TE long** — weakest confirmation; demand reacted, but the 4H rebound is already fading.',
     ],
-    rankingNote: 'The biggest update is TE: it remains a possible countertrend long, '
-        + 'but the 4H chart says wait, not buy yet.',
+    rankingNote: 'The biggest update is PLTR: the earnings gap gives the board its '
+        + 'strongest long structure, but the tradeable entry is the $141–143 retest, '
+        + 'not the gap itself. TE remains a possible countertrend long, and its 4H '
+        + 'chart still says wait, not buy yet.',
     // Direction ranking — which side each name is a candidate for, and on what
     // terms. A ticker can appear in more than one group on purpose: META, SMH
     // and CIEN are corrections inside larger monthly uptrends AND countertrend
@@ -105,10 +112,13 @@ const BOARD = {
             { label: 'Best trend-following longs', side: 'long',
               tickers: ['LLY', 'AVGO', 'GOOGL'] },
             { label: 'Possible longs after breakout confirmation', side: 'long',
-              tickers: ['AXON', 'STX', 'MSFT'],
+              tickers: ['AXON', 'STX', 'MSFT', 'PLTR'],
               note: 'AXON first, then STX. MSFT is long-first but its weekly '
                   + 'trend has only just turned, so it joins on either a $482 '
-                  + 'breakout-retest or a pullback with a 4H higher low.' },
+                  + 'breakout-retest or a pullback with a 4H higher low. PLTR '
+                  + 'is the same shape one step earlier: the earnings gap has '
+                  + 'flipped the daily, but the weekly is still base-building, '
+                  + 'so it needs a $141–143 hold or acceptance above $150.' },
             { label: 'Best trend-following shorts', side: 'short',
               tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD', 'GLW'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
@@ -156,6 +166,71 @@ const BOARD = {
     // the hand-written list rendered under the table — is where actionability
     // lives, and it stays hand-written for exactly that reason.
     rows: [
+        {
+            // ⚠ SORTS FIRST, AND THAT IS NOT A RECOMMENDATION. conviction() is
+            // 2W + D + 0.5H + Z = 0 + 1 + 0.5 + 1 = 2.5, the board's highest —
+            // but the +1 on Z is an artifact of a gap, not evidence of support:
+            // `price` is the last REGULAR-SESSION close ($125.65), which sits
+            // inside the $122–126 gap-origin demand while the stock has already
+            // traded ~$147. Every other demand zone here is ABOVE the row's own
+            // price for the same reason. This is precisely the actionability the
+            // sort key cannot see (see the ROW ORDER note above), so the
+            // don't-chase verdict lives in `preferred`, `bias` and `ranking` —
+            // not in where the row landed.
+            //
+            // Price/ATR are pre-gap and deliberately consistent with each other:
+            // $6.32 / 5.03% implies $125.65 exactly, the stated close. The
+            // $21.54 gap is ~3.4 of those ATRs, so ATR(14) will re-rate upward
+            // once this session closes and every zone measured off it widens.
+            // Not averaged with a post-gap estimate — one basis per row, same
+            // discipline as MSFT's.
+            //
+            // Weekly is NEUTRAL, not bullish: "corrective/base-building …
+            // attempting to reverse upward" is an attempt, not a confirmed
+            // higher-high/higher-low sequence. 4H is bullish on structure even
+            // though RSI ~83 says it is stretched — overextended is a caveat on
+            // the entry, not a different trend.
+            //
+            // A fifth demand zone was read and is deliberately not in the list:
+            // $114–118, lower weekly demand if the gap unwinds completely. It
+            // is carried in `bear` instead, so the cell stays four lines like
+            // its neighbours.
+            ticker: 'PLTR', seeded: true, date: '2026-08-04',
+            price: 125.65, atr: 6.32, atrPct: 5.03,
+            structure: { m: 'bullish', w: 'neutral', d: 'bullish', h4: 'bullish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'uptrend, below the peak',
+                          w: 'base, reversal attempt',
+                          d: 'earnings-gap breakout',
+                          h4: 'breakout, RSI 83' },
+            preferred: '**Long preferred** — do not chase the gap',
+            score: null, parts: null,
+            bias: '**Long-first, but a 3.4-ATR gap is not an entry.** Buy the retest that holds, not the move that made it.',
+            h4: 'Above every major average, but RSI **83** — stretched, so consolidation before continuation.',
+            h4Effect: 'Keeps the long read and blocks the entry. The $21.54 gap is ~3.4 ATRs on the pre-gap $6.32, '
+                + 'so a single bar is wider than the stop a normal entry would carry — the 4H has to build a higher low '
+                + 'above $141–143 before the retest is buyable. ATR(14) itself will re-rate upward after this session, '
+                + 'which widens every zone measured off it.',
+            demand: [
+                { lo: 141, hi: 143, strength: 'fresh', note: 'breakout support · 200-day + old range top' },
+                { lo: 134, hi: 136, strength: 'fresh', note: 'first pullback · 4H trend support' },
+                { lo: 129, hi: 132, strength: 'tested', note: 'major cluster' },
+                { lo: 122, hi: 126, strength: 'tested', note: 'pre-earnings base / gap origin' },
+            ],
+            supply: [
+                { lo: 147, hi: 150, strength: 'fresh', note: 'immediate pivot' },
+                { lo: 157, hi: 160, strength: 'fresh', note: 'first meaningful supply' },
+                { lo: 168, hi: 180, strength: 'tested', note: 'next major target' },
+                { lo: 195, hi: 207, strength: 'tested', note: 'major / prior peak' },
+            ],
+            position: 'Gapped **$125.65 → ~$147** on earnings, clear of the **$130–141** average cluster and into immediate supply',
+            bull: 'Hold **$141–143**, then acceptance above **$150** → **$157–160**, then **$168–180**',
+            longSetup: '**Retest:** hold $141–143, form a 4H higher low → **$147–150**, then $157–160. **Continuation:** consolidate above $145 and break **$150** with acceptance → $157–160, then $168–180',
+            longCandidate: 'Long-first, but wait for a **$141–143** hold with a 4H higher low, or acceptance above **$150**.',
+            bear: 'Daily close below **$141** and a failed reclaim → **$134–130**, then **$125–120**; below $120 → **$114–118**',
+            shortSetup: 'Short only after a daily close below **$141** and a failed reclaim → $134–130, then $125–120',
+            retest: 'First likely retest **$141–143**; a deeper gap retracement could reach **$134–130** before continuation',
+        },
         {
             // `structure` is a three-value enum (bullish | bearish | neutral),
             // so hedged prose maps to the CONSERVATIVE value and the full
