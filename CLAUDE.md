@@ -171,6 +171,17 @@ clutter), so don't reintroduce per-gauge accordions. The whole point is that
   in data.js on every refresh but NOT rendered. The `read` on each check is
   the same: the reasoning lives in the data, the page shows only the bars.
   Top-level `note` is the one-line board stance under the bars (rendered).
+  **It has a HARD budget: under ~550 characters.** It renders under the bars,
+  where a wall of prose is precisely what the cockpit exists to avoid — and it
+  has now blown past 1,900 characters twice in one day (2026-08-03, intraday
+  and again at the close), because each refresh APPENDS its finding instead of
+  replacing the last one. It is a STANCE, not a digest: the gate's state, the
+  single structural fact of the session, and the one thing that would change
+  the read. Nothing else. Evidence belongs in each check's `read`; per-market
+  narrative belongs in that market's own `note`, which is an unrendered working
+  log and may run long. A new finding that matters more than what is there
+  REPLACES it — the note never grows by accretion. Same discipline for the
+  per-market `note`s if they ever start rendering.
 - Bump `updated` (ISO date) on every refresh — it renders as the "as of" label,
   same discipline as a tile's `date`. The section hides itself if `MARKET` is
   missing or no market has usable checks.
@@ -282,8 +293,14 @@ checks it.
 
 An entry may also carry a `lead` object (`{ rank, status?, entry, stop, targets,
 tail?, rr, edge, tagged?, closed? }`). `tagged` records the deepest
-target actually realised (set it the day the target trades — it survives the
-price squeezing back above the level); `closed` records the exit of a
+target actually realised (set it the day the target TRADES — an intraday touch
+counts and a close over the level is NOT required; it survives the price
+squeezing back above it). ⚠️ But it presupposes a FILL: a target traded on an
+UNFILLED plan — one the SMH gate blocked, say — is not realised and must not
+be tagged. Record what the forgone exit was worth in prose instead. On
+2026-08-03 four T1s traded on gated plans and none was tagged, correctly;
+the first write-up withheld them on the wrong ground (that the close came
+back under the level), which is not the test. `closed` records the exit of a
 stopped/closed trade. The "Booked at targets" strip is a LEDGER of realised
 results computed from these: wins score at `tagged` (or the deepest target the
 current price has reached), closed trades score at `closed` — including

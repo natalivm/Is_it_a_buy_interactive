@@ -57,6 +57,13 @@ ticker list, a source, and a flag for whether to touch the PR.
      it — the flaw that was found by hand on COHR)
    - a dip-buy long whose zone sits above price (chasing); entries phrased as
      acceptance *over* a level are exempt, since those are meant to sit above
+   - **a `filled` entry is exempt from the zone-vs-price and `status` checks**
+     entirely. Those three checks all ask one question — is this level in a
+     sensible place relative to price? — and a held position has settled it:
+     the fill happened where it happened, and the gap to price now is P&L, not
+     a design flaw. `planProgress()` and `bookedGains()` already switch on the
+     same word. Without it a working long (META filled $535, price $590) is
+     flagged as chasing and told to `wait` for an entry it already has.
    - `downside` drifting from the computed % left to the deepest target
    - card price drifting from the real close — an automatic staleness detector
    - an `entry` string mixing scales, which would make `planProgress()` average

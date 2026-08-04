@@ -477,16 +477,27 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     confirm_style = bool(re.search(r"\b(over|above|acceptance|reclaim)\b",
                                    str(lead.get("entry", "")), re.I))
 
+    # A FILLED entry is a HELD POSITION, not a plan, and checks 2/3/5 all ask
+    # the same question of a plan: is this level in a sensible place relative to
+    # price? Once filled, that question is settled and unaskable — the fill
+    # happened at the price it happened at, and where price sits now is P&L
+    # rather than a design flaw. `planProgress()`/`bookedGains()` already switch
+    # on this exact word, so the audit honours it too. Without this a working
+    # long (META filled $535, price $590) is flagged as "chasing" and told its
+    # status should be 'wait', i.e. told to wait for an entry it already has.
+    held = bool(re.search(r"\bfilled\b", str(lead.get("entry", "")), re.I))
+
     # 2. a short's zone has to sit ABOVE price or there is nothing to reject
     #    from. The test is strict — zone floor at or BELOW price. An earlier
     #    2% buffer flagged zones sitting legitimately just overhead (GLW at
     #    141 vs 138.25), which is exactly where a post-rejection fade belongs.
-    if entry and side == "short" and min(entry) <= px:
+    if entry and side == "short" and not held and min(entry) <= px:
         out.append(f"{sym}: ⚠️ SHORT zone {min(entry):g}-{max(entry):g} is not above "
                    f"price {px:g} — a fade with no resistance under it")
 
     # 3. a long's dip-buy zone should not sit above price (that is chasing)
-    if entry and side == "long" and not confirm_style and min(entry) > px * 1.03:
+    if entry and side == "long" and not confirm_style and not held \
+            and min(entry) > px * 1.03:
         out.append(f"{sym}: ⚠️ LONG zone {min(entry):g}-{max(entry):g} sits "
                    f"{((min(entry) - px) / px * 100):.1f}% ABOVE price {px:g}")
 
@@ -502,7 +513,9 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     #    Only the "not yet reached" side is a real mismatch. A SHORT trading
     #    BELOW its zone has already been rejected and is working — that is
     #    legitimately 'live', not a card waiting for a level.
-    if entry:
+    #    A FILLED position is skipped outright: 'live'/'wait' describe whether a
+    #    plan has reached its trigger, and a held position is past that question.
+    if entry and not held:
         lo, hi = min(entry), max(entry)
         have = lead.get("status")
         if have in ("live", "wait"):
