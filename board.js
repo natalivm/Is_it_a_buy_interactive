@@ -165,6 +165,39 @@ const BOARD = {
     // above LLY here while being the worse trade to put on today. `ranking` —
     // the hand-written list rendered under the table — is where actionability
     // lives, and it stays hand-written for exactly that reason.
+    //
+    // ⚠️ TODO — NEXT REFRESH MUST RE-DRAW SUPPLY, NOT JUST ROLL PRICES.
+    // The 2026-08-04 board-wide melt-up (SMH +5.55%, cleared its own $547–550
+    // gate) broke or is sitting INSIDE the near-term supply zone on nearly
+    // every short row below, plus two long rows too — the zones themselves
+    // are stale here, not just the `price` fields. Re-check each against the
+    // actual 08-05 print before touching anything (these are 08-04 closes,
+    // one AH figure noted):
+    //   LITE   $849.47 — ABOVE every zone this board has for it ($735–750 AND
+    //          $801–835 both cleared). No mapped resistance left above price.
+    //   INTC   $100.86 — cleared $90–95, now INSIDE $100–104.
+    //   CIEN   $411.17 — inside $400–420.
+    //   MRVL   $218.59 — cleared $193–201, now inside $213–225.
+    //   MU     $892.67 — just inside $890–940 (barely, $2.67 over the floor).
+    //   GLW    $159.91 — inside $156–165.
+    //   SMH    $575.71 — cleared $557–571.
+    //   CRWV   ~$90 (08-04 AH) — inside $86–97, no rejection printed.
+    //   QCOM   $162.67 — cleared $160–162.
+    //   TSLA   $327.35 — inside $324–330.
+    //   AVGO (long) $418.16 — $0.84 (0.2%) under the SECOND zone $419–425,
+    //          having already cleared $396–405.
+    //   AXON (long) $607.20 — cleared BOTH $545–565 and $580–600, confirming
+    //          the $545–550 breakout this board's own `rankingNote` named as
+    //          the long-side trigger. The trigger fired; the zones above it
+    //          are what's now untested.
+    // Redraw per this board's own Rule A: anchor each new zone to TWO+
+    // independent structural references (a moving average, a prior extreme,
+    // a band edge) — do NOT draw it at today's print, the exact mistake the
+    // IREN precedent already corrected once (see CLAUDE.md, "Zones: anchor,
+    // then width"). And per "one session is not a structure": none of the
+    // above reranks anyone's `preferred` or moves them between direction
+    // groups by itself — that needs the same break holding on a second
+    // session, or an independent non-price corroborator, not just this list.
     rows: [
         {
             // ⚠ SORTS FIRST, AND THAT IS NOT A RECOMMENDATION. conviction() is
