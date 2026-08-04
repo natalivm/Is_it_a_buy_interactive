@@ -439,6 +439,68 @@ were caught within a session instead of compounding into the ranks for weeks.
 claim of the form "X is the ONLY name that Y" ages in ONE bar. Write it anyway —
 it is checkable, which is its value — but write it with its own expiry attached.
 
+## Zones: anchor, then width
+
+Eight short zones were drawn in the week of 2026-08-03 and the split is total —
+four blown clean through, four working. Two plausible explanations were tested
+against the data and BOTH failed, so the surviving one is written down here.
+
+**Rejected: "low zones fail."** Distance above price when drawn does not sort
+them — the outcomes interleave (+1.7% ASTS blown, +2.6% CRWV working, +8.7% CRWV
+blown, +8.0% AAOI working, +11.8% COHR working).
+
+**Rejected: "it is a high-beta effect."** AAOI and CRWV each appear on BOTH sides
+of the split — same stock, same week, same beta, one zone blown and one working.
+The variable cannot be the stock.
+
+**What does sort them, 4/4 against 4/4 — the ANCHOR:**
+
+| anchored to | zones | outcome |
+|---|---|---|
+| where the last rejection PRINTED | AAOI $101–102 · ASTS $60–62 · CRWV $78–81 · GLW $141–147 | **all four blown through** |
+| two or more independent structural references | COHR $294–313 (teal + wk 9-EMA + 50d) · SNDK $1,287–1,346 (wk 21-MA + wk 9-EMA) · AAOI $119–127 (wk 9-EMA + 50-EMA) · CRWV $88–97 (50-EMA + 200-EMA) | **all four working** |
+
+**RULE A — LOCATION.** A zone must be anchored to at least TWO independent
+structural references: moving averages on a completed frame, prior-period
+extremes, band edges. A zone drawn at *where the print happened* is not a level,
+it is a memory of one bar, and in a trending tape price walks through it. Name
+the references in the card so the anchor is checkable. ⚠️ Note this REVERSES the
+IREN precedent's wording ("redraw it to where the print actually happened") — that
+instruction was right to move a zone off an unreachable level and wrong about
+where to move it TO. Move it to the nearest confluence, not to the print.
+
+**RULE B — WIDTH AND STOP, in ATR units, which is where volatility belongs.** The
+stop must sit at least **1 ATR** from the entry midpoint, using `atrPct` from the
+structure board. Below that it is taken out by an ordinary day rather than by
+being wrong. As of 2026-08-04 four of six measurable ranked plans failed this:
+MRVL 0.45 ATR, TSLA 0.57, INTC 0.57, META 0.75. A tighter stop is allowed only if
+the card states the trade-off outright and quotes the ATR-proof alternative —
+GLW's card is the model ("still only 0.54 ATR, and that is a deliberate choice…
+if you want a stop the ATR cannot reach, it is $156 and the R:R is ~1.8:1").
+
+⚠️ **Rule B is an ENTRY filter and must not be pointed at a held position.** Read
+literally ("the stop must sit 1 ATR from the entry midpoint") it would tell you to
+WIDEN the stop on a position that is already winning, which is backwards. For a
+FILLED trade the test is cushion from CURRENT price and the action is trailing UP:
+
+| | fill | stop | ATR from FILL | ATR from PRICE NOW |
+|---|---|---|---|---|
+| TSLA | $307 | $297 | 0.59 ✗ | **1.49 ✓** |
+| META | $535 | $515 | 0.79 ✗ | **2.99 ✓** |
+| DELL | $406 | $393 | 0.47 ✗ | **1.32 ✓** |
+
+All three failed the entry test and all three now carry more than 1 ATR of live
+cushion, so there was nothing to fix — the failing numbers were history. Widening
+them would have cost real edge for nothing: TSLA 5.8:1 → 2.2:1 at the structural
+level, DELL 4.3:1 → 2.0:1. The corollary is the useful half: a stop can be too FAR
+as well as too near. META sat 2.99 ATR below price, i.e. risking 3.7% back to the
+fill when 1.00 ATR ($565) would still be outside noise and lock +5.6%.
+
+⚠️ This is also the honest answer to "should high-beta names have their own rule":
+no. Express every stop in ATR units and the difference handles itself — a 3% stop
+is 0.55 ATR on MRVL and 0.66 ATR on META, and those are different trades. A
+per-name category would need maintaining; a ratio does not.
+
 ## Adding a stock
 
 1. Author `stories/<symbol>.html` (copy an existing story as a template).
