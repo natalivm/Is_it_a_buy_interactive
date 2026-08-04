@@ -362,6 +362,16 @@ parses every digit in it — and a self-check covering stop placement, target
 ordering, recomputed R:R, `status`, the venue in `exchange`, and the deck's own
 `now` rung.
 
+**Verify the crosshair BEFORE reading any value off a chart.** On 2026-08-04,
+NINE of nine charts in one session carried legends showing crosshair values parked
+on older bars — detectable two ways: the legend `C` did not tie the header close,
+and two legend highs exceeded their ticker's actual session high (impossible for
+the current bar). Current values are the RIGHT-AXIS pills. The error is not
+marginal: INTC's legend read RSI 53.09 / Stoch 26.82 against an actual
+69.74 / 94.61, and SMH's legend RSI 29.93 against 70.28 — a 40-point miss in the
+decision-relevant direction. So: tie the legend `C` to the header close first, and
+if it does not tie, discard the whole legend row rather than any single value.
+
 **Then run the audit** — it is the mechanical half of that self-check and needs
 no network:
 
@@ -393,6 +403,41 @@ where supply actually showed up — "a zone price cannot reach is not a plan."
 That keeps the entry priced at genuine resistance/support instead of
 manufacturing a fill with a tolerance band, which would just mean selling
 short closer to the average price instead of the top of a real rejection.
+
+## One session is not a structure
+
+Two ranked decisions in three sessions rested on a single session's
+relative-performance split, and BOTH were falsified by the next bar. This is the
+board's most expensive recurring error, so it gets a rule instead of a third
+retraction.
+
+- **2026-07-31** partitioned the board into HELD (WDC +2.21% · STX +0.52% ·
+  AMAT +1.18% · LITE +2.99% · ALAB +3.85%) and BROKE (MU −5.90% · SNDK −5.09% ·
+  DRAM −3.76%), then ranked HDD above DRAM/NAND on that evidence. On 08-03 the
+  two hardest holds were the board's ONLY decliners and every breaker closed
+  green.
+- **2026-08-03** read "the heavyweights are flat, so this is narrow
+  short-covering" and promoted INTC to top short for not participating (+0.89%
+  against a shorts-average of +8.19%). In 08-04 pre-market INTC was +3.45%, STX
+  +2.64% and MRVL +5.84% — the non-participants led.
+
+**THE RULE.** A single session's relative-performance split — who held vs who
+broke, who participated vs who sat out, which cohort led — is an OBSERVATION. It
+may never by itself set a rank, a promotion, or a `side`. To carry rank weight it
+needs one of:
+
+1. the SAME split across two or more consecutive sessions, or
+2. an independent NON-PRICE corroborator — money-flow direction, a level
+   reclaimed or lost on a close, a frame that actually changed.
+
+Write it as what it is: "on 08-03 the heavyweights lagged", never "the
+heavyweights are the weak cohort". And when a rank does rest on such a split, the
+card must name what would falsify it — that is the only reason both errors above
+were caught within a session instead of compounding into the ranks for weeks.
+
+⚠️ The corollary, which applies to the most quotable sentences on this board: a
+claim of the form "X is the ONLY name that Y" ages in ONE bar. Write it anyway —
+it is checkable, which is its value — but write it with its own expiry attached.
 
 ## Adding a stock
 
