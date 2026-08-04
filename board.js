@@ -128,7 +128,7 @@ const BOARD = {
             // and 4H have already turned up. It is countertrend all the same —
             // its monthly is a downtrend, not a correction inside an uptrend.
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW', 'ADBE'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW', 'ADBE', 'QCOM'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -597,6 +597,52 @@ const BOARD = {
             bear: 'Reject **$400–420**, or close below **$355** → **$340–320**; below $320 → approximately **$300**',
             longCandidate: 'Long after **$355–365** holds and **$405–420** is reclaimed.',
             retest: 'Breakdown may retest **$355–380** from underneath',
+        },
+        {
+            // Structure read from the QCOM analysis supplied 2026-08-04.
+            // Monthly maps NEUTRAL, not bearish: "long-term uptrend damaged
+            // and transitioning ... above major long-term support" is a
+            // regime in transition, same rule as GLW/MRVL/TTD's "parabolic
+            // phase broken" reads. 4H maps NEUTRAL too: a bounce/base off
+            // demand that stays under the 50- and 200-day is an attempt, not
+            // a reversal — the same distinction that keeps SMH/CIEN/META off
+            // "bearish" on their own 4H.
+            //
+            // ATR pair ($9.55 / 6.30%) implies $151.59, which lands inside
+            // the $148–152 immediate demand zone the same read quotes — the
+            // two are on the same basis.
+            ticker: 'QCOM', seeded: true, date: '2026-08-04',
+            price: 151.59, atr: 9.55, atrPct: 6.30,
+            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'uptrend damaged, transitioning',
+                          w: 'confirmed downtrend, testing support',
+                          d: 'strong downtrend, oversold, relief bounce',
+                          h4: 'bounce off demand, below 50/200' },
+            preferred: '**Short preferred**, do not chase into demand',
+            score: null, parts: null,
+            bias: '**Short-first with weekly/daily trend, but not into $148–152 demand.** Long needs confirmation.',
+            h4: 'Relief bounce off major demand — above the fast EMA but still below the 50- and 200-day, so no confirmed reversal.',
+            h4Effect: 'Keeps the short read. A 4H close above $160–162 with a successful retest is what would flip this to a tactical long; below $148 the bounce fails outright.',
+            demand: [
+                { lo: 148, hi: 152, strength: 'tested', note: 'immediate' },
+                { lo: 142, hi: 145, strength: 'tested', note: 'stronger' },
+                { lo: 134, hi: 138, strength: 'fresh', note: 'secondary' },
+                { lo: 121, hi: 125, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 160, hi: 162, strength: 'tested', note: 'immediate' },
+                { lo: 168, hi: 172, strength: 'tested', note: 'key' },
+                { lo: 178, hi: 180, strength: 'fresh', note: 'major' },
+                { lo: 188, hi: 196, strength: 'fresh', note: 'secondary' },
+            ],
+            position: 'Inside the $148–152 demand zone, bouncing off major support after a strong weekly/daily downtrend',
+            bull: 'Hold $148–152, form a 4H higher low and close above $160–162 → $168–172, then $178–180',
+            longSetup: '**Tactical long:** hold $148–152, enter on a retest after a 4H close above $160–162, stop below $148 or $142 depending on entry → $168–172, then $178–180 and $188–196. Higher-confidence trend long only after a daily close and hold above $172.',
+            longCandidate: 'Tactical long only if $148–152 holds and price closes above $160–162; a genuine trend reversal needs acceptance above $172–180.',
+            bear: 'Reject $160–162 or $168–172 → $150, then $142–145, then $134–138',
+            shortSetup: '**Rejection short:** fade $160–162, or preferably $168–172, stop above $163 or $174 depending on entry → $150, $142–145, then $134–138. **Breakdown short:** daily close below $142 and a failed retest → $134–138, then $121–125.',
+            retest: 'Most likely first retest is $160–162; acceptance opens $168–172. Rejection sends price back toward $148–152, possibly $142–145.',
         },
         {
             // The one row whose ATR arrives with its own derivation, and it
