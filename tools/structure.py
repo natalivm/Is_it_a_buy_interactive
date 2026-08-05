@@ -653,7 +653,7 @@ def _restrength(z: Zone) -> None:
 
 
 def structural_levels(sw: list[Swing], price: float, kind: str,
-                      n: int = 2) -> list[dict]:
+                      n: int = 2, beyond: float | None = None) -> list[dict]:
     """Significant swing lows below price (or highs above) as SUPPORT/RESISTANCE
     references, for when no zone exists on that side.
 
@@ -661,12 +661,19 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
     every displacement is downward, so every zone it leaves is supply. Reporting
     "no demand within range" is structurally true and useless — price still has
     swing lows under it, and those are the levels a chart reader would name.
-    Flagged `structural` so they are never confused with a real zone."""
+    Flagged `structural` so they are never confused with a real zone.
+
+    `beyond` pushes the search past a level already reported: a swing high
+    INSIDE the supply zone the row already prints is not a further reference,
+    it is the same one named twice. Distance is still measured from price, so
+    the MAX_ZONE_DIST cap means what it says."""
     if kind == 'demand':
-        cand = sorted((s for s in sw if s.kind == 'low' and s.price < price),
+        limit = price if beyond is None else min(price, beyond)
+        cand = sorted((s for s in sw if s.kind == 'low' and s.price < limit),
                       key=lambda s: price - s.price)
     else:
-        cand = sorted((s for s in sw if s.kind == 'high' and s.price > price),
+        limit = price if beyond is None else max(price, beyond)
+        cand = sorted((s for s in sw if s.kind == 'high' and s.price > limit),
                       key=lambda s: s.price - price)
     out = []
     for s in cand[:n]:
@@ -677,6 +684,48 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
                     'note': f"swing {'low' if kind == 'demand' else 'high'}, "
                             f"no zone formed"})
     return out
+
+
+def with_reference(zones: list[dict], sw: list[Swing], price: float, kind: str,
+                   cap: int = 3) -> list[dict]:
+    """Guarantee the side has at least one level on the FAR side of price.
+
+    `nearest` deliberately includes the zone price is sitting inside — dropping
+    it made the zone list disagree with the position line beside it. The cost
+    is a row whose whole supply list straddles or sits under price, which is a
+    list with nothing left to break: LITE reported one supply, $762.99–852.78,
+    with price inside it at $826.26 AND its nearest demand ($811.45–859.68)
+    covering the same band. Supply and demand stacked on one level is the
+    definition of a consumed level, and `_bull` then reads "close above" a zone
+    price is already standing in.
+
+    So top the side up with the next swing beyond the band — the same
+    `structural` reference the empty-list fallback already reports, and the
+    same one a chart reader would name. Note what this does NOT do: it never
+    moves or deletes a computed zone. A zone stays where its displacement drew
+    it (Rule A — a level is a confluence, not a print), the position line stays
+    true, and the row simply gains the level above it.
+
+    The zone list keeps its `cap`, so the top-up costs the FARTHEST straddling
+    zone rather than growing the cell — that zone is the deepest inside the
+    consumed band and the least informative thing on the row.
+    """
+    if not zones:
+        return structural_levels(sw, price, kind)
+    if kind == 'demand':
+        clear = [z for z in zones if z['hi'] < price]
+        beyond = min(z['lo'] for z in zones)
+    else:
+        clear = [z for z in zones if z['lo'] > price]
+        beyond = max(z['hi'] for z in zones)
+    if clear:
+        return zones
+    extra = structural_levels(sw, price, kind, n=1, beyond=beyond)
+    if not extra:
+        # Nothing within MAX_ZONE_DIST beyond the band. Say so by leaving the
+        # list as it is: an invented level is worse than a short list.
+        return zones
+    return zones[:cap - 1] + extra
 
 
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
@@ -877,12 +926,12 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     sup = [_zone_json(z) for z in nearest(zones, price, 'supply')]
     # No zone on a side does NOT mean nothing is there. A name in a sustained
     # decline leaves only supply behind it, but it still has swing lows under
-    # price, and those are the levels a chart reader would name.
+    # price, and those are the levels a chart reader would name — and a side
+    # whose every zone STRADDLES price is the same problem with a longer list.
+    # with_reference() covers both: empty, or nothing on the far side.
     win_sw = [x for x in d_sig if x.i >= len(daily) - MAX_ZONE_AGE]
-    if not dem:
-        dem = structural_levels(win_sw, price, 'demand')
-    if not sup:
-        sup = structural_levels(win_sw, price, 'supply')
+    dem = with_reference(dem, win_sw, price, 'demand')
+    sup = with_reference(sup, win_sw, price, 'supply')
 
     # Z: inside a CONFIRMED (fresh or tested — not consumed) zone.
     z_term = 0
@@ -939,8 +988,22 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'bias': bias_label(score),
         # Per-timeframe trend, the standardized read. Separate from `score`
         # above by design — see the note on TREND_BANDS.
-        'trend': {k: v for k, v in
-                  {**trends, **({'h4': h4_trend} if h4_trend else {})}.items()},
+        'trend': (trend := {k: v for k, v in
+                            {**trends,
+                             **({'h4': h4_trend} if h4_trend else {})}.items()}),
+        # The words the frames column prints beside each arrow. COMPUTED, from
+        # the band each frame just scored — deliberately not carried from the
+        # previous board like the other prose is.
+        #
+        # Carrying it looked harmless and was not: `structCell` prefers the
+        # prose over the enum, so a row whose weekly had just flipped rendered
+        # its NEW arrow beside the OLD words — "W ▲ downtrend" on INTC. Ten
+        # rows would have read that way the first time this ran. The band is
+        # the same read in the same three-to-five words ("downtrend", "range /
+        # transition"), it cannot fall behind the arrow beside it, and it comes
+        # in well under the ~28-character budget the column needs to keep each
+        # frame on one line.
+        'trendProse': {k: v['band'] for k, v in trend.items()},
         'combo': combo_read(trends.get('m', {}).get('band'),
                             trends['w']['band'], trends['d']['band']),
         'demand': dem,
@@ -970,6 +1033,12 @@ def _zone_json(z: Zone) -> dict:
 
 def _fmt(z: Zone | dict) -> str:
     lo, hi = (z['lo'], z['hi']) if isinstance(z, dict) else (z.lo, z.hi)
+    # A structural level is one price, not a band, and "$897.00–897.00" reads
+    # as a typo. zoneCell in script.js already collapses it in the zone column;
+    # the trigger prose built from _fmt did not, so TTD's bear trigger printed
+    # "close below $18.91–18.91 → $18.50–18.50".
+    if lo == hi:
+        return f"${lo:,.2f}"
     return f"${lo:,.2f}–{hi:,.2f}"
 
 
@@ -996,20 +1065,45 @@ def _position(price, dem, sup, zones) -> str:
     return "no zone within range"
 
 
+def _next_beyond(zones, first, kind: str):
+    """The first zone that actually CLEARS `first` — the target a break of it
+    could run to.
+
+    Not simply `zones[1]`: the list is ordered by distance from price and zones
+    overlap, so the next entry can sit inside the one being broken. Nine rows
+    read "close above $100.23–104.18 → $103.12–106.17" — a target inside its own
+    trigger, i.e. a level reached before the break it is conditional on.
+
+    The overlap itself is NOT a duplicate to merge away. Two displacements can
+    leave bases in shared territory, they carry different grades and dates, and
+    the zone column showing both is the useful part; the board's own ATR figures
+    say so too — most adjacent gaps here are under 1 ATR, so a band merge would
+    collapse nearly every row and would have to average grades that disagree
+    (META's weak $585.39–592.00 sits 0.07 ATR under a TESTED zone). So the list
+    keeps every zone and the trigger skips past the ones it would contradict.
+    """
+    for z in zones[1:]:
+        clears = ((_lo(z) > _hi(first)) if kind == 'supply'
+                  else (_hi(z) < _lo(first)))
+        if clears:
+            return z
+    return None
+
+
 def _bull(price, sup) -> str:
     if not sup:
         return "no supply within range — nothing to reclaim"
     first = sup[0]
-    tgt = f" → {_fmt(sup[1])}" if len(sup) > 1 else ""
-    return f"close above {_fmt(first)}{tgt}"
+    nxt = _next_beyond(sup, first, 'supply')
+    return f"close above {_fmt(first)}" + (f" → {_fmt(nxt)}" if nxt else "")
 
 
 def _bear(price, dem) -> str:
     if not dem:
         return "no demand within range — nothing left to lose"
     first = dem[0]
-    tgt = f" → {_fmt(dem[1])}" if len(dem) > 1 else ""
-    return f"close below {_fmt(first)}{tgt}"
+    nxt = _next_beyond(dem, first, 'demand')
+    return f"close below {_fmt(first)}" + (f" → {_fmt(nxt)}" if nxt else "")
 
 
 def _retest(price, dem, sup) -> str:
@@ -1139,8 +1233,16 @@ def order_key(row: dict):
 
 def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str:
     """`carry` is the board being replaced. Its hand-written prose — the board
-    note and the actionable ranking — is NOT derivable from OHLCV, so it is
-    preserved across regenerations instead of being silently dropped."""
+    note, the actionable ranking and the direction groups — is NOT derivable
+    from OHLCV, so it is preserved across regenerations instead of being
+    silently dropped.
+
+    `direction` belongs in that list for the same reason the other three do,
+    and was missing from it: the groups are analyst membership calls, the page
+    renders them as their own block under the table, and the CI board guard
+    checks the tickers they name. Leaving it out meant the first bot run would
+    have DELETED a rendered block — quietly, since nothing downstream fails on
+    an absent one."""
     board = {
         'updated': updated,
         'generatedBy': 'tools/structure.py',
@@ -1157,7 +1259,7 @@ def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str
         'rows': [{k: v for k, v in r.items() if not k.startswith('_')}
                  for r in sorted(rows, key=order_key)],
     }
-    for k in ('note', 'ranking', 'rankingNote'):
+    for k in ('note', 'ranking', 'rankingNote', 'direction'):
         if carry and carry.get(k):
             board[k] = carry[k]
     body = json.dumps(board, indent=2, ensure_ascii=False)
@@ -1396,8 +1498,12 @@ def main() -> int:
     # carry them onto the freshly computed row instead of dropping them. The
     # long-candidate line, the 4H prose and any per-row note are analyst text;
     # everything else on the row is recomputed from bars.
+    # `trendProse` is NOT here: it names the frames this run just recomputed,
+    # so the words are emitted from the computed bands instead (see the row
+    # dict in read_ticker). Everything left is prose about levels and plans,
+    # which no frame flip silently falsifies.
     CARRY = ('longCandidate', 'longSetup', 'shortSetup', 'preferred',
-             'trendProse', 'h4', 'h4Effect', 'note')
+             'h4', 'h4Effect', 'note')
     for r in rows:
         old = previous.get(r['ticker'])
         if not old:

@@ -343,6 +343,80 @@ check("frame evidence names the pivots it compared",
       st.explain_structure(_sig, _db, st.STRUCT_LOOKBACK['d']).startswith('pivots: highs'),
       True)
 
+# ── a side whose every zone straddles price ─────────────────────────────────
+# The LITE shape: one supply zone with price INSIDE it, so the list has nothing
+# left to break and `_bull` reads "close above" a level price already occupies.
+print("\nFar-side reference — every zone on the side straddles price")
+_sw = [st.Swing(i=200, price=897.0, kind='high'),
+       st.Swing(i=210, price=839.88, kind='high'),
+       st.Swing(i=220, price=594.84, kind='low')]
+_straddle = [{'lo': 762.99, 'hi': 852.78, 'strength': 'weak'}]
+_topped = st.with_reference(_straddle, _sw, 826.26, 'supply')
+check("keeps the computed zone", _topped[0], _straddle[0])
+check("adds the next swing high above the band",
+      [z['lo'] for z in _topped[1:]], [897.0])
+check("…flagged structural, not as a zone",
+      _topped[1]['strength'] == 'structural' and _topped[1]['touches'] is None,
+      True)
+# 839.88 is above price but INSIDE the zone already printed — the same level
+# named twice, not a further reference.
+check("skips a swing high inside the reported zone",
+      839.88 in [z['lo'] for z in _topped], False)
+# A side that already has something to break is left exactly as it was.
+_clear = [{'lo': 900.0, 'hi': 910.0, 'strength': 'fresh'}]
+check("a side with a zone above price is untouched",
+      st.with_reference(_clear, _sw, 826.26, 'supply'), _clear)
+# ONE zone clear of price is enough, however consumed the rest of the band is.
+# This is the INTC shape — $100.23–104.18 straddles $101.06, but $107.45–109.00
+# does not, so the row has a level to break and nothing is topped up. Whether a
+# band of three weak zones inside 8% should collapse to one is a DIFFERENT
+# question about zone grading, and this rule deliberately does not answer it.
+_intc = [{'lo': 100.23, 'hi': 104.18, 'strength': 'weak'},
+         {'lo': 103.12, 'hi': 106.17, 'strength': 'weak'},
+         {'lo': 107.45, 'hi': 109.0, 'strength': 'weak'}]
+check("one zone clear of price is enough to leave the side alone",
+      st.with_reference(_intc, [st.Swing(i=200, price=116.77, kind='high')],
+                        101.06, 'supply'), _intc)
+# The cap holds, so the cell does not grow a line: the farthest straddling zone
+# gives way to the reference beyond it.
+_all_straddle = [{'lo': 95.0, 'hi': 105.0, 'strength': 'weak'},
+                 {'lo': 98.0, 'hi': 110.0, 'strength': 'weak'},
+                 {'lo': 99.0, 'hi': 115.0, 'strength': 'weak'}]
+check("caps at three, dropping the farthest straddling zone",
+      [z['hi'] for z in st.with_reference(
+          _all_straddle, [st.Swing(i=200, price=130.0, kind='high')],
+          101.06, 'supply')], [105.0, 110.0, 130.0])
+# Nothing within MAX_ZONE_DIST beyond the band → a short list, never a guess.
+check("no reachable swing leaves the list alone",
+      st.with_reference(_straddle, [], 826.26, 'supply'), _straddle)
+# ── a trigger may not target a level inside itself ──────────────────────────
+# The INTC shape: zones are ordered by distance from price and they overlap, so
+# zones[1] can sit INSIDE zones[0] — "close above $100.23-104.18 → $103.12-
+# 106.17" targets a price reached before the break it depends on.
+print("\nTriggers — the target has to clear the level being broken")
+check("bull skips a supply zone overlapping the one it breaks",
+      st._bull(101.06, _intc), 'close above $100.23–104.18 → $107.45–109.00')
+check("bear skips a demand zone overlapping the one it breaks",
+      st._bear(321.55, [{'lo': 314.60, 'hi': 335.79, 'strength': 'weak'},
+                        {'lo': 306.93, 'hi': 319.91, 'strength': 'weak'}]),
+      'close below $314.60–335.79')
+check("a clear second zone is still quoted as the target",
+      st._bull(101.06, [{'lo': 105.0, 'hi': 110.0, 'strength': 'weak'},
+                        {'lo': 120.0, 'hi': 125.0, 'strength': 'fresh'}]),
+      'close above $105.00–110.00 → $120.00–125.00')
+check("the farther of two overlapping zones can still be the target",
+      st._bull(101.06, [{'lo': 102.0, 'hi': 108.0, 'strength': 'weak'},
+                        {'lo': 105.0, 'hi': 112.0, 'strength': 'weak'},
+                        {'lo': 115.0, 'hi': 120.0, 'strength': 'weak'}]),
+      'close above $102.00–108.00 → $115.00–120.00')
+check("an empty side says so rather than naming a level",
+      st._bull(101.06, []), 'no supply within range — nothing to reclaim')
+
+check("the same rule reads downward for demand",
+      [z['lo'] for z in st.with_reference(
+          [{'lo': 600.0, 'hi': 900.0, 'strength': 'weak'}], _sw, 826.26, 'demand')],
+      [600.0, 594.84])
+
 # ── volume in zone strength ─────────────────────────────────────────────────
 print("\nVolume — 'high-volume selling enters demand' (the written rule)")
 
