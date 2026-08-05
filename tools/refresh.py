@@ -477,6 +477,18 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     confirm_style = bool(re.search(r"\b(over|above|acceptance|reclaim)\b",
                                    str(lead.get("entry", "")), re.I))
 
+    # …and its mirror on the short side. A REJECTION-only entry is meant to be
+    # taken INSIDE its zone: the trigger is the reversal printing there, not
+    # price arriving. That is the documented short entry type (see
+    # docs/ta-analysis-prompt.md — held retest for proven demand,
+    # confirmation-only for unproven, rejection-only for shorts), so the audit
+    # has to know it exists. Two cards had grown paragraphs arguing with these
+    # checks — INTC's names the heuristic outright ("the audit's 'price inside
+    # the zone → live' heuristic doesn't apply here") — and prose arguing with a
+    # tool twice means the tool's rule is wrong, not the cards.
+    reject_style = bool(re.search(r"\b(reject\w*|fade)\b",
+                                  str(lead.get("entry", "")), re.I))
+
     # A FILLED entry is a HELD POSITION, not a plan, and checks 2/3/5 all ask
     # the same question of a plan: is this level in a sensible place relative to
     # price? Once filled, that question is settled and unaskable — the fill
@@ -491,9 +503,23 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     #    from. The test is strict — zone floor at or BELOW price. An earlier
     #    2% buffer flagged zones sitting legitimately just overhead (GLW at
     #    141 vs 138.25), which is exactly where a post-rejection fade belongs.
-    if entry and side == "short" and not held and min(entry) <= px:
-        out.append(f"{sym}: ⚠️ SHORT zone {min(entry):g}-{max(entry):g} is not above "
-                   f"price {px:g} — a fade with no resistance under it")
+    #
+    #    For a REJECTION-only entry the floor is the wrong edge to test: price
+    #    reaching the zone is the setup arriving, and the fade is taken inside
+    #    it. What voids that plan is price accepting through the WHOLE zone,
+    #    leaving nothing overhead — which is the COHR flaw this check was
+    #    written for, and it is still caught, at the top edge instead of the
+    #    bottom. CRWV ($88–97, price 89.89) and INTC ($96–102, price 101.06)
+    #    both keep real resistance above price; neither is the COHR shape.
+    if entry and side == "short" and not held:
+        floor, ceil = min(entry), max(entry)
+        if reject_style and ceil < px:
+            out.append(f"{sym}: ⚠️ SHORT zone {floor:g}-{ceil:g} sits BELOW price "
+                       f"{px:g} — price accepted through the whole zone, so the "
+                       f"fade has nothing left overhead")
+        elif not reject_style and floor <= px:
+            out.append(f"{sym}: ⚠️ SHORT zone {floor:g}-{ceil:g} is not above "
+                       f"price {px:g} — a fade with no resistance under it")
 
     # 3. a long's dip-buy zone should not sit above price (that is chasing)
     if entry and side == "long" and not confirm_style and not held \
@@ -519,7 +545,14 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
         lo, hi = min(entry), max(entry)
         have = lead.get("status")
         if have in ("live", "wait"):
-            if lo <= px <= hi and have != "live":
+            # Price inside the zone means the trigger is reached — EXCEPT on a
+            # rejection-only entry, where arriving in the zone is the setup
+            # presenting itself and the trigger is the reversal printing there.
+            # Both readings are legitimate on the same geometry, so the analyst
+            # keeps this one: INTC sits inside $96–102 with the $89 confirmation
+            # never printed, which is 'wait' by its own rule, while CRWV flipped
+            # to 'live' the day the reversal candle closed near its low.
+            if lo <= px <= hi and have != "live" and not reject_style:
                 out.append(f"{sym}: status 'wait' but price {px:g} is INSIDE "
                            f"zone {lo:g}-{hi:g} → expected 'live'")
             elif px > hi and have != "wait":

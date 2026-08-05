@@ -26,6 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import flow                      # noqa: E402
+import refresh                   # noqa: E402
 import indicators as ind         # noqa: E402
 import structure as st           # noqa: E402
 
@@ -445,6 +446,34 @@ check("rel_volume is a multiple of the trailing median",
 check("a zero-volume bar reads 0, not a crash",
       st.rel_volume([{"date": dt.date(2025, 1, 1), "o": 1, "h": 1, "l": 1,
                       "c": 1, "v": 0}] * 5, 4), 0.0)
+
+# ── card audit: rejection-only shorts ───────────────────────────────────────
+# A rejection-only entry is TAKEN inside its zone — the trigger is the reversal
+# printing there, not price arriving — so neither "the zone must be above price"
+# nor "price inside the zone → live" holds for one. What still has to fire is
+# the COHR shape: a fade whose whole zone is behind price, with nothing overhead.
+print("\nCard audit — a rejection-only short is entered INSIDE its zone")
+
+
+def _zone_status_findings(entry, price, status, side='short'):
+    card = {'symbol': 'TEST', 'side': side, 'exchange': 'NASDAQ',
+            'date': '2026-08-05', 'price': f'${price}', 'story': 'stories/crwv.html',
+            'lead': {'entry': entry, 'stop': '$200', 'targets': '$50',
+                     'rr': '~1:1', 'status': status}}
+    return [f for f in refresh.audit_card(card, price)
+            if 'SHORT zone' in f or 'status' in f]
+
+
+check("price INSIDE a fade zone is the setup, not a finding",
+      _zone_status_findings('fade the rejection in $88–97', 89.89, 'live'), [])
+check("…and 'wait' inside it is the analyst's call to keep",
+      _zone_status_findings('rejection printed in $96–102', 101.06, 'wait'), [])
+check("price at the zone's top edge is still inside it",
+      _zone_status_findings('fade the rejection in $88–97', 97.0, 'live'), [])
+check("a fade whose whole zone is behind price still fires",
+      len(_zone_status_findings('fade the rejection in $70–75', 90.0, 'live')), 2)
+check("a plain short is still tested at the zone floor",
+      len(_zone_status_findings('short the $88–97 band', 89.89, 'live')), 1)
 
 # ── flow signing ────────────────────────────────────────────────────────────
 print("\nOrder flow — signing")
