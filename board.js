@@ -76,7 +76,11 @@ const BOARD = {
         + 'Independent of the traded plans on the cards; the two are allowed to disagree.',
     // The 4H pass, most actionable first. Rendered under the table.
     ranking: [
-        '**LITE short** — strongest alignment across weekly, daily and 4H.',
+        // Was "LITE short — strongest alignment across weekly, daily and
+        // 4H"; that alignment is what broke on 08-04's displacement (daily
+        // flipped bullish), so the line is retired rather than left stating
+        // something the row no longer supports. See LITE's row comment.
+        '**LITE two-way** — short only a confirmed rejection from $865–900; long only a $820–835 retest or acceptance above $900.',
         '**STX short** — needs $842 and preferably $818 to fail.',
         '**AKAM rejection short** — if it remains below $118 and loses $112.',
         // $545–550, matching AXON's own row — this said $535–545, which
@@ -90,10 +94,15 @@ const BOARD = {
         '**PLTR long** — only on a $141–143 hold with a 4H higher low, or acceptance above $150. Do not chase a 3.4-ATR gap.',
         '**TE long** — weakest confirmation; demand reacted, but the 4H rebound is already fading.',
     ],
-    rankingNote: 'The biggest update is PLTR: the earnings gap gives the board its '
-        + 'strongest long structure, but the tradeable entry is the $141–143 retest, '
-        + 'not the gap itself. TE remains a possible countertrend long, and its 4H '
-        + 'chart still says wait, not buy yet.',
+    rankingNote: 'Two re-draws from the 08-04 melt-up: PLTR’s zones move a tier higher '
+        + '(old $140–150 supply is now demand, active resistance is $164.50–170) on an '
+        + 'explicit weekly confirmation — reclaimed the mean, OBV turning up — not just '
+        + 'the daily gap holding. LITE drops out of the trend-following shorts entirely: '
+        + 'two sessions of bullish displacement reclaimed its old $800–835 supply as '
+        + 'support, so it is now two-way, short only a rejection from the new $865–900 '
+        + 'cluster. Neither redraw removes the old zone outright — both wait for regular-'
+        + 'session acceptance above the new one before promoting it further. TE remains a '
+        + 'possible countertrend long, and its 4H chart still says wait, not buy yet.',
     // Direction ranking — which side each name is a candidate for, and on what
     // terms. A ticker can appear in more than one group on purpose: META, SMH
     // and CIEN are corrections inside larger monthly uptrends AND countertrend
@@ -119,16 +128,22 @@ const BOARD = {
                   + 'is the same shape one step earlier: the earnings gap has '
                   + 'flipped the daily, but the weekly is still base-building, '
                   + 'so it needs a $141–143 hold or acceptance above $150.' },
+            // LITE dropped 08-04: this group requires weekly/daily/4H
+            // alignment and the daily no longer aligns — two sessions of
+            // bullish displacement reclaimed its old supply as support.
             { label: 'Best trend-following shorts', side: 'short',
-              tickers: ['LITE', 'CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD', 'GLW'] },
+              tickers: ['CRWV', 'INTC', 'AKAM', 'TSLA', 'MRVL', 'TTD', 'GLW'] },
             { label: 'Bearish corrections inside larger monthly uptrends', side: 'short',
               tickers: ['SMH', 'META', 'CIEN', 'MU'] },
             // NOW is the odd one here: every other member is still bearish on
             // the working frames and waiting for a bounce, while NOW's daily
             // and 4H have already turned up. It is countertrend all the same —
             // its monthly is a downtrend, not a correction inside an uptrend.
+            // LITE joins 08-04 for the same reason it left the shorts group:
+            // its own row now carries an explicit, symmetric long trigger
+            // (retest or breakout-retest), not just a residual short bias.
             { label: 'Countertrend bounce candidates only', side: 'long',
-              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW', 'ADBE', 'QCOM'] },
+              tickers: ['TE', 'META', 'SMH', 'CIEN', 'TSLA', 'MRVL', 'MU', 'NOW', 'TTD', 'GLW', 'ADBE', 'QCOM', 'LITE'] },
         ],
         note: 'The biggest correction to the earlier board is **TE**: being oversold '
             + 'inside demand makes a bounce possible, but its weekly, daily and 4H '
@@ -200,69 +215,68 @@ const BOARD = {
     // session, or an independent non-price corroborator, not just this list.
     rows: [
         {
-            // ⚠ SORTS FIRST, AND THAT IS NOT A RECOMMENDATION. conviction() is
-            // 2W + D + 0.5H + Z = 0 + 1 + 0.5 + 1 = 2.5, the board's highest —
-            // but the +1 on Z is an artifact of a gap, not evidence of support:
-            // `price` is the last REGULAR-SESSION close ($125.65), which sits
-            // inside the $122–126 gap-origin demand while the stock has already
-            // traded ~$147. Every other demand zone here is ABOVE the row's own
-            // price for the same reason. This is precisely the actionability the
-            // sort key cannot see (see the ROW ORDER note above), so the
-            // don't-chase verdict lives in `preferred`, `bias` and `ranking` —
-            // not in where the row landed.
+            // RE-DRAWN 2026-08-04, one tier higher: the earnings displacement
+            // held and price closed $162.66, clear of the whole old demand/
+            // supply map. The old $140–150 supply is reclaimed and now reads
+            // as demand — not deleted, since regular-session price has not
+            // yet accepted above the NEW $164.50–170 zone (do not remove a
+            // zone until price accepts above it — the same discipline as
+            // LITE's redraw the same night).
             //
-            // Price/ATR are pre-gap and deliberately consistent with each other:
-            // $6.32 / 5.03% implies $125.65 exactly, the stated close. The
-            // $21.54 gap is ~3.4 of those ATRs, so ATR(14) will re-rate upward
-            // once this session closes and every zone measured off it widens.
-            // Not averaged with a post-gap estimate — one basis per row, same
-            // discipline as MSFT's.
+            // Weekly moves NEUTRAL → BULLISH here, unlike LITE: the evidence
+            // is explicit, not inferred from one big daily bar — reclaimed the
+            // weekly mean near $139, pushed above the weekly upper Bollinger
+            // Band near $160, and weekly OBV turned higher. That is the
+            // multi-reference confirmation the board's own rule asks for
+            // before crediting a weekly flip, not just a loud daily close.
+            // Daily and 4H stay bullish, both extended (daily RSI ~73) —
+            // stretched is a caveat on the entry, not a different trend.
             //
-            // Weekly is NEUTRAL, not bullish: "corrective/base-building …
-            // attempting to reverse upward" is an attempt, not a confirmed
-            // higher-high/higher-low sequence. 4H is bullish on structure even
-            // though RSI ~83 says it is stretched — overextended is a caveat on
-            // the entry, not a different trend.
+            // Z is 0, not +1: $162.66 sits in the gap between the new demand
+            // top ($160) and the new supply floor ($164.50), inside neither.
+            // The old row carried a +1 here that its own comment already
+            // flagged as a gap artifact (price sitting inside a demand zone
+            // it had already traded through) — that artifact is gone now
+            // that the zones and price both reflect the same session.
             //
-            // A fifth demand zone was read and is deliberately not in the list:
-            // $114–118, lower weekly demand if the gap unwinds completely. It
-            // is carried in `bear` instead, so the cell stays four lines like
-            // its neighbours.
+            // atr/atrPct: still no real post-gap ATR. atrPct recomputed
+            // against the new price (6.32 / 162.66) for internal consistency
+            // only — the $6.32 dollar figure is pre-gap and needs a genuine
+            // refresh, flagged in `h4Effect` same as before.
             ticker: 'PLTR', seeded: true, date: '2026-08-04',
-            price: 125.65, atr: 6.32, atrPct: 5.03,
-            structure: { m: 'bullish', w: 'neutral', d: 'bullish', h4: 'bullish',
+            price: 162.66, atr: 6.32, atrPct: 3.89,
+            structure: { m: 'bullish', w: 'bullish', d: 'bullish', h4: 'bullish',
                          h4Note: 'read from charts' },
             trendProse: { m: 'uptrend, below the peak',
-                          w: 'base, reversal attempt',
-                          d: 'earnings-gap breakout',
-                          h4: 'breakout, RSI 83' },
-            preferred: '**Long preferred** — do not chase the gap',
+                          w: 'reclaimed the mean, OBV turning up',
+                          d: 'earnings-gap breakout, extended',
+                          h4: 'breakout, RSI ~73, testing $164.50–170' },
+            preferred: '**Long preferred** — do not chase into $164.50–170',
             score: null, parts: null,
-            bias: '**Long-first, but a 3.4-ATR gap is not an entry.** Buy the retest that holds, not the move that made it.',
-            h4: 'Above every major average, but RSI **83** — stretched, so consolidation before continuation.',
-            h4Effect: 'Keeps the long read and blocks the entry. The $21.54 gap is ~3.4 ATRs on the pre-gap $6.32, '
-                + 'so a single bar is wider than the stop a normal entry would carry — the 4H has to build a higher low '
-                + 'above $141–143 before the retest is buyable. ATR(14) itself will re-rate upward after this session, '
-                + 'which widens every zone measured off it.',
+            bias: '**Long-first and now weekly-confirmed, not just a daily gap.** The old $140–150 supply is reclaimed as demand; the active resistance is $164.50–170, unproven above it. Still not a chase.',
+            h4: 'RSI ≈73, above the daily upper band near $147 — powerful but extended. Not an automatic reversal signal, but chasing the initial spike is poor risk/reward.',
+            h4Effect: 'Testing the $164.50–170 breakout-decision zone, the first resistance above the reclaimed gap. '
+                + 'A close above $170 confirmed by a $164–170 retest opens $175–182, then $190–205. A rejection back '
+                + 'under $158–160 raises the odds of a retest to $150, then $145. ATR(14) itself is still pre-gap and '
+                + 'needs a genuine refresh — every zone here is measured off a stale dollar figure.',
             demand: [
-                { lo: 141, hi: 143, strength: 'fresh', note: 'breakout support · 200-day + old range top' },
-                { lo: 134, hi: 136, strength: 'fresh', note: 'first pullback · 4H trend support' },
-                { lo: 129, hi: 132, strength: 'tested', note: 'major cluster' },
-                { lo: 122, hi: 126, strength: 'tested', note: 'pre-earnings base / gap origin' },
+                { lo: 155, hi: 160, strength: 'fresh', note: 'immediate — first momentum retest after the earnings breakout' },
+                { lo: 145, hi: 150, strength: 'tested', note: 'key — earnings-gap open, reclaimed former supply' },
+                { lo: 136, hi: 140, strength: 'tested', note: 'stronger — weekly mean + breakout-base area' },
+                { lo: 123, hi: 130, strength: 'tested', note: 'major lower — pre-gap base, deeper gap-fill region' },
             ],
             supply: [
-                { lo: 147, hi: 150, strength: 'fresh', note: 'immediate pivot' },
-                { lo: 157, hi: 160, strength: 'fresh', note: 'first meaningful supply' },
-                { lo: 168, hi: 180, strength: 'tested', note: 'next major target' },
-                { lo: 195, hi: 207, strength: 'tested', note: 'major / prior peak' },
+                { lo: 164.5, hi: 170, strength: 'fresh', note: 'immediate — current breakout test, first decision zone' },
+                { lo: 175, hi: 182, strength: 'tested', note: 'secondary — prior swing-high/congestion territory' },
+                { lo: 190, hi: 205, strength: 'tested', note: 'major — larger weekly distribution, high-area resistance' },
             ],
-            position: 'Gapped **$125.65 → ~$147** on earnings, clear of the **$130–141** average cluster and into immediate supply',
-            bull: 'Hold **$141–143**, then acceptance above **$150** → **$157–160**, then **$168–180**',
-            longSetup: '**Retest:** hold $141–143, form a 4H higher low → **$147–150**, then $157–160. **Continuation:** consolidate above $145 and break **$150** with acceptance → $157–160, then $168–180',
-            longCandidate: 'Long-first, but wait for a **$141–143** hold with a 4H higher low, or acceptance above **$150**.',
-            bear: 'Daily close below **$141** and a failed reclaim → **$134–130**, then **$125–120**; below $120 → **$114–118**',
-            shortSetup: 'Short only after a daily close below **$141** and a failed reclaim → $134–130, then $125–120',
-            retest: 'First likely retest **$141–143**; a deeper gap retracement could reach **$134–130** before continuation',
+            position: 'Reclaimed the $140–150 supply as demand on the earnings displacement; now testing the fresh $164.50–170 decision zone, unproven above it',
+            bull: 'Daily acceptance above $170, confirmed by a $164–170 retest → $175–182, then $190–205',
+            longSetup: '**Momentum:** hold $155–160, form a higher low, reclaim $162–165 → $170, then $175–182. **Deeper pullback:** retest $145–150 (the gap open), hold it, reclaim $152–155 → $165–170, then $175–182. **Breakout:** daily acceptance above $170 with a successful $164–170 retest → $175–182, then $190–205.',
+            longCandidate: 'The board’s strongest long structure — weekly now confirms (reclaimed the mean, OBV turning up), not just the daily gap. Still not a chase: the best entry is a controlled $155–160 hold, a deeper $145–150 retest, or a confirmed breakout-retest above $170.',
+            bear: '**Bull-trap:** trades above $165–170, fails, closes back below $158–160 → $150, then $145. **Gap-failure:** daily close below $145 with a failed reclaim → $136–140, then $123–130.',
+            shortSetup: '**Bull-trap:** trade above $165–170, fail to hold, close back below $158–160 → $150, then $145. **Gap-failure:** daily close below $145 with a failed reclaim → $136–140, then $123–130.',
+            retest: 'First likely pullback is $155–160; if buyers cannot defend it, the more important structural retest is $145–150 (the gap open).',
         },
         {
             // `structure` is a three-value enum (bullish | bearish | neutral),
@@ -510,6 +524,56 @@ const BOARD = {
             bear: 'Reject **$116–118** → **$108–106**, then **$105–103**',
             shortSetup: 'Rejection from **$116–118** with a 4H lower high → $108–106, then $105–103. The higher-quality swing short is a rejection of the falling 200-day at **$123–126**. A breakdown short needs a daily close below **$103–104** and a failed reclaim → **$99–101**, then **$94–96**.',
             retest: 'The likeliest upside retest is **$112–114**, then **$116–118** if buyers keep control; on a pullback **$106–108** is tested first, and **$103–105** is the critical trend test',
+        },
+        {
+            // RE-DRAWN 2026-08-04 after two sessions of bullish displacement
+            // (+9.24% then +8.92%) reclaimed the old $801–835 supply as
+            // support and pushed price to $849.47, above every zone this row
+            // used to carry. Daily flips to bullish on the confirmed
+            // higher-high/higher-low reclaim; weekly moves neutral (not
+            // bullish outright) since a two-session daily move does not
+            // confirm a weekly structure on its own — the board's own "one
+            // session is not a structure" rule. 4H stays neutral: price is
+            // pressing directly into the new $865–900 resistance, unresolved
+            // either way. Z is 0 — $849.47 sits in the gap between the new
+            // demand top ($835) and supply floor ($865), not inside either.
+            // Dropped from `ranking` and "Best trend-following shorts" for
+            // the same reason: that group requires weekly/daily/4H alignment,
+            // and the daily no longer aligns. Added to "Countertrend bounce
+            // candidates" — it now has a genuinely two-sided plan.
+            // atr/atrPct: no fresh ATR available: atrPct recomputed against
+            // the new price for internal consistency (76 / 849.47), but the
+            // $76 figure itself is pre-displacement and needs a real refresh.
+            ticker: 'LITE', seeded: true, date: '2026-08-04',
+            price: 849.47, atr: 76, atrPct: 8.95,
+            structure: { m: 'neutral', w: 'neutral', d: 'bullish', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'parabolic trend breaking',
+                          w: 'reclaiming, not yet confirmed',
+                          d: 'bullish displacement, reclaimed $800–835',
+                          h4: 'pressing into $865–900 resistance' },
+            preferred: '**Two-way — short only a rejection from $865–900**; tactical long on a $820–835 retest or acceptance above $900',
+            longSetup: '**Retest:** hold $820–835, reclaim → $865–900, then $930–970. **Breakout:** daily acceptance above $900, confirmed by a $875–900 retest → $930–970, then $1,000–1,070.',
+            shortSetup: 'Only a confirmed rejection from **$865–900** (daily resistance $879–891 + 4H upper band ≈$899). A tag-and-fade back under ≈$850–860 raises the odds of a retest to $820–835 — do not press below there without a fresh breakdown.',
+            score: null, parts: null,
+            bias: '**Bullish displacement reclaimed the old $800–835 supply — that zone is now support, not resistance.** Do not chase into $865–900, a genuine resistance cluster. Short only a confirmed rejection there; buy a confirmed $820–835 retest or a breakout-retest above $900. Losing $820 with a failed reclaim opens $785–805; below $785 this reads as a short squeeze fading, not a reversal.',
+            h4: 'Pressing directly into the $865–900 resistance cluster (daily resistance $879–891, 4H upper band ≈$899) — a bullish recovery testing supply, not yet accepted above it.',
+            h4Effect: 'Overnight price near $870 is inside the zone but not enough alone to call it broken. A regular-session close above $900 with a successful $875–900 retest opens $930–970, then $1,000–1,070. A close back under ≈$850–860 after tagging $870–900 is the bull-trap signature and raises the odds of a retest down to $820–835.',
+            demand: [
+                { lo: 820, hi: 835, strength: 'fresh', note: 'immediate — first pullback/retest after the displacement' },
+                { lo: 785, hi: 805, strength: 'tested', note: 'stronger — breakout origin, prior resistance now likely support' },
+                { lo: 740, hi: 755, strength: 'tested', note: 'major — 4H mean/recovery base; losing it damages the bullish structure' },
+            ],
+            supply: [
+                { lo: 865, hi: 900, strength: 'tested', note: 'immediate — current test area: daily resistance $879–891 + 4H upper band ≈$899' },
+                { lo: 930, hi: 970, strength: 'tested', note: 'secondary — prior daily congestion, lower-high territory' },
+                { lo: 1000, hi: 1070, strength: 'tested', note: 'major — previous distribution, major swing-high region' },
+            ],
+            position: 'Bullish displacement reclaimed the old $800–835 supply as support, now pressing directly into the $865–900 resistance cluster — testing, not yet accepted above it',
+            bull: 'Regular-session close above $900, confirmed by a successful $875–900 retest → $930–970, then $1,000–1,070',
+            bear: 'Tags $870–900 but closes back under ≈$850–860 (bull trap) → retest $820–835; a loss of $820 with a failed reclaim opens $785–805, and below $785 this starts reading as a short squeeze fading rather than a reversal',
+            longCandidate: 'The stronger candidate now: two clean sessions of bullish displacement reclaimed the old supply as support. Needs one of two confirmations — a held retest or a breakout-retest — the push into $865–900 alone is not yet either.',
+            retest: 'Current price is the first test of $865–900 from underneath. A rejection retests $820–835 first; acceptance above $900 sets up a retest of $875–900 from above before the next leg.',
         },
         {
             // The board's SECOND inverted row — monthly and weekly down, daily
@@ -922,38 +986,6 @@ const BOARD = {
             bear: 'Reject **$143–150** or **$156–165** → **$126–122**, then **$120–114**',
             shortSetup: 'The cleaner short is a rejection from **$143–150**, or a stronger bounce into **$156–165** → $126–122, then $120–114. A daily close below **$114** with a failed reclaim opens **$105–100**. Do not chase a breakdown directly into $122–126.',
             retest: 'The current rebound is retesting **$143–150**; a rejection can revisit **$126–122**. A breakdown below $114 may retest **$114–120** from underneath',
-        },
-        {
-            ticker: 'LITE', seeded: true, date: '2026-08-01',
-            price: 713.62, atr: 76, atrPct: 10.65,
-            structure: { m: 'neutral', w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'parabolic trend breaking', w: 'downtrend',
-                          d: 'downtrend', h4: 'failed relief bounce' },
-            preferred: '**Strong short preference**',
-            longSetup: 'Countertrend only above **$750** → $801–835',
-            shortSetup: 'Weak bounce into **$719–750**, or loss of $700 → $681–662, then $620–575',
-            score: null, parts: null,
-            bias: '**Strongly bearish.** Continuation short preferred.',
-            h4: 'Bearish: below the **$748**, **$781** and **$813** averages, rebound rolled over at resistance.',
-            h4Effect: 'Confirms LITE as the **strongest bearish setup**. Short a failed reclaim of **$719–735**, or a breakdown below **$674**. Targets: $620–590, then approximately $575. Do not chase while price is already sitting near its lower band.',
-            demand: [
-                { lo: 700, hi: 703, strength: 'tested', note: 'control' },
-                { lo: 662, hi: 681, strength: 'tested', note: 'support' },
-                { lo: 575, hi: 620, strength: 'weak', note: 'tested/weak demand' },
-            ],
-            supply: [
-                { lo: 735, hi: 750, strength: 'tested', note: 'resistance' },
-                { lo: 801, hi: 835, strength: 'fresh', note: 'main supply' },
-            ],
-            position: 'Near monthly control after heavy selling',
-            bull: 'Strong close above **$750** → **$801–835**',
-            bear: 'Weak green close below $750, then break of its low; or loss of **$700** → **$680–662**, **$611–595**, then **$575**',
-            longCandidate: 'Currently the **weakest** long candidate — better to wait for confirmed demand around **$575–620** or a major structural reclaim.',
-            retest: 'Breakdown may retest **$700–703** from underneath',
         },
         {
             // Monthly is NEUTRAL: "uptrend intact but the parabolic phase
