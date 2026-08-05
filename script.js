@@ -794,6 +794,92 @@ function renderGallery() {
     });
 }
 
+// ── What's new ───────────────────────────────────────────────────────────────
+// Reuses each entry's own `date` — the same field the gallery already sorts
+// on — so there is nothing new to maintain: whatever a refresh bumped shows
+// up here automatically, grouped by the session that touched it. Caps at the
+// most recent few distinct dates rather than a fixed day count, since these
+// are the board's own "as of" dates, not necessarily today's calendar date.
+const WHATSNEW_MAX_DATES = 5;
+
+function whatsNewRowHtml(item) {
+    const isArticle = item.type === 'article';
+    const label = esc(isArticle ? item.title : item.symbol);
+    const summary = esc(isArticle ? (item.excerpt || '') : (item.change || ''));
+    const sideChip = (!isArticle && item.side)
+        ? `<span class="tile-chip chip-${item.side}">${esc(SIDE_LABEL[item.side] || item.side)}</span>` : '';
+    return `
+        <button type="button" class="whatsnew-row" data-symbol="${esc(item.symbol)}">
+            <span class="whatsnew-row-head">
+                <span class="whatsnew-symbol">${label}</span>
+                ${sideChip}
+            </span>
+            <span class="whatsnew-summary">${summary}</span>
+        </button>`;
+}
+
+function renderWhatsNew() {
+    const body = document.getElementById('whatsNewBody');
+    if (!body) return;
+    const dated = ITEMS.filter(i => i.date);
+    if (!dated.length) {
+        body.innerHTML = '<p class="whatsnew-empty">No updates yet.</p>';
+        return;
+    }
+    const dates = [...new Set(dated.map(i => i.date))]
+        .sort((a, b) => b.localeCompare(a))
+        .slice(0, WHATSNEW_MAX_DATES);
+    body.innerHTML = dates.map(date => {
+        const rows = dated
+            .filter(i => i.date === date)
+            .sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''))
+            .map(whatsNewRowHtml)
+            .join('');
+        return `
+            <section class="whatsnew-day">
+                <h3 class="whatsnew-date">${esc(fmtDate(date))}</h3>
+                <div class="whatsnew-rows">${rows}</div>
+            </section>`;
+    }).join('');
+    body.querySelectorAll('.whatsnew-row').forEach(el => {
+        el.addEventListener('click', () => {
+            closeWhatsNew();
+            openStory(el.dataset.symbol);
+        });
+    });
+}
+
+function isWhatsNewOpen() {
+    const overlay = document.getElementById('whatsNewOverlay');
+    return !!overlay && !overlay.hidden;
+}
+
+function openWhatsNew() {
+    const overlay = document.getElementById('whatsNewOverlay');
+    if (!overlay) return;
+    renderWhatsNew();
+    overlay.hidden = false;
+    document.body.classList.add('whatsnew-open');
+    const close = document.getElementById('whatsNewClose');
+    if (close) close.focus();
+}
+
+function closeWhatsNew() {
+    const overlay = document.getElementById('whatsNewOverlay');
+    if (!overlay || overlay.hidden) return;
+    overlay.hidden = true;
+    document.body.classList.remove('whatsnew-open');
+}
+
+function initWhatsNew() {
+    const btn = document.getElementById('whatsNewBtn');
+    const overlay = document.getElementById('whatsNewOverlay');
+    const close = document.getElementById('whatsNewClose');
+    if (btn) btn.addEventListener('click', openWhatsNew);
+    if (close) close.addEventListener('click', closeWhatsNew);
+    if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeWhatsNew(); });
+}
+
 // ── Story overlay (deep-linkable) ───────────────────────────────────────────
 // Each deck has a stable URL: index.html#<symbol> (e.g. #sndk). Opening a tile
 // writes that hash; loading a hashed URL opens the matching deck; back/forward
@@ -1075,6 +1161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     initViewToggle();      // cards ⇄ plain table (attribute already set pre-paint)
     initInstallButton();
+    initWhatsNew();         // recent-updates popup, derived from each item's own `date`
     renderTrendMeter();    // index regime read (needle computed from MARKET.checks)
     renderGallery();       // assigns tile accents (fills accentBySymbol)
     renderLeaderboard();   // reuses those accents for matching row colours
@@ -1093,7 +1180,9 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', e => { if (e.target === overlay) closeStory(); });
     }
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeStory();
+        if (e.key !== 'Escape') return;
+        if (isWhatsNewOpen()) closeWhatsNew();
+        else closeStory();
     });
 
     // A deck (running in the iframe) can ask to close itself — e.g. swiping past
