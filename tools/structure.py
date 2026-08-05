@@ -939,8 +939,22 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         'bias': bias_label(score),
         # Per-timeframe trend, the standardized read. Separate from `score`
         # above by design — see the note on TREND_BANDS.
-        'trend': {k: v for k, v in
-                  {**trends, **({'h4': h4_trend} if h4_trend else {})}.items()},
+        'trend': (trend := {k: v for k, v in
+                            {**trends,
+                             **({'h4': h4_trend} if h4_trend else {})}.items()}),
+        # The words the frames column prints beside each arrow. COMPUTED, from
+        # the band each frame just scored — deliberately not carried from the
+        # previous board like the other prose is.
+        #
+        # Carrying it looked harmless and was not: `structCell` prefers the
+        # prose over the enum, so a row whose weekly had just flipped rendered
+        # its NEW arrow beside the OLD words — "W ▲ downtrend" on INTC. Ten
+        # rows would have read that way the first time this ran. The band is
+        # the same read in the same three-to-five words ("downtrend", "range /
+        # transition"), it cannot fall behind the arrow beside it, and it comes
+        # in well under the ~28-character budget the column needs to keep each
+        # frame on one line.
+        'trendProse': {k: v['band'] for k, v in trend.items()},
         'combo': combo_read(trends.get('m', {}).get('band'),
                             trends['w']['band'], trends['d']['band']),
         'demand': dem,
@@ -1139,8 +1153,16 @@ def order_key(row: dict):
 
 def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str:
     """`carry` is the board being replaced. Its hand-written prose — the board
-    note and the actionable ranking — is NOT derivable from OHLCV, so it is
-    preserved across regenerations instead of being silently dropped."""
+    note, the actionable ranking and the direction groups — is NOT derivable
+    from OHLCV, so it is preserved across regenerations instead of being
+    silently dropped.
+
+    `direction` belongs in that list for the same reason the other three do,
+    and was missing from it: the groups are analyst membership calls, the page
+    renders them as their own block under the table, and the CI board guard
+    checks the tickers they name. Leaving it out meant the first bot run would
+    have DELETED a rendered block — quietly, since nothing downstream fails on
+    an absent one."""
     board = {
         'updated': updated,
         'generatedBy': 'tools/structure.py',
@@ -1157,7 +1179,7 @@ def emit_board(rows: list[dict], updated: str, carry: dict | None = None) -> str
         'rows': [{k: v for k, v in r.items() if not k.startswith('_')}
                  for r in sorted(rows, key=order_key)],
     }
-    for k in ('note', 'ranking', 'rankingNote'):
+    for k in ('note', 'ranking', 'rankingNote', 'direction'):
         if carry and carry.get(k):
             board[k] = carry[k]
     body = json.dumps(board, indent=2, ensure_ascii=False)
@@ -1396,8 +1418,12 @@ def main() -> int:
     # carry them onto the freshly computed row instead of dropping them. The
     # long-candidate line, the 4H prose and any per-row note are analyst text;
     # everything else on the row is recomputed from bars.
+    # `trendProse` is NOT here: it names the frames this run just recomputed,
+    # so the words are emitted from the computed bands instead (see the row
+    # dict in read_ticker). Everything left is prose about levels and plans,
+    # which no frame flip silently falsifies.
     CARRY = ('longCandidate', 'longSetup', 'shortSetup', 'preferred',
-             'trendProse', 'h4', 'h4Effect', 'note')
+             'h4', 'h4Effect', 'note')
     for r in rows:
         old = previous.get(r['ticker'])
         if not old:

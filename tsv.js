@@ -57,7 +57,12 @@
         const s = row.structure || {};
         const prose = row.trendProse || {};
         const t = (row.trend || {})[key];
-        const words = prose[key] || s[key] || '';
+        // A generated row's prose IS its trend band, so preferring it here
+        // would print "uptrend (+3 uptrend)". Fall back to the structure enum
+        // in that case: the two halves of the cell then say different things —
+        // the frame's structure, then the trend score that scored it.
+        const sameAsBand = t && prose[key] === t.band;
+        const words = (sameAsBand ? s[key] : prose[key] || s[key]) || '';
         // Append the computed trend band where the extractor produced one, so a
         // generated row carries its score into the sheet rather than only prose.
         return t ? plain(words + ' (' + (t.score > 0 ? '+' : '') + t.score

@@ -235,27 +235,35 @@ in the next column:
 Rebound off $529.10 rejected at $577.34 — an        ← h4, ~2 lines
 attempt, not a turn, so the frame reads neutral.
 ─────────────────────────────────────────────       ← divider
-M ▲ uptrend under pressure                          ← trendProse.m
-W ▼ downtrend                                       ← .w
-D ▼ downtrend                                       ← .d
-4H = rebound off $529, rejected                     ← .h4
+M = range / transition                              ← trendProse.m
+W ▲ strong uptrend                                  ← .w
+D = range / transition                              ← .d
+4H = uptrend                                        ← .h4
 ```
 
-Two budgets keep the column scannable, and they are what went wrong before:
-keep `h4` **under ~100 characters** (2 lines) and every `trendProse` phrase
-**under ~28 characters** so each frame stays on ONE line. Frames had drifted to
-158 characters — four wrapped lines in a cell whose neighbour had four short
-ones — because the original rows used clipped phrases (`downtrend`, `bounce
-stalling`) and every row added later used full sentences. Write the phrase, not
-the sentence; the reasoning goes in `h4`, and anything longer goes in a comment.
+The arrow is the frame's STRUCTURE enum; the words beside it are `trendProse`,
+and those are **computed** — `read_ticker()` emits each frame's own trend band
+(`downtrend`, `range / transition`, `strong uptrend`), so the two halves of a
+line are two reads from the same run and neither can fall behind the other. It
+is deliberately NOT in the extractor's CARRY list. Carrying it looked harmless
+and was not: `structCell()` prefers the prose over the enum, so the first
+generated board rendered its new arrows beside the old words — `W ▲ downtrend`
+on INTC, on ten rows at once. The band also settles the budget that phrase kept
+breaking (hand-written frames had drifted to 158 characters, four wrapped lines
+in a cell whose neighbour had four short ones): every band is under 19
+characters, so each frame stays on ONE line by construction.
+
+That leaves `h4` as the only hand-written field in the column, with its own
+budget: **under ~100 characters**, about two lines. The reasoning goes there,
+and anything longer goes in a comment.
 
 `h4Effect` is NOT rendered. It used to print as a second paragraph, which made
 the seven rows carrying one visibly taller than the rest — same problem as the
 ticker cell's score line. It is exported in the TSV instead, so the reasoning
 still leaves the file.
 
-A row with no 4H read (only INTC now) shows an italic muted `h4Note`
-placeholder rather than prose. That is deliberate: styling absent evidence like
+A row with no 4H read — a ticker's first generated row, before anyone has
+written one — shows an italic muted `h4Note` placeholder rather than prose. That is deliberate: styling absent evidence like
 evidence is the same error as rendering an unscored row as 0.
 
 Row ORDER is best longs at the top, best shorts at the bottom — one continuous

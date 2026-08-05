@@ -82,6 +82,20 @@ jobs:
               if (r.seeded && r.score !== null) {
                 throw new Error(\`\${r.ticker}: seeded row must have score null\`);
               }
+              // The frames column prints trendProse BESIDE the structure
+              // arrow, and structCell prefers the prose — so prose that is not
+              // this run's own trend band renders new arrows next to old words
+              // ('W ▲ downtrend'). It is emitted from the band for that
+              // reason; anything else on a computed row is prose outliving the
+              // frame it describes.
+              for (const [f, t] of Object.entries(r.trend || {})) {
+                const words = (r.trendProse || {})[f];
+                if (!r.seeded && words != null && words !== t.band) {
+                  throw new Error(
+                    \`\${r.ticker}: trendProse.\${f} '\${words}' is not the \` +
+                    \`computed band '\${t.band}'\`);
+                }
+              }
             }
             // Direction groups are the single source of truth for each row's
             // membership badge, so a mistyped ticker there silently labels
