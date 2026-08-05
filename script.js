@@ -795,12 +795,15 @@ function renderGallery() {
 }
 
 // ── What's new ───────────────────────────────────────────────────────────────
-// Reuses each entry's own `date` — the same field the gallery already sorts
-// on — so there is nothing new to maintain: whatever a refresh bumped shows
-// up here automatically, grouped by the session that touched it. Caps at the
-// most recent few distinct dates rather than a fixed day count, since these
-// are the board's own "as of" dates, not necessarily today's calendar date.
-const WHATSNEW_MAX_DATES = 5;
+// Deliberately NOT every card touched by a refresh — a full board refresh
+// bumps most tiles' `date` in one pass, so that would just be a mirror of the
+// whole gallery. This reads `alert: true`, a hand-set flag on the STOCKS/
+// ARTICLES entry (same discipline as `lead.status`: judgement, not derived)
+// for news that actually changes the read on a name — a status flip, a stop
+// threatened, an earnings reaction, a thesis needing re-justification —
+// not a routine price/date bump. Set it deliberately per refresh; unset (or
+// omit) it once the news is old, the same way a tile's own text moves on.
+const WHATSNEW_MAX_DATES = 8;
 
 function whatsNewRowHtml(item) {
     const isArticle = item.type === 'article';
@@ -821,16 +824,16 @@ function whatsNewRowHtml(item) {
 function renderWhatsNew() {
     const body = document.getElementById('whatsNewBody');
     if (!body) return;
-    const dated = ITEMS.filter(i => i.date);
-    if (!dated.length) {
-        body.innerHTML = '<p class="whatsnew-empty">No updates yet.</p>';
+    const flagged = ITEMS.filter(i => i.alert && i.date);
+    if (!flagged.length) {
+        body.innerHTML = '<p class="whatsnew-empty">Nothing flagged right now — routine price refreshes don’t show up here.</p>';
         return;
     }
-    const dates = [...new Set(dated.map(i => i.date))]
+    const dates = [...new Set(flagged.map(i => i.date))]
         .sort((a, b) => b.localeCompare(a))
         .slice(0, WHATSNEW_MAX_DATES);
     body.innerHTML = dates.map(date => {
-        const rows = dated
+        const rows = flagged
             .filter(i => i.date === date)
             .sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''))
             .map(whatsNewRowHtml)
