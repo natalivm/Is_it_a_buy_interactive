@@ -83,26 +83,31 @@ const BOARD = {
         '**LITE two-way** — short only a confirmed rejection from $865–900; long only a $820–835 retest or acceptance above $900.',
         '**STX short** — needs $842 and preferably $818 to fail.',
         '**AKAM rejection short** — if it remains below $118 and loses $112.',
-        // $545–550, matching AXON's own row — this said $535–545, which
-        // contradicted the three places the row states the trigger
-        // (`bull`, `longSetup`, `longCandidate`) and its $545–565 supply zone.
-        '**AXON long** — only after a confirmed $545–550 breakout.',
+        // Was "only after a confirmed $545–550 breakout" — that trigger
+        // fired 08-04, clean through both old supply zones, so the line now
+        // describes the NEXT decision instead of the one already made.
+        '**AXON long** — confirmed breakout; hold $575–585 for a retest, or a clean break of $620–630. Do not chase into that supply directly.',
         // Sorts first in `rows` on conviction and belongs HERE well down the
         // list: the structure is the board's best long and the entry does not
         // exist yet. That gap between order and actionability is why this list
         // stays hand-written.
-        '**PLTR long** — only on a $141–143 hold with a 4H higher low, or acceptance above $150. Do not chase a 3.4-ATR gap.',
+        '**PLTR long** — the $141–143 trigger fired too; now testing fresh resistance at $164.50–170. Hold $155–160 for a retest, a deeper $145–150 retest, or a confirmed breakout-retest above $170 — not the current push.',
         '**TE long** — weakest confirmation; demand reacted, but the 4H rebound is already fading.',
     ],
-    rankingNote: 'Two re-draws from the 08-04 melt-up: PLTR’s zones move a tier higher '
-        + '(old $140–150 supply is now demand, active resistance is $164.50–170) on an '
-        + 'explicit weekly confirmation — reclaimed the mean, OBV turning up — not just '
-        + 'the daily gap holding. LITE drops out of the trend-following shorts entirely: '
-        + 'two sessions of bullish displacement reclaimed its old $800–835 supply as '
-        + 'support, so it is now two-way, short only a rejection from the new $865–900 '
-        + 'cluster. Neither redraw removes the old zone outright — both wait for regular-'
-        + 'session acceptance above the new one before promoting it further. TE remains a '
-        + 'possible countertrend long, and its 4H chart still says wait, not buy yet.',
+    rankingNote: 'The 08-04 melt-up moved a lot at once. AXON’s breakout is CONFIRMED — the '
+        + '$545–550 trigger this board named for weeks fired clean through both old supply '
+        + 'zones, moving it to "best trend-following longs" alongside PLTR, whose own '
+        + '$141–143 trigger fired the same way; both now test a fresh zone one tier up '
+        + '($620–630 and $164.50–170) rather than needing a first confirmation. PLTR’s '
+        + 'zones move a tier higher on an explicit weekly confirmation — reclaimed the '
+        + 'mean, OBV turning up — not just the daily gap holding. On the short side, LITE '
+        + 'drops out of the trend-following shorts entirely: two sessions of bullish '
+        + 'displacement reclaimed its old $800–835 supply as support, so it is now '
+        + 'two-way, short only a rejection from the new $865–900 cluster; MU softens the '
+        + 'same way one tier down. Neither redraw removes an old zone outright — all wait '
+        + 'for regular-session acceptance above the new one before promoting it further. '
+        + 'TE remains a possible countertrend long, and its 4H chart still says wait, not '
+        + 'buy yet.',
     // Direction ranking — which side each name is a candidate for, and on what
     // terms. A ticker can appear in more than one group on purpose: META, SMH
     // and CIEN are corrections inside larger monthly uptrends AND countertrend
@@ -118,16 +123,25 @@ const BOARD = {
     // group. So a mismatch here is expected and is not a finding.
     direction: {
         groups: [
+            // AXON and PLTR both joined 08-04: checked against the row data
+            // itself rather than assumed — AXON is m/w/d bullish (h4 neutral
+            // only for lack of a supplied chart, not a bearish/neutral read)
+            // and PLTR is m/w/d/h4 ALL bullish, actually the more complete
+            // confirmation of the two. Both cleared their original trigger
+            // and are now testing a fresh zone one tier up, same shape as
+            // LLY/AVGO/GOOGL, so both move out of "possible" rather than
+            // leaving PLTR behind on stale reasoning (its weekly no longer
+            // "lags" — it confirmed the same night as AXON's).
             { label: 'Best trend-following longs', side: 'long',
-              tickers: ['LLY', 'AVGO', 'GOOGL'] },
+              tickers: ['LLY', 'AVGO', 'GOOGL', 'AXON', 'PLTR'] },
             { label: 'Possible longs after breakout confirmation', side: 'long',
-              tickers: ['AXON', 'STX', 'MSFT', 'PLTR'],
-              note: 'AXON first, then STX. MSFT is long-first but its weekly '
-                  + 'trend has only just turned, so it joins on either a $482 '
-                  + 'breakout-retest or a pullback with a 4H higher low. PLTR '
-                  + 'is the same shape one step earlier: the earnings gap has '
-                  + 'flipped the daily, but the weekly is still base-building, '
-                  + 'so it needs a $141–143 hold or acceptance above $150.' },
+              tickers: ['STX', 'MSFT'],
+              note: 'Both still carry a genuinely unconfirmed frame: STX is '
+                  + 'weekly and daily NEUTRAL with 4H bearish — needs $842 and '
+                  + 'preferably $818 to fail before this graduates. MSFT is '
+                  + 'long-first but its weekly trend has only just turned, so '
+                  + 'it joins on either a $482 breakout-retest or a pullback '
+                  + 'with a 4H higher low.' },
             // LITE dropped 08-04: this group requires weekly/daily/4H
             // alignment and the daily no longer aligns — two sessions of
             // bullish displacement reclaimed its old supply as support.
@@ -214,6 +228,73 @@ const BOARD = {
     // groups by itself — that needs the same break holding on a second
     // session, or an independent non-price corroborator, not just this list.
     rows: [
+        {
+            // RE-DRAWN 2026-08-04: the confirmed version of what this row
+            // called a "possible" breakout since 08-01. Monthly, weekly and
+            // daily all flip to bullish — reclaiming $600, higher lows on
+            // the weekly, RSI ~66 with price near the upper daily band. This
+            // is the exact $545–550 trigger this board's `rankingNote` named
+            // as the long-side gate for weeks, and it fired clean through
+            // both old supply zones.
+            //
+            // 4H UPDATED same night from an actual chart (Yahoo, 4H
+            // interval): crosshair checked first — legend O:607.20 ties the
+            // official regular-session close exactly, so the row is current,
+            // not a stale hover position. Reads a confirmed higher-high/
+            // higher-low sequence off the mid-July ≈$490 low through the
+            // July 20–27 ≈$555–565 pullback highs (now cleanly broken) to
+            // the current ≈$609 — that is BULLISH structure by this board's
+            // own definition, not the "neutral, no data" placeholder this
+            // row carried before the chart arrived. 4H RSI(14) is 42.94,
+            // UNDER the midline despite the breakout — the 4H is not
+            // stretched the way the daily's RSI ~66 is, and OBV is turning
+            // up on the same bars, real participation rather than a
+            // one-candle spike. This is the exact confirmation `h4Effect`
+            // said would flip this frame: "a 4H higher low above $605–610."
+            //
+            // Z is 0: $607.20 sits in the gap between the new demand top
+            // ($585) and supply floor ($620), inside neither.
+            //
+            // atr/atrPct cross-checked two ways: the supplied ≈$31/5.1% and
+            // a live refetch (tools/structure.fetch_yahoo + indicators.atr)
+            // both land on $30.56/5.03% — used the live figure.
+            //
+            // MOVES from "Possible longs after breakout confirmation" to
+            // "Best trend-following longs" — the breakout is no longer
+            // possible, it is confirmed. `ranking` and that group's own note
+            // (which named "AXON first, then STX") are updated to match.
+            ticker: 'AXON', seeded: true, date: '2026-08-04',
+            price: 607.20, atr: 30.56, atrPct: 5.03,
+            structure: { m: 'bullish', w: 'bullish', d: 'bullish', h4: 'bullish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'recovering from correction, reclaimed $600',
+                          w: 'bullish reversal, higher lows, strong momentum',
+                          d: 'strong breakout, RSI ~66, extended',
+                          h4: 'confirmed higher-high/higher-low, RSI 42.94' },
+            preferred: '**Long preferred, now confirmed on all four frames** — do not chase directly into $620–630 supply',
+            longSetup: 'Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.',
+            shortSetup: 'Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.',
+            score: null, parts: null,
+            bias: '**Long preferred with the emerging trend — now confirmed on all four frames, not just three.** The 4H chart shows a clean higher-high/higher-low sequence off the mid-July low, RSI 42.94 (not stretched) with OBV turning up alongside it — real participation, not a one-candle spike. Do not chase directly into $620–630 supply.',
+            h4: 'Confirmed higher-high/higher-low off the mid-July ≈$490 low, cleanly through the July 20–27 ≈$555–565 pullback highs to ≈$609. RSI 42.94 — not stretched, unlike the daily. OBV turning up on the same bars.',
+            h4Effect: 'This is the confirmation the row was waiting on: a 4H higher low above $605–610, now printed. All four frames align bullish for the first time. The next test is the same one the daily/weekly/monthly already face — $620–630 supply — not a fresh 4H question.',
+            demand: [
+                { lo: 575, hi: 585, strength: 'tested', note: 'immediate' },
+                { lo: 545, hi: 555, strength: 'tested', note: 'stronger — breakout base' },
+                { lo: 515, hi: 525, strength: 'tested', note: 'secondary' },
+                { lo: 468, hi: 480, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 620, hi: 630, strength: 'tested', note: 'immediate' },
+                { lo: 650, hi: 670, strength: 'fresh', note: 'secondary' },
+                { lo: 695, hi: 710, strength: 'fresh', note: 'major — weekly supply' },
+            ],
+            position: 'Cleared both the old $545–565 and $580–600 supply zones on the confirmed breakout, now testing fresh resistance at $620–630 — the trigger this board named for weeks fired',
+            bull: 'Hold $575–585, form a 4H higher low, reclaim $605–610 and break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.',
+            bear: 'Reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.',
+            longCandidate: 'The confirmed breakout long, not just a possible one — monthly, weekly and daily are all bullish now. Still not a chase: the best entry is the $575–585 hold with a 4H higher low, not the push into $620–630.',
+            retest: 'Most likely first retest is $575–585. A harder rejection from $620–630 could produce a deeper retest of $545–555.',
+        },
         {
             // RE-DRAWN 2026-08-04, one tier higher: the earnings displacement
             // held and price closed $162.66, clear of the whole old demand/
@@ -439,39 +520,6 @@ const BOARD = {
             retest: 'Reclaim may retest **$1,150–1,175** as support',
         },
         {
-            ticker: 'AXON', seeded: true, date: '2026-08-01',
-            price: 527.64, atr: 29.02, atrPct: 5.50,
-            structure: { m: 'neutral', w: 'neutral', d: 'neutral', h4: 'neutral',
-                         h4Note: 'read from charts' },
-            // Per-frame trend, in the words it was read in. The enum above has
-            // three values, so hedged wording maps to the conservative one and
-            // the full phrasing is kept here.
-            trendProse: { m: 'transition', w: 'recovery/transition',
-                          d: 'range', h4: 'range above support' },
-            preferred: '**Neutral with slight long preference**',
-            longSetup: 'Break and hold **$545–550** → $580–600',
-            shortSetup: 'Lose $508–515 and fail reclaim → $490–500',
-            score: null, parts: null,
-            bias: '**Neutral with slight bullish tilt.** Prefer confirmed breakout long.',
-            h4: 'Tight balance above **$508–515**, holding $520–530. Momentum flat — no breakout yet.',
-            h4Effect: 'Slight bullish tilt remains. Long confirmation requires a break of **$535–545**. Loss of **$508** would shift the setup bearish toward $490–500.',
-            demand: [
-                { lo: 515, hi: 525, strength: 'tested', note: 'immediate' },
-                { lo: 485, hi: 500, strength: 'tested', note: 'secondary' },
-                { lo: 419, hi: 430, strength: 'fresh', note: 'major' },
-            ],
-            supply: [
-                { lo: 545, hi: 565, strength: 'tested', note: 'immediate' },
-                { lo: 580, hi: 600, strength: 'tested', note: 'main' },
-                { lo: 625, hi: 665, strength: 'fresh', note: 'higher' },
-            ],
-            position: 'Holding demand but still below supply',
-            bull: 'Close above **$545–550**, then hold/retest → **$580–600**, then **$625**',
-            bear: 'Close below **$515** and fail to reclaim → **$490–500**, then **$466–430**',
-            longCandidate: 'Breakout long above **$545–550** with a successful retest.',
-            retest: 'Upside breakout may retest **$525–545** as support',
-        },
-        {
             // The board's first INVERTED row: monthly and weekly down, daily
             // and 4H up. Every other countertrend-bounce name (TE, META, SMH,
             // CIEN, TSLA, MRVL, MU) is still bearish on the working frames and
@@ -574,6 +622,64 @@ const BOARD = {
             bear: 'Tags $870–900 but closes back under ≈$850–860 (bull trap) → retest $820–835; a loss of $820 with a failed reclaim opens $785–805, and below $785 this starts reading as a short squeeze fading rather than a reversal',
             longCandidate: 'The stronger candidate now: two clean sessions of bullish displacement reclaimed the old supply as support. Needs one of two confirmations — a held retest or a breakout-retest — the push into $865–900 alone is not yet either.',
             retest: 'Current price is the first test of $865–900 from underneath. A rejection retests $820–835 first; acceptance above $900 sets up a retest of $875–900 from above before the next leg.',
+        },
+        {
+            // NEW ROW, 2026-08-04. A strong bounce off a severe monthly
+            // breakdown (July closed −41.7% from its open, per this ticker's
+            // own card history in data.js), but explicitly a recovery INTO
+            // the key $1,530–1,580 reclaim line, not through it — that
+            // distinction is why structure stays cautious rather than
+            // flipping bullish the way LITE's did. Daily softens to NEUTRAL
+            // (real fetch: RSI 47.69, still under the midline, cascade
+            // "daily crossed" but weekly "rolled" — not confirmed); weekly
+            // NEUTRAL for the same reason (RSI 53.80 but hist −75.25 still
+            // expanding); monthly stays BEARISH — the collapse itself, not a
+            // correction inside an intact uptrend, unlike MU's or LITE's.
+            // 4H NEUTRAL: recovering into resistance, unresolved.
+            //
+            // Z is 0: $1,427.62 sits in the gap between the new demand top
+            // ($1,400) and supply floor ($1,530), inside neither.
+            //
+            // atr/atrPct refetched live (tools/structure.fetch_yahoo +
+            // indicators.atr): $195.38 / 13.69% against the $1,427.62 close —
+            // not estimated.
+            //
+            // GROUPS: none. Its short does not belong in "best trend-
+            // following shorts" (monthly is the collapse itself, not an
+            // aligned bearish read across all three working frames the same
+            // way INTC's or CRWV's is) or in "bearish corrections inside
+            // larger monthly uptrends" (that group needs a bullish MONTHLY
+            // being corrected, and this monthly is bearish outright).
+            ticker: 'SNDK', seeded: true, date: '2026-08-04',
+            price: 1427.62, atr: 195.38, atrPct: 13.69,
+            structure: { m: 'bearish', w: 'neutral', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'severe downtrend, sharp bounce in progress',
+                          w: 'recovering, not yet reclaimed',
+                          d: 'strong bounce, still below the reclaim level',
+                          h4: 'recovering into resistance' },
+            preferred: '**Two-way — short preferred below $1,530–1,580**; long plan is hold $1,350–1,400, then accept above $1,580',
+            score: null, parts: null,
+            bias: '**A strong bounce off a severe monthly breakdown, but still a recovery INTO resistance, not through it.** The key reclaim line is $1,530–1,580. Short preferred below it; the long plan needs acceptance above $1,580 and a held retest, not just the current hold.',
+            h4: 'Recovering sharply off the crash low but still testing resistance from below — the $1,530–1,580 reclaim line has not been touched yet, let alone accepted.',
+            h4Effect: 'SNDK must close above $1,580 and hold the retest before the nearest supply promotes to $1,680–1,760. Failure around $1,530–1,580 combined with a loss of $1,400 opens $1,280–1,220.',
+            demand: [
+                { lo: 1350, hi: 1400, strength: 'fresh', note: 'immediate — the long-plan hold zone' },
+                { lo: 1220, hi: 1280, strength: 'tested', note: 'stronger' },
+                { lo: 1000, hi: 1060, strength: 'tested', note: 'major' },
+            ],
+            supply: [
+                { lo: 1530, hi: 1580, strength: 'tested', note: 'immediate — the key prior breakdown/reclaim line' },
+                { lo: 1680, hi: 1760, strength: 'fresh', note: 'secondary' },
+                { lo: 1900, hi: 2000, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Recovering sharply off the crash low, holding $1,350–1,400, but still below the $1,530–1,580 reclaim line that decides whether this is a base or just a bounce',
+            bull: 'Break and accept above $1,530–1,580, hold the retest → $1,680–1,760, then $1,900–2,000',
+            longSetup: 'Hold $1,350–1,400, then break and accept above $1,580 → $1,680–1,760.',
+            longCandidate: 'Needs the $1,580 acceptance and a held retest to be more than a bounce — holding $1,350–1,400 alone is not that confirmation.',
+            bear: 'Failure around $1,530–1,580 combined with a loss of $1,400 → $1,280–1,220, then deeper toward $1,000–1,060',
+            shortSetup: 'The cleaner short is a rejection from $1,530–1,580 confirmed by a loss of $1,400 → $1,280–1,220. A daily close below $1,060 with a failed reclaim opens the major zone below.',
+            retest: 'The $1,530–1,580 reclaim line is the level that decides this, not yet tested. A rejection there with a loss of $1,400 retests $1,280–1,220 first.',
         },
         {
             // The board's SECOND inverted row — monthly and weekly down, daily
@@ -753,6 +859,62 @@ const BOARD = {
             bear: 'Reject **$400–420**, or close below **$355** → **$340–320**; below $320 → approximately **$300**',
             longCandidate: 'Long after **$355–365** holds and **$405–420** is reclaimed.',
             retest: 'Breakdown may retest **$355–380** from underneath',
+        },
+        {
+            // RE-DRAWN 2026-08-04, one tier higher, matching LITE/PLTR the
+            // same night: bullish displacement reclaimed the old $830–875
+            // resistance as a support-flip zone, and price is now pressing
+            // up into $920–960 — prior daily lower highs and July congestion
+            // — without having cleared it. Overnight ~$910 does not
+            // invalidate that zone; it needs a regular-session test.
+            //
+            // Daily and 4H soften bearish → NEUTRAL rather than flip to
+            // bullish outright: daily RSI is still recovering (per the real
+            // fetch, 48.76, under the midline) and the read itself calls a
+            // rejection below $920 "a relief rally", i.e. the DEFAULT case
+            // absent confirmation is still not a reversal. That is a more
+            // cautious picture than LITE's two full sessions clearing every
+            // mapped zone, so this gets the more conservative structure call.
+            // Weekly stays bearish (unaddressed by the redraw) and monthly
+            // stays bullish (uptrend intact, correcting — unchanged).
+            //
+            // Z is 0, not −1: $892.67 sits in the gap between the new demand
+            // top ($875) and supply floor ($920), inside neither — the old
+            // −1 was earned when price sat inside the OLD $890–940 zone,
+            // which no longer applies now that the zone map moved.
+            //
+            // atr/atrPct: refetched live (tools/structure.fetch_yahoo +
+            // indicators.atr), not estimated — $87.69 / 9.82% against the
+            // $892.67 close, replacing the stale $90.54/11.00% pair.
+            ticker: 'MU', seeded: true, date: '2026-08-04',
+            price: 892.67, atr: 87.69, atrPct: 9.82,
+            structure: { m: 'bullish', w: 'bearish', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'powerful uptrend, correcting',
+                          w: 'bearish correction, LH/LL',
+                          d: 'recovering, not yet confirmed',
+                          h4: 'pressing into $920–960 resistance' },
+            preferred: '**Two-way — short preferred while under $920–960**; long plan is hold $850–875, then reclaim $920',
+            score: null, parts: null,
+            bias: '**A recovering correction inside a powerful monthly uptrend, not yet a confirmed reversal.** The old $830–875 resistance is reclaimed as a support-flip zone; the live test is $920–960. Short preferred while under it — the explicit long plan needs the reclaim to hold, not just the push.',
+            h4: 'Pressing up toward the $920–960 supply — prior daily lower highs and July congestion. Overnight ≈$910 does not invalidate the zone; it needs a regular-session test to resolve.',
+            demand: [
+                { lo: 850, hi: 875, strength: 'fresh', note: 'immediate — reclaimed prior resistance, now a support-flip zone' },
+                { lo: 805, hi: 830, strength: 'tested', note: 'stronger — breakout support' },
+                { lo: 760, hi: 780, strength: 'tested', note: 'major' },
+            ],
+            supply: [
+                { lo: 920, hi: 960, strength: 'tested', note: 'immediate — prior daily lower highs + July congestion' },
+                { lo: 1000, hi: 1040, strength: 'tested', note: 'secondary' },
+                { lo: 1120, hi: 1220, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Reclaimed the old $830–875 resistance as a support-flip zone on bullish displacement, now pressing into the $920–960 supply from below — untested on the regular session',
+            bull: 'Reclaim $920, hold it, then acceptance above $950–960 → $1,000–1,040, then $1,120–1,220',
+            longSetup: 'Hold $850–875, then reclaim $920 → $950–960, followed by $1,000–1,040. Regular-session acceptance above $950–960 promotes $1,000–1,040 to nearest supply.',
+            longCandidate: 'The stronger read now: bullish displacement reclaimed $830–875 as support. Still needs the $920 reclaim to hold — the push into it alone is not that confirmation.',
+            bear: 'Pushes above $920, then closes back below $875–885 (trap) → retest $830–850; a rejection below $920 alone keeps this a relief rally, not a fresh short signal',
+            shortSetup: 'The cleaner short is a rejection from $920–960, confirmed by a close back below $875–885 → $830–850, then $805–830. A daily close below $780 with a failed reclaim opens deeper toward $760–780 and below.',
+            retest: 'Current price is testing up toward $920–960 from below. A trap (push above $920, close back under $875–885) retests $830–850; acceptance above $960 opens a retest of $920–960 from above before the next leg',
         },
         {
             // Structure read from the QCOM analysis supplied 2026-08-04.
@@ -1084,46 +1246,6 @@ const BOARD = {
             bear: 'Bounce into **$193–201** and reject → **$170–160**, then **$155–143**',
             shortSetup: 'Wait for a rebound toward **$193–201** and assess whether sellers return; reject → $170–160, then $155–143. A daily close below **$160** with a failed reclaim → $155–143, then **$140–125**.',
             retest: 'An upside rebound may retest **$193–201**; a breakdown below $160 may retest **$160–170** from underneath',
-        },
-        {
-            // Monthly is BULLISH, unlike MRVL's neutral, and the difference is
-            // in the words: MRVL's parabolic phase is "broken … transition",
-            // MU's is "correcting" while the read states outright that MU
-            // "remains in a powerful monthly uptrend". A distribution candle
-            // inside an intact uptrend is a correction, not a regime change.
-            // Weekly, daily and 4H are bearish as written.
-            //
-            // ATR pair implies $823.09 against the card's $823.03 — 0.006%,
-            // the closest reconciliation on the board.
-            ticker: 'MU', seeded: true, date: '2026-08-02',
-            price: 823.09, atr: 90.54, atrPct: 11.00,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            trendProse: { m: 'powerful uptrend, correcting',
-                          w: 'bearish correction, LH/LL',
-                          d: 'downtrend below 9/50 EMA',
-                          h4: 'bearish range below all EMAs' },
-            preferred: '**Short preferred**, not near demand',
-            score: null, parts: null,
-            bias: '**A correction inside a powerful monthly uptrend.** Do not chase near $730–760. ⚠ ATR **11.00%** — size down hard.',
-            h4: 'Bearish range below all EMAs — the rebound **failed** and momentum is rolling over.',
-            demand: [
-                { lo: 730, hi: 760, strength: 'tested', note: 'immediate' },
-                { lo: 640, hi: 680, strength: 'tested', note: 'secondary' },
-                { lo: 590, hi: 610, strength: 'fresh', note: 'major lower demand' },
-            ],
-            supply: [
-                { lo: 890, hi: 940, strength: 'tested', note: 'immediate' },
-                { lo: 1000, hi: 1050, strength: 'tested', note: 'main' },
-                { lo: 1150, hi: 1250, strength: 'fresh', note: 'major' },
-            ],
-            position: 'Below the failed **$890–940** average and supply cluster, nearer immediate demand than major supply',
-            bull: 'Reclaim **$890–940** → **$1,000–1,050**',
-            longSetup: 'Hold **$730–760**, form a 4H higher low, reclaim **$890–940** → **$1,000–1,050**. A stronger bullish reversal requires acceptance above **$1,050**.',
-            longCandidate: 'Countertrend until MU holds **$730–760**, forms a higher low and reclaims at least **$890–940**.',
-            bear: 'Bounce into **$890–940** and reject → **$760–730**',
-            shortSetup: 'The cleaner short is a weak rebound into **$890–940** followed by rejection → $760–730. A daily close below **$730** with a failed reclaim opens **$680–640**, then **$610–590**.',
-            retest: 'An upside rebound may retest **$890–940**; a breakdown below $730 may retest **$730–760** from underneath',
         },
         {
             // All four frames bearish — the first row on the board with no
