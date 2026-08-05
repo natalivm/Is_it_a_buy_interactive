@@ -1258,10 +1258,17 @@ const BOARD = {
           "lo": 762.99,
           "hi": 852.78,
           "strength": "weak"
+        },
+        {
+          "lo": 897.0,
+          "hi": 897.0,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing high, no zone formed"
         }
       ],
       "position": "inside weak demand $811.45–859.68",
-      "bull": "close above $762.99–852.78",
+      "bull": "close above $762.99–852.78 → $897.00",
       "bear": "close below $811.45–859.68 → $680.66–785.49",
       "retest": "a break above $762.99–852.78 likely retests it as support",
       "longCandidate": "The stronger candidate now: two clean sessions of bullish displacement reclaimed the old supply as support. Needs one of two confirmations — a held retest or a breakout-retest — the push into $865–900 alone is not yet either.",
@@ -3134,7 +3141,7 @@ const BOARD = {
       ],
       "position": "inside weak supply $18.57–19.99",
       "bull": "close above $18.57–19.99 → $20.56–21.03",
-      "bear": "close below $18.91–18.91 → $18.50–18.50",
+      "bear": "close below $18.91 → $18.50",
       "retest": "a break above $18.57–19.99 likely retests it as support",
       "longCandidate": "Countertrend, and only after **$17.4–17.7** holds and **$18.2–18.3** is reclaimed. Not a credible swing long until TTD accepts above **$19.5–20.7**.",
       "longSetup": "Hold **$17.4–17.7**, form a 4H higher low and reclaim **$18.2–18.3** → **$18.7**, then **$19.1–19.5**. Daily acceptance above **$19.5** opens **$20.2–20.7**; a credible trend reversal needs a breakout above **$20.7** and a successful retest, which opens **$23.5–24.5**.",

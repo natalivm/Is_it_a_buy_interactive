@@ -653,7 +653,7 @@ def _restrength(z: Zone) -> None:
 
 
 def structural_levels(sw: list[Swing], price: float, kind: str,
-                      n: int = 2) -> list[dict]:
+                      n: int = 2, beyond: float | None = None) -> list[dict]:
     """Significant swing lows below price (or highs above) as SUPPORT/RESISTANCE
     references, for when no zone exists on that side.
 
@@ -661,12 +661,19 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
     every displacement is downward, so every zone it leaves is supply. Reporting
     "no demand within range" is structurally true and useless — price still has
     swing lows under it, and those are the levels a chart reader would name.
-    Flagged `structural` so they are never confused with a real zone."""
+    Flagged `structural` so they are never confused with a real zone.
+
+    `beyond` pushes the search past a level already reported: a swing high
+    INSIDE the supply zone the row already prints is not a further reference,
+    it is the same one named twice. Distance is still measured from price, so
+    the MAX_ZONE_DIST cap means what it says."""
     if kind == 'demand':
-        cand = sorted((s for s in sw if s.kind == 'low' and s.price < price),
+        limit = price if beyond is None else min(price, beyond)
+        cand = sorted((s for s in sw if s.kind == 'low' and s.price < limit),
                       key=lambda s: price - s.price)
     else:
-        cand = sorted((s for s in sw if s.kind == 'high' and s.price > price),
+        limit = price if beyond is None else max(price, beyond)
+        cand = sorted((s for s in sw if s.kind == 'high' and s.price > limit),
                       key=lambda s: s.price - price)
     out = []
     for s in cand[:n]:
@@ -677,6 +684,48 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
                     'note': f"swing {'low' if kind == 'demand' else 'high'}, "
                             f"no zone formed"})
     return out
+
+
+def with_reference(zones: list[dict], sw: list[Swing], price: float, kind: str,
+                   cap: int = 3) -> list[dict]:
+    """Guarantee the side has at least one level on the FAR side of price.
+
+    `nearest` deliberately includes the zone price is sitting inside — dropping
+    it made the zone list disagree with the position line beside it. The cost
+    is a row whose whole supply list straddles or sits under price, which is a
+    list with nothing left to break: LITE reported one supply, $762.99–852.78,
+    with price inside it at $826.26 AND its nearest demand ($811.45–859.68)
+    covering the same band. Supply and demand stacked on one level is the
+    definition of a consumed level, and `_bull` then reads "close above" a zone
+    price is already standing in.
+
+    So top the side up with the next swing beyond the band — the same
+    `structural` reference the empty-list fallback already reports, and the
+    same one a chart reader would name. Note what this does NOT do: it never
+    moves or deletes a computed zone. A zone stays where its displacement drew
+    it (Rule A — a level is a confluence, not a print), the position line stays
+    true, and the row simply gains the level above it.
+
+    The zone list keeps its `cap`, so the top-up costs the FARTHEST straddling
+    zone rather than growing the cell — that zone is the deepest inside the
+    consumed band and the least informative thing on the row.
+    """
+    if not zones:
+        return structural_levels(sw, price, kind)
+    if kind == 'demand':
+        clear = [z for z in zones if z['hi'] < price]
+        beyond = min(z['lo'] for z in zones)
+    else:
+        clear = [z for z in zones if z['lo'] > price]
+        beyond = max(z['hi'] for z in zones)
+    if clear:
+        return zones
+    extra = structural_levels(sw, price, kind, n=1, beyond=beyond)
+    if not extra:
+        # Nothing within MAX_ZONE_DIST beyond the band. Say so by leaving the
+        # list as it is: an invented level is worse than a short list.
+        return zones
+    return zones[:cap - 1] + extra
 
 
 def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
@@ -877,12 +926,12 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     sup = [_zone_json(z) for z in nearest(zones, price, 'supply')]
     # No zone on a side does NOT mean nothing is there. A name in a sustained
     # decline leaves only supply behind it, but it still has swing lows under
-    # price, and those are the levels a chart reader would name.
+    # price, and those are the levels a chart reader would name — and a side
+    # whose every zone STRADDLES price is the same problem with a longer list.
+    # with_reference() covers both: empty, or nothing on the far side.
     win_sw = [x for x in d_sig if x.i >= len(daily) - MAX_ZONE_AGE]
-    if not dem:
-        dem = structural_levels(win_sw, price, 'demand')
-    if not sup:
-        sup = structural_levels(win_sw, price, 'supply')
+    dem = with_reference(dem, win_sw, price, 'demand')
+    sup = with_reference(sup, win_sw, price, 'supply')
 
     # Z: inside a CONFIRMED (fresh or tested — not consumed) zone.
     z_term = 0
@@ -984,6 +1033,12 @@ def _zone_json(z: Zone) -> dict:
 
 def _fmt(z: Zone | dict) -> str:
     lo, hi = (z['lo'], z['hi']) if isinstance(z, dict) else (z.lo, z.hi)
+    # A structural level is one price, not a band, and "$897.00–897.00" reads
+    # as a typo. zoneCell in script.js already collapses it in the zone column;
+    # the trigger prose built from _fmt did not, so TTD's bear trigger printed
+    # "close below $18.91–18.91 → $18.50–18.50".
+    if lo == hi:
+        return f"${lo:,.2f}"
     return f"${lo:,.2f}–{hi:,.2f}"
 
 
