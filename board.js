@@ -229,6 +229,73 @@ const BOARD = {
     // session, or an independent non-price corroborator, not just this list.
     rows: [
         {
+            // RE-DRAWN 2026-08-04: the confirmed version of what this row
+            // called a "possible" breakout since 08-01. Monthly, weekly and
+            // daily all flip to bullish — reclaiming $600, higher lows on
+            // the weekly, RSI ~66 with price near the upper daily band. This
+            // is the exact $545–550 trigger this board's `rankingNote` named
+            // as the long-side gate for weeks, and it fired clean through
+            // both old supply zones.
+            //
+            // 4H UPDATED same night from an actual chart (Yahoo, 4H
+            // interval): crosshair checked first — legend O:607.20 ties the
+            // official regular-session close exactly, so the row is current,
+            // not a stale hover position. Reads a confirmed higher-high/
+            // higher-low sequence off the mid-July ≈$490 low through the
+            // July 20–27 ≈$555–565 pullback highs (now cleanly broken) to
+            // the current ≈$609 — that is BULLISH structure by this board's
+            // own definition, not the "neutral, no data" placeholder this
+            // row carried before the chart arrived. 4H RSI(14) is 42.94,
+            // UNDER the midline despite the breakout — the 4H is not
+            // stretched the way the daily's RSI ~66 is, and OBV is turning
+            // up on the same bars, real participation rather than a
+            // one-candle spike. This is the exact confirmation `h4Effect`
+            // said would flip this frame: "a 4H higher low above $605–610."
+            //
+            // Z is 0: $607.20 sits in the gap between the new demand top
+            // ($585) and supply floor ($620), inside neither.
+            //
+            // atr/atrPct cross-checked two ways: the supplied ≈$31/5.1% and
+            // a live refetch (tools/structure.fetch_yahoo + indicators.atr)
+            // both land on $30.56/5.03% — used the live figure.
+            //
+            // MOVES from "Possible longs after breakout confirmation" to
+            // "Best trend-following longs" — the breakout is no longer
+            // possible, it is confirmed. `ranking` and that group's own note
+            // (which named "AXON first, then STX") are updated to match.
+            ticker: 'AXON', seeded: true, date: '2026-08-04',
+            price: 607.20, atr: 30.56, atrPct: 5.03,
+            structure: { m: 'bullish', w: 'bullish', d: 'bullish', h4: 'bullish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'recovering from correction, reclaimed $600',
+                          w: 'bullish reversal, higher lows, strong momentum',
+                          d: 'strong breakout, RSI ~66, extended',
+                          h4: 'confirmed higher-high/higher-low, RSI 42.94' },
+            preferred: '**Long preferred, now confirmed on all four frames** — do not chase directly into $620–630 supply',
+            longSetup: 'Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.',
+            shortSetup: 'Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.',
+            score: null, parts: null,
+            bias: '**Long preferred with the emerging trend — now confirmed on all four frames, not just three.** The 4H chart shows a clean higher-high/higher-low sequence off the mid-July low, RSI 42.94 (not stretched) with OBV turning up alongside it — real participation, not a one-candle spike. Do not chase directly into $620–630 supply.',
+            h4: 'Confirmed higher-high/higher-low off the mid-July ≈$490 low, cleanly through the July 20–27 ≈$555–565 pullback highs to ≈$609. RSI 42.94 — not stretched, unlike the daily. OBV turning up on the same bars.',
+            h4Effect: 'This is the confirmation the row was waiting on: a 4H higher low above $605–610, now printed. All four frames align bullish for the first time. The next test is the same one the daily/weekly/monthly already face — $620–630 supply — not a fresh 4H question.',
+            demand: [
+                { lo: 575, hi: 585, strength: 'tested', note: 'immediate' },
+                { lo: 545, hi: 555, strength: 'tested', note: 'stronger — breakout base' },
+                { lo: 515, hi: 525, strength: 'tested', note: 'secondary' },
+                { lo: 468, hi: 480, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 620, hi: 630, strength: 'tested', note: 'immediate' },
+                { lo: 650, hi: 670, strength: 'fresh', note: 'secondary' },
+                { lo: 695, hi: 710, strength: 'fresh', note: 'major — weekly supply' },
+            ],
+            position: 'Cleared both the old $545–565 and $580–600 supply zones on the confirmed breakout, now testing fresh resistance at $620–630 — the trigger this board named for weeks fired',
+            bull: 'Hold $575–585, form a 4H higher low, reclaim $605–610 and break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.',
+            bear: 'Reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.',
+            longCandidate: 'The confirmed breakout long, not just a possible one — monthly, weekly and daily are all bullish now. Still not a chase: the best entry is the $575–585 hold with a 4H higher low, not the push into $620–630.',
+            retest: 'Most likely first retest is $575–585. A harder rejection from $620–630 could produce a deeper retest of $545–555.',
+        },
+        {
             // RE-DRAWN 2026-08-04, one tier higher: the earnings displacement
             // held and price closed $162.66, clear of the whole old demand/
             // supply map. The old $140–150 supply is reclaimed and now reads
@@ -291,60 +358,6 @@ const BOARD = {
             bear: '**Bull-trap:** trades above $165–170, fails, closes back below $158–160 → $150, then $145. **Gap-failure:** daily close below $145 with a failed reclaim → $136–140, then $123–130.',
             shortSetup: '**Bull-trap:** trade above $165–170, fail to hold, close back below $158–160 → $150, then $145. **Gap-failure:** daily close below $145 with a failed reclaim → $136–140, then $123–130.',
             retest: 'First likely pullback is $155–160; if buyers cannot defend it, the more important structural retest is $145–150 (the gap open).',
-        },
-        {
-            // RE-DRAWN 2026-08-04: the confirmed version of what this row
-            // called a "possible" breakout since 08-01. Monthly, weekly and
-            // daily all flip to bullish — reclaiming $600, higher lows on
-            // the weekly, RSI ~66 with price near the upper daily band. This
-            // is the exact $545–550 trigger this board's `rankingNote` named
-            // as the long-side gate for weeks, and it fired clean through
-            // both old supply zones. 4H stays NEUTRAL on purpose: no 4H
-            // chart was supplied this update, so the frame is left
-            // unconfirmed rather than inferred bullish from the daily.
-            //
-            // Z is 0: $607.20 sits in the gap between the new demand top
-            // ($585) and supply floor ($620), inside neither.
-            //
-            // atr/atrPct cross-checked two ways: the supplied ≈$31/5.1% and
-            // a live refetch (tools/structure.fetch_yahoo + indicators.atr)
-            // both land on $30.56/5.03% — used the live figure.
-            //
-            // MOVES from "Possible longs after breakout confirmation" to
-            // "Best trend-following longs" — the breakout is no longer
-            // possible, it is confirmed. `ranking` and that group's own note
-            // (which named "AXON first, then STX") are updated to match.
-            ticker: 'AXON', seeded: true, date: '2026-08-04',
-            price: 607.20, atr: 30.56, atrPct: 5.03,
-            structure: { m: 'bullish', w: 'bullish', d: 'bullish', h4: 'neutral',
-                         h4Note: 'read from charts' },
-            trendProse: { m: 'recovering from correction, reclaimed $600',
-                          w: 'bullish reversal, higher lows, strong momentum',
-                          d: 'strong breakout, RSI ~66, extended',
-                          h4: 'no 4H chart supplied — unconfirmed' },
-            preferred: '**Long preferred with the emerging trend** — do not chase directly into $620–630 supply',
-            longSetup: 'Hold $575–585, form a 4H higher low, then reclaim $605–610 and break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.',
-            shortSetup: 'Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.',
-            score: null, parts: null,
-            bias: '**Long preferred with the emerging trend — the confirmed breakout, not just a possible one.** Monthly, weekly and daily are all bullish; 4H is unconfirmed (no chart supplied). Do not chase directly into $620–630 supply.',
-            h4: 'No 4H chart supplied this update — intraday confirmation of the breakout is still needed, so this frame stays neutral rather than bullish by inference.',
-            h4Effect: 'A 4H higher low above $605–610 would confirm the breakout on the working timeframe; until then, the daily/weekly/monthly bullish read is not yet backed by 4H structure.',
-            demand: [
-                { lo: 575, hi: 585, strength: 'tested', note: 'immediate' },
-                { lo: 545, hi: 555, strength: 'tested', note: 'stronger — breakout base' },
-                { lo: 515, hi: 525, strength: 'tested', note: 'secondary' },
-                { lo: 468, hi: 480, strength: 'fresh', note: 'major' },
-            ],
-            supply: [
-                { lo: 620, hi: 630, strength: 'tested', note: 'immediate' },
-                { lo: 650, hi: 670, strength: 'fresh', note: 'secondary' },
-                { lo: 695, hi: 710, strength: 'fresh', note: 'major — weekly supply' },
-            ],
-            position: 'Cleared both the old $545–565 and $580–600 supply zones on the confirmed breakout, now testing fresh resistance at $620–630 — the trigger this board named for weeks fired',
-            bull: 'Hold $575–585, form a 4H higher low, reclaim $605–610 and break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.',
-            bear: 'Reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.',
-            longCandidate: 'The confirmed breakout long, not just a possible one — monthly, weekly and daily are all bullish now. Still not a chase: the best entry is the $575–585 hold with a 4H higher low, not the push into $620–630.',
-            retest: 'Most likely first retest is $575–585. A harder rejection from $620–630 could produce a deeper retest of $545–555.',
         },
         {
             // `structure` is a three-value enum (bullish | bearish | neutral),
