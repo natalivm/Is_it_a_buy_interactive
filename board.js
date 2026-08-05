@@ -628,6 +628,65 @@ const BOARD = {
             retest: 'The likeliest pullback retest is **$239–243**; a breakout above $266 may retest **$250–263** as support',
         },
         {
+            // NEW ROW, 2026-08-04. Monthly and weekly stay bullish (uptrend
+            // intact on both, weekly "pulling back from the highs" is not a
+            // structural break). Daily maps to the CONSERVATIVE reading of
+            // its own hedge, same rule as elsewhere on this board: "neutral-
+            // to-bearish correction inside the larger uptrend" grades
+            // bearish, not neutral. 4H is bearish outright — post-earnings,
+            // no confirmed reversal.
+            //
+            // ATR pair ($40.79 / 7.86%) implies $518.96, 0.07% from the
+            // verified $518.58 close — same basis, well inside this board's
+            // own tolerance (widest precedent: AVGO at 0.08%).
+            //
+            // Z is −1: $518.58 sits INSIDE the $518–522 supply zone, not
+            // between zones — this is a name testing resistance from below,
+            // not sitting in open air.
+            //
+            // GROUPS: deliberately in none. Its short does NOT belong in
+            // "best trend-following shorts" — that group needs weekly/daily/
+            // 4H aligned bearish, and this weekly and monthly are both up.
+            // It also does NOT belong in "countertrend bounce candidates" —
+            // that group is bearish-trend names bouncing against the grain;
+            // AMD is the mirror image, a bullish-trend name correcting
+            // against it, so its LONG side is the trend-following one and
+            // its SHORT side is the countertrend leg. No existing group
+            // describes that shape, and one row does not justify inventing
+            // one (same rule ADBE's comment already states).
+            ticker: 'AMD', seeded: true, date: '2026-08-04',
+            price: 518.58, atr: 40.79, atrPct: 7.87,
+            structure: { m: 'bullish', w: 'bullish', d: 'bearish', h4: 'bearish',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'established uptrend, extended and volatile',
+                          w: 'uptrend intact, pulling back from highs',
+                          d: 'neutral-to-bearish correction in the uptrend',
+                          h4: 'bearish post-earnings, no reversal yet' },
+            preferred: '**Two-way watch — short-term short preferred below $503**, long-term bias stays long above it',
+            score: null, parts: null,
+            bias: '**WAIT — two-trigger setup.** Higher-timeframe trend stays bullish, but the earnings reversal makes the short-term structure bearish. Long only on a reclaim and hold above $500–503; short only below $475. $475–503 is the trap in between.',
+            h4: 'Bearish after the earnings displacement — no confirmed reversal yet, price sitting inside the $475–503 trap zone.',
+            h4Effect: 'This is what keeps the row at WAIT rather than a clean side: the higher-timeframe trend is still up, but the 4H has not confirmed a reversal from the earnings-day drop. A reclaim of $503 that holds resolves it long; a failed reclaim with a break of $475 resolves it short. Until one of those prints, $475–503 is a trap, not a level to trade from.',
+            demand: [
+                { lo: 465, hi: 475, strength: 'tested', note: 'immediate — the trap-zone floor' },
+                { lo: 446, hi: 446, strength: 'tested', note: 'stronger' },
+                { lo: 419, hi: 420, strength: 'fresh', note: 'major' },
+            ],
+            supply: [
+                { lo: 500, hi: 503, strength: 'tested', note: 'immediate — the reclaim trigger' },
+                { lo: 518, hi: 522, strength: 'tested', note: 'secondary' },
+                { lo: 533, hi: 550, strength: 'fresh', note: 'major' },
+                { lo: 577, hi: 577, strength: 'fresh', note: 'higher supply' },
+            ],
+            position: 'Inside the $475–503 trap zone after the earnings reversal — higher-timeframe trend still up, short-term structure bearish, unresolved either way',
+            bull: 'Reclaim and hold **$500–503** → **$518–522**, then **$533–550**',
+            longSetup: 'Hold **$465–475**, form a 4H higher low, then reclaim and hold **$503** → $518–522, then $533–550. Stronger continuation needs acceptance above **$550**.',
+            longCandidate: 'WAIT until the reclaim actually holds — the higher-timeframe trend is the reason to want this long, not a reason to enter early.',
+            bear: 'Loses **$475**, fails the reclaim → **$465**, then **$446**, then **$419–420**',
+            shortSetup: 'Reject from **$500–503**, or break **$475** and fail the reclaim → $465, then $446. Daily acceptance below **$446** opens $419–420.',
+            retest: 'First likely retest is **$500–503** from below; failure there keeps pressure toward **$475–465**',
+        },
+        {
             ticker: 'STX', seeded: true, date: '2026-08-01',
             price: 856.41, atr: 82.13, atrPct: 9.59,
             structure: { m: 'bullish', w: 'neutral', d: 'neutral', h4: 'bearish',
