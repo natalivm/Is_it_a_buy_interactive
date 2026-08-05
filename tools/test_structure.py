@@ -389,6 +389,29 @@ check("caps at three, dropping the farthest straddling zone",
 # Nothing within MAX_ZONE_DIST beyond the band → a short list, never a guess.
 check("no reachable swing leaves the list alone",
       st.with_reference(_straddle, [], 826.26, 'supply'), _straddle)
+# ── a trigger may not target a level inside itself ──────────────────────────
+# The INTC shape: zones are ordered by distance from price and they overlap, so
+# zones[1] can sit INSIDE zones[0] — "close above $100.23-104.18 → $103.12-
+# 106.17" targets a price reached before the break it depends on.
+print("\nTriggers — the target has to clear the level being broken")
+check("bull skips a supply zone overlapping the one it breaks",
+      st._bull(101.06, _intc), 'close above $100.23–104.18 → $107.45–109.00')
+check("bear skips a demand zone overlapping the one it breaks",
+      st._bear(321.55, [{'lo': 314.60, 'hi': 335.79, 'strength': 'weak'},
+                        {'lo': 306.93, 'hi': 319.91, 'strength': 'weak'}]),
+      'close below $314.60–335.79')
+check("a clear second zone is still quoted as the target",
+      st._bull(101.06, [{'lo': 105.0, 'hi': 110.0, 'strength': 'weak'},
+                        {'lo': 120.0, 'hi': 125.0, 'strength': 'fresh'}]),
+      'close above $105.00–110.00 → $120.00–125.00')
+check("the farther of two overlapping zones can still be the target",
+      st._bull(101.06, [{'lo': 102.0, 'hi': 108.0, 'strength': 'weak'},
+                        {'lo': 105.0, 'hi': 112.0, 'strength': 'weak'},
+                        {'lo': 115.0, 'hi': 120.0, 'strength': 'weak'}]),
+      'close above $102.00–108.00 → $115.00–120.00')
+check("an empty side says so rather than naming a level",
+      st._bull(101.06, []), 'no supply within range — nothing to reclaim')
+
 check("the same rule reads downward for demand",
       [z['lo'] for z in st.with_reference(
           [{'lo': 600.0, 'hi': 900.0, 'strength': 'weak'}], _sw, 826.26, 'demand')],

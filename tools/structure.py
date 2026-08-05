@@ -1065,20 +1065,45 @@ def _position(price, dem, sup, zones) -> str:
     return "no zone within range"
 
 
+def _next_beyond(zones, first, kind: str):
+    """The first zone that actually CLEARS `first` — the target a break of it
+    could run to.
+
+    Not simply `zones[1]`: the list is ordered by distance from price and zones
+    overlap, so the next entry can sit inside the one being broken. Nine rows
+    read "close above $100.23–104.18 → $103.12–106.17" — a target inside its own
+    trigger, i.e. a level reached before the break it is conditional on.
+
+    The overlap itself is NOT a duplicate to merge away. Two displacements can
+    leave bases in shared territory, they carry different grades and dates, and
+    the zone column showing both is the useful part; the board's own ATR figures
+    say so too — most adjacent gaps here are under 1 ATR, so a band merge would
+    collapse nearly every row and would have to average grades that disagree
+    (META's weak $585.39–592.00 sits 0.07 ATR under a TESTED zone). So the list
+    keeps every zone and the trigger skips past the ones it would contradict.
+    """
+    for z in zones[1:]:
+        clears = ((_lo(z) > _hi(first)) if kind == 'supply'
+                  else (_hi(z) < _lo(first)))
+        if clears:
+            return z
+    return None
+
+
 def _bull(price, sup) -> str:
     if not sup:
         return "no supply within range — nothing to reclaim"
     first = sup[0]
-    tgt = f" → {_fmt(sup[1])}" if len(sup) > 1 else ""
-    return f"close above {_fmt(first)}{tgt}"
+    nxt = _next_beyond(sup, first, 'supply')
+    return f"close above {_fmt(first)}" + (f" → {_fmt(nxt)}" if nxt else "")
 
 
 def _bear(price, dem) -> str:
     if not dem:
         return "no demand within range — nothing left to lose"
     first = dem[0]
-    tgt = f" → {_fmt(dem[1])}" if len(dem) > 1 else ""
-    return f"close below {_fmt(first)}{tgt}"
+    nxt = _next_beyond(dem, first, 'demand')
+    return f"close below {_fmt(first)}" + (f" → {_fmt(nxt)}" if nxt else "")
 
 
 def _retest(price, dem, sup) -> str:
