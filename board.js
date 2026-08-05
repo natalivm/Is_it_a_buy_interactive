@@ -576,6 +576,64 @@ const BOARD = {
             retest: 'Current price is the first test of $865–900 from underneath. A rejection retests $820–835 first; acceptance above $900 sets up a retest of $875–900 from above before the next leg.',
         },
         {
+            // NEW ROW, 2026-08-04. A strong bounce off a severe monthly
+            // breakdown (July closed −41.7% from its open, per this ticker's
+            // own card history in data.js), but explicitly a recovery INTO
+            // the key $1,530–1,580 reclaim line, not through it — that
+            // distinction is why structure stays cautious rather than
+            // flipping bullish the way LITE's did. Daily softens to NEUTRAL
+            // (real fetch: RSI 47.69, still under the midline, cascade
+            // "daily crossed" but weekly "rolled" — not confirmed); weekly
+            // NEUTRAL for the same reason (RSI 53.80 but hist −75.25 still
+            // expanding); monthly stays BEARISH — the collapse itself, not a
+            // correction inside an intact uptrend, unlike MU's or LITE's.
+            // 4H NEUTRAL: recovering into resistance, unresolved.
+            //
+            // Z is 0: $1,427.62 sits in the gap between the new demand top
+            // ($1,400) and supply floor ($1,530), inside neither.
+            //
+            // atr/atrPct refetched live (tools/structure.fetch_yahoo +
+            // indicators.atr): $195.38 / 13.69% against the $1,427.62 close —
+            // not estimated.
+            //
+            // GROUPS: none. Its short does not belong in "best trend-
+            // following shorts" (monthly is the collapse itself, not an
+            // aligned bearish read across all three working frames the same
+            // way INTC's or CRWV's is) or in "bearish corrections inside
+            // larger monthly uptrends" (that group needs a bullish MONTHLY
+            // being corrected, and this monthly is bearish outright).
+            ticker: 'SNDK', seeded: true, date: '2026-08-04',
+            price: 1427.62, atr: 195.38, atrPct: 13.69,
+            structure: { m: 'bearish', w: 'neutral', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'severe downtrend, sharp bounce in progress',
+                          w: 'recovering, not yet reclaimed',
+                          d: 'strong bounce, still below the reclaim level',
+                          h4: 'recovering into resistance' },
+            preferred: '**Two-way — short preferred below $1,530–1,580**; long plan is hold $1,350–1,400, then accept above $1,580',
+            score: null, parts: null,
+            bias: '**A strong bounce off a severe monthly breakdown, but still a recovery INTO resistance, not through it.** The key reclaim line is $1,530–1,580. Short preferred below it; the long plan needs acceptance above $1,580 and a held retest, not just the current hold.',
+            h4: 'Recovering sharply off the crash low but still testing resistance from below — the $1,530–1,580 reclaim line has not been touched yet, let alone accepted.',
+            h4Effect: 'SNDK must close above $1,580 and hold the retest before the nearest supply promotes to $1,680–1,760. Failure around $1,530–1,580 combined with a loss of $1,400 opens $1,280–1,220.',
+            demand: [
+                { lo: 1350, hi: 1400, strength: 'fresh', note: 'immediate — the long-plan hold zone' },
+                { lo: 1220, hi: 1280, strength: 'tested', note: 'stronger' },
+                { lo: 1000, hi: 1060, strength: 'tested', note: 'major' },
+            ],
+            supply: [
+                { lo: 1530, hi: 1580, strength: 'tested', note: 'immediate — the key prior breakdown/reclaim line' },
+                { lo: 1680, hi: 1760, strength: 'fresh', note: 'secondary' },
+                { lo: 1900, hi: 2000, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Recovering sharply off the crash low, holding $1,350–1,400, but still below the $1,530–1,580 reclaim line that decides whether this is a base or just a bounce',
+            bull: 'Break and accept above $1,530–1,580, hold the retest → $1,680–1,760, then $1,900–2,000',
+            longSetup: 'Hold $1,350–1,400, then break and accept above $1,580 → $1,680–1,760.',
+            longCandidate: 'Needs the $1,580 acceptance and a held retest to be more than a bounce — holding $1,350–1,400 alone is not that confirmation.',
+            bear: 'Failure around $1,530–1,580 combined with a loss of $1,400 → $1,280–1,220, then deeper toward $1,000–1,060',
+            shortSetup: 'The cleaner short is a rejection from $1,530–1,580 confirmed by a loss of $1,400 → $1,280–1,220. A daily close below $1,060 with a failed reclaim opens the major zone below.',
+            retest: 'The $1,530–1,580 reclaim line is the level that decides this, not yet tested. A rejection there with a loss of $1,400 retests $1,280–1,220 first.',
+        },
+        {
             // The board's SECOND inverted row — monthly and weekly down, daily
             // and 4H up — and the pair with NOW is the clearest argument for
             // why order_key sorts on the row's own verdict instead of
@@ -753,6 +811,62 @@ const BOARD = {
             bear: 'Reject **$400–420**, or close below **$355** → **$340–320**; below $320 → approximately **$300**',
             longCandidate: 'Long after **$355–365** holds and **$405–420** is reclaimed.',
             retest: 'Breakdown may retest **$355–380** from underneath',
+        },
+        {
+            // RE-DRAWN 2026-08-04, one tier higher, matching LITE/PLTR the
+            // same night: bullish displacement reclaimed the old $830–875
+            // resistance as a support-flip zone, and price is now pressing
+            // up into $920–960 — prior daily lower highs and July congestion
+            // — without having cleared it. Overnight ~$910 does not
+            // invalidate that zone; it needs a regular-session test.
+            //
+            // Daily and 4H soften bearish → NEUTRAL rather than flip to
+            // bullish outright: daily RSI is still recovering (per the real
+            // fetch, 48.76, under the midline) and the read itself calls a
+            // rejection below $920 "a relief rally", i.e. the DEFAULT case
+            // absent confirmation is still not a reversal. That is a more
+            // cautious picture than LITE's two full sessions clearing every
+            // mapped zone, so this gets the more conservative structure call.
+            // Weekly stays bearish (unaddressed by the redraw) and monthly
+            // stays bullish (uptrend intact, correcting — unchanged).
+            //
+            // Z is 0, not −1: $892.67 sits in the gap between the new demand
+            // top ($875) and supply floor ($920), inside neither — the old
+            // −1 was earned when price sat inside the OLD $890–940 zone,
+            // which no longer applies now that the zone map moved.
+            //
+            // atr/atrPct: refetched live (tools/structure.fetch_yahoo +
+            // indicators.atr), not estimated — $87.69 / 9.82% against the
+            // $892.67 close, replacing the stale $90.54/11.00% pair.
+            ticker: 'MU', seeded: true, date: '2026-08-04',
+            price: 892.67, atr: 87.69, atrPct: 9.82,
+            structure: { m: 'bullish', w: 'bearish', d: 'neutral', h4: 'neutral',
+                         h4Note: 'read from charts' },
+            trendProse: { m: 'powerful uptrend, correcting',
+                          w: 'bearish correction, LH/LL',
+                          d: 'recovering, not yet confirmed',
+                          h4: 'pressing into $920–960 resistance' },
+            preferred: '**Two-way — short preferred while under $920–960**; long plan is hold $850–875, then reclaim $920',
+            score: null, parts: null,
+            bias: '**A recovering correction inside a powerful monthly uptrend, not yet a confirmed reversal.** The old $830–875 resistance is reclaimed as a support-flip zone; the live test is $920–960. Short preferred while under it — the explicit long plan needs the reclaim to hold, not just the push.',
+            h4: 'Pressing up toward the $920–960 supply — prior daily lower highs and July congestion. Overnight ≈$910 does not invalidate the zone; it needs a regular-session test to resolve.',
+            demand: [
+                { lo: 850, hi: 875, strength: 'fresh', note: 'immediate — reclaimed prior resistance, now a support-flip zone' },
+                { lo: 805, hi: 830, strength: 'tested', note: 'stronger — breakout support' },
+                { lo: 760, hi: 780, strength: 'tested', note: 'major' },
+            ],
+            supply: [
+                { lo: 920, hi: 960, strength: 'tested', note: 'immediate — prior daily lower highs + July congestion' },
+                { lo: 1000, hi: 1040, strength: 'tested', note: 'secondary' },
+                { lo: 1120, hi: 1220, strength: 'fresh', note: 'major' },
+            ],
+            position: 'Reclaimed the old $830–875 resistance as a support-flip zone on bullish displacement, now pressing into the $920–960 supply from below — untested on the regular session',
+            bull: 'Reclaim $920, hold it, then acceptance above $950–960 → $1,000–1,040, then $1,120–1,220',
+            longSetup: 'Hold $850–875, then reclaim $920 → $950–960, followed by $1,000–1,040. Regular-session acceptance above $950–960 promotes $1,000–1,040 to nearest supply.',
+            longCandidate: 'The stronger read now: bullish displacement reclaimed $830–875 as support. Still needs the $920 reclaim to hold — the push into it alone is not that confirmation.',
+            bear: 'Pushes above $920, then closes back below $875–885 (trap) → retest $830–850; a rejection below $920 alone keeps this a relief rally, not a fresh short signal',
+            shortSetup: 'The cleaner short is a rejection from $920–960, confirmed by a close back below $875–885 → $830–850, then $805–830. A daily close below $780 with a failed reclaim opens deeper toward $760–780 and below.',
+            retest: 'Current price is testing up toward $920–960 from below. A trap (push above $920, close back under $875–885) retests $830–850; acceptance above $960 opens a retest of $920–960 from above before the next leg',
         },
         {
             // Structure read from the QCOM analysis supplied 2026-08-04.
@@ -1084,46 +1198,6 @@ const BOARD = {
             bear: 'Bounce into **$193–201** and reject → **$170–160**, then **$155–143**',
             shortSetup: 'Wait for a rebound toward **$193–201** and assess whether sellers return; reject → $170–160, then $155–143. A daily close below **$160** with a failed reclaim → $155–143, then **$140–125**.',
             retest: 'An upside rebound may retest **$193–201**; a breakdown below $160 may retest **$160–170** from underneath',
-        },
-        {
-            // Monthly is BULLISH, unlike MRVL's neutral, and the difference is
-            // in the words: MRVL's parabolic phase is "broken … transition",
-            // MU's is "correcting" while the read states outright that MU
-            // "remains in a powerful monthly uptrend". A distribution candle
-            // inside an intact uptrend is a correction, not a regime change.
-            // Weekly, daily and 4H are bearish as written.
-            //
-            // ATR pair implies $823.09 against the card's $823.03 — 0.006%,
-            // the closest reconciliation on the board.
-            ticker: 'MU', seeded: true, date: '2026-08-02',
-            price: 823.09, atr: 90.54, atrPct: 11.00,
-            structure: { m: 'bullish', w: 'bearish', d: 'bearish', h4: 'bearish',
-                         h4Note: 'read from charts' },
-            trendProse: { m: 'powerful uptrend, correcting',
-                          w: 'bearish correction, LH/LL',
-                          d: 'downtrend below 9/50 EMA',
-                          h4: 'bearish range below all EMAs' },
-            preferred: '**Short preferred**, not near demand',
-            score: null, parts: null,
-            bias: '**A correction inside a powerful monthly uptrend.** Do not chase near $730–760. ⚠ ATR **11.00%** — size down hard.',
-            h4: 'Bearish range below all EMAs — the rebound **failed** and momentum is rolling over.',
-            demand: [
-                { lo: 730, hi: 760, strength: 'tested', note: 'immediate' },
-                { lo: 640, hi: 680, strength: 'tested', note: 'secondary' },
-                { lo: 590, hi: 610, strength: 'fresh', note: 'major lower demand' },
-            ],
-            supply: [
-                { lo: 890, hi: 940, strength: 'tested', note: 'immediate' },
-                { lo: 1000, hi: 1050, strength: 'tested', note: 'main' },
-                { lo: 1150, hi: 1250, strength: 'fresh', note: 'major' },
-            ],
-            position: 'Below the failed **$890–940** average and supply cluster, nearer immediate demand than major supply',
-            bull: 'Reclaim **$890–940** → **$1,000–1,050**',
-            longSetup: 'Hold **$730–760**, form a 4H higher low, reclaim **$890–940** → **$1,000–1,050**. A stronger bullish reversal requires acceptance above **$1,050**.',
-            longCandidate: 'Countertrend until MU holds **$730–760**, forms a higher low and reclaims at least **$890–940**.',
-            bear: 'Bounce into **$890–940** and reject → **$760–730**',
-            shortSetup: 'The cleaner short is a weak rebound into **$890–940** followed by rejection → $760–730. A daily close below **$730** with a failed reclaim opens **$680–640**, then **$610–590**.',
-            retest: 'An upside rebound may retest **$890–940**; a breakdown below $730 may retest **$730–760** from underneath',
         },
         {
             // All four frames bearish — the first row on the board with no
