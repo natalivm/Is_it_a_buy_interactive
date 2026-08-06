@@ -695,6 +695,15 @@ def audit_card(stock: dict, close: float | None,
     # status should be 'wait', i.e. told to wait for an entry it already has.
     held = bool(re.search(r"\bfilled\b", str(lead.get("entry", "")), re.I))
 
+    # A CLOSED trade goes one further than a held one: every plan-geometry
+    # question — stop placement, R:R, Rule B, stop-breached — is about a plan,
+    # and there is no plan anymore, only a ledger entry. The strip scores it at
+    # `closed` and that arithmetic is the only thing left to be wrong about.
+    # Without this, booking SNDK's short (filled $1,400 → closed $1,350.50)
+    # flagged its own historical stop as "not above the entry zone" — true,
+    # meaningless, and noise in front of real findings.
+    done = lead.get("closed") is not None or lead.get("status") == "booked"
+
     # 2. a short's zone has to sit ABOVE price or there is nothing to reject
     #    from. The test is strict — zone floor at or BELOW price. An earlier
     #    2% buffer flagged zones sitting legitimately just overhead (GLW at
@@ -739,7 +748,7 @@ def audit_card(stock: dict, close: float | None,
     #     A tighter stop is ALLOWED if the card states the trade-off outright,
     #     the way GLW's does, so a card that quotes its own ATR arithmetic is
     #     taken at its word rather than nagged every run.
-    if entry and stop and atr and not held:
+    if entry and stop and atr and not held and not done:
         mid = (min(entry) + max(entry)) / 2
         units = abs(stop[0] - mid) / atr
         argued = re.search(r"\bATR\b", str(lead.get("edge") or ""), re.I)
@@ -750,7 +759,7 @@ def audit_card(stock: dict, close: float | None,
                        f"ATR-proof alternative on the card the way GLW's does")
 
     # 4. stop breached on the close?
-    if stop and close is not None:
+    if stop and close is not None and not done:
         s = stop[0]
         if side == "long" and close < s:
             out.append(f"{sym}: ⛔ STOP BROKEN — close {close:g} under {s:g}")
@@ -787,7 +796,7 @@ def audit_card(stock: dict, close: float | None,
     #    A zone edge quoted as the invalidation line ('dead >$102 close' on a
     #    $96–102 zone) is the normal shape and passes; a level STRICTLY inside
     #    the zone does not — it invalidates part of its own entry.
-    if entry and stop:
+    if entry and stop and not done:
         lo, hi = min(entry), max(entry)
         if side == "short" and stop[0] <= hi:
             out.append(f"{sym}: ⚠️ stop {stop[0]:g} is not above the entry zone "
@@ -803,7 +812,7 @@ def audit_card(stock: dict, close: float | None,
 
     # 7. `rr` vs |deepest target − midpoint| ÷ |stop − midpoint|, the definition
     #    the board quotes it by. Only the first number in `stop` is the stop.
-    if entry and targets and stop and lead.get("rr"):
+    if entry and targets and stop and lead.get("rr") and not done:
         mid = (min(entry) + max(entry)) / 2
         risk = abs(stop[0] - mid)
         stated = nums(lead["rr"])

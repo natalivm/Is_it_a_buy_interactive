@@ -478,6 +478,20 @@ check("a fade whose whole zone is behind price still fires",
 check("a plain short is still tested at the zone floor",
       len(_zone_status_findings('short the $88–97 band', 89.89, 'live')), 1)
 
+# A CLOSED trade is a ledger entry, not a plan — stop placement, R:R and Rule B
+# describe a plan that no longer exists. Booking SNDK (filled $1,400, closed
+# $1,350.50, old stop $1,360 now "inside" the entry) must not flag.
+check("a closed trade's historical stop/rr are not linted",
+      [f for f in refresh.audit_card(
+          {'symbol': 'TEST', 'side': 'short', 'exchange': 'NASDAQ',
+           'date': '2026-08-06', 'price': '$1,228.46', 'story': 'stories/crwv.html',
+           'lead': {'rank': 18, 'status': 'booked', 'entry': 'filled $1,400',
+                    'closed': '$1,350.50', 'stop': '$1,360 (dead >$1,346 close)',
+                    'targets': '$1,187 → $1,050 → $1,000', 'rr': '~7:1'}},
+          1228.46, 188.0)
+       if 'entry zone' in f or "rr '" in f
+       or 'ATR from the entry' in f or 'STOP BROKEN' in f], [])
+
 # ── card audit: signal/edge accretion ───────────────────────────────────────
 # `signal` is the tile's CURRENT read and a refresh REPLACES it; git is the
 # archive. Two dated close blocks in one field is the fingerprint of the
