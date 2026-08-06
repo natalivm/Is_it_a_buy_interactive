@@ -370,6 +370,85 @@ def audit_fields(stock: dict) -> list[str]:
         if deck_px and ah and abs(deck_px - ah[0]) < 0.005 and abs(deck_px - card_px) > 0.005:
             out.append(f"{sym}: deck ladder's ТУТ {deck_px:g} is the after-hours print, "
                        f"not the {frame} {card_px:g}")
+    out += audit_ladder(stock, story)
+    return out
+
+
+# Rung kinds. `key` is deliberately side-agnostic — it marks a level that
+# matters whichever side of price it is on — so only res/sup carry a role claim
+# the price can contradict.
+ROLE_SIDE = {"res": "above", "sup": "below"}
+
+
+def rung_bounds(px: str) -> tuple[float, float] | None:
+    """A rung's price band. '$86–89' is a band, '$1,251.12' is one price."""
+    ns = nums(px)
+    return (min(ns), max(ns)) if ns else None
+
+
+def audit_ladder(stock: dict, story: Path) -> list[str]:
+    """The ladder around the ТУТ rung, which nothing else checks.
+
+    `--fix-rungs` re-cuts the ТУТ rung and ONLY that rung, by design — it will
+    not guess at an indicator reading it cannot recompute. So every refresh
+    moves the "you are here" line and leaves its neighbours where the last
+    session put them, and the drift is invisible: a rung whose caption reads
+    '+3.6% above' while price is 11% above it looks like ordinary copy.
+
+    Two things are decidable from the deck's own numbers, and neither is a read:
+
+    1. ORDER. The ladder is a top-down price map, so a rung may not sit above
+       the one printed before it. Overlapping bands pass — with '$98–102' over
+       '$96.38' there is no wrong answer — only a band whose top clears the top
+       above it is out of place.
+    2. ROLE. A `res` rung entirely BELOW the ТУТ price is not resistance, and a
+       `sup` entirely above it is not support. AXON carried 'res $546.51 ·
+       ПЕРШИЙ тест, +3.6%' against a $609.49 price it was 11% under; CRWV still
+       lists 'res $88 · повна негація шорту' and 'res $81 · 🚨 Стоп' beneath an
+       $89.89 price, from the plan before its zone was re-drawn.
+
+    Both are reported, never fixed: flipping a rung's role or re-pricing its
+    caption is a read of what the level now means, which is the analyst's.
+    """
+    sym, out = stock["symbol"], []
+    text = story.read_text(encoding="utf-8")
+    for block in re.finditer(r"data-rungs='(\[[\s\S]*?\])'", text):
+        try:
+            rungs = json.loads(block.group(1))
+        except (json.JSONDecodeError, TypeError) as e:
+            out.append(f"{sym}: ladder JSON in {stock.get('story')} does not parse "
+                       f"({e}) — engine.js hydrates this at load, so the slide "
+                       f"renders empty")
+            continue
+        parsed = [(r[0], r[1], rung_bounds(r[1])) for r in rungs
+                  if isinstance(r, list) and len(r) >= 2]
+        here = next((b for kind, _, b in parsed if kind == "now" and b), None)
+
+        prev_hi, wrong_order = None, []
+        for _, px, b in parsed:
+            if not b:
+                continue
+            if prev_hi is not None and b[1] > prev_hi:
+                wrong_order.append(px)
+            prev_hi = b[1]
+        if wrong_order:
+            out.append(f"{sym}: ladder is not in top-down price order — "
+                       f"{', '.join(wrong_order)} sits above the rung printed "
+                       f"before it")
+
+        if not here:
+            continue
+        for kind, px, b in parsed:
+            want = ROLE_SIDE.get(kind)
+            if not want or not b:
+                continue
+            if want == "above" and b[1] < here[0]:
+                out.append(f"{sym}: rung {px} is tagged `res` but sits BELOW the "
+                           f"ТУТ price {here[0]:g} — it is support now, and its "
+                           f"caption was measured from the other side")
+            if want == "below" and b[0] > here[1]:
+                out.append(f"{sym}: rung {px} is tagged `sup` but sits ABOVE the "
+                           f"ТУТ price {here[1]:g} — it is resistance now")
     return out
 
 

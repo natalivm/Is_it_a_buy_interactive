@@ -19,6 +19,8 @@ nothing except the fixture.
 from __future__ import annotations
 
 import datetime as dt
+import json
+import pathlib
 import random
 import sys
 from pathlib import Path
@@ -474,6 +476,54 @@ check("a fade whose whole zone is behind price still fires",
       len(_zone_status_findings('fade the rejection in $70–75', 90.0, 'live')), 2)
 check("a plain short is still tested at the zone floor",
       len(_zone_status_findings('short the $88–97 band', 89.89, 'live')), 1)
+
+# ── card audit: the ladder around the ТУТ rung ──────────────────────────────
+# --fix-rungs re-cuts the ТУТ rung and only that rung, so its neighbours drift
+# every time a card refreshes. Two things are decidable from the deck's own
+# numbers: the ladder is a top-down price map, and a res/sup tag is a claim
+# about which side of price the level is on.
+print("\nCard audit — the ladder around the ТУТ rung")
+
+
+def _write_bad(tmp=pathlib.Path('/tmp/ib-ladder-bad.html')):
+    tmp.write_text("<div class='ladder' data-rungs='[[\"res\", oops]]'></div>", 'utf-8')
+    return tmp
+
+
+def _ladder(rungs, tmp=pathlib.Path('/tmp/ib-ladder-test.html')):
+    tmp.write_text("<div class='ladder' data-rungs='"
+                   + json.dumps(rungs, ensure_ascii=False) + "'></div>", 'utf-8')
+    return refresh.audit_ladder({'symbol': 'TEST', 'story': str(tmp)}, tmp)
+
+
+check("a ladder in price order with honest tags is silent",
+      _ladder([["res", "$120", "cap"], ["now", "$100", "ТУТ"],
+               ["sup", "$90", "floor"]]), [])
+check("a res rung under the ТУТ price is caught",
+      len([f for f in _ladder([["res", "$90", "stale cap"], ["now", "$100", "ТУТ"]])
+           if 'tagged `res`' in f]), 1)
+check("a sup rung over the ТУТ price is caught",
+      len([f for f in _ladder([["now", "$100", "ТУТ"], ["sup", "$110", "stale floor"]])
+           if 'tagged `sup`' in f]), 1)
+check("a rung printed above a higher one is out of order",
+      len([f for f in _ladder([["res", "$90", "a"], ["res", "$120", "b"],
+                               ["now", "$100", "ТУТ"]])
+           if 'price order' in f]), 1)
+# A level INSIDE the band above it ('$99' under '$98–102') is ordered either
+# way, and flagging it would make the check noise rather than a finding.
+check("a level inside the band above it is not out of order",
+      [f for f in _ladder([["res", "$98–102", "band"], ["res", "$99", "inside it"],
+                           ["now", "$95", "ТУТ"]]) if 'price order' in f], [])
+check("`key` carries no side claim, so it is never role-checked",
+      [f for f in _ladder([["key", "$90", "either side"], ["now", "$100", "ТУТ"]])
+       if 'tagged' in f], [])
+check("a ladder with no ТУТ rung is still order-checked",
+      len([f for f in _ladder([["res", "$90", "a"], ["res", "$120", "b"]])
+           if 'price order' in f]), 1)
+check("unparseable ladder JSON is a finding, not a crash",
+      len([f for f in refresh.audit_ladder(
+          {'symbol': 'TEST', 'story': '/tmp/ib-ladder-bad.html'},
+          _write_bad()) if 'does not parse' in f]), 1)
 
 # ── flow signing ────────────────────────────────────────────────────────────
 print("\nOrder flow — signing")

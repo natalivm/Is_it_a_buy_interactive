@@ -54,7 +54,13 @@ ticker list, a source, and a flag for whether to touch the PR.
    - stop breached on the close
    - `status` disagreeing with where price actually is
    - a **short whose zone is not above price** (a fade with no resistance under
-     it — the flaw that was found by hand on COHR)
+     it — the flaw that was found by hand on COHR). A **rejection-only** entry
+     is tested at the zone's TOP instead: it is meant to be taken INSIDE the
+     zone, so price arriving is the setup, and what voids it is price accepting
+     through the whole band. Same reason such an entry is exempt from the
+     `status` check's "inside the zone → live" reading — INTC sits inside
+     $96–102 with its $89 confirmation unprinted, which is `wait` by its own
+     rule, while CRWV flipped `live` when the reversal candle closed near its low
    - a dip-buy long whose zone sits above price (chasing); entries phrased as
      acceptance *over* a level are exempt, since those are meant to sit above
    - **a `filled` entry is exempt from the zone-vs-price and `status` checks**
@@ -68,6 +74,16 @@ ticker list, a source, and a flag for whether to touch the PR.
    - card price drifting from the real close — an automatic staleness detector
    - an `entry` string mixing scales, which would make `planProgress()` average
      unrelated numbers (this bit once: `"1H close"` parsed `1` as a price)
+   - **the deck ladder around the ТУТ rung**, which nothing else looked at.
+     `--fix-rungs` re-cuts that rung and only that rung, so each refresh moves
+     the "you are here" line and leaves its neighbours where the last session
+     put them. Two things are decidable from the deck's own numbers: the ladder
+     is a top-down price map, so a rung may not sit above the one printed before
+     it (a level *inside* the band above it is fine — overlaps are ordered
+     either way); and a `res` rung entirely below the ТУТ price is not
+     resistance, nor a `sup` above it support. `key` carries no side claim and
+     is never role-checked. Both are reported, never fixed — flipping a rung's
+     role or re-pricing its caption is a read of what the level now means
 
 ## What it deliberately does not do
 
