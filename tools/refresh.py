@@ -349,6 +349,15 @@ def audit_fields(stock: dict) -> list[str]:
         out.append(f"{sym}: signal carries {len(dated)} dated session blocks "
                    f"({len(sig):,} chars) — it is the CURRENT read; a refresh "
                    f"REPLACES it, and the old text lives in git")
+    # …and the current read itself has a budget. Even single-session blocks had
+    # grown to 4.7k characters of OHLC detail and indicator laundry lists — the
+    # tile renders this field raw, as one <p>, so the budget is the difference
+    # between a card and an essay. The stance, the decisive levels, the plan and
+    # the falsifier all fit; the evidence belongs in the deck.
+    elif len(sig) > 700:
+        out.append(f"{sym}: signal is {len(sig):,} chars, over its ~700 budget "
+                   f"— it is a stance, not a session log; the evidence belongs "
+                   f"in the deck")
     edge = str((stock.get("lead") or {}).get("edge") or "")
     if " || " in edge:
         out.append(f"{sym}: edge carries '||'-separated history "

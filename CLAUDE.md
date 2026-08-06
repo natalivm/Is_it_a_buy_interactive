@@ -296,7 +296,11 @@ archive — every prior state of every signal is a commit — so nothing needs
 carrying forward in the field. One dated `📅 CLOSE dd/mm` block (plus a 🌙
 AH/intraday lead-in from the same session) is a current read; a second dated
 block is a journal, and the audit flags it. Same rule for `lead.edge`:
-no `||`-separated history. Tile glow colours
+no `||`-separated history. The current read itself has a budget — **under
+~700 characters**, audit-checked — because the tile renders `signal` raw as
+one `<p>`, and even single-session blocks had grown to 4.7k characters of
+OHLC detail and indicator lists. The stance, the decisive levels, the plan
+and the falsifier fit in 700; the evidence belongs in the deck. Tile glow colours
 are auto-varied across the grid, so `accent` is optional.
 
 `date` (ISO `YYYY-MM-DD`) is the tile's "Опубліковано" label **and** the

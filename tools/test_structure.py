@@ -505,6 +505,17 @@ check("'||' history in edge is flagged",
       len(_accrete('📅 CLOSE 08/05 — held.', 'current read || ⛔ old cycle')), 1)
 check("an edge without history passes",
       _accrete('📅 CLOSE 08/05 — held.', 'clean current read'), [])
+check("a single-session essay over ~700 chars is flagged",
+      len([f for f in refresh.audit_fields(
+          {'symbol': 'TEST', 'exchange': 'NASDAQ', 'date': '2026-08-05',
+           'story': 'stories/crwv.html',
+           'signal': '📅 CLOSE 08/05 — ' + 'x' * 700})
+          if 'budget' in f]), 1)
+check("a 700-char stance passes",
+      [f for f in refresh.audit_fields(
+          {'symbol': 'TEST', 'exchange': 'NASDAQ', 'date': '2026-08-05',
+           'story': 'stories/crwv.html',
+           'signal': '📅 CLOSE 08/05 — held.'}) if 'budget' in f], [])
 
 # ── card audit: the ladder around the ТУТ rung ──────────────────────────────
 # --fix-rungs re-cuts the ТУТ rung and only that rung, so its neighbours drift
