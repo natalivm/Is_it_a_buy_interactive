@@ -725,11 +725,11 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$519.17', change: '📅 CLOSE $519.17 (−5.36%) — then 🌙 EARNINGS AH $466.99 (−10.05%, 5:05pm ET) — NOT a close, but it sits 6.8% BELOW the $501.27 stop and 9.4% under the $515–530 fill zone · ⚠️ STOP THREATENED, not yet breached on a close',
-    signal: '📅 CLOSE 08/05 + 🌙 AH EARNINGS — ⚠️ THE STOP IS THREATENED, AND THE REASON IS GUIDANCE-PROOF SELLING: closed $519.17 (−5.36%), then beat on EPS and revenue with above-consensus guidance — and sold anyway to $466.99 after hours (−10.05%), 6.8% BELOW the $501.27 close-basis stop and 9.4% under the $515–530 zone this long was filled from at $527. An after-hours quote is not a close: whether the stop is actually violated is UNKNOWN until the next real print. A threat to flag loudly, not a breach to record — nothing on the ledger changes until that close.',
-    lead: { rank: 12, status: 'live', entry: 'filled $527', stop: '$501.27 (close)', targets: '$560 → $585 → $613', rr: '~4:1', edge: '⚠️ STOP THREATENED BY EARNINGS AH, NOT YET BREACHED: closed $519.17 (−5.36%), then beat on EPS/revenue and guided ABOVE consensus, and sold off anyway to $466.99 after hours (−10.05%, 5:05pm ET) — 6.8% below the $501.27 stop and 9.4% under the $527 fill. An AH quote is not a close, so the stop is unconfirmed until the next real print, but a position that was +4.05% at today’s close is one bad close away from a loss under the fill.' },
+    price: '$445.54', change: '🕐 PM 08/06 5:55 ET $445.54 (−14.18%) — gapped THROUGH the $501.27 close-basis stop (−11.1%) and 15.5% under the $527 fill · last real close $519.17 (−5.36%)',
+    signal: '🕐 PM 08/06 5:55 ET — THE GAP GOES THROUGH THE STOP; THE DECISION IS AT THE OPEN. $445.54 (−14.18% from the $519.17 close), extending the earnings AH $466.99 another −4.6% — now 11.1% BELOW the $501.27 close-basis stop and 15.5% under the $527 fill. Nothing is recorded yet — the stop is written on a close — but the choice at the open is stark: book the gap, or hold a broken stop into a possible 4H bounce (RSI 27.82, price 6.2% under the lower band $474.79 — maximum extension) and exit into it. What this is NOT is a live plan: the level the risk was sized on no longer exists. Earnings beat, guidance above consensus, sold anyway, twice — the selling is the message.',
+    lead: { rank: 12, status: 'live', entry: 'filled $527', stop: '$501.27 (close)', targets: '$560 → $585 → $613', rr: '~4:1', edge: '⛔ GAPPED THROUGH THE STOP PRE-MARKET: $445.54 (−14.18%) sits 11.1% below the $501.27 close-basis stop and 15.5% under the $527 fill. Nothing recorded until a real print, but the plan as sized is over — the decision at the open is book it, or exit into the first 4H bounce (RSI 27.82, 6.2% under the band).' },
     side: 'long',
-    date: '2026-08-05', alert: true,
+    date: '2026-08-06', alert: true,
     story: 'stories/wdc.html',
   },
   {
@@ -770,11 +770,11 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,263.86', change: '🌙 AH $1,263.86 (−6.42% from the close, per live quote) on EARNINGS — NOT a close: BELOW the entire $1,287–1,346 zone · would have FILLED on the way down (high $1,441.76 → reversal → AH through the band) · stop $1,360 is a CLOSE-basis stop and today’s actual close $1,350.50 never touched it, so NOT stopped out even though the intraday high cleared it by 6%',
-    signal: '🌙 AH ON EARNINGS — A ROUND TRIP THROUGH THE WHOLE ZONE: the session ran a new high $1,441.76, reversed, closed $1,350.50 (−5.40%); the AH print $1,263.86 then cut clean through $1,287–1,346 and out the bottom. Would it have filled — yes, a resting short in the zone fills, most likely on the AH leg. Stopped out — no: the $1,360 stop is written on a CLOSE and the close was $1,350.50, under it; an intraday spike does not trigger a close-basis stop. ⚠️ Flagged, not decided: this zone was declared dead on 08-04, and a rejection from a materially higher level arguably revives it — reusing the band versus drawing a fresh anchored one is the next refresh’s call. Earnings beat, guidance mixed.',
-    lead: { rank: 18, status: 'wait', entry: 'fade the rejection in $1,287–1,346', stop: '$1,360 (dead >$1,346 close)', targets: '$1,187 → $1,050 → $1,000', rr: '~7:1', edge: '⛔ STILL DEAD, MARGIN THIN AGAIN: closed $1,350.50 (−5.40%), low $1,345.00 ticked a dollar under the $1,346 dead-line before the close recovered $4.50 back above it — the 08-04 dead call stands, unfilled, zero realised. 🌙 Then earnings AH ~−3% on a beat with mixed guidance; if that holds into the next close, price falls back under $1,346 and whether that revives this thesis or needs a fresh setup is a judgement call for the next refresh, not decided here.' },
+    price: '$1,228.46', change: '🕐 PM 08/06 5:57 ET $1,228.46 (−9.04%) — below the entire $1,287–1,346 zone · last real close $1,350.50 (−5.40%)',
+    signal: '🕐 PM 08/06 5:57 ET — THE ROUND TRIP KEEPS GOING, WITHOUT THE BOARD ON IT. $1,228.46 (−9.04% from the $1,350.50 close) extends the earnings slide below the ENTIRE $1,287–1,346 zone — the floor is 4.8% overhead, and T1 $1,187 sits just 3.4% below. The ledger is unchanged: the short was declared dead on 08-04 and never filled, so the move is FORGONE — zero realised, recorded in prose the way the gated T1s were. Whether a rejection from a materially higher level revives the thesis is the next full refresh’s call, and Rule A wants a fresh anchored zone, not the spent band reused. 4H (pills only — the legend failed the crosshair check): RSI 41.72, under the mid-band $1,319.64.',
+    lead: { rank: 18, status: 'wait', entry: 'fade the rejection in $1,287–1,346', stop: '$1,360 (dead >$1,346 close)', targets: '$1,187 → $1,050 → $1,000', rr: '~7:1', edge: '⛔ DEAD, UNFILLED, AND THE MOVE IT MAPPED IS PLAYING OUT WITHOUT IT: PM $1,228.46 (−9.04%) is below the whole $1,287–1,346 zone with T1 $1,187 only 3.4% away — forgone, zero realised. A revival needs a fresh anchored zone at the next refresh, not the spent band.' },
     side: 'short', accent: 'red',
-    date: '2026-08-05', alert: true,
+    date: '2026-08-06', alert: true,
     story: 'stories/sndk.html',
   },
   {
