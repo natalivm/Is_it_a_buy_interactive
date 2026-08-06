@@ -69,7 +69,8 @@ def run(cmd: list[str], **kw) -> str:
 
 
 def main() -> int:
-    rows = json.loads(run(['node', 'tools/dump_structure.js'])).get('rows') or []
+    rows = json.loads(
+        run(['node', 'tools/dump.js', 'board.js', 'BOARD'])).get('rows') or []
     if not rows:
         print('board.js has no rows', file=sys.stderr)
         return 1
@@ -101,6 +102,30 @@ def main() -> int:
     if fails:
         print('\n\n'.join(fails), file=sys.stderr)
         return 1
+
+    # 3 — REPORTED, NOT GATED: a row whose hand-written `preferred` points the
+    # opposite way to its own computed score.
+    #
+    # `lean()` resolves this silently — `preferred` wins, by design, because it
+    # is the analyst's verdict and the score is arithmetic. That is the right
+    # precedence and the wrong silence: the row then renders "Short preferred"
+    # over a bullish bias, and nothing says so. It cannot be a failure either,
+    # since which side gives way is a trading decision, so it prints and the
+    # exit code stays 0.
+    clash = []
+    for r in rows:
+        s = r.get('score')
+        if not isinstance(s, (int, float)) or not s:
+            continue
+        side = 'long' if s > 0 else 'short'
+        if structure.lean(r) != side:
+            clash.append(f"  {r['ticker']:6} {r.get('bias', '?'):<17} "
+                         f"score {s:+.2f} → {side}, but `preferred` says "
+                         f"{structure.lean(r)}: {(r.get('preferred') or '')[:52]}")
+    if clash:
+        print(f'note — {len(clash)} row(s) whose preferred contradicts their own '
+              f'score (analyst decision, not gated):')
+        print('\n'.join(clash))
 
     blocks: dict[str, int] = {}
     for r in rows:

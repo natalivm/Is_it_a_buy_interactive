@@ -210,9 +210,11 @@ it ragged. So `price`, `atr`, `atrPct`, `preferred` and `bias` are REQUIRED on
 every row — the CI board guard fails a row missing any of them rather than
 letting the cell render short.
 
-Same shape is not the same as same size, so the two prose fields have budgets:
-`preferred` **under ~45 characters** (1–2 lines) and `bias` **under ~115** (2–4
-lines). They had drifted to 238 and 448 — a cell twelve times the height of
+Same shape is not the same as same size, so the two prose fields have budgets —
+**CI-enforced now**, at the documented number rather than at some tolerance
+above it, because "~45 with a fudge factor" is a budget nobody can be wrong
+about. `preferred` **under ~45 characters** (1–2 lines) and `bias` **under ~115**
+(2–4 lines). They had drifted to 238 and 448 — a cell twelve times the height of
 LLY's — because later rows restated levels the Bullish/Bearish trigger columns
 already carry. State the verdict here; the levels belong in the setup fields,
 and anything else in a row comment. Price and the ATR pair render at **exactly

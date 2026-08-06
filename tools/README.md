@@ -9,7 +9,8 @@ and do the arithmetic here.
 ## Usage
 
 ```bash
-node tools/dump_board.js > /tmp/board.json   # data.js as JSON (sanity check)
+node tools/dump.js data.js MARKET STOCKS ARTICLES > /tmp/board.json  # sanity check
+node tools/dump.js board.js BOARD > /tmp/structure.json             # the structure board
 
 python3 tools/refresh.py                     # every ticker on the board
 python3 tools/refresh.py MU SNDK WDC         # a few
@@ -74,6 +75,25 @@ ticker list, a source, and a flag for whether to touch the PR.
    - card price drifting from the real close — an automatic staleness detector
    - an `entry` string mixing scales, which would make `planProgress()` average
      unrelated numbers (this bit once: `"1H close"` parsed `1` as a price)
+   - **RULE B — the stop at least 1 ATR from the entry midpoint**, the rule
+     CLAUDE.md states along with four of six ranked plans failing it. Needs a
+     full run: with no bars there is no ATR, and the check is skipped rather
+     than guessed. It is an ENTRY filter, so a `filled` plan is exempt — read
+     literally it would tell you to widen the stop on a winning trade — and a
+     card that argues its own ATR trade-off (the way GLW's does) is taken at
+     its word instead of nagged every run
+   - **the trend meter** (`MARKET`): the note against its ~550 budget, which
+     blew past 1,900 twice in one day; `updated` missing, malformed, in the
+     future, or behind the newest card; a check whose `verdict` is not one of
+     `bull|bear|neutral`, which `trendScore()` would score 0 silently; a
+     non-numeric `weight`; and a `vol` gauge whose `range` is not
+     `[calmLo, fearHi]`, leaving the mini-gauge needle no scale
+   - **the cover slide's level chart against the card.** The chart carries its
+     own ТУТ marker and nothing compared it to anything: a deck can say $89.89
+     in its ladder and $71.77 in its chart, both labelled "ТУТ". The chart is a
+     dated snapshot and is allowed to sit behind the card — what is not fine is
+     the gap going unmeasured. Reported, never fixed: re-cutting one means
+     re-drawing its geometry and re-reading its session
    - **the deck ladder around the ТУТ rung**, which nothing else looked at.
      `--fix-rungs` re-cuts that rung and only that rung, so each refresh moves
      the "you are here" line and leaves its neighbours where the last session

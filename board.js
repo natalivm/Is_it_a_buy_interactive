@@ -279,9 +279,9 @@ const BOARD = {
       "longCandidate": "The confirmed breakout long, not just a possible one — monthly, weekly and daily are all bullish now. Still not a chase: the best entry is the $575–585 hold with a 4H higher low, not the push into $620–630.",
       "longSetup": "Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.",
       "shortSetup": "Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.",
-      "preferred": "**Long preferred, now confirmed on all four frames** — do not chase directly into $620–630 supply",
-      "h4": "Confirmed higher-high/higher-low off the mid-July ≈$490 low, cleanly through the July 20–27 ≈$555–565 pullback highs to ≈$609. RSI 42.94 — not stretched, unlike the daily. OBV turning up on the same bars.",
-      "h4Effect": "This is the confirmation the row was waiting on: a 4H higher low above $605–610, now printed. All four frames align bullish for the first time. The next test is the same one the daily/weekly/monthly already face — $620–630 supply — not a fresh 4H question."
+      "preferred": "**Long preferred** — all four frames agree",
+      "h4": "Confirmed higher-high/higher-low to ≈$609. RSI 42.94 — not stretched, OBV turning up.",
+      "h4Effect": "This is the confirmation the row was waiting on: a 4H higher low above $605–610, now printed. All four frames align bullish for the first time. The next test is the same one the daily/weekly/monthly already face — $620–630 supply — not a fresh 4H question. The sequence runs off the mid-July ≈$490 low, cleanly through the July 20–27 ≈$555–565 pullback highs."
     },
     {
       "ticker": "AVGO",
@@ -522,7 +522,7 @@ const BOARD = {
       "longSetup": "**Pullback long:** hold $333–340, form a 4H higher low and reclaim **$350–359** → $376. **Breakout long:** daily close above **$376**, then a successful retest → $390–405",
       "shortSetup": "Repeated failure below **$358–376**, followed by loss of **$333**, opens $326–321; below $321 → **$318–312**",
       "preferred": "**Long preferred**, but do not chase",
-      "h4": "Breakout rejected at **$376** on a heavy wick — not acceptance. 4H RSI **72** says short-term extended."
+      "h4": "Breakout rejected at **$376** on a heavy wick. 4H RSI **72** — short-term extended."
     },
     {
       "ticker": "LLY",
@@ -640,7 +640,7 @@ const BOARD = {
       "longSetup": "Hold $1,119–1,130 and reclaim **$1,175** → $1,200–1,250",
       "shortSetup": "Short only after loss and failed reclaim of **$1,119** → $1,050",
       "preferred": "**Long preferred**",
-      "h4": "Fell **$1,225 → $1,142**, stabilising but not turning — under the whole **$1,152–1,181** band, RSI **30.52**."
+      "h4": "Fell **$1,225 → $1,142** — stabilising, not turning. Under **$1,152–1,181**, RSI **30.52**."
     },
     {
       "ticker": "MSFT",
@@ -1019,9 +1019,9 @@ const BOARD = {
       "longCandidate": "The board’s strongest long structure — weekly now confirms (reclaimed the mean, OBV turning up), not just the daily gap. Still not a chase: the best entry is a controlled $155–160 hold, a deeper $145–150 retest, or a confirmed breakout-retest above $170.",
       "longSetup": "**Momentum:** hold $155–160, form a higher low, reclaim $162–165 → $170, then $175–182. **Deeper pullback:** retest $145–150 (the gap open), hold it, reclaim $152–155 → $165–170, then $175–182. **Breakout:** daily acceptance above $170 with a successful $164–170 retest → $175–182, then $190–205.",
       "shortSetup": "**Bull-trap:** trade above $165–170, fail to hold, close back below $158–160 → $150, then $145. **Gap-failure:** daily close below $145 with a failed reclaim → $136–140, then $123–130.",
-      "preferred": "**Long preferred** — do not chase into $164.50–170",
-      "h4": "RSI ≈73, above the daily upper band near $147 — powerful but extended. Not an automatic reversal signal, but chasing the initial spike is poor risk/reward.",
-      "h4Effect": "Testing the $164.50–170 breakout-decision zone, the first resistance above the reclaimed gap. A close above $170 confirmed by a $164–170 retest opens $175–182, then $190–205. A rejection back under $158–160 raises the odds of a retest to $150, then $145. ATR(14) itself is still pre-gap and needs a genuine refresh — every zone here is measured off a stale dollar figure."
+      "preferred": "**Long preferred** — do not chase",
+      "h4": "RSI ≈73, above the daily upper band near $147 — powerful but extended.",
+      "h4Effect": "Testing the $164.50–170 breakout-decision zone, the first resistance above the reclaimed gap. A close above $170 confirmed by a $164–170 retest opens $175–182, then $190–205. A rejection back under $158–160 raises the odds of a retest to $150, then $145. ATR(14) itself is still pre-gap and needs a genuine refresh — every zone here is measured off a stale dollar figure. Not an automatic reversal signal, but chasing the initial spike is poor risk/reward."
     },
     {
       "ticker": "INTC",
@@ -1274,9 +1274,9 @@ const BOARD = {
       "longCandidate": "The stronger candidate now: two clean sessions of bullish displacement reclaimed the old supply as support. Needs one of two confirmations — a held retest or a breakout-retest — the push into $865–900 alone is not yet either.",
       "longSetup": "**Retest:** hold $820–835, reclaim → $865–900, then $930–970. **Breakout:** daily acceptance above $900, confirmed by a $875–900 retest → $930–970, then $1,000–1,070.",
       "shortSetup": "Only a confirmed rejection from **$865–900** (daily resistance $879–891 + 4H upper band ≈$899). A tag-and-fade back under ≈$850–860 raises the odds of a retest to $820–835 — do not press below there without a fresh breakdown.",
-      "preferred": "**Two-way — short only a rejection from $865–900**; tactical long on a $820–835 retest or acceptance above $900",
-      "h4": "Pressing directly into the $865–900 resistance cluster (daily resistance $879–891, 4H upper band ≈$899) — a bullish recovery testing supply, not yet accepted above it.",
-      "h4Effect": "Overnight price near $870 is inside the zone but not enough alone to call it broken. A regular-session close above $900 with a successful $875–900 retest opens $930–970, then $1,000–1,070. A close back under ≈$850–860 after tagging $870–900 is the bull-trap signature and raises the odds of a retest down to $820–835."
+      "preferred": "**Two-way — short only on a rejection**",
+      "h4": "Pressing into the $865–900 cluster — a recovery testing supply, not accepted above it.",
+      "h4Effect": "Overnight price near $870 is inside the zone but not enough alone to call it broken. A regular-session close above $900 with a successful $875–900 retest opens $930–970, then $1,000–1,070. A close back under ≈$850–860 after tagging $870–900 is the bull-trap signature and raises the odds of a retest down to $820–835. The cluster is daily resistance $879–891 plus the 4H upper band ≈$899."
     },
     {
       "ticker": "MU",
@@ -1398,8 +1398,9 @@ const BOARD = {
       "longCandidate": "The stronger read now: bullish displacement reclaimed $830–875 as support. Still needs the $920 reclaim to hold — the push into it alone is not that confirmation.",
       "longSetup": "Hold $850–875, then reclaim $920 → $950–960, followed by $1,000–1,040. Regular-session acceptance above $950–960 promotes $1,000–1,040 to nearest supply.",
       "shortSetup": "The cleaner short is a rejection from $920–960, confirmed by a close back below $875–885 → $830–850, then $805–830. A daily close below $780 with a failed reclaim opens deeper toward $760–780 and below.",
-      "preferred": "**Two-way — short preferred while under $920–960**; long plan is hold $850–875, then reclaim $920",
-      "h4": "Pressing up toward the $920–960 supply — prior daily lower highs and July congestion. Overnight ≈$910 does not invalidate the zone; it needs a regular-session test to resolve."
+      "preferred": "**Two-way — short preferred under $920**",
+      "h4": "Pressing up toward $920–960 supply — prior daily lower highs and July congestion.",
+      "h4Effect": "Overnight ≈$910 does not invalidate the zone; it needs a regular-session test to resolve."
     },
     {
       "ticker": "SNDK",
@@ -1514,9 +1515,9 @@ const BOARD = {
       "longCandidate": "Needs the $1,580 acceptance and a held retest to be more than a bounce — holding $1,350–1,400 alone is not that confirmation.",
       "longSetup": "Hold $1,350–1,400, then break and accept above $1,580 → $1,680–1,760.",
       "shortSetup": "The cleaner short is a rejection from $1,530–1,580 confirmed by a loss of $1,400 → $1,280–1,220. A daily close below $1,060 with a failed reclaim opens the major zone below.",
-      "preferred": "**Two-way — short preferred below $1,530–1,580**; long plan is hold $1,350–1,400, then accept above $1,580",
-      "h4": "Recovering sharply off the crash low but still testing resistance from below — the $1,530–1,580 reclaim line has not been touched yet, let alone accepted.",
-      "h4Effect": "SNDK must close above $1,580 and hold the retest before the nearest supply promotes to $1,680–1,760. Failure around $1,530–1,580 combined with a loss of $1,400 opens $1,280–1,220."
+      "preferred": "**Two-way — short preferred under $1,530**",
+      "h4": "Recovering sharply off the crash low, still testing resistance from below.",
+      "h4Effect": "SNDK must close above $1,580 and hold the retest before the nearest supply promotes to $1,680–1,760. Failure around $1,530–1,580 combined with a loss of $1,400 opens $1,280–1,220. The $1,530–1,580 reclaim line has not been touched yet, let alone accepted."
     },
     {
       "ticker": "AMD",
@@ -1643,8 +1644,8 @@ const BOARD = {
       "longCandidate": "WAIT until the reclaim actually holds — the higher-timeframe trend is the reason to want this long, not a reason to enter early.",
       "longSetup": "Hold **$465–475**, form a 4H higher low, then reclaim and hold **$503** → $518–522, then $533–550. Stronger continuation needs acceptance above **$550**.",
       "shortSetup": "Reject from **$500–503**, or break **$475** and fail the reclaim → $465, then $446. Daily acceptance below **$446** opens $419–420.",
-      "preferred": "**Two-way watch — short-term short preferred below $503**, long-term bias stays long above it",
-      "h4": "Bearish after the earnings displacement — no confirmed reversal yet, price sitting inside the $475–503 trap zone.",
+      "preferred": "**Two-way — short now, long above $503**",
+      "h4": "Bearish after the earnings displacement — inside the $475–503 trap zone, no reversal yet.",
       "h4Effect": "This is what keeps the row at WAIT rather than a clean side: the higher-timeframe trend is still up, but the 4H has not confirmed a reversal from the earnings-day drop. A reclaim of $503 that holds resolves it long; a failed reclaim with a break of $475 resolves it short. Until one of those prints, $475–503 is a trap, not a level to trade from."
     },
     {
@@ -2006,7 +2007,7 @@ const BOARD = {
       "longCandidate": "Countertrend only, and it needs all three: demand holding, a 4H higher low, and acceptance back above **$145–150**. The weekly stays damaged below **$178–192**.",
       "longSetup": "Hold **$122–126** or **$114–120**, form a 4H higher low and reclaim **$145–150** → **$156–165**, then **$178**. A stronger daily reversal needs acceptance above **$160–165**.",
       "shortSetup": "The cleaner short is a rejection from **$143–150**, or a stronger bounce into **$156–165** → $126–122, then $120–114. A daily close below **$114** with a failed reclaim opens **$105–100**. Do not chase a breakdown directly into $122–126.",
-      "preferred": "**Short preferred**, long on confirmation only",
+      "preferred": "**Short preferred**; long on confirmation",
       "h4": "The rebound from **$114.50** has stalled and is shaping a potential lower high at **$143–150**."
     },
     {
@@ -2130,7 +2131,7 @@ const BOARD = {
       "longSetup": "Hold $520–545, form higher low and reclaim **$575–590** → $599–635",
       "shortSetup": "Reject $575–610, or lose **$520** → $500–490, then $470–450",
       "preferred": "**Short trend; long only countertrend**",
-      "h4": "Rebound off **$529.10** rejected at **$577.34** — an attempt, not a turn, so the frame reads **neutral**."
+      "h4": "Rebound off **$529.10** rejected at **$577.34** — an attempt, not a turn: **neutral**."
     },
     {
       "ticker": "MRVL",
@@ -2643,7 +2644,7 @@ const BOARD = {
       "longSetup": "**Tactical long:** hold $148–152, enter on a retest after a 4H close above $160–162, stop below $148 or $142 depending on entry → $168–172, then $178–180 and $188–196. Higher-confidence trend long only after a daily close and hold above $172.",
       "shortSetup": "**Rejection short:** fade $160–162, or preferably $168–172, stop above $163 or $174 depending on entry → $150, $142–145, then $134–138. **Breakdown short:** daily close below $142 and a failed retest → $134–138, then $121–125.",
       "preferred": "**Short preferred**, do not chase into demand",
-      "h4": "Relief bounce off major demand — above the fast EMA but still below the 50- and 200-day, so no confirmed reversal.",
+      "h4": "Relief bounce off major demand — above the fast EMA, under the 50/200-day, no reversal yet.",
       "h4Effect": "Keeps the short read. A 4H close above $160–162 with a successful retest is what would flip this to a tactical long; below $148 the bounce fails outright."
     },
     {
