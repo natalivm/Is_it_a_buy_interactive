@@ -28,6 +28,16 @@
      container-query context. */
   --title-lg: clamp(30px, 9.6cqw, 48px);
   --title-sm: clamp(19px, 5.5cqw, 24px);
+
+  /* Deck type scale — every fixed font-size below is one of these five steps
+     (titles use the clamps above; ladder rungs their own cqw clamps). Same
+     rule as the gallery's scale in styles.css, enforced by the same CI guard:
+     a deck's inline <style> may REFERENCE these, never restate a raw px. */
+  --fs-body: 16px;    /* slide body: .sub, verdict/indi text, notes */
+  --fs-mid: 14px;     /* rung labels, telegram sign-off */
+  --fs-small: 12px;   /* everything small: captions, axis labels, eyebrow,
+                         disclaimer, footer tags, counter, the watermark —
+                         12 is the floor, matching the gallery scale */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -135,7 +145,7 @@ h1 .p, h1 .k, h1 .y {
   writing-mode: vertical-rl;
   transform: translateY(-50%);
   font-family: var(--mono, monospace);
-  font-size: 10px; font-weight: 600;
+  font-size:var(--fs-small); font-weight: 600;
   letter-spacing: .38em; text-transform: uppercase;
   color: color-mix(in srgb, var(--purple, #B57BFF) 52%, transparent);
   padding: 0 3px; pointer-events: none; user-select: none;
@@ -184,7 +194,7 @@ h1 .p, h1 .k, h1 .y {
      separate, smaller in-content label tier (heads one data block inside a
      longer slide, not the slide itself) and keep their own fixed sizes
      further down. */
-  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dn);
+  .eyebrow{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dn);
     display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);background:var(--panel);
     padding:7px 12px;border-radius:8px;margin-bottom:18px;}
   .eyebrow.p{color:var(--up);} .eyebrow.y{color:var(--hi);}
@@ -195,7 +205,7 @@ h1 .p, h1 .k, h1 .y {
   h1 .p, h1 .k, h1 .y{color:var(--ink);}
   h1 .hl{color:var(--deep);background:linear-gradient(180deg, transparent 10%, var(--yellow) 10%, var(--yellow) 90%, transparent 90%);
     padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-  .sub{font-size:15.5px;line-height:1.55;color:var(--sub);margin-bottom:14px;max-width:40ch;}
+  .sub{font-size:var(--fs-body);line-height:1.55;color:var(--sub);margin-bottom:14px;max-width:40ch;}
   .sub strong{color:var(--ink);font-weight:700;}
   .sub .k{color:var(--dn);font-weight:700;} .sub .p{color:var(--up);font-weight:700;}
   /* ONE THOUGHT PER LINE. A .sub written as a single dense block reads as a
@@ -207,16 +217,16 @@ h1 .p, h1 .k, h1 .y {
 
   .indi{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 0;margin:4px 0 14px;}
   .indi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
-  .indi-top .t{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;color:var(--ink);}
-  .indi-top .v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--hi);white-space:nowrap;}
-  .indi p{font-size:16px;line-height:1.5;color:var(--muted);}
+  .indi-top .t{font-family:var(--display);font-weight:700;font-size:var(--fs-body);text-transform:uppercase;color:var(--ink);}
+  .indi-top .v{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;color:var(--hi);white-space:nowrap;}
+  .indi p{font-size:var(--fs-body);line-height:1.5;color:var(--muted);}
   .indi p strong{color:var(--ink);} .indi p .k{color:var(--dn);font-weight:700;}
 
   .chart{width:100%;margin:6px 0 2px;}
   .chart svg{width:100%;height:auto;display:block;overflow:visible;}
   svg text{font-family:var(--mono);}
-  svg .ax{font-size:13px;font-weight:600;}
-  svg .cap{font-size:12px;font-weight:600;}
+  svg .ax{font-size:var(--fs-small);font-weight:600;}
+  svg .cap{font-size:var(--fs-small);font-weight:600;}
   .f-k{fill:var(--dn);} .f-p{fill:var(--up);} .f-y{fill:var(--hi);} .f-w{fill:var(--mark);} .f-m{fill:var(--muted);}
   .s-k{stroke:var(--dn);} .s-p{stroke:var(--up);} .s-y{stroke:var(--hi);} .s-w{stroke:var(--mark);} .s-line{stroke:var(--line);}
   .dash{stroke-dasharray:4 5;stroke-width:1.5;fill:none;}
@@ -264,21 +274,21 @@ h1 .p, h1 .k, h1 .y {
   .verdict.y .vh{color:var(--hi);}
   /* .k is the explicit pink variant (same as the default) for decks whose default is overridden */
   .verdict.k .vh{color:var(--dn);}
-  .verdict p{font-size:16px;line-height:1.55;color:var(--sub);}
+  .verdict p{font-size:var(--fs-body);line-height:1.55;color:var(--sub);}
   .verdict p strong{color:var(--ink);font-weight:700;}
   .verdict p .k{color:var(--dn);font-weight:700;} .verdict p .p{color:var(--up);font-weight:700;}
 
-  .tg{margin-top:16px;font-size:15px;line-height:1.55;color:var(--sub);}
+  .tg{margin-top:16px;font-size:var(--fs-mid);line-height:1.55;color:var(--sub);}
   .tg a{color:var(--hi);text-decoration:none;font-weight:700;}
-  .disclaim{margin-top:10px;font-size:11px;line-height:1.5;color:var(--muted);opacity:.8;}
+  .disclaim{margin-top:10px;font-size:var(--fs-small);line-height:1.5;color:var(--muted);opacity:.8;}
 
   .cover-ticker{font-family:var(--display);font-weight:700;color:var(--ink);font-size:clamp(60px, 22cqw, 120px);line-height:.9;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
 
   .ladder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.4);}
   .rung{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--panel2);border-bottom:1px solid var(--line);}
   .rung:last-child{border-bottom:0}
-  .rung .px{font-family:var(--mono);font-weight:600;font-size:17px;width:124px;flex-shrink:0;}
-  .rung .lbl{font-size:14px;color:var(--muted);line-height:1.35;}
+  .rung .px{font-family:var(--mono);font-weight:600;font-size:var(--fs-body);width:124px;flex-shrink:0;}
+  .rung .lbl{font-size:var(--fs-mid);color:var(--muted);line-height:1.35;}
   .rung.res .px{color:var(--dn)}
   .rung.sup .px{color:var(--up)}
   .rung.now{background:var(--yellow);}
@@ -293,7 +303,7 @@ h1 .p, h1 .k, h1 .y {
   .ind{padding-left:14px;}
   .cond{list-style:none;margin:7px 0 9px;display:flex;flex-direction:column;gap:5px;padding-left:16px;}
   .cond li{line-height:1.45;}
-  .note{margin-top:14px;font-size:16px;line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
+  .note{margin-top:14px;font-size:var(--fs-body);line-height:1.55;color:var(--sub);border-left:3px solid var(--hi);padding-left:11px;}
   .note.k{border-left-color:var(--dn);} .note.p{border-left-color:var(--up);}
 
   /* ── Text-focus slides ──────────────────────────────────────────────────
@@ -321,7 +331,7 @@ h1 .p, h1 .k, h1 .y {
      sits at the body-small tier (16px) rather than .sub's 15.5px — on a slide
      that is nothing BUT prose the body text is the content, so it reads at the
      same size as a .note/.verdict paragraph instead of a hair under it. */
-  .slide[data-text] .sub{max-width:none;font-size:16px;}
+  .slide[data-text] .sub{max-width:none;font-size:var(--fs-body);}
 
   /* ── Levels slides ──────────────────────────────────────────────────────
      Same principle for the ladder: top-align the column and let the ladder
@@ -331,13 +341,13 @@ h1 .p, h1 .k, h1 .y {
   .slide:has(.ladder) .ladder{min-height:118cqw;}
   .slide:has(.ladder) .rung{flex:1;}
   .slide:has(.ladder) .rung .px{font-size:clamp(15px, 4cqw, 21px);width:auto;min-width:112px;}
-  .slide:has(.ladder) .rung .lbl{font-size:clamp(13px, 3.2cqw, 17px);}
+  .slide:has(.ladder) .rung .lbl{font-size:clamp(12px, 3.2cqw, 17px);}
 
   .nav{position:absolute;left:0;right:0;bottom:0;z-index:25;display:flex;justify-content:space-between;align-items:center;
     padding:14px 18px calc(env(safe-area-inset-bottom,0px) + 14px);pointer-events:none;}
   .nav-l,.nav-r{display:flex;align-items:center;gap:12px;}
-  .foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
-  .count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:color-mix(in srgb, var(--ink) 42%, transparent);}
+  .foot-tag{font-family:var(--mono);font-size:var(--fs-small);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;}
+  .count{font-family:var(--mono);font-size:var(--fs-small);letter-spacing:.16em;color:color-mix(in srgb, var(--ink) 42%, transparent);}
   .count b{color:color-mix(in srgb, var(--ink) 72%, transparent);font-weight:600;}
   .nav button{pointer-events:auto;width:46px;height:46px;border-radius:50%;background:color-mix(in srgb, var(--ink) 8%, transparent);border:1.5px solid color-mix(in srgb, var(--ink) 55%, transparent);
     color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
