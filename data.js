@@ -581,10 +581,10 @@ const STOCKS = [
   {
     symbol: 'IREN', exchange: 'NASDAQ',
     price: '$38.89', change: '📅 CLOSE $38.89 (−4.80%) — ⚡ THE REJECTION PRINTED: ran $41.16 into $40.8–44, reversed to close AT THE SESSION LOW, 4.7% under the zone floor → the daily close is already under the $40 confirmation line → status LIVE',
-    signal: '📅 CLOSE 08/05 — ⚡ LIVE: TAGGED THE ZONE, REVERSED, CLOSED UNDER THE LINE. Closed $38.89 (−4.80%) at the session low after the high $41.16 ran into the $40.80–44 fade zone a second time — a genuine rejection, 4.7% under the zone floor and through the $40 confirmation line. Stop $45.50 (dead on a close over $44) keeps 17% of cushion above the high. ⚠️ Drop-override half met: SMH cleared its gate, but IREN closed nowhere near $44, so the override stands untriggered. Targets $35 → $32 → $28.93.',
+    signal: '📅 CLOSE 08/05 — ⚡ LIVE: THE REJECTION PRINTED. Closed $38.89 (−4.80%) at the session low — the high $41.16 ran into the $40.80–44 fade zone a second time and rejected through the $40 confirmation line. Stop $45.50 (dead on a close over $44). Targets $35 → $32 → $28.93. 🧷 PUT SIDECAR 08/06 — the owner’s long-via-assignment plan alongside the short: SELL the $32 put (T2, just above the proven $29.50–30 base), half now, half on a $35 tag; Aug 22 or Sep expiry, whichever pays. A daily close under $28.93 → buy the put back, never take assignment through a broken base. Assigned with the base intact = the long, stop under $28.93. A close over $44 kills the short and simply retires the put.',
     lead: { rank: 20, status: 'live', entry: 'fade the rejection in $40.8–44', stop: '$45.50 (dead >$44 close)', targets: '$35 → $32 → $28.93', rr: '~4:1', edge: '⚡ LIVE: the rejection printed. High $41.16 tagged the zone, reversed to a close of $38.89 (−4.80%) AT the session low, 4.7% under the zone floor — already through the $40 confirmation line on a daily basis, the strongest version of this rejection the card has seen versus Tuesday’s up-close give-back. Stop $45.50 has 17% of cushion above today’s high.' },
     side: 'short', accent: 'red',
-    date: '2026-08-05', alert: true,
+    date: '2026-08-06', alert: true,
     story: 'stories/iren.html',
   },
   // ── Session status · 2026-07-15 ────────────────────────────────────────────
@@ -725,11 +725,10 @@ const STOCKS = [
   },
   {
     symbol: 'WDC', exchange: 'NASDAQ',
-    price: '$519.17', change: '📅 CLOSE $519.17 (−5.36%) — then 🌙 EARNINGS AH $466.99 (−10.05%, 5:05pm ET) — NOT a close, but it sits 6.8% BELOW the $501.27 stop and 9.4% under the $515–530 fill zone · ⚠️ STOP THREATENED, not yet breached on a close',
-    signal: '📅 CLOSE 08/05 + 🌙 AH EARNINGS — ⚠️ THE STOP IS THREATENED, AND THE REASON IS GUIDANCE-PROOF SELLING: closed $519.17 (−5.36%), then beat on EPS and revenue with above-consensus guidance — and sold anyway to $466.99 after hours (−10.05%), 6.8% BELOW the $501.27 close-basis stop and 9.4% under the $515–530 zone this long was filled from at $527. An after-hours quote is not a close: whether the stop is actually violated is UNKNOWN until the next real print. A threat to flag loudly, not a breach to record — nothing on the ledger changes until that close.',
-    lead: { rank: 12, status: 'live', entry: 'filled $527', stop: '$501.27 (close)', targets: '$560 → $585 → $613', rr: '~4:1', edge: '⚠️ STOP THREATENED BY EARNINGS AH, NOT YET BREACHED: closed $519.17 (−5.36%), then beat on EPS/revenue and guided ABOVE consensus, and sold off anyway to $466.99 after hours (−10.05%, 5:05pm ET) — 6.8% below the $501.27 stop and 9.4% under the $527 fill. An AH quote is not a close, so the stop is unconfirmed until the next real print, but a position that was +4.05% at today’s close is one bad close away from a loss under the fill.' },
+    price: '$445.54', change: '🕐 PM 08/06 5:55 ET $445.54 (−14.18%) — gapped through the $515–530 zone and the $501.27 stop · plan DEAD, never filled · last real close $519.17 (−5.36%)',
+    signal: '🕐 PM 08/06 — ⛔ PLAN DEAD, UNFILLED — CORRECTED BY THE OWNER: the $527 fill this card carried was never actually taken, so the −14.18% earnings gap ($445.54) costs ZERO realised — the miss is the win. The setup itself is void either way: price gapped through the $515–530 zone, the $501.27 stop and the entire ladder — the map has no support below, and yesterday’s AH low $454.16 is the first resistance overhead. Off the ranked table; Rule A forbids drawing a replacement at the print, so WDC returns only with a zone anchored to completed post-gap frames — after today’s bar closes, not during it. Beat, raised, sold anyway, twice — the selling is the message.',
     side: 'long',
-    date: '2026-08-05', alert: true,
+    date: '2026-08-06', alert: true,
     story: 'stories/wdc.html',
   },
   {
@@ -770,11 +769,11 @@ const STOCKS = [
   },
   {
     symbol: 'SNDK', exchange: 'NASDAQ',
-    price: '$1,263.86', change: '🌙 AH $1,263.86 (−6.42% from the close, per live quote) on EARNINGS — NOT a close: BELOW the entire $1,287–1,346 zone · would have FILLED on the way down (high $1,441.76 → reversal → AH through the band) · stop $1,360 is a CLOSE-basis stop and today’s actual close $1,350.50 never touched it, so NOT stopped out even though the intraday high cleared it by 6%',
-    signal: '🌙 AH ON EARNINGS — A ROUND TRIP THROUGH THE WHOLE ZONE: the session ran a new high $1,441.76, reversed, closed $1,350.50 (−5.40%); the AH print $1,263.86 then cut clean through $1,287–1,346 and out the bottom. Would it have filled — yes, a resting short in the zone fills, most likely on the AH leg. Stopped out — no: the $1,360 stop is written on a CLOSE and the close was $1,350.50, under it; an intraday spike does not trigger a close-basis stop. ⚠️ Flagged, not decided: this zone was declared dead on 08-04, and a rejection from a materially higher level arguably revives it — reusing the band versus drawing a fresh anchored one is the next refresh’s call. Earnings beat, guidance mixed.',
-    lead: { rank: 18, status: 'wait', entry: 'fade the rejection in $1,287–1,346', stop: '$1,360 (dead >$1,346 close)', targets: '$1,187 → $1,050 → $1,000', rr: '~7:1', edge: '⛔ STILL DEAD, MARGIN THIN AGAIN: closed $1,350.50 (−5.40%), low $1,345.00 ticked a dollar under the $1,346 dead-line before the close recovered $4.50 back above it — the 08-04 dead call stands, unfilled, zero realised. 🌙 Then earnings AH ~−3% on a beat with mixed guidance; if that holds into the next close, price falls back under $1,346 and whether that revives this thesis or needs a fresh setup is a judgement call for the next refresh, not decided here.' },
+    price: '$1,228.46', change: '🕐 PM 08/06 5:57 ET $1,228.46 (−9.04%) — below the entire $1,287–1,346 zone · last real close $1,350.50 (−5.40%)',
+    signal: '🕐 PM 08/06 5:57 ET — THE LEG IS PLAYING OUT, AND THE FIRST PIECE IS BANKED. PM $1,228.46 (−9.04%) is below the entire $1,287–1,346 zone, T1 $1,187 just 3.4% away. 📒 The owner shorted the round-trip top near $1,400 and closed the same session — AH cannot be sold and a bought-back dip was the risk — so the first leg is BOOKED: short $1,400 → closed $1,350.50, +3.5% realised; the written plan itself stayed unfilled. Next leg by the rules: no chasing −9% pre-market into T1 — the entry is a REJECTION off the broken band, $1,251 (4H upper BB) → $1,287 (broken floor · weekly 21-MA), anchored at the next refresh. The $1,000 view runs into the rising daily 200-EMA $958. A close over $1,287 kills it.',
+    lead: { rank: 18, status: 'booked', entry: 'filled $1,400', closed: '$1,350.50', stop: '$1,360 (dead >$1,346 close)', targets: '$1,187 → $1,050 → $1,000', rr: '~7:1', edge: '📒 FIRST LEG BOOKED: short $1,400 → closed $1,350.50 same session, +3.5% realised; the written plan stayed unfilled. Next entry only on a rejection at the broken $1,251–1,287 band off completed frames — T1 $1,187 is 3.4% from the PM print, no chase. A close back over $1,287 kills the continuation.' },
     side: 'short', accent: 'red',
-    date: '2026-08-05', alert: true,
+    date: '2026-08-06', alert: true,
     story: 'stories/sndk.html',
   },
   {
