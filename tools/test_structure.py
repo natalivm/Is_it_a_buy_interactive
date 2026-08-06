@@ -478,6 +478,34 @@ check("a fade whose whole zone is behind price still fires",
 check("a plain short is still tested at the zone floor",
       len(_zone_status_findings('short the $88–97 band', 89.89, 'live')), 1)
 
+# ── card audit: signal/edge accretion ───────────────────────────────────────
+# `signal` is the tile's CURRENT read and a refresh REPLACES it; git is the
+# archive. Two dated close blocks in one field is the fingerprint of the
+# prepend-forever mistake that grew the 36 signals to 349k characters.
+print("\nCard audit — a signal is a current read, not a journal")
+
+
+def _accrete(signal, edge=''):
+    card = {'symbol': 'TEST', 'side': 'long', 'exchange': 'NASDAQ',
+            'date': '2026-08-05', 'price': '$100', 'signal': signal,
+            'story': 'stories/crwv.html',
+            'lead': {'entry': '$90–95 dip', 'stop': '$85', 'targets': '$120',
+                     'rr': '~4:1', 'status': 'wait', 'edge': edge}}
+    return [f for f in refresh.audit_fields(card)
+            if 'session blocks' in f or "'||'-separated" in f]
+
+
+check("one dated close block is a current read",
+      _accrete('📅 CLOSE 08/05 — held the level, plan unchanged.'), [])
+check("an AH lead-in over the same session's close still passes",
+      _accrete('🌙 AH −3% on earnings. 📅 CLOSE 08/05 — held the level.'), [])
+check("a second dated block is flagged as accretion",
+      len(_accrete('📅 CLOSE 08/05 — held. 📅 CLOSE 08/04 — also held.')), 1)
+check("'||' history in edge is flagged",
+      len(_accrete('📅 CLOSE 08/05 — held.', 'current read || ⛔ old cycle')), 1)
+check("an edge without history passes",
+      _accrete('📅 CLOSE 08/05 — held.', 'clean current read'), [])
+
 # ── card audit: the ladder around the ТУТ rung ──────────────────────────────
 # --fix-rungs re-cuts the ТУТ rung and only that rung, so its neighbours drift
 # every time a card refreshes. Two things are decidable from the deck's own

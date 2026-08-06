@@ -334,6 +334,27 @@ def audit_fields(stock: dict) -> list[str]:
     elif d > dt.date.today().isoformat():
         out.append(f"{sym}: date {d} is in the future")
 
+    # ACCRETION. `signal` is the tile's CURRENT read — the data model calls it a
+    # one-line thesis — and a refresh REPLACES it; git history is the archive.
+    # Nothing said so, and by 2026-08-06 the 36 signals had grown to 349k
+    # characters (76% of data.js, SNDK alone 17k) because each refresh PREPENDED
+    # its session narrative instead of replacing the last one — the exact
+    # failure CLAUDE.md documents for MARKET's note, twenty times the size. A
+    # second session header in the field is the fingerprint of that mistake:
+    # one dated close (plus an AH/intraday lead-in from the same session) is a
+    # current read, two dated closes is a journal.
+    sig = str(stock.get("signal") or "")
+    dated = re.findall(r"📅 CLOSE \d{2}/\d{2}", sig)
+    if len(dated) >= 2:
+        out.append(f"{sym}: signal carries {len(dated)} dated session blocks "
+                   f"({len(sig):,} chars) — it is the CURRENT read; a refresh "
+                   f"REPLACES it, and the old text lives in git")
+    edge = str((stock.get("lead") or {}).get("edge") or "")
+    if " || " in edge:
+        out.append(f"{sym}: edge carries '||'-separated history "
+                   f"({len(edge):,} chars) — same rule: current read only, "
+                   f"git keeps the rest")
+
     story = ROOT / str(stock.get("story") or "")
     if not story.is_file():
         out.append(f"{sym}: story '{stock.get('story')}' does not exist")

@@ -285,7 +285,18 @@ single-ticker additions in a row each left it behind.
 
 Each `STOCKS` entry: `symbol`, `exchange`, `price` (freeform label), `change`,
 `signal` (one-line thesis), `side` (`long` | `short`, the setup direction — colors
-the chip green/red), and `story` (path to the slideshow HTML). Tile glow colours
+the chip green/red), and `story` (path to the slideshow HTML).
+
+**⚠️ `signal` is the CURRENT read, and a refresh REPLACES it** — the same
+accretion rule the trend-meter note has, because `signal` caught the same
+disease at twenty times the size: by 2026-08-06 the 36 signals had grown to
+349k characters (76% of `data.js`, SNDK alone 17k) from each refresh
+PREPENDING its session narrative on top of the last one. Git history is the
+archive — every prior state of every signal is a commit — so nothing needs
+carrying forward in the field. One dated `📅 CLOSE dd/mm` block (plus a 🌙
+AH/intraday lead-in from the same session) is a current read; a second dated
+block is a journal, and the audit flags it. Same rule for `lead.edge`:
+no `||`-separated history. Tile glow colours
 are auto-varied across the grid, so `accent` is optional.
 
 `date` (ISO `YYYY-MM-DD`) is the tile's "Опубліковано" label **and** the

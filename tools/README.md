@@ -12,6 +12,8 @@ and do the arithmetic here.
 node tools/dump.js data.js MARKET STOCKS ARTICLES > /tmp/board.json  # sanity check
 node tools/dump.js board.js BOARD > /tmp/structure.json             # the structure board
 
+python3 tools/run_checks.py                  # every checks.yml step, locally, pre-push
+
 python3 tools/refresh.py                     # every ticker on the board
 python3 tools/refresh.py MU SNDK WDC         # a few
 python3 tools/refresh.py --audit-only        # no network — just check the cards
@@ -75,6 +77,12 @@ ticker list, a source, and a flag for whether to touch the PR.
    - card price drifting from the real close — an automatic staleness detector
    - an `entry` string mixing scales, which would make `planProgress()` average
      unrelated numbers (this bit once: `"1H close"` parsed `1` as a price)
+   - **accretion in `signal` and `lead.edge`.** A signal is the tile's CURRENT
+     read and a refresh REPLACES it — git history is the archive. By 2026-08-06
+     the 36 signals had grown to 349k characters (76% of `data.js`) from each
+     refresh prepending its narrative onto the last one, so a second dated
+     `📅 CLOSE dd/mm` block in a signal, or `||`-separated history in an edge,
+     is flagged
    - **RULE B — the stop at least 1 ATR from the entry midpoint**, the rule
      CLAUDE.md states along with four of six ranked plans failing it. Needs a
      full run: with no bars there is no ATR, and the check is skipped rather
