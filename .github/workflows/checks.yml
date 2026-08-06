@@ -144,6 +144,26 @@ jobs:
             console.log(\`ok  board.js — \${B.rows.length} rows, as of \${B.updated}\`);
           "
 
+      # Both surfaces type on a fixed scale — 12/14/16/18/22/28, five tokens in
+      # styles.css and three in stories/story.css — after the gallery had
+      # drifted to 22 distinct sizes with quarter-pixel steps (9, 9.5, 10,
+      # 10.5, 11, 11.5…) whose small end was unreadable on a phone. A raw px
+      # is how that ladder regrows, one "just this once" at a time, so any
+      # font-size that is not a var() or a clamp() fails. Deck inline styles
+      # are covered too: they may REFERENCE the deck tokens, never restate a
+      # size. Articles are exempt — self-contained one-page reads with their
+      # own design, per CLAUDE.md.
+      - name: Type-scale guard
+        run: |
+          bad=$(grep -on "font-size:[^;}\"']*" styles.css stories/story.css stories/*.html \
+                | grep -v "var(--" | grep -v "clamp(" || true)
+          if [ -n "$bad" ]; then
+            echo "raw font-size outside the type scale:"
+            echo "$bad"
+            exit 1
+          fi
+          echo "ok  type scale — every font-size is a token or a clamp"
+
       # The board is emitted best-longs-first / best-shorts-last and file order
       # IS the order — nothing re-sorts downstream. So a hand-reordered row
       # looks right until the next bot run silently undoes it, and the Python

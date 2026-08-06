@@ -8,7 +8,16 @@ interactive tap-through "story" that explains the trade thesis for that stock.
 - `data.js` — hand-edited `STOCKS` array (one entry per tile)
 - `script.js` — renders tiles from `STOCKS` and opens each stock's story in a
   full-screen iframe overlay
-- `styles.css` — dark purple/pink theme; 3-per-row responsive tile grid
+- `styles.css` — dark purple/pink theme; 3-per-row responsive tile grid.
+  **Type sizes are a fixed scale** — 12/14/16/18/22/28, nothing smaller than
+  12: five `--fs-*` tokens in `:root` (the decks have three of their own in
+  `stories/story.css`, plus the `--title-*` clamps). Hierarchy below body size
+  is weight and colour, not a smaller number.
+  Every `font-size` is a token or a clamp — CI fails a raw px, because the
+  scale replaced a 22-value ladder (9, 9.5, 10, 10.5…) that grew one
+  "just this once" at a time. Need a new size? Reuse a step or change a
+  step — a new token is a design decision, not a workaround. Articles are
+  exempt (self-contained pages, own design).
 - `stories/` — one HTML slideshow per stock, driven by the shared
   `stories/story.css` + `stories/engine.js` (see "Deck anatomy" below)
 - `index.html` — shell: navbar, `#trendMeter` panel, `#bookedStrip`,

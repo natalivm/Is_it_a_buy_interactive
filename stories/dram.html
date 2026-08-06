@@ -28,10 +28,10 @@ try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ib-
   /* two-column weight strip for the Korea slide */
   .wt{display:flex;gap:8px;margin:6px 0 14px;}
   .wt .cell{flex:1;border:1px solid var(--line);border-radius:11px;background:var(--panel2);padding:9px 10px;text-align:center;}
-  .wt .cell .n{font-family:var(--mono);font-weight:600;font-size:17px;color:var(--yellow);}
-  .wt .cell .l{font-size:10.5px;color:var(--muted);margin-top:2px;letter-spacing:.02em;}
+  .wt .cell .n{font-family:var(--mono);font-weight:600;font-size:var(--fs-body);color:var(--yellow);}
+  .wt .cell .l{font-size:var(--fs-small);color:var(--muted);margin-top:2px;letter-spacing:.02em;}
   .chk{list-style:none;padding:0;margin:2px 0 0;}
-  .chk li{font-size:12.5px;line-height:1.5;color:var(--sub);padding:3px 0 3px 22px;position:relative;}
+  .chk li{font-size:var(--fs-small);line-height:1.5;color:var(--sub);padding:3px 0 3px 22px;position:relative;}
   .chk li::before{content:"✓";position:absolute;left:0;top:2px;color:var(--purple);font-weight:700;}
 </style>
 </head>
