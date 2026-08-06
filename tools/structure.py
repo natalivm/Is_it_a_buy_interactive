@@ -1281,7 +1281,8 @@ ALIGN_TOL = 0.5     # percent
 
 def _dump_existing() -> dict:
     try:
-        out = subprocess.run(["node", str(Path(__file__).parent / "dump_structure.js")],
+        out = subprocess.run(["node", str(Path(__file__).parent / "dump.js"),
+                              "board.js", "BOARD"],
                              capture_output=True, text=True, check=True)
         return json.loads(out.stdout) or {}
     except Exception as e:                           # noqa: BLE001 — reported

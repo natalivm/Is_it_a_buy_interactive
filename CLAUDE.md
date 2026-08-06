@@ -210,9 +210,11 @@ it ragged. So `price`, `atr`, `atrPct`, `preferred` and `bias` are REQUIRED on
 every row — the CI board guard fails a row missing any of them rather than
 letting the cell render short.
 
-Same shape is not the same as same size, so the two prose fields have budgets:
-`preferred` **under ~45 characters** (1–2 lines) and `bias` **under ~115** (2–4
-lines). They had drifted to 238 and 448 — a cell twelve times the height of
+Same shape is not the same as same size, so the two prose fields have budgets —
+**CI-enforced now**, at the documented number rather than at some tolerance
+above it, because "~45 with a fudge factor" is a budget nobody can be wrong
+about. `preferred` **under ~45 characters** (1–2 lines) and `bias` **under ~115**
+(2–4 lines). They had drifted to 238 and 448 — a cell twelve times the height of
 LLY's — because later rows restated levels the Bullish/Bearish trigger columns
 already carry. State the verdict here; the levels belong in the setup fields,
 and anything else in a row comment. Price and the ATR pair render at **exactly
@@ -283,7 +285,22 @@ single-ticker additions in a row each left it behind.
 
 Each `STOCKS` entry: `symbol`, `exchange`, `price` (freeform label), `change`,
 `signal` (one-line thesis), `side` (`long` | `short`, the setup direction — colors
-the chip green/red), and `story` (path to the slideshow HTML). Tile glow colours
+the chip green/red), and `story` (path to the slideshow HTML).
+
+**⚠️ `signal` is the CURRENT read, and a refresh REPLACES it** — the same
+accretion rule the trend-meter note has, because `signal` caught the same
+disease at twenty times the size: by 2026-08-06 the 36 signals had grown to
+349k characters (76% of `data.js`, SNDK alone 17k) from each refresh
+PREPENDING its session narrative on top of the last one. Git history is the
+archive — every prior state of every signal is a commit — so nothing needs
+carrying forward in the field. One dated `📅 CLOSE dd/mm` block (plus a 🌙
+AH/intraday lead-in from the same session) is a current read; a second dated
+block is a journal, and the audit flags it. Same rule for `lead.edge`:
+no `||`-separated history. The current read itself has a budget — **under
+~700 characters**, audit-checked — because the tile renders `signal` raw as
+one `<p>`, and even single-session blocks had grown to 4.7k characters of
+OHLC detail and indicator lists. The stance, the decisive levels, the plan
+and the falsifier fit in 700; the evidence belongs in the deck. Tile glow colours
 are auto-varied across the grid, so `accent` is optional.
 
 `date` (ISO `YYYY-MM-DD`) is the tile's "Опубліковано" label **and** the

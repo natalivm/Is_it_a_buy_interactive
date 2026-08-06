@@ -7,7 +7,7 @@
     python3 tools/refresh.py --days 5        # show 5 sessions, not 3
 
 What it does
-  1. reads the board (node tools/dump_board.js)
+  1. reads the board (node tools/dump.js data.js MARKET STOCKS ARTICLES)
   2. pulls daily OHLCV per ticker and resamples to weekly / monthly
   3. prints the same extraction block that used to be read off screenshots
   4. audits every card's `lead` against the fresh close — mechanically
@@ -40,7 +40,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from indicators import Frame, read_frame, resample  # noqa: E402
+from indicators import Frame, atr, read_frame, resample  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 UA = {"User-Agent": "Mozilla/5.0 (board-refresh)"}
@@ -87,7 +87,8 @@ def parse_tickers(raw: list[str]) -> list[str]:
 
 def load_board() -> dict:
     out = subprocess.run(
-        ["node", str(ROOT / "tools" / "dump_board.js")],
+        ["node", str(ROOT / "tools" / "dump.js"),
+         "data.js", "MARKET", "STOCKS", "ARTICLES"],
         capture_output=True, text=True, check=True,
     )
     return json.loads(out.stdout)
@@ -333,6 +334,36 @@ def audit_fields(stock: dict) -> list[str]:
     elif d > dt.date.today().isoformat():
         out.append(f"{sym}: date {d} is in the future")
 
+    # ACCRETION. `signal` is the tile's CURRENT read — the data model calls it a
+    # one-line thesis — and a refresh REPLACES it; git history is the archive.
+    # Nothing said so, and by 2026-08-06 the 36 signals had grown to 349k
+    # characters (76% of data.js, SNDK alone 17k) because each refresh PREPENDED
+    # its session narrative instead of replacing the last one — the exact
+    # failure CLAUDE.md documents for MARKET's note, twenty times the size. A
+    # second session header in the field is the fingerprint of that mistake:
+    # one dated close (plus an AH/intraday lead-in from the same session) is a
+    # current read, two dated closes is a journal.
+    sig = str(stock.get("signal") or "")
+    dated = re.findall(r"📅 CLOSE \d{2}/\d{2}", sig)
+    if len(dated) >= 2:
+        out.append(f"{sym}: signal carries {len(dated)} dated session blocks "
+                   f"({len(sig):,} chars) — it is the CURRENT read; a refresh "
+                   f"REPLACES it, and the old text lives in git")
+    # …and the current read itself has a budget. Even single-session blocks had
+    # grown to 4.7k characters of OHLC detail and indicator laundry lists — the
+    # tile renders this field raw, as one <p>, so the budget is the difference
+    # between a card and an essay. The stance, the decisive levels, the plan and
+    # the falsifier all fit; the evidence belongs in the deck.
+    elif len(sig) > 700:
+        out.append(f"{sym}: signal is {len(sig):,} chars, over its ~700 budget "
+                   f"— it is a stance, not a session log; the evidence belongs "
+                   f"in the deck")
+    edge = str((stock.get("lead") or {}).get("edge") or "")
+    if " || " in edge:
+        out.append(f"{sym}: edge carries '||'-separated history "
+                   f"({len(edge):,} chars) — same rule: current read only, "
+                   f"git keeps the rest")
+
     story = ROOT / str(stock.get("story") or "")
     if not story.is_file():
         out.append(f"{sym}: story '{stock.get('story')}' does not exist")
@@ -370,6 +401,116 @@ def audit_fields(stock: dict) -> list[str]:
         if deck_px and ah and abs(deck_px - ah[0]) < 0.005 and abs(deck_px - card_px) > 0.005:
             out.append(f"{sym}: deck ladder's ТУТ {deck_px:g} is the after-hours print, "
                        f"not the {frame} {card_px:g}")
+    out += audit_ladder(stock, story)
+    out += audit_level_chart(stock, story, card_px)
+    return out
+
+
+def audit_level_chart(stock: dict, story: Path, card_px: float | None) -> list[str]:
+    """The cover slide's level chart carries its OWN ТУТ marker, and nothing
+    compared it to anything.
+
+    The chart is a dated snapshot — its prose narrates one session — so it is
+    allowed to sit behind the card. What is not fine is the gap going unmeasured:
+    a deck whose ladder says $89.89 and whose chart says $71.77 opens on a thesis
+    its own card has overtaken by 20%, and both markers say "ТУТ".
+
+    Reported at the same 1% the ladder rung uses, and never fixed: re-cutting a
+    level chart means re-drawing its geometry and re-reading its session, which
+    is chart work, not arithmetic.
+    """
+    sym, out = stock["symbol"], []
+    if card_px is None:
+        return out
+    m = re.search(r'\["y",\s*[\d.]+,\s*"([^"]+)",\s*"(ТУТ[^"]*)"', story.read_text('utf-8'))
+    if not m:
+        return out
+    chart_px = (nums(m.group(1)) or [None])[0]
+    if not chart_px:
+        return out
+    drift = (chart_px - card_px) / card_px * 100
+    if abs(drift) > 1.0:
+        out.append(f"{sym}: the level chart's ТУТ {chart_px:g} ('{m.group(2)[:34]}') "
+                   f"is {drift:+.1f}% off the card's {card_px:g} — the cover slide "
+                   f"narrates an older session than the ladder")
+    return out
+
+
+# Rung kinds. `key` is deliberately side-agnostic — it marks a level that
+# matters whichever side of price it is on — so only res/sup carry a role claim
+# the price can contradict.
+ROLE_SIDE = {"res": "above", "sup": "below"}
+
+
+def rung_bounds(px: str) -> tuple[float, float] | None:
+    """A rung's price band. '$86–89' is a band, '$1,251.12' is one price."""
+    ns = nums(px)
+    return (min(ns), max(ns)) if ns else None
+
+
+def audit_ladder(stock: dict, story: Path) -> list[str]:
+    """The ladder around the ТУТ rung, which nothing else checks.
+
+    `--fix-rungs` re-cuts the ТУТ rung and ONLY that rung, by design — it will
+    not guess at an indicator reading it cannot recompute. So every refresh
+    moves the "you are here" line and leaves its neighbours where the last
+    session put them, and the drift is invisible: a rung whose caption reads
+    '+3.6% above' while price is 11% above it looks like ordinary copy.
+
+    Two things are decidable from the deck's own numbers, and neither is a read:
+
+    1. ORDER. The ladder is a top-down price map, so a rung may not sit above
+       the one printed before it. Overlapping bands pass — with '$98–102' over
+       '$96.38' there is no wrong answer — only a band whose top clears the top
+       above it is out of place.
+    2. ROLE. A `res` rung entirely BELOW the ТУТ price is not resistance, and a
+       `sup` entirely above it is not support. AXON carried 'res $546.51 ·
+       ПЕРШИЙ тест, +3.6%' against a $609.49 price it was 11% under; CRWV still
+       lists 'res $88 · повна негація шорту' and 'res $81 · 🚨 Стоп' beneath an
+       $89.89 price, from the plan before its zone was re-drawn.
+
+    Both are reported, never fixed: flipping a rung's role or re-pricing its
+    caption is a read of what the level now means, which is the analyst's.
+    """
+    sym, out = stock["symbol"], []
+    text = story.read_text(encoding="utf-8")
+    for block in re.finditer(r"data-rungs='(\[[\s\S]*?\])'", text):
+        try:
+            rungs = json.loads(block.group(1))
+        except (json.JSONDecodeError, TypeError) as e:
+            out.append(f"{sym}: ladder JSON in {stock.get('story')} does not parse "
+                       f"({e}) — engine.js hydrates this at load, so the slide "
+                       f"renders empty")
+            continue
+        parsed = [(r[0], r[1], rung_bounds(r[1])) for r in rungs
+                  if isinstance(r, list) and len(r) >= 2]
+        here = next((b for kind, _, b in parsed if kind == "now" and b), None)
+
+        prev_hi, wrong_order = None, []
+        for _, px, b in parsed:
+            if not b:
+                continue
+            if prev_hi is not None and b[1] > prev_hi:
+                wrong_order.append(px)
+            prev_hi = b[1]
+        if wrong_order:
+            out.append(f"{sym}: ladder is not in top-down price order — "
+                       f"{', '.join(wrong_order)} sits above the rung printed "
+                       f"before it")
+
+        if not here:
+            continue
+        for kind, px, b in parsed:
+            want = ROLE_SIDE.get(kind)
+            if not want or not b:
+                continue
+            if want == "above" and b[1] < here[0]:
+                out.append(f"{sym}: rung {px} is tagged `res` but sits BELOW the "
+                           f"ТУТ price {here[0]:g} — it is support now, and its "
+                           f"caption was measured from the other side")
+            if want == "below" and b[0] > here[1]:
+                out.append(f"{sym}: rung {px} is tagged `sup` but sits ABOVE the "
+                           f"ТУТ price {here[1]:g} — it is resistance now")
     return out
 
 
@@ -452,8 +593,63 @@ def fix_rungs(stocks: dict, apply: bool) -> list[str]:
     return out
 
 
-def audit_card(stock: dict, close: float | None) -> list[str]:
-    """Only mechanical, decidable checks. No opinions."""
+def audit_market(market: dict, newest_card: str | None) -> list[str]:
+    """The trend meter's own invariants, which nothing checked.
+
+    `MARKET` is the most computed thing on the site — every bar is a weighted
+    mean of its checklist, so a verdict cannot disagree with its evidence. What
+    is NOT derived is the three fields around it, and those are exactly what
+    drifted before: the board note blew past 1,900 characters twice in one day
+    against a ~550 budget, because each refresh appended its finding instead of
+    replacing the last one, and `updated` is a hand-bumped date with the same
+    failure mode `board.js` needed a CI check for.
+    """
+    out: list[str] = []
+    if not market:
+        return ["MARKET is missing from data.js — the trend meter hides itself"]
+
+    note = str(market.get("note") or "")
+    if len(note) > 550:
+        out.append(f"MARKET: note is {len(note)} chars, over its ~550 budget — it "
+                   f"is a STANCE, not a digest; a new finding REPLACES the old one")
+
+    d = str(market.get("updated") or "")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+        out.append(f"MARKET: updated '{d}' is not ISO YYYY-MM-DD")
+    elif d > dt.date.today().isoformat():
+        out.append(f"MARKET: updated {d} is in the future")
+    elif newest_card and d < newest_card:
+        out.append(f"MARKET: updated {d} is behind the newest card {newest_card} "
+                   f"— the cockpit renders an 'as of' older than the board it tops")
+
+    for m in market.get("markets") or []:
+        sym = m.get("symbol", "?")
+        checks = m.get("checks") or []
+        if not checks:
+            out.append(f"MARKET/{sym}: no checks — trendScore() has nothing to weigh")
+        for c in checks + ((m.get("fast") or {}).get("checks") or []):
+            if c.get("verdict") not in ("bull", "bear", "neutral"):
+                out.append(f"MARKET/{sym}: check '{str(c.get('label'))[:30]}' has "
+                           f"verdict {c.get('verdict')!r} — trendScore() scores "
+                           f"anything unrecognised as 0, silently")
+            w = c.get("weight")
+            if w is not None and not isinstance(w, (int, float)):
+                out.append(f"MARKET/{sym}: check '{str(c.get('label'))[:30]}' has "
+                           f"a non-numeric weight {w!r}")
+        vol = m.get("vol") or {}
+        rng = vol.get("range")
+        if vol and (not isinstance(rng, list) or len(rng) != 2):
+            out.append(f"MARKET/{sym}: vol.range {rng!r} is not [calmLo, fearHi] — "
+                       f"the mini-gauge needle has no scale to sit on")
+    return out
+
+
+def audit_card(stock: dict, close: float | None,
+               atr: float | None = None) -> list[str]:
+    """Only mechanical, decidable checks. No opinions.
+
+    `atr` is present only on a full run — the ATR-units check (3b) is skipped
+    rather than guessed when --audit-only means there are no bars."""
     lead, out = stock.get("lead"), audit_fields(stock)
     sym, side = stock["symbol"], stock.get("side", "long")
     if not lead:
@@ -477,6 +673,18 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     confirm_style = bool(re.search(r"\b(over|above|acceptance|reclaim)\b",
                                    str(lead.get("entry", "")), re.I))
 
+    # …and its mirror on the short side. A REJECTION-only entry is meant to be
+    # taken INSIDE its zone: the trigger is the reversal printing there, not
+    # price arriving. That is the documented short entry type (see
+    # docs/ta-analysis-prompt.md — held retest for proven demand,
+    # confirmation-only for unproven, rejection-only for shorts), so the audit
+    # has to know it exists. Two cards had grown paragraphs arguing with these
+    # checks — INTC's names the heuristic outright ("the audit's 'price inside
+    # the zone → live' heuristic doesn't apply here") — and prose arguing with a
+    # tool twice means the tool's rule is wrong, not the cards.
+    reject_style = bool(re.search(r"\b(reject\w*|fade)\b",
+                                  str(lead.get("entry", "")), re.I))
+
     # A FILLED entry is a HELD POSITION, not a plan, and checks 2/3/5 all ask
     # the same question of a plan: is this level in a sensible place relative to
     # price? Once filled, that question is settled and unaskable — the fill
@@ -491,15 +699,55 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
     #    from. The test is strict — zone floor at or BELOW price. An earlier
     #    2% buffer flagged zones sitting legitimately just overhead (GLW at
     #    141 vs 138.25), which is exactly where a post-rejection fade belongs.
-    if entry and side == "short" and not held and min(entry) <= px:
-        out.append(f"{sym}: ⚠️ SHORT zone {min(entry):g}-{max(entry):g} is not above "
-                   f"price {px:g} — a fade with no resistance under it")
+    #
+    #    For a REJECTION-only entry the floor is the wrong edge to test: price
+    #    reaching the zone is the setup arriving, and the fade is taken inside
+    #    it. What voids that plan is price accepting through the WHOLE zone,
+    #    leaving nothing overhead — which is the COHR flaw this check was
+    #    written for, and it is still caught, at the top edge instead of the
+    #    bottom. CRWV ($88–97, price 89.89) and INTC ($96–102, price 101.06)
+    #    both keep real resistance above price; neither is the COHR shape.
+    if entry and side == "short" and not held:
+        floor, ceil = min(entry), max(entry)
+        if reject_style and ceil < px:
+            out.append(f"{sym}: ⚠️ SHORT zone {floor:g}-{ceil:g} sits BELOW price "
+                       f"{px:g} — price accepted through the whole zone, so the "
+                       f"fade has nothing left overhead")
+        elif not reject_style and floor <= px:
+            out.append(f"{sym}: ⚠️ SHORT zone {floor:g}-{ceil:g} is not above "
+                       f"price {px:g} — a fade with no resistance under it")
 
     # 3. a long's dip-buy zone should not sit above price (that is chasing)
     if entry and side == "long" and not confirm_style and not held \
             and min(entry) > px * 1.03:
         out.append(f"{sym}: ⚠️ LONG zone {min(entry):g}-{max(entry):g} sits "
                    f"{((min(entry) - px) / px * 100):.1f}% ABOVE price {px:g}")
+
+    # 3b. RULE B — the stop must sit at least 1 ATR from the entry midpoint.
+    #     Below that it is taken out by an ordinary day rather than by being
+    #     wrong. CLAUDE.md states the rule and records four of six measurable
+    #     ranked plans failing it; nothing tested it, because the audit had no
+    #     ATR. A full run does.
+    #
+    #     ⚠️ It is an ENTRY filter and must not be pointed at a held position:
+    #     read literally it would tell you to WIDEN the stop on a trade that is
+    #     already winning, which is backwards. `held` covers that — the same
+    #     exemption checks 2/3/5 use — and CLAUDE.md's own table is the proof
+    #     (TSLA/META/DELL all failed the entry test with 1.5-3.0 ATR of live
+    #     cushion, so there was nothing to fix).
+    #
+    #     A tighter stop is ALLOWED if the card states the trade-off outright,
+    #     the way GLW's does, so a card that quotes its own ATR arithmetic is
+    #     taken at its word rather than nagged every run.
+    if entry and stop and atr and not held:
+        mid = (min(entry) + max(entry)) / 2
+        units = abs(stop[0] - mid) / atr
+        argued = re.search(r"\bATR\b", str(lead.get("edge") or ""), re.I)
+        if units < 1.0 and not argued:
+            out.append(f"{sym}: ⚠️ stop {stop[0]:g} is {units:.2f} ATR from the entry "
+                       f"midpoint {mid:g} (ATR {atr:.2f}) — under 1 ATR an ordinary "
+                       f"day takes it out; widen it, or state the trade-off and the "
+                       f"ATR-proof alternative on the card the way GLW's does")
 
     # 4. stop breached on the close?
     if stop and close is not None:
@@ -519,7 +767,14 @@ def audit_card(stock: dict, close: float | None) -> list[str]:
         lo, hi = min(entry), max(entry)
         have = lead.get("status")
         if have in ("live", "wait"):
-            if lo <= px <= hi and have != "live":
+            # Price inside the zone means the trigger is reached — EXCEPT on a
+            # rejection-only entry, where arriving in the zone is the setup
+            # presenting itself and the trigger is the reversal printing there.
+            # Both readings are legitimate on the same geometry, so the analyst
+            # keeps this one: INTC sits inside $96–102 with the $89 confirmation
+            # never printed, which is 'wait' by its own rule, while CRWV flipped
+            # to 'live' the day the reversal candle closed near its low.
+            if lo <= px <= hi and have != "live" and not reject_style:
                 out.append(f"{sym}: status 'wait' but price {px:g} is INSIDE "
                            f"zone {lo:g}-{hi:g} → expected 'live'")
             elif px > hi and have != "wait":
@@ -626,6 +881,7 @@ def main() -> int:
             want = [t for t in want if t not in INDEX_ONLY]
 
     closes: dict[str, float] = {}
+    atrs: dict[str, float] = {}
     report: list[str] = []
 
     def emit(line: str = "") -> None:
@@ -657,6 +913,10 @@ def main() -> int:
                 continue
             fs = frames(bars)
             closes[t] = fs[0].c
+            a = atr([b["h"] for b in bars], [b["l"] for b in bars],
+                    [b["c"] for b in bars])[-1]
+            if a:
+                atrs[t] = a
             prev = bars[-2]["c"] if len(bars) > 1 else fs[0].c
             chg = (fs[0].c - prev) / prev * 100 if prev else 0.0
             tag = ("  [regime — not a card]" if t in MARKET_SYMBOLS
@@ -679,11 +939,17 @@ def main() -> int:
     emit("CARD AUDIT — mechanical checks only")
     emit("=" * 78)
     findings = 0
+    # The regime layer first — it sits above every card on the page, so a stale
+    # cockpit mis-frames all of them rather than one.
+    newest = max((s.get("date") or "" for s in stocks.values()), default=None)
+    for line in audit_market(board.get("MARKET") or {}, newest):
+        emit(f"  {line}")
+        findings += 1
     for t in want:
         s = stocks.get(t)
         if not s:
             continue
-        for line in audit_card(s, closes.get(t)):
+        for line in audit_card(s, closes.get(t), atrs.get(t)):
             emit(f"  {line}")
             findings += 1
     emit()

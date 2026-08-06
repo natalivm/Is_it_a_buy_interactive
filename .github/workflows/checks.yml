@@ -96,6 +96,31 @@ jobs:
                     \`computed band '\${t.band}'\`);
                 }
               }
+              // The prose budgets CLAUDE.md documents, which were documented and
+              // unchecked — and had drifted on 17 fields across 11 rows
+              // (preferred to 111 chars, h4 to 204) before this went in. They
+              // are not style: the ticker cell is four fixed lines and the 4H
+              // cell is one paragraph plus four frames, so an over-long field
+              // makes one cell several times the height of its neighbour, which
+              // is the exact raggedness both cells exist to prevent.
+              //
+              // Checked at the documented number, not at a tolerance above it:
+              // '~45' with a fudge factor is a budget nobody can be wrong about.
+              // Trim to the verdict — the levels belong in longSetup/shortSetup,
+              // which already carry them, and h4's overflow belongs in h4Effect,
+              // which is TSV-exported and never rendered.
+              for (const [f, lim] of [['preferred', 45], ['bias', 115], ['h4', 100]]) {
+                if (r[f] && r[f].length > lim) {
+                  throw new Error(
+                    \`\${r.ticker}: \${f} is \${r[f].length} chars, over its \` +
+                    \`~\${lim} budget — see CLAUDE.md, 'Structure board'\`);
+                }
+              }
+            }
+            // Same discipline one level up: the board note renders under the
+            // bars, where a wall of prose is what the cockpit exists to avoid.
+            if (B.note && B.note.length > 550) {
+              throw new Error(\`board note is \${B.note.length} chars, over ~550\`);
             }
             // Direction groups are the single source of truth for each row's
             // membership badge, so a mistyped ticker there silently labels

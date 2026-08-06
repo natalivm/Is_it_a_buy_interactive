@@ -19,13 +19,17 @@ nothing except the fixture.
 from __future__ import annotations
 
 import datetime as dt
+import json
+import pathlib
 import random
+import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import flow                      # noqa: E402
+import refresh                   # noqa: E402
 import indicators as ind         # noqa: E402
 import structure as st           # noqa: E402
 
@@ -445,6 +449,226 @@ check("rel_volume is a multiple of the trailing median",
 check("a zero-volume bar reads 0, not a crash",
       st.rel_volume([{"date": dt.date(2025, 1, 1), "o": 1, "h": 1, "l": 1,
                       "c": 1, "v": 0}] * 5, 4), 0.0)
+
+# ── card audit: rejection-only shorts ───────────────────────────────────────
+# A rejection-only entry is TAKEN inside its zone — the trigger is the reversal
+# printing there, not price arriving — so neither "the zone must be above price"
+# nor "price inside the zone → live" holds for one. What still has to fire is
+# the COHR shape: a fade whose whole zone is behind price, with nothing overhead.
+print("\nCard audit — a rejection-only short is entered INSIDE its zone")
+
+
+def _zone_status_findings(entry, price, status, side='short'):
+    card = {'symbol': 'TEST', 'side': side, 'exchange': 'NASDAQ',
+            'date': '2026-08-05', 'price': f'${price}', 'story': 'stories/crwv.html',
+            'lead': {'entry': entry, 'stop': '$200', 'targets': '$50',
+                     'rr': '~1:1', 'status': status}}
+    return [f for f in refresh.audit_card(card, price)
+            if 'SHORT zone' in f or 'status' in f]
+
+
+check("price INSIDE a fade zone is the setup, not a finding",
+      _zone_status_findings('fade the rejection in $88–97', 89.89, 'live'), [])
+check("…and 'wait' inside it is the analyst's call to keep",
+      _zone_status_findings('rejection printed in $96–102', 101.06, 'wait'), [])
+check("price at the zone's top edge is still inside it",
+      _zone_status_findings('fade the rejection in $88–97', 97.0, 'live'), [])
+check("a fade whose whole zone is behind price still fires",
+      len(_zone_status_findings('fade the rejection in $70–75', 90.0, 'live')), 2)
+check("a plain short is still tested at the zone floor",
+      len(_zone_status_findings('short the $88–97 band', 89.89, 'live')), 1)
+
+# ── card audit: signal/edge accretion ───────────────────────────────────────
+# `signal` is the tile's CURRENT read and a refresh REPLACES it; git is the
+# archive. Two dated close blocks in one field is the fingerprint of the
+# prepend-forever mistake that grew the 36 signals to 349k characters.
+print("\nCard audit — a signal is a current read, not a journal")
+
+
+def _accrete(signal, edge=''):
+    card = {'symbol': 'TEST', 'side': 'long', 'exchange': 'NASDAQ',
+            'date': '2026-08-05', 'price': '$100', 'signal': signal,
+            'story': 'stories/crwv.html',
+            'lead': {'entry': '$90–95 dip', 'stop': '$85', 'targets': '$120',
+                     'rr': '~4:1', 'status': 'wait', 'edge': edge}}
+    return [f for f in refresh.audit_fields(card)
+            if 'session blocks' in f or "'||'-separated" in f]
+
+
+check("one dated close block is a current read",
+      _accrete('📅 CLOSE 08/05 — held the level, plan unchanged.'), [])
+check("an AH lead-in over the same session's close still passes",
+      _accrete('🌙 AH −3% on earnings. 📅 CLOSE 08/05 — held the level.'), [])
+check("a second dated block is flagged as accretion",
+      len(_accrete('📅 CLOSE 08/05 — held. 📅 CLOSE 08/04 — also held.')), 1)
+check("'||' history in edge is flagged",
+      len(_accrete('📅 CLOSE 08/05 — held.', 'current read || ⛔ old cycle')), 1)
+check("an edge without history passes",
+      _accrete('📅 CLOSE 08/05 — held.', 'clean current read'), [])
+check("a single-session essay over ~700 chars is flagged",
+      len([f for f in refresh.audit_fields(
+          {'symbol': 'TEST', 'exchange': 'NASDAQ', 'date': '2026-08-05',
+           'story': 'stories/crwv.html',
+           'signal': '📅 CLOSE 08/05 — ' + 'x' * 700})
+          if 'budget' in f]), 1)
+check("a 700-char stance passes",
+      [f for f in refresh.audit_fields(
+          {'symbol': 'TEST', 'exchange': 'NASDAQ', 'date': '2026-08-05',
+           'story': 'stories/crwv.html',
+           'signal': '📅 CLOSE 08/05 — held.'}) if 'budget' in f], [])
+
+# ── card audit: the ladder around the ТУТ rung ──────────────────────────────
+# --fix-rungs re-cuts the ТУТ rung and only that rung, so its neighbours drift
+# every time a card refreshes. Two things are decidable from the deck's own
+# numbers: the ladder is a top-down price map, and a res/sup tag is a claim
+# about which side of price the level is on.
+print("\nCard audit — the ladder around the ТУТ rung")
+
+
+def _write_bad(tmp=pathlib.Path('/tmp/ib-ladder-bad.html')):
+    tmp.write_text("<div class='ladder' data-rungs='[[\"res\", oops]]'></div>", 'utf-8')
+    return tmp
+
+
+def _ladder(rungs, tmp=pathlib.Path('/tmp/ib-ladder-test.html')):
+    tmp.write_text("<div class='ladder' data-rungs='"
+                   + json.dumps(rungs, ensure_ascii=False) + "'></div>", 'utf-8')
+    return refresh.audit_ladder({'symbol': 'TEST', 'story': str(tmp)}, tmp)
+
+
+check("a ladder in price order with honest tags is silent",
+      _ladder([["res", "$120", "cap"], ["now", "$100", "ТУТ"],
+               ["sup", "$90", "floor"]]), [])
+check("a res rung under the ТУТ price is caught",
+      len([f for f in _ladder([["res", "$90", "stale cap"], ["now", "$100", "ТУТ"]])
+           if 'tagged `res`' in f]), 1)
+check("a sup rung over the ТУТ price is caught",
+      len([f for f in _ladder([["now", "$100", "ТУТ"], ["sup", "$110", "stale floor"]])
+           if 'tagged `sup`' in f]), 1)
+check("a rung printed above a higher one is out of order",
+      len([f for f in _ladder([["res", "$90", "a"], ["res", "$120", "b"],
+                               ["now", "$100", "ТУТ"]])
+           if 'price order' in f]), 1)
+# A level INSIDE the band above it ('$99' under '$98–102') is ordered either
+# way, and flagging it would make the check noise rather than a finding.
+check("a level inside the band above it is not out of order",
+      [f for f in _ladder([["res", "$98–102", "band"], ["res", "$99", "inside it"],
+                           ["now", "$95", "ТУТ"]]) if 'price order' in f], [])
+check("`key` carries no side claim, so it is never role-checked",
+      [f for f in _ladder([["key", "$90", "either side"], ["now", "$100", "ТУТ"]])
+       if 'tagged' in f], [])
+check("a ladder with no ТУТ rung is still order-checked",
+      len([f for f in _ladder([["res", "$90", "a"], ["res", "$120", "b"]])
+           if 'price order' in f]), 1)
+check("unparseable ladder JSON is a finding, not a crash",
+      len([f for f in refresh.audit_ladder(
+          {'symbol': 'TEST', 'story': '/tmp/ib-ladder-bad.html'},
+          _write_bad()) if 'does not parse' in f]), 1)
+
+# ── card audit: Rule B, the stop in ATR units ───────────────────────────────
+# CLAUDE.md states the rule and records four of six measurable ranked plans
+# failing it. It went untested because the audit had no ATR; a full run does.
+print("\nCard audit — Rule B, the stop at least 1 ATR from the entry midpoint")
+
+
+def _ruleB(entry, stop, atr, edge='', price=100.0):
+    card = {'symbol': 'TEST', 'side': 'long', 'exchange': 'NASDAQ',
+            'date': '2026-08-05', 'price': f'${price}', 'story': 'stories/crwv.html',
+            'lead': {'entry': entry, 'stop': stop, 'targets': '$200', 'rr': '~5:1',
+                     'status': 'wait', 'edge': edge}}
+    return [f for f in refresh.audit_card(card, price, atr) if 'ATR from the entry' in f]
+
+
+check("a stop inside 1 ATR is flagged",
+      len(_ruleB('$95–105 dip', '$97', 5.0)), 1)
+check("a stop beyond 1 ATR passes", _ruleB('$95–105 dip', '$92', 5.0), [])
+check("a card that argues its own ATR trade-off is taken at its word",
+      _ruleB('$95–105 dip', '$97', 5.0,
+             edge='still only 0.54 ATR, and that is deliberate — the ATR-proof '
+                  'alternative is $156'), [])
+check("a FILLED plan is exempt — Rule B is an entry filter, not a trail",
+      _ruleB('filled $100', '$97', 5.0), [])
+check("no ATR (an --audit-only run) skips the check rather than guessing",
+      _ruleB('$95–105 dip', '$97', None), [])
+
+# ── card audit: the level chart's own ТУТ marker ────────────────────────────
+print("\nCard audit — the cover slide's level chart against the card")
+
+
+def _chart(chart_px, card_px, tmp=pathlib.Path('/tmp/ib-lv-test.html')):
+    tmp.write_text('<svg data-lv=\'[["y", 120, "$' + chart_px
+                   + '", "ТУТ · закриття 31.07 (−2.88%)"]]\'></svg>', 'utf-8')
+    return refresh.audit_level_chart({'symbol': 'TEST'}, tmp, card_px)
+
+
+check("a chart marker 20% off the card is reported", len(_chart('71.77', 89.89)), 1)
+check("…and one inside 1% is not", _chart('89.50', 89.89), [])
+check("a deck with no level chart is silent",
+      refresh.audit_level_chart({'symbol': 'TEST'},
+                                pathlib.Path('/tmp/ib-ladder-test.html'), 100.0), [])
+
+# ── trend meter invariants ──────────────────────────────────────────────────
+print("\nMARKET — the three fields around the computed bars")
+
+
+def _mkt(**over):
+    m = {'updated': '2026-08-05', 'note': 'short stance',
+         'markets': [{'symbol': 'QQQ',
+                      'checks': [{'label': 'Weekly', 'verdict': 'bull', 'weight': 1.5}],
+                      'vol': {'value': '24.15', 'range': [18, 30]}}]}
+    m.update(over)
+    return refresh.audit_market(m, '2026-08-05')
+
+
+check("a well-formed MARKET is silent", _mkt(), [])
+check("a note over ~550 is flagged", len(_mkt(note='x' * 600)), 1)
+check("`updated` behind the newest card is flagged",
+      len([f for f in refresh.audit_market(
+          {'updated': '2026-08-01', 'note': 'ok', 'markets': []},
+          '2026-08-05') if 'behind the newest card' in f]), 1)
+check("an unrecognised verdict is flagged — trendScore scores it 0 silently",
+      len(_mkt(markets=[{'symbol': 'QQQ',
+                         'checks': [{'label': 'W', 'verdict': 'bullish'}]}])), 1)
+check("a non-numeric weight is flagged",
+      len(_mkt(markets=[{'symbol': 'QQQ',
+                         'checks': [{'label': 'W', 'verdict': 'bull',
+                                     'weight': 'high'}]}])), 1)
+check("a vol gauge with no two-ended range is flagged",
+      len(_mkt(markets=[{'symbol': 'QQQ',
+                         'checks': [{'label': 'W', 'verdict': 'bull'}],
+                         'vol': {'value': '24', 'range': [18]}}])), 1)
+check("a market with no checks is flagged",
+      len(_mkt(markets=[{'symbol': 'QQQ', 'checks': []}])), 1)
+check("a missing MARKET is one finding, not a crash",
+      len(refresh.audit_market({}, None)), 1)
+
+# ── nums() against planNums() in script.js ──────────────────────────────────
+# The same deliberate cross-language pair as lean()/boardLean(), and the one
+# without a guard — every plan number on the board is parsed by BOTH (the audit
+# in Python, planProgress() in the browser), so a drift would put a different
+# entry midpoint on the screen than in the report.
+print("\nnums() must agree with planNums() in script.js, string for string")
+CASES = ['fade the rejection in $88–97', '$1,287–1,346', 'filled $535',
+         '$100 (dead >$97 close)', '$70 → $65 → $60.55', '1H close under $61',
+         '', 'no numbers here', '$1,153.50–1,173.91', '+13.81% (2:36 ET)']
+_js = json.loads(subprocess.run(
+    ['node', '-e', """
+      const fs = require('fs'), vm = require('vm');
+      const noop = new Proxy(function () {}, {
+          get: () => noop, apply: () => noop, construct: () => noop });
+      const ctx = { document: noop, window: noop, navigator: noop, localStorage: noop,
+          location: { hash: '' }, addEventListener() {}, setTimeout() {},
+          matchMedia: () => ({ matches: false, addEventListener() {} }) };
+      ctx.globalThis = ctx; vm.createContext(ctx);
+      vm.runInContext(fs.readFileSync('board.js', 'utf8'), ctx);
+      vm.runInContext(fs.readFileSync('script.js', 'utf8'), ctx);
+      ctx.__in = """ + json.dumps(CASES) + """;
+      vm.runInContext('this.__out = JSON.stringify(this.__in.map(planNums));', ctx);
+      process.stdout.write(ctx.__out);
+    """], capture_output=True, text=True, check=True,
+    cwd=Path(__file__).resolve().parent.parent).stdout)
+for _s, _want in zip(CASES, _js):
+    check(f"nums({_s[:26]!r})", refresh.nums(_s), _want)
 
 # ── flow signing ────────────────────────────────────────────────────────────
 print("\nOrder flow — signing")

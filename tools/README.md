@@ -9,7 +9,10 @@ and do the arithmetic here.
 ## Usage
 
 ```bash
-node tools/dump_board.js > /tmp/board.json   # data.js as JSON (sanity check)
+node tools/dump.js data.js MARKET STOCKS ARTICLES > /tmp/board.json  # sanity check
+node tools/dump.js board.js BOARD > /tmp/structure.json             # the structure board
+
+python3 tools/run_checks.py                  # every checks.yml step, locally, pre-push
 
 python3 tools/refresh.py                     # every ticker on the board
 python3 tools/refresh.py MU SNDK WDC         # a few
@@ -54,7 +57,13 @@ ticker list, a source, and a flag for whether to touch the PR.
    - stop breached on the close
    - `status` disagreeing with where price actually is
    - a **short whose zone is not above price** (a fade with no resistance under
-     it — the flaw that was found by hand on COHR)
+     it — the flaw that was found by hand on COHR). A **rejection-only** entry
+     is tested at the zone's TOP instead: it is meant to be taken INSIDE the
+     zone, so price arriving is the setup, and what voids it is price accepting
+     through the whole band. Same reason such an entry is exempt from the
+     `status` check's "inside the zone → live" reading — INTC sits inside
+     $96–102 with its $89 confirmation unprinted, which is `wait` by its own
+     rule, while CRWV flipped `live` when the reversal candle closed near its low
    - a dip-buy long whose zone sits above price (chasing); entries phrased as
      acceptance *over* a level are exempt, since those are meant to sit above
    - **a `filled` entry is exempt from the zone-vs-price and `status` checks**
@@ -68,6 +77,41 @@ ticker list, a source, and a flag for whether to touch the PR.
    - card price drifting from the real close — an automatic staleness detector
    - an `entry` string mixing scales, which would make `planProgress()` average
      unrelated numbers (this bit once: `"1H close"` parsed `1` as a price)
+   - **accretion in `signal` and `lead.edge`.** A signal is the tile's CURRENT
+     read and a refresh REPLACES it — git history is the archive. By 2026-08-06
+     the 36 signals had grown to 349k characters (76% of `data.js`) from each
+     refresh prepending its narrative onto the last one, so a second dated
+     `📅 CLOSE dd/mm` block in a signal, or `||`-separated history in an edge,
+     is flagged
+   - **RULE B — the stop at least 1 ATR from the entry midpoint**, the rule
+     CLAUDE.md states along with four of six ranked plans failing it. Needs a
+     full run: with no bars there is no ATR, and the check is skipped rather
+     than guessed. It is an ENTRY filter, so a `filled` plan is exempt — read
+     literally it would tell you to widen the stop on a winning trade — and a
+     card that argues its own ATR trade-off (the way GLW's does) is taken at
+     its word instead of nagged every run
+   - **the trend meter** (`MARKET`): the note against its ~550 budget, which
+     blew past 1,900 twice in one day; `updated` missing, malformed, in the
+     future, or behind the newest card; a check whose `verdict` is not one of
+     `bull|bear|neutral`, which `trendScore()` would score 0 silently; a
+     non-numeric `weight`; and a `vol` gauge whose `range` is not
+     `[calmLo, fearHi]`, leaving the mini-gauge needle no scale
+   - **the cover slide's level chart against the card.** The chart carries its
+     own ТУТ marker and nothing compared it to anything: a deck can say $89.89
+     in its ladder and $71.77 in its chart, both labelled "ТУТ". The chart is a
+     dated snapshot and is allowed to sit behind the card — what is not fine is
+     the gap going unmeasured. Reported, never fixed: re-cutting one means
+     re-drawing its geometry and re-reading its session
+   - **the deck ladder around the ТУТ rung**, which nothing else looked at.
+     `--fix-rungs` re-cuts that rung and only that rung, so each refresh moves
+     the "you are here" line and leaves its neighbours where the last session
+     put them. Two things are decidable from the deck's own numbers: the ladder
+     is a top-down price map, so a rung may not sit above the one printed before
+     it (a level *inside* the band above it is fine — overlaps are ordered
+     either way); and a `res` rung entirely below the ТУТ price is not
+     resistance, nor a `sup` above it support. `key` carries no side claim and
+     is never role-checked. Both are reported, never fixed — flipping a rung's
+     role or re-pricing its caption is a read of what the level now means
 
 ## What it deliberately does not do
 
