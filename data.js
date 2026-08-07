@@ -880,8 +880,8 @@ const STOCKS = [
   },
   {
     symbol: 'AXON', exchange: 'NASDAQ',
-    price: '$522.46', change: '📅 CLOSE $522.46 (−14.28%) — ⛔ the board’s worst day: a $112 range from $628.22 to $516.15, closing near the low and landing exactly on the 200-EMA $518.78',
-    signal: '📅 CLOSE 08/06 — ⛔ WORST DAY ON THE BOARD, AND IT STOPPED ON THE 200-EMA. Closed $522.46 (−14.28%) after ranging $628.22 to $516.15 — a $112 day — finishing near the low and $3.68 above the 200-EMA $518.78, with the 50-EMA $512.24 just beneath. That pair is the whole decision now. ⚠️ Price lost the 9-EMA $554.13 and the mid-band $539.62 in one session, and monthly hist −25.81 is ten bars negative. ⭐ The 50/200-EMA cluster at $512–519 held on the close, which is the only thing keeping this a watch rather than a short. A close under $512.24 and it is neither.',
+    price: '$522.46', change: '📅 CLOSE $522.46 (−14.28%) — ⛔ the board’s worst day AND its earnings reaction: a $112 range from $628.22 to $516.15, closing on the 50/200-EMA cluster · day 0, so stand aside to 08-11',
+    signal: '📅 CLOSE 08/06 — ⛔ WORST DAY HERE, AND GATED UNTIL 08-11. Closed $522.46 (−14.28%) after ranging $628.22 to $516.15, finishing $3.68 above the 200-EMA $518.78 with the 50-EMA $512.24 just under. ⛔ That bar is the earnings reaction, i.e. day 0, so no new position until the THIRD session after it: 08-07 and 08-10 pass and 08-11 is the first actionable one. The levels stay live and keep refreshing — the gate governs WHEN a plan may be taken, not what it is. ⚠️ The bar broke exactly what the gate exists for: its own $628.22 wick reads as a swing high, and ATR(14) is still quoting the pre-earnings regime. The $512–519 cluster held on the close and is the whole decision.',
     side: 'long', accent: 'emerald',
     date: '2026-08-07', alert: true,
     story: 'stories/axon.html',
