@@ -904,9 +904,18 @@ function initWhatsNew() {
 let lastFocused = null;
 let currentSlug = null;
 
+// The structure board's own URL: index.html#board. It shares the hash space
+// with the deck slugs, so it is RESERVED — checked before findStock, and a
+// ticker of this name could never open its deck. Nothing is called BOARD today
+// and the guard is one line, which is cheaper than the bug.
+const BOARD_SLUG = 'board';
+
 function slugify(sym) { return String(sym == null ? '' : sym).trim().toLowerCase(); }
 function hashSlug() { return slugify(decodeURIComponent((location.hash || '').replace(/^#/, ''))); }
-function findStock(slug) { return ITEMS.find(s => slugify(s.symbol) === slug); }
+function findStock(slug) {
+    if (slug === BOARD_SLUG) return null;
+    return ITEMS.find(s => slugify(s.symbol) === slug);
+}
 function deckUrl(slug) { return location.origin + location.pathname + location.search + '#' + slug; }
 
 // ── Copy-to-clipboard + toast ────────────────────────────────────────────────
@@ -1002,7 +1011,12 @@ function openStory(symbol) {
 }
 
 function closeStory() {
-    if (location.hash) location.hash = '';        // hashchange → reconcile → close
+    // Back to the board's URL rather than to a bare one when that is where the
+    // deck was opened from — otherwise closing a deck silently costs the page
+    // its copyable address while still showing the board.
+    const back = document.documentElement.getAttribute('data-view') === 'table'
+        ? '#' + BOARD_SLUG : '';
+    if (location.hash !== back) location.hash = back;   // hashchange → reconcile
     else closeDeckDom();
 }
 
@@ -1097,14 +1111,40 @@ function applyView(view) {
     }
 }
 
+// Make the view match the URL. #board opens the board on a browser that has
+// never chosen it — which is the whole point of a shareable link — but does NOT
+// write the preference: a link says "show me this now", not "make this your
+// default". A deck hash leaves the view alone, so opening a deck from the board
+// and closing it comes back to the board.
+function reconcileView() {
+    if (hashSlug() === BOARD_SLUG) applyView('table');
+}
+
 function initViewToggle() {
     applyView(document.documentElement.getAttribute('data-view') === 'table' ? 'table' : 'cards');
+    reconcileView();
     const btn = document.getElementById('tableBtn');
     if (!btn) return;
     btn.addEventListener('click', () => {
         const next = document.documentElement.getAttribute('data-view') === 'table' ? 'cards' : 'table';
         applyView(next);
         try { localStorage.setItem(VIEW_KEY, next); } catch (e) { /* private mode */ }
+        // Put the view in the URL, so the address bar is the share link and no
+        // copy button has to exist. Only ever touches the board's own hash — a
+        // deck is open on any other one, and stealing its hash would close it.
+        if (!currentSlug) {
+            if (next === 'table') location.hash = BOARD_SLUG;
+            else if (hashSlug() === BOARD_SLUG) {
+                // history.replaceState keeps the toggle out of the back stack:
+                // cards → board → cards should leave the page where it started,
+                // not need three Backs to escape. Falls back to a hash write
+                // where the API is unavailable (and on file:// in some browsers).
+                if (history.replaceState) {
+                    history.replaceState(null, '',
+                        location.pathname + location.search);
+                } else location.hash = '';
+            }
+        }
     });
 }
 
@@ -1214,6 +1254,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Deep linking: keep the overlay in sync with the URL hash, and honor a
     // hash present on first load (e.g. someone opened a shared deck link).
-    window.addEventListener('hashchange', reconcileStory);
+    window.addEventListener('hashchange', () => { reconcileView(); reconcileStory(); });
     reconcileStory();
 });
