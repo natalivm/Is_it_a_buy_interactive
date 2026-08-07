@@ -846,7 +846,18 @@ def audit_card(stock: dict, close: float | None,
     #    A zone edge quoted as the invalidation line ('dead >$102 close' on a
     #    $96–102 zone) is the normal shape and passes; a level STRICTLY inside
     #    the zone does not — it invalidates part of its own entry.
-    if entry and stop and not done:
+    #
+    #    ⚠️ Like Rule B, this is ENTRY geometry and must not be pointed at a
+    #    held position — the same error CLAUDE.md records for 3b, one check
+    #    further along. On a FILLED trade `entry` is a historical fill price,
+    #    not a zone, and a stop trailed PAST it is the whole point: it locks
+    #    realised gain, so risk is negative rather than "≈ 0". Read literally
+    #    this check would have told NBIS — short filled $224, price $189.88,
+    #    stop trailed to $207 to bank +7.6% — to move its stop back above the
+    #    fill and hand the entire +15.2% back to the market. `held` covers it,
+    #    exactly as it covers 2/3/5; check 7 still recomputes the R:R, so the
+    #    number stays honest.
+    if entry and stop and not done and not held:
         lo, hi = min(entry), max(entry)
         if side == "short" and stop[0] <= hi:
             out.append(f"{sym}: ⚠️ stop {stop[0]:g} is not above the entry zone "
