@@ -273,6 +273,27 @@ the seven rows carrying one visibly taller than the rest — same problem as the
 ticker cell's score line. It is exported in the TSV instead, so the reasoning
 still leaves the file.
 
+**Zones are drawn twice: daily for structure, 4H for the edge.** The daily pass
+is the board and always leads the cell. Under it, behind a `4H` label, sit
+`demand4h` / `supply4h` — the same displacement rules run on 4H bars, nearest
+two a side. They exist because a name moving several ATRs in a week outruns its
+daily zones: TTD fell through its whole daily supply band ($17.96–19.37, 1.4
+ATR wide) in three sessions while the 4H pass put the live edge at $18.14–18.28,
+and AXON's daily demand was a 4.4%-wide shelf on a ticker that had just
+travelled 14%. A band that wide is a region, not a trigger.
+
+They are a REFINEMENT and are **never scored**. `Z`, the score, `position` and
+the bull/bear triggers all stay daily — a score has to keep the meaning it had
+on every earlier board, and a trigger has to quote a level that survives a
+session. Two caps keep them honest, both in the extractor: age is the frame's
+own structure window (`MAX_ZONE_AGE_4H = STRUCT_LOOKBACK['h4']`, so the zones
+and the 4H verdict beside them read the same stretch of tape), and distance is
+`MAX_ZONE_DIST_4H_ATR` **daily ATRs** from price — the unit the rest of the
+board reasons in, so one constant works on a $5 ticker and a $1,250 one. A row
+with no intraday read, or nothing inside those caps, carries the fields ABSENT
+rather than empty: "nobody looked" and "the 4H frame found nothing" are
+different statements, and PLTR is currently the second.
+
 A row with no 4H read — a ticker's first generated row, before anyone has
 written one — shows an italic muted `h4Note` placeholder rather than prose. That is deliberate: styling absent evidence like
 evidence is the same error as rendering an unscored row as 0.
@@ -534,6 +555,44 @@ fill when 1.00 ATR ($565) would still be outside noise and lock +5.6%.
 no. Express every stop in ATR units and the difference handles itself — a 3% stop
 is 0.55 ATR on MRVL and 0.66 ATR on META, and those are different trades. A
 per-name category would need maintaining; a ratio does not.
+
+## Earnings: three sessions before a move
+
+**No new position on a name until the THIRD session after its earnings
+reaction.** The reaction bar is day 0; for AXON's −14.28% session on
+2026-08-06 that makes 08-07 and 08-10 pass and **08-11** the first actionable
+one. The levels stay live and keep being refreshed throughout — the gate
+governs WHEN a plan may be taken, not what the plan is.
+
+The reason is that an earnings bar breaks the three things every rule on this
+board is measured in, all at once:
+
+- **Structure.** The reaction bar's own extremes get read as pivots. AXON's 4H
+  frame printed a "higher high" at $628.22 — the wick of the very bar that then
+  closed −14.28% — and the frame read bullish on it.
+- **Zones.** A gap leaves no traded bars behind it, so the displacement rules
+  find nothing where the move actually happened. PLTR gapped $125.91 → $145.15
+  and has no 4H level between ~$137 and $145 to this day.
+- **ATR.** Every stop on this board is priced in ATR units (Rule B), and ATR(14)
+  is still quoting the pre-earnings regime for a fortnight after the gap.
+
+Three sessions is what it takes for a swing to CONFIRM — two bars either side —
+so the gate is really "wait until there is structure to trade", expressed as a
+date because a date is checkable.
+
+**Identifying the reaction bar needs no calendar feed** — it is an outsized move
+on a volume spike at the quarterly cadence, and that is checkable in the bars
+this repo already fetches. AXON's 08-06 is −14.28% on 2.7× median volume, 70
+days after 05-28 (+12.27%, 2.1×) and a year on from 2025-08-05 (+16.41%, 3.1×).
+Do the cadence check rather than hedging about whether a −14% day was earnings:
+one is evidence, the other is a caveat nobody can act on.
+
+On the structure board the gate goes in `preferred` **with its expiry date**
+(`**Stand aside to 08-11** — post-earnings`), which also moves the row into the
+flat block where a stand-aside row belongs, and the reasoning goes in the row's
+`note`. A dated gate expires by itself, and that is the point: on the morning it
+lapses `preferred` needs rewriting to the row's real stance, not leaving to read
+stale.
 
 ## Adding a stock
 

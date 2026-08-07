@@ -24,6 +24,12 @@ reproducible from one OHLC source instead of from judgement:
   Supply      the last bullish/neutral candle (or base) before a down
               displacement that BREAKS a swing low:
                   [lowest body edge, highest wick]
+  Zones (4H)  the SAME rules run again on 4H bars, as a refinement: nearest two
+              a side, capped to MAX_ZONE_DIST_4H_ATR daily ATRs from price and
+              to the window the 4H structure read already uses. Reported in
+              `demand4h`/`supply4h` and NEVER scored — Z, the position line and
+              the bull/bear triggers all stay daily, so a score keeps the
+              meaning it had on every earlier board.
   Strength    fresh    — no meaningful revisit since departure
               tested   — one or two revisits, reacts but returns
               weak     — 3+ revisits, or multiple CLOSES inside (consumption).
@@ -139,6 +145,33 @@ CROSS_OVERLAP = 0.5
 # the grade carried no information. The working frames here are weekly and daily;
 # monthly is the overall view, not a source of tradeable levels.
 MAX_ZONE_AGE = 252          # ~1 year of daily bars
+
+# ── the 4H refinement pass ──────────────────────────────────────────────────
+# Daily zones are the board's structure and stay that way. But a name moving
+# several ATRs in a week outruns them: TTD fell through its whole daily supply
+# band in three sessions, and AXON's daily demand $498.30-520.18 was a 4.4%-wide
+# shelf on a ticker that had just travelled 14% — a level that wide is a region,
+# not a trigger. The same displacement rules run on 4H bars answer "where is the
+# edge NOW" at a resolution the daily frame cannot express.
+#
+# These zones are REFINEMENT and nothing else. They do not enter Z, the score,
+# the position line or the bull/bear triggers — those stay daily, so a score
+# still means what it meant on every previous board and a trigger still quotes a
+# level that survives a session. See read_ticker.
+#
+# Age, in the frame's own bars: 4H resamples to ~2.3 bars per session, so 120
+# bars is ~51 sessions. It is STRUCT_LOOKBACK['h4'] on purpose — the frame's
+# structure verdict reads exactly that window, and zones drawn from a longer one
+# would describe a stretch of tape the verdict beside them has already forgotten.
+MAX_ZONE_AGE_4H = STRUCT_LOOKBACK['h4']
+# How far a refinement may sit from price, in DAILY ATRs — the unit the rest of
+# the board reasons in, so one constant works on a $5 ticker and a $1,250 one.
+# MAX_ZONE_DIST's 45% is a cap for structure; a 4H level 45% away refines
+# nothing.
+MAX_ZONE_DIST_4H_ATR = 3.0
+# Per side. Two lines, because these print UNDER the daily zones in the same
+# cell and the column has to stay scannable.
+ZONES_4H = 2
 
 # Volume thresholds, all RELATIVE to the ticker's own trailing median — a raw
 # share count compares neither across tickers nor across time on one ticker.
@@ -491,10 +524,16 @@ def _leg_vol(bars: list[dict], i: int) -> float:
     return sum(vals) / len(vals) if vals else 0.0
 
 
-def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
+def find_zones(bars: list[dict], atr_series: list[float | None],
+               max_age: int = MAX_ZONE_AGE) -> list[Zone]:
     """Zones are formed by DISPLACEMENT that breaks structure, per the rule set:
     an up-move breaking a prior swing high leaves demand behind it; a down-move
-    breaking a prior swing low leaves supply above it."""
+    breaking a prior swing low leaves supply above it.
+
+    Frame-agnostic: everything here is measured in the bars and the ATR it is
+    handed, so the same rules draw daily zones and 4H ones. Only `max_age` has
+    to be told which frame it is counting — bars mean different spans of tape on
+    each (MAX_ZONE_AGE vs MAX_ZONE_AGE_4H)."""
     raw = swings([b["h"] for b in bars], [b["l"] for b in bars])
     sw = significant_swings(raw, atr_series)
     highs = [s for s in sw if s.kind == 'high']
@@ -550,7 +589,7 @@ def find_zones(bars: list[dict], atr_series: list[float | None]) -> list[Zone]:
     out = [z for z in out if z.hi - z.lo <= MAX_ZONE_ATR * z.atr_at]
     # …and one older than the age cap is history. Both filters run before
     # scoring so strength is graded only on zones that still count.
-    cutoff = len(bars) - MAX_ZONE_AGE
+    cutoff = len(bars) - max_age
     out = [z for z in out if z.i >= cutoff]
     for z in out:
         _score_zone(z, bars)
@@ -652,8 +691,17 @@ def _restrength(z: Zone) -> None:
         z.strength = 'fresh'
 
 
+def _tag_4h(levels: list[dict]) -> list[dict]:
+    """Mark structural references found by the 4H pass, so a reader can tell
+    which frame named a level — the same job `frame` does on a zone."""
+    for lv in levels:
+        lv['frame'] = '4h'
+    return levels
+
+
 def structural_levels(sw: list[Swing], price: float, kind: str,
-                      n: int = 2, beyond: float | None = None) -> list[dict]:
+                      n: int = 2, beyond: float | None = None,
+                      max_dist: float = MAX_ZONE_DIST) -> list[dict]:
     """Significant swing lows below price (or highs above) as SUPPORT/RESISTANCE
     references, for when no zone exists on that side.
 
@@ -666,7 +714,8 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
     `beyond` pushes the search past a level already reported: a swing high
     INSIDE the supply zone the row already prints is not a further reference,
     it is the same one named twice. Distance is still measured from price, so
-    the MAX_ZONE_DIST cap means what it says."""
+    `max_dist` means what it says — the structural cap by default, the 4H
+    pass's tighter ATR-derived one when it is the caller."""
     if kind == 'demand':
         limit = price if beyond is None else min(price, beyond)
         cand = sorted((s for s in sw if s.kind == 'low' and s.price < limit),
@@ -677,7 +726,7 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
                       key=lambda s: s.price - price)
     out = []
     for s in cand[:n]:
-        if abs(s.price - price) / price > MAX_ZONE_DIST:
+        if abs(s.price - price) / price > max_dist:
             continue
         out.append({'lo': round(s.price, 2), 'hi': round(s.price, 2),
                     'strength': 'structural', 'touches': None,
@@ -728,9 +777,14 @@ def with_reference(zones: list[dict], sw: list[Swing], price: float, kind: str,
     return zones[:cap - 1] + extra
 
 
-def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone]:
+def nearest(zones: list[Zone], price: float, kind: str, n: int = 3,
+            max_dist: float = MAX_ZONE_DIST) -> list[Zone]:
     """The n nearest zones of a kind on the correct side of price: demand below,
-    supply above. A 'demand' zone above price is resistance, not demand."""
+    supply above. A 'demand' zone above price is resistance, not demand.
+
+    `max_dist` is a FRACTION of price. The default is the structural cap; the 4H
+    refinement pass passes a tighter one derived from the daily ATR, because a
+    level 45% away refines nothing."""
     # A zone price is sitting INSIDE is the nearest one, at distance zero — the
     # old bounds (hi <= price, lo >= price) excluded exactly that zone, so the
     # demand list disagreed with the position line beside it.
@@ -740,7 +794,7 @@ def nearest(zones: list[Zone], price: float, kind: str, n: int = 3) -> list[Zone
     else:
         cand = [z for z in zones if z.kind == 'supply' and z.hi >= price]
         cand.sort(key=lambda z: max(0.0, z.lo - price))
-    return [z for z in cand if abs(z.mid - price) / price <= MAX_ZONE_DIST][:n]
+    return [z for z in cand if abs(z.mid - price) / price <= max_dist][:n]
 
 
 # ── intraday / 4H ───────────────────────────────────────────────────────────
@@ -792,6 +846,22 @@ def resample_4h(bars: list[dict]) -> list[dict]:
     key = None
     for b in bars:
         k = (b["dtm"].date(), b["dtm"].hour // 4)
+        # A CLOSING PRINT IS NOT A BAR. Yahoo ends the most recent session with
+        # a synthetic 20:00 UTC bar carrying the official close and nothing
+        # else — zero range, zero volume — and 20 // 4 opens a bucket of its
+        # own, so every 4H series ended with a fake bar. It damped 4H ATR by
+        # 7-8% on the day the board reads (AXON 22.37 against 24.08), which is
+        # what sizes the zone-width cap and the swing-significance floor; worse,
+        # a swing needs two bars to its right to be confirmed and this counted
+        # as one of them, so a synthetic bar was confirming structure on a frame
+        # whose whole rule is that an unconfirmed pivot is not structure yet.
+        #
+        # Merging it into the open bucket keeps the official close — dropping it
+        # would leave the 4H series closing at the 19:30 print instead, which
+        # then disagrees with the row's own price — and restores the range.
+        if not b["v"] and b["h"] == b["l"] and out:
+            out[-1]["c"] = b["c"]
+            continue
         if k != key:
             out.append({"date": b["date"], "dtm": b["dtm"], "o": b["o"], "h": b["h"],
                         "l": b["l"], "c": b["c"], "v": b["v"]})
@@ -908,6 +978,8 @@ def read_ticker(ticker: str, want_intraday: bool = True,
         trends['m'] = trend_score(monthly, m_struct)
 
     h4_struct, h4_note, h4_trend = 'neutral', 'no intraday data', None
+    dem4: list[dict] = []
+    sup4: list[dict] = []
     if want_intraday:
         try:
             h4 = resample_4h(fetch_yahoo_intraday(ticker))
@@ -918,6 +990,36 @@ def read_ticker(ticker: str, want_intraday: bool = True,
                 h4, STRUCT_LOOKBACK['h4'])
             h4_trend = trend_score(h4, h4_struct)
             h4_note = f"{len(h4)} 4H bars"
+            # The refinement pass: the same displacement rules, one frame down.
+            # Its own ATR sizes the width cap and its own bars the age cap, so
+            # what comes back is the edge as the last few weeks drew it — for a
+            # fast mover, several ATRs inside the daily band it replaces on
+            # screen. Never scored; see MAX_ZONE_AGE_4H.
+            if a:
+                z4 = find_zones(h4, h4_atr, max_age=MAX_ZONE_AGE_4H)
+                near = MAX_ZONE_DIST_4H_ATR * a / price
+                dem4 = [_zone_json(z, '4h') for z in
+                        nearest(z4, price, 'demand', ZONES_4H, near)]
+                sup4 = [_zone_json(z, '4h') for z in
+                        nearest(z4, price, 'supply', ZONES_4H, near)]
+                # A GAP LEAVES NO ZONE BEHIND IT, and that is the case this
+                # frame exists for. PLTR closed $125.91 on 08-03 and opened
+                # $145.15 on 08-04: the 4H frame has no traded bar between ~$137
+                # and $145, so every zone the displacement left sits below the
+                # gap, outside the cap, and the row rendered a blank 4H line on
+                # the fastest mover on the board. Its swing lows are still
+                # there — $152.70 from 08-06 — and are exactly the levels a
+                # chart reader names. Same fallback the daily pass already uses,
+                # same `structural` label, same caps: a reference, never a zone.
+                h4_win = [s for s in significant_swings(
+                    swings([b["h"] for b in h4], [b["l"] for b in h4]), h4_atr)
+                    if s.i >= len(h4) - MAX_ZONE_AGE_4H]
+                if not dem4:
+                    dem4 = _tag_4h(structural_levels(
+                        h4_win, price, 'demand', n=1, max_dist=near))
+                if not sup4:
+                    sup4 = _tag_4h(structural_levels(
+                        h4_win, price, 'supply', n=1, max_dist=near))
         except Exception as e:                       # noqa: BLE001 — reported
             h4_note = f"unavailable ({e})"
 
@@ -1008,6 +1110,17 @@ def read_ticker(ticker: str, want_intraday: bool = True,
                             trends['w']['band'], trends['d']['band']),
         'demand': dem,
         'supply': sup,
+        # The 4H refinement, kept in its OWN fields rather than merged into the
+        # lists above. Merging was the obvious thing and is wrong twice over:
+        # `Z` would start scoring intraday levels, so a score would stop meaning
+        # what it meant on every earlier board, and `position`/`bull`/`bear`
+        # would quote a level that a single session can erase. The daily zones
+        # remain the structure; these say where inside one the edge currently
+        # sits. Absent, not empty, when there is no intraday read — an empty
+        # list would render as "the 4H frame found nothing", which is a
+        # different statement from "nobody looked".
+        **({'demand4h': dem4} if dem4 else {}),
+        **({'supply4h': sup4} if sup4 else {}),
         'position': _position(price, dem, sup, zones),
         'bull': _bull(price, sup),
         'bear': _bear(price, dem),
@@ -1021,14 +1134,21 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     return row
 
 
-def _zone_json(z: Zone) -> dict:
-    return {'lo': round(z.lo, 2), 'hi': round(z.hi, 2), 'strength': z.strength,
-            'touches': z.touches, 'closesIn': z.closes_in,
-            # Volume evidence: how heavily the zone was created, and how many
-            # revisits arrived on high volume.
-            'formVol': z.form_vol, 'heavyTouches': z.heavy_touches,
-            'origin': 'strong' if z.form_vol >= VOL_STRONG_FORM else 'thin',
-            'since': z.date.isoformat()}
+def _zone_json(z: Zone, frame: str = 'd') -> dict:
+    out = {'lo': round(z.lo, 2), 'hi': round(z.hi, 2), 'strength': z.strength,
+           'touches': z.touches, 'closesIn': z.closes_in,
+           # Volume evidence: how heavily the zone was created, and how many
+           # revisits arrived on high volume.
+           'formVol': z.form_vol, 'heavyTouches': z.heavy_touches,
+           'origin': 'strong' if z.form_vol >= VOL_STRONG_FORM else 'thin',
+           'since': z.date.isoformat()}
+    # Which frame drew it. Only the refinement pass marks itself: the daily
+    # zones are the board's default and every seeded row predates the field, so
+    # tagging them would mean "some rows say 'd' and some say nothing", which is
+    # not a distinction anyone can read.
+    if frame != 'd':
+        out['frame'] = frame
+    return out
 
 
 def _fmt(z: Zone | dict) -> str:
@@ -1132,6 +1252,13 @@ HEADER = """// ── Structure board — GENERATED, do not hand-edit ───�
 // `parts` carries each term, so a bias can be checked against its own inputs
 // here and in the TSV export — the ticker cell does not render either (see
 // below), so this file is where that check happens.
+//
+// Zones are drawn TWICE. `demand`/`supply` are the daily pass and are the
+// board's structure; `demand4h`/`supply4h` are the same rules run on 4H bars,
+// nearest two a side, for names that outrun a daily band between refreshes.
+// The refinement is never scored — Z, `score`, `position` and the bull/bear
+// triggers are all daily, so a score keeps the meaning it had on every earlier
+// board. Absent, not empty, where there is no intraday read.
 //
 // ⚠ THE TICKER CELL IS FOUR LINES, on every row, always: ticker + bold price /
 // ATR(14) pair / preferred direction / bias. `price`, `atr`, `atrPct`,
@@ -1487,7 +1614,10 @@ def main() -> int:
             + f"       combo: {r.get('combo', '—')}\n"
             f"       demand {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['demand']) or '—'}\n"
             f"       supply {', '.join(_fmt(z) + ' ' + z['strength'] for z in r['supply']) or '—'}\n"
-            f"       {r['position']}")
+            + ("".join(
+                f"       4H {k:6} {', '.join(_fmt(z) + ' ' + z['strength'] for z in r[k + '4h'])}\n"
+                for k in ('demand', 'supply') if r.get(k + '4h')))
+            + f"       {r['position']}")
         print(f"  {t}: {r['bias']} ({r['score']:+.2f})", file=sys.stderr)
 
     if not rows:
