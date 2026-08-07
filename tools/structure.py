@@ -68,6 +68,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import concurrent.futures as cf
 import datetime as dt
 import json
 import re
@@ -804,7 +805,16 @@ def fetch_yahoo_intraday(ticker: str, interval: str = "60m",
     """Same endpoint as the daily fetch, intraday interval. Yahoo caps the
     range per interval (60m ~730d, 15m ~60d, 1m ~7d) and silently DOWNGRADES
     rather than erroring when the pair is out of bounds, so the caller checks
-    the spacing it actually got."""
+    the spacing it actually got.
+
+    ⚠️ Unmeasured, left alone on purpose: 730d of 60m bars resamples to ~1,200
+    4H bars, and the windows that consume them are 120 (`STRUCT_LOOKBACK['h4']`
+    and `MAX_ZONE_AGE_4H`) — roughly ten times what the structure pass reads.
+    Cutting the range would be the single biggest remaining saving in a run,
+    and it is NOT taken here because the indicators seeded off these bars need
+    far more history than the structure window does, and how much more has not
+    been measured against live data. Shorten it only with a before/after diff
+    of a real board, not by reasoning from the lookback constant alone."""
     sym = urllib.parse.quote(ticker)
     url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
            f"?range={rng}&interval={interval}&includePrePost=false")
@@ -929,9 +939,72 @@ def _frame_ok(bars: list[dict], frame: str, ticker: str) -> bool:
     return False
 
 
+# ── prefetch ────────────────────────────────────────────────────────────────
+# read_ticker() makes TWO network calls per ticker — 6y of daily bars and 730d
+# of 60m bars — and the loop calling it is serial, so a 25-row board spent ~50
+# round-trips waiting one at a time. The compute either side of them is ~12 ms
+# per ticker measured, i.e. under half a second for the whole board: a run is
+# almost entirely a socket wait, and the wait parallelises.
+#
+# Only the FETCH is threaded, deliberately. read_ticker() and everything under
+# it stay on the main thread, because ten of its diagnostics print to stderr
+# and threading the compute would interleave them run-to-run for a saving of
+# well under a second. So: fill a cache concurrently, then let the existing
+# serial loop run against it unchanged.
+#
+# The cache is only ever MUTATED on the main thread — workers just fetch and
+# return, and as_completed() is consumed here — so there is no dict race to
+# reason about. It holds raw bars for the length of one CLI run (~25 tickers ×
+# ~6k bars, tens of MB); this is a one-shot script, so nothing evicts.
+FETCH_WORKERS = 8
+_BARS: dict[tuple[str, str], list[dict]] = {}
+
+
+def cached_daily(ticker: str) -> list[dict]:
+    if (ticker, 'd') not in _BARS:
+        _BARS[(ticker, 'd')] = fetch_yahoo(ticker, FETCH_RANGE)
+    return _BARS[(ticker, 'd')]
+
+
+def cached_intraday(ticker: str) -> list[dict]:
+    if (ticker, 'h4') not in _BARS:
+        _BARS[(ticker, 'h4')] = fetch_yahoo_intraday(ticker)
+    return _BARS[(ticker, 'h4')]
+
+
+def prefetch(tickers: list[str], want_intraday: bool = True,
+             workers: int = FETCH_WORKERS) -> None:
+    """Warm the bar cache for every ticker at once.
+
+    A failure is left OUT of the cache rather than recorded as one. The serial
+    pass then retries that single call on the main thread and raises exactly
+    where it always did, so per-ticker error handling and its stderr line are
+    untouched by this existing — the prefetch is an accelerator, never a new
+    place for a run to fail.
+    """
+    jobs = [(t, 'd') for t in tickers]
+    if want_intraday:
+        jobs += [(t, 'h4') for t in tickers]
+    if not jobs:
+        return
+
+    def one(job):
+        t, kind = job
+        return job, (fetch_yahoo(t, FETCH_RANGE) if kind == 'd'
+                     else fetch_yahoo_intraday(t))
+
+    with cf.ThreadPoolExecutor(max_workers=max(1, min(workers, len(jobs)))) as pool:
+        for fut in cf.as_completed([pool.submit(one, j) for j in jobs]):
+            try:
+                job, bars = fut.result()
+            except Exception:  # noqa: BLE001 — the serial pass reports it
+                continue
+            _BARS[job] = bars
+
+
 def read_ticker(ticker: str, want_intraday: bool = True,
                 flow: dict | None = None) -> dict:
-    daily = fetch_yahoo(ticker, FETCH_RANGE)
+    daily = cached_daily(ticker)
     weekly = ind.resample(daily, 'W')
     monthly = ind.resample(daily, 'M')
 
@@ -982,7 +1055,7 @@ def read_ticker(ticker: str, want_intraday: bool = True,
     sup4: list[dict] = []
     if want_intraday:
         try:
-            h4 = resample_4h(fetch_yahoo_intraday(ticker))
+            h4 = resample_4h(cached_intraday(ticker))
             h4_atr = ind.atr([b["h"] for b in h4], [b["l"] for b in h4],
                              [b["c"] for b in h4])
             h4_struct = classify_structure(significant_swings(
@@ -1581,6 +1654,10 @@ def main() -> int:
         else:
             print(f"flow: {fp} missing — board ships without flow columns",
                   file=sys.stderr)
+
+    # One concurrent pass for every bar series the loop is about to need; the
+    # loop itself is unchanged and simply finds them already in hand.
+    prefetch(want, want_intraday=not args.no_intraday)
 
     rows, log, failed = [], [], []
     for t in want:

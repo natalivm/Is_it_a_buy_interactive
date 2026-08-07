@@ -51,6 +51,18 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # A healthy run is ~25 s end to end, so ten minutes is a ceiling nothing
+    # legitimate reaches — it exists to cap a feed that accepts the connection
+    # and then stalls, which the 30 s per-request timeout does not bound in
+    # aggregate. Without it the job inherits the 6-HOUR default and a single
+    # wedged fetch quietly spends a day's worth of Actions minutes.
+    #
+    # ⚠️ This does NOT cover time spent waiting for a runner: the clock starts
+    # when the job is assigned one. Two manual runs on 2026-08-06 were killed
+    # after 15 minutes having never been assigned (runner_id 0, zero steps
+    # executed) — that is GitHub-side capacity, and no workflow setting reaches
+    # it. Do not raise or lower this number in response to a queueing problem.
+    timeout-minutes: 10
     steps:
       # Node20 is EOL and runners default to Node24 since 2026-06-16, so the
       # JavaScript actions here are pinned to majors built for Node24. Do NOT

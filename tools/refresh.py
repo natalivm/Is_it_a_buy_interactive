@@ -28,6 +28,7 @@ Data source
 from __future__ import annotations
 
 import argparse
+import concurrent.futures as cf
 import csv
 import datetime as dt
 import io
@@ -66,6 +67,18 @@ INDEX_ONLY = {k for k, v in MARKET_SYMBOLS.items() if v.startswith("^")}
 # in the current bar) and flagging them just buries the findings that matter.
 TOL_INDEX = 0.5   # % — indices move less, so a smaller gap is meaningful
 TOL_STOCK = 1.0   # %
+
+# How many tickers to pull at once. A full run is 40 symbols and the work is
+# almost entirely WAITING: ~400 ms per HTTPS round-trip against ~30 ms of
+# indicator maths, so fetching them one at a time spent ~16 s of an 18 s run
+# idle on a socket. Threads, not processes — the GIL is irrelevant to a worker
+# blocked in recv(), and there is no CPU here worth a fork.
+#
+# 8 rather than 40: the ceiling is politeness, not parallelism. These are free
+# unofficial endpoints, forty simultaneous connections is what gets an IP
+# rate-limited, and a 429 costs a whole run where a second of latency costs a
+# second. 8 already takes the fetch under 3 s.
+FETCH_WORKERS = 8
 
 
 # ── board ───────────────────────────────────────────────────────────────────
@@ -203,6 +216,43 @@ def assert_daily(ticker: str, bars: list[dict]) -> None:
         raise RuntimeError(
             f"{ticker}: bars are {median} days apart — this is NOT daily data. "
             f"The feed downgraded the interval; refusing to compute on it.")
+
+
+def fetch_all(fetch, tickers: list[str],
+              workers: int = FETCH_WORKERS) -> dict[str, list[dict]]:
+    """Pull every ticker concurrently, and hand the results back in ORDER.
+
+    The order matters more than it looks. This report is read as a diff — run
+    to run, the same 40 blocks in the same places — so the sockets are allowed
+    to answer in whatever order they like, but nothing downstream may see that
+    order. Hence a dict the caller walks in its own sequence, and a stderr pass
+    that reports failures in the caller's order too rather than in the order
+    they happened to fail.
+
+    Per-ticker isolation is unchanged from the serial loop it replaces: one bad
+    symbol is caught, logged and skipped, and every other ticker still lands.
+    """
+    ok: dict[str, list[dict]] = {}
+    failed: dict[str, str] = {}
+
+    def one(t: str) -> list[dict]:
+        bars = fetch(t)
+        assert_daily(t, bars)          # never let coarse data through, threaded or not
+        return bars
+
+    with cf.ThreadPoolExecutor(max_workers=max(1, min(workers, len(tickers)))) as pool:
+        futures = {pool.submit(one, t): t for t in tickers}
+        for fut in cf.as_completed(futures):
+            t = futures[fut]
+            try:
+                ok[t] = fut.result()
+            except Exception as e:  # noqa: BLE001 — one bad ticker must not stop the run
+                failed[t] = str(e)
+
+    for t in tickers:                  # deterministic stderr, not completion order
+        if t in failed:
+            print(f"— {t}: SKIPPED ({failed[t]})", file=sys.stderr)
+    return ok
 
 
 def frames(bars: list[dict]) -> list[Frame]:
@@ -538,14 +588,46 @@ def rung_close(stock: dict) -> tuple[float, str] | None:
     return float(m.group(1).replace(",", "")), m.group(2).strip()
 
 
+def session_date(stock: dict) -> str | None:
+    """Which SESSION the card describes — not when it was published.
+
+    `date` is the tile's "Опубліковано" label, and the two coincide only when
+    a card is written on the session it reports. Refresh the morning after a
+    close — the normal rhythm once the bot runs after the bell — and they
+    diverge by a day, which used to stamp every re-cut rung with a session
+    that had not happened yet ('закриття 07.08' written on the morning of the
+    7th, for the 6th's close).
+
+    The signal's own `📅 CLOSE dd/mm` block is the card's statement of which
+    session it narrates, and the accretion check already treats it as such, so
+    it is the honest source. `date` remains the fallback for a card that
+    carries no dated block.
+    """
+    d = str(stock.get("date") or "")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+        return None
+    m = re.search(r"📅 CLOSE (\d{2})/(\d{2})", str(stock.get("signal") or ""))
+    if not m:
+        return d
+    # The signal block is MM/DD ('📅 CLOSE 08/06'); the rung prints DD.MM
+    # ('закриття 06.08'). Read the marker in its own order, not the rung's.
+    month, day = m.group(1), m.group(2)
+    year = int(d[:4])
+    # dd/mm carries no year: take the card's, and step back one if that would
+    # place the session ahead of publication (a January card citing December).
+    if f"{year}-{month}-{day}" > d:
+        year -= 1
+    return f"{year}-{month}-{day}"
+
+
 def recut_rung(stock: dict) -> tuple[str, str] | None:
     """The (price, label) a close-frame card's ТУТ rung should carry."""
     got = rung_close(stock)
     if not got:
         return None
     close, pct = got
-    d = str(stock.get("date") or "")
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+    d = session_date(stock)
+    if not d:
         return None
     label = CANON_RUNG.format(date=f"{d[8:10]}.{d[5:7]}", pct=pct)
     zone = nums((stock.get("lead") or {}).get("entry"))
@@ -796,7 +878,18 @@ def audit_card(stock: dict, close: float | None,
     #    A zone edge quoted as the invalidation line ('dead >$102 close' on a
     #    $96–102 zone) is the normal shape and passes; a level STRICTLY inside
     #    the zone does not — it invalidates part of its own entry.
-    if entry and stop and not done:
+    #
+    #    ⚠️ Like Rule B, this is ENTRY geometry and must not be pointed at a
+    #    held position — the same error CLAUDE.md records for 3b, one check
+    #    further along. On a FILLED trade `entry` is a historical fill price,
+    #    not a zone, and a stop trailed PAST it is the whole point: it locks
+    #    realised gain, so risk is negative rather than "≈ 0". Read literally
+    #    this check would have told NBIS — short filled $224, price $189.88,
+    #    stop trailed to $207 to bank +7.6% — to move its stop back above the
+    #    fill and hand the entire +15.2% back to the market. `held` covers it,
+    #    exactly as it covers 2/3/5; check 7 still recomputes the R:R, so the
+    #    number stays honest.
+    if entry and stop and not done and not held:
         lo, hi = min(entry), max(entry)
         if side == "short" and stop[0] <= hi:
             out.append(f"{sym}: ⚠️ stop {stop[0]:g} is not above the entry zone "
@@ -912,13 +1005,13 @@ def main() -> int:
         emit()
 
     if not args.audit_only:
-        fetch = FETCHERS[args.source]
+        # Fetch first, all of them, then report in `want` order — the network is
+        # the whole cost of this run and it parallelises; the maths after it does
+        # not need to.
+        fetched = fetch_all(FETCHERS[args.source], want)
         for t in want:
-            try:
-                bars = fetch(t)
-                assert_daily(t, bars)
-            except Exception as e:  # noqa: BLE001 — one bad ticker must not stop the run
-                print(f"— {t}: SKIPPED ({e})", file=sys.stderr)
+            bars = fetched.get(t)
+            if bars is None:           # fetch_all already said why, on stderr
                 continue
             fs = frames(bars)
             closes[t] = fs[0].c
