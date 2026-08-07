@@ -691,8 +691,17 @@ def _restrength(z: Zone) -> None:
         z.strength = 'fresh'
 
 
+def _tag_4h(levels: list[dict]) -> list[dict]:
+    """Mark structural references found by the 4H pass, so a reader can tell
+    which frame named a level — the same job `frame` does on a zone."""
+    for lv in levels:
+        lv['frame'] = '4h'
+    return levels
+
+
 def structural_levels(sw: list[Swing], price: float, kind: str,
-                      n: int = 2, beyond: float | None = None) -> list[dict]:
+                      n: int = 2, beyond: float | None = None,
+                      max_dist: float = MAX_ZONE_DIST) -> list[dict]:
     """Significant swing lows below price (or highs above) as SUPPORT/RESISTANCE
     references, for when no zone exists on that side.
 
@@ -705,7 +714,8 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
     `beyond` pushes the search past a level already reported: a swing high
     INSIDE the supply zone the row already prints is not a further reference,
     it is the same one named twice. Distance is still measured from price, so
-    the MAX_ZONE_DIST cap means what it says."""
+    `max_dist` means what it says — the structural cap by default, the 4H
+    pass's tighter ATR-derived one when it is the caller."""
     if kind == 'demand':
         limit = price if beyond is None else min(price, beyond)
         cand = sorted((s for s in sw if s.kind == 'low' and s.price < limit),
@@ -716,7 +726,7 @@ def structural_levels(sw: list[Swing], price: float, kind: str,
                       key=lambda s: s.price - price)
     out = []
     for s in cand[:n]:
-        if abs(s.price - price) / price > MAX_ZONE_DIST:
+        if abs(s.price - price) / price > max_dist:
             continue
         out.append({'lo': round(s.price, 2), 'hi': round(s.price, 2),
                     'strength': 'structural', 'touches': None,
@@ -836,6 +846,22 @@ def resample_4h(bars: list[dict]) -> list[dict]:
     key = None
     for b in bars:
         k = (b["dtm"].date(), b["dtm"].hour // 4)
+        # A CLOSING PRINT IS NOT A BAR. Yahoo ends the most recent session with
+        # a synthetic 20:00 UTC bar carrying the official close and nothing
+        # else — zero range, zero volume — and 20 // 4 opens a bucket of its
+        # own, so every 4H series ended with a fake bar. It damped 4H ATR by
+        # 7-8% on the day the board reads (AXON 22.37 against 24.08), which is
+        # what sizes the zone-width cap and the swing-significance floor; worse,
+        # a swing needs two bars to its right to be confirmed and this counted
+        # as one of them, so a synthetic bar was confirming structure on a frame
+        # whose whole rule is that an unconfirmed pivot is not structure yet.
+        #
+        # Merging it into the open bucket keeps the official close — dropping it
+        # would leave the 4H series closing at the 19:30 print instead, which
+        # then disagrees with the row's own price — and restores the range.
+        if not b["v"] and b["h"] == b["l"] and out:
+            out[-1]["c"] = b["c"]
+            continue
         if k != key:
             out.append({"date": b["date"], "dtm": b["dtm"], "o": b["o"], "h": b["h"],
                         "l": b["l"], "c": b["c"], "v": b["v"]})
@@ -976,6 +1002,24 @@ def read_ticker(ticker: str, want_intraday: bool = True,
                         nearest(z4, price, 'demand', ZONES_4H, near)]
                 sup4 = [_zone_json(z, '4h') for z in
                         nearest(z4, price, 'supply', ZONES_4H, near)]
+                # A GAP LEAVES NO ZONE BEHIND IT, and that is the case this
+                # frame exists for. PLTR closed $125.91 on 08-03 and opened
+                # $145.15 on 08-04: the 4H frame has no traded bar between ~$137
+                # and $145, so every zone the displacement left sits below the
+                # gap, outside the cap, and the row rendered a blank 4H line on
+                # the fastest mover on the board. Its swing lows are still
+                # there — $152.70 from 08-06 — and are exactly the levels a
+                # chart reader names. Same fallback the daily pass already uses,
+                # same `structural` label, same caps: a reference, never a zone.
+                h4_win = [s for s in significant_swings(
+                    swings([b["h"] for b in h4], [b["l"] for b in h4]), h4_atr)
+                    if s.i >= len(h4) - MAX_ZONE_AGE_4H]
+                if not dem4:
+                    dem4 = _tag_4h(structural_levels(
+                        h4_win, price, 'demand', n=1, max_dist=near))
+                if not sup4:
+                    sup4 = _tag_4h(structural_levels(
+                        h4_win, price, 'supply', n=1, max_dist=near))
         except Exception as e:                       # noqa: BLE001 — reported
             h4_note = f"unavailable ({e})"
 

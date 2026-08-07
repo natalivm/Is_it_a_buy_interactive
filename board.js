@@ -48,7 +48,7 @@ const BOARD = {
         "w": "bullish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1701 4H bars",
+        "h4Note": "1700 4H bars",
         "why": {
           "d": "pivots: highs 936.49->921.78, lows 698.99->782.08",
           "w": "pivots: highs 439.73->1145.00, lows 342.00->351.42"
@@ -131,8 +131,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 51.29,
-          "ema50": 853.7,
-          "ema200": 753.37,
+          "ema50": 853.74,
+          "ema200": 752.38,
           "missing": []
         }
       },
@@ -222,7 +222,7 @@ const BOARD = {
           "hi": 875.33,
           "strength": "weak",
           "touches": 12,
-          "closesIn": 14,
+          "closesIn": 13,
           "formVol": 1.06,
           "heavyTouches": 3,
           "origin": "thin",
@@ -264,7 +264,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "bullish",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 665.07->564.24, lows 485.75->502.72",
           "w": "pivots: highs 515.80->665.07, lows 402.00->485.75"
@@ -338,17 +338,17 @@ const BOARD = {
           ]
         },
         "h4": {
-          "score": 3,
+          "score": 4,
           "band": "uptrend",
           "S": 1,
           "E": 0,
           "A": 1,
-          "M": -1,
+          "M": 0,
           "reach": 7,
           "full": true,
-          "rsi": 43.74,
-          "ema50": 535.66,
-          "ema200": 495.59,
+          "rsi": 43.73,
+          "ema50": 536.2,
+          "ema200": 495.32,
           "missing": []
         }
       },
@@ -435,7 +435,7 @@ const BOARD = {
           "hi": 551.61,
           "strength": "weak",
           "touches": 4,
-          "closesIn": 20,
+          "closesIn": 19,
           "formVol": 1.54,
           "heavyTouches": 1,
           "origin": "strong",
@@ -461,7 +461,7 @@ const BOARD = {
           "hi": 532.18,
           "strength": "weak",
           "touches": 4,
-          "closesIn": 10,
+          "closesIn": 9,
           "formVol": 0.58,
           "heavyTouches": 1,
           "origin": "thin",
@@ -489,8 +489,8 @@ const BOARD = {
       "longSetup": "Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.",
       "shortSetup": "Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.",
       "preferred": "**Long preferred** — all four frames agree",
-      "h4": "Confirmed higher-high/higher-low to ≈$609. RSI 42.94 — not stretched, OBV turning up.",
-      "h4Effect": "This is the confirmation the row was waiting on: a 4H higher low above $605–610, now printed. All four frames align bullish for the first time. The next test is the same one the daily/weekly/monthly already face — $620–630 supply — not a fresh 4H question. The sequence runs off the mid-July ≈$490 low, cleanly through the July 20–27 ≈$555–565 pullback highs."
+      "h4": "−14% into the 200-EMA $521. $515–522 is the hold; $502.72 is the last higher low.",
+      "h4Effect": "The 4H frame still reads bullish, but on 532.92→564.24 highs and 485.74→502.72 lows — NOT on the $628.22 print, which was the crash bar's own wick and is no longer a confirmed pivot. Price is sitting on a real confluence: 4H demand $514.76–521.97 tested, the 4H 200-EMA $521.18, the lower band $513.50 and the top of daily demand $498.30–520.18. That is the level the row turns on. A 4H close under $502.72 ends the 4H uptrend and hands the frame to the daily neutral, with $498.30–520.18 the only thing under it. Stochastics at 4.09/16.50 means the first bounce is likely mechanical and proves nothing — it is the second test that reads."
     },
     {
       "ticker": "AVGO",
@@ -503,7 +503,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 399.00->398.59, lows 357.80->369.51",
           "w": "pivots: highs 353.14->495.00, lows 289.96->356.43"
@@ -585,9 +585,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 69.78,
-          "ema50": 394.38,
-          "ema200": 384.72,
+          "rsi": 69.84,
+          "ema50": 393.32,
+          "ema200": 384.36,
           "missing": []
         }
       },
@@ -652,7 +652,7 @@ const BOARD = {
           "hi": 421.94,
           "strength": "weak",
           "touches": 2,
-          "closesIn": 5,
+          "closesIn": 4,
           "formVol": 1.19,
           "heavyTouches": 1,
           "origin": "thin",
@@ -669,6 +669,16 @@ const BOARD = {
           "heavyTouches": 2,
           "origin": "thin",
           "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 424.17,
+          "hi": 424.17,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing high, no zone formed",
           "frame": "4h"
         }
       ],
@@ -693,7 +703,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 373.16->375.27, lows 351.08->314.90",
           "w": "pivots: highs 408.61->375.27, lows 330.20->314.90"
@@ -775,9 +785,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 53.33,
-          "ema50": 353.13,
-          "ema200": 348.47,
+          "rsi": 53.34,
+          "ema50": 352.94,
+          "ema200": 348.38,
           "missing": []
         }
       },
@@ -864,7 +874,7 @@ const BOARD = {
           "hi": 359.48,
           "strength": "weak",
           "touches": 7,
-          "closesIn": 12,
+          "closesIn": 11,
           "formVol": 0.77,
           "heavyTouches": 3,
           "origin": "thin",
@@ -931,7 +941,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 1189.07->1232.00, lows 1139.00->1109.15",
           "w": "pivots: highs 1133.95->1249.45, lows 977.12->850.51"
@@ -1005,17 +1015,17 @@ const BOARD = {
           ]
         },
         "h4": {
-          "score": 4,
+          "score": 2,
           "band": "uptrend",
           "S": 0,
-          "E": 1,
+          "E": 0,
           "A": 1,
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 56.74,
-          "ema50": 1167.15,
-          "ema200": 1094.84,
+          "rsi": 56.82,
+          "ema50": 1166.11,
+          "ema200": 1093.85,
           "missing": []
         }
       },
@@ -1080,7 +1090,7 @@ const BOARD = {
           "hi": 1202.34,
           "strength": "weak",
           "touches": 4,
-          "closesIn": 2,
+          "closesIn": 1,
           "formVol": 0.78,
           "heavyTouches": 2,
           "origin": "thin",
@@ -1106,7 +1116,7 @@ const BOARD = {
           "hi": 1193,
           "strength": "weak",
           "touches": 8,
-          "closesIn": 4,
+          "closesIn": 3,
           "formVol": 0.82,
           "heavyTouches": 2,
           "origin": "thin",
@@ -1147,7 +1157,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 395.57->405.99, lows 373.35->377.39",
           "w": "pivots: highs 413.05->466.32, lows 356.28->349.20"
@@ -1230,8 +1240,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 79.32,
-          "ema50": 428.74,
-          "ema200": 412.46,
+          "ema50": 425.84,
+          "ema200": 411.58,
           "missing": []
         }
       },
@@ -1336,7 +1346,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 113.03->118.36, lows 91.53->106.05",
           "w": "pivots: highs 139.20->113.79, lows 89.39->91.53"
@@ -1418,9 +1428,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 61.68,
-          "ema50": 108.59,
-          "ema200": 107.7,
+          "rsi": 61.69,
+          "ema50": 108.23,
+          "ema200": 107.6,
           "missing": []
         }
       },
@@ -1527,6 +1537,16 @@ const BOARD = {
           "frame": "4h"
         }
       ],
+      "supply4h": [
+        {
+          "lo": 118.36,
+          "hi": 118.36,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing high, no zone formed",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak supply $116.73–118.96",
       "bull": "close above $116.73–118.96 → $134.61–138.19",
       "bear": "close below $106.57–113.19 → $103.84–106.32",
@@ -1549,7 +1569,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 136.88->132.41, lows 120.73->117.89",
           "w": "pivots: highs 163.70->138.90, lows 122.68->106.37"
@@ -1631,9 +1651,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 69.92,
-          "ema50": 134.91,
-          "ema200": 137.28,
+          "rsi": 69.97,
+          "ema50": 134.05,
+          "ema200": 137.09,
           "missing": []
         }
       },
@@ -1703,6 +1723,26 @@ const BOARD = {
           "since": "2026-01-23"
         }
       ],
+      "demand4h": [
+        {
+          "lo": 132.42,
+          "hi": 132.42,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing low, no zone formed",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 163.69,
+          "hi": 163.69,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing high, no zone formed",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak supply $153.24–161.08",
       "bull": "close above $153.24–161.08 → $166.98–177.29",
       "bear": "close below $129.18–134.19 → $120.27–122.26",
@@ -1711,8 +1751,8 @@ const BOARD = {
       "longSetup": "**Momentum:** hold $155–160, form a higher low, reclaim $162–165 → $170, then $175–182. **Deeper pullback:** retest $145–150 (the gap open), hold it, reclaim $152–155 → $165–170, then $175–182. **Breakout:** daily acceptance above $170 with a successful $164–170 retest → $175–182, then $190–205.",
       "shortSetup": "**Bull-trap:** trade above $165–170, fail to hold, close back below $158–160 → $150, then $145. **Gap-failure:** daily close below $145 with a failed reclaim → $136–140, then $123–130.",
       "preferred": "**Long preferred** — do not chase",
-      "h4": "RSI ≈73, above the daily upper band near $147 — powerful but extended.",
-      "h4Effect": "Testing the $164.50–170 breakout-decision zone, the first resistance above the reclaimed gap. A close above $170 confirmed by a $164–170 retest opens $175–182, then $190–205. A rejection back under $158–160 raises the odds of a retest to $150, then $145. ATR(14) itself is still pre-gap and needs a genuine refresh — every zone here is measured off a stale dollar figure. Not an automatic reversal signal, but chasing the initial spike is poor risk/reward."
+      "h4": "Gap $126→$145 left nothing under price to $137; the 08-06 low $152.70 holds it up.",
+      "h4Effect": "The 08-04 gap is why this row has no 4H zone near price: the frame has no traded bar between ~$137 and $145, so every zone the displacement left sits below the gap and outside the cap. The nearest CONFIRMED 4H swing low is $132.42 — the 08-06 low $152.70 is one bar young and not structure yet, which is the honest state of a name three sessions off a 15% gap. Overhead is the $163.69 swing and the $166.06 high; price is inside daily supply $153.24–161.08 with the 4H histogram already negative. Rejection under $160 puts $152.70 in play, and under it there is air to $137."
     },
     {
       "ticker": "INTC",
@@ -1725,7 +1765,7 @@ const BOARD = {
         "w": "bullish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 116.77->106.85, lows 89.59->81.79",
           "w": "pivots: highs 132.75->142.35, lows 40.63->98.33"
@@ -1807,9 +1847,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 54.01,
-          "ema50": 101.12,
-          "ema200": 94.44,
+          "rsi": 54.03,
+          "ema50": 101.18,
+          "ema200": 94.38,
           "missing": []
         }
       },
@@ -1952,7 +1992,7 @@ const BOARD = {
         "w": "bullish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 839.88->897.00, lows 650.82->594.84",
           "w": "pivots: highs 960.00->1085.68, lows 317.44->780.48"
@@ -2034,9 +2074,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 58.97,
-          "ema50": 781.41,
-          "ema200": 776.24,
+          "rsi": 58.98,
+          "ema50": 779.08,
+          "ema200": 775.61,
           "missing": []
         }
       },
@@ -2108,7 +2148,7 @@ const BOARD = {
           "hi": 855.12,
           "strength": "weak",
           "touches": 6,
-          "closesIn": 22,
+          "closesIn": 21,
           "formVol": 1.65,
           "heavyTouches": 2,
           "origin": "strong",
@@ -2134,7 +2174,7 @@ const BOARD = {
           "hi": 874.86,
           "strength": "weak",
           "touches": 6,
-          "closesIn": 15,
+          "closesIn": 14,
           "formVol": 0.96,
           "heavyTouches": 1,
           "origin": "thin",
@@ -2176,7 +2216,7 @@ const BOARD = {
         "w": "bullish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 1011.77->930.88, lows 737.88->770.10",
           "w": "pivots: highs 471.34->1255.00, lows 192.59->311.49"
@@ -2258,9 +2298,9 @@ const BOARD = {
           "M": 0,
           "reach": 7,
           "full": true,
-          "rsi": 49.45,
-          "ema50": 906.94,
-          "ema200": 785.99,
+          "rsi": 49.44,
+          "ema50": 908.01,
+          "ema200": 785.04,
           "missing": []
         }
       },
@@ -2336,7 +2376,7 @@ const BOARD = {
           "hi": 883.85,
           "strength": "weak",
           "touches": 7,
-          "closesIn": 17,
+          "closesIn": 16,
           "formVol": 1.48,
           "heavyTouches": 2,
           "origin": "strong",
@@ -2404,7 +2444,7 @@ const BOARD = {
         "w": "bullish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "821 4H bars",
+        "h4Note": "820 4H bars",
         "why": {
           "d": "pivots: highs 1696.37->1446.62, lows 1325.03->998.19",
           "w": "pivots: highs 777.60->2354.39, lows 517.00->558.58"
@@ -2472,9 +2512,9 @@ const BOARD = {
           "M": 0,
           "reach": 7,
           "full": true,
-          "rsi": 43.34,
-          "ema50": 1461.98,
-          "ema200": 1358.38,
+          "rsi": 43.35,
+          "ema50": 1470.26,
+          "ema200": 1359.38,
           "missing": []
         }
       },
@@ -2549,7 +2589,7 @@ const BOARD = {
           "hi": 1382.4,
           "strength": "weak",
           "touches": 2,
-          "closesIn": 5,
+          "closesIn": 4,
           "formVol": 1.17,
           "heavyTouches": 0,
           "origin": "thin",
@@ -2605,7 +2645,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 561.47->530.13, lows 460.21->424.03",
           "w": "pivots: highs 266.96->584.73, lows 194.28->188.22"
@@ -2688,8 +2728,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 47.72,
-          "ema50": 502.95,
-          "ema200": 431.55,
+          "ema50": 503.49,
+          "ema200": 430.97,
           "missing": []
         }
       },
@@ -2776,7 +2816,7 @@ const BOARD = {
           "hi": 512.82,
           "strength": "weak",
           "touches": 17,
-          "closesIn": 16,
+          "closesIn": 15,
           "formVol": 1.12,
           "heavyTouches": 4,
           "origin": "thin",
@@ -2832,7 +2872,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 415.80->427.00, lows 359.01->323.29",
           "w": "pivots: highs 637.51->494.53, lows 278.39->417.34"
@@ -2906,17 +2946,17 @@ const BOARD = {
           ]
         },
         "h4": {
-          "score": -2,
-          "band": "downtrend",
+          "score": 0,
+          "band": "range / transition",
           "S": 0,
-          "E": -1,
+          "E": 0,
           "A": -1,
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 53.56,
-          "ema50": 407.67,
-          "ema200": 428.4,
+          "rsi": 53.57,
+          "ema50": 407.85,
+          "ema200": 428.66,
           "missing": []
         }
       },
@@ -2924,7 +2964,7 @@ const BOARD = {
         "w": "uptrend",
         "d": "range / transition",
         "m": "range / transition",
-        "h4": "downtrend"
+        "h4": "range / transition"
       },
       "combo": "weekly up, daily range",
       "demand": [
@@ -3058,7 +3098,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "762 4H bars",
+        "h4Note": "761 4H bars",
         "why": {
           "d": "pivots: highs 85.37->94.30, lows 68.51->60.55",
           "w": "pivots: highs 138.25->132.15, lows 94.82->91.02"
@@ -3127,8 +3167,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 55.38,
-          "ema50": 83.02,
-          "ema200": 92.68,
+          "ema50": 82.93,
+          "ema200": 92.76,
           "missing": []
         }
       },
@@ -3192,7 +3232,7 @@ const BOARD = {
           "hi": 87.02,
           "strength": "weak",
           "touches": 8,
-          "closesIn": 15,
+          "closesIn": 14,
           "formVol": 0.86,
           "heavyTouches": 1,
           "origin": "thin",
@@ -3259,7 +3299,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 204.48->164.50, lows 146.94->114.50",
           "w": "pivots: highs 211.79->271.78, lows 120.01->166.00"
@@ -3341,9 +3381,9 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 54,
-          "ema50": 160.98,
-          "ema200": 165.23,
+          "rsi": 54.01,
+          "ema50": 161.13,
+          "ema200": 165.31,
           "missing": []
         }
       },
@@ -3444,7 +3484,7 @@ const BOARD = {
           "hi": 160.98,
           "strength": "weak",
           "touches": 2,
-          "closesIn": 7,
+          "closesIn": 6,
           "formVol": 0.53,
           "heavyTouches": 1,
           "origin": "thin",
@@ -3485,7 +3525,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 686.08->655.88, lows 626.00->524.49",
           "w": "pivots: highs 643.00->686.08, lows 592.60->540.18"
@@ -3568,8 +3608,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 48.64,
-          "ema50": 599.25,
-          "ema200": 612.76,
+          "ema50": 599.64,
+          "ema200": 612.99,
           "missing": []
         }
       },
@@ -3659,7 +3699,7 @@ const BOARD = {
           "hi": 591.3,
           "strength": "weak",
           "touches": 8,
-          "closesIn": 14,
+          "closesIn": 13,
           "formVol": 1.1,
           "heavyTouches": 3,
           "origin": "thin",
@@ -3700,7 +3740,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 214.92->222.67, lows 177.95->162.90",
           "w": "pivots: highs 94.20->329.88, lows 81.18->70.69"
@@ -3783,8 +3823,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 54.97,
-          "ema50": 211.17,
-          "ema200": 193.23,
+          "ema50": 211.2,
+          "ema200": 193.06,
           "missing": []
         }
       },
@@ -3897,7 +3937,7 @@ const BOARD = {
           "hi": 219.88,
           "strength": "weak",
           "touches": 5,
-          "closesIn": 12,
+          "closesIn": 11,
           "formVol": 0.8,
           "heavyTouches": 1,
           "origin": "thin",
@@ -3928,219 +3968,6 @@ const BOARD = {
       "h4": "Rebound formed a **lower high near $199–201**; price remains below the 9, 50 and 200 EMAs."
     },
     {
-      "ticker": "QCOM",
-      "date": "2026-08-06",
-      "price": 160.39,
-      "atr": 9.28,
-      "atrPct": 5.79,
-      "structure": {
-        "m": "neutral",
-        "w": "neutral",
-        "d": "neutral",
-        "h4": "neutral",
-        "h4Note": "1707 4H bars",
-        "why": {
-          "d": "pivots: highs 178.65->163.48, lows 164.77->142.89",
-          "w": "pivots: highs 146.94->259.92, lows 132.73->121.99"
-        },
-        "bars": {
-          "d": 1506,
-          "w": 314,
-          "m": 73
-        }
-      },
-      "ind": {
-        "rsi": 41.91,
-        "macdHist": 0.35,
-        "obvSlope": -1
-      },
-      "parts": {
-        "W": 0,
-        "D": 0,
-        "H": 0,
-        "R": -1,
-        "M": 1,
-        "O": -1,
-        "Z": 0
-      },
-      "score": -0.5,
-      "bias": "neutral",
-      "trend": {
-        "w": {
-          "score": -2,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": 1,
-          "M": -1,
-          "reach": 7,
-          "full": true,
-          "rsi": 45.9,
-          "ema50": 170.58,
-          "ema200": 157.07,
-          "missing": []
-        },
-        "d": {
-          "score": -1,
-          "band": "range / transition",
-          "S": 0,
-          "E": -1,
-          "A": 1,
-          "M": 0,
-          "reach": 7,
-          "full": true,
-          "rsi": 41.91,
-          "ema50": 178.67,
-          "ema200": 171.81,
-          "missing": []
-        },
-        "m": {
-          "score": -1,
-          "band": "range / transition",
-          "S": 0,
-          "E": 0,
-          "A": 0,
-          "M": -1,
-          "reach": 4,
-          "full": false,
-          "rsi": 49.5,
-          "ema50": 155.83,
-          "ema200": null,
-          "missing": [
-            "50 EMA",
-            "200 EMA"
-          ]
-        },
-        "h4": {
-          "score": -3,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": -1,
-          "M": 0,
-          "reach": 7,
-          "full": true,
-          "rsi": 46.67,
-          "ema50": 170.25,
-          "ema200": 177.29,
-          "missing": []
-        }
-      },
-      "trendProse": {
-        "w": "downtrend",
-        "d": "range / transition",
-        "m": "range / transition",
-        "h4": "downtrend"
-      },
-      "combo": "weekly down, daily range",
-      "demand": [
-        {
-          "lo": 159.58,
-          "hi": 161.83,
-          "strength": "weak",
-          "touches": 11,
-          "closesIn": 5,
-          "formVol": 0.92,
-          "heavyTouches": 2,
-          "origin": "thin",
-          "since": "2025-09-12"
-        },
-        {
-          "lo": 147.05,
-          "hi": 156.31,
-          "strength": "weak",
-          "touches": 2,
-          "closesIn": 5,
-          "formVol": 4.18,
-          "heavyTouches": 1,
-          "origin": "strong",
-          "since": "2026-04-27"
-        },
-        {
-          "lo": 135.05,
-          "hi": 138.12,
-          "strength": "tested",
-          "touches": 1,
-          "closesIn": 0,
-          "formVol": 1.69,
-          "heavyTouches": 0,
-          "origin": "strong",
-          "since": "2026-04-21"
-        }
-      ],
-      "supply": [
-        {
-          "lo": 161.39,
-          "hi": 167.51,
-          "strength": "weak",
-          "touches": 6,
-          "closesIn": 4,
-          "formVol": 1.42,
-          "heavyTouches": 3,
-          "origin": "strong",
-          "since": "2026-01-15"
-        },
-        {
-          "lo": 165.46,
-          "hi": 171.98,
-          "strength": "weak",
-          "touches": 14,
-          "closesIn": 22,
-          "formVol": 1.38,
-          "heavyTouches": 4,
-          "origin": "strong",
-          "since": "2026-07-24"
-        },
-        {
-          "lo": 180.19,
-          "hi": 184.07,
-          "strength": "weak",
-          "touches": 3,
-          "closesIn": 3,
-          "formVol": 1.24,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-01-07"
-        }
-      ],
-      "supply4h": [
-        {
-          "lo": 162.84,
-          "hi": 165.9,
-          "strength": "weak",
-          "touches": 3,
-          "closesIn": 0,
-          "formVol": 1.61,
-          "heavyTouches": 0,
-          "origin": "strong",
-          "since": "2026-07-28",
-          "frame": "4h"
-        },
-        {
-          "lo": 168.24,
-          "hi": 171.19,
-          "strength": "tested",
-          "touches": 1,
-          "closesIn": 0,
-          "formVol": 1.11,
-          "heavyTouches": 0,
-          "origin": "thin",
-          "since": "2026-07-27",
-          "frame": "4h"
-        }
-      ],
-      "position": "inside weak demand $159.58–161.83",
-      "bull": "close above $161.39–167.51 → $180.19–184.07",
-      "bear": "close below $159.58–161.83 → $147.05–156.31",
-      "retest": "a break above $161.39–167.51 likely retests it as support",
-      "longCandidate": "Tactical long only if $148–152 holds and price closes above $160–162; a genuine trend reversal needs acceptance above $172–180.",
-      "longSetup": "**Tactical long:** hold $148–152, enter on a retest after a 4H close above $160–162, stop below $148 or $142 depending on entry → $168–172, then $178–180 and $188–196. Higher-confidence trend long only after a daily close and hold above $172.",
-      "shortSetup": "**Rejection short:** fade $160–162, or preferably $168–172, stop above $163 or $174 depending on entry → $150, $142–145, then $134–138. **Breakdown short:** daily close below $142 and a failed retest → $134–138, then $121–125.",
-      "preferred": "**Short preferred**, do not chase into demand",
-      "h4": "Relief bounce off major demand — above the fast EMA, under the 50/200-day, no reversal yet.",
-      "h4Effect": "Keeps the short read. A 4H close above $160–162 with a successful retest is what would flip this to a tactical long; below $148 the bounce fails outright."
-    },
-    {
       "ticker": "SMH",
       "date": "2026-08-06",
       "price": 571.48,
@@ -4151,7 +3978,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 618.17->592.01, lows 536.81->503.63",
           "w": "pivots: highs 427.94->671.83, lows 374.24->359.86"
@@ -4234,8 +4061,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 54.61,
-          "ema50": 570.51,
-          "ema200": 539.08,
+          "ema50": 570.48,
+          "ema200": 538.76,
           "missing": []
         }
       },
@@ -4322,7 +4149,7 @@ const BOARD = {
           "hi": 580.52,
           "strength": "weak",
           "touches": 6,
-          "closesIn": 12,
+          "closesIn": 11,
           "formVol": 1.19,
           "heavyTouches": 1,
           "origin": "thin",
@@ -4379,418 +4206,6 @@ const BOARD = {
       "h4": "Bounced off **$495** to **$552.87**, then stalled back under it. RSI **47.60**, OBV drifting lower."
     },
     {
-      "ticker": "TE",
-      "date": "2026-08-06",
-      "price": 5.55,
-      "atr": 0.81,
-      "atrPct": 14.51,
-      "structure": {
-        "m": "neutral",
-        "w": "neutral",
-        "d": "neutral",
-        "h4": "neutral",
-        "h4Note": "806 4H bars",
-        "why": {
-          "d": "pivots: highs 10.08->6.30, lows 5.55->3.49",
-          "w": "pivots: highs 12.49->10.90, lows 3.74->7.36"
-        },
-        "bars": {
-          "d": 1506,
-          "w": 314,
-          "m": 73
-        }
-      },
-      "ind": {
-        "rsi": 45.56,
-        "macdHist": 0.137,
-        "obvSlope": 1
-      },
-      "parts": {
-        "W": 0,
-        "D": 0,
-        "H": 0,
-        "R": -1,
-        "M": 1,
-        "O": 1,
-        "Z": 0
-      },
-      "score": 0.5,
-      "bias": "neutral",
-      "trend": {
-        "w": {
-          "score": -2,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": 1,
-          "M": -1,
-          "reach": 7,
-          "full": true,
-          "rsi": 46.47,
-          "ema50": 5.69,
-          "ema200": 5.43,
-          "missing": []
-        },
-        "d": {
-          "score": -1,
-          "band": "range / transition",
-          "S": 0,
-          "E": -1,
-          "A": 1,
-          "M": 0,
-          "reach": 7,
-          "full": true,
-          "rsi": 45.56,
-          "ema50": 6.6,
-          "ema200": 6.08,
-          "missing": []
-        },
-        "m": {
-          "score": 1,
-          "band": "range / transition",
-          "S": 0,
-          "E": 0,
-          "A": 0,
-          "M": 1,
-          "reach": 4,
-          "full": false,
-          "rsi": 51.94,
-          "ema50": 5.73,
-          "ema200": null,
-          "missing": [
-            "50 EMA",
-            "200 EMA"
-          ]
-        },
-        "h4": {
-          "score": -2,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": -1,
-          "M": 1,
-          "reach": 7,
-          "full": true,
-          "rsi": 53.5,
-          "ema50": 5.89,
-          "ema200": 6.79,
-          "missing": []
-        }
-      },
-      "trendProse": {
-        "w": "downtrend",
-        "d": "range / transition",
-        "m": "range / transition",
-        "h4": "downtrend"
-      },
-      "combo": "weekly down, daily range",
-      "demand": [
-        {
-          "lo": 4.45,
-          "hi": 4.74,
-          "strength": "weak",
-          "touches": 9,
-          "closesIn": 2,
-          "formVol": 1.38,
-          "heavyTouches": 2,
-          "origin": "strong",
-          "since": "2025-12-02"
-        },
-        {
-          "lo": 3.23,
-          "hi": 4.11,
-          "strength": "weak",
-          "touches": 5,
-          "closesIn": 5,
-          "formVol": 2.76,
-          "heavyTouches": 2,
-          "origin": "strong",
-          "since": "2025-11-26"
-        }
-      ],
-      "supply": [
-        {
-          "lo": 5,
-          "hi": 5.7,
-          "strength": "weak",
-          "touches": 1,
-          "closesIn": 3,
-          "formVol": 1.06,
-          "heavyTouches": 0,
-          "origin": "thin",
-          "since": "2026-07-24"
-        },
-        {
-          "lo": 5.76,
-          "hi": 6.25,
-          "strength": "weak",
-          "touches": 5,
-          "closesIn": 8,
-          "formVol": 1.22,
-          "heavyTouches": 4,
-          "origin": "thin",
-          "since": "2026-07-21"
-        },
-        {
-          "lo": 6.61,
-          "hi": 6.98,
-          "strength": "weak",
-          "touches": 5,
-          "closesIn": 5,
-          "formVol": 0.55,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-03-24"
-        }
-      ],
-      "demand4h": [
-        {
-          "lo": 5.43,
-          "hi": 5.72,
-          "strength": "weak",
-          "touches": 6,
-          "closesIn": 5,
-          "formVol": 3.37,
-          "heavyTouches": 2,
-          "origin": "strong",
-          "since": "2026-05-14",
-          "frame": "4h"
-        }
-      ],
-      "supply4h": [
-        {
-          "lo": 6.02,
-          "hi": 6.22,
-          "strength": "tested",
-          "touches": 1,
-          "closesIn": 0,
-          "formVol": 1.02,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-07-22",
-          "frame": "4h"
-        },
-        {
-          "lo": 6.47,
-          "hi": 6.95,
-          "strength": "tested",
-          "touches": 1,
-          "closesIn": 1,
-          "formVol": 1.68,
-          "heavyTouches": 1,
-          "origin": "strong",
-          "since": "2026-07-14",
-          "frame": "4h"
-        }
-      ],
-      "position": "inside weak supply $5.00–5.70",
-      "bull": "close above $5.00–5.70 → $5.76–6.25",
-      "bear": "close below $4.45–4.74 → $3.23–4.11",
-      "retest": "a break above $5.00–5.70 likely retests it as support",
-      "longCandidate": "Countertrend long if **$3.65–3.70** holds and **$4.30–4.53** is reclaimed.",
-      "longSetup": "Hold $3.65–3.70 and reclaim **$4.30–4.53** → $4.72–5.34",
-      "shortSetup": "Reject $4.53–4.72 or lose **$3.50** → $3.00–2.50",
-      "preferred": "**Short trend; long only countertrend**",
-      "h4": "The bounce from **$3.55–3.70** is losing momentum — below every 4H average, stochastic down.",
-      "h4Effect": "The countertrend long is **not confirmed yet**. Better long trigger: hold $3.65–3.70 and reclaim **$4.30–4.53**. Below $3.55 invalidates the immediate bounce thesis."
-    },
-    {
-      "ticker": "TSLA",
-      "date": "2026-08-06",
-      "price": 319.53,
-      "atr": 14.87,
-      "atrPct": 4.65,
-      "structure": {
-        "m": "neutral",
-        "w": "neutral",
-        "d": "neutral",
-        "h4": "neutral",
-        "h4Note": "1707 4H bars",
-        "why": {
-          "d": "pivots: highs 413.16->329.57, lows 389.30->297.38",
-          "w": "pivots: highs 453.40->432.86, lows 337.24->368.60"
-        },
-        "bars": {
-          "d": 1506,
-          "w": 314,
-          "m": 73
-        }
-      },
-      "ind": {
-        "rsi": 36.94,
-        "macdHist": -0.354,
-        "obvSlope": -1
-      },
-      "parts": {
-        "W": 0,
-        "D": 0,
-        "H": 0,
-        "R": -1,
-        "M": 1,
-        "O": -1,
-        "Z": 0
-      },
-      "score": -0.5,
-      "bias": "neutral",
-      "trend": {
-        "w": {
-          "score": -2,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": 1,
-          "M": -1,
-          "reach": 7,
-          "full": true,
-          "rsi": 37,
-          "ema50": 382.2,
-          "ema200": 318.07,
-          "missing": []
-        },
-        "d": {
-          "score": -4,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": -1,
-          "M": -1,
-          "reach": 7,
-          "full": true,
-          "rsi": 36.94,
-          "ema50": 368.68,
-          "ema200": 387.83,
-          "missing": []
-        },
-        "m": {
-          "score": -1,
-          "band": "range / transition",
-          "S": 0,
-          "E": 0,
-          "A": 0,
-          "M": -1,
-          "reach": 4,
-          "full": false,
-          "rsi": 47.16,
-          "ema50": 316.51,
-          "ema200": null,
-          "missing": [
-            "50 EMA",
-            "200 EMA"
-          ]
-        },
-        "h4": {
-          "score": -3,
-          "band": "downtrend",
-          "S": 0,
-          "E": -1,
-          "A": -1,
-          "M": 0,
-          "reach": 7,
-          "full": true,
-          "rsi": 40.01,
-          "ema50": 346.99,
-          "ema200": 383.48,
-          "missing": []
-        }
-      },
-      "trendProse": {
-        "w": "downtrend",
-        "d": "downtrend",
-        "m": "range / transition",
-        "h4": "downtrend"
-      },
-      "combo": "aligned downtrend — weekly and daily agree",
-      "demand": [
-        {
-          "lo": 306.93,
-          "hi": 319.91,
-          "strength": "weak",
-          "touches": 3,
-          "closesIn": 7,
-          "formVol": 0.93,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2025-08-06"
-        },
-        {
-          "lo": 314.6,
-          "hi": 335.79,
-          "strength": "weak",
-          "touches": 6,
-          "closesIn": 8,
-          "formVol": 0.98,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2025-08-21"
-        },
-        {
-          "lo": 297.38,
-          "hi": 297.38,
-          "strength": "structural",
-          "touches": null,
-          "note": "swing low, no zone formed"
-        }
-      ],
-      "supply": [
-        {
-          "lo": 329.62,
-          "hi": 336.27,
-          "strength": "weak",
-          "touches": 7,
-          "closesIn": 2,
-          "formVol": 0.78,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2025-08-18"
-        },
-        {
-          "lo": 361.51,
-          "hi": 387.48,
-          "strength": "weak",
-          "touches": 10,
-          "closesIn": 16,
-          "formVol": 1.32,
-          "heavyTouches": 1,
-          "origin": "strong",
-          "since": "2026-07-20"
-        },
-        {
-          "lo": 395.56,
-          "hi": 412.94,
-          "strength": "weak",
-          "touches": 10,
-          "closesIn": 11,
-          "formVol": 0.93,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-07-14"
-        }
-      ],
-      "supply4h": [
-        {
-          "lo": 325.17,
-          "hi": 341.86,
-          "strength": "tested",
-          "touches": 2,
-          "closesIn": 1,
-          "formVol": 1.82,
-          "heavyTouches": 1,
-          "origin": "strong",
-          "since": "2026-07-23",
-          "frame": "4h"
-        }
-      ],
-      "position": "inside weak demand $306.93–319.91",
-      "bull": "close above $329.62–336.27 → $361.51–387.48",
-      "bear": "close below $306.93–319.91 → $297.38",
-      "retest": "a break above $329.62–336.27 likely retests it as support",
-      "longCandidate": "A **bounce trade only** — countertrend until TSLA recovers $365–387.",
-      "longSetup": "Hold **$297–305**, form a 4H higher low, reclaim **$315** then **$324–330** → targets **$350–365**. A stronger reversal only above **$365–387**; below that region the dominant trend stays bearish.",
-      "shortSetup": "Wait for a bounce toward **$324–330**, then short only after rejection AND a break of the 4H rejection candle's low → $305–297. A daily close below **$297** with a failed reclaim targets **$286–282**, then **$260–250**.",
-      "preferred": "**Short preferred with trend**",
-      "h4": "Stabilising **$300–311**, still below the declining **$329**, **$342** and **$372**."
-    },
-    {
       "ticker": "AKAM",
       "date": "2026-08-06",
       "price": 118.55,
@@ -4801,7 +4216,7 @@ const BOARD = {
         "w": "neutral",
         "d": "neutral",
         "h4": "bearish",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 131.08->127.50, lows 115.94->107.11",
           "w": "pivots: highs 165.45->131.08, lows 88.50->108.84"
@@ -4884,7 +4299,7 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 50.48,
-          "ema50": 119.64,
+          "ema50": 119.69,
           "ema200": 119.17,
           "missing": []
         }
@@ -5018,6 +4433,651 @@ const BOARD = {
       "h4Effect": "Keeps the **neutral-to-bearish** bias. Failure below $118 favors **$112**, then **$108**. A 4H close above $118 would open $121–124."
     },
     {
+      "ticker": "QCOM",
+      "date": "2026-08-06",
+      "price": 160.39,
+      "atr": 9.28,
+      "atrPct": 5.79,
+      "structure": {
+        "m": "neutral",
+        "w": "neutral",
+        "d": "neutral",
+        "h4": "bearish",
+        "h4Note": "1706 4H bars",
+        "why": {
+          "d": "pivots: highs 178.65->163.48, lows 164.77->142.89",
+          "w": "pivots: highs 146.94->259.92, lows 132.73->121.99"
+        },
+        "bars": {
+          "d": 1506,
+          "w": 314,
+          "m": 73
+        }
+      },
+      "ind": {
+        "rsi": 41.91,
+        "macdHist": 0.35,
+        "obvSlope": -1
+      },
+      "parts": {
+        "W": 0,
+        "D": 0,
+        "H": -1,
+        "R": -1,
+        "M": 1,
+        "O": -1,
+        "Z": 0
+      },
+      "score": -1,
+      "bias": "neutral",
+      "trend": {
+        "w": {
+          "score": -2,
+          "band": "downtrend",
+          "S": 0,
+          "E": -1,
+          "A": 1,
+          "M": -1,
+          "reach": 7,
+          "full": true,
+          "rsi": 45.9,
+          "ema50": 170.58,
+          "ema200": 157.07,
+          "missing": []
+        },
+        "d": {
+          "score": -1,
+          "band": "range / transition",
+          "S": 0,
+          "E": -1,
+          "A": 1,
+          "M": 0,
+          "reach": 7,
+          "full": true,
+          "rsi": 41.91,
+          "ema50": 178.67,
+          "ema200": 171.81,
+          "missing": []
+        },
+        "m": {
+          "score": -1,
+          "band": "range / transition",
+          "S": 0,
+          "E": 0,
+          "A": 0,
+          "M": -1,
+          "reach": 4,
+          "full": false,
+          "rsi": 49.5,
+          "ema50": 155.83,
+          "ema200": null,
+          "missing": [
+            "50 EMA",
+            "200 EMA"
+          ]
+        },
+        "h4": {
+          "score": -6,
+          "band": "strong downtrend",
+          "S": -1,
+          "E": -1,
+          "A": -1,
+          "M": 0,
+          "reach": 7,
+          "full": true,
+          "rsi": 46.66,
+          "ema50": 170.65,
+          "ema200": 177.46,
+          "missing": []
+        }
+      },
+      "trendProse": {
+        "w": "downtrend",
+        "d": "range / transition",
+        "m": "range / transition",
+        "h4": "strong downtrend"
+      },
+      "combo": "weekly down, daily range",
+      "demand": [
+        {
+          "lo": 159.58,
+          "hi": 161.83,
+          "strength": "weak",
+          "touches": 11,
+          "closesIn": 5,
+          "formVol": 0.92,
+          "heavyTouches": 2,
+          "origin": "thin",
+          "since": "2025-09-12"
+        },
+        {
+          "lo": 147.05,
+          "hi": 156.31,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 5,
+          "formVol": 4.18,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-04-27"
+        },
+        {
+          "lo": 135.05,
+          "hi": 138.12,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.69,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-04-21"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 161.39,
+          "hi": 167.51,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 4,
+          "formVol": 1.42,
+          "heavyTouches": 3,
+          "origin": "strong",
+          "since": "2026-01-15"
+        },
+        {
+          "lo": 165.46,
+          "hi": 171.98,
+          "strength": "weak",
+          "touches": 14,
+          "closesIn": 22,
+          "formVol": 1.38,
+          "heavyTouches": 4,
+          "origin": "strong",
+          "since": "2026-07-24"
+        },
+        {
+          "lo": 180.19,
+          "hi": 184.07,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 3,
+          "formVol": 1.24,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-01-07"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 142.89,
+          "hi": 142.89,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing low, no zone formed",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 162.84,
+          "hi": 165.9,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 0,
+          "formVol": 1.61,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-28",
+          "frame": "4h"
+        },
+        {
+          "lo": 168.24,
+          "hi": 171.19,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.11,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-27",
+          "frame": "4h"
+        }
+      ],
+      "position": "inside weak demand $159.58–161.83",
+      "bull": "close above $161.39–167.51 → $180.19–184.07",
+      "bear": "close below $159.58–161.83 → $147.05–156.31",
+      "retest": "a break above $161.39–167.51 likely retests it as support",
+      "longCandidate": "Tactical long only if $148–152 holds and price closes above $160–162; a genuine trend reversal needs acceptance above $172–180.",
+      "longSetup": "**Tactical long:** hold $148–152, enter on a retest after a 4H close above $160–162, stop below $148 or $142 depending on entry → $168–172, then $178–180 and $188–196. Higher-confidence trend long only after a daily close and hold above $172.",
+      "shortSetup": "**Rejection short:** fade $160–162, or preferably $168–172, stop above $163 or $174 depending on entry → $150, $142–145, then $134–138. **Breakdown short:** daily close below $142 and a failed retest → $134–138, then $121–125.",
+      "preferred": "**Short preferred**, do not chase into demand",
+      "h4": "Relief bounce off major demand — above the fast EMA, under the 50/200-day, no reversal yet.",
+      "h4Effect": "Keeps the short read. A 4H close above $160–162 with a successful retest is what would flip this to a tactical long; below $148 the bounce fails outright."
+    },
+    {
+      "ticker": "TE",
+      "date": "2026-08-06",
+      "price": 5.55,
+      "atr": 0.81,
+      "atrPct": 14.51,
+      "structure": {
+        "m": "neutral",
+        "w": "neutral",
+        "d": "neutral",
+        "h4": "bearish",
+        "h4Note": "805 4H bars",
+        "why": {
+          "d": "pivots: highs 10.08->6.30, lows 5.55->3.49",
+          "w": "pivots: highs 12.49->10.90, lows 3.74->7.36"
+        },
+        "bars": {
+          "d": 1506,
+          "w": 314,
+          "m": 73
+        }
+      },
+      "ind": {
+        "rsi": 45.56,
+        "macdHist": 0.137,
+        "obvSlope": 1
+      },
+      "parts": {
+        "W": 0,
+        "D": 0,
+        "H": -1,
+        "R": -1,
+        "M": 1,
+        "O": 1,
+        "Z": 0
+      },
+      "score": 0,
+      "bias": "neutral",
+      "trend": {
+        "w": {
+          "score": -2,
+          "band": "downtrend",
+          "S": 0,
+          "E": -1,
+          "A": 1,
+          "M": -1,
+          "reach": 7,
+          "full": true,
+          "rsi": 46.47,
+          "ema50": 5.69,
+          "ema200": 5.43,
+          "missing": []
+        },
+        "d": {
+          "score": -1,
+          "band": "range / transition",
+          "S": 0,
+          "E": -1,
+          "A": 1,
+          "M": 0,
+          "reach": 7,
+          "full": true,
+          "rsi": 45.56,
+          "ema50": 6.6,
+          "ema200": 6.08,
+          "missing": []
+        },
+        "m": {
+          "score": 1,
+          "band": "range / transition",
+          "S": 0,
+          "E": 0,
+          "A": 0,
+          "M": 1,
+          "reach": 4,
+          "full": false,
+          "rsi": 51.94,
+          "ema50": 5.73,
+          "ema200": null,
+          "missing": [
+            "50 EMA",
+            "200 EMA"
+          ]
+        },
+        "h4": {
+          "score": -5,
+          "band": "strong downtrend",
+          "S": -1,
+          "E": -1,
+          "A": -1,
+          "M": 1,
+          "reach": 7,
+          "full": true,
+          "rsi": 53.51,
+          "ema50": 5.9,
+          "ema200": 6.8,
+          "missing": []
+        }
+      },
+      "trendProse": {
+        "w": "downtrend",
+        "d": "range / transition",
+        "m": "range / transition",
+        "h4": "strong downtrend"
+      },
+      "combo": "weekly down, daily range",
+      "demand": [
+        {
+          "lo": 4.45,
+          "hi": 4.74,
+          "strength": "weak",
+          "touches": 9,
+          "closesIn": 2,
+          "formVol": 1.38,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2025-12-02"
+        },
+        {
+          "lo": 3.23,
+          "hi": 4.11,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 5,
+          "formVol": 2.76,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2025-11-26"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 5,
+          "hi": 5.7,
+          "strength": "weak",
+          "touches": 1,
+          "closesIn": 3,
+          "formVol": 1.06,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-24"
+        },
+        {
+          "lo": 5.76,
+          "hi": 6.25,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 8,
+          "formVol": 1.22,
+          "heavyTouches": 4,
+          "origin": "thin",
+          "since": "2026-07-21"
+        },
+        {
+          "lo": 6.61,
+          "hi": 6.98,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 5,
+          "formVol": 0.55,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-03-24"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 5.43,
+          "hi": 5.72,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 4,
+          "formVol": 3.37,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-05-14",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 6.02,
+          "hi": 6.22,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.02,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-22",
+          "frame": "4h"
+        },
+        {
+          "lo": 6.47,
+          "hi": 6.95,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 1,
+          "formVol": 1.68,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-14",
+          "frame": "4h"
+        }
+      ],
+      "position": "inside weak supply $5.00–5.70",
+      "bull": "close above $5.00–5.70 → $5.76–6.25",
+      "bear": "close below $4.45–4.74 → $3.23–4.11",
+      "retest": "a break above $5.00–5.70 likely retests it as support",
+      "longCandidate": "Countertrend long if **$3.65–3.70** holds and **$4.30–4.53** is reclaimed.",
+      "longSetup": "Hold $3.65–3.70 and reclaim **$4.30–4.53** → $4.72–5.34",
+      "shortSetup": "Reject $4.53–4.72 or lose **$3.50** → $3.00–2.50",
+      "preferred": "**Short trend; long only countertrend**",
+      "h4": "The bounce from **$3.55–3.70** is losing momentum — below every 4H average, stochastic down.",
+      "h4Effect": "The countertrend long is **not confirmed yet**. Better long trigger: hold $3.65–3.70 and reclaim **$4.30–4.53**. Below $3.55 invalidates the immediate bounce thesis."
+    },
+    {
+      "ticker": "TSLA",
+      "date": "2026-08-06",
+      "price": 319.53,
+      "atr": 14.87,
+      "atrPct": 4.65,
+      "structure": {
+        "m": "neutral",
+        "w": "neutral",
+        "d": "neutral",
+        "h4": "bearish",
+        "h4Note": "1706 4H bars",
+        "why": {
+          "d": "pivots: highs 413.16->329.57, lows 389.30->297.38",
+          "w": "pivots: highs 453.40->432.86, lows 337.24->368.60"
+        },
+        "bars": {
+          "d": 1506,
+          "w": 314,
+          "m": 73
+        }
+      },
+      "ind": {
+        "rsi": 36.94,
+        "macdHist": -0.354,
+        "obvSlope": -1
+      },
+      "parts": {
+        "W": 0,
+        "D": 0,
+        "H": -1,
+        "R": -1,
+        "M": 1,
+        "O": -1,
+        "Z": 0
+      },
+      "score": -1,
+      "bias": "neutral",
+      "trend": {
+        "w": {
+          "score": -2,
+          "band": "downtrend",
+          "S": 0,
+          "E": -1,
+          "A": 1,
+          "M": -1,
+          "reach": 7,
+          "full": true,
+          "rsi": 37,
+          "ema50": 382.2,
+          "ema200": 318.07,
+          "missing": []
+        },
+        "d": {
+          "score": -4,
+          "band": "downtrend",
+          "S": 0,
+          "E": -1,
+          "A": -1,
+          "M": -1,
+          "reach": 7,
+          "full": true,
+          "rsi": 36.94,
+          "ema50": 368.68,
+          "ema200": 387.83,
+          "missing": []
+        },
+        "m": {
+          "score": -1,
+          "band": "range / transition",
+          "S": 0,
+          "E": 0,
+          "A": 0,
+          "M": -1,
+          "reach": 4,
+          "full": false,
+          "rsi": 47.16,
+          "ema50": 316.51,
+          "ema200": null,
+          "missing": [
+            "50 EMA",
+            "200 EMA"
+          ]
+        },
+        "h4": {
+          "score": -6,
+          "band": "strong downtrend",
+          "S": -1,
+          "E": -1,
+          "A": -1,
+          "M": 0,
+          "reach": 7,
+          "full": true,
+          "rsi": 39.99,
+          "ema50": 348.1,
+          "ema200": 384.12,
+          "missing": []
+        }
+      },
+      "trendProse": {
+        "w": "downtrend",
+        "d": "downtrend",
+        "m": "range / transition",
+        "h4": "strong downtrend"
+      },
+      "combo": "aligned downtrend — weekly and daily agree",
+      "demand": [
+        {
+          "lo": 306.93,
+          "hi": 319.91,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 7,
+          "formVol": 0.93,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2025-08-06"
+        },
+        {
+          "lo": 314.6,
+          "hi": 335.79,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 8,
+          "formVol": 0.98,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2025-08-21"
+        },
+        {
+          "lo": 297.38,
+          "hi": 297.38,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing low, no zone formed"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 329.62,
+          "hi": 336.27,
+          "strength": "weak",
+          "touches": 7,
+          "closesIn": 2,
+          "formVol": 0.78,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2025-08-18"
+        },
+        {
+          "lo": 361.51,
+          "hi": 387.48,
+          "strength": "weak",
+          "touches": 10,
+          "closesIn": 16,
+          "formVol": 1.32,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-20"
+        },
+        {
+          "lo": 395.56,
+          "hi": 412.94,
+          "strength": "weak",
+          "touches": 10,
+          "closesIn": 11,
+          "formVol": 0.93,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-14"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 297.38,
+          "hi": 297.38,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing low, no zone formed",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 325.17,
+          "hi": 341.86,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 1.82,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-23",
+          "frame": "4h"
+        }
+      ],
+      "position": "inside weak demand $306.93–319.91",
+      "bull": "close above $329.62–336.27 → $361.51–387.48",
+      "bear": "close below $306.93–319.91 → $297.38",
+      "retest": "a break above $329.62–336.27 likely retests it as support",
+      "longCandidate": "A **bounce trade only** — countertrend until TSLA recovers $365–387.",
+      "longSetup": "Hold **$297–305**, form a 4H higher low, reclaim **$315** then **$324–330** → targets **$350–365**. A stronger reversal only above **$365–387**; below that region the dominant trend stays bearish.",
+      "shortSetup": "Wait for a bounce toward **$324–330**, then short only after rejection AND a break of the 4H rejection candle's low → $305–297. A daily close below **$297** with a failed reclaim targets **$286–282**, then **$260–250**.",
+      "preferred": "**Short preferred with trend**",
+      "h4": "Stabilising **$300–311**, still below the declining **$329**, **$342** and **$372**."
+    },
+    {
       "ticker": "ADBE",
       "date": "2026-08-06",
       "price": 260.24,
@@ -5028,7 +5088,7 @@ const BOARD = {
         "w": "bearish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 266.28->262.15, lows 210.88->241.23",
           "w": "pivots: highs 285.36->275.44, lows 224.13->190.12"
@@ -5111,8 +5171,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 63.61,
-          "ema50": 239.4,
-          "ema200": 242.85,
+          "ema50": 238.55,
+          "ema200": 242.68,
           "missing": []
         }
       },
@@ -5219,6 +5279,16 @@ const BOARD = {
           "frame": "4h"
         }
       ],
+      "supply4h": [
+        {
+          "lo": 261.01,
+          "hi": 261.01,
+          "strength": "structural",
+          "touches": null,
+          "note": "swing high, no zone formed",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak demand $256.60–261.59",
       "bull": "close above $251.44–263.50 → $267.23–282.90",
       "bear": "close below $256.60–261.59 → $241.69–249.18",
@@ -5241,7 +5311,7 @@ const BOARD = {
         "w": "bearish",
         "d": "neutral",
         "h4": "neutral",
-        "h4Note": "1707 4H bars",
+        "h4Note": "1706 4H bars",
         "why": {
           "d": "pivots: highs 19.99->19.51, lows 16.70->17.71",
           "w": "pivots: highs 23.57->20.53, lows 16.98->16.70"
@@ -5324,8 +5394,8 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 42.91,
-          "ema50": 18.58,
-          "ema200": 21.58,
+          "ema50": 18.62,
+          "ema200": 21.62,
           "missing": []
         }
       },
@@ -5393,7 +5463,7 @@ const BOARD = {
           "hi": 18.02,
           "strength": "weak",
           "touches": 8,
-          "closesIn": 11,
+          "closesIn": 10,
           "formVol": 0.92,
           "heavyTouches": 1,
           "origin": "thin",
