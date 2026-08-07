@@ -28,6 +28,7 @@ Data source
 from __future__ import annotations
 
 import argparse
+import concurrent.futures as cf
 import csv
 import datetime as dt
 import io
@@ -66,6 +67,18 @@ INDEX_ONLY = {k for k, v in MARKET_SYMBOLS.items() if v.startswith("^")}
 # in the current bar) and flagging them just buries the findings that matter.
 TOL_INDEX = 0.5   # % — indices move less, so a smaller gap is meaningful
 TOL_STOCK = 1.0   # %
+
+# How many tickers to pull at once. A full run is 40 symbols and the work is
+# almost entirely WAITING: ~400 ms per HTTPS round-trip against ~30 ms of
+# indicator maths, so fetching them one at a time spent ~16 s of an 18 s run
+# idle on a socket. Threads, not processes — the GIL is irrelevant to a worker
+# blocked in recv(), and there is no CPU here worth a fork.
+#
+# 8 rather than 40: the ceiling is politeness, not parallelism. These are free
+# unofficial endpoints, forty simultaneous connections is what gets an IP
+# rate-limited, and a 429 costs a whole run where a second of latency costs a
+# second. 8 already takes the fetch under 3 s.
+FETCH_WORKERS = 8
 
 
 # ── board ───────────────────────────────────────────────────────────────────
@@ -203,6 +216,43 @@ def assert_daily(ticker: str, bars: list[dict]) -> None:
         raise RuntimeError(
             f"{ticker}: bars are {median} days apart — this is NOT daily data. "
             f"The feed downgraded the interval; refusing to compute on it.")
+
+
+def fetch_all(fetch, tickers: list[str],
+              workers: int = FETCH_WORKERS) -> dict[str, list[dict]]:
+    """Pull every ticker concurrently, and hand the results back in ORDER.
+
+    The order matters more than it looks. This report is read as a diff — run
+    to run, the same 40 blocks in the same places — so the sockets are allowed
+    to answer in whatever order they like, but nothing downstream may see that
+    order. Hence a dict the caller walks in its own sequence, and a stderr pass
+    that reports failures in the caller's order too rather than in the order
+    they happened to fail.
+
+    Per-ticker isolation is unchanged from the serial loop it replaces: one bad
+    symbol is caught, logged and skipped, and every other ticker still lands.
+    """
+    ok: dict[str, list[dict]] = {}
+    failed: dict[str, str] = {}
+
+    def one(t: str) -> list[dict]:
+        bars = fetch(t)
+        assert_daily(t, bars)          # never let coarse data through, threaded or not
+        return bars
+
+    with cf.ThreadPoolExecutor(max_workers=max(1, min(workers, len(tickers)))) as pool:
+        futures = {pool.submit(one, t): t for t in tickers}
+        for fut in cf.as_completed(futures):
+            t = futures[fut]
+            try:
+                ok[t] = fut.result()
+            except Exception as e:  # noqa: BLE001 — one bad ticker must not stop the run
+                failed[t] = str(e)
+
+    for t in tickers:                  # deterministic stderr, not completion order
+        if t in failed:
+            print(f"— {t}: SKIPPED ({failed[t]})", file=sys.stderr)
+    return ok
 
 
 def frames(bars: list[dict]) -> list[Frame]:
@@ -912,13 +962,13 @@ def main() -> int:
         emit()
 
     if not args.audit_only:
-        fetch = FETCHERS[args.source]
+        # Fetch first, all of them, then report in `want` order — the network is
+        # the whole cost of this run and it parallelises; the maths after it does
+        # not need to.
+        fetched = fetch_all(FETCHERS[args.source], want)
         for t in want:
-            try:
-                bars = fetch(t)
-                assert_daily(t, bars)
-            except Exception as e:  # noqa: BLE001 — one bad ticker must not stop the run
-                print(f"— {t}: SKIPPED ({e})", file=sys.stderr)
+            bars = fetched.get(t)
+            if bars is None:           # fetch_all already said why, on stderr
                 continue
             fs = frames(bars)
             closes[t] = fs[0].c

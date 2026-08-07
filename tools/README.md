@@ -49,6 +49,15 @@ identical to the base (a market holiday), it opens nothing.
 Trigger it by hand from the Actions tab with `workflow_dispatch` — it takes a
 ticker list, a source, and a flag for whether to touch the PR.
 
+A full run is **~25 seconds**, nearly all of it the 40 HTTPS round-trips, which
+are made 8 at a time (`FETCH_WORKERS`) rather than one after another — see
+`fetch_all()`. If a run instead sits for many minutes and is then killed having
+produced no output, look at the job's `runner_id` before looking at this code:
+`0` with zero steps executed means it never got a runner, which is GitHub-side
+capacity and not something the workflow or the script can influence. That is
+what happened to two manual runs on 2026-08-06 while the scheduled runs on
+either side of them succeeded in under 30 seconds.
+
 ## What it prints
 
 1. **An extraction block per ticker** — daily / weekly / monthly OHLC plus every
