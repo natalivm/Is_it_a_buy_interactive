@@ -273,6 +273,27 @@ the seven rows carrying one visibly taller than the rest — same problem as the
 ticker cell's score line. It is exported in the TSV instead, so the reasoning
 still leaves the file.
 
+**Zones are drawn twice: daily for structure, 4H for the edge.** The daily pass
+is the board and always leads the cell. Under it, behind a `4H` label, sit
+`demand4h` / `supply4h` — the same displacement rules run on 4H bars, nearest
+two a side. They exist because a name moving several ATRs in a week outruns its
+daily zones: TTD fell through its whole daily supply band ($17.96–19.37, 1.4
+ATR wide) in three sessions while the 4H pass put the live edge at $18.14–18.28,
+and AXON's daily demand was a 4.4%-wide shelf on a ticker that had just
+travelled 14%. A band that wide is a region, not a trigger.
+
+They are a REFINEMENT and are **never scored**. `Z`, the score, `position` and
+the bull/bear triggers all stay daily — a score has to keep the meaning it had
+on every earlier board, and a trigger has to quote a level that survives a
+session. Two caps keep them honest, both in the extractor: age is the frame's
+own structure window (`MAX_ZONE_AGE_4H = STRUCT_LOOKBACK['h4']`, so the zones
+and the 4H verdict beside them read the same stretch of tape), and distance is
+`MAX_ZONE_DIST_4H_ATR` **daily ATRs** from price — the unit the rest of the
+board reasons in, so one constant works on a $5 ticker and a $1,250 one. A row
+with no intraday read, or nothing inside those caps, carries the fields ABSENT
+rather than empty: "nobody looked" and "the 4H frame found nothing" are
+different statements, and PLTR is currently the second.
+
 A row with no 4H read — a ticker's first generated row, before anyone has
 written one — shows an italic muted `h4Note` placeholder rather than prose. That is deliberate: styling absent evidence like
 evidence is the same error as rendering an unscored row as 0.

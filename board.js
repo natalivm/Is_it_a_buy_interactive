@@ -15,6 +15,13 @@
 // here and in the TSV export — the ticker cell does not render either (see
 // below), so this file is where that check happens.
 //
+// Zones are drawn TWICE. `demand`/`supply` are the daily pass and are the
+// board's structure; `demand4h`/`supply4h` are the same rules run on 4H bars,
+// nearest two a side, for names that outrun a daily band between refreshes.
+// The refinement is never scored — Z, `score`, `position` and the bull/bear
+// triggers are all daily, so a score keeps the meaning it had on every earlier
+// board. Absent, not empty, where there is no intraday read.
+//
 // ⚠ THE TICKER CELL IS FOUR LINES, on every row, always: ticker + bold price /
 // ATR(14) pair / preferred direction / bias. `price`, `atr`, `atrPct`,
 // `preferred` and `bias` are therefore REQUIRED on every row — the renderer
@@ -160,7 +167,7 @@ const BOARD = {
           "since": "2026-05-06"
         },
         {
-          "lo": 741.0,
+          "lo": 741,
           "hi": 757.16,
           "strength": "weak",
           "touches": 2,
@@ -193,6 +200,46 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "thin",
           "since": "2026-06-29"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 797.01,
+          "hi": 815.98,
+          "strength": "weak",
+          "touches": 10,
+          "closesIn": 5,
+          "formVol": 1.37,
+          "heavyTouches": 3,
+          "origin": "strong",
+          "since": "2026-07-20",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 847.06,
+          "hi": 875.33,
+          "strength": "weak",
+          "touches": 12,
+          "closesIn": 14,
+          "formVol": 1.06,
+          "heavyTouches": 3,
+          "origin": "thin",
+          "since": "2026-07-13",
+          "frame": "4h"
+        },
+        {
+          "lo": 949.19,
+          "hi": 967.74,
+          "strength": "fresh",
+          "touches": 0,
+          "closesIn": 0,
+          "formVol": 1.19,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-06-30",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $846.07–892.83",
@@ -242,7 +289,7 @@ const BOARD = {
         "O": 1,
         "Z": 0
       },
-      "score": 0.0,
+      "score": 0,
       "bias": "neutral",
       "trend": {
         "w": {
@@ -336,7 +383,7 @@ const BOARD = {
           "since": "2026-06-02"
         },
         {
-          "lo": 440.0,
+          "lo": 440,
           "hi": 464.83,
           "strength": "fresh",
           "touches": 0,
@@ -349,7 +396,7 @@ const BOARD = {
       ],
       "supply": [
         {
-          "lo": 587.0,
+          "lo": 587,
           "hi": 611.21,
           "strength": "weak",
           "touches": 9,
@@ -372,7 +419,7 @@ const BOARD = {
         },
         {
           "lo": 703.03,
-          "hi": 740.0,
+          "hi": 740,
           "strength": "weak",
           "touches": 2,
           "closesIn": 8,
@@ -380,6 +427,58 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "strong",
           "since": "2025-11-03"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 521.04,
+          "hi": 551.61,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 20,
+          "formVol": 1.54,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-06-30",
+          "frame": "4h"
+        },
+        {
+          "lo": 514.76,
+          "hi": 521.97,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.02,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 510,
+          "hi": 532.18,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 10,
+          "formVol": 0.58,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-20",
+          "frame": "4h"
+        },
+        {
+          "lo": 541.26,
+          "hi": 542.06,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 0,
+          "formVol": 0.66,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-15",
+          "frame": "4h"
         }
       ],
       "position": "between demand $498.30–520.18 (0.4% below) and supply $587.00–611.21 (12.4% above)",
@@ -501,7 +600,7 @@ const BOARD = {
       "combo": "aligned uptrend — weekly and daily agree",
       "demand": [
         {
-          "lo": 417.0,
+          "lo": 417,
           "hi": 422.01,
           "strength": "weak",
           "touches": 3,
@@ -537,7 +636,7 @@ const BOARD = {
       "supply": [
         {
           "lo": 479.23,
-          "hi": 495.0,
+          "hi": 495,
           "strength": "fresh",
           "touches": 0,
           "closesIn": 0,
@@ -545,6 +644,32 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "strong",
           "since": "2026-06-03"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 418.46,
+          "hi": 421.94,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 5,
+          "formVol": 1.19,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-05-27",
+          "frame": "4h"
+        },
+        {
+          "lo": 378.33,
+          "hi": 390.21,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 26,
+          "formVol": 1.28,
+          "heavyTouches": 2,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $417.00–422.01",
@@ -700,7 +825,7 @@ const BOARD = {
       ],
       "supply": [
         {
-          "lo": 346.0,
+          "lo": 346,
           "hi": 359.68,
           "strength": "weak",
           "touches": 3,
@@ -731,6 +856,58 @@ const BOARD = {
           "heavyTouches": 2,
           "origin": "thin",
           "since": "2026-05-27"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 354.21,
+          "hi": 359.48,
+          "strength": "weak",
+          "touches": 7,
+          "closesIn": 12,
+          "formVol": 0.77,
+          "heavyTouches": 3,
+          "origin": "thin",
+          "since": "2026-07-02",
+          "frame": "4h"
+        },
+        {
+          "lo": 340,
+          "hi": 354.31,
+          "strength": "fresh",
+          "touches": 0,
+          "closesIn": 0,
+          "formVol": 1.62,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 360.78,
+          "hi": 366.74,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 11,
+          "formVol": 1.34,
+          "heavyTouches": 4,
+          "origin": "strong",
+          "since": "2026-06-09",
+          "frame": "4h"
+        },
+        {
+          "lo": 366.65,
+          "hi": 378.55,
+          "strength": "weak",
+          "touches": 7,
+          "closesIn": 18,
+          "formVol": 1.85,
+          "heavyTouches": 3,
+          "origin": "strong",
+          "since": "2026-07-15",
+          "frame": "4h"
         }
       ],
       "position": "inside weak supply $346.00–359.68",
@@ -779,7 +956,7 @@ const BOARD = {
         "O": 0,
         "Z": 0
       },
-      "score": 1.0,
+      "score": 1,
       "bias": "neutral",
       "trend": {
         "w": {
@@ -887,7 +1064,7 @@ const BOARD = {
       "supply": [
         {
           "lo": 1210.02,
-          "hi": 1230.0,
+          "hi": 1230,
           "strength": "tested",
           "touches": 2,
           "closesIn": 1,
@@ -895,6 +1072,58 @@ const BOARD = {
           "heavyTouches": 1,
           "origin": "thin",
           "since": "2026-07-29"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 1183.45,
+          "hi": 1202.34,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 2,
+          "formVol": 0.78,
+          "heavyTouches": 2,
+          "origin": "thin",
+          "since": "2026-07-27",
+          "frame": "4h"
+        },
+        {
+          "lo": 1100.98,
+          "hi": 1117.95,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 2,
+          "formVol": 1.57,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-06-24",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 1184.47,
+          "hi": 1193,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 4,
+          "formVol": 0.82,
+          "heavyTouches": 2,
+          "origin": "thin",
+          "since": "2026-07-10",
+          "frame": "4h"
+        },
+        {
+          "lo": 1217.6,
+          "hi": 1232,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 0,
+          "formVol": 1.02,
+          "heavyTouches": 2,
+          "origin": "thin",
+          "since": "2026-07-28",
+          "frame": "4h"
         }
       ],
       "position": "between demand $1,153.50–1,173.91 (1.5% below) and supply $1,210.02–1,230.00 (1.5% above)",
@@ -1070,6 +1299,20 @@ const BOARD = {
           "heavyTouches": 1,
           "origin": "strong",
           "since": "2025-10-31"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 450.37,
+          "hi": 455.3,
+          "strength": "fresh",
+          "touches": 0,
+          "closesIn": 0,
+          "formVol": 2.09,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-30",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $496.72–502.98",
@@ -1256,6 +1499,32 @@ const BOARD = {
           "heavyTouches": 1,
           "origin": "strong",
           "since": "2026-01-09"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 109.21,
+          "hi": 110.62,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 1,
+          "formVol": 2.15,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-28",
+          "frame": "4h"
+        },
+        {
+          "lo": 104.6,
+          "hi": 108.18,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 20,
+          "formVol": 2.15,
+          "heavyTouches": 3,
+          "origin": "strong",
+          "since": "2026-07-02",
+          "frame": "4h"
         }
       ],
       "position": "inside weak supply $116.73–118.96",
@@ -1611,7 +1880,7 @@ const BOARD = {
         },
         {
           "lo": 107.45,
-          "hi": 109.0,
+          "hi": 109,
           "strength": "weak",
           "touches": 5,
           "closesIn": 2,
@@ -1619,6 +1888,46 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "thin",
           "since": "2026-06-02"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 90.14,
+          "hi": 96.72,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 1.04,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 103.08,
+          "hi": 103.89,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 0,
+          "formVol": 0.95,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-13",
+          "frame": "4h"
+        },
+        {
+          "lo": 109.49,
+          "hi": 110,
+          "strength": "fresh",
+          "touches": 0,
+          "closesIn": 0,
+          "formVol": 0.7,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-10",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $98.33–112.99",
@@ -1763,7 +2072,7 @@ const BOARD = {
         },
         {
           "lo": 578.3,
-          "hi": 656.0,
+          "hi": 656,
           "strength": "weak",
           "touches": 4,
           "closesIn": 4,
@@ -1791,6 +2100,58 @@ const BOARD = {
           "strength": "structural",
           "touches": null,
           "note": "swing high, no zone formed"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 827.31,
+          "hi": 855.12,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 22,
+          "formVol": 1.65,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-05-29",
+          "frame": "4h"
+        },
+        {
+          "lo": 691.1,
+          "hi": 755,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 0.94,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 806.01,
+          "hi": 874.86,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 15,
+          "formVol": 0.96,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-06-30",
+          "frame": "4h"
+        },
+        {
+          "lo": 863,
+          "hi": 901.01,
+          "strength": "weak",
+          "touches": 11,
+          "closesIn": 8,
+          "formVol": 1.17,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-06-05",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $811.45–859.68",
@@ -1867,7 +2228,7 @@ const BOARD = {
           "reach": 7,
           "full": true,
           "rsi": 47.93,
-          "ema50": 890.0,
+          "ema50": 890,
           "ema200": 604.65,
           "missing": []
         },
@@ -1948,7 +2309,7 @@ const BOARD = {
       "supply": [
         {
           "lo": 920.95,
-          "hi": 998.0,
+          "hi": 998,
           "strength": "weak",
           "touches": 4,
           "closesIn": 3,
@@ -1967,6 +2328,58 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "thin",
           "since": "2026-06-29"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 820.29,
+          "hi": 883.85,
+          "strength": "weak",
+          "touches": 7,
+          "closesIn": 17,
+          "formVol": 1.48,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-05-26",
+          "frame": "4h"
+        },
+        {
+          "lo": 744.5,
+          "hi": 761.92,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 1.19,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-05-21",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 881.41,
+          "hi": 901.18,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 5,
+          "formVol": 1.3,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-27",
+          "frame": "4h"
+        },
+        {
+          "lo": 928.48,
+          "hi": 943.5,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 1,
+          "formVol": 0.78,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-13",
+          "frame": "4h"
         }
       ],
       "position": "between demand $700.66–734.96 (16.6% below) and supply $920.95–998.00 (4.5% above)",
@@ -2096,7 +2509,7 @@ const BOARD = {
         },
         {
           "lo": 687.68,
-          "hi": 784.0,
+          "hi": 784,
           "strength": "fresh",
           "touches": 0,
           "closesIn": 0,
@@ -2120,7 +2533,7 @@ const BOARD = {
         },
         {
           "lo": 1673.97,
-          "hi": 1800.0,
+          "hi": 1800,
           "strength": "tested",
           "touches": 2,
           "closesIn": 0,
@@ -2128,6 +2541,46 @@ const BOARD = {
           "heavyTouches": 1,
           "origin": "thin",
           "since": "2026-07-13"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 1187.26,
+          "hi": 1382.4,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 5,
+          "formVol": 1.17,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 1292.07,
+          "hi": 1456.01,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 10,
+          "formVol": 1.69,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-07-27",
+          "frame": "4h"
+        },
+        {
+          "lo": 1611.64,
+          "hi": 1709.51,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 1.47,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-23",
+          "frame": "4h"
         }
       ],
       "position": "between demand $980.28–1,112.43 (11.6% below) and supply $1,511.67–1,628.40 (20.1% above)",
@@ -2284,7 +2737,7 @@ const BOARD = {
       ],
       "supply": [
         {
-          "lo": 485.0,
+          "lo": 485,
           "hi": 494.97,
           "strength": "weak",
           "touches": 6,
@@ -2315,6 +2768,46 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "thin",
           "since": "2026-07-14"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 475.83,
+          "hi": 512.82,
+          "strength": "weak",
+          "touches": 17,
+          "closesIn": 16,
+          "formVol": 1.12,
+          "heavyTouches": 4,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        },
+        {
+          "lo": 448.33,
+          "hi": 469.84,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 2,
+          "formVol": 0.94,
+          "heavyTouches": 3,
+          "origin": "thin",
+          "since": "2026-06-10",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 531.97,
+          "hi": 546.44,
+          "strength": "weak",
+          "touches": 12,
+          "closesIn": 13,
+          "formVol": 0.99,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-13",
+          "frame": "4h"
         }
       ],
       "position": "inside weak supply $485.00–494.97",
@@ -2436,7 +2929,7 @@ const BOARD = {
       "combo": "weekly up, daily range",
       "demand": [
         {
-          "lo": 400.0,
+          "lo": 400,
           "hi": 460.33,
           "strength": "weak",
           "touches": 9,
@@ -2502,6 +2995,46 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "strong",
           "since": "2026-06-05"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 374.38,
+          "hi": 393.98,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 0.85,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 406.55,
+          "hi": 426.45,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 10,
+          "formVol": 1.29,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-15",
+          "frame": "4h"
+        },
+        {
+          "lo": 445.49,
+          "hi": 448.5,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 1,
+          "formVol": 0.53,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-13",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $400.00–460.33",
@@ -2653,6 +3186,58 @@ const BOARD = {
           "since": "2026-05-14"
         }
       ],
+      "demand4h": [
+        {
+          "lo": 79.46,
+          "hi": 87.02,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 15,
+          "formVol": 0.86,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-07",
+          "frame": "4h"
+        },
+        {
+          "lo": 69.97,
+          "hi": 77.04,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.44,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 94,
+          "hi": 96.17,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 0,
+          "formVol": 1.51,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-06-29",
+          "frame": "4h"
+        },
+        {
+          "lo": 99.26,
+          "hi": 100.78,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 2,
+          "formVol": 0.92,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-06-05",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak supply $74.92–87.70",
       "bull": "close above $74.92–87.70 → $106.93–120.82",
       "bear": "close below $71.85–72.99",
@@ -2756,7 +3341,7 @@ const BOARD = {
           "M": 1,
           "reach": 7,
           "full": true,
-          "rsi": 54.0,
+          "rsi": 54,
           "ema50": 160.98,
           "ema200": 165.23,
           "missing": []
@@ -2817,7 +3402,7 @@ const BOARD = {
           "since": "2026-07-23"
         },
         {
-          "lo": 168.0,
+          "lo": 168,
           "hi": 172.95,
           "strength": "weak",
           "touches": 7,
@@ -2839,6 +3424,46 @@ const BOARD = {
           "since": "2026-07-13"
         }
       ],
+      "demand4h": [
+        {
+          "lo": 138.23,
+          "hi": 143.79,
+          "strength": "fresh",
+          "touches": 0,
+          "closesIn": 0,
+          "formVol": 1.25,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 152.26,
+          "hi": 160.98,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 7,
+          "formVol": 0.53,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-23",
+          "frame": "4h"
+        },
+        {
+          "lo": 168.79,
+          "hi": 187.07,
+          "strength": "weak",
+          "touches": 7,
+          "closesIn": 3,
+          "formVol": 1.16,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-15",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak supply $152.26–160.98",
       "bull": "close above $152.26–160.98 → $168.00–172.95",
       "bear": "close below $136.35–147.92 → $123.90–133.08",
@@ -2853,7 +3478,7 @@ const BOARD = {
       "ticker": "META",
       "date": "2026-08-06",
       "price": 589.9,
-      "atr": 24.0,
+      "atr": 24,
       "atrPct": 4.07,
       "structure": {
         "m": "neutral",
@@ -2872,7 +3497,7 @@ const BOARD = {
         }
       },
       "ind": {
-        "rsi": 47.0,
+        "rsi": 47,
         "macdHist": -3.718,
         "obvSlope": -1
       },
@@ -2911,7 +3536,7 @@ const BOARD = {
           "M": -1,
           "reach": 7,
           "full": true,
-          "rsi": 47.0,
+          "rsi": 47,
           "ema50": 604.36,
           "ema200": 627.69,
           "missing": []
@@ -2982,7 +3607,7 @@ const BOARD = {
       "supply": [
         {
           "lo": 585.39,
-          "hi": 592.0,
+          "hi": 592,
           "strength": "weak",
           "touches": 6,
           "closesIn": 5,
@@ -3003,7 +3628,7 @@ const BOARD = {
           "since": "2026-07-27"
         },
         {
-          "lo": 603.0,
+          "lo": 603,
           "hi": 624.17,
           "strength": "weak",
           "touches": 15,
@@ -3012,6 +3637,46 @@ const BOARD = {
           "heavyTouches": 7,
           "origin": "strong",
           "since": "2026-06-03"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 557.8,
+          "hi": 568.39,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 11,
+          "formVol": 2.25,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-06-29",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 577.1,
+          "hi": 591.3,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 14,
+          "formVol": 1.1,
+          "heavyTouches": 3,
+          "origin": "thin",
+          "since": "2026-06-10",
+          "frame": "4h"
+        },
+        {
+          "lo": 593.66,
+          "hi": 597,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 1,
+          "formVol": 2.15,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-28",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $581.76–600.29",
@@ -3200,6 +3865,58 @@ const BOARD = {
           "since": "2026-07-08"
         }
       ],
+      "demand4h": [
+        {
+          "lo": 199.2,
+          "hi": 204.43,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 2,
+          "formVol": 1.28,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-05-29",
+          "frame": "4h"
+        },
+        {
+          "lo": 187.25,
+          "hi": 199.38,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 8,
+          "formVol": 1.37,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 202.21,
+          "hi": 219.88,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 12,
+          "formVol": 0.8,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-15",
+          "frame": "4h"
+        },
+        {
+          "lo": 243.33,
+          "hi": 248.6,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 1,
+          "formVol": 0.63,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-09",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak supply $193.01–214.92",
       "bull": "close above $193.01–214.92 → $217.53–228.80",
       "bear": "close below $187.12–199.38 → $162.85–176.27",
@@ -3384,6 +4101,32 @@ const BOARD = {
           "heavyTouches": 1,
           "origin": "thin",
           "since": "2026-01-07"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 162.84,
+          "hi": 165.9,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 0,
+          "formVol": 1.61,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-28",
+          "frame": "4h"
+        },
+        {
+          "lo": 168.24,
+          "hi": 171.19,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.11,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-27",
+          "frame": "4h"
         }
       ],
       "position": "inside weak demand $159.58–161.83",
@@ -3573,6 +4316,58 @@ const BOARD = {
           "since": "2026-06-30"
         }
       ],
+      "demand4h": [
+        {
+          "lo": 568.29,
+          "hi": 580.52,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 12,
+          "formVol": 1.19,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-06-10",
+          "frame": "4h"
+        },
+        {
+          "lo": 535.26,
+          "hi": 558.23,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 0.76,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 578.3,
+          "hi": 581.04,
+          "strength": "weak",
+          "touches": 9,
+          "closesIn": 2,
+          "formVol": 1.63,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-05-14",
+          "frame": "4h"
+        },
+        {
+          "lo": 585.63,
+          "hi": 607,
+          "strength": "weak",
+          "touches": 9,
+          "closesIn": 15,
+          "formVol": 2.04,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-13",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak demand $554.66–609.48",
       "bull": "close above $571.35–592.01 → $600.31–608.90",
       "bear": "close below $554.66–609.48 → $514.12–522.69",
@@ -3715,7 +4510,7 @@ const BOARD = {
       ],
       "supply": [
         {
-          "lo": 5.0,
+          "lo": 5,
           "hi": 5.7,
           "strength": "weak",
           "touches": 1,
@@ -3746,6 +4541,46 @@ const BOARD = {
           "heavyTouches": 1,
           "origin": "thin",
           "since": "2026-03-24"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 5.43,
+          "hi": 5.72,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 5,
+          "formVol": 3.37,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-05-14",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 6.02,
+          "hi": 6.22,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.02,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-22",
+          "frame": "4h"
+        },
+        {
+          "lo": 6.47,
+          "hi": 6.95,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 1,
+          "formVol": 1.68,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-14",
+          "frame": "4h"
         }
       ],
       "position": "inside weak supply $5.00–5.70",
@@ -3807,7 +4642,7 @@ const BOARD = {
           "M": -1,
           "reach": 7,
           "full": true,
-          "rsi": 37.0,
+          "rsi": 37,
           "ema50": 382.2,
           "ema200": 318.07,
           "missing": []
@@ -3931,6 +4766,20 @@ const BOARD = {
           "since": "2026-07-14"
         }
       ],
+      "supply4h": [
+        {
+          "lo": 325.17,
+          "hi": 341.86,
+          "strength": "tested",
+          "touches": 2,
+          "closesIn": 1,
+          "formVol": 1.82,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-07-23",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak demand $306.93–319.91",
       "bull": "close above $329.62–336.27 → $361.51–387.48",
       "bear": "close below $306.93–319.91 → $297.38",
@@ -3977,7 +4826,7 @@ const BOARD = {
         "O": -1,
         "Z": 0
       },
-      "score": -2.0,
+      "score": -2,
       "bias": "bearish",
       "trend": {
         "w": {
@@ -4115,6 +4964,46 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "thin",
           "since": "2026-06-15"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 112.3,
+          "hi": 118.02,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 10,
+          "formVol": 1.81,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-07-07",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 119.84,
+          "hi": 122.9,
+          "strength": "weak",
+          "touches": 5,
+          "closesIn": 5,
+          "formVol": 1.31,
+          "heavyTouches": 3,
+          "origin": "strong",
+          "since": "2026-06-23",
+          "frame": "4h"
+        },
+        {
+          "lo": 121.81,
+          "hi": 125.77,
+          "strength": "weak",
+          "touches": 1,
+          "closesIn": 4,
+          "formVol": 0.93,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-23",
+          "frame": "4h"
         }
       ],
       "position": "inside weak supply $115.37–119.08",
@@ -4304,6 +5193,32 @@ const BOARD = {
           "since": "2026-01-29"
         }
       ],
+      "demand4h": [
+        {
+          "lo": 244.66,
+          "hi": 255.46,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 13,
+          "formVol": 2.06,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-05-29",
+          "frame": "4h"
+        },
+        {
+          "lo": 240.26,
+          "hi": 252.95,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 9,
+          "formVol": 1.77,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-07-28",
+          "frame": "4h"
+        }
+      ],
       "position": "inside weak demand $256.60–261.59",
       "bull": "close above $251.44–263.50 → $267.23–282.90",
       "bear": "close below $256.60–261.59 → $241.69–249.18",
@@ -4470,6 +5385,46 @@ const BOARD = {
           "heavyTouches": 0,
           "origin": "thin",
           "since": "2026-06-03"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 16.98,
+          "hi": 18.02,
+          "strength": "weak",
+          "touches": 8,
+          "closesIn": 11,
+          "formVol": 0.92,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-06-25",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 18.14,
+          "hi": 18.28,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 3,
+          "formVol": 1.2,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-21",
+          "frame": "4h"
+        },
+        {
+          "lo": 18.54,
+          "hi": 19.12,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 7,
+          "formVol": 0.81,
+          "heavyTouches": 0,
+          "origin": "thin",
+          "since": "2026-07-20",
+          "frame": "4h"
         }
       ],
       "position": "between demand $16.98 (3.9% below) and supply $17.96–19.37 (1.6% above)",

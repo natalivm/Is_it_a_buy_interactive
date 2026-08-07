@@ -211,6 +211,46 @@ check("the zone price is INSIDE is nearest demand",
 check("position agrees with the zone lists",
       st._position(p, dem, st.nearest(held, p, 'supply'), held).startswith("inside"), True)
 
+# ── the 4H refinement pass ──────────────────────────────────────────────────
+# The reason it exists: a name travelling several ATRs a week outruns its daily
+# zones, so the same rules run one frame down. The reason it is kept apart: the
+# score must keep the meaning it had on every earlier board.
+print("\n4H refinement — finer levels, and none of them scored")
+
+_far = [Z('demand', 600.0, 610.0, 10, dt.date(2026, 7, 1), atr_at=5),
+        Z('demand', 700.0, 710.0, 20, dt.date(2026, 7, 20), atr_at=5)]
+# 3 daily ATRs of 5.0 on a $713.94 print is ±$15, measured from the zone's mid
+# as everywhere else: $605 is 15% away and refines nothing, $705 is the edge.
+_near = st.MAX_ZONE_DIST_4H_ATR * 5.0 / p
+check("a refinement past the ATR cap is dropped",
+      [(z.lo, z.hi) for z in st.nearest(_far, p, 'demand', st.ZONES_4H, _near)],
+      [(700.0, 710.0)])
+check("the structural cap would have kept it",
+      len(st.nearest(_far, p, 'demand', st.ZONES_4H)), 2)
+
+# The age cap counts BARS, and a bar is a different span of tape per frame.
+_aged = [{"date": dt.date(2026, 1, 1), "o": 100.0, "h": 101.0, "l": 99.0,
+          "c": 100.0, "v": 1e6}] * 400
+check("the 4H age cap is the frame's own structure window",
+      st.MAX_ZONE_AGE_4H, st.STRUCT_LOOKBACK['h4'])
+check("find_zones takes the cap per frame rather than assuming daily",
+      st.find_zones(_aged, ind.atr([b["h"] for b in _aged], [b["l"] for b in _aged],
+                                   [b["c"] for b in _aged]),
+                    max_age=st.MAX_ZONE_AGE_4H), [])
+
+# The whole point of the separation: Z, and therefore the score, is daily-only.
+_z4 = st._zone_json(Z('demand', 100.0, 101.0, 5, dt.date(2026, 8, 1), atr_at=1), '4h')
+check("a refinement zone says which frame drew it", _z4['frame'], '4h')
+check("a daily zone carries no frame tag — it is the default",
+      'frame' in st._zone_json(Z('demand', 100.0, 101.0, 5, dt.date(2026, 8, 1),
+                                 atr_at=1)), False)
+_src = pathlib.Path(__file__).with_name('structure.py').read_text('utf-8')
+_row = _src[_src.index("    row = {"):_src.index("'position': _position")]
+check("nothing between the score and the row body scores a 4H zone",
+      ('dem4' in _src[_src.index('z_term = 0'):_src.index("    row = {")]), False)
+check("the row keeps the refinement in its own fields",
+      ("'demand4h'" in _row and "'supply4h'" in _row), True)
+
 # ── break of structure ──────────────────────────────────────────────────────
 print("\nBreak of structure — a lost level invalidates the read")
 
