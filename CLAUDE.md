@@ -556,6 +556,37 @@ no. Express every stop in ATR units and the difference handles itself — a 3% s
 is 0.55 ATR on MRVL and 0.66 ATR on META, and those are different trades. A
 per-name category would need maintaining; a ratio does not.
 
+## Earnings: three sessions before a move
+
+**No new position on a name until the THIRD session after its earnings
+reaction.** The reaction bar is day 0; for AXON's −14.28% session on
+2026-08-06 that makes 08-07 and 08-10 pass and **08-11** the first actionable
+one. The levels stay live and keep being refreshed throughout — the gate
+governs WHEN a plan may be taken, not what the plan is.
+
+The reason is that an earnings bar breaks the three things every rule on this
+board is measured in, all at once:
+
+- **Structure.** The reaction bar's own extremes get read as pivots. AXON's 4H
+  frame printed a "higher high" at $628.22 — the wick of the very bar that then
+  closed −14.28% — and the frame read bullish on it.
+- **Zones.** A gap leaves no traded bars behind it, so the displacement rules
+  find nothing where the move actually happened. PLTR gapped $125.91 → $145.15
+  and has no 4H level between ~$137 and $145 to this day.
+- **ATR.** Every stop on this board is priced in ATR units (Rule B), and ATR(14)
+  is still quoting the pre-earnings regime for a fortnight after the gap.
+
+Three sessions is what it takes for a swing to CONFIRM — two bars either side —
+so the gate is really "wait until there is structure to trade", expressed as a
+date because a date is checkable.
+
+On the structure board the gate goes in `preferred` **with its expiry date**
+(`**Stand aside to 08-11** — post-earnings`), which also moves the row into the
+flat block where a stand-aside row belongs, and the reasoning goes in the row's
+`note`. A dated gate expires by itself, and that is the point: on the morning it
+lapses `preferred` needs rewriting to the row's real stance, not leaving to read
+stale.
+
 ## Adding a stock
 
 1. Author `stories/<symbol>.html` (copy an existing story as a template).

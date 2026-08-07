@@ -254,245 +254,6 @@ const BOARD = {
       "h4Effect": "Short thesis improves after a 4H close below **$842**, with stronger confirmation below **$818**. Targets remain **$800–786**. Reclaiming $875–900 would delay the short."
     },
     {
-      "ticker": "AXON",
-      "date": "2026-08-06",
-      "price": 522.46,
-      "atr": 35.83,
-      "atrPct": 6.86,
-      "structure": {
-        "m": "neutral",
-        "w": "neutral",
-        "d": "neutral",
-        "h4": "bullish",
-        "h4Note": "1706 4H bars",
-        "why": {
-          "d": "pivots: highs 665.07->564.24, lows 485.75->502.72",
-          "w": "pivots: highs 515.80->665.07, lows 402.00->485.75"
-        },
-        "bars": {
-          "d": 1506,
-          "w": 314,
-          "m": 73
-        }
-      },
-      "ind": {
-        "rsi": 47.94,
-        "macdHist": 1.743,
-        "obvSlope": 1
-      },
-      "parts": {
-        "W": 0,
-        "D": 0,
-        "H": 1,
-        "R": -1,
-        "M": -1,
-        "O": 1,
-        "Z": 0
-      },
-      "score": 0,
-      "bias": "neutral",
-      "trend": {
-        "w": {
-          "score": 4,
-          "band": "uptrend",
-          "S": 0,
-          "E": 1,
-          "A": 1,
-          "M": 1,
-          "reach": 7,
-          "full": true,
-          "rsi": 52.75,
-          "ema50": 520.99,
-          "ema200": 431.6,
-          "missing": []
-        },
-        "d": {
-          "score": 1,
-          "band": "range / transition",
-          "S": 0,
-          "E": 1,
-          "A": -1,
-          "M": 0,
-          "reach": 7,
-          "full": true,
-          "rsi": 47.94,
-          "ema50": 512.24,
-          "ema200": 518.78,
-          "missing": []
-        },
-        "m": {
-          "score": 0,
-          "band": "range / transition",
-          "S": 0,
-          "E": 0,
-          "A": 0,
-          "M": 0,
-          "reach": 4,
-          "full": false,
-          "rsi": 51.1,
-          "ema50": 421.63,
-          "ema200": null,
-          "missing": [
-            "50 EMA",
-            "200 EMA"
-          ]
-        },
-        "h4": {
-          "score": 4,
-          "band": "uptrend",
-          "S": 1,
-          "E": 0,
-          "A": 1,
-          "M": 0,
-          "reach": 7,
-          "full": true,
-          "rsi": 43.73,
-          "ema50": 536.2,
-          "ema200": 495.32,
-          "missing": []
-        }
-      },
-      "trendProse": {
-        "w": "uptrend",
-        "d": "range / transition",
-        "m": "range / transition",
-        "h4": "uptrend"
-      },
-      "combo": "weekly up, daily range",
-      "demand": [
-        {
-          "lo": 498.3,
-          "hi": 520.18,
-          "strength": "weak",
-          "touches": 6,
-          "closesIn": 11,
-          "formVol": 2.16,
-          "heavyTouches": 2,
-          "origin": "strong",
-          "since": "2026-02-25"
-        },
-        {
-          "lo": 456.61,
-          "hi": 490.12,
-          "strength": "weak",
-          "touches": 4,
-          "closesIn": 4,
-          "formVol": 1.3,
-          "heavyTouches": 0,
-          "origin": "strong",
-          "since": "2026-06-02"
-        },
-        {
-          "lo": 440,
-          "hi": 464.83,
-          "strength": "fresh",
-          "touches": 0,
-          "closesIn": 0,
-          "formVol": 1.63,
-          "heavyTouches": 0,
-          "origin": "strong",
-          "since": "2026-06-26"
-        }
-      ],
-      "supply": [
-        {
-          "lo": 587,
-          "hi": 611.21,
-          "strength": "weak",
-          "touches": 9,
-          "closesIn": 14,
-          "formVol": 2.29,
-          "heavyTouches": 4,
-          "origin": "strong",
-          "since": "2025-11-07"
-        },
-        {
-          "lo": 608.8,
-          "hi": 622.39,
-          "strength": "weak",
-          "touches": 4,
-          "closesIn": 3,
-          "formVol": 0.94,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-01-23"
-        },
-        {
-          "lo": 703.03,
-          "hi": 740,
-          "strength": "weak",
-          "touches": 2,
-          "closesIn": 8,
-          "formVol": 5.37,
-          "heavyTouches": 0,
-          "origin": "strong",
-          "since": "2025-11-03"
-        }
-      ],
-      "demand4h": [
-        {
-          "lo": 521.04,
-          "hi": 551.61,
-          "strength": "weak",
-          "touches": 4,
-          "closesIn": 19,
-          "formVol": 1.54,
-          "heavyTouches": 1,
-          "origin": "strong",
-          "since": "2026-06-30",
-          "frame": "4h"
-        },
-        {
-          "lo": 514.76,
-          "hi": 521.97,
-          "strength": "tested",
-          "touches": 1,
-          "closesIn": 0,
-          "formVol": 1.02,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-07-31",
-          "frame": "4h"
-        }
-      ],
-      "supply4h": [
-        {
-          "lo": 510,
-          "hi": 532.18,
-          "strength": "weak",
-          "touches": 4,
-          "closesIn": 9,
-          "formVol": 0.58,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-07-20",
-          "frame": "4h"
-        },
-        {
-          "lo": 541.26,
-          "hi": 542.06,
-          "strength": "weak",
-          "touches": 3,
-          "closesIn": 0,
-          "formVol": 0.66,
-          "heavyTouches": 1,
-          "origin": "thin",
-          "since": "2026-07-15",
-          "frame": "4h"
-        }
-      ],
-      "position": "between demand $498.30–520.18 (0.4% below) and supply $587.00–611.21 (12.4% above)",
-      "bull": "close above $587.00–611.21 → $703.03–740.00",
-      "bear": "close below $498.30–520.18 → $456.61–490.12",
-      "retest": "a break above $587.00–611.21 likely retests it as support",
-      "longCandidate": "The confirmed breakout long, not just a possible one — monthly, weekly and daily are all bullish now. Still not a chase: the best entry is the $575–585 hold with a 4H higher low, not the push into $620–630.",
-      "longSetup": "Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.",
-      "shortSetup": "Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.",
-      "preferred": "**Long preferred** — all four frames agree",
-      "h4": "−14% into the 200-EMA $521. $515–522 is the hold; $502.72 is the last higher low.",
-      "h4Effect": "The 4H frame still reads bullish, but on 532.92→564.24 highs and 485.74→502.72 lows — NOT on the $628.22 print, which was the crash bar's own wick and is no longer a confirmed pivot. Price is sitting on a real confluence: 4H demand $514.76–521.97 tested, the 4H 200-EMA $521.18, the lower band $513.50 and the top of daily demand $498.30–520.18. That is the level the row turns on. A 4H close under $502.72 ends the 4H uptrend and hands the frame to the daily neutral, with $498.30–520.18 the only thing under it. Stochastics at 4.09/16.50 means the first bounce is likely mechanical and proves nothing — it is the second test that reads."
-    },
-    {
       "ticker": "AVGO",
       "date": "2026-08-06",
       "price": 420.57,
@@ -1753,6 +1514,246 @@ const BOARD = {
       "preferred": "**Long preferred** — do not chase",
       "h4": "Gap $126→$145 left nothing under price to $137; the 08-06 low $152.70 holds it up.",
       "h4Effect": "The 08-04 gap is why this row has no 4H zone near price: the frame has no traded bar between ~$137 and $145, so every zone the displacement left sits below the gap and outside the cap. The nearest CONFIRMED 4H swing low is $132.42 — the 08-06 low $152.70 is one bar young and not structure yet, which is the honest state of a name three sessions off a 15% gap. Overhead is the $163.69 swing and the $166.06 high; price is inside daily supply $153.24–161.08 with the 4H histogram already negative. Rejection under $160 puts $152.70 in play, and under it there is air to $137."
+    },
+    {
+      "ticker": "AXON",
+      "date": "2026-08-06",
+      "price": 522.46,
+      "atr": 35.83,
+      "atrPct": 6.86,
+      "structure": {
+        "m": "neutral",
+        "w": "neutral",
+        "d": "neutral",
+        "h4": "bullish",
+        "h4Note": "1706 4H bars",
+        "why": {
+          "d": "pivots: highs 665.07->564.24, lows 485.75->502.72",
+          "w": "pivots: highs 515.80->665.07, lows 402.00->485.75"
+        },
+        "bars": {
+          "d": 1506,
+          "w": 314,
+          "m": 73
+        }
+      },
+      "ind": {
+        "rsi": 47.94,
+        "macdHist": 1.743,
+        "obvSlope": 1
+      },
+      "parts": {
+        "W": 0,
+        "D": 0,
+        "H": 1,
+        "R": -1,
+        "M": -1,
+        "O": 1,
+        "Z": 0
+      },
+      "score": 0,
+      "bias": "neutral",
+      "trend": {
+        "w": {
+          "score": 4,
+          "band": "uptrend",
+          "S": 0,
+          "E": 1,
+          "A": 1,
+          "M": 1,
+          "reach": 7,
+          "full": true,
+          "rsi": 52.75,
+          "ema50": 520.99,
+          "ema200": 431.6,
+          "missing": []
+        },
+        "d": {
+          "score": 1,
+          "band": "range / transition",
+          "S": 0,
+          "E": 1,
+          "A": -1,
+          "M": 0,
+          "reach": 7,
+          "full": true,
+          "rsi": 47.94,
+          "ema50": 512.24,
+          "ema200": 518.78,
+          "missing": []
+        },
+        "m": {
+          "score": 0,
+          "band": "range / transition",
+          "S": 0,
+          "E": 0,
+          "A": 0,
+          "M": 0,
+          "reach": 4,
+          "full": false,
+          "rsi": 51.1,
+          "ema50": 421.63,
+          "ema200": null,
+          "missing": [
+            "50 EMA",
+            "200 EMA"
+          ]
+        },
+        "h4": {
+          "score": 4,
+          "band": "uptrend",
+          "S": 1,
+          "E": 0,
+          "A": 1,
+          "M": 0,
+          "reach": 7,
+          "full": true,
+          "rsi": 43.73,
+          "ema50": 536.2,
+          "ema200": 495.32,
+          "missing": []
+        }
+      },
+      "trendProse": {
+        "w": "uptrend",
+        "d": "range / transition",
+        "m": "range / transition",
+        "h4": "uptrend"
+      },
+      "combo": "weekly up, daily range",
+      "demand": [
+        {
+          "lo": 498.3,
+          "hi": 520.18,
+          "strength": "weak",
+          "touches": 6,
+          "closesIn": 11,
+          "formVol": 2.16,
+          "heavyTouches": 2,
+          "origin": "strong",
+          "since": "2026-02-25"
+        },
+        {
+          "lo": 456.61,
+          "hi": 490.12,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 4,
+          "formVol": 1.3,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-06-02"
+        },
+        {
+          "lo": 440,
+          "hi": 464.83,
+          "strength": "fresh",
+          "touches": 0,
+          "closesIn": 0,
+          "formVol": 1.63,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2026-06-26"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 587,
+          "hi": 611.21,
+          "strength": "weak",
+          "touches": 9,
+          "closesIn": 14,
+          "formVol": 2.29,
+          "heavyTouches": 4,
+          "origin": "strong",
+          "since": "2025-11-07"
+        },
+        {
+          "lo": 608.8,
+          "hi": 622.39,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 3,
+          "formVol": 0.94,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-01-23"
+        },
+        {
+          "lo": 703.03,
+          "hi": 740,
+          "strength": "weak",
+          "touches": 2,
+          "closesIn": 8,
+          "formVol": 5.37,
+          "heavyTouches": 0,
+          "origin": "strong",
+          "since": "2025-11-03"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 521.04,
+          "hi": 551.61,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 19,
+          "formVol": 1.54,
+          "heavyTouches": 1,
+          "origin": "strong",
+          "since": "2026-06-30",
+          "frame": "4h"
+        },
+        {
+          "lo": 514.76,
+          "hi": 521.97,
+          "strength": "tested",
+          "touches": 1,
+          "closesIn": 0,
+          "formVol": 1.02,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-31",
+          "frame": "4h"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 510,
+          "hi": 532.18,
+          "strength": "weak",
+          "touches": 4,
+          "closesIn": 9,
+          "formVol": 0.58,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-20",
+          "frame": "4h"
+        },
+        {
+          "lo": 541.26,
+          "hi": 542.06,
+          "strength": "weak",
+          "touches": 3,
+          "closesIn": 0,
+          "formVol": 0.66,
+          "heavyTouches": 1,
+          "origin": "thin",
+          "since": "2026-07-15",
+          "frame": "4h"
+        }
+      ],
+      "position": "between demand $498.30–520.18 (0.4% below) and supply $587.00–611.21 (12.4% above)",
+      "bull": "close above $587.00–611.21 → $703.03–740.00",
+      "bear": "close below $498.30–520.18 → $456.61–490.12",
+      "retest": "a break above $587.00–611.21 likely retests it as support",
+      "longCandidate": "Nothing before **08-11** — the post-earnings gate. The pre-earnings breakout thesis ($575–585 hold with a 4H higher low) is SUSPENDED, not cancelled and not confirmed: it was written when monthly, weekly and daily all read bullish, and all three are neutral now. Re-read the frames when the gate lapses; $502.72 has to still be intact.",
+      "longSetup": "Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.",
+      "shortSetup": "Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.",
+      "preferred": "**Stand aside to 08-11** — post-earnings",
+      "h4": "−14% into the 200-EMA $521. $515–522 is the hold; $502.72 is the last higher low.",
+      "h4Effect": "The 4H frame still reads bullish, but on 532.92→564.24 highs and 485.74→502.72 lows — NOT on the $628.22 print, which was the crash bar's own wick and is no longer a confirmed pivot. Price is sitting on a real confluence: 4H demand $514.76–521.97 tested, the 4H 200-EMA $521.18, the lower band $513.50 and the top of daily demand $498.30–520.18. That is the level the row turns on. A 4H close under $502.72 ends the 4H uptrend and hands the frame to the daily neutral, with $498.30–520.18 the only thing under it. Stochastics at 4.09/16.50 means the first bounce is likely mechanical and proves nothing — it is the second test that reads.",
+      "note": "TIMING GATE, set 2026-08-07: no entry on this row until the THIRD session after the earnings reaction — 08-06 is day 0, so 08-07 / 08-10 pass and 08-11 is the first actionable session. The levels below stay live and keep being refreshed; the gate governs when a plan may be taken, not what the plan is. It is a date, so it expires by itself: on 08-11 the row goes back to its computed stance, and `preferred` needs rewriting that morning rather than being left to read stale. Anchored to the -14.28% 08-06 session as the reaction bar; if the report was a different day, move both dates."
     },
     {
       "ticker": "INTC",
