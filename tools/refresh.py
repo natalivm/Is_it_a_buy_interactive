@@ -588,14 +588,46 @@ def rung_close(stock: dict) -> tuple[float, str] | None:
     return float(m.group(1).replace(",", "")), m.group(2).strip()
 
 
+def session_date(stock: dict) -> str | None:
+    """Which SESSION the card describes — not when it was published.
+
+    `date` is the tile's "Опубліковано" label, and the two coincide only when
+    a card is written on the session it reports. Refresh the morning after a
+    close — the normal rhythm once the bot runs after the bell — and they
+    diverge by a day, which used to stamp every re-cut rung with a session
+    that had not happened yet ('закриття 07.08' written on the morning of the
+    7th, for the 6th's close).
+
+    The signal's own `📅 CLOSE dd/mm` block is the card's statement of which
+    session it narrates, and the accretion check already treats it as such, so
+    it is the honest source. `date` remains the fallback for a card that
+    carries no dated block.
+    """
+    d = str(stock.get("date") or "")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+        return None
+    m = re.search(r"📅 CLOSE (\d{2})/(\d{2})", str(stock.get("signal") or ""))
+    if not m:
+        return d
+    # The signal block is MM/DD ('📅 CLOSE 08/06'); the rung prints DD.MM
+    # ('закриття 06.08'). Read the marker in its own order, not the rung's.
+    month, day = m.group(1), m.group(2)
+    year = int(d[:4])
+    # dd/mm carries no year: take the card's, and step back one if that would
+    # place the session ahead of publication (a January card citing December).
+    if f"{year}-{month}-{day}" > d:
+        year -= 1
+    return f"{year}-{month}-{day}"
+
+
 def recut_rung(stock: dict) -> tuple[str, str] | None:
     """The (price, label) a close-frame card's ТУТ rung should carry."""
     got = rung_close(stock)
     if not got:
         return None
     close, pct = got
-    d = str(stock.get("date") or "")
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+    d = session_date(stock)
+    if not d:
         return None
     label = CANON_RUNG.format(date=f"{d[8:10]}.{d[5:7]}", pct=pct)
     zone = nums((stock.get("lead") or {}).get("entry"))
