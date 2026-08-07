@@ -25,7 +25,13 @@
                 document.documentElement.setAttribute('data-theme', t);
             } catch (e) { /* private mode — fall through to the dark default */ }
             try {
-                var v = localStorage.getItem('ib-view');
+                // #board is the structure board's own URL, and it wins over the
+                // stored preference: someone opening a shared link asked for the
+                // board, whatever this browser last chose. Read PRE-PAINT for
+                // the same reason the theme is — resolving it in script.js would
+                // paint the card view first and swap it a frame later.
+                var v = location.hash === '#board' ? 'table'
+                    : localStorage.getItem('ib-view');
                 document.documentElement.setAttribute('data-view', v === 'table' ? 'table' : 'cards');
             } catch (e) { /* private mode — fall through to the card default */ }
         })();
