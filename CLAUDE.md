@@ -580,6 +580,13 @@ Three sessions is what it takes for a swing to CONFIRM — two bars either side 
 so the gate is really "wait until there is structure to trade", expressed as a
 date because a date is checkable.
 
+**Identifying the reaction bar needs no calendar feed** — it is an outsized move
+on a volume spike at the quarterly cadence, and that is checkable in the bars
+this repo already fetches. AXON's 08-06 is −14.28% on 2.7× median volume, 70
+days after 05-28 (+12.27%, 2.1×) and a year on from 2025-08-05 (+16.41%, 3.1×).
+Do the cadence check rather than hedging about whether a −14% day was earnings:
+one is evidence, the other is a caveat nobody can act on.
+
 On the structure board the gate goes in `preferred` **with its expiry date**
 (`**Stand aside to 08-11** — post-earnings`), which also moves the row into the
 flat block where a stand-aside row belongs, and the reasoning goes in the row's
