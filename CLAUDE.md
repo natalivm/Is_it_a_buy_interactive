@@ -365,6 +365,25 @@ losses, which render as red ⛔ chips and stay on the strip by design. Entries w
 whole table hides itself when nothing is ranked. This keeps the leaderboard in
 sync with the cards — it's built from `data.js`, not hand-written HTML.
 
+**`rank` is hand-set, so it needs a stated key or it drifts into nonsense.** It
+had: on 2026-08-07 the best open position on the board (NBIS, +15.2%) sat at 15
+below eight waiting plans, and ranks 4–10 held seven waiting longs whose
+distance-to-fill ran 1.99, 1.54, 0.24, 0.68, 0.43, 0.57, 0.14 ATR — very nearly
+backwards. Nothing was wrong with any individual number; there was simply no key,
+so each refresh appended and none re-sorted. The key is four blocks, and a
+refresh places a card in its block rather than at the end:
+
+1. **Held positions**, by realised progress — the setup is proven, so the
+   ordering is what it has actually produced.
+2. **Live but unfilled** — the rejection printed and price is beyond the zone,
+   ordered by the reward still on the table.
+3. **Waiting plans**, by distance to fill in ATR, R:R breaking ties. Reachability
+   leads because a plan price cannot reach produces nothing, whatever its R:R.
+4. **Booked**, parked last. `script.js` filters `status: 'booked'` out of the
+   table, so the number is inert — but do NOT delete the field to express that.
+   The sort reads `(a.lead.rank || 0)`, so a missing rank sorts FIRST, and a
+   booked trade that ever went live again would jump to the top of the board.
+
 `lead.edge` (the one-line why-this-trade) renders on the stock **tile**, not in
 the table — the table carries only the numeric plan.
 
