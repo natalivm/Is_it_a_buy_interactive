@@ -452,7 +452,49 @@ def audit_fields(stock: dict) -> list[str]:
             out.append(f"{sym}: deck ladder's ТУТ {deck_px:g} is the after-hours print, "
                        f"not the {frame} {card_px:g}")
     out += audit_ladder(stock, story)
+    out += audit_stop_rung(stock, story)
     out += audit_level_chart(stock, story, card_px)
+    return out
+
+
+# THE rung, not any rung mentioning one. A caption qualifies only if it LEADS
+# with 🚨 and the word stop — the house marker for "this level ends the trade".
+# Matching the word anywhere instead swept up four kinds of innocent line:
+# '200-EMA · base, below the stop' (locates a level relative to it), 'BROKEN
+# stop' (history), 'stop of the 1H long setup' and 're-short stop' (other
+# setups). Case-folded on the word itself, because decks write both 'стоп' and
+# 'СТОП' and a case-sensitive match is how ASML's and LRCX's wrong stops
+# survived the first sweep for them.
+STOP_RUNG = re.compile(r'"\$([\d,.]+)",\s*"(🚨\s*[Сс][Тт][Оо][Пп]\b[^"]*)"')
+
+
+def audit_stop_rung(stock: dict, story: Path) -> list[str]:
+    """Every deck rung calling itself the stop must quote the card's stop.
+
+    Reported, never auto-fixed. Re-pricing a stop rung usually drags its caption
+    with it — several merged a level and the stop into one line ('month low ·
+    STOP'), and once the stop moves off the level that sentence is false in a
+    way arithmetic cannot repair.
+    """
+    lead = stock.get("lead") or {}
+    want = nums(lead.get("stop"))
+    if not want:
+        return []
+    sym, out, seen = stock["symbol"], [], False
+    for m in STOP_RUNG.finditer(story.read_text(encoding="utf-8")):
+        cap = m.group(2)
+        got = nums(m.group(1))
+        if not got:
+            continue
+        seen = True
+        if abs(got[0] - want[0]) > 0.005:
+            out.append(f"{sym}: deck rung '{cap[:40]}' quotes stop {got[0]:g} but "
+                       f"the card's stop is {want[0]:g} — the deck is showing a "
+                       f"level the plan is not working to")
+    if not seen:
+        out.append(f"{sym}: ranked plan with stop {want[0]:g}, but its deck names "
+                   f"no stop at all — the level that ends the trade is the one "
+                   f"thing a reader cannot infer")
     return out
 
 
@@ -521,6 +563,16 @@ def audit_ladder(stock: dict, story: Path) -> list[str]:
 
     Both are reported, never fixed: flipping a rung's role or re-pricing its
     caption is a read of what the level now means, which is the analyst's.
+
+    3. THE STOP. A rung that calls itself the stop must quote the stop the card
+       is actually working to. Nothing checked this, and the 06-08 refresh
+       proved how far it drifts: it moved 18 stops in `data.js` — widening the
+       ones failing Rule B, trailing the five sitting below their own fill —
+       re-cut every ТУТ rung, and left every STOP rung where it was. DELL ended
+       up with a card saying $421 and a deck saying $393, which is worse than
+       stale: $393 is under the $406 fill, so the deck displayed a stop that
+       books a loss on a winning trade. Two decks were wrong before that refresh
+       even began, and three ranked plans had no stop rung at all.
     """
     sym, out = stock["symbol"], []
     text = story.read_text(encoding="utf-8")
