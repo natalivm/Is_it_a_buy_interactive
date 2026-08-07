@@ -526,7 +526,21 @@ function structCell(s, prose) {
 
 // A zone list → "$107.27–108.70 weak · repeatedly tested". Generated rows carry
 // touch counts; seeded ones carry the original note.
-function zoneCell(list) {
+//
+// `refine` is the extractor's 4H pass, printed UNDER the daily zones behind a
+// label rather than mixed into them. Two frames in one unlabelled list is the
+// same error as the frames column's old carried prose: two reads of different
+// stretches of tape, rendered as if they were one. The daily zones are the
+// structure and lead the cell; the 4H lines say where inside one today's edge
+// sits, which is what a name travelling several ATRs a week needs and what the
+// daily band cannot express. Rows with no intraday read simply have none.
+function zoneCell(list, refine) {
+    const body = zoneLines(list);
+    if (!refine || !refine.length) return body;
+    return `${body}<span class="bt-z4h"><b>4H</b> ${zoneLines(refine)}</span>`;
+}
+
+function zoneLines(list) {
     if (!list || !list.length) return '—';
     return list.map(z => {
         const range = z.lo === z.hi
@@ -651,8 +665,8 @@ function boardRowHtml(row) {
             <td>${h4}
                 <div class="bt-frames">${structCell(row.structure, row.trendProse)}</div>
                 ${flowCell(row)}</td>
-            <td>${zoneCell(row.demand)}</td>
-            <td>${zoneCell(row.supply)}</td>
+            <td>${zoneCell(row.demand, row.demand4h)}</td>
+            <td>${zoneCell(row.supply, row.supply4h)}</td>
             <td>${md(row.bull)}${row.longSetup
                 ? `<br><span class="bt-long">Setup — ${md(row.longSetup)}</span>` : ''}${row.longCandidate
                 ? `<br><span class="bt-long">Candidate — ${md(row.longCandidate)}</span>` : ''}</td>

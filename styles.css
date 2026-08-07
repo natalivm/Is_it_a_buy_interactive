@@ -1192,6 +1192,17 @@ body.story-open, body.whatsnew-open { overflow: hidden; }
     color: var(--mut); font-size: var(--fs-sm);
 }
 
+/* The 4H refinement under a cell's daily zones. Same "set apart, don't compete"
+   treatment as .bt-long: these are a finer read of the level above them, not a
+   second structural verdict, and a reader scanning the column for structure
+   should meet the daily band first. */
+.bt-z4h {
+    display: block; margin-top: 6px; padding-top: 6px;
+    border-top: 1px dotted var(--bt-line, var(--hair));
+    color: var(--mut); font-size: var(--fs-sm);
+}
+.bt-z4h > b { font-family: var(--mono); letter-spacing: 0.06em; }
+
 .bt-rank { margin-top: 18px; }
 .bt-rank-title {
     font-family: var(--mono); font-size: var(--fs-sm); font-weight: 600;

@@ -96,6 +96,12 @@
         }],
         ['Nearest demand', function (r) { return zones(r.demand); }],
         ['Nearest supply', function (r) { return zones(r.supply); }],
+        // The extractor's 4H refinement, in its own columns for the same
+        // reason every other pair is split: a sheet sorts on one field. Kept
+        // separate from the daily zones here as on screen — they are drawn on
+        // a different frame and nothing scores them.
+        ['4H demand', function (r) { return zones(r.demand4h); }],
+        ['4H supply', function (r) { return zones(r.supply4h); }],
         ['Current position', function (r) { return plain(r.position); }],
         ['Bullish trigger', function (r) { return plain(r.bull); }],
         ['Long setup', function (r) { return plain(r.longSetup); }],
