@@ -30,6 +30,27 @@ swing. An up-leg through the last swing high leaves demand behind it; a down-leg
 through the last swing low leaves supply above it. A leg that breaks nothing is
 just a big candle.
 
+### Gaps are part of the zone
+
+A gap is price nobody traded, so it is not the level's edge — it is more of the
+same level. If the bar **before** the base sits clear of it, the zone is extended
+through the empty space:
+
+```
+supply   base high  →  up   to the previous bar's LOW
+demand   base low   →  down to the previous bar's HIGH
+```
+
+Only the bar before the base can do this, and that falls out of the geometry
+rather than being a choice: a supply zone departs downwards, so its impulse can
+never leave a gap above the base, and a demand zone departs upwards and can
+never leave one below.
+
+Gaps under `0.05 ATR` are ignored — a one-cent overnight gap is not untraded
+space worth widening a level for. On the current board the rule moves **8 of 50**
+daily zone lists, widening a zone by a median of 30%. `board.js` has no gap rule,
+so turn this off for parity.
+
 ### The two base rules
 
 | `Base` input | walks back over | use it for |
@@ -164,9 +185,9 @@ python3 tools/pine/verify_port.py            # every ticker in board.js
 python3 tools/pine/verify_port.py AXON TTD   # a few
 ```
 
-Board parity needs three settings back at the extractor's values: **Base =
-board rules**, **Maximum zone width = 2.0**, and only the chart frame enabled on
-a daily chart. The shipped defaults deliberately differ on all three counts —
+Board parity needs four settings back at the extractor's values: **Base = board
+rules**, **Maximum zone width = 2.0**, **Extend zones through gaps = off**, and
+only the chart frame enabled on a daily chart. The shipped defaults deliberately differ on all three counts —
 this script is for reading a chart, `board.js` is the record.
 
 `verify_port.py` transliterates the indicator's `zonesFor()` and `trendLegs()` —

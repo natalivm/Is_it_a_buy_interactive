@@ -42,10 +42,11 @@
 // The rest of the engine is a port of tools/structure.py, constant for
 // constant — swings(), significant_swings(), find_zones(), _score_zone(),
 // _merge(), _resolve_cross(), nearest(). To reproduce the `demand`/`supply`
-// arrays in board.js exactly, three settings have to match the extractor:
-// **Base = board rules**, **Maximum zone width = 2.0**, and only the chart
-// frame enabled on a daily chart. tools/pine/verify_port.py checks that
-// combination on every ticker on the board and is currently 50/50.
+// arrays in board.js exactly, four settings have to match the extractor:
+// **Base = board rules**, **Maximum zone width = 2.0**, **Extend zones through
+// gaps = off**, and only the chart frame enabled on a daily chart.
+// tools/pine/verify_port.py checks that combination on every ticker on the
+// board and is currently 50/50.
 //
 // The shipped default width is 1.2, NOT the board's 2.0: at 2.0 the zones
 // covered 70% of the visible band across 13 names, and a level covering most of
@@ -94,6 +95,8 @@ gB = "Base — the balance before the impulse"
 baseMode    = input.string("balance candles", "Base", options = ["balance candles", "board rules (colour)"], group = gB, tooltip = "balance candles: walk back over candles whose BODY is small against ATR, whatever colour they are. board rules: the extractor's _base_span(), which walks back over candles of the opposite or neutral colour — use this to reproduce board.js exactly.")
 balanceBody = input.float(0.5, "Balance body, max ATR", group = gB, minval = 0.05, step = 0.05, tooltip = "A candle is 'balance' when |close − open| is at most this many ATRs. Bigger = looser bases.")
 maxBaseBars = input.int(4, "Base length, max candles", group = gB, minval = 1, maxval = 8, tooltip = "The extractor caps this at 4.")
+extendGaps  = input.bool(true, "Extend zones through gaps", group = gB, tooltip = "A gap is price nobody traded, so it is more of the same level rather than its edge: a gap above a supply base is carried up to the previous bar's low, a gap below a demand base down to the previous bar's high. Turn OFF to reproduce board.js, which has no gap rule.")
+gapMinAtr   = input.float(0.05, "…ignore gaps under, in ATR", group = gB, minval = 0.0, step = 0.05, tooltip = "A one-cent overnight gap is not untraded space worth widening a level for.")
 
 gZ = "Zone rules — defaults are tools/structure.py's"
 displaceAtr  = input.float(1.0,  "Impulse, in ATR",                group = gZ, minval = 0.1, step = 0.1, tooltip = "DISPLACE_ATR. Measured open-to-furthest-CLOSE over the window below — a wick alone is not displacement.")
@@ -479,6 +482,27 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                             hi2 = isDemand ? bodyHi             : array.get(f.h, b2)
                             zlo := na(zlo) ? lo2 : math.min(zlo, lo2)
                             zhi := na(zhi) ? hi2 : math.max(zhi, hi2)
+                        // ── GAPS ARE PART OF THE ZONE ─────────────────────
+                        // A gap is price nobody traded. If the bar before the
+                        // base sits clear of it — its low above a supply base,
+                        // its high below a demand base — the empty space
+                        // between them is not a boundary, it is more of the
+                        // same level, so the zone is extended through it.
+                        //
+                        // Only the bar BEFORE the base can do this, and that
+                        // falls out of the geometry rather than being a choice:
+                        // a supply zone departs DOWNWARDS, so its impulse can
+                        // never leave a gap above the base, and a demand zone
+                        // departs upwards and can never leave one below.
+                        if extendGaps and startB - 1 >= 0
+                            if isDemand
+                                ph = array.get(f.h, startB - 1)
+                                if ph < zlo and zlo - ph >= gapMinAtr * a
+                                    zlo := ph
+                            else
+                                pl = array.get(f.l, startB - 1)
+                                if pl > zhi and pl - zhi >= gapMinAtr * a
+                                    zhi := pl
                         // Mean relative volume across the impulse — a zone left
                         // by a drift on thin volume has a weaker origin than one
                         // left by real trade.
