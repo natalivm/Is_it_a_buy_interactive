@@ -7,10 +7,15 @@
 //     2. WEEKLY    laid over it
 //     3. CHART     laid over both (daily, on a daily chart)
 //
-// Later boxes render above earlier ones, so a daily zone sitting inside a
-// monthly one reads as the near edge of a bigger area rather than as a
-// competing level. Each frame carries its own tag (M / W / D) in its label and
-// its own border style, because the frame is the point: a daily zone inside a
+// Every zone is a THIN OUTLINE over ONE LIGHT FILL, the same weight on all
+// three frames — and that is what makes the stack readable. Overlapping fills
+// composite, so a band where monthly, weekly and chart-frame demand all sit
+// comes out visibly denser than any of them alone. The density IS the
+// confluence. Weighting the frames differently would destroy it, because a dark
+// patch could then mean one bold zone instead of three agreeing ones.
+//
+// Frames stay identifiable without adding weight: a tag (M / W / D) in the
+// label and a border style (dotted / dashed / solid). A daily zone inside a
 // live monthly zone is a different trade from a daily zone standing alone.
 //
 // ── HOW A ZONE IS BUILT ────────────────────────────────────────────────────
@@ -94,10 +99,20 @@ maxZoneDist  = input.float(0.45, "Maximum distance from price",    group = gZ, m
 scanBars     = input.int(1600,   "Chart history scanned, bars",    group = gZ, minval = 300, maxval = 5000)
 
 gD = "Display"
-showLabels = input.bool(true, "Label each zone", group = gD)
-showPanel  = input.bool(true, "Position panel",  group = gD, tooltip = "The board's own position / bull / bear lines, computed from the CHART frame's zones.")
-demCol     = input.color(#22c55e, "Demand", group = gD, inline = "c")
-supCol     = input.color(#ef4444, "Supply", group = gD, inline = "c")
+// Every zone is a thin outline over one light fill, and the fill is the SAME
+// weight on all three frames. That is deliberate: overlapping boxes composite,
+// so a band where monthly, weekly and chart-frame demand all sit reads as a
+// denser green than any of them alone — the density IS the confluence, and it
+// costs nothing to compute. Weighting the frames differently (a heavier daily
+// fill, a fainter monthly one) destroys that signal, because then a dark patch
+// might just be one bold zone.
+fillTransp   = input.int(85, "Zone fill transparency", group = gD, minval = 50, maxval = 98, tooltip = "One value for every frame. Three of these stacked read ~3x denser than one. Higher = lighter per zone.")
+gradeFade    = input.bool(false, "Fade weak zones", group = gD, tooltip = "Off by default: a fainter weak zone competes with the overlap density for the reader's eye. The grade is in the label either way.")
+frameBorders = input.bool(true, "Frame borders — M dotted, W dashed, chart solid", group = gD, tooltip = "Off makes every border identical, so only the labels tell the frames apart.")
+showLabels   = input.bool(true, "Label each zone", group = gD)
+showPanel    = input.bool(true, "Position panel",  group = gD, tooltip = "The board's own position / bull / bear lines, computed from the CHART frame's zones.")
+demCol       = input.color(#22c55e, "Demand", group = gD, inline = "c")
+supCol       = input.color(#ef4444, "Supply", group = gD, inline = "c")
 
 // ── higher-timeframe series ────────────────────────────────────────────────
 // Sampled at the chart's bars, then rebuilt into HTF bar arrays on the last
@@ -435,23 +450,24 @@ var array<box>   drawnB = array.new<box>()
 var array<label> drawnL = array.new<label>()
 var table panel = table.new(position.top_right, 1, 4, border_width = 1)
 
-// Monthly widest and faintest, the chart frame tightest and most solid — so a
-// daily zone inside a monthly one reads as the near edge of a bigger area.
-tfFill(string tf, string strength) =>
-    baseOp = tf == "M" ? 92 : tf == "W" ? 88 : 84
-    bump   = strength == "fresh" ? 0 : strength == "tested" ? 3 : 6
-    math.min(baseOp + bump, 97)
+// One weight for every frame, so density means overlap and nothing else.
+zoneFill(string strength) =>
+    bump = not gradeFade ? 0 : strength == "fresh" ? 0 : strength == "tested" ? 3 : 6
+    math.min(fillTransp + bump, 98)
 
 drawAll(array<Zone> list) =>
     if array.size(list) > 0
         for k = 0 to array.size(list) - 1
             z    = array.get(list, k)
             base = z.isDemand ? demCol : supCol
-            style = z.tf == "M" ? line.style_dotted : z.tf == "W" ? line.style_dashed : line.style_solid
+            style = not frameBorders ? line.style_solid : z.tf == "M" ? line.style_dotted : z.tf == "W" ? line.style_dashed : line.style_solid
+            // Thin outline, one light fill. The border is only there to say
+            // where the edge is; the body of the zone is the fill, and stacked
+            // fills are what make a confluence obvious.
             b = box.new(z.bi, z.hi, bar_index + 10, z.lo,
-                        border_color = color.new(base, z.tf == "D" ? 20 : 45),
-                        border_width = z.tf == "D" ? 2 : 1, border_style = style,
-                        bgcolor = color.new(base, tfFill(z.tf, z.strength)),
+                        border_color = color.new(base, 55), border_width = 1,
+                        border_style = style,
+                        bgcolor = color.new(base, zoneFill(z.strength)),
                         xloc = xloc.bar_index)
             array.push(drawnB, b)
             if showLabels
@@ -462,7 +478,7 @@ drawAll(array<Zone> list) =>
                               + str.tostring(z.closesIn) + "c)",
                               xloc = xloc.bar_index, style = label.style_label_left,
                               color = color.new(base, 90), textcolor = base,
-                              size = z.tf == "D" ? size.small : size.tiny)
+                              size = size.tiny)
                 array.push(drawnL, l)
 
 insideText(array<Zone> list, float px) =>

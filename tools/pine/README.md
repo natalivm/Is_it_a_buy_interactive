@@ -44,21 +44,34 @@ rules` when you want the two to be the same thing.
 
 ## The stack
 
-Later boxes render above earlier ones, so drawing monthly → weekly → chart puts
-the tightest frame on top and reads as one nested structure rather than three
-competing levels.
+Every zone is a **thin outline over one light fill, the same weight on every
+frame**. Overlapping fills composite, so a band where monthly, weekly and
+chart-frame demand all sit comes out visibly denser than any of them alone —
+**the density is the confluence**, and it costs nothing to compute.
 
-| frame | border | fill | label |
-|---|---|---|---|
-| monthly | dotted, thin | faintest | `M demand $… weak (3t/1c)` |
-| weekly | dashed, thin | mid | `W …` |
-| chart | solid, thick | strongest | `D …` |
+That uniformity is the point. Giving the daily a heavier fill and the monthly a
+fainter one destroys the signal, because a dark patch could then mean one bold
+zone rather than three agreeing ones. For the same reason `Fade weak zones` is
+off by default — the grade is in the label, where it does not compete with the
+overlap for your eye.
+
+Frames stay identifiable without adding weight:
+
+| frame | border | label |
+|---|---|---|
+| monthly | dotted, thin | `M demand $… weak (3t/1c)` |
+| weekly | dashed, thin | `W …` |
+| chart | solid, thin | `D …` |
 
 Each has its own **zones per side** and **age cap** (36 monthly bars ≈ 3y, 104
 weekly ≈ 2y, 252 chart bars — the board's `MAX_ZONE_AGE`). The label's `(Nt/Mc)`
 is revisits and closes INSIDE: a wick in and an immediate close back out is a
 rejection and counts as a touch; a close inside is acceptance, and acceptance is
-what eats a zone. Grades fade the fill: `fresh` → `tested` → `weak`.
+what eats a zone.
+
+Tune the stacking with **Zone fill transparency** (default 85, one value for all
+frames): three stacked zones read roughly three times denser than one, so lower
+it if single zones are too faint and raise it if the overlaps go muddy.
 
 The panel, top right, carries the board's own `position` / bull / bear lines
 computed from the **chart frame's** zones — the frame a trade is actually taken
