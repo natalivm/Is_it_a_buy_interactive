@@ -46,6 +46,8 @@ CROSS_OVERLAP = 0.5
 MAX_ZONE_DIST = 0.45
 MAX_BASE_BARS = 4
 BALANCE_BODY = 0.5
+IMPULSE_BODY = 1.0
+SEEK_BARS = 3
 
 
 class Z:
@@ -72,8 +74,12 @@ def med_series(vols, n=VOL_BASE):
 
 
 def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
-             max_dist=MAX_ZONE_DIST, base="balance"):
-    """supply-demand.pine's zonesFor(), line for line."""
+             max_dist=MAX_ZONE_DIST, base="balance", second_wick=True):
+    """supply-demand.pine's zonesFor(), line for line.
+
+    `second_wick` mirrors the indicator's shipped default (on): a nearest zone
+    whose far edge has been wicked through promotes the next zone out. Board
+    parity passes False — the extractor has no such rule."""
     O = [b["o"] for b in bars]
     H = [b["h"] for b in bars]
     L = [b["l"] for b in bars]
@@ -132,26 +138,60 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
                 is_dem = leg > 0
                 prior = last_hi if is_dem else last_lo
                 if prior is not None and (up_to > prior if is_dem else dn_to < prior):
-                    # ── THE BASE: size (balance) or colour (board rules)
+                    # ── THE BASE: not a long impulse candle (balance mode) or
+                    # the extractor's colour walk (board rules, unchanged).
+                    # Balance mode REACHES back over impulse-sized bodies to
+                    # the first candle that is not one, then EXTENDS back over
+                    # the balance behind it.
+                    #
+                    # The two tests are DIFFERENT: reach skips only genuinely
+                    # impulse-sized bodies (IMPULSE_BODY), extend grows only
+                    # over quiet ones (BALANCE_BODY). Using one threshold for
+                    # both stepped over ordinary candles — GILD's 0.7-ATR base
+                    # at 118.5–126 was skipped and the zone landed three bars
+                    # back at 104.46–112.97. Nothing but impulse within reach
+                    # falls back to the candle beside it, so a level is never
+                    # lost.
                     j = i - 1
+                    end_b = j
                     start = j
-                    for k in range(0, MAX_BASE_BARS):
-                        b2 = j - k
-                        if b2 < 0:
-                            break
-                        if base == "balance":
-                            ab = atr[b2] if b2 < len(atr) else None
-                            body = abs(C[b2] - O[b2])
-                            stop = not ab or ab <= 0 or body > BALANCE_BODY * ab
-                        else:
-                            stop = is_dem == (C[b2] > O[b2])
-                        if stop:
-                            break
-                        start = b2
+
+                    def body_atr(b2):
+                        ab = atr[b2] if b2 < len(atr) else None
+                        if not ab or ab <= 0:
+                            return None
+                        return abs(C[b2] - O[b2]) / ab
+
+                    if base == "balance":
+                        found = -1
+                        for k in range(0, SEEK_BARS + 1):
+                            b2 = j - k
+                            if b2 < 0:
+                                break
+                            ba = body_atr(b2)
+                            if ba is None or ba < IMPULSE_BODY:
+                                found = b2
+                                break
+                        if found >= 0:
+                            end_b = start = found
+                            for k in range(1, MAX_BASE_BARS):
+                                b2 = found - k
+                                ba = body_atr(b2) if b2 >= 0 else None
+                                if b2 < 0 or ba is None or ba > BALANCE_BODY:
+                                    break
+                                start = b2
+                    else:
+                        for k in range(0, MAX_BASE_BARS):
+                            b2 = j - k
+                            if b2 < 0:
+                                break
+                            if is_dem == (C[b2] > O[b2]):
+                                break
+                            start = b2
                     # ── THE BOUNDARIES
                     #   demand [lowest WICK, highest BODY edge]
                     #   supply [lowest BODY edge, highest WICK]
-                    span = range(start, j + 1)
+                    span = range(start, end_b + 1)
                     if is_dem:
                         zlo = min(L[k] for k in span)
                         zhi = max(max(O[k], C[k]) for k in span)
@@ -160,6 +200,8 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
                         zhi = max(H[k] for k in span)
                     vals = [rel_vol(k) for k in range(i, min(i + DISPLACE_BARS, n))]
                     vals = [v for v in vals if v > 0]
+                    # idx stays i-1 — age, scoring and recency keep meaning
+                    # "since the impulse left"; only the boundaries move.
                     raw.append(Z(is_dem, zlo, zhi, j, a,
                                  sum(vals) / len(vals) if vals else 0.0, tf))
                     step = DISPLACE_BARS
@@ -225,13 +267,32 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
 
     px = C[-1]
 
+    def wicked(z):
+        """wickedThrough() — a bar since formation traded beyond the zone's
+        FAR edge intra-bar without closing beyond it. Scanned from AFTER the
+        impulse window: the leg's own bars graze the far edge on the way out,
+        and that is departure, not a revisit refused."""
+        for b in range(z.idx + DISPLACE_BARS + 1, n):
+            if z.is_dem:
+                if L[b] < z.lo and C[b] >= z.lo:
+                    return True
+            elif H[b] > z.hi and C[b] <= z.hi:
+                return True
+        return False
+
     def nearest(src, want_dem):
         cand = [z for z in src
                 if (z.lo <= px if want_dem else z.hi >= px)
                 and abs((z.lo + z.hi) / 2 - px) / px <= max_dist]
         cand.sort(key=lambda z: max(0.0, px - z.hi) if want_dem
                   else max(0.0, z.lo - px))
-        return cand[:per_side]
+        out = cand[:per_side]
+        # addSecondary(): the outermost shown zone wicked through promotes
+        # the next zone out — it has been through every filter already.
+        if (second_wick and len(out) == per_side and len(cand) > per_side
+                and wicked(out[-1])):
+            out.append(cand[per_side])
+        return out
 
     return nearest(keep_d, True), nearest(keep_s, False)
 
@@ -271,7 +332,21 @@ def zigzag(bars, atr):
     return sw
 
 
-def trend_legs(sw):
+def body_pivots(bars, sw):
+    """bodyPivots() — each pivot priced at its BODY edge, never its wick.
+
+    Detection stays on wicks (zigzag() above is the zone engine's own, and has
+    to match structure.py bar for bar); only the price the TREND reads off each
+    pivot moves to the body. A wick is where price was refused, so a level
+    drawn at the tip of one is a level nothing ever traded at."""
+    out = []
+    for idx, _px, is_hi in sw:
+        o, c = bars[idx]["o"], bars[idx]["c"]
+        out.append(max(o, c) if is_hi else min(o, c))
+    return out
+
+
+def trend_legs(sw, body):
     """trendLegs() — a trend ends on a break of the OPPOSITE side, and only there.
 
         an UPTREND is over when price makes a LOWER LOW
@@ -281,12 +356,16 @@ def trend_legs(sw):
     watches one side of the zigzag: uptrends live on the lows, downtrends on the
     highs, and the break that kills one starts the other.
 
+    Prices come from body_pivots(), so a higher high is a higher BODY high — a
+    spike over the last high that closes back under it does not start one.
+
     Returns (prev_leg, cur_dir) where prev_leg is the last COMPLETED leg."""
     prev = None
     cur_dir, cur_start = 0, -1
     prev_high = prev_low = None
     last_high_p = last_low_p = -1
-    for k, (_, px, is_hi) in enumerate(sw):
+    for k, (_, _wick, is_hi) in enumerate(sw):
+        px = body[k]
         if is_hi:
             if prev_high is not None and px > prev_high:
                 if cur_dir == -1:
@@ -331,7 +410,11 @@ def main():
         for kind, want_dem in (("demand", True), ("supply", False)):
             rows += 1
             py = key(S.nearest(zs, px, kind))
-            pn = key(run_pine(bars, atr, base="board")[0 if want_dem else 1])
+            # second_wick off: board.js has no secondary-on-wick rule, so
+            # parity is checked with the indicator's setting off, as the
+            # header documents.
+            pn = key(run_pine(bars, atr, base="board",
+                              second_wick=False)[0 if want_dem else 1])
             if py == pn:
                 line.append(f"{kind[:3]} ok({len(py)})")
             else:
@@ -355,7 +438,8 @@ def main():
 
         # 4 — the weekly trend run against the board's own weekly structure
         wsw = zigzag(wk, atr_for(wk))
-        prev_leg, cur_dir = trend_legs(wsw)
+        wbd = body_pivots(wk, wsw)
+        prev_leg, cur_dir = trend_legs(wsw, wbd)
         want = S.classify_structure(
             [S.Swing(i_, p_, 'high' if h_ else 'low') for i_, p_, h_ in wsw],
             wk, S.STRUCT_LOOKBACK['w'])
@@ -373,11 +457,14 @@ def main():
         #     ran 100 → 110 → 120 ends on a 115, nowhere near its origin. Drawn
         #     at the leg's lowest low, the bottom line sat below the break that
         #     ended it on 7 of 24 board legs.
+        # Measured in BODY prices, which is what the lines are drawn at — the
+        # invariant is about the line on the screen, so a wick reading of it
+        # would be checking a level the indicator does not draw.
         if prev_leg:
-            seg = wsw[prev_leg["start"]:prev_leg["end"]]
-            lows = [px for _, px, hi in seg if not hi]
-            highs = [px for _, px, hi in seg if hi]
-            brk = wsw[prev_leg["end"]][1]
+            seg = list(zip(wsw, wbd))[prev_leg["start"]:prev_leg["end"]]
+            lows = [bd for (_, _, hi), bd in seg if not hi]
+            highs = [bd for (_, _, hi), bd in seg if hi]
+            brk = wbd[prev_leg["end"]]
             if prev_leg["dir"] > 0 and lows and brk >= lows[-1]:
                 trend_stats[4] += 1
             if prev_leg["dir"] < 0 and highs and brk <= highs[-1]:
