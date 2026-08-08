@@ -46,6 +46,7 @@ CROSS_OVERLAP = 0.5
 MAX_ZONE_DIST = 0.45
 MAX_BASE_BARS = 4
 BALANCE_BODY = 0.5
+SEEK_BARS = 3
 
 
 class Z:
@@ -72,8 +73,12 @@ def med_series(vols, n=VOL_BASE):
 
 
 def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
-             max_dist=MAX_ZONE_DIST, base="balance"):
-    """supply-demand.pine's zonesFor(), line for line."""
+             max_dist=MAX_ZONE_DIST, base="balance", second_wick=True):
+    """supply-demand.pine's zonesFor(), line for line.
+
+    `second_wick` mirrors the indicator's shipped default (on): a nearest zone
+    whose far edge has been wicked through promotes the next zone out. Board
+    parity passes False — the extractor has no such rule."""
     O = [b["o"] for b in bars]
     H = [b["h"] for b in bars]
     L = [b["l"] for b in bars]
@@ -132,36 +137,62 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
                 is_dem = leg > 0
                 prior = last_hi if is_dem else last_lo
                 if prior is not None and (up_to > prior if is_dem else dn_to < prior):
-                    # ── THE BASE: size (balance) or colour (board rules)
+                    # ── THE BASE: the NEAREST BALANCE candle (balance mode) or
+                    # the extractor's colour walk (board rules, unchanged).
+                    # In balance mode the walk has two phases: REACH back over
+                    # long bodies (colour is secondary — a long candle is
+                    # impulse whichever way it closed) to the first balance
+                    # candle, then EXTEND back over the balance found there.
+                    # A leg with no balance within SEEK_BARS leaves no zone.
                     j = i - 1
+                    end_b = j
                     start = j
-                    for k in range(0, MAX_BASE_BARS):
-                        b2 = j - k
-                        if b2 < 0:
-                            break
-                        if base == "balance":
-                            ab = atr[b2] if b2 < len(atr) else None
-                            body = abs(C[b2] - O[b2])
-                            stop = not ab or ab <= 0 or body > BALANCE_BODY * ab
-                        else:
-                            stop = is_dem == (C[b2] > O[b2])
-                        if stop:
-                            break
-                        start = b2
-                    # ── THE BOUNDARIES
-                    #   demand [lowest WICK, highest BODY edge]
-                    #   supply [lowest BODY edge, highest WICK]
-                    span = range(start, j + 1)
-                    if is_dem:
-                        zlo = min(L[k] for k in span)
-                        zhi = max(max(O[k], C[k]) for k in span)
+
+                    def is_balance(b2):
+                        ab = atr[b2] if b2 < len(atr) else None
+                        return bool(ab) and ab > 0 and abs(C[b2] - O[b2]) <= BALANCE_BODY * ab
+
+                    if base == "balance":
+                        end_b = -1
+                        for k in range(0, SEEK_BARS + 1):
+                            b2 = j - k
+                            if b2 < 0:
+                                break
+                            if is_balance(b2):
+                                end_b = b2
+                                break
+                        if end_b >= 0:
+                            start = end_b
+                            for k in range(1, MAX_BASE_BARS):
+                                b2 = end_b - k
+                                if b2 < 0 or not is_balance(b2):
+                                    break
+                                start = b2
                     else:
-                        zlo = min(min(O[k], C[k]) for k in span)
-                        zhi = max(H[k] for k in span)
-                    vals = [rel_vol(k) for k in range(i, min(i + DISPLACE_BARS, n))]
-                    vals = [v for v in vals if v > 0]
-                    raw.append(Z(is_dem, zlo, zhi, j, a,
-                                 sum(vals) / len(vals) if vals else 0.0, tf))
+                        for k in range(0, MAX_BASE_BARS):
+                            b2 = j - k
+                            if b2 < 0:
+                                break
+                            if is_dem == (C[b2] > O[b2]):
+                                break
+                            start = b2
+                    if end_b >= 0:
+                        # ── THE BOUNDARIES
+                        #   demand [lowest WICK, highest BODY edge]
+                        #   supply [lowest BODY edge, highest WICK]
+                        span = range(start, end_b + 1)
+                        if is_dem:
+                            zlo = min(L[k] for k in span)
+                            zhi = max(max(O[k], C[k]) for k in span)
+                        else:
+                            zlo = min(min(O[k], C[k]) for k in span)
+                            zhi = max(H[k] for k in span)
+                        vals = [rel_vol(k) for k in range(i, min(i + DISPLACE_BARS, n))]
+                        vals = [v for v in vals if v > 0]
+                        # idx stays i-1 — age, scoring and recency keep meaning
+                        # "since the impulse left"; only the boundaries move.
+                        raw.append(Z(is_dem, zlo, zhi, j, a,
+                                     sum(vals) / len(vals) if vals else 0.0, tf))
                     step = DISPLACE_BARS
         i += step
 
@@ -225,13 +256,32 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
 
     px = C[-1]
 
+    def wicked(z):
+        """wickedThrough() — a bar since formation traded beyond the zone's
+        FAR edge intra-bar without closing beyond it. Scanned from AFTER the
+        impulse window: the leg's own bars graze the far edge on the way out,
+        and that is departure, not a revisit refused."""
+        for b in range(z.idx + DISPLACE_BARS + 1, n):
+            if z.is_dem:
+                if L[b] < z.lo and C[b] >= z.lo:
+                    return True
+            elif H[b] > z.hi and C[b] <= z.hi:
+                return True
+        return False
+
     def nearest(src, want_dem):
         cand = [z for z in src
                 if (z.lo <= px if want_dem else z.hi >= px)
                 and abs((z.lo + z.hi) / 2 - px) / px <= max_dist]
         cand.sort(key=lambda z: max(0.0, px - z.hi) if want_dem
                   else max(0.0, z.lo - px))
-        return cand[:per_side]
+        out = cand[:per_side]
+        # addSecondary(): the outermost shown zone wicked through promotes
+        # the next zone out — it has been through every filter already.
+        if (second_wick and len(out) == per_side and len(cand) > per_side
+                and wicked(out[-1])):
+            out.append(cand[per_side])
+        return out
 
     return nearest(keep_d, True), nearest(keep_s, False)
 
@@ -349,7 +399,11 @@ def main():
         for kind, want_dem in (("demand", True), ("supply", False)):
             rows += 1
             py = key(S.nearest(zs, px, kind))
-            pn = key(run_pine(bars, atr, base="board")[0 if want_dem else 1])
+            # second_wick off: board.js has no secondary-on-wick rule, so
+            # parity is checked with the indicator's setting off, as the
+            # header documents.
+            pn = key(run_pine(bars, atr, base="board",
+                              second_wick=False)[0 if want_dem else 1])
             if py == pn:
                 line.append(f"{kind[:3]} ok({len(py)})")
             else:

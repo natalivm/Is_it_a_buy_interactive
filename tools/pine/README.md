@@ -19,10 +19,16 @@ DEMAND   [ lowest WICK of the base , highest BODY edge ]   upper wick discarded
 SUPPLY   [ lowest BODY edge , highest WICK of the base ]   lower wick discarded
 ```
 
-The base is the **balance before the impulse**: candles whose bodies are small
-against ATR, sitting immediately before a displacement leg that breaks
-structure. Colour is deliberately not the test — a base is where price went
-quiet, and a quiet candle is quiet whichever way it closed.
+The base is the **nearest balance candle before the impulse** — a candle whose
+body is small against ATR, plus the run of balance behind it. It is *not*
+always the candle beside the displacement: a move often leaves in two or three
+long bars, and the bar next to the leg is then the move already underway, not
+the rest that preceded it. So the walk reaches back over long bodies (**Reach
+past long candles**, default 3) to where price actually went quiet, and a leg
+with no balance within reach leaves no zone — a zone based on the impulse
+candle itself marks where the move was, not where it rested. Colour is
+secondary throughout: a quiet candle is quiet whichever way it closed, and a
+long one is impulse whichever way it closed.
 
 The impulse is unchanged from the board: open-to-furthest-**close** over
 `displaceBars` bars, at least `displaceAtr` ATRs, and it must break the last
@@ -69,6 +75,17 @@ and third-nearest are structure rather than triggers, and drawing them is what
 carpeted the chart: measured across 13 names, 3/2/2 a side put **9.6 zones on
 screen covering 70%** of the visible band, against **3.7 covering 33%** at
 1/1/1. Raise the per-frame counts to see what sits behind.
+
+**The one exception: a wicked-through nearest promotes a secondary.** When a
+bar since the nearest zone formed traded beyond its *far* edge intra-bar
+without closing beyond it — a wick through a supply zone's top or a demand
+zone's bottom, refused — the zone behind it is drawn as well (**Secondary zone
+behind a wicked-through level**, on by default). The wick is the evidence:
+price has already shown it can reach the level behind, so that level is part
+of the current read, not background structure. A *close* beyond the edge is a
+different statement — the zone is broken, not defended — and does not qualify.
+The secondary comes off the same filtered list as the primary, so it has
+passed the distance cap and cross-resolution like any drawn zone.
 
 The width cap does the same job from the other end and ships at **1.2 ATR**, not
 the board's 2.0 — wider than that is a region, not a trigger. Note it is not a
@@ -197,10 +214,11 @@ python3 tools/pine/verify_port.py            # every ticker in board.js
 python3 tools/pine/verify_port.py AXON TTD   # a few
 ```
 
-Board parity needs three settings back at the extractor's values: **Base =
-board rules**, **Maximum zone width = 2.0**, and only the chart frame enabled on
-a daily chart. The shipped defaults deliberately differ on all three counts —
-this script is for reading a chart, `board.js` is the record.
+Board parity needs four settings back at the extractor's values: **Base =
+board rules**, **Maximum zone width = 2.0**, **Secondary zone behind a
+wicked-through level = off**, and only the chart frame enabled on a daily
+chart. The shipped defaults deliberately differ on all four counts — this
+script is for reading a chart, `board.js` is the record.
 
 `verify_port.py` transliterates the indicator's `zonesFor()`, `bodyPivots()`
 and `trendLegs()` —
