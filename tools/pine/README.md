@@ -63,8 +63,20 @@ Frames stay identifiable without adding weight:
 | weekly | dashed, thin | `W …` |
 | chart | solid, thin | `D …` |
 
-Each has its own **zones per side** and **age cap** (36 monthly bars ≈ 3y, 104
-weekly ≈ 2y, 252 chart bars — the board's `MAX_ZONE_AGE`).
+**One zone a side, per frame** — the nearest demand below and the nearest supply
+above. Six boxes at most, each a level price has to deal with next. The second-
+and third-nearest are structure rather than triggers, and drawing them is what
+carpeted the chart: measured across 13 names, 3/2/2 a side put **9.6 zones on
+screen covering 70%** of the visible band, against **3.7 covering 33%** at
+1/1/1. Raise the per-frame counts to see what sits behind.
+
+The width cap does the same job from the other end and ships at **1.2 ATR**, not
+the board's 2.0 — wider than that is a region, not a trigger. Note it is not a
+cure on its own: on GILD every zone is narrow in ATR terms, so the cap alone
+moved coverage 73% → 72% and only the per-side count thinned it.
+
+Each frame also has its own **age cap** (36 monthly bars ≈ 3y, 104 weekly ≈ 2y,
+252 chart bars — the board's `MAX_ZONE_AGE`).
 
 Labels are **one letter** — `M`, `W` or `D` — and nothing else. The prices are
 on the axis and the grade is in the fill, so a caption per zone carrying its
@@ -152,7 +164,12 @@ python3 tools/pine/verify_port.py            # every ticker in board.js
 python3 tools/pine/verify_port.py AXON TTD   # a few
 ```
 
-`verify_port.py` transliterates the indicator's `zonesFor()` and `trendRun()` —
+Board parity needs three settings back at the extractor's values: **Base =
+board rules**, **Maximum zone width = 2.0**, and only the chart frame enabled on
+a daily chart. The shipped defaults deliberately differ on all three counts —
+this script is for reading a chart, `board.js` is the record.
+
+`verify_port.py` transliterates the indicator's `zonesFor()` and `trendLegs()` —
 same loop bounds, same index arithmetic — and checks four things: board-rules
 parity against `structure.py` (**currently 50/50 zone lists identical across 25
 tickers**, boundaries and grades both), that balance mode runs and by how much

@@ -41,10 +41,16 @@
 //
 // The rest of the engine is a port of tools/structure.py, constant for
 // constant — swings(), significant_swings(), find_zones(), _score_zone(),
-// _merge(), _resolve_cross(), nearest(). With **Base = board rules** and only
-// the chart frame enabled on a daily chart, this script reproduces the
-// `demand`/`supply` arrays in board.js exactly; tools/pine/verify_port.py
-// checks that on every ticker on the board and is currently 50/50.
+// _merge(), _resolve_cross(), nearest(). To reproduce the `demand`/`supply`
+// arrays in board.js exactly, three settings have to match the extractor:
+// **Base = board rules**, **Maximum zone width = 2.0**, and only the chart
+// frame enabled on a daily chart. tools/pine/verify_port.py checks that
+// combination on every ticker on the board and is currently 50/50.
+//
+// The shipped default width is 1.2, NOT the board's 2.0: at 2.0 the zones
+// covered 70% of the visible band across 13 names, and a level covering most of
+// the screen is not a level. That is a deliberate divergence, like the base
+// rule — this script is for reading a chart, board.js is the record.
 //
 // **Base = balance candles is a deliberate divergence** from the extractor and
 // therefore from board.js. It is the better read on a chart — the board's rule
@@ -72,9 +78,14 @@ gF = "Frames — drawn monthly first, then weekly, then the chart on top"
 useM      = input.bool(true, "Monthly zones",  group = gF)
 useW      = input.bool(true, "Weekly zones",   group = gF)
 useC      = input.bool(true, "Chart-frame zones", group = gF, tooltip = "The chart's own timeframe — daily on a daily chart. A higher frame is skipped automatically when the chart is already at or above it.")
-perSideM  = input.int(2, "Zones per side — monthly", group = gF, minval = 1, maxval = 6)
-perSideW  = input.int(2, "…weekly",               group = gF, minval = 1, maxval = 6)
-perSideC  = input.int(3, "…chart frame",          group = gF, minval = 1, maxval = 6)
+// ONE a side, per frame: the NEAREST demand below and the NEAREST supply above.
+// Six boxes at most, and each one is a level price has to deal with next. The
+// second- and third-nearest are structure, not triggers, and drawing them is
+// what carpeted the chart — 3/2/2 a side put 9.6 zones on screen covering 70%
+// of the visible band, where 1/1/1 draws 3.7 covering 33%.
+perSideM  = input.int(1, "Zones per side — monthly", group = gF, minval = 1, maxval = 6, tooltip = "1 draws only the nearest demand and the nearest supply on this frame. Raise it to see the levels behind them.")
+perSideW  = input.int(1, "…weekly",               group = gF, minval = 1, maxval = 6)
+perSideC  = input.int(1, "…chart frame",          group = gF, minval = 1, maxval = 6)
 ageM      = input.int(36,  "Age cap, monthly bars", group = gF, minval = 6, tooltip = "Zones older than this are history rather than current structure. 36 monthly bars is 3 years; the board's daily cap (MAX_ZONE_AGE) is 252.")
 ageW      = input.int(104, "…weekly bars",          group = gF, minval = 8)
 ageC      = input.int(252, "…chart bars",           group = gF, minval = 20)
@@ -89,7 +100,7 @@ displaceAtr  = input.float(1.0,  "Impulse, in ATR",                group = gZ, m
 displaceBars = input.int(3,      "Impulse window, bars",           group = gZ, minval = 2, maxval = 10, tooltip = "DISPLACE_BARS. Requiring one candle to travel a full ATR is impossible on a high-ATR name, so a leg runs a few bars.")
 swingN       = input.int(2,      "Swing confirmation, each side",  group = gZ, minval = 1, maxval = 5, tooltip = "SWING_N. Strictly higher/lower than this many candles on BOTH sides; a bar tying its neighbour is not a pivot.")
 swingMinAtr  = input.float(0.75, "Minimum swing leg, in ATR",      group = gZ, minval = 0.0, step = 0.05, tooltip = "SWING_MIN_ATR. Pivots closer together than this are noise, not structure.")
-maxZoneAtr   = input.float(2.0,  "Maximum zone width, in ATR",     group = gZ, minval = 0.5, step = 0.1, tooltip = "MAX_ZONE_ATR. Wider than this is a range, not a zone.")
+maxZoneAtr   = input.float(1.2,  "Maximum zone width, in ATR",     group = gZ, minval = 0.5, step = 0.1, tooltip = "Wider than this is a region, not a trigger. The board's MAX_ZONE_ATR is 2.0 and across 13 names that covered 70% of the visible band with zone fill; 1.2 takes it to 46%. Set it back to 2.0 to reproduce board.js.")
 revisitPad   = input.float(0.15, "Revisit pad, share of height",   group = gZ, minval = 0.0, step = 0.05)
 mergeOverlap = input.float(0.5,  "Merge overlap, share of smaller", group = gZ, minval = 0.1, step = 0.05)
 crossOverlap = input.float(0.5,  "Cross-kind overlap, share of larger", group = gZ, minval = 0.1, step = 0.05, tooltip = "CROSS_OVERLAP, measured against the LARGER zone: a narrow supply inside a wide demand is a sub-region, not the same level.")
