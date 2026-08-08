@@ -104,7 +104,8 @@ gB = "Base — the balance before the impulse"
 baseMode    = input.string("balance candles", "Base", options = ["balance candles", "board rules (colour)"], group = gB, tooltip = "balance candles: walk back over candles whose BODY is small against ATR, whatever colour they are. board rules: the extractor's _base_span(), which walks back over candles of the opposite or neutral colour — use this to reproduce board.js exactly.")
 balanceBody = input.float(0.5, "Balance body, max ATR", group = gB, minval = 0.05, step = 0.05, tooltip = "A candle is 'balance' when |close − open| is at most this many ATRs. Bigger = looser bases.")
 maxBaseBars = input.int(4, "Base length, max candles", group = gB, minval = 1, maxval = 8, tooltip = "The extractor caps this at 4.")
-seekBars    = input.int(3, "Reach past long candles, max", group = gB, minval = 0, maxval = 8, tooltip = "balance candles mode only. The base is the NEAREST BALANCE candle, and that is not always the candle beside the impulse — a move often leaves in two or three long bars. Reach back over up to this many long-bodied candles (colour is secondary) to find it. A leg with no balance within reach leaves no zone; 0 turns the reach off, so the candle beside the impulse must itself be balance.")
+impulseBody = input.float(1.0, "Impulse body, min ATR", group = gB, minval = 0.3, step = 0.1, tooltip = "balance candles mode only. A candle with a body THIS big is part of the move, so the base walk steps over it. Keep it well above 'Balance body' — they are different tests. Set equal to Balance body and the walk skips ordinary candles too: at 0.5 it stepped over GILD's 0.7-ATR base at 118.5–126 and drew the zone three bars back at 104.46–112.97.")
+seekBars    = input.int(3, "Reach past long candles, max", group = gB, minval = 0, maxval = 8, tooltip = "balance candles mode only. How many impulse-sized candles the walk may step over to reach the candle the move actually left from — a move often departs in two or three long bars. If everything within reach is impulse-sized it falls back to the candle beside the impulse, so a level is never lost; 0 turns the reach off entirely.")
 
 gZ = "Zone rules — defaults are tools/structure.py's"
 displaceAtr  = input.float(1.0,  "Impulse, in ATR",                group = gZ, minval = 0.1, step = 0.1, tooltip = "DISPLACE_ATR. Measured open-to-furthest-CLOSE over the window below — a wick alone is not displacement.")
@@ -520,19 +521,37 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                     prior = isDemand ? lastHi : lastLo
                     if not na(prior) and (isDemand ? upTo > prior : dnTo < prior)
                         // ── THE BASE ──────────────────────────────────────
-                        // The base is the NEAREST BALANCE CANDLE, and that is
-                        // not always the candle beside the impulse: a move
-                        // often leaves in two or three long bars, so the bar
-                        // next to the displacement is the move already
-                        // underway, not the rest that preceded it. In "balance
-                        // candles" mode the walk therefore has two phases —
-                        // REACH back over long bodies (colour is secondary: a
-                        // long candle is impulse whichever way it closed) to
-                        // the first candle whose body is small against ATR,
-                        // then EXTEND back over the balance found there. A leg
-                        // with no balance within reach leaves NO zone — a zone
-                        // based on the impulse candle itself marks where the
-                        // move was, not where it rested.
+                        // The base must not be a LONG IMPULSE CANDLE: a move
+                        // often leaves in two or three long bars, and the bar
+                        // beside the displacement is then the move already
+                        // underway, not the rest that preceded it. So in
+                        // "balance candles" mode the walk REACHES back over
+                        // impulse-sized bodies (colour is secondary — a long
+                        // candle is impulse whichever way it closed) to the
+                        // first candle that is not one, then EXTENDS back over
+                        // the balance behind it.
+                        //
+                        // ⚠ "Impulse-sized" and "not balance" are DIFFERENT
+                        // TESTS, and conflating them is what broke this. Made
+                        // to reach past anything with a body over balanceBody
+                        // (0.5 ATR), the walk skipped ordinary candles too: on
+                        // GILD monthly the 0.7-ATR candle at 118.5–126 that
+                        // WAS the base got stepped over, and the zone landed
+                        // three bars back at 104.46–112.97 — a stale level far
+                        // under the one price actually left. So the reach test
+                        // is its own, looser threshold (impulseBody, 1 ATR by
+                        // default) and only genuinely impulse-sized bodies are
+                        // skipped. The extend test stays balanceBody: a base
+                        // grows over quiet candles, not over merely-not-huge
+                        // ones.
+                        //
+                        // ⚠ Nothing but impulse within reach FALLS BACK to the
+                        // candle beside it — the level still gets drawn.
+                        // Dropping the zone outright was tried and it gutted
+                        // the chart. A base picked off a long candle is a
+                        // worse anchor than balance; it is not worse than no
+                        // level at all.
+                        //
                         // "board rules" is the extractor's colour walk,
                         // unchanged, so the script can reproduce board.js
                         // exactly.
@@ -540,7 +559,7 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                         int endB   = j
                         int startB = j
                         if baseMode == "balance candles"
-                            endB := -1
+                            int found = -1
                             for k = 0 to seekBars
                                 b2 = j - k
                                 if b2 < 0
@@ -548,14 +567,15 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                                 ob = array.get(f.o, b2)
                                 cb = array.get(f.c, b2)
                                 ab = array.get(f.atr, b2)
-                                if not na(ab) and ab > 0 and math.abs(cb - ob) <= balanceBody * ab
-                                    endB := b2
+                                if na(ab) or ab <= 0 or math.abs(cb - ob) < impulseBody * ab
+                                    found := b2
                                     break
-                            if endB >= 0
-                                startB := endB
+                            if found >= 0
+                                endB   := found
+                                startB := found
                                 if maxBaseBars > 1
                                     for k = 1 to maxBaseBars - 1
-                                        b2 = endB - k
+                                        b2 = found - k
                                         if b2 < 0
                                             break
                                         ob = array.get(f.o, b2)

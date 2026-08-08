@@ -46,6 +46,7 @@ CROSS_OVERLAP = 0.5
 MAX_ZONE_DIST = 0.45
 MAX_BASE_BARS = 4
 BALANCE_BODY = 0.5
+IMPULSE_BODY = 1.0
 SEEK_BARS = 3
 
 
@@ -137,35 +138,46 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
                 is_dem = leg > 0
                 prior = last_hi if is_dem else last_lo
                 if prior is not None and (up_to > prior if is_dem else dn_to < prior):
-                    # ── THE BASE: the NEAREST BALANCE candle (balance mode) or
+                    # ── THE BASE: not a long impulse candle (balance mode) or
                     # the extractor's colour walk (board rules, unchanged).
-                    # In balance mode the walk has two phases: REACH back over
-                    # long bodies (colour is secondary — a long candle is
-                    # impulse whichever way it closed) to the first balance
-                    # candle, then EXTEND back over the balance found there.
-                    # A leg with no balance within SEEK_BARS leaves no zone.
+                    # Balance mode REACHES back over impulse-sized bodies to
+                    # the first candle that is not one, then EXTENDS back over
+                    # the balance behind it.
+                    #
+                    # The two tests are DIFFERENT: reach skips only genuinely
+                    # impulse-sized bodies (IMPULSE_BODY), extend grows only
+                    # over quiet ones (BALANCE_BODY). Using one threshold for
+                    # both stepped over ordinary candles — GILD's 0.7-ATR base
+                    # at 118.5–126 was skipped and the zone landed three bars
+                    # back at 104.46–112.97. Nothing but impulse within reach
+                    # falls back to the candle beside it, so a level is never
+                    # lost.
                     j = i - 1
                     end_b = j
                     start = j
 
-                    def is_balance(b2):
+                    def body_atr(b2):
                         ab = atr[b2] if b2 < len(atr) else None
-                        return bool(ab) and ab > 0 and abs(C[b2] - O[b2]) <= BALANCE_BODY * ab
+                        if not ab or ab <= 0:
+                            return None
+                        return abs(C[b2] - O[b2]) / ab
 
                     if base == "balance":
-                        end_b = -1
+                        found = -1
                         for k in range(0, SEEK_BARS + 1):
                             b2 = j - k
                             if b2 < 0:
                                 break
-                            if is_balance(b2):
-                                end_b = b2
+                            ba = body_atr(b2)
+                            if ba is None or ba < IMPULSE_BODY:
+                                found = b2
                                 break
-                        if end_b >= 0:
-                            start = end_b
+                        if found >= 0:
+                            end_b = start = found
                             for k in range(1, MAX_BASE_BARS):
-                                b2 = end_b - k
-                                if b2 < 0 or not is_balance(b2):
+                                b2 = found - k
+                                ba = body_atr(b2) if b2 >= 0 else None
+                                if b2 < 0 or ba is None or ba > BALANCE_BODY:
                                     break
                                 start = b2
                     else:
@@ -176,23 +188,22 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
                             if is_dem == (C[b2] > O[b2]):
                                 break
                             start = b2
-                    if end_b >= 0:
-                        # ── THE BOUNDARIES
-                        #   demand [lowest WICK, highest BODY edge]
-                        #   supply [lowest BODY edge, highest WICK]
-                        span = range(start, end_b + 1)
-                        if is_dem:
-                            zlo = min(L[k] for k in span)
-                            zhi = max(max(O[k], C[k]) for k in span)
-                        else:
-                            zlo = min(min(O[k], C[k]) for k in span)
-                            zhi = max(H[k] for k in span)
-                        vals = [rel_vol(k) for k in range(i, min(i + DISPLACE_BARS, n))]
-                        vals = [v for v in vals if v > 0]
-                        # idx stays i-1 — age, scoring and recency keep meaning
-                        # "since the impulse left"; only the boundaries move.
-                        raw.append(Z(is_dem, zlo, zhi, j, a,
-                                     sum(vals) / len(vals) if vals else 0.0, tf))
+                    # ── THE BOUNDARIES
+                    #   demand [lowest WICK, highest BODY edge]
+                    #   supply [lowest BODY edge, highest WICK]
+                    span = range(start, end_b + 1)
+                    if is_dem:
+                        zlo = min(L[k] for k in span)
+                        zhi = max(max(O[k], C[k]) for k in span)
+                    else:
+                        zlo = min(min(O[k], C[k]) for k in span)
+                        zhi = max(H[k] for k in span)
+                    vals = [rel_vol(k) for k in range(i, min(i + DISPLACE_BARS, n))]
+                    vals = [v for v in vals if v > 0]
+                    # idx stays i-1 — age, scoring and recency keep meaning
+                    # "since the impulse left"; only the boundaries move.
+                    raw.append(Z(is_dem, zlo, zhi, j, a,
+                                 sum(vals) / len(vals) if vals else 0.0, tf))
                     step = DISPLACE_BARS
         i += step
 

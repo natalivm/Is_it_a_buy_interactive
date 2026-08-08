@@ -19,16 +19,28 @@ DEMAND   [ lowest WICK of the base , highest BODY edge ]   upper wick discarded
 SUPPLY   [ lowest BODY edge , highest WICK of the base ]   lower wick discarded
 ```
 
-The base is the **nearest balance candle before the impulse** — a candle whose
-body is small against ATR, plus the run of balance behind it. It is *not*
-always the candle beside the displacement: a move often leaves in two or three
-long bars, and the bar next to the leg is then the move already underway, not
-the rest that preceded it. So the walk reaches back over long bodies (**Reach
-past long candles**, default 3) to where price actually went quiet, and a leg
-with no balance within reach leaves no zone — a zone based on the impulse
-candle itself marks where the move was, not where it rested. Colour is
-secondary throughout: a quiet candle is quiet whichever way it closed, and a
-long one is impulse whichever way it closed.
+The base is **the candle the move left from, never a long impulse candle**,
+plus the run of balance behind it. It is *not* always the candle beside the
+displacement: a move often departs in two or three long bars, and the bar next
+to the leg is then the move already underway rather than the rest that preceded
+it. So the walk **reaches back over impulse-sized bodies** (**Reach past long
+candles**, default 3) to the first candle that is not one. Colour is secondary
+throughout: a long candle is impulse whichever way it closed, and a quiet one
+is quiet whichever way it closed.
+
+**The reach test and the balance test are different thresholds, and conflating
+them is the mistake to avoid.** Reach steps over bodies of at least **Impulse
+body** (1 ATR); extend grows the base only over bodies under **Balance body**
+(0.5 ATR). Set the reach to the balance figure and it walks past ordinary
+candles too — on GILD monthly that stepped over the 0.7-ATR candle at
+**118.5–126** that *was* the base and put the zone three bars back at
+**104.46–112.97**, a stale level far under the one price actually left.
+
+**A leg with nothing but impulse within reach falls back to the candle beside
+it**, so a level is never lost. Dropping the zone outright was tried and it
+gutted the chart: on weekly and monthly bars a body over 0.5 ATR is ordinary,
+so whole frames came back empty. A base picked off a long candle is a worse
+anchor than balance — it is not worse than no level at all.
 
 The impulse is unchanged from the board: open-to-furthest-**close** over
 `displaceBars` bars, at least `displaceAtr` ATRs, and it must break the last
@@ -38,9 +50,9 @@ just a big candle.
 
 ### The two base rules
 
-| `Base` input | walks back over | use it for |
+| `Base` input | how it picks the base | use it for |
 |---|---|---|
-| `balance candles` *(default)* | candles with `\|close − open\| ≤ 0.5 ATR`, any colour | reading a chart |
+| `balance candles` *(default)* | reach past bodies `≥ 1 ATR`, then extend over bodies `≤ 0.5 ATR`, any colour | reading a chart |
 | `board rules (colour)` | candles of the opposite or neutral colour — the extractor's `_base_span()` | reproducing `board.js` exactly |
 
 **Balance mode is a deliberate divergence** from `structure.py`, and it moves
