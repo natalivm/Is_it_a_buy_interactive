@@ -47,6 +47,18 @@ jobs:
       - name: Extractor self-test
         run: python3 tools/test_structure.py
 
+      # tools/pine/supply-demand.pine has no compiler here — TradingView is the
+      # only one, and it reports ONE error per round trip, where the round trip
+      # is a human pasting a file into a browser. Two shipped files failed to
+      # compile for reasons a parser catches instantly: a function parameter
+      # named `to` (the range keyword in `for i = a to b`), and two call sites
+      # left at the old arity after drawLeg() grew a parameter — which surfaced
+      # as ten errors, the first of them naming an argument two positions away
+      # from the mistake. This checks arity, Type.new() field counts,
+      # declaration order, reserved words and unguarded array sweeps.
+      - name: Lint the Pine indicator
+        run: python3 tools/pine/lint_pine.py
+
       # Every hand-edited and generated script must at least parse. board.js is
       # bot-generated and script.js reads it at load, so a malformed board takes
       # the whole page down.
