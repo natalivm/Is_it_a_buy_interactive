@@ -271,7 +271,21 @@ def zigzag(bars, atr):
     return sw
 
 
-def trend_legs(sw):
+def body_pivots(bars, sw):
+    """bodyPivots() — each pivot priced at its BODY edge, never its wick.
+
+    Detection stays on wicks (zigzag() above is the zone engine's own, and has
+    to match structure.py bar for bar); only the price the TREND reads off each
+    pivot moves to the body. A wick is where price was refused, so a level
+    drawn at the tip of one is a level nothing ever traded at."""
+    out = []
+    for idx, _px, is_hi in sw:
+        o, c = bars[idx]["o"], bars[idx]["c"]
+        out.append(max(o, c) if is_hi else min(o, c))
+    return out
+
+
+def trend_legs(sw, body):
     """trendLegs() — a trend ends on a break of the OPPOSITE side, and only there.
 
         an UPTREND is over when price makes a LOWER LOW
@@ -281,12 +295,16 @@ def trend_legs(sw):
     watches one side of the zigzag: uptrends live on the lows, downtrends on the
     highs, and the break that kills one starts the other.
 
+    Prices come from body_pivots(), so a higher high is a higher BODY high — a
+    spike over the last high that closes back under it does not start one.
+
     Returns (prev_leg, cur_dir) where prev_leg is the last COMPLETED leg."""
     prev = None
     cur_dir, cur_start = 0, -1
     prev_high = prev_low = None
     last_high_p = last_low_p = -1
-    for k, (_, px, is_hi) in enumerate(sw):
+    for k, (_, _wick, is_hi) in enumerate(sw):
+        px = body[k]
         if is_hi:
             if prev_high is not None and px > prev_high:
                 if cur_dir == -1:
@@ -355,7 +373,8 @@ def main():
 
         # 4 — the weekly trend run against the board's own weekly structure
         wsw = zigzag(wk, atr_for(wk))
-        prev_leg, cur_dir = trend_legs(wsw)
+        wbd = body_pivots(wk, wsw)
+        prev_leg, cur_dir = trend_legs(wsw, wbd)
         want = S.classify_structure(
             [S.Swing(i_, p_, 'high' if h_ else 'low') for i_, p_, h_ in wsw],
             wk, S.STRUCT_LOOKBACK['w'])
@@ -373,11 +392,14 @@ def main():
         #     ran 100 → 110 → 120 ends on a 115, nowhere near its origin. Drawn
         #     at the leg's lowest low, the bottom line sat below the break that
         #     ended it on 7 of 24 board legs.
+        # Measured in BODY prices, which is what the lines are drawn at — the
+        # invariant is about the line on the screen, so a wick reading of it
+        # would be checking a level the indicator does not draw.
         if prev_leg:
-            seg = wsw[prev_leg["start"]:prev_leg["end"]]
-            lows = [px for _, px, hi in seg if not hi]
-            highs = [px for _, px, hi in seg if hi]
-            brk = wsw[prev_leg["end"]][1]
+            seg = list(zip(wsw, wbd))[prev_leg["start"]:prev_leg["end"]]
+            lows = [bd for (_, _, hi), bd in seg if not hi]
+            highs = [bd for (_, _, hi), bd in seg if hi]
+            brk = wbd[prev_leg["end"]]
             if prev_leg["dir"] > 0 and lows and brk >= lows[-1]:
                 trend_stats[4] += 1
             if prev_leg["dir"] < 0 and highs and brk <= highs[-1]:

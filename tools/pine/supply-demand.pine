@@ -114,7 +114,7 @@ showTrend  = input.bool(true, "Mark where the trend started and ended", group = 
 trendFrame = input.string("weekly", "Read the trend on", options = ["weekly", "monthly", "chart"], group = gT, tooltip = "Weekly by default: it is the frame the board treats as structural, and the one whose swings survive a session.")
 trendCol   = input.color(#eab308, "Colour", group = gT, inline = "t")
 trendVert  = input.bool(false, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights where the leg began and, on a finished leg, where it was over. Off by default — the two horizontal levels are the drawing.")
-trendTags  = input.bool(false, "Label the levels", group = gT, tooltip = "Adds 'W top 140.61' / 'W bottom 121.39' at the right edge.")
+trendTags  = input.bool(false, "Label the levels", group = gT, tooltip = "Adds 'W top 138.06' / 'W bottom 123.76' at the right edge.")
 showPrevLeg = input.bool(false, "Also draw the previous leg, faded", group = gT, tooltip = "The top and bottom of the trend BEFORE this one. Off by default: two levels are the point, four is a grid.")
 
 gD = "Display"
@@ -329,6 +329,35 @@ buildZigzag(Frame f) =>
                 addSwing(sIdx, sPx, sHi, b, array.get(f.l, b), false, a, swingMinAtr)
     [sIdx, sPx, sHi]
 
+// ── the trend reads BODIES, not wicks ──────────────────────────────────────
+// The same pivots, priced at the body edge instead of the extreme: a swing high
+// is worth its highest BODY edge, a swing low its lowest. A wick is where price
+// went and was refused; the body is where it traded, and a level is only worth
+// drawing where trade happened. A top line pinned to the tip of a rejection
+// wick sits at a price that was never accepted, and then price "breaks" it on
+// the next ordinary bar without anything having changed.
+//
+// ⚠ DETECTION stays on wicks. Which bars are pivots is decided in buildZigzag()
+// by high/low, exactly as tools/structure.py does it, because the zone engine
+// reads the same zigzag and has to reproduce board.js constant for constant.
+// Only the PRICE the trend reads off each pivot changes here — the trend and
+// the zones still turn on the same bars.
+//
+// The whole trend read moves with it, not just the drawing: trendLegs() decides
+// higher-high / lower-low on these body prices too. That is the point of doing
+// it here rather than at draw time — the level the engine says ends the trend
+// is then the level on the screen, and a wick through a line that the engine
+// ignored can never look like a break that it did not count.
+bodyPivots(Frame f, array<int> sIdx, array<bool> sHi) =>
+    out = array.new<float>()
+    if array.size(sIdx) > 0
+        for k = 0 to array.size(sIdx) - 1
+            b  = array.get(sIdx, k)
+            ob = array.get(f.o, b)
+            cb = array.get(f.c, b)
+            array.push(out, array.get(sHi, k) ? math.max(ob, cb) : math.min(ob, cb))
+    out
+
 // ── the trend's control points ─────────────────────────────────────────────
 // Where a trend STARTED and where it was OVER, off the same pivots the zones
 // use.
@@ -358,8 +387,12 @@ buildZigzag(Frame f) =>
 //
 // Returns the last COMPLETED leg and the CURRENT one:
 //   [prevStart, prevEnd, prevDir, curStart, curDir]  — pivot indices, dir ±1
-trendLegs(array<float> sPx, array<bool> sHi) =>
-    n = array.size(sPx)
+//
+// `sBd` is bodyPivots() — body edges, not wicks. A higher high here means a
+// higher body high, so a spike that pokes above the last high and closes back
+// under it does not start an uptrend.
+trendLegs(array<float> sBd, array<bool> sHi) =>
+    n = array.size(sBd)
     int prevStart = -1
     int prevEnd   = -1
     int prevDir   = 0
@@ -371,7 +404,7 @@ trendLegs(array<float> sPx, array<bool> sHi) =>
     int lastLowP   = -1
     if n >= 3
         for k = 0 to n - 1
-            px = array.get(sPx, k)
+            px = array.get(sBd, k)
             if array.get(sHi, k)
                 // A higher high ends a downtrend and starts an uptrend.
                 if not na(prevHigh) and px > prevHigh
@@ -607,12 +640,12 @@ lastOfKind(array<bool> sHi, int fromK, int toK, bool wantHigh) =>
             best := k
     best
 
-extremeIn(array<float> sPx, array<bool> sHi, int fromK, int toK, int dir) =>
+extremeIn(array<float> sBd, array<bool> sHi, int fromK, int toK, int dir) =>
     int best = -1
     float bestPx = na
     for k = fromK to toK
         if array.get(sHi, k) == (dir > 0)     // uptrend reads highs, downtrend lows
-            px = array.get(sPx, k)
+            px = array.get(sBd, k)
             if na(bestPx) or (dir > 0 ? px > bestPx : px < bestPx)
                 bestPx := px
                 best   := k
@@ -629,7 +662,11 @@ extremeIn(array<float> sPx, array<bool> sHi, int fromK, int toK, int dir) =>
 //
 // Each level runs from the pivot that set it to the right edge, so where price
 // sits against it is readable at a glance.
-drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
+//
+// The prices come in as `sBd` — bodyPivots(), the body edge of each pivot bar,
+// never the wick. A line lands on the top or bottom of a candle's body, which is
+// where the trade was; see bodyPivots() for why the wick is not a level.
+drawLeg(Frame f, array<int> sIdx, array<float> sBd, array<bool> sHi, string tag,
         int dir, int pStart, int pBreak, bool running, float loY, float hiY,
         int transp) =>
     // ⚠ A finished leg's levels are read UP TO the break, not through it. The
@@ -650,29 +687,29 @@ drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
     // Drawn as the leg's lowest low instead, the bottom line sat below the
     // actual break on 7 of 24 board legs — a line that could not have ended the
     // trend it was drawn for.
-    hiP = scanTo < pStart ? -1 : dir > 0 ? extremeIn(sPx, sHi, pStart, scanTo, 1) : lastOfKind(sHi, pStart, scanTo, true)
-    loP = scanTo < pStart ? -1 : dir > 0 ? lastOfKind(sHi, pStart, scanTo, false) : extremeIn(sPx, sHi, pStart, scanTo, -1)
+    hiP = scanTo < pStart ? -1 : dir > 0 ? extremeIn(sBd, sHi, pStart, scanTo, 1) : lastOfKind(sHi, pStart, scanTo, true)
+    loP = scanTo < pStart ? -1 : dir > 0 ? lastOfKind(sHi, pStart, scanTo, false) : extremeIn(sBd, sHi, pStart, scanTo, -1)
     col = color.new(trendCol, transp)
     word = dir > 0 ? "uptrend" : "downtrend"
     if hiP >= 0
-        t = line.new(array.get(f.bi, array.get(sIdx, hiP)), array.get(sPx, hiP),
-                     bar_index + 10, array.get(sPx, hiP), xloc = xloc.bar_index,
+        t = line.new(array.get(f.bi, array.get(sIdx, hiP)), array.get(sBd, hiP),
+                     bar_index + 10, array.get(sBd, hiP), xloc = xloc.bar_index,
                      color = col, style = line.style_dashed, width = 2)
         array.push(drawnT, t)
         if trendTags
-            lt = label.new(bar_index + 10, array.get(sPx, hiP),
-                           tag + " top " + str.tostring(array.get(sPx, hiP), format.mintick),
+            lt = label.new(bar_index + 10, array.get(sBd, hiP),
+                           tag + " top " + str.tostring(array.get(sBd, hiP), format.mintick),
                            xloc = xloc.bar_index, style = label.style_none,
                            textcolor = col, size = size.tiny)
             array.push(drawnL, lt)
     if loP >= 0
-        b = line.new(array.get(f.bi, array.get(sIdx, loP)), array.get(sPx, loP),
-                     bar_index + 10, array.get(sPx, loP), xloc = xloc.bar_index,
+        b = line.new(array.get(f.bi, array.get(sIdx, loP)), array.get(sBd, loP),
+                     bar_index + 10, array.get(sBd, loP), xloc = xloc.bar_index,
                      color = col, style = line.style_dashed, width = 2)
         array.push(drawnT, b)
         if trendTags
-            lb = label.new(bar_index + 10, array.get(sPx, loP),
-                           tag + " bottom " + str.tostring(array.get(sPx, loP), format.mintick),
+            lb = label.new(bar_index + 10, array.get(sBd, loP),
+                           tag + " bottom " + str.tostring(array.get(sBd, loP), format.mintick),
                            xloc = xloc.bar_index, style = label.style_none,
                            textcolor = col, size = size.tiny)
             array.push(drawnL, lb)
@@ -693,7 +730,7 @@ drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
                           style = line.style_dashed, width = 1)
             array.push(drawnT, vB)
     if trendTags and not running
-        lo2 = label.new(array.get(f.bi, array.get(sIdx, pBreak)), array.get(sPx, pBreak),
+        lo2 = label.new(array.get(f.bi, array.get(sIdx, pBreak)), array.get(sBd, pBreak),
                         tag + " " + word + " over",
                         xloc = xloc.bar_index, style = label.style_label_upper_left,
                         color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
@@ -701,14 +738,14 @@ drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
 
 // The last completed leg (faded) and the current one — so the chart shows where
 // the last trend was over AND what has been running since.
-drawTrend(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi,
+drawTrend(Frame f, array<int> sIdx, array<float> sBd, array<bool> sHi,
           string tag, float loY, float hiY) =>
-    [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sPx, sHi)
+    [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sBd, sHi)
     n = array.size(sIdx)
     if showPrevLeg and pDir != 0 and pStart >= 0 and pEnd > pStart
-        drawLeg(f, sIdx, sPx, sHi, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
+        drawLeg(f, sIdx, sBd, sHi, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
     if cDir != 0 and cStart >= 0 and n - 1 > cStart
-        drawLeg(f, sIdx, sPx, sHi, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
+        drawLeg(f, sIdx, sBd, sHi, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
     cDir
 
 // _next_beyond(): the first zone that actually CLEARS the one being broken —
@@ -840,8 +877,11 @@ if barstate.islast
         useF = trendFrame == "monthly" and wantM ? fM : trendFrame == "chart" ? fC : wantW ? fW : fC
         tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? chartTag : wantW ? "W" : chartTag
         if array.size(useF.c) > 2 * swingN
+            // The zigzag is the zones' own — the same bars are pivots — but the
+            // trend prices each one at its BODY edge. See bodyPivots().
             [zi, zp, zh] = buildZigzag(useF)
-            trendDir := drawTrend(useF, zi, zp, zh, tag, loY, hiY)
+            zb = bodyPivots(useF, zi, zh)
+            trendDir := drawTrend(useF, zi, zb, zh, tag, loY, hiY)
 
     if showPanel
         // The board's own position / bull / bear lines, off the CHART frame's

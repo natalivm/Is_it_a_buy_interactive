@@ -115,6 +115,19 @@ lowest low instead, the bottom line sat *below* the break that actually ended
 the trend on 7 of 24 board legs; `verify_port.py` now checks that invariant on
 every completed leg (**24/24**).
 
+**The levels sit on candle BODIES, not wicks.** A pivot bar is still detected
+by its high/low — that is the zone engine's zigzag and it has to keep matching
+`structure.py` — but the price the trend reads off it is the bar's body edge:
+a swing high is worth its highest body edge, a swing low its lowest
+(`bodyPivots()`). A wick is where price was refused; the body is where it
+traded, and a top line pinned to the tip of a rejection wick sits at a price
+that was never accepted — GILD's weekly top drawn at the $140.61 wick instead
+of the $138.06 body top, and then "broken" by the next ordinary poke without
+anything having changed. The whole read moves with it, not just the drawing:
+`trendLegs()` decides higher-high / lower-low on body prices too, so a spike
+over the last high that closes back under it does not start an uptrend, and
+the level the engine says ends the trend is the level on the screen.
+
 Uprights at the control points and price tags on the levels are both available
 and both **off by default** — two lines are the point, six drawings are a grid.
 
@@ -189,7 +202,8 @@ board rules**, **Maximum zone width = 2.0**, and only the chart frame enabled on
 a daily chart. The shipped defaults deliberately differ on all three counts —
 this script is for reading a chart, `board.js` is the record.
 
-`verify_port.py` transliterates the indicator's `zonesFor()` and `trendLegs()` —
+`verify_port.py` transliterates the indicator's `zonesFor()`, `bodyPivots()`
+and `trendLegs()` —
 same loop bounds, same index arithmetic — and checks four things: board-rules
 parity against `structure.py` (**currently 50/50 zone lists identical across 25
 tickers**, boundaries and grades both), that balance mode runs and by how much
