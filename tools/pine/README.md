@@ -81,10 +81,30 @@ that names it.
 
 ## Trend control points
 
-A yellow dashed line marks **where the trend started and where it was over**,
-read on the **weekly** by default (monthly and chart frame are options). Dashed
-uprights at each end put the dates on the axis, and each end is captioned —
-`W uptrend started` and either `W uptrend — running` or `W uptrend over`.
+The trend is **two horizontal yellow dashed levels — the top and the bottom** —
+read on the **weekly** by default (monthly and chart frame are options). That is
+the whole drawing. Levels, not a diagonal: they are what *ends* the trend, so
+they are quotable and tradeable, while a slope drawn between alternating pivots
+contradicts its own caption half the time (GILD rendered "uptrend" along a line
+falling from $137.50 to $127.61 before this).
+
+**The two lines are not both extremes.** The living side is the level that has
+to hold; the other is how far the trend has got:
+
+| | bottom | top |
+|---|---|---|
+| uptrend | last higher low — **break it and it is over** | highest high reached |
+| downtrend | lowest low reached | last lower high — **break it and it is over** |
+
+That asymmetry is forced by the rule. "Lower low" means lower than the
+*previous* low, not lower than the whole trend's lowest — an uptrend that ran
+100 → 110 → 120 ends on a 115, nowhere near its origin. Drawn at the leg's
+lowest low instead, the bottom line sat *below* the break that actually ended
+the trend on 7 of 24 board legs; `verify_port.py` now checks that invariant on
+every completed leg (**24/24**).
+
+Uprights at the control points and price tags on the levels are both available
+and both **off by default** — two lines are the point, six drawings are a grid.
 
 It comes off the same pivots the zones use, so the trend and the levels can
 never be two different readings of the chart.

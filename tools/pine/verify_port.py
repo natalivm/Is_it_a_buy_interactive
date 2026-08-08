@@ -314,7 +314,7 @@ def main():
 
     bad = rows = 0
     diff_balance = 0
-    trend_stats = [0, 0, 0, 0]
+    trend_stats = [0, 0, 0, 0, 0]
     print("board-rules parity (must be exact) · balance-mode diff · M/W stack\n")
     for t in tickers:
         try:
@@ -364,6 +364,24 @@ def main():
         # CURRENT state, the run reads the LAST TREND, which may be over. So an
         # exact match is not the bar — the bar is that they never point OPPOSITE
         # ways, which would mean the yellow line contradicts the board.
+        # The two horizontal levels must be the ones the trend actually turned
+        # on. Two things make that true, and both were wrong at first:
+        #   · the leg is read UP TO the break, not through it — the break pivot
+        #     is the level that FAILED, not one that held;
+        #   · the living side is the LAST pivot of its kind, not the extreme.
+        #     "Lower low" means lower than the PREVIOUS low, so an uptrend that
+        #     ran 100 → 110 → 120 ends on a 115, nowhere near its origin. Drawn
+        #     at the leg's lowest low, the bottom line sat below the break that
+        #     ended it on 7 of 24 board legs.
+        if prev_leg:
+            seg = wsw[prev_leg["start"]:prev_leg["end"]]
+            lows = [px for _, px, hi in seg if not hi]
+            highs = [px for _, px, hi in seg if hi]
+            brk = wsw[prev_leg["end"]][1]
+            if prev_leg["dir"] > 0 and lows and brk >= lows[-1]:
+                trend_stats[4] += 1
+            if prev_leg["dir"] < 0 and highs and brk <= highs[-1]:
+                trend_stats[4] += 1
         contra = ({got, want} == {"bullish", "bearish"})
         trend_stats[0] += 1
         trend_stats[1] += 1 if got == want else 0
@@ -377,14 +395,16 @@ def main():
     print(f"\n{rows - bad}/{rows} board-rules zone lists identical · MISMATCHES: {bad}")
     print(f"balance mode differs from board rules on {diff_balance}/{rows} lists "
           f"(expected — it is a different base rule, not a bug)")
-    tot, same, contra, alive = trend_stats
+    tot, same, contra, alive, badlevel = trend_stats
     print(f"weekly trend markers: {same}/{tot} name the same direction as "
           f"classify_structure, {alive}/{tot} also have a completed previous leg, "
           f"{tot - same - contra}/{tot} name a trend where the extractor "
           f"abstains (neutral)")
     print(f"CONTRADICTIONS (marker bullish vs extractor bearish, or the "
           f"reverse): {contra}/{tot}" + ("  ← must be 0" if contra else "  ✓"))
-    if contra:
+    print(f"trend top/bottom levels consistent with the break that ended the "
+          f"leg: {alive - badlevel}/{alive}" + ("  ← must be all" if badlevel else "  ✓"))
+    if contra or badlevel:
         return 1
     return 1 if bad else 0
 

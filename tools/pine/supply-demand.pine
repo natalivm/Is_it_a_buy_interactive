@@ -102,8 +102,9 @@ gT = "Trend control points"
 showTrend  = input.bool(true, "Mark where the trend started and ended", group = gT)
 trendFrame = input.string("weekly", "Read the trend on", options = ["weekly", "monthly", "chart"], group = gT, tooltip = "Weekly by default: it is the frame the board treats as structural, and the one whose swings survive a session.")
 trendCol   = input.color(#eab308, "Colour", group = gT, inline = "t")
-trendVert  = input.bool(true, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights at the two control points, so the DATES are readable as well as the levels.")
-showPrevLeg = input.bool(true, "Also draw the previous leg, faded", group = gT, tooltip = "The trend before this one, from where it started to where it was over. Off leaves only the leg that is running.")
+trendVert  = input.bool(false, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights where the leg began and, on a finished leg, where it was over. Off by default — the two horizontal levels are the drawing.")
+trendTags  = input.bool(false, "Label the levels", group = gT, tooltip = "Adds 'W top 140.61' / 'W bottom 121.39' at the right edge.")
+showPrevLeg = input.bool(false, "Also draw the previous leg, faded", group = gT, tooltip = "The top and bottom of the trend BEFORE this one. Off by default: two levels are the point, four is a grid.")
 
 gD = "Display"
 // Every zone is a thin outline over one light fill, and the fill is the SAME
@@ -130,6 +131,11 @@ supCol       = input.color(#ef4444, "Supply", group = gD, inline = "c")
 
 chartA   = ta.atr(14)
 chartMed = ta.median(volume, volBase)[1]
+
+// The chart frame is whatever the chart is, so it must not be hard-tagged "D":
+// on a 1W chart every zone label read D beside an M, which says the opposite of
+// what it is. This is the letter the labels and the trend markers both use.
+chartTag = timeframe.ismonthly ? "M" : timeframe.isweekly ? "W" : timeframe.isdaily ? "D" : timeframe.period
 
 // A higher frame is only higher if the chart is below it.
 tfSec   = timeframe.in_seconds(timeframe.period)
@@ -573,40 +579,114 @@ insideText(array<Zone> list, float px) =>
                 txt := "inside " + z.strength + (z.isDemand ? " demand " : " supply ") + fmtZ(z)
     txt
 
-// One leg: a dashed line along it, an upright at each end so the DATES read as
-// well as the levels, and a caption at each end.
-drawLeg(Frame f, array<int> sIdx, array<float> sPx, string tag, int dir,
-        int pStart, int pEnd, bool running, float loY, float hiY, int transp) =>
-    bi0 = array.get(f.bi, array.get(sIdx, pStart))
-    bi1 = array.get(f.bi, array.get(sIdx, pEnd))
-    px0 = array.get(sPx, pStart)
-    px1 = array.get(sPx, pEnd)
+// The leg's furthest point IN ITS OWN DIRECTION: the highest high of an
+// uptrend, the lowest low of a downtrend, between its start and its break.
+//
+// ⚠ The line has to end HERE and not at the last pivot, or its slope contradicts
+// its own caption. The zigzag alternates, so the newest pivot of a running
+// uptrend is as often a low as a high — GILD drew "uptrend" along a line falling
+// from $137.50 to $127.61 for exactly that reason. A leg drawn start → extreme
+// always slopes the way it is labelled.
+// The newest pivot of one kind inside a range — the level that has to hold for
+// the trend to still be a trend.
+lastOfKind(array<bool> sHi, int from, int to, bool wantHigh) =>
+    int best = -1
+    for k = from to to
+        if array.get(sHi, k) == wantHigh
+            best := k
+    best
+
+extremeIn(array<float> sPx, array<bool> sHi, int from, int to, int dir) =>
+    int best = -1
+    float bestPx = na
+    for k = from to to
+        if array.get(sHi, k) == (dir > 0)     // uptrend reads highs, downtrend lows
+            px = array.get(sPx, k)
+            if na(bestPx) or (dir > 0 ? px > bestPx : px < bestPx)
+                bestPx := px
+                best   := k
+    best
+
+// ── the trend as TWO HORIZONTAL LEVELS ─────────────────────────────────────
+// The top and the bottom of the leg, and that is the whole drawing. Not a
+// sloping line: the two levels ARE the trend, because they are what ends it —
+// an uptrend dies when the BOTTOM gives way to a lower low, a downtrend when
+// the TOP gives way to a higher high. A level you can trade against beats a
+// diagonal nobody can quote, and a slope drawn between alternating pivots
+// contradicts its own caption half the time (GILD read "uptrend" along a line
+// falling from $137.50 to $127.61 before this).
+//
+// Each level runs from the pivot that set it to the right edge, so where price
+// sits against it is readable at a glance.
+drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
+        int dir, int pStart, int pBreak, bool running, float loY, float hiY,
+        int transp) =>
+    // ⚠ A finished leg's levels are read UP TO the break, not through it. The
+    // break pivot IS the lower low that ended an uptrend, so including it draws
+    // the bottom line at the level that FAILED instead of the one that held.
+    int scanTo = running ? pBreak : pBreak - 1
+    // ⚠ And the two lines are not both extremes. The rule is "lower than the
+    // PREVIOUS low", not "lower than the lowest low of the whole trend" — an
+    // uptrend that ran 100 → 110 → 120 ends on a 115, which is nowhere near its
+    // origin. So the LIVING side is the most recent pivot, the level that has to
+    // hold, and the other side is the extreme the trend has reached:
+    //
+    //     uptrend    bottom = last higher low (break it and it is over)
+    //                top    = highest high reached
+    //     downtrend  top    = last lower high (break it and it is over)
+    //                bottom = lowest low reached
+    //
+    // Drawn as the leg's lowest low instead, the bottom line sat below the
+    // actual break on 7 of 24 board legs — a line that could not have ended the
+    // trend it was drawn for.
+    hiP = scanTo < pStart ? -1 : dir > 0 ? extremeIn(sPx, sHi, pStart, scanTo, 1) : lastOfKind(sHi, pStart, scanTo, true)
+    loP = scanTo < pStart ? -1 : dir > 0 ? lastOfKind(sHi, pStart, scanTo, false) : extremeIn(sPx, sHi, pStart, scanTo, -1)
     col = color.new(trendCol, transp)
-    l = line.new(bi0, px0, bi1, px1, xloc = xloc.bar_index,
-                 color = col, style = line.style_dashed, width = 2)
-    array.push(drawnT, l)
+    word = dir > 0 ? "uptrend" : "downtrend"
+    if hiP >= 0
+        t = line.new(array.get(f.bi, array.get(sIdx, hiP)), array.get(sPx, hiP),
+                     bar_index + 10, array.get(sPx, hiP), xloc = xloc.bar_index,
+                     color = col, style = line.style_dashed, width = 2)
+        array.push(drawnT, t)
+        if trendTags
+            lt = label.new(bar_index + 10, array.get(sPx, hiP),
+                           tag + " top " + str.tostring(array.get(sPx, hiP), format.mintick),
+                           xloc = xloc.bar_index, style = label.style_none,
+                           textcolor = col, size = size.tiny)
+            array.push(drawnL, lt)
+    if loP >= 0
+        b = line.new(array.get(f.bi, array.get(sIdx, loP)), array.get(sPx, loP),
+                     bar_index + 10, array.get(sPx, loP), xloc = xloc.bar_index,
+                     color = col, style = line.style_dashed, width = 2)
+        array.push(drawnT, b)
+        if trendTags
+            lb = label.new(bar_index + 10, array.get(sPx, loP),
+                           tag + " bottom " + str.tostring(array.get(sPx, loP), format.mintick),
+                           xloc = xloc.bar_index, style = label.style_none,
+                           textcolor = col, size = size.tiny)
+            array.push(drawnL, lb)
+    // Optional uprights: where the leg began, and — on a finished leg — the bar
+    // whose lower low or higher high ended it.
     if trendVert
-        v0 = line.new(bi0, loY, bi0, hiY, xloc = xloc.bar_index,
-                      color = color.new(trendCol, math.min(transp + 40, 95)),
-                      style = line.style_dashed, width = 1)
-        v1 = line.new(bi1, loY, bi1, hiY, xloc = xloc.bar_index,
+        v0 = line.new(array.get(f.bi, array.get(sIdx, pStart)), loY,
+                      array.get(f.bi, array.get(sIdx, pStart)), hiY,
+                      xloc = xloc.bar_index,
                       color = color.new(trendCol, math.min(transp + 40, 95)),
                       style = line.style_dashed, width = 1)
         array.push(drawnT, v0)
-        array.push(drawnT, v1)
-    word = dir > 0 ? "uptrend" : "downtrend"
-    // The break that ended it is named, because that is the whole test: an
-    // uptrend dies on a lower low, a downtrend on a higher high.
-    endTxt = running ? tag + " " + word + " — running"
-             : tag + " " + word + " over — " + (dir > 0 ? "lower low" : "higher high")
-    a = label.new(bi0, px0, tag + " " + word + " started",
-                  xloc = xloc.bar_index, style = label.style_label_lower_right,
-                  color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
-    b = label.new(bi1, px1, endTxt,
-                  xloc = xloc.bar_index, style = label.style_label_upper_left,
-                  color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
-    array.push(drawnL, a)
-    array.push(drawnL, b)
+        if not running
+            vB = line.new(array.get(f.bi, array.get(sIdx, pBreak)), loY,
+                          array.get(f.bi, array.get(sIdx, pBreak)), hiY,
+                          xloc = xloc.bar_index,
+                          color = color.new(trendCol, math.min(transp + 40, 95)),
+                          style = line.style_dashed, width = 1)
+            array.push(drawnT, vB)
+    if trendTags and not running
+        lo2 = label.new(array.get(f.bi, array.get(sIdx, pBreak)), array.get(sPx, pBreak),
+                        tag + " " + word + " over",
+                        xloc = xloc.bar_index, style = label.style_label_upper_left,
+                        color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
+        array.push(drawnL, lo2)
 
 // The last completed leg (faded) and the current one — so the chart shows where
 // the last trend was over AND what has been running since.
@@ -727,7 +807,7 @@ if barstate.islast
     dC = array.new<Zone>()
     sC = array.new<Zone>()
     if useC
-        [d0, s0] = zonesFor(fC, "D", ageC, perSideC, px)
+        [d0, s0] = zonesFor(fC, chartTag, ageC, perSideC, px)
         dC := d0
         sC := s0
         drawAll(dC)
@@ -746,7 +826,7 @@ if barstate.islast
             loY := na(loY) ? l2 : math.min(loY, l2)
             hiY := na(hiY) ? h2 : math.max(hiY, h2)
         useF = trendFrame == "monthly" and wantM ? fM : trendFrame == "chart" ? fC : wantW ? fW : fC
-        tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? "D" : wantW ? "W" : "D"
+        tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? chartTag : wantW ? "W" : chartTag
         if array.size(useF.c) > 2 * swingN
             [zi, zp, zh] = buildZigzag(useF)
             trendDir := drawTrend(useF, zi, zp, zh, tag, loY, hiY)
