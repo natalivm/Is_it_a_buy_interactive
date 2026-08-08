@@ -1,0 +1,888 @@
+//@version=6
+// ── Supply & demand zones — monthly, weekly and chart frame, stacked ────────
+//
+// Zones are drawn from the TOP DOWN, in this order:
+//
+//     1. MONTHLY   the frame that owns the level
+//     2. WEEKLY    laid over it
+//     3. CHART     laid over both (daily, on a daily chart)
+//
+// Every zone is a THIN OUTLINE over ONE LIGHT FILL, the same weight on all
+// three frames — and that is what makes the stack readable. Overlapping fills
+// composite, so a band where monthly, weekly and chart-frame demand all sit
+// comes out visibly denser than any of them alone. The density IS the
+// confluence. Weighting the frames differently would destroy it, because a dark
+// patch could then mean one bold zone instead of three agreeing ones.
+//
+// Frames stay identifiable without adding weight: a tag (M / W / D) in the
+// label and a border style (dotted / dashed / solid). A daily zone inside a
+// live monthly zone is a different trade from a daily zone standing alone.
+//
+// ── HOW A ZONE IS BUILT ────────────────────────────────────────────────────
+//
+//   DEMAND   [ lowest WICK of the base , highest BODY edge of the base ]
+//            the upper wick is discarded
+//   SUPPLY   [ lowest BODY edge of the base , highest WICK of the base ]
+//            the lower wick is discarded
+//
+// The base is the BALANCE before the impulse: candles whose bodies are small
+// against ATR, sitting immediately before a displacement leg that breaks
+// structure. Colour is deliberately NOT the test — a base is where price went
+// quiet, and a quiet candle is quiet whether it closes red or green. (The
+// `Base` input can switch back to the board's colour-based rule; see below.)
+//
+// The impulse is unchanged: open-to-furthest-CLOSE over `displaceBars` bars,
+// at least `displaceAtr` ATRs, and it has to BREAK the last swing — an up-leg
+// through the last swing high leaves demand behind it, a down-leg through the
+// last swing low leaves supply above it. A leg that breaks nothing is just a
+// big candle.
+//
+// ── RELATIONSHIP TO board.js ───────────────────────────────────────────────
+//
+// The rest of the engine is a port of tools/structure.py, constant for
+// constant — swings(), significant_swings(), find_zones(), _score_zone(),
+// _merge(), _resolve_cross(), nearest(). To reproduce the `demand`/`supply`
+// arrays in board.js exactly, three settings have to match the extractor:
+// **Base = board rules**, **Maximum zone width = 2.0**, and only the chart
+// frame enabled on a daily chart. tools/pine/verify_port.py checks that
+// combination on every ticker on the board and is currently 50/50.
+//
+// The shipped default width is 1.2, NOT the board's 2.0: at 2.0 the zones
+// covered 70% of the visible band across 13 names, and a level covering most of
+// the screen is not a level. That is a deliberate divergence, like the base
+// rule — this script is for reading a chart, board.js is the record.
+//
+// **Base = balance candles is a deliberate divergence** from the extractor and
+// therefore from board.js. It is the better read on a chart — the board's rule
+// walks back over candles of the opposite colour, which stops at the first
+// green candle in a quiet base — but a zone drawn this way is this script's
+// opinion, not the board's number. Keep that straight when comparing.
+//
+// ── WHY IT COMPUTES IN ONE BATCH ON THE LAST BAR ───────────────────────────
+//
+// significant_swings() collapses consecutive same-kind pivots across the WHOLE
+// series and find_zones() then filters that finished zigzag with `s.i < i`.
+// Collapsing everything and filtering after is not collapsing the prefix: a
+// pivot at bar 14 absorbs the one at bar 10, so a causal script's swing at bar
+// 12 is one the extractor no longer has. Written causally first and checked,
+// AXON produced 4 supply zones against the extractor's 8. So the whole
+// computation runs once, on the last bar, in index order. The cost is that
+// zones show the CURRENT state only — scroll back and you do not see what the
+// script would have drawn last March.
+
+indicator("Supply & Demand — M/W/D stacked", "S/D stack", overlay = true,
+          max_boxes_count = 500, max_labels_count = 500, max_bars_back = 5000)
+
+// ── inputs ─────────────────────────────────────────────────────────────────
+gF = "Frames — drawn monthly first, then weekly, then the chart on top"
+useM      = input.bool(true, "Monthly zones",  group = gF)
+useW      = input.bool(true, "Weekly zones",   group = gF)
+useC      = input.bool(true, "Chart-frame zones", group = gF, tooltip = "The chart's own timeframe — daily on a daily chart. A higher frame is skipped automatically when the chart is already at or above it.")
+// ONE a side, per frame: the NEAREST demand below and the NEAREST supply above.
+// Six boxes at most, and each one is a level price has to deal with next. The
+// second- and third-nearest are structure, not triggers, and drawing them is
+// what carpeted the chart — 3/2/2 a side put 9.6 zones on screen covering 70%
+// of the visible band, where 1/1/1 draws 3.7 covering 33%.
+perSideM  = input.int(1, "Zones per side — monthly", group = gF, minval = 1, maxval = 6, tooltip = "1 draws only the nearest demand and the nearest supply on this frame. Raise it to see the levels behind them.")
+perSideW  = input.int(1, "…weekly",               group = gF, minval = 1, maxval = 6)
+perSideC  = input.int(1, "…chart frame",          group = gF, minval = 1, maxval = 6)
+ageM      = input.int(36,  "Age cap, monthly bars", group = gF, minval = 6, tooltip = "Zones older than this are history rather than current structure. 36 monthly bars is 3 years; the board's daily cap (MAX_ZONE_AGE) is 252.")
+ageW      = input.int(104, "…weekly bars",          group = gF, minval = 8)
+ageC      = input.int(252, "…chart bars",           group = gF, minval = 20)
+
+gB = "Base — the balance before the impulse"
+baseMode    = input.string("balance candles", "Base", options = ["balance candles", "board rules (colour)"], group = gB, tooltip = "balance candles: walk back over candles whose BODY is small against ATR, whatever colour they are. board rules: the extractor's _base_span(), which walks back over candles of the opposite or neutral colour — use this to reproduce board.js exactly.")
+balanceBody = input.float(0.5, "Balance body, max ATR", group = gB, minval = 0.05, step = 0.05, tooltip = "A candle is 'balance' when |close − open| is at most this many ATRs. Bigger = looser bases.")
+maxBaseBars = input.int(4, "Base length, max candles", group = gB, minval = 1, maxval = 8, tooltip = "The extractor caps this at 4.")
+
+gZ = "Zone rules — defaults are tools/structure.py's"
+displaceAtr  = input.float(1.0,  "Impulse, in ATR",                group = gZ, minval = 0.1, step = 0.1, tooltip = "DISPLACE_ATR. Measured open-to-furthest-CLOSE over the window below — a wick alone is not displacement.")
+displaceBars = input.int(3,      "Impulse window, bars",           group = gZ, minval = 2, maxval = 10, tooltip = "DISPLACE_BARS. Requiring one candle to travel a full ATR is impossible on a high-ATR name, so a leg runs a few bars.")
+swingN       = input.int(2,      "Swing confirmation, each side",  group = gZ, minval = 1, maxval = 5, tooltip = "SWING_N. Strictly higher/lower than this many candles on BOTH sides; a bar tying its neighbour is not a pivot.")
+swingMinAtr  = input.float(0.75, "Minimum swing leg, in ATR",      group = gZ, minval = 0.0, step = 0.05, tooltip = "SWING_MIN_ATR. Pivots closer together than this are noise, not structure.")
+maxZoneAtr   = input.float(1.2,  "Maximum zone width, in ATR",     group = gZ, minval = 0.5, step = 0.1, tooltip = "Wider than this is a region, not a trigger. The board's MAX_ZONE_ATR is 2.0 and across 13 names that covered 70% of the visible band with zone fill; 1.2 takes it to 46%. Set it back to 2.0 to reproduce board.js.")
+revisitPad   = input.float(0.15, "Revisit pad, share of height",   group = gZ, minval = 0.0, step = 0.05)
+mergeOverlap = input.float(0.5,  "Merge overlap, share of smaller", group = gZ, minval = 0.1, step = 0.05)
+crossOverlap = input.float(0.5,  "Cross-kind overlap, share of larger", group = gZ, minval = 0.1, step = 0.05, tooltip = "CROSS_OVERLAP, measured against the LARGER zone: a narrow supply inside a wide demand is a sub-region, not the same level.")
+volBase      = input.int(50,     "Volume median, bars",            group = gZ, minval = 5)
+volHeavy     = input.float(1.5,  "Heavy volume, x own median",     group = gZ, minval = 1.0, step = 0.1, tooltip = "Two heavy revisits consume a zone as surely as three quiet ones.")
+maxZoneDist  = input.float(0.45, "Maximum distance from price",    group = gZ, minval = 0.02, step = 0.01, tooltip = "MAX_ZONE_DIST, a fraction of price.")
+scanBars     = input.int(1600,   "Chart history scanned, bars",    group = gZ, minval = 300, maxval = 5000)
+
+gT = "Trend control points"
+showTrend  = input.bool(true, "Mark where the trend started and ended", group = gT)
+trendFrame = input.string("weekly", "Read the trend on", options = ["weekly", "monthly", "chart"], group = gT, tooltip = "Weekly by default: it is the frame the board treats as structural, and the one whose swings survive a session.")
+trendCol   = input.color(#eab308, "Colour", group = gT, inline = "t")
+trendVert  = input.bool(false, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights where the leg began and, on a finished leg, where it was over. Off by default — the two horizontal levels are the drawing.")
+trendTags  = input.bool(false, "Label the levels", group = gT, tooltip = "Adds 'W top 140.61' / 'W bottom 121.39' at the right edge.")
+showPrevLeg = input.bool(false, "Also draw the previous leg, faded", group = gT, tooltip = "The top and bottom of the trend BEFORE this one. Off by default: two levels are the point, four is a grid.")
+
+gD = "Display"
+// Every zone is a thin outline over one light fill, and the fill is the SAME
+// weight on all three frames. That is deliberate: overlapping boxes composite,
+// so a band where monthly, weekly and chart-frame demand all sit reads as a
+// denser green than any of them alone — the density IS the confluence, and it
+// costs nothing to compute. Weighting the frames differently (a heavier daily
+// fill, a fainter monthly one) destroys that signal, because then a dark patch
+// might just be one bold zone.
+fillTransp   = input.int(85, "Zone fill transparency", group = gD, minval = 50, maxval = 98, tooltip = "One value for every frame. Three of these stacked read ~3x denser than one. Higher = lighter per zone.")
+gradeFade    = input.bool(false, "Fade weak zones", group = gD, tooltip = "Off by default: a fainter weak zone competes with the overlap density for the reader's eye. The grade is in the label either way.")
+frameBorders = input.bool(true, "Frame borders — M dotted, W dashed, chart solid", group = gD, tooltip = "Off makes every border identical, so only the labels tell the frames apart.")
+showLabels   = input.bool(true, "Label each zone", group = gD)
+showPanel    = input.bool(true, "Position panel",  group = gD, tooltip = "The board's own position / bull / bear lines, computed from the CHART frame's zones.")
+demCol       = input.color(#22c55e, "Demand", group = gD, inline = "c")
+supCol       = input.color(#ef4444, "Supply", group = gD, inline = "c")
+
+// ── higher-timeframe series ────────────────────────────────────────────────
+// Sampled at the chart's bars, then rebuilt into HTF bar arrays on the last
+// bar. `lookahead_off` is what keeps a monthly value from arriving before the
+// month has traded it.
+[mO, mH, mL, mC, mV, mA, mMed, mT] = request.security(syminfo.tickerid, "M", [open, high, low, close, volume, ta.atr(14), ta.median(volume, volBase)[1], time], lookahead = barmerge.lookahead_off)
+[wO, wH, wL, wC, wV, wA, wMed, wT] = request.security(syminfo.tickerid, "W", [open, high, low, close, volume, ta.atr(14), ta.median(volume, volBase)[1], time], lookahead = barmerge.lookahead_off)
+
+chartA   = ta.atr(14)
+chartMed = ta.median(volume, volBase)[1]
+
+// The chart frame is whatever the chart is, so it must not be hard-tagged "D":
+// on a 1W chart every zone label read D beside an M, which says the opposite of
+// what it is. This is the letter the labels and the trend markers both use.
+chartTag = timeframe.ismonthly ? "M" : timeframe.isweekly ? "W" : timeframe.isdaily ? "D" : timeframe.period
+
+// A higher frame is only higher if the chart is below it.
+tfSec   = timeframe.in_seconds(timeframe.period)
+wantM   = useM and tfSec < timeframe.in_seconds("M")
+wantW   = useW and tfSec < timeframe.in_seconds("W")
+
+// ── types ──────────────────────────────────────────────────────────────────
+type Zone
+    bool   isDemand
+    float  lo
+    float  hi
+    int    idx           // index within its OWN frame's bars
+    int    bi            // chart bar_index of the base — where the box starts
+    float  atrAt
+    int    touches
+    int    closesIn
+    int    heavyTouches
+    float  formVol
+    string strength
+    string tf            // "M" | "W" | "D" — the frame that drew it
+
+// One frame's bars, chronological. `bi` maps each bar back to the chart.
+type Frame
+    array<float> o
+    array<float> h
+    array<float> l
+    array<float> c
+    array<float> v
+    array<float> atr
+    array<float> med
+    array<int>   bi
+
+newFrame() =>
+    Frame.new(array.new<float>(), array.new<float>(), array.new<float>(),
+              array.new<float>(), array.new<float>(), array.new<float>(),
+              array.new<float>(), array.new<int>())
+
+restrength(Zone z) =>
+    z.strength := z.touches >= 3 or z.closesIn >= 2 or z.heavyTouches >= 2 ? "weak" : z.touches >= 1 ? "tested" : "fresh"
+
+fmtZ(Zone z) => str.tostring(z.lo, format.mintick) + "–" + str.tostring(z.hi, format.mintick)
+
+// significant_swings(): consecutive same-kind pivots collapse to the more
+// extreme one, and a leg under SWING_MIN_ATR is not a leg.
+addSwing(array<int> sIdx, array<float> sPx, array<bool> sHi,
+         int idx, float px, bool isHi, float a, float minAtr) =>
+    n = array.size(sIdx)
+    if n == 0
+        array.push(sIdx, idx)
+        array.push(sPx, px)
+        array.push(sHi, isHi)
+    else
+        lastHi = array.get(sHi, n - 1)
+        lastPx = array.get(sPx, n - 1)
+        if lastHi == isHi
+            if (isHi and px > lastPx) or (not isHi and px < lastPx)
+                array.set(sIdx, n - 1, idx)
+                array.set(sPx, n - 1, px)
+        else if na(a) or a <= 0 or math.abs(px - lastPx) >= minAtr * a
+            array.push(sIdx, idx)
+            array.push(sPx, px)
+            array.push(sHi, isHi)
+
+// _score_zone(): revisits, closes INSIDE (acceptance) rather than wicks in
+// (rejection), and whether the revisit arrived on heavy volume. Walks forward
+// so a wick-in-and-straight-out is one touch and not a close inside.
+scoreZone(Zone z, Frame f) =>
+    n   = array.size(f.c)
+    pad = (z.hi - z.lo) * revisitPad
+    bool inside = false
+    z.touches := 0
+    z.closesIn := 0
+    z.heavyTouches := 0
+    for b = z.idx + 2 to n - 1
+        h = array.get(f.h, b)
+        l = array.get(f.l, b)
+        c = array.get(f.c, b)
+        touching = l <= z.hi + pad and h >= z.lo - pad
+        if touching and not inside
+            z.touches += 1
+            inside := true
+            m = array.get(f.med, b)
+            v = array.get(f.v, b)
+            if not na(m) and m > 0 and not na(v) and v / m >= volHeavy
+                z.heavyTouches += 1
+        else if not touching
+            inside := false
+        if touching and z.lo <= c and c <= z.hi
+            z.closesIn += 1
+    restrength(z)
+
+// _merge(): genuine duplicates only. Plain "they overlap" chains A→B→C across
+// a whole trend into one blob that contains every price and says nothing.
+mergeKind(array<Zone> src) =>
+    sorted = array.new<Zone>()
+    pool   = array.copy(src)
+    while array.size(pool) > 0
+        int best = 0
+        if array.size(pool) > 1
+            for k = 1 to array.size(pool) - 1
+                if array.get(pool, k).lo < array.get(pool, best).lo
+                    best := k
+        array.push(sorted, array.get(pool, best))
+        array.remove(pool, best)
+    out = array.new<Zone>()
+    if array.size(sorted) > 0
+        for k = 0 to array.size(sorted) - 1
+            z = array.get(sorted, k)
+            bool merged = false
+            if array.size(out) > 0
+                p = array.get(out, array.size(out) - 1)
+                overlap = math.min(p.hi, z.hi) - math.max(p.lo, z.lo)
+                smaller = math.max(math.min(p.hi - p.lo, z.hi - z.lo), 1e-9)
+                width   = math.max(p.hi, z.hi) - math.min(p.lo, z.lo)
+                cap     = maxZoneAtr * math.max(p.atrAt, z.atrAt)
+                if overlap >= mergeOverlap * smaller and width <= cap
+                    p.hi := math.max(p.hi, z.hi)
+                    p.lo := math.min(p.lo, z.lo)
+                    p.atrAt := math.max(p.atrAt, z.atrAt)
+                    p.touches := math.max(p.touches, z.touches)
+                    p.closesIn := math.max(p.closesIn, z.closesIn)
+                    p.heavyTouches := math.max(p.heavyTouches, z.heavyTouches)
+                    p.formVol := math.max(p.formVol, z.formVol)
+                    if z.idx > p.idx
+                        p.idx := z.idx
+                        p.bi  := z.bi
+                    restrength(p)
+                    merged := true
+            if not merged
+                array.push(out, z)
+    out
+
+// nearest(): the n nearest on the CORRECT side of price — a demand zone above
+// price is resistance, not demand. A zone price is sitting INSIDE is the
+// nearest one, at distance zero.
+nearestKind(array<Zone> src, bool wantDemand, float px, int n) =>
+    cand = array.new<Zone>()
+    if array.size(src) > 0
+        for k = 0 to array.size(src) - 1
+            z = array.get(src, k)
+            if z.isDemand == wantDemand and (wantDemand ? z.lo <= px : z.hi >= px)
+                if math.abs((z.lo + z.hi) / 2 - px) / px <= maxZoneDist
+                    array.push(cand, z)
+    out = array.new<Zone>()
+    while array.size(cand) > 0 and array.size(out) < n
+        int best = 0
+        float bestD = 1e18
+        for k = 0 to array.size(cand) - 1
+            z = array.get(cand, k)
+            d = wantDemand ? math.max(0.0, px - z.hi) : math.max(0.0, z.lo - px)
+            if d < bestD
+                bestD := d
+                best  := k
+        array.push(out, array.get(cand, best))
+        array.remove(cand, best)
+    out
+
+// swings() + significant_swings(), over one frame. Pulled out of the zone
+// engine because the trend markers read the SAME zigzag — a trend drawn off one
+// set of pivots and zones drawn off another would be two different charts.
+buildZigzag(Frame f) =>
+    n    = array.size(f.c)
+    sIdx = array.new<int>()
+    sPx  = array.new<float>()
+    sHi  = array.new<bool>()
+    if n > 2 * swingN
+        for b = swingN to n - 1 - swingN
+            bool isHi = true
+            bool isLo = true
+            for j = -swingN to swingN
+                if j != 0
+                    if array.get(f.h, b + j) >= array.get(f.h, b)
+                        isHi := false
+                    if array.get(f.l, b + j) <= array.get(f.l, b)
+                        isLo := false
+            a = array.get(f.atr, b)
+            if isHi
+                addSwing(sIdx, sPx, sHi, b, array.get(f.h, b), true, a, swingMinAtr)
+            if isLo
+                addSwing(sIdx, sPx, sHi, b, array.get(f.l, b), false, a, swingMinAtr)
+    [sIdx, sPx, sHi]
+
+// ── the trend's control points ─────────────────────────────────────────────
+// Where a trend STARTED and where it was OVER, off the same pivots the zones
+// use.
+//
+// ⚠ A TREND ENDS ON A BREAK OF THE OPPOSITE SIDE, and only there:
+//
+//     an UPTREND is over when price makes a LOWER LOW
+//     a DOWNTREND is over when price makes a HIGHER HIGH
+//
+// This is the part that is easy to get wrong, and the first version of this
+// function did: it ended a run at the first comparison pointing the other way,
+// whichever kind of pivot that was — so a lower HIGH killed an uptrend. A lower
+// high is a pullback. An uptrend that keeps making higher lows is intact no
+// matter how many lower highs it prints along the way, and the trend is only
+// finished when the lows give way.
+//
+// So each direction watches ONE side of the zigzag:
+//
+//     uptrend    lives on the lows,  dies on a lower low
+//     downtrend  lives on the highs, dies on a higher high
+//
+// …and the break that kills one starts the other, which is why the state
+// machine below never returns to neutral once it has started. The control
+// points fall out of it: an uptrend STARTS at the swing low it was launched
+// from (the last low before the high that broke) and is OVER at the low that
+// broke its predecessor; a downtrend mirrors that on the highs.
+//
+// Returns the last COMPLETED leg and the CURRENT one:
+//   [prevStart, prevEnd, prevDir, curStart, curDir]  — pivot indices, dir ±1
+trendLegs(array<float> sPx, array<bool> sHi) =>
+    n = array.size(sPx)
+    int prevStart = -1
+    int prevEnd   = -1
+    int prevDir   = 0
+    int curStart  = -1
+    int curDir    = 0
+    float prevHigh = na
+    float prevLow  = na
+    int lastHighP  = -1
+    int lastLowP   = -1
+    if n >= 3
+        for k = 0 to n - 1
+            px = array.get(sPx, k)
+            if array.get(sHi, k)
+                // A higher high ends a downtrend and starts an uptrend.
+                if not na(prevHigh) and px > prevHigh
+                    if curDir == -1
+                        prevStart := curStart
+                        prevEnd   := k
+                        prevDir   := -1
+                    if curDir != 1
+                        curDir   := 1
+                        curStart := lastLowP >= 0 ? lastLowP : k
+                prevHigh := px
+                lastHighP := k
+            else
+                // A lower low ends an uptrend and starts a downtrend.
+                if not na(prevLow) and px < prevLow
+                    if curDir == 1
+                        prevStart := curStart
+                        prevEnd   := k
+                        prevDir   := 1
+                    if curDir != -1
+                        curDir   := -1
+                        curStart := lastHighP >= 0 ? lastHighP : k
+                prevLow := px
+                lastLowP := k
+    [prevStart, prevEnd, prevDir, curStart, curDir]
+
+// ── the engine: one frame in, its zones out ────────────────────────────────
+// Frame-agnostic on purpose — the same rules draw the monthly, the weekly and
+// the chart's own, each measured in its OWN ATR and its own bars.
+zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
+    n = array.size(f.c)
+    dem = array.new<Zone>()
+    sup = array.new<Zone>()
+    if n > 2 * swingN + displaceBars
+        [sIdx, sPx, sHi] = buildZigzag(f)
+
+        // find_zones(): the impulse scan, in index order, with the same
+        // `i += displaceBars` skip — one impulse leaves one zone, not three.
+        raw = array.new<Zone>()
+        int   sPtr   = 0
+        float lastHi = na
+        float lastLo = na
+        int i = 1
+        while i <= n - 1
+            while sPtr < array.size(sIdx) and array.get(sIdx, sPtr) < i
+                if array.get(sHi, sPtr)
+                    lastHi := array.get(sPx, sPtr)
+                else
+                    lastLo := array.get(sPx, sPtr)
+                sPtr += 1
+            a = array.get(f.atr, i)
+            int step = 1
+            if not na(a) and a > 0
+                float upTo = na
+                float dnTo = na
+                for k = i to math.min(i + displaceBars - 1, n - 1)
+                    c = array.get(f.c, k)
+                    upTo := na(upTo) ? c : math.max(upTo, c)
+                    dnTo := na(dnTo) ? c : math.min(dnTo, c)
+                oi    = array.get(f.o, i)
+                upLeg = upTo - oi
+                dnLeg = oi - dnTo
+                leg   = upLeg >= dnLeg ? upLeg : -dnLeg
+                if math.abs(leg) >= displaceAtr * a
+                    bool isDemand = leg > 0
+                    prior = isDemand ? lastHi : lastLo
+                    if not na(prior) and (isDemand ? upTo > prior : dnTo < prior)
+                        // ── THE BASE ──────────────────────────────────────
+                        // Walk back from the candle before the impulse over the
+                        // balance that preceded it. In "balance candles" mode
+                        // the test is SIZE, not colour: a base is where price
+                        // went quiet, and a quiet candle is quiet whichever way
+                        // it closed. In "board rules" it is the extractor's
+                        // colour walk, kept so the script can reproduce
+                        // board.js exactly.
+                        j = i - 1
+                        int startB = j
+                        for k = 0 to maxBaseBars - 1
+                            b2 = j - k
+                            if b2 < 0
+                                break
+                            ob = array.get(f.o, b2)
+                            cb = array.get(f.c, b2)
+                            ab = array.get(f.atr, b2)
+                            bool stop = false
+                            if baseMode == "balance candles"
+                                body = math.abs(cb - ob)
+                                stop := na(ab) or ab <= 0 or body > balanceBody * ab
+                            else
+                                stop := isDemand == (cb > ob)
+                            if stop
+                                break
+                            startB := b2
+                        // ── THE BOUNDARIES ────────────────────────────────
+                        //   demand [lowest WICK, highest BODY edge]  ← top wick discarded
+                        //   supply [lowest BODY edge, highest WICK]  ← bottom wick discarded
+                        float zlo = na
+                        float zhi = na
+                        for b2 = startB to j
+                            ob = array.get(f.o, b2)
+                            cb = array.get(f.c, b2)
+                            bodyLo = math.min(ob, cb)
+                            bodyHi = math.max(ob, cb)
+                            lo2 = isDemand ? array.get(f.l, b2) : bodyLo
+                            hi2 = isDemand ? bodyHi             : array.get(f.h, b2)
+                            zlo := na(zlo) ? lo2 : math.min(zlo, lo2)
+                            zhi := na(zhi) ? hi2 : math.max(zhi, hi2)
+                        // Mean relative volume across the impulse — a zone left
+                        // by a drift on thin volume has a weaker origin than one
+                        // left by real trade.
+                        float vSum = 0.0
+                        int   vN   = 0
+                        for k = i to math.min(i + displaceBars - 1, n - 1)
+                            m = array.get(f.med, k)
+                            v = array.get(f.v, k)
+                            if not na(m) and m > 0 and not na(v) and v > 0
+                                vSum += v / m
+                                vN   += 1
+                        array.push(raw, Zone.new(isDemand, zlo, zhi, j,
+                                                 array.get(f.bi, j), a, 0, 0, 0,
+                                                 vN > 0 ? vSum / vN : 0.0, "fresh", tag))
+                        step := displaceBars
+            i += step
+
+        // Width cap, then age cap, THEN scoring — the extractor's order, so a
+        // grade is only ever computed for a zone that still counts.
+        if array.size(raw) > 0
+            for k = 0 to array.size(raw) - 1
+                z = array.get(raw, k)
+                if z.hi - z.lo <= maxZoneAtr * z.atrAt and z.idx >= n - maxAge
+                    scoreZone(z, f)
+                    if z.isDemand
+                        array.push(dem, z)
+                    else
+                        array.push(sup, z)
+        dem := mergeKind(dem)
+        sup := mergeKind(sup)
+
+        // _resolve_cross(): a price area is not simultaneously the nearest
+        // demand and the nearest supply. Only its most recent behaviour is a
+        // CURRENT level. Overlap measured against the LARGER zone — against the
+        // smaller, a narrow supply inside a wide demand deletes it outright.
+        keepD = array.new<Zone>()
+        keepS = array.new<Zone>()
+        if array.size(dem) > 0
+            for k = 0 to array.size(dem) - 1
+                a = array.get(dem, k)
+                bool drop = false
+                if array.size(sup) > 0
+                    for j2 = 0 to array.size(sup) - 1
+                        b = array.get(sup, j2)
+                        overlap = math.min(a.hi, b.hi) - math.max(a.lo, b.lo)
+                        larger  = math.max(math.max(a.hi - a.lo, b.hi - b.lo), 1e-9)
+                        if overlap >= crossOverlap * larger and b.idx >= a.idx
+                            drop := true
+                if not drop
+                    array.push(keepD, a)
+        if array.size(sup) > 0
+            for j2 = 0 to array.size(sup) - 1
+                b = array.get(sup, j2)
+                bool drop = false
+                if array.size(dem) > 0
+                    for k = 0 to array.size(dem) - 1
+                        a = array.get(dem, k)
+                        overlap = math.min(a.hi, b.hi) - math.max(a.lo, b.lo)
+                        larger  = math.max(math.max(a.hi - a.lo, b.hi - b.lo), 1e-9)
+                        if overlap >= crossOverlap * larger and a.idx > b.idx
+                            drop := true
+                if not drop
+                    array.push(keepS, b)
+        dem := nearestKind(keepD, true,  px, perSide)
+        sup := nearestKind(keepS, false, px, perSide)
+    [dem, sup]
+
+// ── drawing ────────────────────────────────────────────────────────────────
+var array<box>   drawnB = array.new<box>()
+var array<label> drawnL = array.new<label>()
+var array<line>  drawnT = array.new<line>()
+var table panel = table.new(position.top_right, 1, 5, border_width = 1)
+
+// One weight for every frame, so density means overlap and nothing else.
+zoneFill(string strength) =>
+    bump = not gradeFade ? 0 : strength == "fresh" ? 0 : strength == "tested" ? 3 : 6
+    math.min(fillTransp + bump, 98)
+
+drawAll(array<Zone> list) =>
+    if array.size(list) > 0
+        for k = 0 to array.size(list) - 1
+            z    = array.get(list, k)
+            base = z.isDemand ? demCol : supCol
+            style = not frameBorders ? line.style_solid : z.tf == "M" ? line.style_dotted : z.tf == "W" ? line.style_dashed : line.style_solid
+            // Thin outline, one light fill. The border is only there to say
+            // where the edge is; the body of the zone is the fill, and stacked
+            // fills are what make a confluence obvious.
+            b = box.new(z.bi, z.hi, bar_index + 10, z.lo,
+                        border_color = color.new(base, 55), border_width = 1,
+                        border_style = style,
+                        bgcolor = color.new(base, zoneFill(z.strength)),
+                        xloc = xloc.bar_index)
+            array.push(drawnB, b)
+            if showLabels
+                // Just the frame letter. The prices are on the axis, the grade
+                // is in the fill, and a stack of zones each captioned with its
+                // range and revisit counts buries the chart it is describing.
+                l = label.new(bar_index + 10, (z.hi + z.lo) / 2, z.tf,
+                              xloc = xloc.bar_index, style = label.style_none,
+                              textcolor = base, size = size.small)
+                array.push(drawnL, l)
+
+insideText(array<Zone> list, float px) =>
+    string txt = ""
+    if array.size(list) > 0
+        for k = 0 to array.size(list) - 1
+            z = array.get(list, k)
+            if txt == "" and z.lo <= px and px <= z.hi
+                txt := "inside " + z.strength + (z.isDemand ? " demand " : " supply ") + fmtZ(z)
+    txt
+
+// The leg's furthest point IN ITS OWN DIRECTION: the highest high of an
+// uptrend, the lowest low of a downtrend, between its start and its break.
+//
+// ⚠ The line has to end HERE and not at the last pivot, or its slope contradicts
+// its own caption. The zigzag alternates, so the newest pivot of a running
+// uptrend is as often a low as a high — GILD drew "uptrend" along a line falling
+// from $137.50 to $127.61 for exactly that reason. A leg drawn start → extreme
+// always slopes the way it is labelled.
+// The newest pivot of one kind inside a range — the level that has to hold for
+// the trend to still be a trend.
+lastOfKind(array<bool> sHi, int fromK, int toK, bool wantHigh) =>
+    int best = -1
+    for k = fromK to toK
+        if array.get(sHi, k) == wantHigh
+            best := k
+    best
+
+extremeIn(array<float> sPx, array<bool> sHi, int fromK, int toK, int dir) =>
+    int best = -1
+    float bestPx = na
+    for k = fromK to toK
+        if array.get(sHi, k) == (dir > 0)     // uptrend reads highs, downtrend lows
+            px = array.get(sPx, k)
+            if na(bestPx) or (dir > 0 ? px > bestPx : px < bestPx)
+                bestPx := px
+                best   := k
+    best
+
+// ── the trend as TWO HORIZONTAL LEVELS ─────────────────────────────────────
+// The top and the bottom of the leg, and that is the whole drawing. Not a
+// sloping line: the two levels ARE the trend, because they are what ends it —
+// an uptrend dies when the BOTTOM gives way to a lower low, a downtrend when
+// the TOP gives way to a higher high. A level you can trade against beats a
+// diagonal nobody can quote, and a slope drawn between alternating pivots
+// contradicts its own caption half the time (GILD read "uptrend" along a line
+// falling from $137.50 to $127.61 before this).
+//
+// Each level runs from the pivot that set it to the right edge, so where price
+// sits against it is readable at a glance.
+drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
+        int dir, int pStart, int pBreak, bool running, float loY, float hiY,
+        int transp) =>
+    // ⚠ A finished leg's levels are read UP TO the break, not through it. The
+    // break pivot IS the lower low that ended an uptrend, so including it draws
+    // the bottom line at the level that FAILED instead of the one that held.
+    int scanTo = running ? pBreak : pBreak - 1
+    // ⚠ And the two lines are not both extremes. The rule is "lower than the
+    // PREVIOUS low", not "lower than the lowest low of the whole trend" — an
+    // uptrend that ran 100 → 110 → 120 ends on a 115, which is nowhere near its
+    // origin. So the LIVING side is the most recent pivot, the level that has to
+    // hold, and the other side is the extreme the trend has reached:
+    //
+    //     uptrend    bottom = last higher low (break it and it is over)
+    //                top    = highest high reached
+    //     downtrend  top    = last lower high (break it and it is over)
+    //                bottom = lowest low reached
+    //
+    // Drawn as the leg's lowest low instead, the bottom line sat below the
+    // actual break on 7 of 24 board legs — a line that could not have ended the
+    // trend it was drawn for.
+    hiP = scanTo < pStart ? -1 : dir > 0 ? extremeIn(sPx, sHi, pStart, scanTo, 1) : lastOfKind(sHi, pStart, scanTo, true)
+    loP = scanTo < pStart ? -1 : dir > 0 ? lastOfKind(sHi, pStart, scanTo, false) : extremeIn(sPx, sHi, pStart, scanTo, -1)
+    col = color.new(trendCol, transp)
+    word = dir > 0 ? "uptrend" : "downtrend"
+    if hiP >= 0
+        t = line.new(array.get(f.bi, array.get(sIdx, hiP)), array.get(sPx, hiP),
+                     bar_index + 10, array.get(sPx, hiP), xloc = xloc.bar_index,
+                     color = col, style = line.style_dashed, width = 2)
+        array.push(drawnT, t)
+        if trendTags
+            lt = label.new(bar_index + 10, array.get(sPx, hiP),
+                           tag + " top " + str.tostring(array.get(sPx, hiP), format.mintick),
+                           xloc = xloc.bar_index, style = label.style_none,
+                           textcolor = col, size = size.tiny)
+            array.push(drawnL, lt)
+    if loP >= 0
+        b = line.new(array.get(f.bi, array.get(sIdx, loP)), array.get(sPx, loP),
+                     bar_index + 10, array.get(sPx, loP), xloc = xloc.bar_index,
+                     color = col, style = line.style_dashed, width = 2)
+        array.push(drawnT, b)
+        if trendTags
+            lb = label.new(bar_index + 10, array.get(sPx, loP),
+                           tag + " bottom " + str.tostring(array.get(sPx, loP), format.mintick),
+                           xloc = xloc.bar_index, style = label.style_none,
+                           textcolor = col, size = size.tiny)
+            array.push(drawnL, lb)
+    // Optional uprights: where the leg began, and — on a finished leg — the bar
+    // whose lower low or higher high ended it.
+    if trendVert
+        v0 = line.new(array.get(f.bi, array.get(sIdx, pStart)), loY,
+                      array.get(f.bi, array.get(sIdx, pStart)), hiY,
+                      xloc = xloc.bar_index,
+                      color = color.new(trendCol, math.min(transp + 40, 95)),
+                      style = line.style_dashed, width = 1)
+        array.push(drawnT, v0)
+        if not running
+            vB = line.new(array.get(f.bi, array.get(sIdx, pBreak)), loY,
+                          array.get(f.bi, array.get(sIdx, pBreak)), hiY,
+                          xloc = xloc.bar_index,
+                          color = color.new(trendCol, math.min(transp + 40, 95)),
+                          style = line.style_dashed, width = 1)
+            array.push(drawnT, vB)
+    if trendTags and not running
+        lo2 = label.new(array.get(f.bi, array.get(sIdx, pBreak)), array.get(sPx, pBreak),
+                        tag + " " + word + " over",
+                        xloc = xloc.bar_index, style = label.style_label_upper_left,
+                        color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
+        array.push(drawnL, lo2)
+
+// The last completed leg (faded) and the current one — so the chart shows where
+// the last trend was over AND what has been running since.
+drawTrend(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi,
+          string tag, float loY, float hiY) =>
+    [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sPx, sHi)
+    n = array.size(sIdx)
+    if showPrevLeg and pDir != 0 and pStart >= 0 and pEnd > pStart
+        drawLeg(f, sIdx, sPx, sHi, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
+    if cDir != 0 and cStart >= 0 and n - 1 > cStart
+        drawLeg(f, sIdx, sPx, sHi, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
+    cDir
+
+// _next_beyond(): the first zone that actually CLEARS the one being broken —
+// not simply the next entry, which can sit INSIDE it and name a target reached
+// before the break it is conditional on.
+nextBeyond(array<Zone> zs, bool wantSupply) =>
+    int found = -1
+    if array.size(zs) > 1
+        first = array.get(zs, 0)
+        for k = 1 to array.size(zs) - 1
+            z = array.get(zs, k)
+            if (wantSupply ? z.lo > first.hi : z.hi < first.lo)
+                found := k
+                break
+    found
+
+// ── everything, once, on the last bar ──────────────────────────────────────
+if barstate.islast
+    if array.size(drawnB) > 0
+        for k = 0 to array.size(drawnB) - 1
+            box.delete(array.get(drawnB, k))
+    if array.size(drawnL) > 0
+        for k = 0 to array.size(drawnL) - 1
+            label.delete(array.get(drawnL, k))
+    if array.size(drawnT) > 0
+        for k = 0 to array.size(drawnT) - 1
+            line.delete(array.get(drawnT, k))
+    array.clear(drawnB)
+    array.clear(drawnL)
+    array.clear(drawnT)
+
+    oldest = math.min(bar_index, scanBars - 1)
+
+    // The chart's own frame, straight off the series.
+    fC = newFrame()
+    for off = oldest to 0
+        array.push(fC.o, open[off])
+        array.push(fC.h, high[off])
+        array.push(fC.l, low[off])
+        array.push(fC.c, close[off])
+        array.push(fC.v, volume[off])
+        array.push(fC.atr, chartA[off])
+        array.push(fC.med, chartMed[off])
+        array.push(fC.bi, bar_index - off)
+
+    // The higher frames, rebuilt from their sampled series: a new HTF bar
+    // begins where its `time` changes, and the LAST sample inside a group is
+    // that bar's finished (or, for the current one, running) state — the same
+    // "final bucket is the in-progress bar" the extractor's resample() has.
+    fM = newFrame()
+    fW = newFrame()
+    for off = oldest to 0
+        if wantM and not na(mT[off])
+            fresh = off == oldest or na(mT[off + 1]) or mT[off] != mT[off + 1]
+            if fresh
+                array.push(fM.o, mO[off])
+                array.push(fM.h, mH[off])
+                array.push(fM.l, mL[off])
+                array.push(fM.c, mC[off])
+                array.push(fM.v, mV[off])
+                array.push(fM.atr, mA[off])
+                array.push(fM.med, mMed[off])
+                array.push(fM.bi, bar_index - off)
+            else
+                last = array.size(fM.c) - 1
+                if last >= 0
+                    array.set(fM.h, last, mH[off])
+                    array.set(fM.l, last, mL[off])
+                    array.set(fM.c, last, mC[off])
+                    array.set(fM.v, last, mV[off])
+                    array.set(fM.atr, last, mA[off])
+                    array.set(fM.med, last, mMed[off])
+        if wantW and not na(wT[off])
+            fresh = off == oldest or na(wT[off + 1]) or wT[off] != wT[off + 1]
+            if fresh
+                array.push(fW.o, wO[off])
+                array.push(fW.h, wH[off])
+                array.push(fW.l, wL[off])
+                array.push(fW.c, wC[off])
+                array.push(fW.v, wV[off])
+                array.push(fW.atr, wA[off])
+                array.push(fW.med, wMed[off])
+                array.push(fW.bi, bar_index - off)
+            else
+                last = array.size(fW.c) - 1
+                if last >= 0
+                    array.set(fW.h, last, wH[off])
+                    array.set(fW.l, last, wL[off])
+                    array.set(fW.c, last, wC[off])
+                    array.set(fW.v, last, wV[off])
+                    array.set(fW.atr, last, wA[off])
+                    array.set(fW.med, last, wMed[off])
+
+    px = close
+
+    // TOP DOWN: monthly first, weekly over it, the chart frame over both.
+    // Pine renders later boxes above earlier ones, so this order IS the stack.
+    if wantM
+        [dM, sM] = zonesFor(fM, "M", ageM, perSideM, px)
+        drawAll(dM)
+        drawAll(sM)
+    if wantW
+        [dW, sW] = zonesFor(fW, "W", ageW, perSideW, px)
+        drawAll(dW)
+        drawAll(sW)
+
+    dC = array.new<Zone>()
+    sC = array.new<Zone>()
+    if useC
+        [d0, s0] = zonesFor(fC, chartTag, ageC, perSideC, px)
+        dC := d0
+        sC := s0
+        drawAll(dC)
+        drawAll(sC)
+
+    // ── the trend's control points, over the top of the zones
+    int trendDir = 0
+    if showTrend
+        // The uprights need a y-span; the scanned window's own extremes are the
+        // honest one — they cover exactly the bars the script read.
+        float loY = na
+        float hiY = na
+        if array.size(fC.c) > 0
+            for k = 0 to array.size(fC.c) - 1
+                l2 = array.get(fC.l, k)
+                h2 = array.get(fC.h, k)
+                loY := na(loY) ? l2 : math.min(loY, l2)
+                hiY := na(hiY) ? h2 : math.max(hiY, h2)
+        useF = trendFrame == "monthly" and wantM ? fM : trendFrame == "chart" ? fC : wantW ? fW : fC
+        tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? chartTag : wantW ? "W" : chartTag
+        if array.size(useF.c) > 2 * swingN
+            [zi, zp, zh] = buildZigzag(useF)
+            trendDir := drawTrend(useF, zi, zp, zh, tag, loY, hiY)
+
+    if showPanel
+        // The board's own position / bull / bear lines, off the CHART frame's
+        // zones — that is the frame a trade is actually taken on.
+        insD = insideText(dC, px)
+        insS = insideText(sC, px)
+        string posTxt = insD != "" ? insD : insS
+        if posTxt == ""
+            hasD = array.size(dC) > 0
+            hasS = array.size(sC) > 0
+            if hasD and hasS
+                d0 = array.get(dC, 0)
+                s0 = array.get(sC, 0)
+                posTxt := "between demand " + fmtZ(d0) + " ("
+                     + str.tostring((px - d0.hi) / px * 100, "#.#") + "% below) and supply "
+                     + fmtZ(s0) + " (" + str.tostring((s0.lo - px) / px * 100, "#.#") + "% above)"
+            else if hasS
+                posTxt := "below supply " + fmtZ(array.get(sC, 0)) + ", no demand within range"
+            else if hasD
+                posTxt := "above demand " + fmtZ(array.get(dC, 0)) + ", no supply within range"
+            else
+                posTxt := "no zone within range"
+        string bullTxt = "no supply within range — nothing to reclaim"
+        if array.size(sC) > 0
+            nb = nextBeyond(sC, true)
+            bullTxt := "close above " + fmtZ(array.get(sC, 0))
+                 + (nb < 0 ? "" : " → " + fmtZ(array.get(sC, nb)))
+        string bearTxt = "no demand within range — nothing left to lose"
+        if array.size(dC) > 0
+            nb = nextBeyond(dC, false)
+            bearTxt := "close below " + fmtZ(array.get(dC, 0))
+                 + (nb < 0 ? "" : " → " + fmtZ(array.get(dC, nb)))
+        head = "M " + (wantM ? "on" : "off") + " · W " + (wantW ? "on" : "off")
+             + " · " + timeframe.period + " " + (useC ? "on" : "off")
+             + "   base: " + baseMode
+        trendTxt = not showTrend ? "trend markers off"
+             : trendDir == 0 ? "no structural break yet — no trend to name"
+             : (trendFrame + " " + (trendDir > 0 ? "uptrend running — over on a lower low"
+                                                 : "downtrend running — over on a higher high"))
+        table.cell(panel, 0, 0, head,     text_size = size.tiny,  text_halign = text.align_left, bgcolor = color.new(color.gray, 80), text_color = chart.fg_color)
+        table.cell(panel, 0, 1, trendTxt, text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = trendCol)
+        table.cell(panel, 0, 2, posTxt,   text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = chart.fg_color)
+        table.cell(panel, 0, 3, bullTxt,  text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 90), text_color = demCol)
+        table.cell(panel, 0, 4, bearTxt,  text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 90), text_color = supCol)
