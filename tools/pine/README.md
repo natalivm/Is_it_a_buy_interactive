@@ -59,9 +59,9 @@ Frames stay identifiable without adding weight:
 
 | frame | border | label |
 |---|---|---|
-| monthly | dotted, thin | `M demand $… weak (3t/1c)` |
-| weekly | dashed, thin | `W …` |
-| chart | solid, thin | `D …` |
+| monthly | dotted, thin | `M` |
+| weekly | dashed, thin | `W` |
+| chart | solid, thin | the chart's own letter — `D` on a daily, `W` on a weekly |
 
 **One zone a side, per frame** — the nearest demand below and the nearest supply
 above. Six boxes at most, each a level price has to deal with next. The second-
@@ -146,9 +146,9 @@ pullback and no low has broken. The board's own weekly structure says neutral at
 the same moment, because `classify_structure()` requires a higher high **and** a
 higher low. Both are right about different questions.
 
-The **previous leg** is drawn faded alongside the running one, so the chart
-shows where the last trend was over as well as what has run since. 24 of the 25
-board tickers have one.
+The **previous leg** can be drawn faded alongside the running one — where the
+last trend was over as well as what has run since. It is off by default (24 of
+the 25 board tickers have one, and four lines is a grid rather than a read).
 
 Note what this is not: `classify_structure()` answers *what is the structure
 now* and abstains easily; the markers answer *which way is the trend until it
