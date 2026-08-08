@@ -98,6 +98,12 @@ volHeavy     = input.float(1.5,  "Heavy volume, x own median",     group = gZ, m
 maxZoneDist  = input.float(0.45, "Maximum distance from price",    group = gZ, minval = 0.02, step = 0.01, tooltip = "MAX_ZONE_DIST, a fraction of price.")
 scanBars     = input.int(1600,   "Chart history scanned, bars",    group = gZ, minval = 300, maxval = 5000)
 
+gT = "Trend control points"
+showTrend  = input.bool(true, "Mark where the trend started and ended", group = gT)
+trendFrame = input.string("weekly", "Read the trend on", options = ["weekly", "monthly", "chart"], group = gT, tooltip = "Weekly by default: it is the frame the board treats as structural, and the one whose swings survive a session.")
+trendCol   = input.color(#eab308, "Colour", group = gT, inline = "t")
+trendVert  = input.bool(true, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights at the two control points, so the DATES are readable as well as the levels.")
+
 gD = "Display"
 // Every zone is a thin outline over one light fill, and the fill is the SAME
 // weight on all three frames. That is deliberate: overlapping boxes composite,
@@ -280,18 +286,15 @@ nearestKind(array<Zone> src, bool wantDemand, float px, int n) =>
         array.remove(cand, best)
     out
 
-// ── the engine: one frame in, its zones out ────────────────────────────────
-// Frame-agnostic on purpose — the same rules draw the monthly, the weekly and
-// the chart's own, each measured in its OWN ATR and its own bars.
-zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
-    n = array.size(f.c)
-    dem = array.new<Zone>()
-    sup = array.new<Zone>()
-    if n > 2 * swingN + displaceBars
-        // swings(): strictly beyond every neighbour; a tie is not a pivot.
-        sIdx = array.new<int>()
-        sPx  = array.new<float>()
-        sHi  = array.new<bool>()
+// swings() + significant_swings(), over one frame. Pulled out of the zone
+// engine because the trend markers read the SAME zigzag — a trend drawn off one
+// set of pivots and zones drawn off another would be two different charts.
+buildZigzag(Frame f) =>
+    n    = array.size(f.c)
+    sIdx = array.new<int>()
+    sPx  = array.new<float>()
+    sHi  = array.new<bool>()
+    if n > 2 * swingN
         for b = swingN to n - 1 - swingN
             bool isHi = true
             bool isLo = true
@@ -306,6 +309,73 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                 addSwing(sIdx, sPx, sHi, b, array.get(f.h, b), true, a, swingMinAtr)
             if isLo
                 addSwing(sIdx, sPx, sHi, b, array.get(f.l, b), false, a, swingMinAtr)
+    [sIdx, sPx, sHi]
+
+// ── the trend's control points ─────────────────────────────────────────────
+// Where a trend STARTED and where it was OVER, off the same pivots the zones
+// use. The zigzag alternates high/low, so a pivot's own kind repeats every two
+// entries: comparing pivot k with pivot k−2 asks "higher high than the last
+// high?" or "lower low than the last low?" — which is classify_structure()'s
+// test (bullish = confirmed higher high AND higher low), one step at a time.
+//
+// A trend is then a maximal RUN of those comparisons pointing the same way.
+//
+// ⚠ A run needs at least TWO of them, and that is not a detail. One comparison
+// is one condition — either a higher high or a higher low, depending on which
+// kind of pivot the zigzag ended on — and classify_structure() requires BOTH
+// (bullish = confirmed higher high AND higher low). Accepting a single
+// comparison finds a "trend" on every chart, including ranges: checked against
+// the extractor's weekly verdict that version agreed on 7 tickers out of 25 and
+// never once returned neutral. Requiring two takes it to 20/25 with the
+// disagreements being genuine window differences.
+//
+// The MOST RECENT qualifying run is the one drawn. If it reaches the newest
+// comparison the trend is still running and the second control point is where
+// it has got to; if it does not, that is where the trend was over, and what has
+// happened since is the transition.
+//
+// Returns [startPivot, endPivot, dir, alive] as indices into the zigzag.
+cmpAt(array<float> sPx, int k) =>
+    array.get(sPx, k) > array.get(sPx, k - 2) ? 1 : array.get(sPx, k) < array.get(sPx, k - 2) ? -1 : 0
+
+trendRun(array<int> sIdx, array<float> sPx) =>
+    n = array.size(sIdx)
+    int pStart = -1
+    int pEnd   = -1
+    int dir    = 0
+    bool alive = false
+    if n >= 4
+        int k = n - 1
+        while k >= 3 and dir == 0
+            d = cmpAt(sPx, k)
+            if d == 0
+                k -= 1
+            else
+                int first = k
+                int j = k - 1
+                while j >= 2 and cmpAt(sPx, j) == d
+                    first := j
+                    j -= 1
+                if k - first >= 1
+                    // The earliest control point is the pivot the first winning
+                    // comparison measured FROM, two entries back.
+                    pStart := math.max(first - 2, 0)
+                    pEnd   := k
+                    dir    := d
+                    alive  := k == n - 1
+                else
+                    k := first - 1    // too short to be a trend — keep looking
+    [pStart, pEnd, dir, alive]
+
+// ── the engine: one frame in, its zones out ────────────────────────────────
+// Frame-agnostic on purpose — the same rules draw the monthly, the weekly and
+// the chart's own, each measured in its OWN ATR and its own bars.
+zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
+    n = array.size(f.c)
+    dem = array.new<Zone>()
+    sup = array.new<Zone>()
+    if n > 2 * swingN + displaceBars
+        [sIdx, sPx, sHi] = buildZigzag(f)
 
         // find_zones(): the impulse scan, in index order, with the same
         // `i += displaceBars` skip — one impulse leaves one zone, not three.
@@ -448,7 +518,8 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
 // ── drawing ────────────────────────────────────────────────────────────────
 var array<box>   drawnB = array.new<box>()
 var array<label> drawnL = array.new<label>()
-var table panel = table.new(position.top_right, 1, 4, border_width = 1)
+var array<line>  drawnT = array.new<line>()
+var table panel = table.new(position.top_right, 1, 5, border_width = 1)
 
 // One weight for every frame, so density means overlap and nothing else.
 zoneFill(string strength) =>
@@ -471,14 +542,12 @@ drawAll(array<Zone> list) =>
                         xloc = xloc.bar_index)
             array.push(drawnB, b)
             if showLabels
-                l = label.new(bar_index + 10, z.isDemand ? z.lo : z.hi,
-                              z.tf + " " + (z.isDemand ? "demand " : "supply ")
-                              + fmtZ(z) + "  " + z.strength
-                              + "  (" + str.tostring(z.touches) + "t/"
-                              + str.tostring(z.closesIn) + "c)",
-                              xloc = xloc.bar_index, style = label.style_label_left,
-                              color = color.new(base, 90), textcolor = base,
-                              size = size.tiny)
+                // Just the frame letter. The prices are on the axis, the grade
+                // is in the fill, and a stack of zones each captioned with its
+                // range and revisit counts buries the chart it is describing.
+                l = label.new(bar_index + 10, (z.hi + z.lo) / 2, z.tf,
+                              xloc = xloc.bar_index, style = label.style_none,
+                              textcolor = base, size = size.small)
                 array.push(drawnL, l)
 
 insideText(array<Zone> list, float px) =>
@@ -489,6 +558,37 @@ insideText(array<Zone> list, float px) =>
             if txt == "" and z.lo <= px and px <= z.hi
                 txt := "inside " + z.strength + (z.isDemand ? " demand " : " supply ") + fmtZ(z)
     txt
+
+// The two control points: a dashed line along the leg, an upright at each end
+// so the DATES read as well as the levels, and one caption per end.
+drawTrend(Frame f, array<int> sIdx, array<float> sPx, string tag,
+          float loY, float hiY) =>
+    [pStart, pEnd, dir, alive] = trendRun(sIdx, sPx)
+    if pStart >= 0 and pEnd > pStart
+        bi0 = array.get(f.bi, array.get(sIdx, pStart))
+        bi1 = array.get(f.bi, array.get(sIdx, pEnd))
+        px0 = array.get(sPx, pStart)
+        px1 = array.get(sPx, pEnd)
+        l = line.new(bi0, px0, bi1, px1, xloc = xloc.bar_index,
+                     color = trendCol, style = line.style_dashed, width = 2)
+        array.push(drawnT, l)
+        if trendVert
+            v0 = line.new(bi0, loY, bi0, hiY, xloc = xloc.bar_index,
+                          color = color.new(trendCol, 40), style = line.style_dashed, width = 1)
+            v1 = line.new(bi1, loY, bi1, hiY, xloc = xloc.bar_index,
+                          color = color.new(trendCol, 40), style = line.style_dashed, width = 1)
+            array.push(drawnT, v0)
+            array.push(drawnT, v1)
+        word = dir > 0 ? "uptrend" : "downtrend"
+        a = label.new(bi0, px0, tag + " " + word + " started",
+                      xloc = xloc.bar_index, style = label.style_label_lower_right,
+                      color = color.new(trendCol, 85), textcolor = trendCol, size = size.tiny)
+        b = label.new(bi1, px1, alive ? tag + " " + word + " — running" : tag + " " + word + " over",
+                      xloc = xloc.bar_index, style = label.style_label_upper_left,
+                      color = color.new(trendCol, 85), textcolor = trendCol, size = size.tiny)
+        array.push(drawnL, a)
+        array.push(drawnL, b)
+    [dir, alive]
 
 // _next_beyond(): the first zone that actually CLEARS the one being broken —
 // not simply the next entry, which can sit INSIDE it and name a target reached
@@ -512,8 +612,12 @@ if barstate.islast
     if array.size(drawnL) > 0
         for k = 0 to array.size(drawnL) - 1
             label.delete(array.get(drawnL, k))
+    if array.size(drawnT) > 0
+        for k = 0 to array.size(drawnT) - 1
+            line.delete(array.get(drawnT, k))
     array.clear(drawnB)
     array.clear(drawnL)
+    array.clear(drawnT)
 
     oldest = math.min(bar_index, scanBars - 1)
 
@@ -599,6 +703,27 @@ if barstate.islast
         drawAll(dC)
         drawAll(sC)
 
+    // ── the trend's control points, over the top of the zones
+    int  trendDir   = 0
+    bool trendAlive = false
+    if showTrend
+        // The uprights need a y-span; the scanned window's own extremes are the
+        // honest one — they cover exactly the bars the script read.
+        float loY = na
+        float hiY = na
+        for k = 0 to array.size(fC.c) - 1
+            l2 = array.get(fC.l, k)
+            h2 = array.get(fC.h, k)
+            loY := na(loY) ? l2 : math.min(loY, l2)
+            hiY := na(hiY) ? h2 : math.max(hiY, h2)
+        useF = trendFrame == "monthly" and wantM ? fM : trendFrame == "chart" ? fC : wantW ? fW : fC
+        tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? "D" : wantW ? "W" : "D"
+        if array.size(useF.c) > 2 * swingN
+            [zi, zp, zh] = buildZigzag(useF)
+            [dir2, alive2] = drawTrend(useF, zi, zp, tag, loY, hiY)
+            trendDir   := dir2
+            trendAlive := alive2
+
     if showPanel
         // The board's own position / bull / bear lines, off the CHART frame's
         // zones — that is the frame a trade is actually taken on.
@@ -631,7 +756,12 @@ if barstate.islast
         head = "M " + (wantM ? "on" : "off") + " · W " + (wantW ? "on" : "off")
              + " · " + timeframe.period + " " + (useC ? "on" : "off")
              + "   base: " + baseMode
-        table.cell(panel, 0, 0, head,    text_size = size.tiny,  text_halign = text.align_left, bgcolor = color.new(color.gray, 80), text_color = chart.fg_color)
-        table.cell(panel, 0, 1, posTxt,  text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = chart.fg_color)
-        table.cell(panel, 0, 2, bullTxt, text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 90), text_color = demCol)
-        table.cell(panel, 0, 3, bearTxt, text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 90), text_color = supCol)
+        trendTxt = not showTrend ? "trend markers off"
+             : trendDir == 0 ? "no trend run — structure is mixed"
+             : (trendFrame + " " + (trendDir > 0 ? "uptrend" : "downtrend")
+                + (trendAlive ? " — running" : " — over"))
+        table.cell(panel, 0, 0, head,     text_size = size.tiny,  text_halign = text.align_left, bgcolor = color.new(color.gray, 80), text_color = chart.fg_color)
+        table.cell(panel, 0, 1, trendTxt, text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = trendCol)
+        table.cell(panel, 0, 2, posTxt,   text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = chart.fg_color)
+        table.cell(panel, 0, 3, bullTxt,  text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 90), text_color = demCol)
+        table.cell(panel, 0, 4, bearTxt,  text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 90), text_color = supCol)

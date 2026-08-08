@@ -64,10 +64,11 @@ Frames stay identifiable without adding weight:
 | chart | solid, thin | `D …` |
 
 Each has its own **zones per side** and **age cap** (36 monthly bars ≈ 3y, 104
-weekly ≈ 2y, 252 chart bars — the board's `MAX_ZONE_AGE`). The label's `(Nt/Mc)`
-is revisits and closes INSIDE: a wick in and an immediate close back out is a
-rejection and counts as a touch; a close inside is acceptance, and acceptance is
-what eats a zone.
+weekly ≈ 2y, 252 chart bars — the board's `MAX_ZONE_AGE`).
+
+Labels are **one letter** — `M`, `W` or `D` — and nothing else. The prices are
+on the axis and the grade is in the fill, so a caption per zone carrying its
+range and revisit counts buries the chart it is describing.
 
 Tune the stacking with **Zone fill transparency** (default 85, one value for all
 frames): three stacked zones read roughly three times denser than one, so lower
@@ -78,6 +79,38 @@ computed from the **chart frame's** zones — the frame a trade is actually take
 on — including `_next_beyond()`, so a target is never a level inside the trigger
 that names it.
 
+## Trend control points
+
+A yellow dashed line marks **where the trend started and where it was over**,
+read on the **weekly** by default (monthly and chart frame are options). Dashed
+uprights at each end put the dates on the axis, and each end is captioned —
+`W uptrend started` and either `W uptrend — running` or `W uptrend over`.
+
+It comes off the same pivots the zones use, so the trend and the levels can
+never be two different readings of the chart. The zigzag alternates high/low, so
+a pivot's own kind repeats every two entries: comparing pivot *k* with pivot
+*k−2* asks "higher high than the last high?" or "higher low than the last low?"
+— `classify_structure()`'s test, one step at a time. A trend is a maximal run of
+those comparisons pointing the same way, and its control points are the run's
+first and last pivots.
+
+**A run needs at least two comparisons**, which is not a detail. One comparison
+is one condition — a higher high *or* a higher low, depending on which pivot the
+zigzag ended on — while `classify_structure()` requires both. Accepting a single
+one finds a "trend" on every chart, ranges included: measured against the
+extractor's weekly verdict, that version never once returned neutral.
+
+The most recent qualifying run is the one drawn. If it reaches the newest
+comparison the trend is still **running**; if it does not, that is where it was
+**over**, and what has happened since is the transition — which is the case on
+12 of the 25 board tickers.
+
+Note what this is not: `classify_structure()` answers *what is the structure
+now*, the markers answer *where was the last trend*. They disagree by design —
+on the current board the markers name a direction on 18 tickers where the
+extractor abstains. What must never happen is the two pointing OPPOSITE ways,
+and `verify_port.py` checks exactly that (currently **0 contradictions / 25**).
+
 ## Verifying the port
 
 ```bash
@@ -85,11 +118,13 @@ python3 tools/pine/verify_port.py            # every ticker in board.js
 python3 tools/pine/verify_port.py AXON TTD   # a few
 ```
 
-`verify_port.py` transliterates the indicator's `zonesFor()` — same loop bounds,
-same index arithmetic — and checks three things: board-rules parity against
-`structure.py` (**currently 50/50 zone lists identical across 25 tickers**,
-boundaries and grades both), that balance mode runs and by how much it differs,
-and that the same engine produces sane zones on weekly and monthly resamples.
+`verify_port.py` transliterates the indicator's `zonesFor()` and `trendRun()` —
+same loop bounds, same index arithmetic — and checks four things: board-rules
+parity against `structure.py` (**currently 50/50 zone lists identical across 25
+tickers**, boundaries and grades both), that balance mode runs and by how much
+it differs, that the same engine produces sane zones on weekly and monthly
+resamples, and that no trend marker contradicts the board's weekly structure.
+It exits non-zero on a zone mismatch or a trend contradiction.
 
 It needs network, so it is a manual check rather than a CI step. Run it after
 touching either side of the port — a change to `find_zones()` that is not

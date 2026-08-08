@@ -245,6 +245,64 @@ def key(zs):
     return [(round(z.lo, 4), round(z.hi, 4), z.strength) for z in zs]
 
 
+def zigzag(bars, atr):
+    """buildZigzag() — swings() then significant_swings(), one frame."""
+    H = [b["h"] for b in bars]
+    L = [b["l"] for b in bars]
+    sw = []
+
+    def add(idx, px, is_hi, a):
+        if not sw:
+            sw.append([idx, px, is_hi])
+            return
+        _, lp, lh = sw[-1]
+        if lh == is_hi:
+            if (is_hi and px > lp) or (not is_hi and px < lp):
+                sw[-1] = [idx, px, is_hi]
+            return
+        if a is None or a <= 0 or abs(px - lp) >= SWING_MIN_ATR * a:
+            sw.append([idx, px, is_hi])
+
+    for b in range(SWING_N, len(bars) - SWING_N):
+        if all(H[b + j] < H[b] for j in range(-SWING_N, SWING_N + 1) if j):
+            add(b, H[b], True, atr[b] if b < len(atr) else None)
+        if all(L[b + j] > L[b] for j in range(-SWING_N, SWING_N + 1) if j):
+            add(b, L[b], False, atr[b] if b < len(atr) else None)
+    return sw
+
+
+def trend_run(sw):
+    """trendRun() — the most recent maximal run of same-direction structure.
+
+    Comparing pivot k with pivot k-2 is classify_structure()'s test taken one
+    step at a time: a higher high than the last high, a higher low than the
+    last low. A run needs at least TWO such comparisons, because one is only
+    ONE of the two conditions classify_structure requires — accepting a single
+    one finds a trend on every chart, ranges included."""
+    n = len(sw)
+
+    def cmp_at(k):
+        return 1 if sw[k][1] > sw[k - 2][1] else -1 if sw[k][1] < sw[k - 2][1] else 0
+
+    if n < 4:
+        return None
+    k = n - 1
+    while k >= 3:
+        d = cmp_at(k)
+        if d == 0:
+            k -= 1
+            continue
+        first, j = k, k - 1
+        while j >= 2 and cmp_at(j) == d:
+            first = j
+            j -= 1
+        if k - first >= 1:
+            return {"start": max(first - 2, 0), "end": k, "dir": d,
+                    "alive": k == n - 1}
+        k = first - 1
+    return None
+
+
 def main():
     tickers = sys.argv[1:]
     if not tickers:
@@ -253,6 +311,7 @@ def main():
 
     bad = rows = 0
     diff_balance = 0
+    trend_stats = [0, 0, 0, 0]
     print("board-rules parity (must be exact) · balance-mode diff · M/W stack\n")
     for t in tickers:
         try:
@@ -290,11 +349,40 @@ def main():
         wD, wS = run_pine(wk, atr_for(wk), tf="W", max_age=104, per_side=2)
         mD, mS = run_pine(mo, atr_for(mo), tf="M", max_age=36, per_side=2)
         line.append(f"W {len(wD)}d/{len(wS)}s · M {len(mD)}d/{len(mS)}s")
+
+        # 4 — the weekly trend run against the board's own weekly structure
+        wsw = zigzag(wk, atr_for(wk))
+        tr = trend_run(wsw)
+        want = S.classify_structure(
+            [S.Swing(i_, p_, 'high' if h_ else 'low') for i_, p_, h_ in wsw],
+            wk, S.STRUCT_LOOKBACK['w'])
+        got = "neutral" if not tr else "bullish" if tr["dir"] > 0 else "bearish"
+        # The two answer DIFFERENT questions: classify_structure reads the
+        # CURRENT state, the run reads the LAST TREND, which may be over. So an
+        # exact match is not the bar — the bar is that they never point OPPOSITE
+        # ways, which would mean the yellow line contradicts the board.
+        contra = ({got, want} == {"bullish", "bearish"})
+        trend_stats[0] += 1
+        trend_stats[1] += 1 if got == want else 0
+        trend_stats[2] += 1 if contra else 0
+        trend_stats[3] += 1 if (tr and tr["alive"]) else 0
+        mark = "=" if got == want else "!!" if contra else "~"
+        line.append(f"trend {got[:4]}{mark}{want[:4]}"
+                    + ("" if not tr else ("/run" if tr["alive"] else "/over")))
         print(" ".join(line))
 
     print(f"\n{rows - bad}/{rows} board-rules zone lists identical · MISMATCHES: {bad}")
     print(f"balance mode differs from board rules on {diff_balance}/{rows} lists "
           f"(expected — it is a different base rule, not a bug)")
+    tot, same, contra, alive = trend_stats
+    print(f"weekly trend markers: {same}/{tot} name the same direction as "
+          f"classify_structure, {alive}/{tot} still running, "
+          f"{tot - same - contra}/{tot} name a trend where the extractor "
+          f"abstains (neutral)")
+    print(f"CONTRADICTIONS (marker bullish vs extractor bearish, or the "
+          f"reverse): {contra}/{tot}" + ("  ← must be 0" if contra else "  ✓"))
+    if contra:
+        return 1
     return 1 if bad else 0
 
 
