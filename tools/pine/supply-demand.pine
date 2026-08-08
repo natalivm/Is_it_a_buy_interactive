@@ -624,17 +624,17 @@ insideText(array<Zone> list, float px) =>
 // always slopes the way it is labelled.
 // The newest pivot of one kind inside a range — the level that has to hold for
 // the trend to still be a trend.
-lastOfKind(array<bool> sHi, int from, int to, bool wantHigh) =>
+lastOfKind(array<bool> sHi, int fromK, int toK, bool wantHigh) =>
     int best = -1
-    for k = from to to
+    for k = fromK to toK
         if array.get(sHi, k) == wantHigh
             best := k
     best
 
-extremeIn(array<float> sPx, array<bool> sHi, int from, int to, int dir) =>
+extremeIn(array<float> sPx, array<bool> sHi, int fromK, int toK, int dir) =>
     int best = -1
     float bestPx = na
-    for k = from to to
+    for k = fromK to toK
         if array.get(sHi, k) == (dir > 0)     // uptrend reads highs, downtrend lows
             px = array.get(sPx, k)
             if na(bestPx) or (dir > 0 ? px > bestPx : px < bestPx)
@@ -739,13 +739,13 @@ drawTrend(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi,
 // not simply the next entry, which can sit INSIDE it and name a target reached
 // before the break it is conditional on.
 nextBeyond(array<Zone> zs, bool wantSupply) =>
-    Zone found = na
+    int found = -1
     if array.size(zs) > 1
         first = array.get(zs, 0)
         for k = 1 to array.size(zs) - 1
             z = array.get(zs, k)
             if (wantSupply ? z.lo > first.hi : z.hi < first.lo)
-                found := z
+                found := k
                 break
     found
 
@@ -855,11 +855,12 @@ if barstate.islast
         // honest one — they cover exactly the bars the script read.
         float loY = na
         float hiY = na
-        for k = 0 to array.size(fC.c) - 1
-            l2 = array.get(fC.l, k)
-            h2 = array.get(fC.h, k)
-            loY := na(loY) ? l2 : math.min(loY, l2)
-            hiY := na(hiY) ? h2 : math.max(hiY, h2)
+        if array.size(fC.c) > 0
+            for k = 0 to array.size(fC.c) - 1
+                l2 = array.get(fC.l, k)
+                h2 = array.get(fC.h, k)
+                loY := na(loY) ? l2 : math.min(loY, l2)
+                hiY := na(hiY) ? h2 : math.max(hiY, h2)
         useF = trendFrame == "monthly" and wantM ? fM : trendFrame == "chart" ? fC : wantW ? fW : fC
         tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? chartTag : wantW ? "W" : chartTag
         if array.size(useF.c) > 2 * swingN
@@ -890,11 +891,13 @@ if barstate.islast
         string bullTxt = "no supply within range — nothing to reclaim"
         if array.size(sC) > 0
             nb = nextBeyond(sC, true)
-            bullTxt := "close above " + fmtZ(array.get(sC, 0)) + (na(nb) ? "" : " → " + fmtZ(nb))
+            bullTxt := "close above " + fmtZ(array.get(sC, 0))
+                 + (nb < 0 ? "" : " → " + fmtZ(array.get(sC, nb)))
         string bearTxt = "no demand within range — nothing left to lose"
         if array.size(dC) > 0
             nb = nextBeyond(dC, false)
-            bearTxt := "close below " + fmtZ(array.get(dC, 0)) + (na(nb) ? "" : " → " + fmtZ(nb))
+            bearTxt := "close below " + fmtZ(array.get(dC, 0))
+                 + (nb < 0 ? "" : " → " + fmtZ(array.get(dC, nb)))
         head = "M " + (wantM ? "on" : "off") + " · W " + (wantW ? "on" : "off")
              + " · " + timeframe.period + " " + (useC ? "on" : "off")
              + "   base: " + baseMode
