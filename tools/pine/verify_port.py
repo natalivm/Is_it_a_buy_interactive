@@ -46,7 +46,6 @@ CROSS_OVERLAP = 0.5
 MAX_ZONE_DIST = 0.45
 MAX_BASE_BARS = 4
 BALANCE_BODY = 0.5
-GAP_MIN_ATR = 0.05
 
 
 class Z:
@@ -73,7 +72,7 @@ def med_series(vols, n=VOL_BASE):
 
 
 def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
-             max_dist=MAX_ZONE_DIST, base="balance", gaps=False):
+             max_dist=MAX_ZONE_DIST, base="balance"):
     """supply-demand.pine's zonesFor(), line for line."""
     O = [b["o"] for b in bars]
     H = [b["h"] for b in bars]
@@ -159,17 +158,6 @@ def run_pine(bars, atr, tf="D", max_age=252, per_side=3,
                     else:
                         zlo = min(min(O[k], C[k]) for k in span)
                         zhi = max(H[k] for k in span)
-                    # A gap is price nobody traded, so it is more of the same
-                    # level rather than its edge. Only the bar BEFORE the base
-                    # can leave one on the zone's outer side: supply departs
-                    # downwards and demand upwards, so neither impulse can.
-                    if gaps and start - 1 >= 0:
-                        if is_dem and H[start - 1] < zlo \
-                                and zlo - H[start - 1] >= GAP_MIN_ATR * a:
-                            zlo = H[start - 1]
-                        if not is_dem and L[start - 1] > zhi \
-                                and L[start - 1] - zhi >= GAP_MIN_ATR * a:
-                            zhi = L[start - 1]
                     vals = [rel_vol(k) for k in range(i, min(i + DISPLACE_BARS, n))]
                     vals = [v for v in vals if v > 0]
                     raw.append(Z(is_dem, zlo, zhi, j, a,
@@ -327,7 +315,6 @@ def main():
     bad = rows = 0
     diff_balance = 0
     trend_stats = [0, 0, 0, 0, 0]
-    gap_stats = [0, 0]
     print("board-rules parity (must be exact) · balance-mode diff · M/W stack\n")
     for t in tickers:
         try:
@@ -358,15 +345,6 @@ def main():
                     if a != b)
         diff_balance += moved
         line.append(f"balance:{moved}/2 differ")
-
-        # 2b — the gap rule, also reported not enforced: a gap is untraded
-        # price, so it is more of the same level rather than its edge.
-        gD, gS = run_pine(bars, atr, base="balance", gaps=True)
-        gmoved = sum(1 for a_, b_ in ((key(bD), key(gD)), (key(bS), key(gS)))
-                     if a_ != b_)
-        gap_stats[0] += 2
-        gap_stats[1] += gmoved
-        line.append(f"gaps:{gmoved}/2")
 
         # 3 — the same engine on the higher frames, as the indicator runs it
         wk = ind.resample(bars, "W")
@@ -417,9 +395,6 @@ def main():
     print(f"\n{rows - bad}/{rows} board-rules zone lists identical · MISMATCHES: {bad}")
     print(f"balance mode differs from board rules on {diff_balance}/{rows} lists "
           f"(expected — it is a different base rule, not a bug)")
-    print(f"gap rule moves {gap_stats[1]}/{gap_stats[0]} daily zone lists "
-          f"(a zone is widened only where the bar before the base sits clear "
-          f"of it)")
     tot, same, contra, alive, badlevel = trend_stats
     print(f"weekly trend markers: {same}/{tot} name the same direction as "
           f"classify_structure, {alive}/{tot} also have a completed previous leg, "
