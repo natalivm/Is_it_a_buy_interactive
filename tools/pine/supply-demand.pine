@@ -103,6 +103,7 @@ showTrend  = input.bool(true, "Mark where the trend started and ended", group = 
 trendFrame = input.string("weekly", "Read the trend on", options = ["weekly", "monthly", "chart"], group = gT, tooltip = "Weekly by default: it is the frame the board treats as structural, and the one whose swings survive a session.")
 trendCol   = input.color(#eab308, "Colour", group = gT, inline = "t")
 trendVert  = input.bool(true, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights at the two control points, so the DATES are readable as well as the levels.")
+showPrevLeg = input.bool(true, "Also draw the previous leg, faded", group = gT, tooltip = "The trend before this one, from where it started to where it was over. Off leaves only the leg that is running.")
 
 gD = "Display"
 // Every zone is a thin outline over one light fill, and the fill is the SAME
@@ -313,59 +314,72 @@ buildZigzag(Frame f) =>
 
 // ── the trend's control points ─────────────────────────────────────────────
 // Where a trend STARTED and where it was OVER, off the same pivots the zones
-// use. The zigzag alternates high/low, so a pivot's own kind repeats every two
-// entries: comparing pivot k with pivot k−2 asks "higher high than the last
-// high?" or "lower low than the last low?" — which is classify_structure()'s
-// test (bullish = confirmed higher high AND higher low), one step at a time.
+// use.
 //
-// A trend is then a maximal RUN of those comparisons pointing the same way.
+// ⚠ A TREND ENDS ON A BREAK OF THE OPPOSITE SIDE, and only there:
 //
-// ⚠ A run needs at least TWO of them, and that is not a detail. One comparison
-// is one condition — either a higher high or a higher low, depending on which
-// kind of pivot the zigzag ended on — and classify_structure() requires BOTH
-// (bullish = confirmed higher high AND higher low). Accepting a single
-// comparison finds a "trend" on every chart, including ranges: checked against
-// the extractor's weekly verdict that version agreed on 7 tickers out of 25 and
-// never once returned neutral. Requiring two takes it to 20/25 with the
-// disagreements being genuine window differences.
+//     an UPTREND is over when price makes a LOWER LOW
+//     a DOWNTREND is over when price makes a HIGHER HIGH
 //
-// The MOST RECENT qualifying run is the one drawn. If it reaches the newest
-// comparison the trend is still running and the second control point is where
-// it has got to; if it does not, that is where the trend was over, and what has
-// happened since is the transition.
+// This is the part that is easy to get wrong, and the first version of this
+// function did: it ended a run at the first comparison pointing the other way,
+// whichever kind of pivot that was — so a lower HIGH killed an uptrend. A lower
+// high is a pullback. An uptrend that keeps making higher lows is intact no
+// matter how many lower highs it prints along the way, and the trend is only
+// finished when the lows give way.
 //
-// Returns [startPivot, endPivot, dir, alive] as indices into the zigzag.
-cmpAt(array<float> sPx, int k) =>
-    array.get(sPx, k) > array.get(sPx, k - 2) ? 1 : array.get(sPx, k) < array.get(sPx, k - 2) ? -1 : 0
-
-trendRun(array<int> sIdx, array<float> sPx) =>
-    n = array.size(sIdx)
-    int pStart = -1
-    int pEnd   = -1
-    int dir    = 0
-    bool alive = false
-    if n >= 4
-        int k = n - 1
-        while k >= 3 and dir == 0
-            d = cmpAt(sPx, k)
-            if d == 0
-                k -= 1
+// So each direction watches ONE side of the zigzag:
+//
+//     uptrend    lives on the lows,  dies on a lower low
+//     downtrend  lives on the highs, dies on a higher high
+//
+// …and the break that kills one starts the other, which is why the state
+// machine below never returns to neutral once it has started. The control
+// points fall out of it: an uptrend STARTS at the swing low it was launched
+// from (the last low before the high that broke) and is OVER at the low that
+// broke its predecessor; a downtrend mirrors that on the highs.
+//
+// Returns the last COMPLETED leg and the CURRENT one:
+//   [prevStart, prevEnd, prevDir, curStart, curDir]  — pivot indices, dir ±1
+trendLegs(array<float> sPx, array<bool> sHi) =>
+    n = array.size(sPx)
+    int prevStart = -1
+    int prevEnd   = -1
+    int prevDir   = 0
+    int curStart  = -1
+    int curDir    = 0
+    float prevHigh = na
+    float prevLow  = na
+    int lastHighP  = -1
+    int lastLowP   = -1
+    if n >= 3
+        for k = 0 to n - 1
+            px = array.get(sPx, k)
+            if array.get(sHi, k)
+                // A higher high ends a downtrend and starts an uptrend.
+                if not na(prevHigh) and px > prevHigh
+                    if curDir == -1
+                        prevStart := curStart
+                        prevEnd   := k
+                        prevDir   := -1
+                    if curDir != 1
+                        curDir   := 1
+                        curStart := lastLowP >= 0 ? lastLowP : k
+                prevHigh := px
+                lastHighP := k
             else
-                int first = k
-                int j = k - 1
-                while j >= 2 and cmpAt(sPx, j) == d
-                    first := j
-                    j -= 1
-                if k - first >= 1
-                    // The earliest control point is the pivot the first winning
-                    // comparison measured FROM, two entries back.
-                    pStart := math.max(first - 2, 0)
-                    pEnd   := k
-                    dir    := d
-                    alive  := k == n - 1
-                else
-                    k := first - 1    // too short to be a trend — keep looking
-    [pStart, pEnd, dir, alive]
+                // A lower low ends an uptrend and starts a downtrend.
+                if not na(prevLow) and px < prevLow
+                    if curDir == 1
+                        prevStart := curStart
+                        prevEnd   := k
+                        prevDir   := 1
+                    if curDir != -1
+                        curDir   := -1
+                        curStart := lastHighP >= 0 ? lastHighP : k
+                prevLow := px
+                lastLowP := k
+    [prevStart, prevEnd, prevDir, curStart, curDir]
 
 // ── the engine: one frame in, its zones out ────────────────────────────────
 // Frame-agnostic on purpose — the same rules draw the monthly, the weekly and
@@ -559,36 +573,52 @@ insideText(array<Zone> list, float px) =>
                 txt := "inside " + z.strength + (z.isDemand ? " demand " : " supply ") + fmtZ(z)
     txt
 
-// The two control points: a dashed line along the leg, an upright at each end
-// so the DATES read as well as the levels, and one caption per end.
-drawTrend(Frame f, array<int> sIdx, array<float> sPx, string tag,
-          float loY, float hiY) =>
-    [pStart, pEnd, dir, alive] = trendRun(sIdx, sPx)
-    if pStart >= 0 and pEnd > pStart
-        bi0 = array.get(f.bi, array.get(sIdx, pStart))
-        bi1 = array.get(f.bi, array.get(sIdx, pEnd))
-        px0 = array.get(sPx, pStart)
-        px1 = array.get(sPx, pEnd)
-        l = line.new(bi0, px0, bi1, px1, xloc = xloc.bar_index,
-                     color = trendCol, style = line.style_dashed, width = 2)
-        array.push(drawnT, l)
-        if trendVert
-            v0 = line.new(bi0, loY, bi0, hiY, xloc = xloc.bar_index,
-                          color = color.new(trendCol, 40), style = line.style_dashed, width = 1)
-            v1 = line.new(bi1, loY, bi1, hiY, xloc = xloc.bar_index,
-                          color = color.new(trendCol, 40), style = line.style_dashed, width = 1)
-            array.push(drawnT, v0)
-            array.push(drawnT, v1)
-        word = dir > 0 ? "uptrend" : "downtrend"
-        a = label.new(bi0, px0, tag + " " + word + " started",
-                      xloc = xloc.bar_index, style = label.style_label_lower_right,
-                      color = color.new(trendCol, 85), textcolor = trendCol, size = size.tiny)
-        b = label.new(bi1, px1, alive ? tag + " " + word + " — running" : tag + " " + word + " over",
-                      xloc = xloc.bar_index, style = label.style_label_upper_left,
-                      color = color.new(trendCol, 85), textcolor = trendCol, size = size.tiny)
-        array.push(drawnL, a)
-        array.push(drawnL, b)
-    [dir, alive]
+// One leg: a dashed line along it, an upright at each end so the DATES read as
+// well as the levels, and a caption at each end.
+drawLeg(Frame f, array<int> sIdx, array<float> sPx, string tag, int dir,
+        int pStart, int pEnd, bool running, float loY, float hiY, int transp) =>
+    bi0 = array.get(f.bi, array.get(sIdx, pStart))
+    bi1 = array.get(f.bi, array.get(sIdx, pEnd))
+    px0 = array.get(sPx, pStart)
+    px1 = array.get(sPx, pEnd)
+    col = color.new(trendCol, transp)
+    l = line.new(bi0, px0, bi1, px1, xloc = xloc.bar_index,
+                 color = col, style = line.style_dashed, width = 2)
+    array.push(drawnT, l)
+    if trendVert
+        v0 = line.new(bi0, loY, bi0, hiY, xloc = xloc.bar_index,
+                      color = color.new(trendCol, math.min(transp + 40, 95)),
+                      style = line.style_dashed, width = 1)
+        v1 = line.new(bi1, loY, bi1, hiY, xloc = xloc.bar_index,
+                      color = color.new(trendCol, math.min(transp + 40, 95)),
+                      style = line.style_dashed, width = 1)
+        array.push(drawnT, v0)
+        array.push(drawnT, v1)
+    word = dir > 0 ? "uptrend" : "downtrend"
+    // The break that ended it is named, because that is the whole test: an
+    // uptrend dies on a lower low, a downtrend on a higher high.
+    endTxt = running ? tag + " " + word + " — running"
+             : tag + " " + word + " over — " + (dir > 0 ? "lower low" : "higher high")
+    a = label.new(bi0, px0, tag + " " + word + " started",
+                  xloc = xloc.bar_index, style = label.style_label_lower_right,
+                  color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
+    b = label.new(bi1, px1, endTxt,
+                  xloc = xloc.bar_index, style = label.style_label_upper_left,
+                  color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
+    array.push(drawnL, a)
+    array.push(drawnL, b)
+
+// The last completed leg (faded) and the current one — so the chart shows where
+// the last trend was over AND what has been running since.
+drawTrend(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi,
+          string tag, float loY, float hiY) =>
+    [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sPx, sHi)
+    n = array.size(sIdx)
+    if showPrevLeg and pDir != 0 and pStart >= 0 and pEnd > pStart
+        drawLeg(f, sIdx, sPx, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
+    if cDir != 0 and cStart >= 0 and n - 1 > cStart
+        drawLeg(f, sIdx, sPx, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
+    cDir
 
 // _next_beyond(): the first zone that actually CLEARS the one being broken —
 // not simply the next entry, which can sit INSIDE it and name a target reached
@@ -704,8 +734,7 @@ if barstate.islast
         drawAll(sC)
 
     // ── the trend's control points, over the top of the zones
-    int  trendDir   = 0
-    bool trendAlive = false
+    int trendDir = 0
     if showTrend
         // The uprights need a y-span; the scanned window's own extremes are the
         // honest one — they cover exactly the bars the script read.
@@ -720,9 +749,7 @@ if barstate.islast
         tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? "D" : wantW ? "W" : "D"
         if array.size(useF.c) > 2 * swingN
             [zi, zp, zh] = buildZigzag(useF)
-            [dir2, alive2] = drawTrend(useF, zi, zp, tag, loY, hiY)
-            trendDir   := dir2
-            trendAlive := alive2
+            trendDir := drawTrend(useF, zi, zp, zh, tag, loY, hiY)
 
     if showPanel
         // The board's own position / bull / bear lines, off the CHART frame's
@@ -757,9 +784,9 @@ if barstate.islast
              + " · " + timeframe.period + " " + (useC ? "on" : "off")
              + "   base: " + baseMode
         trendTxt = not showTrend ? "trend markers off"
-             : trendDir == 0 ? "no trend run — structure is mixed"
-             : (trendFrame + " " + (trendDir > 0 ? "uptrend" : "downtrend")
-                + (trendAlive ? " — running" : " — over"))
+             : trendDir == 0 ? "no structural break yet — no trend to name"
+             : (trendFrame + " " + (trendDir > 0 ? "uptrend running — over on a lower low"
+                                                 : "downtrend running — over on a higher high"))
         table.cell(panel, 0, 0, head,     text_size = size.tiny,  text_halign = text.align_left, bgcolor = color.new(color.gray, 80), text_color = chart.fg_color)
         table.cell(panel, 0, 1, trendTxt, text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = trendCol)
         table.cell(panel, 0, 2, posTxt,   text_size = size.small, text_halign = text.align_left, bgcolor = color.new(color.gray, 85), text_color = chart.fg_color)

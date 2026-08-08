@@ -87,29 +87,43 @@ uprights at each end put the dates on the axis, and each end is captioned —
 `W uptrend started` and either `W uptrend — running` or `W uptrend over`.
 
 It comes off the same pivots the zones use, so the trend and the levels can
-never be two different readings of the chart. The zigzag alternates high/low, so
-a pivot's own kind repeats every two entries: comparing pivot *k* with pivot
-*k−2* asks "higher high than the last high?" or "higher low than the last low?"
-— `classify_structure()`'s test, one step at a time. A trend is a maximal run of
-those comparisons pointing the same way, and its control points are the run's
-first and last pivots.
+never be two different readings of the chart.
 
-**A run needs at least two comparisons**, which is not a detail. One comparison
-is one condition — a higher high *or* a higher low, depending on which pivot the
-zigzag ended on — while `classify_structure()` requires both. Accepting a single
-one finds a "trend" on every chart, ranges included: measured against the
-extractor's weekly verdict, that version never once returned neutral.
+### A trend ends on a break of the opposite side
 
-The most recent qualifying run is the one drawn. If it reaches the newest
-comparison the trend is still **running**; if it does not, that is where it was
-**over**, and what has happened since is the transition — which is the case on
-12 of the 25 board tickers.
+```
+an UPTREND is over when price makes a LOWER LOW
+a DOWNTREND is over when price makes a HIGHER HIGH
+```
+
+That is the whole rule, and it is the part that is easy to get wrong — an
+earlier version of this ended a trend at the first swing pointing the other way,
+whichever kind it was, so a lower **high** killed an uptrend. A lower high is a
+pullback. An uptrend making higher lows is intact however many lower highs it
+prints, and it is finished only when the lows give way.
+
+So each direction watches one side of the zigzag: **uptrends live on the lows,
+downtrends live on the highs**, and the break that kills one starts the other.
+The control points fall out of that — an uptrend starts at the swing low it was
+launched from and is over at the low that broke its predecessor.
+
+**Expect it to be slow, because that is what a trend rule is.** AKAM's weekly
+lows run 84.54 → 88.50 → 108.84 while its last high, 131.08, is below the
+previous 165.45. The marker reads *uptrend running*: the lower high is a
+pullback and no low has broken. The board's own weekly structure says neutral at
+the same moment, because `classify_structure()` requires a higher high **and** a
+higher low. Both are right about different questions.
+
+The **previous leg** is drawn faded alongside the running one, so the chart
+shows where the last trend was over as well as what has run since. 24 of the 25
+board tickers have one.
 
 Note what this is not: `classify_structure()` answers *what is the structure
-now*, the markers answer *where was the last trend*. They disagree by design —
-on the current board the markers name a direction on 18 tickers where the
-extractor abstains. What must never happen is the two pointing OPPOSITE ways,
-and `verify_port.py` checks exactly that (currently **0 contradictions / 25**).
+now* and abstains easily; the markers answer *which way is the trend until it
+breaks* and hold a direction through pullbacks. They disagree by design — on the
+current board the markers name a direction on 18 tickers where the extractor
+says neutral. What must never happen is the two pointing OPPOSITE ways, and
+`verify_port.py` checks exactly that (currently **0 contradictions / 25**).
 
 ## Verifying the port
 

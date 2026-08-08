@@ -271,36 +271,39 @@ def zigzag(bars, atr):
     return sw
 
 
-def trend_run(sw):
-    """trendRun() — the most recent maximal run of same-direction structure.
+def trend_legs(sw):
+    """trendLegs() — a trend ends on a break of the OPPOSITE side, and only there.
 
-    Comparing pivot k with pivot k-2 is classify_structure()'s test taken one
-    step at a time: a higher high than the last high, a higher low than the
-    last low. A run needs at least TWO such comparisons, because one is only
-    ONE of the two conditions classify_structure requires — accepting a single
-    one finds a trend on every chart, ranges included."""
-    n = len(sw)
+        an UPTREND is over when price makes a LOWER LOW
+        a DOWNTREND is over when price makes a HIGHER HIGH
 
-    def cmp_at(k):
-        return 1 if sw[k][1] > sw[k - 2][1] else -1 if sw[k][1] < sw[k - 2][1] else 0
+    A lower high is a pullback, not the end of an uptrend. So each direction
+    watches one side of the zigzag: uptrends live on the lows, downtrends on the
+    highs, and the break that kills one starts the other.
 
-    if n < 4:
-        return None
-    k = n - 1
-    while k >= 3:
-        d = cmp_at(k)
-        if d == 0:
-            k -= 1
-            continue
-        first, j = k, k - 1
-        while j >= 2 and cmp_at(j) == d:
-            first = j
-            j -= 1
-        if k - first >= 1:
-            return {"start": max(first - 2, 0), "end": k, "dir": d,
-                    "alive": k == n - 1}
-        k = first - 1
-    return None
+    Returns (prev_leg, cur_dir) where prev_leg is the last COMPLETED leg."""
+    prev = None
+    cur_dir, cur_start = 0, -1
+    prev_high = prev_low = None
+    last_high_p = last_low_p = -1
+    for k, (_, px, is_hi) in enumerate(sw):
+        if is_hi:
+            if prev_high is not None and px > prev_high:
+                if cur_dir == -1:
+                    prev = {"start": cur_start, "end": k, "dir": -1}
+                if cur_dir != 1:
+                    cur_dir = 1
+                    cur_start = last_low_p if last_low_p >= 0 else k
+            prev_high, last_high_p = px, k
+        else:
+            if prev_low is not None and px < prev_low:
+                if cur_dir == 1:
+                    prev = {"start": cur_start, "end": k, "dir": 1}
+                if cur_dir != -1:
+                    cur_dir = -1
+                    cur_start = last_high_p if last_high_p >= 0 else k
+            prev_low, last_low_p = px, k
+    return prev, cur_dir
 
 
 def main():
@@ -352,11 +355,11 @@ def main():
 
         # 4 — the weekly trend run against the board's own weekly structure
         wsw = zigzag(wk, atr_for(wk))
-        tr = trend_run(wsw)
+        prev_leg, cur_dir = trend_legs(wsw)
         want = S.classify_structure(
             [S.Swing(i_, p_, 'high' if h_ else 'low') for i_, p_, h_ in wsw],
             wk, S.STRUCT_LOOKBACK['w'])
-        got = "neutral" if not tr else "bullish" if tr["dir"] > 0 else "bearish"
+        got = "neutral" if cur_dir == 0 else "bullish" if cur_dir > 0 else "bearish"
         # The two answer DIFFERENT questions: classify_structure reads the
         # CURRENT state, the run reads the LAST TREND, which may be over. So an
         # exact match is not the bar — the bar is that they never point OPPOSITE
@@ -365,10 +368,10 @@ def main():
         trend_stats[0] += 1
         trend_stats[1] += 1 if got == want else 0
         trend_stats[2] += 1 if contra else 0
-        trend_stats[3] += 1 if (tr and tr["alive"]) else 0
+        trend_stats[3] += 1 if prev_leg else 0
         mark = "=" if got == want else "!!" if contra else "~"
         line.append(f"trend {got[:4]}{mark}{want[:4]}"
-                    + ("" if not tr else ("/run" if tr["alive"] else "/over")))
+                    + ("/prev" if prev_leg else ""))
         print(" ".join(line))
 
     print(f"\n{rows - bad}/{rows} board-rules zone lists identical · MISMATCHES: {bad}")
@@ -376,7 +379,7 @@ def main():
           f"(expected — it is a different base rule, not a bug)")
     tot, same, contra, alive = trend_stats
     print(f"weekly trend markers: {same}/{tot} name the same direction as "
-          f"classify_structure, {alive}/{tot} still running, "
+          f"classify_structure, {alive}/{tot} also have a completed previous leg, "
           f"{tot - same - contra}/{tot} name a trend where the extractor "
           f"abstains (neutral)")
     print(f"CONTRADICTIONS (marker bullish vs extractor bearish, or the "
