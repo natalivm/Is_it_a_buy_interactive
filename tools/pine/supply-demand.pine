@@ -730,9 +730,9 @@ drawTrend(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi,
     [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sPx, sHi)
     n = array.size(sIdx)
     if showPrevLeg and pDir != 0 and pStart >= 0 and pEnd > pStart
-        drawLeg(f, sIdx, sPx, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
+        drawLeg(f, sIdx, sPx, sHi, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
     if cDir != 0 and cStart >= 0 and n - 1 > cStart
-        drawLeg(f, sIdx, sPx, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
+        drawLeg(f, sIdx, sPx, sHi, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
     cDir
 
 // _next_beyond(): the first zone that actually CLEARS the one being broken —

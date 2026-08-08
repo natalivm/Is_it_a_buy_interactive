@@ -178,6 +178,26 @@ current board the markers name a direction on 18 tickers where the extractor
 says neutral. What must never happen is the two pointing OPPOSITE ways, and
 `verify_port.py` checks exactly that (currently **0 contradictions / 25**).
 
+## Checking it without a compiler
+
+```bash
+python3 tools/pine/lint_pine.py
+```
+
+TradingView reports one error per round trip, and the round trip is a human
+pasting a file into a browser. `lint_pine.py` catches the classes of mistake
+that loop is worst at, none of which need a compiler: **call arity** against
+each function's definition, **`Type.new()`** against its field count,
+**declaration order** (Pine has no forward declarations), **reserved words** used
+as identifiers, and **unguarded `for k = 0 to array.size(x) - 1`** sweeps, which
+count downwards on an empty array.
+
+Both errors that cost a paste-and-report cycle were of exactly this kind — a
+parameter named `to`, and a call site left at the old arity after `drawLeg()`
+grew a parameter — and both are caught by it now. It is a linter, not a parser:
+a clean run does not mean the script compiles, it means these five mistakes are
+not in it.
+
 ## Verifying the port
 
 ```bash
