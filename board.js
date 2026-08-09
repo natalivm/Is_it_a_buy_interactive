@@ -1314,7 +1314,7 @@ const BOARD = {
         "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
         "why": {
           "d": "+7.62% to $51.11 (O 50.68 H 53.47 L 48.17); closed 4c over the 50-EMA $51.07",
-          "w": "recovering off $41.28 demand but still under the weekly mid-band $55–56"
+          "w": "recovering off the early-August base UNDER $40 — the lower daily band $38.38 — but still under the weekly mid-band $55–56"
         }
       },
       "parts": {
@@ -1334,28 +1334,20 @@ const BOARD = {
       "combo": "daily up, weekly repairing",
       "demand": [
         {
-          "lo": 44.0,
-          "hi": 46.0,
+          "lo": 44,
+          "hi": 46,
           "strength": "tested",
           "origin": "strong",
           "since": "2026-08-07",
-          "note": "daily demand — the more important support if momentum cools"
+          "note": "daily demand — the 9-EMA $46.37 and BB mid $45.70 sit inside it"
         },
         {
-          "lo": 40.5,
-          "hi": 42.0,
+          "lo": 38,
+          "hi": 40,
           "strength": "tested",
           "origin": "strong",
-          "since": "2026-08-07",
-          "note": "major weekly/monthly demand — the $41.28 low the recovery started from"
-        },
-        {
-          "lo": 31.0,
-          "hi": 33.0,
-          "strength": "weak",
-          "origin": "thin",
-          "since": "2026-08-07",
-          "note": "deeper HTF demand"
+          "since": "2026-08-09",
+          "note": "the REAL base this recovery started from — lower daily band $38.38; replaces the spurious $40.50–42.00/$41.28 band, which the chart falsifies (the low is under $40)"
         }
       ],
       "supply": [
@@ -1365,7 +1357,7 @@ const BOARD = {
           "strength": "tested",
           "origin": "strong",
           "since": "2026-08-07",
-          "note": "immediate supply — price is pressing it"
+          "note": "immediate supply — today's high $53.47 traded INTO it and closed back under at $51.11; the upper daily band $53.01 sits inside"
         },
         {
           "lo": 55.0,
@@ -1403,16 +1395,16 @@ const BOARD = {
           "note": "RE-ANCHORED — board daily demand $44–46 with the 9-EMA $46.37 and the BB mid $45.70 inside it"
         }
       ],
-      "position": "sitting ON the 50-EMA $51.07 with a 9.2% air pocket beneath it to demand $44.00–46.40; supply $52.50–54.00 above, 200-EMA $55.17 the overhead line",
+      "position": "closed 4c over the 50-EMA $51.07 after the high $53.47 was rejected out of supply $52.50–54.00; a 9.2% air pocket beneath to demand $44.00–46.40, 200-EMA $55.17 above",
       "bull": "hold the 50-EMA $51.07 and break $52.50–54.00 → the 200-EMA $55.17, then $60.00–64.00",
-      "bear": "lose the 50-EMA $51.07 and there is no reference until $46.40–44.00; below $44.00 the major weekly demand $40.50–42.00 is next",
-      "retest": "$44.00–46.40 is the first REAL support beneath price — the 9-EMA, the BB mid and board demand together; the old $49–50 idea had nothing in it",
+      "bear": "lose the 50-EMA $51.07 and there is no reference until $46.40–44.00; below $44.00 the next real demand is the base $38.00–40.00 at the lower band $38.38",
+      "retest": "$44.00–46.40 is the first REAL support beneath price — the 9-EMA, the BB mid and board demand together; below it nothing until the $38–40 base",
       "longCandidate": "Yes, but the entry is deeper than it looked: **$44–46.40**, 1.54 ATR below. Holding the 50-EMA $51.07 is the near-term tell.",
       "longSetup": "Hold **$44–46.40** — the 9-EMA $46.37 and BB mid $45.70 sit inside board demand $44–46 — form a 4H higher low and break **$52.50–54** → the 200-EMA **$55.17**, then **$60–64**.",
-      "shortSetup": "Losing the 50-EMA **$51.07** opens a 9.2% air pocket with no reference until **$46.40–44**. Below **$44**, major weekly demand **$40.50–42** is next; losing that reopens **$31–33**.",
+      "shortSetup": "Losing the 50-EMA **$51.07** opens a 9.2% air pocket with no reference until **$46.40–44**. Below **$44** the next verified demand is the base **$38–40** (lower band $38.38) — a 13% drop with nothing in between.",
       "preferred": "**Long preferred** — but support is far below",
       "h4": "Closed 4c over the 50-EMA $51.07; nothing between it and the 9-EMA $46.37.",
-      "note": "Hand-seeded from a chart read. ATR(14) $3.05 (5.96%) COMPUTED. Score is null because R/M/O need an OHLCV fetch. ✅ VERIFIED 2026-08-09 against the daily chart: close $51.11 (+7.62%), O 50.68 H 53.47 L 48.17 V 12.3m, AH $51.79; BB(21,2) 53.01/45.70/38.38; EMA 9/50/200 = 46.37/51.07/55.17; RSI 56.70; MACD −1.57 sig −2.87 hist +1.30; Stoch 86.23/82.98; OBV 500.7m. 🚨 RETRACTION: the original read had MP reclaiming a pivot at $49.39 and that level DOES NOT EXIST on this chart — it was TEM's level, carried onto MP's analysis. The flagged coincidence is resolved in TEM's favour: TEM's $49.39 is real and drawn, MP's was spurious. That claim was the entire basis for calling MP the cluster's bellwether and 'the only one with a level proven from above', so BOTH are withdrawn. ⚠️ The old $49.00–50.00 entry had NO reference inside it: the 50-EMA $51.07 is ABOVE it and the 9-EMA $46.37 and BB mid $45.70 are BELOW it, with a 9.2% air pocket between — which is exactly why an unanchored zone can look reasonable. Re-anchored to $44.00–46.40 on three references. ⚠️ Stoch 86.23/82.98 is genuinely high, so the daily is more extended than the earlier '4H RSI ~68–70, least extended of the four' framing suggested. 🚨 UNVERIFIED, 2026-08-09 coherence pass: the $49.39 retraction was INCOMPLETE. MP and TEM still share three identical bands — $31–33, $40.50–42.00 and $52.50–54.00 — and both rows cite the same $41.28 low. One shared number between them has already been PROVEN to be TEM's carried onto MP, so these are suspect by the same argument and are NOT to be traded off until checked against MP's own chart. What MP's chart does support directly: lower BB $38.38, BB mid $45.70, 9-EMA $46.37, 50-EMA $51.07, upper BB $53.01, 200-EMA $55.17 — which is why the re-anchored $44–46.40 entry and the $55.17 target are safe and these three bands are not."
+      "note": "Hand-seeded from a chart read. ATR(14) $3.05 (5.96%) COMPUTED. Score is null because R/M/O need an OHLCV fetch. ✅ VERIFIED 2026-08-09 against the daily chart: close $51.11 (+7.62%), O 50.68 H 53.47 L 48.17 V 12.3m, AH $51.79; BB(21,2) 53.01/45.70/38.38; EMA 9/50/200 = 46.37/51.07/55.17; RSI 56.70; MACD −1.57 sig −2.87 hist +1.30; Stoch 86.23/82.98; OBV 500.7m. 🚨 RETRACTION: the original read had MP reclaiming a pivot at $49.39 and that level DOES NOT EXIST on this chart — it was TEM's level, carried onto MP's analysis. The flagged coincidence is resolved in TEM's favour: TEM's $49.39 is real and drawn, MP's was spurious. That claim was the entire basis for calling MP the cluster's bellwether and 'the only one with a level proven from above', so BOTH are withdrawn. ⚠️ The old $49.00–50.00 entry had NO reference inside it: the 50-EMA $51.07 is ABOVE it and the 9-EMA $46.37 and BB mid $45.70 are BELOW it, with a 9.2% air pocket between — which is exactly why an unanchored zone can look reasonable. Re-anchored to $44.00–46.40 on three references. ⚠️ Stoch 86.23/82.98 is genuinely high, so the daily is more extended than the earlier '4H RSI ~68–70, least extended of the four' framing suggested. ✅ RESOLVED 2026-08-09 against MP's own daily chart (6-month, Yahoo), which is what the coherence pass asked for. The three bands MP shared byte-for-byte with TEM split three ways. (1) $40.50–42.00 'the $41.28 low the recovery started from' is FALSE — the late-July/early-August base is visibly BELOW the $40.00 gridline, down at the lower band $38.38. $41.28 is TEM's line in the sand, carried onto MP exactly as $49.39 was: the same error, the same direction, the second instance. Band replaced by $38.00–40.00, anchored on the lower band and the visible base. (2) $31–33 REMOVED — it lies below the chart's visible window and no reference identifies it. There IS an unexplained axis pill reading 31.28, and it is deliberately NOT used to rescue the band: it is not one of the three Bollinger values (53.01/45.70/38.38, symmetric about the mid), so it is an unidentified number that happens to land in the range — which is the $49.39 mistake in its most tempting form. (3) $52.50–54.00 CONFIRMED and no longer a coincidence to explain: the upper daily band $53.01 sits inside it and today's high $53.47 traded into it and was rejected. Two tickers trading at $51 and $52 sharing supply at $52.50–54 is not suspicious. ⚠️ Consequence for the plan: the $42.00 stop's stated justification — 'sits on major weekly demand $40.50–42.00' — is void. $42.00 sits in the void ABOVE the real base. It still passes Rule B on the volatility test (1.05 ATR from the $45.20 midpoint) and is kept, with the trade-off stated: the structural alternative is a daily close below $38.00, 2.36 ATR, which cuts R:R from ~4.6:1 to ~2.1:1. ⚠️ Chart-reading note for the record: this chart's legend O/H/L/C DID tie the header close ($51.11) while its Bollinger row (57.78/48.92/40.06) was stale against the axis pills (53.01/45.70/38.38) — a MIXED legend. The documented tie-test passes on the OHLC row and still leaves the indicator row wrong, so tie-test each row, not the legend as a block."
     },
     {
       "ticker": "USAR",
