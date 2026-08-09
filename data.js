@@ -1018,6 +1018,15 @@ const STOCKS = [
     date: '2026-08-09',
     story: 'stories/tem.html',
   },
+  {
+    symbol: 'FN', exchange: 'NYSE',
+    price: '$562.38', change: '📅 $562.38 at the close — the $579.47 high tagged the $575–585 breakout zone and closed back under it, so the first test of the gate has already been given back',
+    signal: '📅 08/07 — THE FIRST TEST OF THE GATE HAPPENED, AND IT WAS GIVEN BACK. Closed $562.38 after a $579.47 high — inside the $575–585 breakout zone — so the seller there is confirmed present rather than assumed. ⭐ The reversal itself is powerful: off the $411 low, $500–520 reclaimed, daily RSI and OBV rising, the monthly uptrend intact. ⚠️ The weekly is NOT repaired until roughly $585–600 is accepted. ⚠️ ATR(14) $40.47 (7.20%) — an ordinary session covers forty dollars, so a tight stop is meaningless here. Entry $530–540 at 0.55 ATR below; stop $494, 1.01 ATR out; targets $575 → $600 → $640.',
+    lead: { rank: 31, status: 'wait', entry: 'pullback holds $530.00–540.00', stop: '$494.00 (close)', targets: '$575.00 → $600.00 → $640.00', rr: '~2.6:1', edge: '⭐ THE REJECTION IS ALREADY ON THE CHART, WHICH IS BETTER EVIDENCE THAN A ZONE NOBODY HAS TESTED. The 08-07 high $579.47 traded INSIDE $575–585 and the close came back to $562.38 — so this card is not guessing where supply sits, it watched it work. ⭐ Underneath, the recovery is genuine: off the $411 low, $500–520 reclaimed, daily RSI and OBV rising, and the monthly uptrend from before the $700–750 correction still intact. ⚠️ The weekly is the unfinished part — it is not repaired until roughly $585–600 is accepted, so this is a recovery inside a correction. ⭐ Entry $530–540 sits 0.55 ATR below price. ⚠️ The stop is a deliberate choice worth stating: $494 is 1.01 ATR from the $535 midpoint but sits ABOVE the $475–490 daily demand, so it exits BEFORE that band is tested. That is intended — by $494 both $530 and $510 have failed and the retest thesis is already broken. The structurally deeper alternative is $474 at 1.51 ATR, which re-rates the R:R from ~2.6:1 to ~1.7:1. ⚠️ Sector note: FN is optics, and this board already carries LITE and CIEN there, plus COHR and AAOI as cards without plans. One plan is coverage; a second taken position in optics makes it one bet. Falsifier: daily acceptance under $510 opens $490–475.' },
+    side: 'long',
+    date: '2026-08-09',
+    story: 'stories/fn.html',
+  },
 ];
 
 // ── Articles ──────────────────────────────────────────────────────────────

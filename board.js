@@ -728,6 +728,122 @@ const BOARD = {
       "note": "⚠️ ATR(14) CORRECTED 2026-08-09: this row previously carried a visual estimate from the chart read; it now carries the COMPUTED ATR(14) Wilder supplied with the close table, and the Rule B distances below are measured against that. The estimate and the computed value differed enough to matter — $1.30–1.60 estimated vs $1.17 computed, so the row had been OVERstating volatility. Hand-seeded from a chart read, not a generated run. Price $12.96 is an AFTER-HOURS print supplied with the read, not a regular-session close, which is why the card's `change` and the deck's ТУТ rung both say so instead of using the '📅 CLOSE' form. supply4h ABSENT: the read gave a 4H demand edge but no 4H supply band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ ALOY, USAR and UUUU are ONE news-driven cluster — see the direction group."
     },
     {
+      "ticker": "FN",
+      "date": "2026-08-07",
+      "price": 562.38,
+      "atr": 40.47,
+      "atrPct": 7.2,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "neutral",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "strong reversal with rising RSI/OBV; $500–520 reclaimed, now testing $560–580",
+          "w": "major recovery candle off the $411 low, but the correction is not repaired until ~$585–600"
+        }
+      },
+      "parts": {
+        "W": 0,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish reversal at supply — take the $530–540 retest or acceptance over $585.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "range / transition",
+        "d": "uptrend",
+        "h4": "strong uptrend"
+      },
+      "combo": "daily up, weekly repairing",
+      "demand": [
+        {
+          "lo": 475.0,
+          "hi": 490.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "daily demand — losing $475 materially weakens the recovery"
+        },
+        {
+          "lo": 410.0,
+          "hi": 430.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly/monthly demand — the $411 reversal low"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 575.0,
+          "hi": 585.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate — the 08-07 high $579.47 pushed into it"
+        },
+        {
+          "lo": 600.0,
+          "hi": 620.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "secondary supply; weekly acceptance over ~$585–600 repairs the HTF structure"
+        },
+        {
+          "lo": 640.0,
+          "hi": 660.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "stronger weekly supply"
+        },
+        {
+          "lo": 700.0,
+          "hi": 750.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major HTF supply — the prior high region the correction came from"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 530.0,
+          "hi": 540.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the first likely retest"
+        },
+        {
+          "lo": 510.0,
+          "hi": 520.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger breakout demand"
+        }
+      ],
+      "position": "under supply $575.00–585.00 (2.2% above, tagged at $579.47 on 08-07) with 4H demand $530.00–540.00 (4.0% below); daily demand $475.00–490.00",
+      "bull": "break/accept above $575.00–585.00 → $600.00–620.00, then $640.00–660.00; weekly acceptance over ~$585–600 repairs the HTF structure",
+      "bear": "reject $575.00–585.00 and lose $530.00 → $520.00–510.00; daily acceptance below $510.00 opens $490.00–475.00, and losing $475.00 puts $450.00 then $430.00–410.00 back in play",
+      "retest": "$530.00–540.00 is the first likely retest after the vertical recovery; a deeper normalisation tests $510.00–520.00",
+      "longCandidate": "Yes, on a retest — not into $575–585. Take **$530–540**, or acceptance above **$585** with a breakout retest.",
+      "longSetup": "Hold **$530–540**, establish a 4H higher low and break/accept above **$575–585** → **$600–620**, then **$640–660**. Clean weekly acceptance above roughly **$585–600** materially improves the HTF structure. A controlled pullback into **$510–520** with a strong reclaim is the higher-quality trend entry.",
+      "shortSetup": "Reject **$575–585** and lose **$530** → **$520–510**. Daily acceptance below **$510** opens **$490–475**. Losing **$475** with a failed reclaim materially weakens the recovery and puts **$450**, then **$430–410**, back in play.",
+      "preferred": "**Long preferred** on a retest · at supply",
+      "h4": "Impulsive recovery with higher lows, but into the upper band and immediate overhead supply.",
+      "note": "Hand-seeded from a chart read, not a generated run. ATR(14) $40.47 (7.20%) is COMPUTED, supplied with the read. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ SECTOR CONCENTRATION: FN is optics/photonics, and this board already carries LITE and CIEN in that complex, plus COHR and AAOI as cards without leads. FN is the only one of the five carrying a traded plan, so the concentration is coverage rather than position risk today — but it stops being that the moment a second one is taken. ⚠️ The stop choice is deliberate and is explained on the card: $494 is 1.01 ATR and sits ABOVE the $475–490 daily demand, so it exits before that band is tested. That is intended — by $494 both $530 and $510 have already failed and the retest thesis is broken. The structurally deeper alternative is $474 at 1.51 ATR, which re-rates R:R from ~2.6:1 to ~1.7:1."
+    },
+    {
       "ticker": "MP",
       "date": "2026-08-07",
       "price": 51.11,
