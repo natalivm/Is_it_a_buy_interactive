@@ -138,7 +138,7 @@ const MARKET = {
         {
           label: 'Overhead stack',
           verdict: 'bull', weight: 1.5,
-          read: '⭐ THE STACK IS BEHIND PRICE. The $547–550 level, the 50-day $570.40, the mid-band $566.25 and now the $580 lid have all been closed above — $580 having rejected twice makes this the meaningful one. ⚠️ What is left overhead is thinner and further away: $594–600, then the prior month’s high $639.89 and the 12-month high $671.83. Nothing between here and $594 is doing work.',
+          read: '⭐ THE STACK IS BEHIND PRICE. The $547–550 level, the 50-day $570.40, the mid-band $566.25 and now the $580 lid have all been closed above — $580 having rejected twice makes this the meaningful one. ⚠️ What is above is NOT clear air, and the daily levels alone do not show it — the structure board has price sitting INSIDE daily supply $571.35–592.01, with 4H supply $585.63–607.00 immediately overhead (9 touches, 15 closes in, since 13.07) and fresh daily supply $600.31–608.90 above that. The $586.09 high tagged the 4H edge and closed back under it.',
         },
         {
           label: 'Group leadership',
@@ -190,7 +190,7 @@ const MARKET = {
         reclaim: '$547–550 cleared (four closes) → 50-day $570.40 and weekly 9-EMA $572.82 held → $580 lid CLEARED 08-07 → $586.09 month high → $594–600 → $639.89 prior-month high',
         invalidate: 'a daily close back under $580 undoes the breakout; under $572.82 loses the weekly 9-EMA; under $570.40 loses the 50-day; under $547–550 re-opens the whole question; under $535 the reclaim voids → $483/$478 retest',
       },
-      note: '📅 CLOSE $582.70 (+1.96%) — the $580 lid that rejected on 08-05 and 08-06 was CLEARED on the close, taking out this month’s high at $586.09, with the 50-day $570.40 and weekly 9-EMA $572.82 both held. Fourth close over $547–550. ⭐ The weekly histogram finally stopped widening — −8.36, contracting after four sessions of deterioration — which was the last open objection on this row and is why Weekly structure moves to bull. ⚠️ One bar, no cross. Group leadership left neutral: semis led (+1.96% vs QQQ +1.17%), the exact reverse of 08-06, which is why one session cannot set it.',
+      note: '📅 CLOSE $582.70 (+1.96%) — the $580 lid that rejected on 08-05 and 08-06 was CLEARED on the close, taking out this month’s high at $586.09, with the 50-day $570.40 and weekly 9-EMA $572.82 both held. Fourth close over $547–550. ⭐ The weekly histogram finally stopped widening — −8.36, contracting after four sessions of deterioration — which is why Weekly structure moves to bull. ⚠️ One bar, no cross, and the breakout closed straight into supply: 4H $585.63–607.00 overhead, price still inside daily $571.35–592.01. Group leadership left neutral: semis led (+1.96% vs QQQ +1.17%), the exact reverse of 08-06, which is why one session cannot set it.',
     },
   ],
   vol: [
@@ -783,7 +783,7 @@ const STOCKS = [
   {
     symbol: 'SMH', exchange: 'NASDAQ',
     price: '$582.70', change: '📅 CLOSE $582.70 (+1.96%) — the $580 lid is CLEARED on a close for the first time after rejecting twice, with a new month high $586.09 and a fourth close over $547–550',
-    signal: '📅 CLOSE 08/07 — THE LID CAME OFF. Closed $582.70 (+1.96%), above $580 for the first time on a closing basis after that level rejected on 08-05 and 08-06, and the $586.09 high is a new month high. Fourth consecutive close over the $547–550 gate; the 50-day $570.40 and the weekly 9-EMA $572.82 were both held. ⭐ The last open objection closed with it: the weekly histogram −8.36 is CONTRACTING after four sessions of widening, so semis are no longer the frame lagging the index. ⚠️ One bar of contraction, no cross. Overhead is thin to $594–600. Invalidation: a close back under $580.',
+    signal: '📅 CLOSE 08/07 — THE LID CAME OFF, INTO SUPPLY. Closed $582.70 (+1.96%) above $580 for the first time after that level rejected on 08-05 and 08-06; a fourth close over the $547–550 gate, with the 50-day $570.40 and weekly 9-EMA $572.82 held. ⭐ The weekly histogram −8.36 is CONTRACTING after four sessions of widening, so semis no longer lag the index. ⚠️ But the overhead is not thin: the structure board has price INSIDE daily supply $571.35–592.01, with 4H supply $585.63–607.00 above it — and the $586.09 high tagged that edge before closing back under. Invalidation: a close under $580.',
     edge: '📅 The gate held it off: $540.53 (+0.30%) — the $550.15 overnight faded, $547–550 NOT closed above, so the group downtrend stands and every long on this board stays unfilled; $535 held, so no short re-armed either — undecided, the exact branch the plan named. Higher frames disagree: the MONTH closed red-with-a-wick ABOVE the 9-month EMA ≈$486 (intact uptrend, first corrective month, RSI 69 / Stoch 92.7 still unwinding) while the WEEK closed UNDER the weekly 9-EMA ≈$570 — SMH weaker than QQQ, which held all of its. Vol confirmed hard (VIX 15.82, VXN 25.57 through ≈26); breadth did not (%>200DMA 70.5% → 68.6%). Chop $535–550 until a close resolves it; watch breadth, not vol. 📉 Weekly hist -8.41 (47.63 vs 56.04 signal), 3 bars, 17.7% deep — holding.',
     side: 'long', accent: 'red',
     date: '2026-08-09',
