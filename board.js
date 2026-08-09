@@ -38,6 +38,122 @@ const BOARD = {
   "method": "Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; O OBV slope; Z inside confirmed demand +1 / supply −1)",
   "rows": [
     {
+      "ticker": "CRWD",
+      "date": "2026-08-07",
+      "price": 214.42,
+      "atr": 8.95,
+      "atrPct": 4.17,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "bullish",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "the late-July pullback held $172–180 and $195–200 was reclaimed back to the highs",
+          "w": "confirmed uptrend pressing new-high territory, RSI ~71 with rising OBV"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish on all frames but stretched — take the $208–211 retest or acceptance over $220.",
+      "trendProse": {
+        "m": "strong uptrend",
+        "w": "strong uptrend",
+        "d": "uptrend",
+        "h4": "uptrend"
+      },
+      "combo": "all frames up together",
+      "demand": [
+        {
+          "lo": 194.0,
+          "hi": 198.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "important daily demand"
+        },
+        {
+          "lo": 178.0,
+          "hi": 185.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "deeper structural demand"
+        },
+        {
+          "lo": 172.0,
+          "hi": 175.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily support — the late-July pullback low"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 217.0,
+          "hi": 220.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate — price is compressing under it"
+        },
+        {
+          "lo": 225.0,
+          "hi": 230.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "next extension zone"
+        },
+        {
+          "lo": 235.0,
+          "hi": 240.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "higher psychological supply"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 208.0,
+          "hi": 211.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the first likely retest"
+        },
+        {
+          "lo": 201.0,
+          "hi": 204.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger breakout demand"
+        }
+      ],
+      "position": "compressing under supply $217.00–220.00 (1.2% above) with 4H demand $208.00–211.00 (1.6% below); daily demand $194.00–198.00, extension $225.00–230.00",
+      "bull": "4H acceptance above $220.00 with a held retest of $215.00–220.00 → $225.00–230.00, then $235.00–240.00",
+      "bear": "reject $217.00–220.00 and lose $208.00 → $204.00–201.00, then $198.00–194.00; daily acceptance below $194.00 exposes $185.00–178.00",
+      "retest": "$208.00–211.00 is the first likely retest; a stronger breakout instead turns $215.00–220.00 into new demand, and a deeper cool-off tests $201.00–204.00",
+      "longCandidate": "Yes, with the HTF trend — but not at $214–217. Take **$208–211**, or 4H acceptance above **$220** with a retest.",
+      "longSetup": "Hold **$208–211**, form a 4H higher low and break/accept above **$217–220** → **$225–230**, then **$235–240**. Clean 4H acceptance above **$220** with a held retest of **$215–220** is the cleaner momentum entry; a controlled pullback into **$201–204** that is reclaimed is the higher-quality trend entry.",
+      "shortSetup": "Countertrend only while the HTF structure is this strong: reject **$217–220** and lose **$208** → **$204–201**, then **$198–194**. Daily acceptance below **$194** materially weakens the breakout structure and exposes **$185–178**.",
+      "preferred": "**Long preferred** — do not chase $217–220",
+      "h4": "Compressing under $217–220 after the run from ~$180; RSI ~66, OBV elevated.",
+      "note": "Hand-seeded from a chart read, not a generated run. ATR(14) $8.95 (4.17%) is COMPUTED, supplied with the read. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ This is the most HTF-EXTENDED name added this session — monthly RSI ~76 and weekly ~71, both above where the other new longs sit — so the 'wait for the retest' instruction carries more weight here than the 4H RSI of 66 suggests on its own. ⚠️ Conviction 3.5 ties CRWD, NVDA and TEM; CRWD sorts first only on the ticker tiebreak, not on merit. ✅ The 3-session ATR proxy used earlier this session gave $9.03 against the computed $8.95 — accurate here, unlike LRCX and NVDA where it ran 23–31% low."
+    },
+    {
       "ticker": "NVDA",
       "date": "2026-08-07",
       "price": 223.96,
@@ -6218,7 +6334,7 @@ const BOARD = {
       "h4Effect": "This frame is what makes it a two-way watch rather than a short: oversold at demand argues a bounce toward **$18.3–18.7** first, and the cleaner short is that bounce failing at **$18.7–19.5**."
     }
   ],
-  "note": "Structure only — where demand and supply sit and what triggers which way. Independent of the traded plans on the cards; the two are allowed to disagree.",
+  "note": "Structure only — where demand and supply sit and what triggers which way; independent of the traded plans on the cards. ⚠️ Read the top of the long block as ONE observation: CRWD, NVDA and TEM all tie at conviction 3.5 and all say the same thing — every frame bullish, price extended, wait for the retest — and the ALOY/MP/USAR/UUUU cluster says it too. Seven names, one setup shape. If that retest comes it comes for all of them on the same bar, so the board is far less diversified than a row count suggests.",
   "ranking": [
     "**LITE two-way** — short only a confirmed rejection from $865–900; long only a $820–835 retest or acceptance above $900.",
     "**STX short** — fired: $842 and $818 both failed on the 08-07 close ($812.76); $797–816 is the 4H shelf under it.",
