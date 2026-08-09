@@ -183,3 +183,13 @@ jobs:
       # block. Both are invisible without this.
       - name: Validate the board's row order
         run: python3 tools/check_board_order.py
+
+      # The guards above all read a NUMBER or an ENUM — the ТУТ rung's price,
+      # the ladder's order, a rung's res/sup tag, the venue set. None reads a
+      # sentence, so a deck's slides can describe the OPPOSITE trade and every
+      # check still passes. Four decks were found doing exactly that on
+      # 2026-08-09, all of them audit-clean; one carried a rung captioned
+      # 'шорт мертвий' on a live short. See tools/check_decks.py for why the
+      # two rules are drawn as narrowly as they are.
+      - name: Validate deck prose against its own session and side
+        run: python3 tools/check_decks.py
