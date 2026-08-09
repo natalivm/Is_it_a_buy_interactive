@@ -380,6 +380,130 @@ const BOARD = {
       "note": "Hand-seeded from a chart read, not a generated run. ATR is the chart's visual estimate ($1.30–1.60 / ~10–13%), NOT a computed ATR(14) Wilder — at ~11% this is the most volatile row on the board, so Rule B distances here are provisional AND wide. Price $12.96 is an AFTER-HOURS print supplied with the read, not a regular-session close, which is why the card's `change` and the deck's ТУТ rung both say so instead of using the '📅 CLOSE' form. supply4h ABSENT: the read gave a 4H demand edge but no 4H supply band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ ALOY, USAR and UUUU are ONE news-driven cluster — see the direction group."
     },
     {
+      "ticker": "MP",
+      "date": "2026-08-07",
+      "price": 51.8,
+      "atr": 3.25,
+      "atrPct": 6.27,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "neutral",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "bullish reversal, $49.39 reclaimed, pressing the upper daily band ~$53",
+          "w": "recovering off $41.28 demand but still under the weekly mid-band $55–56"
+        }
+      },
+      "parts": {
+        "W": 0,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish reversal — buy the $49–50 retest, not $52+; acceptance over $55–57 confirms the weekly.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "range / transition",
+        "d": "uptrend",
+        "h4": "strong uptrend"
+      },
+      "combo": "daily up, weekly repairing",
+      "demand": [
+        {
+          "lo": 44.0,
+          "hi": 46.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "daily demand — the more important support if momentum cools"
+        },
+        {
+          "lo": 40.5,
+          "hi": 42.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly/monthly demand — the $41.28 low the recovery started from"
+        },
+        {
+          "lo": 31.0,
+          "hi": 33.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "deeper HTF demand"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 52.5,
+          "hi": 54.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply — price is pressing it"
+        },
+        {
+          "lo": 55.0,
+          "hi": 57.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly confirmation zone; the weekly mid-band sits here"
+        },
+        {
+          "lo": 60.0,
+          "hi": 64.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "secondary supply"
+        },
+        {
+          "lo": 68.0,
+          "hi": 72.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly supply; $75–83 is the macro band above it"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 49.0,
+          "hi": 50.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate breakout demand — $49.39 flipped from resistance to support"
+        },
+        {
+          "lo": 47.0,
+          "hi": 48.5,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H demand"
+        }
+      ],
+      "position": "under supply $52.50–54.00 (1.4% above) with 4H demand $49.00–50.00 (3.5% below); daily demand $44.00–46.00, weekly confirmation $55.00–57.00",
+      "bull": "break $52.50–54.00 → $55.00–57.00; acceptance above $55–57 opens $60.00–64.00, then $68.00–72.00",
+      "bear": "reject $52.50–54.00 and lose $49.00 → $48.50–47.00, then $46.00–44.00; daily acceptance below $44.00 opens $42.00–40.50",
+      "retest": "$49.00–50.00 is the first likely retest and the key breakout-flip zone; a deeper normalisation tests $47.00–48.50",
+      "longCandidate": "Yes — the cluster's bellwether and the only one with a flipped level beneath it. Take the **$49–50** retest rather than $51.80+.",
+      "longSetup": "Hold or retest **$49–50**, form a 4H higher low and break **$52.50–54** → **$55–57**. Clean weekly/4H acceptance above **$55–57** opens **$60–64**, then **$68–72**. A deeper pullback into **$47–48.50** that is strongly reclaimed is also a favourable continuation entry.",
+      "shortSetup": "Countertrend only while $49 holds. Reject **$52.50–54** and lose **$49** → **$48.50–47**, then **$46–44**. Daily acceptance below **$44** materially weakens the recovery and opens **$42–40.50**; losing **$40.50–41.30** reopens **$31–33**.",
+      "preferred": "**Long preferred** while $49–50 holds",
+      "h4": "Impulsive 4H uptrend, $49.39 flipped to support, but RSI ~68–70 — becoming extended.",
+      "note": "Hand-seeded from a chart read, not a generated run. ATR is the chart's visual estimate ($3.00–3.50 / ~6–7%), NOT a computed ATR(14) Wilder, so Rule B distances are provisional. Price $51.80 is the lower end of the $51.80–52.00 read supplied with the chart; no session close or % was given, so the card's `change` avoids the '📅 CLOSE $X (±Y%)' form. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band; $75–83 macro supply is recorded here rather than as a fifth band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ MP is the LIQUID BELLWETHER of the ALOY/USAR/UUUU cluster — see the direction group; it is also the least extended of the four (4H RSI ~68–70 vs 73/76/78) and the only one with a level that has actually flipped beneath it ($49.39)."
+    },
+    {
       "ticker": "USAR",
       "date": "2026-08-07",
       "price": 19.4,
@@ -5879,10 +6003,11 @@ const BOARD = {
         "side": "long",
         "tickers": [
           "ALOY",
+          "MP",
           "USAR",
           "UUUU"
         ],
-        "note": "Same news, same session, same shape: all three reversed off a July washout, all three are now pressing into their first real supply, and all three carry a 4H RSI in the 73–78 band. Sized as three names this is one correlated bet at triple weight, and the retest each one is waiting for will almost certainly arrive on the same bar. Treat a fill in one as having consumed the cluster's risk budget, not a third of it. ALOY is the most volatile of them at ~11% ATR and the nearest to its trigger; UUUU is the least extended."
+        "note": "Same news, same session, same shape: all four reversed off a July washout, all four are now pressing into their first real supply, and all four carry a 4H RSI in the 68–78 band. Sized as four names this is one correlated bet at quadruple weight, and the retest each is waiting for will almost certainly arrive on the same bar — treat a fill in one as having consumed the cluster's risk budget, not a quarter of it. MP is the liquid bellwether and the least extended, and it is the only one with a level that has actually flipped beneath it ($49.39); watch it for the group's confirmation. ALOY is the most volatile at ~11% ATR and the nearest to its trigger."
       },
       {
         "label": "Best trend-following longs",

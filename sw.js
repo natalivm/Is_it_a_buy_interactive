@@ -1,4 +1,4 @@
-const CACHE_NAME = 'isitabuy-v74';
+const CACHE_NAME = 'isitabuy-v75';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
@@ -15,6 +15,7 @@ const ASSETS = [
   BASE + 'icon-512.svg',
   BASE + 'stories/story.css',
   BASE + 'stories/engine.js',
+  BASE + 'stories/mp.html',
   BASE + 'stories/aloy.html',
   BASE + 'stories/usar.html',
   BASE + 'stories/uuuu.html',
