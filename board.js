@@ -38,6 +38,114 @@ const BOARD = {
   "method": "Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; O OBV slope; Z inside confirmed demand +1 / supply −1)",
   "rows": [
     {
+      "ticker": "NVDA",
+      "date": "2026-08-07",
+      "price": 223.96,
+      "atr": 7.83,
+      "atrPct": 3.5,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "bullish",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "recovery from the $190–195 washout, $207–212 reclaimed, accelerating to prior highs",
+          "w": "confirmed bullish structure near the top of the multi-month range; $229–232 is the gate"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish on every frame but extended — take the $217–220 retest or acceptance over $232.",
+      "trendProse": {
+        "m": "strong uptrend",
+        "w": "uptrend",
+        "d": "uptrend",
+        "h4": "strong uptrend"
+      },
+      "combo": "all frames up together",
+      "demand": [
+        {
+          "lo": 199.0,
+          "hi": 203.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily/weekly demand"
+        },
+        {
+          "lo": 190.0,
+          "hi": 195.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "deeper structural demand — the late-July washout low"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 224.5,
+          "hi": 227.5,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "immediate supply — price is just under it"
+        },
+        {
+          "lo": 229.0,
+          "hi": 232.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly / all-time-high breakout zone — the real gate"
+        },
+        {
+          "lo": 235.0,
+          "hi": 240.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "extension supply; $250 is a psychological reference above, not a structural level"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 217.0,
+          "hi": 220.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H breakout demand — the first likely retest"
+        },
+        {
+          "lo": 207.0,
+          "hi": 211.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H/daily demand"
+        }
+      ],
+      "position": "just under supply $224.50–227.50 (0.2% above) with 4H demand $217.00–220.00 (1.8% below); the gate is $229.00–232.00, daily demand $199.00–203.00",
+      "bull": "break $224.50–227.50 → $229.00–232.00; clean acceptance above $232.00 with a retest opens $235.00–240.00, then $250",
+      "bear": "reject $225–232 and lose $217.00 → $211.00–207.00; daily acceptance below $207.00 opens $203.00–199.00, and losing $199.00 exposes $195.00–190.00",
+      "retest": "$217.00–220.00 is the first likely retest after the 4H extension; a deeper normalisation tests $207.00–211.00. Above $232, former supply $227–232 becomes the preferred retest",
+      "longCandidate": "Yes — the strongest multi-frame structure on this board. But not at $224: take **$217–220**, or acceptance above **$232** with a retest.",
+      "longSetup": "Hold **$217–220**, establish a 4H higher low and break/accept above **$224.50–227.50** → **$229–232**. Clean acceptance above **$232** with a successful retest opens **$235–240**, then **$250**. A deeper controlled pullback into **$207–211** that is strongly reclaimed is the higher-quality trend entry.",
+      "shortSetup": "Countertrend only while the HTF trend is bullish: reject **$225–232** and lose **$217** → **$211–207**. Daily acceptance below **$207** opens **$203–199**. Losing **$199** with a failed reclaim exposes **$195–190** and materially weakens the breakout structure.",
+      "preferred": "**Long preferred** — do not chase $225–232",
+      "h4": "Impulsive 4H uptrend with rising OBV and higher lows, but RSI ~73 — stretched.",
+      "note": "Hand-seeded from a chart read, not a generated run. ATR(14) $7.83 (3.50%) is COMPUTED, supplied with the read — the LOWEST atrPct of the names added this session, so NVDA is the least volatile of them by a wide margin. No session % was supplied, so the card's `change` avoids the '📅 CLOSE $X (±Y%)' form. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band; $250 is recorded here as a psychological reference rather than a fourth band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ Conviction ties with TEM at 3.5 and NVDA sorts first only on the ticker tiebreak — worth knowing that NVDA is arguably stronger, since its MONTHLY is bullish too and TEM's is neutral, but the documented key uses 2W+D+0.5H+Z and deliberately excludes the monthly. ⚠️ CORRECTION: earlier this session NVDA's old $205–209 zone was called 2.46 ATR away using a 3-session ATR proxy of $6.07; against the computed $7.83 it was 1.91 ATR. Still stranded by the 1.5 test, so the conclusion held, but the number was overstated by 29%."
+    },
+    {
       "ticker": "TEM",
       "date": "2026-08-07",
       "price": 52.05,
