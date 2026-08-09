@@ -470,6 +470,34 @@ future `date`. A full run (no flag) fetches OHLCV and adds price/indicator
 drift. Finish a refresh with a clean audit, or with a note saying why a finding
 is deliberate.
 
+**Two guards cover what the audit structurally cannot.** The audit reads
+`data.js`, and every other check reads exactly one artefact too — so all of
+them pass while the artefacts contradict each other, and none of them reads a
+sentence. Both gaps produced real failures on 2026-08-09, so both are now CI
+steps:
+
+- `tools/check_decks.py` — deck PROSE against its own card. Every dd.mm in a
+  deck must be the session its own ТУТ rung names (opt out per deck with
+  `<!-- allow-dates: 06.08 -->`, because naming a deliberate reference is the
+  point), and the PLAN slide's eyebrow must not name the side the card is NOT
+  on. Four decks were found narrating the opposite trade, all audit-clean —
+  GLW carried a rung captioned «шорт мертвий» on a live short. Prose drifts in
+  one direction: it is always older and more resolved-sounding than the
+  numbers, because `--fix-rungs` repairs a rung automatically and nobody
+  rewrites a sentence unless they mean to.
+- `tools/check_coherence.py` — whether `data.js` and `board.js` AGREE.
+  Card price vs row price, the ATR pair against its own price, plan geometry,
+  ranks, dates, and the `$49.39` detector: one CENTS-precise level appearing on
+  two tickers, which is the copy-paste signature. Run `--self-test` to see each
+  detector fire on the incident it was written for. ⚠️ It checks INTERNAL
+  agreement only — it could not have known $49.39 was fictional, just that two
+  rows improbably shared it. Correspondence to reality needs a chart.
+
+  Its judgement-call output (a held position's stop cushion) prints as
+  **advisory** and does not fail. That is deliberate: a CI step that fails on
+  judgement calls is a CI step somebody switches off. Keep new checks on the
+  contradiction side of that line.
+
 **"Was the zone reached?" is arithmetic, not a paraphrase** — compare the
 session's actual high/low against the zone's numeric bounds (`high >= zoneLow`
 for a short's rejection zone, `low <= zoneHigh` for a long's dip zone), not a

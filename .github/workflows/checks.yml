@@ -193,3 +193,18 @@ jobs:
       # two rules are drawn as narrowly as they are.
       - name: Validate deck prose against its own session and side
         run: python3 tools/check_decks.py
+
+      # Every guard above reads ONE artefact, so all of them can pass while
+      # data.js and board.js disagree with each other — or while a level that
+      # belongs to one ticker's chart is quoted on another's row. MP's whole
+      # thesis rested on a $49.39 pivot that was TEM's, and the retraction was
+      # then found incomplete the same way: MP and TEM still shared three
+      # identical bands and a $41.28 low that also turned out to be TEM's.
+      # The self-test runs first because a guard nobody has seen fail is a
+      # guard nobody should trust; it also pins the three false positives that
+      # made the first cut unusable (trailed stops on filled positions, '~5:1'
+      # parsed as 51:1, and moving averages read as price levels).
+      - name: Cross-check the artefacts against each other
+        run: |
+          python3 tools/check_coherence.py --self-test
+          python3 tools/check_coherence.py
