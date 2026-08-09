@@ -195,9 +195,9 @@ const MARKET = {
   ],
   vol: [
     {
-      symbol: 'VIX', value: '14.90', range: [13, 22], change: '📅 close 14.90 (−1.65%) — sixth session under 16 and a fresh low for the move, now only 11.4% above the 12-month low 13.38',
+      symbol: 'VIX', value: '14.90', range: [13, 22], change: '📅 close 14.90 (−1.65%) — sixth session under 16 and a fresh low for the move; the week closed −6.94% and sits 7.1% over the weekly deviation-band floor 13.83',
       verdict: 'bull',
-      read: 'Sixth consecutive close under 16 and a new low for the move at 14.90. Daily MACD histogram −0.33, negative and expanding a fifth bar; the weekly cross is ESTABLISHED at 36.5% of MACD and 17 bars deep — the most confirmed calm-vol reading this board tracks. ⚠️ And the caveat sharpened again: daily Stoch %K is 2.98, down from 8.41 and effectively pinned on the floor, with the 12-month low only 11.4% below. The asymmetry from here favours vol expansion, not further compression. ⚠️ The gauge floor moved 15 → 13 this refresh for a mechanical reason, not a judgement one: the close printed under the old bound, which would have parked the needle at the end of the scale.',
+      read: 'Sixth consecutive close under 16 and a new low for the move at 14.90. Daily MACD histogram −0.33, negative and expanding a fifth bar; the weekly cross is ESTABLISHED at 36.5% of MACD and 17 bars deep — the most confirmed calm-vol reading this board tracks. ⚠️ And the caveat sharpened again: daily Stoch %K is 2.98, down from 8.41 and effectively pinned on the floor. ⭐ The weekly chart puts a nearer and more current floor under it than the 12-month low does — the weekly deviation band sits at 13.83, just 7.1% below, and the week itself closed −6.94%. So the compression is real and it is running out of room on its own frame, not merely against a year-old print. The asymmetry from here favours vol expansion, not further compression. ⚠️ The gauge floor moved 15 → 13 this refresh for a mechanical reason, not a judgement one: the close printed under the old bound, which would have parked the needle at the end of the scale.',
     },
     {
       symbol: 'VXN', value: '22.82', range: [22, 33], change: '📅 close 22.82 (−4.72%) — sixth session under ≈26 and the largest one-day drop of the run; VXN/VIX narrowed 1.58 → 1.53 but is still wide',
