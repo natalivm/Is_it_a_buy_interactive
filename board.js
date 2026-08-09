@@ -386,6 +386,122 @@ const BOARD = {
       "note": "Hand-seeded from a chart read. ATR(14) $3.04 (5.83%) COMPUTED. Score is null because R/M/O need an OHLCV fetch. ✅ VERIFIED 2026-08-09 against the daily chart: close $52.05 (+12.86%), O 47.56 H 52.40 L 47.23 V 5.67m; BB(21,2) 59.33/48.70/38.07; EMA 9/50/200 = 47.18/50.08/55.54; RSI 56.29; MACD −1.57 sig −2.06 hist +0.49; Stoch 67.16/50.36; OBV 345.7m. ⭐ The $49.39 pivot IS a real drawn level on TEM — the coincidence flagged against MP is resolved on this side, and it is MP's read that still needs checking. The entry zone turns out to rest on THREE references, not two: $49.39, the 50-EMA $50.08 at its top and the BB mid $48.70 just under it. ⚠️ TWO CORRECTIONS to the original read. Daily RSI is 56.29, not extended — the ~73.6 belongs to the 4H alone, so 'wait' here is about location, not exhaustion. And price is ABOVE the daily BB mid-band $48.70; the '~$55.8 declining mid-band' in the original was the 200-EMA $55.54, which sits inside the $55.50–57.00 confirmation zone and is what makes that zone the decisive one. ⚠️ DIFFERENT SECTOR from the ALOY/MP/USAR/UUUU cluster and deliberately not in that direction group."
     },
     {
+      "ticker": "ASML",
+      "date": "2026-08-07",
+      "price": 1740.99,
+      "atr": 78.37,
+      "atrPct": 4.5,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "bullish",
+        "d": "neutral",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "bounced hard off $1,575–1,600 but still under the $1,800–1,825 pivot — July breakdown unrepaired",
+          "w": "primary structure still bullish, momentum cooled from the June peak"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 0,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish recovery — the 4H has turned, the daily has not; take the $1,695–1,710 retest.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "uptrend",
+        "d": "range / transition",
+        "h4": "uptrend"
+      },
+      "combo": "weekly up, daily range",
+      "demand": [
+        {
+          "lo": 1575.0,
+          "hi": 1600.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily/weekly demand — the low this rebound started from"
+        },
+        {
+          "lo": 1500.0,
+          "hi": 1530.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "deeper structural demand"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 1755.0,
+          "hi": 1775.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply — the 08-07 high $1,761.31 traded into it"
+        },
+        {
+          "lo": 1800.0,
+          "hi": 1830.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily confirmation zone — the $1,800–1,825 pivot the daily needs back"
+        },
+        {
+          "lo": 1865.0,
+          "hi": 1930.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "stronger weekly/daily supply"
+        },
+        {
+          "lo": 1985.0,
+          "hi": 2000.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major HTF / all-time-high supply"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 1695.0,
+          "hi": 1710.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H breakout demand — $1,700 reclaimed"
+        },
+        {
+          "lo": 1650.0,
+          "hi": 1675.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H/daily demand"
+        }
+      ],
+      "position": "under supply $1,755.00–1,775.00 (0.8% above, tagged at $1,761.31 on 08-07) with 4H demand $1,695.00–1,710.00 (1.8% below); the daily pivot is $1,800–1,830",
+      "bull": "break/accept above $1,755.00–1,775.00 → $1,800.00–1,830.00; acceptance over $1,830.00 repairs the daily and opens $1,865.00–1,930.00, then $1,985.00–2,000.00",
+      "bear": "reject $1,755.00–1,800.00 and lose $1,695.00 → $1,675.00–1,650.00; daily acceptance below $1,650.00 opens $1,600.00–1,575.00, and losing $1,575.00 exposes $1,530.00–1,500.00",
+      "retest": "$1,695.00–1,710.00 is the first likely retest; a deeper normalisation tests $1,650.00–1,675.00. Above $1,800–1,830 that region becomes the preferred breakout retest",
+      "longCandidate": "Yes, on a retest — not at $1,740–1,760. Take **$1,695–1,710**, or acceptance above **$1,830** with a retest.",
+      "longSetup": "Hold **$1,695–1,710**, form a 4H higher low and break/accept above **$1,755–1,775** → **$1,800–1,830**. Clean acceptance above **$1,830** materially improves the daily and opens **$1,865–1,930**, then **$1,985–2,000**. A deeper pullback into **$1,650–1,675** with a strong reclaim is the higher-quality entry.",
+      "shortSetup": "Reject **$1,755–1,800** and lose **$1,695** → **$1,675–1,650**. Daily acceptance below **$1,650** opens **$1,600–1,575**. Losing **$1,575** with a failed reclaim materially damages the recovery and exposes **$1,530–1,500**.",
+      "preferred": "**Long preferred** while $1,680–1,710 holds",
+      "h4": "Recovery with higher lows and $1,700 reclaimed, but into resistance $1,755–1,775.",
+      "note": "Hand-seeded from a chart read. ATR(14) $78.37 (4.50%) COMPUTED — the second of the six rows parked at ranks 23–28 for want of an ATR to become measurable. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT: two 4H demand edges, no 4H supply band. ⚠️ The distinction that governs this row: the 4H has turned bullish and the DAILY has not — price is still under the $1,800–1,825 pivot, so the July breakdown is unrepaired. That is why the confirmation that matters is acceptance over $1,830, not the $1,755–1,775 break. ⭐ The stop $1,620 sits in the GAP between major demand $1,575–1,600 and stronger demand $1,650–1,675 rather than inside either — 1.05 ATR from the zone midpoint."
+    },
+    {
       "ticker": "STX",
       "date": "2026-08-07",
       "price": 812.76,
@@ -726,6 +842,130 @@ const BOARD = {
       "preferred": "**Long preferred** — but do not chase",
       "h4": "Powerful impulsive 4H uptrend with improving OBV, but RSI ~78 — significantly extended.",
       "note": "⚠️ ATR(14) CORRECTED 2026-08-09: this row previously carried a visual estimate from the chart read; it now carries the COMPUTED ATR(14) Wilder supplied with the close table, and the Rule B distances below are measured against that. The estimate and the computed value differed enough to matter — $1.30–1.60 estimated vs $1.17 computed, so the row had been OVERstating volatility. Hand-seeded from a chart read, not a generated run. Price $12.96 is an AFTER-HOURS print supplied with the read, not a regular-session close, which is why the card's `change` and the deck's ТУТ rung both say so instead of using the '📅 CLOSE' form. supply4h ABSENT: the read gave a 4H demand edge but no 4H supply band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ ALOY, USAR and UUUU are ONE news-driven cluster — see the direction group."
+    },
+    {
+      "ticker": "ASTS",
+      "date": "2026-08-07",
+      "price": 71.94,
+      "atr": 5.58,
+      "atrPct": 7.76,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "neutral",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "reversal off $55–58; $62–65 reclaimed, now pressing prior $72–80 resistance",
+          "w": "corrective but improving — bounced off $55–58, still under the weekly mid-band ~$81"
+        }
+      },
+      "parts": {
+        "W": 0,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish recovery, side flipped from short — take the $68–70 retest or acceptance over $81.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "range / transition",
+        "d": "uptrend",
+        "h4": "strong uptrend"
+      },
+      "combo": "daily up, weekly repairing",
+      "demand": [
+        {
+          "lo": 61.0,
+          "hi": 63.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "daily demand — acceptance below $61 opens $58–55"
+        },
+        {
+          "lo": 55.0,
+          "hi": 58.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily/weekly demand — the base this recovery started from"
+        },
+        {
+          "lo": 50.0,
+          "hi": 52.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "deeper structural demand"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 74.0,
+          "hi": 76.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate — overlaps several prior July highs"
+        },
+        {
+          "lo": 78.0,
+          "hi": 81.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly supply; the weekly mid-band ~$81 sits here"
+        },
+        {
+          "lo": 85.0,
+          "hi": 91.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "secondary supply"
+        },
+        {
+          "lo": 100.0,
+          "hi": 110.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major HTF supply; $120–134 is the macro band above it"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 68.0,
+          "hi": 70.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H breakout demand — the first likely retest"
+        },
+        {
+          "lo": 64.5,
+          "hi": 66.5,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H demand"
+        }
+      ],
+      "position": "between 4H demand $68.00–70.00 (2.7% below) and supply $74.00–76.00 (2.9% above) — in no-man's land after a 29% run in three sessions",
+      "bull": "break/accept above $74.00–76.00 → $78.00–81.00; clean acceptance over $81.00 repairs the weekly and opens $85.00–91.00, then $100.00–110.00",
+      "bear": "reject $74.00–80.00 and lose $68.00 → $66.50–64.50, then $63.00–61.00; daily acceptance below $61.00 opens $58.00–55.00, and losing $55.00 exposes $52.00–50.00",
+      "retest": "$68.00–70.00 is the first likely retest after the 4H expansion; a deeper one tests $64.50–66.50. Above $80–81 the preferred retest becomes $76–80 as former supply",
+      "longCandidate": "Yes — the side flipped from short. Take the **$68–70** retest, or acceptance above **$80–81** with a retest; not $72–73.",
+      "longSetup": "Hold **$68–70**, form a 4H higher low and break/accept above **$74–76** → **$78–81**. Clean acceptance above **$81** materially improves the weekly and opens **$85–91**, then **$100–110**. A deeper pullback into **$64.50–66.50** with a strong reclaim is the higher-quality entry.",
+      "shortSetup": "Countertrend only while the recovery is this strong: reject **$74–80** and lose **$68** → **$66.50–64.50**, then **$63–61**. Daily acceptance below **$61** opens **$58–55**; losing **$55** with a failed reclaim exposes **$52–50**.",
+      "preferred": "**Long preferred** — do not chase $74–80",
+      "h4": "Riding the upper band with higher lows and improving OBV, RSI ~67 — extended.",
+      "note": "Hand-seeded from a chart read. ATR(14) $5.58 (7.76%) COMPUTED — this row was one of six parked at ranks 23–28 for want of an ATR, and it is now measurable. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band. ⚠️ SIDE FLIPPED SHORT → LONG. The card carried a short at $69–76 drawn when price was far below; price then ran $55.74 → $71.94 in three sessions (+29%), reclaimed $62–65, and the old zone now STRADDLES the current price rather than sitting above it. The same band is no longer supply to fade — $74–76 is, and $68–70 is demand. ⚠️ The stop is a choice, stated on the card: $63.00 is 1.08 ATR and sits at the TOP of daily demand $61–63, so it exits as that band is first touched. The deeper alternative is $60.90 at 1.45 ATR, which re-rates R:R from ~2.7:1 to ~2.0:1."
     },
     {
       "ticker": "FN",
@@ -1395,6 +1635,122 @@ const BOARD = {
       "h4": "+9.3% off the 08-06 close — inside 4H demand **$562–576**, 4H 50-EMA **$538** beneath.",
       "h4Effect": "The 4H frame still reads bullish, but on 532.92→564.24 highs and 485.74→502.72 lows — NOT on the $628.22 print, which was the crash bar's own wick and is no longer a confirmed pivot. Price is sitting on a real confluence: 4H demand $514.76–521.97 tested, the 4H 200-EMA $521.18, the lower band $513.50 and the top of daily demand $498.30–520.18. That is the level the row turns on. A 4H close under $502.72 ends the 4H uptrend and hands the frame to the daily neutral, with $498.30–520.18 the only thing under it. Stochastics at 4.09/16.50 means the first bounce is likely mechanical and proves nothing — it is the second test that reads.",
       "note": "TIMING GATE, set 2026-08-07: no entry on this row until the THIRD session after the earnings reaction — 08-06 is day 0, so 08-07 / 08-10 pass and 08-11 is the first actionable session. The levels below stay live and keep being refreshed; the gate governs when a plan may be taken, not what the plan is. It is a date, so it expires by itself: on 08-11 the row goes back to its computed stance, and `preferred` needs rewriting that morning rather than being left to read stale. The reaction bar is identified from the bars themselves — -14.28% on 2.7x median volume, 70 days after the 05-28 report bar and a year on from 2025-08-05, both the same shape."
+    },
+    {
+      "ticker": "ALAB",
+      "date": "2026-08-07",
+      "price": 334.17,
+      "atr": 35.44,
+      "atrPct": 10.6,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "neutral",
+        "d": "neutral",
+        "h4": "neutral",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "recovered above $320 with OBV improving, but still beneath substantial overhead supply",
+          "w": "pullback found buyers at $285–300; momentum not re-established above $360–375"
+        }
+      },
+      "parts": {
+        "W": 0,
+        "D": 0,
+        "H": 0,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Neutral-bullish and mid-range — take the $320–325 retest or acceptance over $350.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "range / transition",
+        "d": "range / transition",
+        "h4": "range / transition"
+      },
+      "combo": "monthly up, everything else range",
+      "demand": [
+        {
+          "lo": 285.0,
+          "hi": 300.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly demand — where the sharp pullback found buyers"
+        },
+        {
+          "lo": 250.0,
+          "hi": 270.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "deeper HTF demand"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 340.0,
+          "hi": 350.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate"
+        },
+        {
+          "lo": 360.0,
+          "hi": 375.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "stronger 4H/daily supply — the momentum level not yet re-established"
+        },
+        {
+          "lo": 390.0,
+          "hi": 405.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly supply"
+        },
+        {
+          "lo": 450.0,
+          "hi": 480.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "macro supply — the region the 2026 expansion was rejected from"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 320.0,
+          "hi": 325.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the first likely retest"
+        },
+        {
+          "lo": 305.0,
+          "hi": 315.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H/daily demand"
+        }
+      ],
+      "position": "mid-range between 4H demand $320.00–325.00 (2.7% below) and supply $340.00–350.00 (1.7% above) — the one location in this structure with no edge",
+      "bull": "4H acceptance above $350.00 with a held $340–350 retest → $360.00–375.00, then $390.00–405.00",
+      "bear": "reject $340.00–350.00 and lose $320.00 → $315.00–305.00, then $300.00–285.00; daily acceptance below $285.00 with a failed reclaim opens $270.00–250.00",
+      "retest": "$320.00–325.00 is the first likely retest; a deeper normalisation tests $305.00–315.00. Above $350, that band becomes the preferred bullish retest",
+      "longCandidate": "Yes, but NOT at $334 — that is the middle of the $320–350 range. Take **$320–325**, or acceptance above **$350** with a retest.",
+      "longSetup": "Hold **$320–325**, establish a 4H higher low and break/accept above **$340–350** → **$360–375**, then **$390–405**. Clean 4H acceptance above **$350** with a held **$340–350** retest is the cleaner momentum entry; a deeper sweep of **$305–315** with a strong reclaim gives better R:R.",
+      "shortSetup": "Reject **$340–350** and lose **$320** → **$315–305**, then **$300–285**. Daily acceptance below **$285** with a failed reclaim opens **$270–250**. A breakout over **$350** that immediately loses **$340** is a bull-trap warning.",
+      "preferred": "**Neutral-to-long** — do not chase $320–350",
+      "h4": "Compression after $250 → $400+ → $310; buyers defending the low-$300s, no clean break.",
+      "note": "Hand-seeded from a chart read. ATR(14) $35.44 (10.60%) COMPUTED — the HIGHEST atrPct on this board, ahead of ALOY's 9.54%. Third of the six rows parked at ranks 23–28 for want of an ATR to become measurable. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT. ⚠️ Every frame except the monthly reads range, so conviction is 0.0 and the row sits low in the long block — that is the structure key, and it is NOT the same question as the card's rank, which orders by distance-to-fill and puts ALAB near the top because its zone is only 0.26 ATR away. The two keys disagree by design. ⭐ The existing $284 stop survives the new ATR unchanged at 1.09 ATR, sitting just under major weekly demand $285–300."
     },
     {
       "ticker": "AVGO",
