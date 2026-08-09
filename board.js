@@ -262,6 +262,106 @@ const BOARD = {
       "note": "Hand-seeded from a chart read, not a generated run. ATR(14) $7.83 (3.50%) is COMPUTED, supplied with the read — the LOWEST atrPct of the names added this session, so NVDA is the least volatile of them by a wide margin. No session % was supplied, so the card's `change` avoids the '📅 CLOSE $X (±Y%)' form. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band; $250 is recorded here as a psychological reference rather than a fourth band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ Conviction ties with TEM at 3.5 and NVDA sorts first only on the ticker tiebreak — worth knowing that NVDA is arguably stronger, since its MONTHLY is bullish too and TEM's is neutral, but the documented key uses 2W+D+0.5H+Z and deliberately excludes the monthly. ⚠️ CORRECTION: earlier this session NVDA's old $205–209 zone was called 2.46 ATR away using a 3-session ATR proxy of $6.07; against the computed $7.83 it was 1.91 ATR. Still stranded by the 1.5 test, so the conclusion held, but the number was overstated by 29%."
     },
     {
+      "ticker": "PANW",
+      "date": "2026-08-07",
+      "price": 363.86,
+      "atr": 14.55,
+      "atrPct": 4.0,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "bullish",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "the pullback held above the rising daily mid-band ~$341 and price returned toward the highs",
+          "w": "successive higher highs/lows with rising OBV, well above the rising weekly mid-band"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish on every frame but extended — take the $355–359 retest or acceptance over $377.",
+      "trendProse": {
+        "m": "strong uptrend",
+        "w": "strong uptrend",
+        "d": "uptrend",
+        "h4": "uptrend"
+      },
+      "combo": "all frames up together",
+      "demand": [
+        {
+          "lo": 338.0,
+          "hi": 342.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "important daily demand — the rising daily mid-band ~$341 sits inside it; acceptance below $338 opens $326–320"
+        },
+        {
+          "lo": 320.0,
+          "hi": 326.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "deeper daily/structural demand"
+        },
+        {
+          "lo": 307.0,
+          "hi": 312.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major lower demand — the base of the run to $377"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 372.0,
+          "hi": 377.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate — the ONLY established overhead; the 08-05 high $376.98 is its top"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 355.0,
+          "hi": 359.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the rising 4H mid-band ~$356 sits inside it"
+        },
+        {
+          "lo": 347.0,
+          "hi": 351.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H demand"
+        }
+      ],
+      "position": "under the $372.00–377.00 gate (2.2% above, tagged at $370.50 on 08-07) with 4H demand $355.00–359.00 (1.3% below); above the gate there is no established supply",
+      "bull": "break/accept above $372.00–377.00 → $390.00–400.00 as an extension objective, then $410.00+; there is no established supply above $377.00",
+      "bear": "reject $372.00–377.00 and lose $355.00 → $351.00–347.00, then $342.00–338.00; daily acceptance below $338.00 opens $326.00–320.00, and losing $320.00 exposes $312.00–307.00",
+      "retest": "$355.00–359.00 is the first likely retest; a deeper normalisation tests $347.00–351.00, with $338.00–342.00 the more important daily support. Above $377 the retest becomes $370–377",
+      "longCandidate": "Yes, with the HTF trend — but not at $364. Take **$355–359**, or acceptance above **$377** with a retest.",
+      "longSetup": "Hold **$355–359**, form a 4H higher low and break/accept above **$372–377** → **$390–400**, then **$410+**. Clean acceptance above **$377** with a held **$370–377** retest is the cleaner momentum entry; a deeper pullback into **$347–351** strongly reclaimed gives better R:R.",
+      "shortSetup": "Countertrend only while every frame is this aligned: reject **$372–377** and lose **$355** → **$351–347**, then **$342–338**. Daily acceptance below **$338** opens **$326–320**; losing **$320** materially weakens the breakout structure and exposes **$312–307**.",
+      "preferred": "**Long preferred** — do not chase $372–377",
+      "h4": "Consolidating over the rising 4H mid-band ~$356 after $310 → $377; gate not cleared.",
+      "note": "Hand-seeded from a chart read. ATR(14) $14.55 (4.00%) COMPUTED — fourth of the six rows parked for want of an ATR to become measurable. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT. ⭐ STRUCTURALLY UNUSUAL AND WORTH THE NOTE: PANW carries only ONE established supply band, $372–377. Above it the read finds little nearby historical overhead, so $390–400 is recorded on the card as an EXTENSION OBJECTIVE and explicitly not as supply — it is a projection, and calling it a zone would be inventing structure. Every other long on this board is trading into stacked overhead; this one is not. ⚠️ Monthly RSI ~75.5 and weekly ~72 make it the most HTF-extended name here alongside CRWD, which is the counterweight to that clear air. ⚠️ The $337 stop is 1.37 ATR rather than the tighter 1.03 ATR $342 would give, deliberately: it sits BELOW daily demand $338–342 and matches the read's own $338 daily-acceptance falsifier, so it fails only when the thesis does. The tighter alternative re-rates R:R ~2.2:1 → ~2.9:1 but exits as the band is first touched."
+    },
+    {
       "ticker": "TEM",
       "date": "2026-08-07",
       "price": 52.05,
@@ -6797,7 +6897,7 @@ const BOARD = {
       "h4Effect": "This frame is what makes it a two-way watch rather than a short: oversold at demand argues a bounce toward **$18.3–18.7** first, and the cleaner short is that bounce failing at **$18.7–19.5**."
     }
   ],
-  "note": "Structure only — where demand and supply sit and what triggers which way; independent of the traded plans on the cards. ⚠️ Read the top of the long block as ONE observation: CRWD, NVDA and TEM all tie at conviction 3.5 and all say the same thing — every frame bullish, price extended, wait for the retest — and the ALOY/MP/USAR/UUUU cluster says it too. Seven names, one setup shape. If that retest comes it comes for all of them on the same bar, so the board is far less diversified than a row count suggests.",
+  "note": "Structure only — where demand and supply sit and what triggers which way; independent of the traded plans on the cards. ⚠️ Read the top of the long block as ONE observation: CRWD, NVDA, PANW and TEM now all tie at conviction 3.5 and all say the same thing — every frame bullish, price extended, wait for the retest — and the ALOY/MP/USAR/UUUU cluster says it too. Eight names, one setup shape. If that retest comes it comes for all of them on the same bar, so the board is far less diversified than a row count suggests.",
   "ranking": [
     "**LITE two-way** — short only a confirmed rejection from $865–900; long only a $820–835 retest or acceptance above $900.",
     "**STX short** — fired: $842 and $818 both failed on the 08-07 close ($812.76); $797–816 is the 4H shelf under it.",
