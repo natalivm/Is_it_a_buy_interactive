@@ -25,11 +25,16 @@
 //   SUPPLY   [ lowest BODY edge of the base , highest WICK of the base ]
 //            the lower wick is discarded
 //
-// The base is the BALANCE before the impulse: candles whose bodies are small
-// against ATR, sitting immediately before a displacement leg that breaks
-// structure. Colour is deliberately NOT the test — a base is where price went
-// quiet, and a quiet candle is quiet whether it closes red or green. (The
-// `Base` input can switch back to the board's colour-based rule; see below.)
+// The base is the NEAREST BALANCE CANDLE before the impulse: a candle whose
+// body is small against ATR, plus the run of balance behind it. It is NOT
+// always the candle beside the displacement — a move often leaves in two or
+// three long bars, and the bar next to the leg is then the move already
+// underway, not the rest that preceded it, so the walk reaches back over long
+// bodies (`seekBars`) to where price actually went quiet. Colour is
+// deliberately SECONDARY — a quiet candle is quiet whether it closes red or
+// green, and a long one is impulse whichever way it closed. A leg with no
+// balance within reach leaves no zone. (The `Base` input can switch back to
+// the board's colour-based rule; see below.)
 //
 // The impulse is unchanged: open-to-furthest-CLOSE over `displaceBars` bars,
 // at least `displaceAtr` ATRs, and it has to BREAK the last swing — an up-leg
@@ -42,10 +47,11 @@
 // The rest of the engine is a port of tools/structure.py, constant for
 // constant — swings(), significant_swings(), find_zones(), _score_zone(),
 // _merge(), _resolve_cross(), nearest(). To reproduce the `demand`/`supply`
-// arrays in board.js exactly, three settings have to match the extractor:
-// **Base = board rules**, **Maximum zone width = 2.0**, and only the chart
-// frame enabled on a daily chart. tools/pine/verify_port.py checks that
-// combination on every ticker on the board and is currently 50/50.
+// arrays in board.js exactly, four settings have to match the extractor:
+// **Base = board rules**, **Maximum zone width = 2.0**, **Secondary zone
+// behind a wicked-through level = off**, and only the chart frame enabled on
+// a daily chart. tools/pine/verify_port.py checks that combination on every
+// ticker on the board and is currently 50/50.
 //
 // The shipped default width is 1.2, NOT the board's 2.0: at 2.0 the zones
 // covered 70% of the visible band across 13 names, and a level covering most of
@@ -86,6 +92,10 @@ useC      = input.bool(true, "Chart-frame zones", group = gF, tooltip = "The cha
 perSideM  = input.int(1, "Zones per side — monthly", group = gF, minval = 1, maxval = 6, tooltip = "1 draws only the nearest demand and the nearest supply on this frame. Raise it to see the levels behind them.")
 perSideW  = input.int(1, "…weekly",               group = gF, minval = 1, maxval = 6)
 perSideC  = input.int(1, "…chart frame",          group = gF, minval = 1, maxval = 6)
+// The ONE exception to one-a-side: a wick through the nearest zone's far edge,
+// refused, is evidence price can already reach the level behind it — that
+// promotes the next zone out from structure to part of the current read.
+secondWick = input.bool(true, "Secondary zone behind a wicked-through level", group = gF, tooltip = "When a bar since the nearest zone formed traded beyond its FAR edge intra-bar without closing beyond it — a wick through the level, refused — the zone behind it is drawn as well. That is the only time a second zone a side appears.")
 ageM      = input.int(36,  "Age cap, monthly bars", group = gF, minval = 6, tooltip = "Zones older than this are history rather than current structure. 36 monthly bars is 3 years; the board's daily cap (MAX_ZONE_AGE) is 252.")
 ageW      = input.int(104, "…weekly bars",          group = gF, minval = 8)
 ageC      = input.int(252, "…chart bars",           group = gF, minval = 20)
@@ -94,6 +104,8 @@ gB = "Base — the balance before the impulse"
 baseMode    = input.string("balance candles", "Base", options = ["balance candles", "board rules (colour)"], group = gB, tooltip = "balance candles: walk back over candles whose BODY is small against ATR, whatever colour they are. board rules: the extractor's _base_span(), which walks back over candles of the opposite or neutral colour — use this to reproduce board.js exactly.")
 balanceBody = input.float(0.5, "Balance body, max ATR", group = gB, minval = 0.05, step = 0.05, tooltip = "A candle is 'balance' when |close − open| is at most this many ATRs. Bigger = looser bases.")
 maxBaseBars = input.int(4, "Base length, max candles", group = gB, minval = 1, maxval = 8, tooltip = "The extractor caps this at 4.")
+impulseBody = input.float(1.0, "Impulse body, min ATR", group = gB, minval = 0.3, step = 0.1, tooltip = "balance candles mode only. A candle with a body THIS big is part of the move, so the base walk steps over it. Keep it well above 'Balance body' — they are different tests. Set equal to Balance body and the walk skips ordinary candles too: at 0.5 it stepped over GILD's 0.7-ATR base at 118.5–126 and drew the zone three bars back at 104.46–112.97.")
+seekBars    = input.int(3, "Reach past long candles, max", group = gB, minval = 0, maxval = 8, tooltip = "balance candles mode only. How many impulse-sized candles the walk may step over to reach the candle the move actually left from — a move often departs in two or three long bars. If everything within reach is impulse-sized it falls back to the candle beside the impulse, so a level is never lost; 0 turns the reach off entirely.")
 
 gZ = "Zone rules — defaults are tools/structure.py's"
 displaceAtr  = input.float(1.0,  "Impulse, in ATR",                group = gZ, minval = 0.1, step = 0.1, tooltip = "DISPLACE_ATR. Measured open-to-furthest-CLOSE over the window below — a wick alone is not displacement.")
@@ -114,7 +126,7 @@ showTrend  = input.bool(true, "Mark where the trend started and ended", group = 
 trendFrame = input.string("weekly", "Read the trend on", options = ["weekly", "monthly", "chart"], group = gT, tooltip = "Weekly by default: it is the frame the board treats as structural, and the one whose swings survive a session.")
 trendCol   = input.color(#eab308, "Colour", group = gT, inline = "t")
 trendVert  = input.bool(false, "Vertical markers", group = gT, inline = "t", tooltip = "Dashed uprights where the leg began and, on a finished leg, where it was over. Off by default — the two horizontal levels are the drawing.")
-trendTags  = input.bool(false, "Label the levels", group = gT, tooltip = "Adds 'W top 140.61' / 'W bottom 121.39' at the right edge.")
+trendTags  = input.bool(false, "Label the levels", group = gT, tooltip = "Adds 'W top 138.06' / 'W bottom 123.76' at the right edge.")
 showPrevLeg = input.bool(false, "Also draw the previous leg, faded", group = gT, tooltip = "The top and bottom of the trend BEFORE this one. Off by default: two levels are the point, four is a grid.")
 
 gD = "Display"
@@ -304,6 +316,42 @@ nearestKind(array<Zone> src, bool wantDemand, float px, int n) =>
         array.remove(cand, best)
     out
 
+// A zone is WICKED THROUGH when a bar since it formed traded beyond its FAR
+// edge intra-bar without closing beyond it: through a supply zone's top, or a
+// demand zone's bottom, and refused. A close beyond is a different statement —
+// the zone is then broken, not defended — so it does not count here.
+//
+// The scan starts AFTER the impulse window, not after the base: the leg's own
+// bars sit against the zone by construction and routinely graze its far edge
+// on the way out. That is departure, not a revisit refused — counting it
+// promoted a secondary on nearly every zone.
+wickedThrough(Zone z, Frame f) =>
+    n = array.size(f.c)
+    bool out = false
+    if z.idx + displaceBars + 1 <= n - 1
+        for b = z.idx + displaceBars + 1 to n - 1
+            h = array.get(f.h, b)
+            l = array.get(f.l, b)
+            c = array.get(f.c, b)
+            if z.isDemand ? (l < z.lo and c >= z.lo) : (h > z.hi and c <= z.hi)
+                out := true
+    out
+
+// nearestKind() plus the wick rule: keep the nearest `keep` a side, and when
+// the OUTERMOST of them has been wicked through, add the next zone out as a
+// secondary — its far edge has already been violated once, so the level
+// behind it is live.
+addSecondary(array<Zone> src, Frame f, int keep) =>
+    out = array.new<Zone>()
+    if array.size(src) > 0
+        for k = 0 to array.size(src) - 1
+            if k < keep
+                array.push(out, array.get(src, k))
+    if array.size(out) == keep and array.size(src) > keep
+        if wickedThrough(array.get(out, keep - 1), f)
+            array.push(out, array.get(src, keep))
+    out
+
 // swings() + significant_swings(), over one frame. Pulled out of the zone
 // engine because the trend markers read the SAME zigzag — a trend drawn off one
 // set of pivots and zones drawn off another would be two different charts.
@@ -328,6 +376,35 @@ buildZigzag(Frame f) =>
             if isLo
                 addSwing(sIdx, sPx, sHi, b, array.get(f.l, b), false, a, swingMinAtr)
     [sIdx, sPx, sHi]
+
+// ── the trend reads BODIES, not wicks ──────────────────────────────────────
+// The same pivots, priced at the body edge instead of the extreme: a swing high
+// is worth its highest BODY edge, a swing low its lowest. A wick is where price
+// went and was refused; the body is where it traded, and a level is only worth
+// drawing where trade happened. A top line pinned to the tip of a rejection
+// wick sits at a price that was never accepted, and then price "breaks" it on
+// the next ordinary bar without anything having changed.
+//
+// ⚠ DETECTION stays on wicks. Which bars are pivots is decided in buildZigzag()
+// by high/low, exactly as tools/structure.py does it, because the zone engine
+// reads the same zigzag and has to reproduce board.js constant for constant.
+// Only the PRICE the trend reads off each pivot changes here — the trend and
+// the zones still turn on the same bars.
+//
+// The whole trend read moves with it, not just the drawing: trendLegs() decides
+// higher-high / lower-low on these body prices too. That is the point of doing
+// it here rather than at draw time — the level the engine says ends the trend
+// is then the level on the screen, and a wick through a line that the engine
+// ignored can never look like a break that it did not count.
+bodyPivots(Frame f, array<int> sIdx, array<bool> sHi) =>
+    out = array.new<float>()
+    if array.size(sIdx) > 0
+        for k = 0 to array.size(sIdx) - 1
+            b  = array.get(sIdx, k)
+            ob = array.get(f.o, b)
+            cb = array.get(f.c, b)
+            array.push(out, array.get(sHi, k) ? math.max(ob, cb) : math.min(ob, cb))
+    out
 
 // ── the trend's control points ─────────────────────────────────────────────
 // Where a trend STARTED and where it was OVER, off the same pivots the zones
@@ -358,8 +435,12 @@ buildZigzag(Frame f) =>
 //
 // Returns the last COMPLETED leg and the CURRENT one:
 //   [prevStart, prevEnd, prevDir, curStart, curDir]  — pivot indices, dir ±1
-trendLegs(array<float> sPx, array<bool> sHi) =>
-    n = array.size(sPx)
+//
+// `sBd` is bodyPivots() — body edges, not wicks. A higher high here means a
+// higher body high, so a spike that pokes above the last high and closes back
+// under it does not start an uptrend.
+trendLegs(array<float> sBd, array<bool> sHi) =>
+    n = array.size(sBd)
     int prevStart = -1
     int prevEnd   = -1
     int prevDir   = 0
@@ -371,7 +452,7 @@ trendLegs(array<float> sPx, array<bool> sHi) =>
     int lastLowP   = -1
     if n >= 3
         for k = 0 to n - 1
-            px = array.get(sPx, k)
+            px = array.get(sBd, k)
             if array.get(sHi, k)
                 // A higher high ends a downtrend and starts an uptrend.
                 if not na(prevHigh) and px > prevHigh
@@ -440,59 +521,114 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                     prior = isDemand ? lastHi : lastLo
                     if not na(prior) and (isDemand ? upTo > prior : dnTo < prior)
                         // ── THE BASE ──────────────────────────────────────
-                        // Walk back from the candle before the impulse over the
-                        // balance that preceded it. In "balance candles" mode
-                        // the test is SIZE, not colour: a base is where price
-                        // went quiet, and a quiet candle is quiet whichever way
-                        // it closed. In "board rules" it is the extractor's
-                        // colour walk, kept so the script can reproduce
-                        // board.js exactly.
+                        // The base must not be a LONG IMPULSE CANDLE: a move
+                        // often leaves in two or three long bars, and the bar
+                        // beside the displacement is then the move already
+                        // underway, not the rest that preceded it. So in
+                        // "balance candles" mode the walk REACHES back over
+                        // impulse-sized bodies (colour is secondary — a long
+                        // candle is impulse whichever way it closed) to the
+                        // first candle that is not one, then EXTENDS back over
+                        // the balance behind it.
+                        //
+                        // ⚠ "Impulse-sized" and "not balance" are DIFFERENT
+                        // TESTS, and conflating them is what broke this. Made
+                        // to reach past anything with a body over balanceBody
+                        // (0.5 ATR), the walk skipped ordinary candles too: on
+                        // GILD monthly the 0.7-ATR candle at 118.5–126 that
+                        // WAS the base got stepped over, and the zone landed
+                        // three bars back at 104.46–112.97 — a stale level far
+                        // under the one price actually left. So the reach test
+                        // is its own, looser threshold (impulseBody, 1 ATR by
+                        // default) and only genuinely impulse-sized bodies are
+                        // skipped. The extend test stays balanceBody: a base
+                        // grows over quiet candles, not over merely-not-huge
+                        // ones.
+                        //
+                        // ⚠ Nothing but impulse within reach FALLS BACK to the
+                        // candle beside it — the level still gets drawn.
+                        // Dropping the zone outright was tried and it gutted
+                        // the chart. A base picked off a long candle is a
+                        // worse anchor than balance; it is not worse than no
+                        // level at all.
+                        //
+                        // "board rules" is the extractor's colour walk,
+                        // unchanged, so the script can reproduce board.js
+                        // exactly.
                         j = i - 1
+                        int endB   = j
                         int startB = j
-                        for k = 0 to maxBaseBars - 1
-                            b2 = j - k
-                            if b2 < 0
-                                break
-                            ob = array.get(f.o, b2)
-                            cb = array.get(f.c, b2)
-                            ab = array.get(f.atr, b2)
-                            bool stop = false
-                            if baseMode == "balance candles"
-                                body = math.abs(cb - ob)
-                                stop := na(ab) or ab <= 0 or body > balanceBody * ab
-                            else
-                                stop := isDemand == (cb > ob)
-                            if stop
-                                break
-                            startB := b2
-                        // ── THE BOUNDARIES ────────────────────────────────
-                        //   demand [lowest WICK, highest BODY edge]  ← top wick discarded
-                        //   supply [lowest BODY edge, highest WICK]  ← bottom wick discarded
-                        float zlo = na
-                        float zhi = na
-                        for b2 = startB to j
-                            ob = array.get(f.o, b2)
-                            cb = array.get(f.c, b2)
-                            bodyLo = math.min(ob, cb)
-                            bodyHi = math.max(ob, cb)
-                            lo2 = isDemand ? array.get(f.l, b2) : bodyLo
-                            hi2 = isDemand ? bodyHi             : array.get(f.h, b2)
-                            zlo := na(zlo) ? lo2 : math.min(zlo, lo2)
-                            zhi := na(zhi) ? hi2 : math.max(zhi, hi2)
-                        // Mean relative volume across the impulse — a zone left
-                        // by a drift on thin volume has a weaker origin than one
-                        // left by real trade.
-                        float vSum = 0.0
-                        int   vN   = 0
-                        for k = i to math.min(i + displaceBars - 1, n - 1)
-                            m = array.get(f.med, k)
-                            v = array.get(f.v, k)
-                            if not na(m) and m > 0 and not na(v) and v > 0
-                                vSum += v / m
-                                vN   += 1
-                        array.push(raw, Zone.new(isDemand, zlo, zhi, j,
-                                                 array.get(f.bi, j), a, 0, 0, 0,
-                                                 vN > 0 ? vSum / vN : 0.0, "fresh", tag))
+                        if baseMode == "balance candles"
+                            int found = -1
+                            for k = 0 to seekBars
+                                b2 = j - k
+                                if b2 < 0
+                                    break
+                                ob = array.get(f.o, b2)
+                                cb = array.get(f.c, b2)
+                                ab = array.get(f.atr, b2)
+                                if na(ab) or ab <= 0 or math.abs(cb - ob) < impulseBody * ab
+                                    found := b2
+                                    break
+                            if found >= 0
+                                endB   := found
+                                startB := found
+                                if maxBaseBars > 1
+                                    for k = 1 to maxBaseBars - 1
+                                        b2 = found - k
+                                        if b2 < 0
+                                            break
+                                        ob = array.get(f.o, b2)
+                                        cb = array.get(f.c, b2)
+                                        ab = array.get(f.atr, b2)
+                                        if na(ab) or ab <= 0 or math.abs(cb - ob) > balanceBody * ab
+                                            break
+                                        startB := b2
+                        else
+                            for k = 0 to maxBaseBars - 1
+                                b2 = j - k
+                                if b2 < 0
+                                    break
+                                ob = array.get(f.o, b2)
+                                cb = array.get(f.c, b2)
+                                if isDemand == (cb > ob)
+                                    break
+                                startB := b2
+                        if endB >= 0
+                            // ── THE BOUNDARIES ────────────────────────────
+                            //   demand [lowest WICK, highest BODY edge]  ← top wick discarded
+                            //   supply [lowest BODY edge, highest WICK]  ← bottom wick discarded
+                            float zlo = na
+                            float zhi = na
+                            for b2 = startB to endB
+                                ob = array.get(f.o, b2)
+                                cb = array.get(f.c, b2)
+                                bodyLo = math.min(ob, cb)
+                                bodyHi = math.max(ob, cb)
+                                lo2 = isDemand ? array.get(f.l, b2) : bodyLo
+                                hi2 = isDemand ? bodyHi             : array.get(f.h, b2)
+                                zlo := na(zlo) ? lo2 : math.min(zlo, lo2)
+                                zhi := na(zhi) ? hi2 : math.max(zhi, hi2)
+                            // Mean relative volume across the impulse — a zone
+                            // left by a drift on thin volume has a weaker
+                            // origin than one left by real trade.
+                            float vSum = 0.0
+                            int   vN   = 0
+                            for k = i to math.min(i + displaceBars - 1, n - 1)
+                                m = array.get(f.med, k)
+                                v = array.get(f.v, k)
+                                if not na(m) and m > 0 and not na(v) and v > 0
+                                    vSum += v / m
+                                    vN   += 1
+                            // idx stays at i-1 — the zone became a zone when
+                            // the impulse LEFT, so age, scoring and recency
+                            // keep their meaning; only the drawing (bi) and
+                            // the boundaries move back to the balance.
+                            array.push(raw, Zone.new(isDemand, zlo, zhi, j,
+                                                     array.get(f.bi, endB), a, 0, 0, 0,
+                                                     vN > 0 ? vSum / vN : 0.0, "fresh", tag))
+                        // The skip is the impulse's, not the zone's — a leg
+                        // that left no base still occupied these bars.
                         step := displaceBars
             i += step
 
@@ -542,8 +678,15 @@ zonesFor(Frame f, string tag, int maxAge, int perSide, float px) =>
                             drop := true
                 if not drop
                     array.push(keepS, b)
-        dem := nearestKind(keepD, true,  px, perSide)
-        sup := nearestKind(keepS, false, px, perSide)
+        // Nearest per side — plus, behind a wicked-through nearest, the next
+        // zone out (see addSecondary). The candidate list is fetched one
+        // deeper so the secondary has been through every filter the primary
+        // has: distance cap, cross-resolution, the lot.
+        int extra = secondWick ? 1 : 0
+        demAll = nearestKind(keepD, true,  px, perSide + extra)
+        supAll = nearestKind(keepS, false, px, perSide + extra)
+        dem := secondWick ? addSecondary(demAll, f, perSide) : demAll
+        sup := secondWick ? addSecondary(supAll, f, perSide) : supAll
     [dem, sup]
 
 // ── drawing ────────────────────────────────────────────────────────────────
@@ -607,12 +750,12 @@ lastOfKind(array<bool> sHi, int fromK, int toK, bool wantHigh) =>
             best := k
     best
 
-extremeIn(array<float> sPx, array<bool> sHi, int fromK, int toK, int dir) =>
+extremeIn(array<float> sBd, array<bool> sHi, int fromK, int toK, int dir) =>
     int best = -1
     float bestPx = na
     for k = fromK to toK
         if array.get(sHi, k) == (dir > 0)     // uptrend reads highs, downtrend lows
-            px = array.get(sPx, k)
+            px = array.get(sBd, k)
             if na(bestPx) or (dir > 0 ? px > bestPx : px < bestPx)
                 bestPx := px
                 best   := k
@@ -629,7 +772,11 @@ extremeIn(array<float> sPx, array<bool> sHi, int fromK, int toK, int dir) =>
 //
 // Each level runs from the pivot that set it to the right edge, so where price
 // sits against it is readable at a glance.
-drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
+//
+// The prices come in as `sBd` — bodyPivots(), the body edge of each pivot bar,
+// never the wick. A line lands on the top or bottom of a candle's body, which is
+// where the trade was; see bodyPivots() for why the wick is not a level.
+drawLeg(Frame f, array<int> sIdx, array<float> sBd, array<bool> sHi, string tag,
         int dir, int pStart, int pBreak, bool running, float loY, float hiY,
         int transp) =>
     // ⚠ A finished leg's levels are read UP TO the break, not through it. The
@@ -650,29 +797,29 @@ drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
     // Drawn as the leg's lowest low instead, the bottom line sat below the
     // actual break on 7 of 24 board legs — a line that could not have ended the
     // trend it was drawn for.
-    hiP = scanTo < pStart ? -1 : dir > 0 ? extremeIn(sPx, sHi, pStart, scanTo, 1) : lastOfKind(sHi, pStart, scanTo, true)
-    loP = scanTo < pStart ? -1 : dir > 0 ? lastOfKind(sHi, pStart, scanTo, false) : extremeIn(sPx, sHi, pStart, scanTo, -1)
+    hiP = scanTo < pStart ? -1 : dir > 0 ? extremeIn(sBd, sHi, pStart, scanTo, 1) : lastOfKind(sHi, pStart, scanTo, true)
+    loP = scanTo < pStart ? -1 : dir > 0 ? lastOfKind(sHi, pStart, scanTo, false) : extremeIn(sBd, sHi, pStart, scanTo, -1)
     col = color.new(trendCol, transp)
     word = dir > 0 ? "uptrend" : "downtrend"
     if hiP >= 0
-        t = line.new(array.get(f.bi, array.get(sIdx, hiP)), array.get(sPx, hiP),
-                     bar_index + 10, array.get(sPx, hiP), xloc = xloc.bar_index,
+        t = line.new(array.get(f.bi, array.get(sIdx, hiP)), array.get(sBd, hiP),
+                     bar_index + 10, array.get(sBd, hiP), xloc = xloc.bar_index,
                      color = col, style = line.style_dashed, width = 2)
         array.push(drawnT, t)
         if trendTags
-            lt = label.new(bar_index + 10, array.get(sPx, hiP),
-                           tag + " top " + str.tostring(array.get(sPx, hiP), format.mintick),
+            lt = label.new(bar_index + 10, array.get(sBd, hiP),
+                           tag + " top " + str.tostring(array.get(sBd, hiP), format.mintick),
                            xloc = xloc.bar_index, style = label.style_none,
                            textcolor = col, size = size.tiny)
             array.push(drawnL, lt)
     if loP >= 0
-        b = line.new(array.get(f.bi, array.get(sIdx, loP)), array.get(sPx, loP),
-                     bar_index + 10, array.get(sPx, loP), xloc = xloc.bar_index,
+        b = line.new(array.get(f.bi, array.get(sIdx, loP)), array.get(sBd, loP),
+                     bar_index + 10, array.get(sBd, loP), xloc = xloc.bar_index,
                      color = col, style = line.style_dashed, width = 2)
         array.push(drawnT, b)
         if trendTags
-            lb = label.new(bar_index + 10, array.get(sPx, loP),
-                           tag + " bottom " + str.tostring(array.get(sPx, loP), format.mintick),
+            lb = label.new(bar_index + 10, array.get(sBd, loP),
+                           tag + " bottom " + str.tostring(array.get(sBd, loP), format.mintick),
                            xloc = xloc.bar_index, style = label.style_none,
                            textcolor = col, size = size.tiny)
             array.push(drawnL, lb)
@@ -693,7 +840,7 @@ drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
                           style = line.style_dashed, width = 1)
             array.push(drawnT, vB)
     if trendTags and not running
-        lo2 = label.new(array.get(f.bi, array.get(sIdx, pBreak)), array.get(sPx, pBreak),
+        lo2 = label.new(array.get(f.bi, array.get(sIdx, pBreak)), array.get(sBd, pBreak),
                         tag + " " + word + " over",
                         xloc = xloc.bar_index, style = label.style_label_upper_left,
                         color = color.new(trendCol, 85), textcolor = col, size = size.tiny)
@@ -701,14 +848,14 @@ drawLeg(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi, string tag,
 
 // The last completed leg (faded) and the current one — so the chart shows where
 // the last trend was over AND what has been running since.
-drawTrend(Frame f, array<int> sIdx, array<float> sPx, array<bool> sHi,
+drawTrend(Frame f, array<int> sIdx, array<float> sBd, array<bool> sHi,
           string tag, float loY, float hiY) =>
-    [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sPx, sHi)
+    [pStart, pEnd, pDir, cStart, cDir] = trendLegs(sBd, sHi)
     n = array.size(sIdx)
     if showPrevLeg and pDir != 0 and pStart >= 0 and pEnd > pStart
-        drawLeg(f, sIdx, sPx, sHi, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
+        drawLeg(f, sIdx, sBd, sHi, tag, pDir, pStart, pEnd, false, loY, hiY, 45)
     if cDir != 0 and cStart >= 0 and n - 1 > cStart
-        drawLeg(f, sIdx, sPx, sHi, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
+        drawLeg(f, sIdx, sBd, sHi, tag, cDir, cStart, n - 1, true, loY, hiY, 0)
     cDir
 
 // _next_beyond(): the first zone that actually CLEARS the one being broken —
@@ -840,8 +987,11 @@ if barstate.islast
         useF = trendFrame == "monthly" and wantM ? fM : trendFrame == "chart" ? fC : wantW ? fW : fC
         tag  = trendFrame == "monthly" and wantM ? "M" : trendFrame == "chart" ? chartTag : wantW ? "W" : chartTag
         if array.size(useF.c) > 2 * swingN
+            // The zigzag is the zones' own — the same bars are pivots — but the
+            // trend prices each one at its BODY edge. See bodyPivots().
             [zi, zp, zh] = buildZigzag(useF)
-            trendDir := drawTrend(useF, zi, zp, zh, tag, loY, hiY)
+            zb = bodyPivots(useF, zi, zh)
+            trendDir := drawTrend(useF, zi, zb, zh, tag, loY, hiY)
 
     if showPanel
         // The board's own position / bull / bear lines, off the CHART frame's

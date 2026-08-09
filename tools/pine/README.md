@@ -19,10 +19,28 @@ DEMAND   [ lowest WICK of the base , highest BODY edge ]   upper wick discarded
 SUPPLY   [ lowest BODY edge , highest WICK of the base ]   lower wick discarded
 ```
 
-The base is the **balance before the impulse**: candles whose bodies are small
-against ATR, sitting immediately before a displacement leg that breaks
-structure. Colour is deliberately not the test — a base is where price went
-quiet, and a quiet candle is quiet whichever way it closed.
+The base is **the candle the move left from, never a long impulse candle**,
+plus the run of balance behind it. It is *not* always the candle beside the
+displacement: a move often departs in two or three long bars, and the bar next
+to the leg is then the move already underway rather than the rest that preceded
+it. So the walk **reaches back over impulse-sized bodies** (**Reach past long
+candles**, default 3) to the first candle that is not one. Colour is secondary
+throughout: a long candle is impulse whichever way it closed, and a quiet one
+is quiet whichever way it closed.
+
+**The reach test and the balance test are different thresholds, and conflating
+them is the mistake to avoid.** Reach steps over bodies of at least **Impulse
+body** (1 ATR); extend grows the base only over bodies under **Balance body**
+(0.5 ATR). Set the reach to the balance figure and it walks past ordinary
+candles too — on GILD monthly that stepped over the 0.7-ATR candle at
+**118.5–126** that *was* the base and put the zone three bars back at
+**104.46–112.97**, a stale level far under the one price actually left.
+
+**A leg with nothing but impulse within reach falls back to the candle beside
+it**, so a level is never lost. Dropping the zone outright was tried and it
+gutted the chart: on weekly and monthly bars a body over 0.5 ATR is ordinary,
+so whole frames came back empty. A base picked off a long candle is a worse
+anchor than balance — it is not worse than no level at all.
 
 The impulse is unchanged from the board: open-to-furthest-**close** over
 `displaceBars` bars, at least `displaceAtr` ATRs, and it must break the last
@@ -32,9 +50,9 @@ just a big candle.
 
 ### The two base rules
 
-| `Base` input | walks back over | use it for |
+| `Base` input | how it picks the base | use it for |
 |---|---|---|
-| `balance candles` *(default)* | candles with `\|close − open\| ≤ 0.5 ATR`, any colour | reading a chart |
+| `balance candles` *(default)* | reach past bodies `≥ 1 ATR`, then extend over bodies `≤ 0.5 ATR`, any colour | reading a chart |
 | `board rules (colour)` | candles of the opposite or neutral colour — the extractor's `_base_span()` | reproducing `board.js` exactly |
 
 **Balance mode is a deliberate divergence** from `structure.py`, and it moves
@@ -69,6 +87,17 @@ and third-nearest are structure rather than triggers, and drawing them is what
 carpeted the chart: measured across 13 names, 3/2/2 a side put **9.6 zones on
 screen covering 70%** of the visible band, against **3.7 covering 33%** at
 1/1/1. Raise the per-frame counts to see what sits behind.
+
+**The one exception: a wicked-through nearest promotes a secondary.** When a
+bar since the nearest zone formed traded beyond its *far* edge intra-bar
+without closing beyond it — a wick through a supply zone's top or a demand
+zone's bottom, refused — the zone behind it is drawn as well (**Secondary zone
+behind a wicked-through level**, on by default). The wick is the evidence:
+price has already shown it can reach the level behind, so that level is part
+of the current read, not background structure. A *close* beyond the edge is a
+different statement — the zone is broken, not defended — and does not qualify.
+The secondary comes off the same filtered list as the primary, so it has
+passed the distance cap and cross-resolution like any drawn zone.
 
 The width cap does the same job from the other end and ships at **1.2 ATR**, not
 the board's 2.0 — wider than that is a region, not a trigger. Note it is not a
@@ -114,6 +143,19 @@ That asymmetry is forced by the rule. "Lower low" means lower than the
 lowest low instead, the bottom line sat *below* the break that actually ended
 the trend on 7 of 24 board legs; `verify_port.py` now checks that invariant on
 every completed leg (**24/24**).
+
+**The levels sit on candle BODIES, not wicks.** A pivot bar is still detected
+by its high/low — that is the zone engine's zigzag and it has to keep matching
+`structure.py` — but the price the trend reads off it is the bar's body edge:
+a swing high is worth its highest body edge, a swing low its lowest
+(`bodyPivots()`). A wick is where price was refused; the body is where it
+traded, and a top line pinned to the tip of a rejection wick sits at a price
+that was never accepted — GILD's weekly top drawn at the $140.61 wick instead
+of the $138.06 body top, and then "broken" by the next ordinary poke without
+anything having changed. The whole read moves with it, not just the drawing:
+`trendLegs()` decides higher-high / lower-low on body prices too, so a spike
+over the last high that closes back under it does not start an uptrend, and
+the level the engine says ends the trend is the level on the screen.
 
 Uprights at the control points and price tags on the levels are both available
 and both **off by default** — two lines are the point, six drawings are a grid.
@@ -184,12 +226,14 @@ python3 tools/pine/verify_port.py            # every ticker in board.js
 python3 tools/pine/verify_port.py AXON TTD   # a few
 ```
 
-Board parity needs three settings back at the extractor's values: **Base =
-board rules**, **Maximum zone width = 2.0**, and only the chart frame enabled on
-a daily chart. The shipped defaults deliberately differ on all three counts —
-this script is for reading a chart, `board.js` is the record.
+Board parity needs four settings back at the extractor's values: **Base =
+board rules**, **Maximum zone width = 2.0**, **Secondary zone behind a
+wicked-through level = off**, and only the chart frame enabled on a daily
+chart. The shipped defaults deliberately differ on all four counts — this
+script is for reading a chart, `board.js` is the record.
 
-`verify_port.py` transliterates the indicator's `zonesFor()` and `trendLegs()` —
+`verify_port.py` transliterates the indicator's `zonesFor()`, `bodyPivots()`
+and `trendLegs()` —
 same loop bounds, same index arithmetic — and checks four things: board-rules
 parity against `structure.py` (**currently 50/50 zone lists identical across 25
 tickers**, boundaries and grades both), that balance mode runs and by how much
