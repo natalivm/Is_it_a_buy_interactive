@@ -973,6 +973,33 @@ const STOCKS = [
     date: '2026-08-09',
     story: 'stories/qcom.html',
   },
+  {
+    symbol: 'ALOY', exchange: 'NASDAQ',
+    price: '$12.96', change: '🌙 $12.96 AFTER HOURS — 0.3% under supply $13.00–13.50 with the 4H RSI ~78, the most extended of the three cluster names',
+    signal: '🌙 08/07 AH — THE MOST EXTENDED OF THE THREE. $12.96 is an AFTER-HOURS print, not a close, and it sits 0.3% under supply $13.00–13.50 with the 4H RSI ~78 — the highest in the group. ⭐ The reversal is genuine: off the $7–8 lows with rising RSI and OBV, the weekly mid-band ~$11.10 reclaimed, the monthly expansion intact. ⚠️ But ATR is ~11%, the widest on the board, so an ordinary session covers more than a dollar. Entry $11.80–12.20, or 4H acceptance over $13.50; stop $10.50, 1.03 ATR out; targets $13.50 → $14.50 → $16.00. ⚠️ One position with USAR and UUUU, not three.',
+    lead: { rank: 26, status: 'wait', entry: 'pullback holds $11.80–12.20', stop: '$10.50 (close)', targets: '$13.50 → $14.50 → $16.00', rr: '~2.7:1', edge: '⚠️ THE RIGHT STRUCTURE AT THE WRONG PRICE, AND THE NUMBERS SAY SO PRECISELY. $12.96 is 0.3% under supply $13.00–13.50 with a 4H RSI near 78 — the most stretched of the three — and it is an AFTER-HOURS print rather than a confirmed close. ⭐ The reversal underneath is real: off the $7–8 lows with rising RSI and OBV, the weekly mid-band ~$11.10 reclaimed, the monthly expansion structure intact. ⭐ The entry is the nearest of the cluster to its trigger — $11.80–12.20 is 0.52 ATR below price — and the $10.50 stop is 1.03 ATR from the midpoint, so it clears Rule B without straining. ⚠️ ATR ~11% is the widest on this board: the stop is wide by construction, so position size is the whole risk decision here, not the stop. ⚠️ ALOY, USAR and UUUU rose on one piece of news and all three are pressing into their first supply with a 4H RSI of 73–78 — a fill in one consumes the cluster budget, not a third of it. Falsifier: a daily close under $10.60 opens $10–9.50, then $8.80–8.00.' },
+    side: 'long',
+    date: '2026-08-09',
+    story: 'stories/aloy.html',
+  },
+  {
+    symbol: 'USAR', exchange: 'NASDAQ',
+    price: '$19.40', change: '📅 $19.40 — sitting directly under the $19.50–20.20 decision zone with the 4H RSI ~76; the daily reversal is real, the location is not',
+    signal: '📅 08/07 — THE CLEANEST MOMENTUM HERE, AT THE WORST LOCATION. $19.40 sits directly under $19.50–20.20, the decision zone, with the 4H RSI ~76. The daily reversal off the July low is gaining credibility — higher lows, rising RSI, improving OBV — and the weekly mid-band ~$19.40 is reclaimed, but the weekly reversal is NOT confirmed. ⭐ Entry is a held retest of $17.50–18.20, or 4H acceptance over $20.20 with a retest of $19.30–20.00. Stop $16.00, 1.54 ATR from the midpoint; targets $21.50 → $24 → $27. ⚠️ One cluster with ALOY and UUUU — size it as a single position.',
+    lead: { rank: 27, status: 'wait', entry: 'pullback holds $17.50–18.20', stop: '$16.00 (close)', targets: '$21.50 → $24 → $27', rr: '~4.9:1', edge: '⭐ THE BEST SHORT-TERM MOMENTUM STRUCTURE OF THE THREE — 4H price and OBV both advancing, the daily reversal off the July washout gaining credibility with higher lows and a rising RSI, and the weekly mid-band ~$19.40 reclaimed. ⚠️ The problem is location, not direction: $19.50–20.20 is the breakout decision zone and price is 0.5% under it with a 4H RSI near 76, so $19.30–19.50 is the one entry to refuse. ⭐ Two clean executions instead: a held retest of $17.50–18.20, which sits exactly 1.00 ATR below price, or 4H acceptance above $20.20 followed by a successful retest of $19.30–20.00. The $16.00 stop is 1.54 ATR from the $17.85 midpoint — comfortably outside noise — and above $20.20 the ladder opens $21.50–22.50 → $24–25 → $27–29. ⚠️ The weekly reversal is NOT confirmed, so this is a recovery inside a correction rather than a new trend. ⚠️ ALOY, USAR and UUUU are one news-driven cluster. Falsifier: losing $17.50 materially weakens the setup; daily acceptance under $16.00 opens $15.20–14.30.' },
+    side: 'long',
+    date: '2026-08-09',
+    story: 'stories/usar.html',
+  },
+  {
+    symbol: 'UUUU', exchange: 'AMEX',
+    price: '$14.21', change: '📅 $14.21 — the recovery is real and the location is not: $14.50–15.00 supply starts 2% above with the 4H RSI ~73',
+    signal: '📅 08/07 — THE RECOVERY IS REAL AND THE LOCATION IS NOT. $14.21, with the nearest supply $14.50–15.00 starting 2% above and the 4H RSI already ~73. The daily has turned up, the weekly candle is a reversal off $10–11 demand, and the monthly expansion is intact — but price is still under the $20–25 highs. ⭐ Two honest entries: a retest of $12.90–13.20 that holds, or 4H acceptance over $15.00. Stop $12.10, 1.03 ATR from the zone midpoint; targets $14.50 → $16.30 → $19.50. ⚠️ ALOY, USAR and UUUU are one news-driven cluster — one position, not three.',
+    lead: { rank: 28, status: 'wait', entry: 'pullback holds $12.90–13.20', stop: '$12.10 (close)', targets: '$14.50 → $16.30 → $19.50', rr: '~6.8:1', edge: '⭐ THE LEAST EXTENDED OF THE THREE, WHICH IS THE ONLY REASON IT IS THE EASIEST TO WAIT ON. 4H RSI ~73 against 76 and 78 for USAR and ALOY, and the nearest supply $14.50–15.00 begins just 2% above — close enough that buying here is buying into the seller. ⭐ The structure underneath is sound: the daily has turned up and reclaimed its mid-band, the weekly candle is a reversal off $10–11 demand where the July low was bought, and the monthly expansion from 2025–26 is intact, with price still well under the $20–25 highs. ⭐ Entry $12.90–13.20 sits 1.09 ATR below price and the $12.10 stop is 1.03 ATR from the midpoint, so both the fill and the invalidation are outside ordinary noise. ⚠️ ATR is the chart’s visual estimate ($0.85–1.00), not a computed ATR(14), so the stop is provisional until a real fetch lands. ⚠️ One position with ALOY and USAR — the retest all three want will arrive on the same bar. Falsifier: daily acceptance under $12.10 opens $11.30–10.50.' },
+    side: 'long',
+    date: '2026-08-09',
+    story: 'stories/uuuu.html',
+  },
 ];
 
 // ── Articles ──────────────────────────────────────────────────────────────
