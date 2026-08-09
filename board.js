@@ -38,6 +38,122 @@ const BOARD = {
   "method": "Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; O OBV slope; Z inside confirmed demand +1 / supply −1)",
   "rows": [
     {
+      "ticker": "CRDO",
+      "date": "2026-08-07",
+      "price": 249.89,
+      "atr": 21.44,
+      "atrPct": 8.58,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "bullish",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "strong reversal from the $177–185 washout with higher lows; $215–225 reclaimed",
+          "w": "recovery strengthened materially and the weekly mid-band ~$196 is reclaimed"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish on every frame but at the gate — take the $232–236 retest or acceptance over $255.",
+      "trendProse": {
+        "m": "strong uptrend",
+        "w": "uptrend",
+        "d": "uptrend",
+        "h4": "strong uptrend"
+      },
+      "combo": "all frames up together",
+      "demand": [
+        {
+          "lo": 195.0,
+          "hi": 205.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily/weekly demand — the weekly mid-band ~$196 sits here"
+        },
+        {
+          "lo": 177.0,
+          "hi": 185.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "deeper structural demand — the late-July washout low"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 250.0,
+          "hi": 255.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate — the 08-07 high $250.00 is its lower edge"
+        },
+        {
+          "lo": 265.0,
+          "hi": 272.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "secondary supply"
+        },
+        {
+          "lo": 285.0,
+          "hi": 300.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major weekly/daily supply — the prior high structure"
+        },
+        {
+          "lo": 300.0,
+          "hi": 309.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major HTF high zone"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 232.0,
+          "hi": 236.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the first likely retest after the vertical move"
+        },
+        {
+          "lo": 215.0,
+          "hi": 222.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H/daily demand"
+        }
+      ],
+      "position": "at the $250.00–255.00 gate (0.04% above — the 08-07 high $250.00 tagged its lower edge) with 4H demand $232.00–236.00 (5.6% below)",
+      "bull": "break/accept above $250.00–255.00 → $265.00–272.00, then $285.00–300.00; acceptance over $255.00 with a $245–252 retest is the cleaner entry",
+      "bear": "reject $250.00–255.00 and lose $232.00 → $222.00–215.00; daily acceptance below $215.00 opens $205.00–195.00, and losing $195.00 exposes $185.00–177.00",
+      "retest": "$232.00–236.00 is the first likely retest after the vertical 4H move; a deeper one tests $215.00–222.00. Above $255 the retest becomes $245–252",
+      "longCandidate": "Yes — but the close is ON the gate. Take **$232–236**, or acceptance above **$255** with a $245–252 retest.",
+      "longSetup": "Hold or retest **$232–236**, establish a 4H higher low and break/accept above **$250–255** → **$265–272**, then **$285–300**. Clean acceptance above **$255** with a held **$245–252** retest is the cleaner momentum entry; a deeper pullback into **$215–222** strongly reclaimed gives better R:R.",
+      "shortSetup": "Countertrend only while the recovery is this strong: reject **$250–255** and lose **$232** → **$222–215**. Daily acceptance below **$215** opens **$205–195**; losing **$195** with a failed reclaim exposes **$185–177**. A spike through $255 that immediately loses $245 is a bull-trap warning.",
+      "preferred": "**Long preferred** — do not chase $250–255",
+      "h4": "Impulsive with rising OBV, riding the upper band, RSI ~67 — into the decision zone.",
+      "note": "Hand-seeded from a chart read. ATR(14) $21.44 (8.58%) COMPUTED — the last of the six ATR-pending rows, with AMAT. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT. ⚠️ CRDO and AMAT arrived in one message whose TABLE was AMAT's and whose closing verdict was CRDO's — different close, different ATR, different levels. They were kept strictly apart and CRDO was only written up once its own frame table arrived; merging them would have been the MP/$49.39 failure again. ⭐ The close $249.89 sits 11 cents under the gate's lower edge and the 08-07 high tagged $250.00 exactly, so the gate is being tested rather than approached."
+    },
+    {
       "ticker": "CRWD",
       "date": "2026-08-07",
       "price": 214.42,
@@ -1851,6 +1967,122 @@ const BOARD = {
       "preferred": "**Neutral-to-long** — do not chase $320–350",
       "h4": "Compression after $250 → $400+ → $310; buyers defending the low-$300s, no clean break.",
       "note": "Hand-seeded from a chart read. ATR(14) $35.44 (10.60%) COMPUTED — the HIGHEST atrPct on this board, ahead of ALOY's 9.54%. Third of the six rows parked at ranks 23–28 for want of an ATR to become measurable. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT. ⚠️ Every frame except the monthly reads range, so conviction is 0.0 and the row sits low in the long block — that is the structure key, and it is NOT the same question as the card's rank, which orders by distance-to-fill and puts ALAB near the top because its zone is only 0.26 ATR away. The two keys disagree by design. ⭐ The existing $284 stop survives the new ATR unchanged at 1.09 ATR, sitting just under major weekly demand $285–300."
+    },
+    {
+      "ticker": "AMAT",
+      "date": "2026-08-07",
+      "price": 539.14,
+      "atr": 36.54,
+      "atrPct": 6.78,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "neutral",
+        "d": "neutral",
+        "h4": "neutral",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "rebound reclaimed $500–525 but is consolidating under the $545–555 cluster",
+          "w": "bounced off $440–460 and holds the rising weekly mid-band; unrepaired below $575–600"
+        }
+      },
+      "parts": {
+        "W": 0,
+        "D": 0,
+        "H": 0,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Recovery under the $545–555 gate — take the $525–532 retest, not the middle of the range.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "range / transition",
+        "d": "range / transition",
+        "h4": "range / transition"
+      },
+      "combo": "monthly up, everything else range",
+      "demand": [
+        {
+          "lo": 475.0,
+          "hi": 490.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "secondary daily demand"
+        },
+        {
+          "lo": 440.0,
+          "hi": 460.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily/weekly demand — the July washout low"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 545.0,
+          "hi": 555.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the breakout gate — price is consolidating under it"
+        },
+        {
+          "lo": 575.0,
+          "hi": 590.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "stronger daily supply; the weekly is unrepaired below $575–600"
+        },
+        {
+          "lo": 600.0,
+          "hi": 615.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major confirmation zone — acceptance above $615 repairs daily and weekly"
+        },
+        {
+          "lo": 640.0,
+          "hi": 665.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "weekly supply; $700–740 is the HTF band the parabolic run topped in"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 525.0,
+          "hi": 532.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the first likely retest"
+        },
+        {
+          "lo": 505.0,
+          "hi": 515.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H/daily demand"
+        }
+      ],
+      "position": "under the $545.00–555.00 gate (1.1% above) with 4H demand $525.00–532.00 (1.3% below) — inside the range, not at an edge",
+      "bull": "break/accept above $545.00–555.00 → $575.00–590.00, then $600.00–615.00; acceptance over $615.00 opens $640.00–665.00",
+      "bear": "reject $545.00–555.00 and lose $525.00 → $515.00–505.00; daily acceptance below $505.00 opens $490.00–475.00, and losing $475.00 exposes $460.00–440.00",
+      "retest": "$525.00–532.00 is the first likely retest; a deeper normalisation tests $505.00–515.00. Above $555 that band becomes the preferred retest",
+      "longCandidate": "Yes, on the retest — not mid-range. Take **$525–532**, or acceptance above **$555** with a retest.",
+      "longSetup": "Hold **$525–532**, form a 4H higher low and break/accept above **$545–555** → **$575–590**, then **$600–615**. Clean acceptance above **$615** materially improves the daily AND weekly structure and opens **$640–665**. A deeper pullback into **$505–515** strongly reclaimed is the higher-quality entry.",
+      "shortSetup": "Reject **$545–555** and lose **$525** → **$515–505**. Daily acceptance below **$505** opens **$490–475**. Losing **$475** with a failed reclaim materially weakens the recovery and exposes **$460–440**. A break over $555 that immediately loses $545 is a bull-trap warning.",
+      "preferred": "**Neutral-to-long** while $525–530 holds",
+      "h4": "Compression with higher lows over $525–530; no acceptance above $550–555 yet.",
+      "note": "Hand-seeded from a chart read. ATR(14) $36.54 (6.78%) COMPUTED — the LAST of the six rows parked for want of an ATR, alongside CRDO. Score is null because R/M/O need an OHLCV fetch. supply4h ABSENT. ⚠️ Every frame but the monthly reads range, so conviction is 0.0 and the row sits low in the long block — the same split ALAB has, and the same caveat: the card's rank orders by distance-to-fill and puts AMAT near the top, because its zone is only 0.20 ATR away. Different keys, different questions. ⭐ The $492 stop sits in the GAP between demand $475–490 and $505–515, inside neither, at exactly 1.00 ATR from the midpoint."
     },
     {
       "ticker": "AVGO",
@@ -6897,7 +7129,7 @@ const BOARD = {
       "h4Effect": "This frame is what makes it a two-way watch rather than a short: oversold at demand argues a bounce toward **$18.3–18.7** first, and the cleaner short is that bounce failing at **$18.7–19.5**."
     }
   ],
-  "note": "Structure only — where demand and supply sit and what triggers which way; independent of the traded plans on the cards. ⚠️ Read the top of the long block as ONE observation: CRWD, NVDA, PANW and TEM now all tie at conviction 3.5 and all say the same thing — every frame bullish, price extended, wait for the retest — and the ALOY/MP/USAR/UUUU cluster says it too. Eight names, one setup shape. If that retest comes it comes for all of them on the same bar, so the board is far less diversified than a row count suggests.",
+  "note": "Structure only — where demand and supply sit and what triggers which way; independent of the traded plans on the cards. ⚠️ Read the top of the long block as ONE observation: CRDO, CRWD, NVDA, PANW and TEM all tie at conviction 3.5 and all say the same thing — every frame bullish, price extended, wait for the retest — and the ALOY/MP/USAR/UUUU cluster says it too. Nine names, one setup shape. If that retest comes it comes for all of them on the same bar, so the board is far less diversified than a row count suggests.",
   "ranking": [
     "**LITE two-way** — short only a confirmed rejection from $865–900; long only a $820–835 retest or acceptance above $900.",
     "**STX short** — fired: $842 and $818 both failed on the 08-07 close ($812.76); $797–816 is the 4H shelf under it.",
