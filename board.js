@@ -1757,6 +1757,108 @@ const BOARD = {
       "h4Effect": "The 08-04 gap is why this row has no 4H zone near price: the frame has no traded bar between ~$137 and $145, so every zone the displacement left sits below the gap and outside the cap. The nearest CONFIRMED 4H swing low is $132.42 — the 08-06 low $152.70 is one bar young and not structure yet, which is the honest state of a name three sessions off a 15% gap. Overhead is the $163.69 swing and the $166.06 high; price is inside daily supply $153.24–161.08 with the 4H histogram already negative. Rejection under $160 puts $152.70 in play, and under it there is air to $137."
     },
     {
+      "ticker": "LRCX",
+      "date": "2026-08-07",
+      "price": 311.35,
+      "atr": 21.0,
+      "atrPct": 6.75,
+      "seeded": true,
+      "structure": {
+        "m": "bullish",
+        "w": "bullish",
+        "d": "neutral",
+        "h4": "neutral",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "basing $290–320 under the daily mid-band, no directional break",
+          "w": "primary uptrend intact; the correction was bought at $277–290"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 0,
+        "H": 0,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Neutral. Wait for 4H acceptance outside $299.5–324; mid-range is not an entry.",
+      "trendProse": {
+        "m": "uptrend",
+        "w": "uptrend",
+        "d": "range / transition",
+        "h4": "range / transition"
+      },
+      "combo": "weekly up, daily range",
+      "demand": [
+        {
+          "lo": 276.8,
+          "hi": 289.5,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-07-31",
+          "note": "major weekly demand — where the correction was bought"
+        },
+        {
+          "lo": 250.0,
+          "hi": 266.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-07-31",
+          "note": "secondary HTF demand"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 349.0,
+          "hi": 360.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-07-31",
+          "note": "major daily supply"
+        },
+        {
+          "lo": 390.99,
+          "hi": 441.7,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-07-31",
+          "note": "major weekly/monthly supply — the macro rejection"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 299.5,
+          "hi": 305.5,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H demand — the lower edge of the compression"
+        }
+      ],
+      "supply4h": [
+        {
+          "lo": 318.0,
+          "hi": 324.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate 4H supply — the upper edge of the compression"
+        }
+      ],
+      "position": "between 4H demand $299.50–305.50 (3.8% below) and 4H supply $318.00–324.00 (2.1% above); daily demand $276.80–289.50, daily supply $349.00–360.00",
+      "bull": "close above $318.00–324.00 → $349.00–360.00, then $390.99",
+      "bear": "close below $299.50 → $289.00–277.00; daily acceptance below $276.80 opens $266.00–250.00",
+      "retest": "if the compression resolves lower, $299.50–305.50 is the first retest; on an upside break, $318.00–324.00 should become the first support",
+      "longCandidate": "Only after 4H acceptance above **$324**. A deeper sweep into **$276.80–289.50** with a strong reclaim is the higher-quality HTF entry.",
+      "longSetup": "Hold **$299.50–305.50**, form a 4H higher low and accept above **$318–324** → **$349–360**, then **$390.99**. A sweep into **$276.80–289.50** followed by a strong reclaim is the better HTF long.",
+      "shortSetup": "Reject **$318–324** and lose **$299.50** → **$289–277**. Daily acceptance below **$276.80** with a failed reclaim opens **$266–250**. A break above $324 that immediately loses $318 is a bull trap.",
+      "preferred": "**Neutral — wait for $299.5/$324 trigger**",
+      "h4": "Compression $300–324; slight recovery structure, no confirmed breakout either way.",
+      "note": "Hand-seeded from a chart read on the 08-07 close, not a generated run — the next tools/structure.py run replaces it. ATR is the chart's visual estimate ($20–22 / 6.5–7.0%), NOT a computed ATR(14) Wilder, so Rule B stops priced off this row are provisional. Zone frames: $299.50–305.50 and $318.00–324.00 are the 4H pass; $276.80–289.50 / $250–266 and $349–360 / $390.99–441.70 are the daily and HTF passes. Score is null because the oscillator terms (R/M/O) cannot be computed without an OHLCV fetch."
+    },
+    {
       "ticker": "INTC",
       "date": "2026-08-07",
       "price": 101.65,
