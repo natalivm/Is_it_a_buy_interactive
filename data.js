@@ -1009,6 +1009,15 @@ const STOCKS = [
     date: '2026-08-09',
     story: 'stories/mp.html',
   },
+  {
+    symbol: 'TEM', exchange: 'NASDAQ',
+    price: '$52.00', change: '📅 ~$52.00 — weekly, daily and 4H bullish together, the only long here with all three; pressing supply $52.50–54.00 with the 4H RSI ~73.6',
+    signal: '📅 08/07 — THE STRONGEST STRUCTURE ON THE BOARD, AT A POOR PRICE. Weekly, daily and 4H are bullish together — the only long here where all three agree — after the weekly mid-band $49.60 was reclaimed and the $49.39 pivot taken back on strong displacement. ⚠️ Monthly is NOT there yet: price is under the $58.30 mid-band, so the HTF trend is still a wide consolidation. ⚠️ And location is poor: supply $52.50–54.00 starts 1% up with the 4H RSI ~73.6 and ATR ~8–10%. Entry is the $49–50 retest; stop $45.00, exactly 1.00 ATR out; targets $52.50 → $55.50 → $58.50. Different sector from the minerals cluster.',
+    lead: { rank: 30, status: 'wait', entry: 'pullback holds $49.00–50.00', stop: '$45.00 (close)', targets: '$52.50 → $55.50 → $58.50', rr: '~2.0:1', edge: '⭐ THE ONLY LONG ON THIS BOARD WITH WEEKLY, DAILY AND 4H POINTING THE SAME WAY — which is why the board’s own key puts it at the top of the long block on conviction 3.5, ahead of everything else. The weekly mid-band $49.60 is reclaimed after another defence of $41–42, the daily reversal took back the $49.39 pivot on strong displacement, and the 4H broke the $45–47 base with rising OBV. ⚠️ The monthly has not joined: price is still under the $58.30 mid-band, so this is a repaired weekly inside an unresolved HTF consolidation, not a new secular leg. ⚠️ Location is the problem, as with every new name this week: supply $52.50–54.00 begins 1% above with the 4H RSI at 73.6, and an ~8–10% ATR means an ordinary session covers four to five dollars. So the entry is the $49–50 flip zone at 0.44 ATR below price, with the $45.00 stop exactly 1.00 ATR from the midpoint and sitting on the top of secondary demand $43.50–45.00. ⚠️ R:R ~2.0:1 is the most modest of the new names, and that is the honest price of a stop wide enough to survive this ATR. ⭐ Different sector from ALOY/MP/USAR/UUUU — this is the diversifier, not a fifth leg of the same bet. ⚠️ Verify the $49.39 pivot: MP’s read quotes the same level to the cent. Falsifier: daily acceptance under $46.50.' },
+    side: 'long',
+    date: '2026-08-09',
+    story: 'stories/tem.html',
+  },
 ];
 
 // ── Articles ──────────────────────────────────────────────────────────────

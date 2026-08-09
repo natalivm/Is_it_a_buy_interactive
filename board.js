@@ -38,6 +38,130 @@ const BOARD = {
   "method": "Score = 2W + D + 0.5H + 0.5R + 0.5M + 0.5O + Z (W weekly, D daily, H 4H structure; R RSI vs 50; M MACD histogram slope; O OBV slope; Z inside confirmed demand +1 / supply −1)",
   "rows": [
     {
+      "ticker": "TEM",
+      "date": "2026-08-07",
+      "price": 52.0,
+      "atr": 4.5,
+      "atrPct": 8.65,
+      "seeded": true,
+      "structure": {
+        "m": "neutral",
+        "w": "bullish",
+        "d": "bullish",
+        "h4": "bullish",
+        "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
+        "why": {
+          "d": "strong displacement reclaimed the $49.39 pivot, still under the declining mid-band ~$55.8",
+          "w": "weekly mid-band ~$49.60 RECLAIMED after another defence of $41–42"
+        }
+      },
+      "parts": {
+        "W": 1,
+        "D": 1,
+        "H": 1,
+        "Z": 0
+      },
+      "score": null,
+      "bias": "Bullish reversal but extended — buy the $49–50 retest; acceptance over $57 is the confirmation.",
+      "trendProse": {
+        "m": "range / transition",
+        "w": "uptrend",
+        "d": "uptrend",
+        "h4": "strong uptrend"
+      },
+      "combo": "weekly and daily up together",
+      "demand": [
+        {
+          "lo": 43.5,
+          "hi": 45.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "secondary demand"
+        },
+        {
+          "lo": 40.5,
+          "hi": 42.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily/weekly demand — defended repeatedly; $41.28 is the line in the sand"
+        },
+        {
+          "lo": 31.0,
+          "hi": 33.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "deeper HTF demand"
+        }
+      ],
+      "supply": [
+        {
+          "lo": 52.5,
+          "hi": 54.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "immediate supply and the next decision zone — price is at it"
+        },
+        {
+          "lo": 55.5,
+          "hi": 57.0,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "note": "major daily confirmation zone; the declining daily mid-band ~$55.8 sits inside it"
+        },
+        {
+          "lo": 58.5,
+          "hi": 60.5,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "weekly supply; the monthly mid-band ~$58.3 sits here"
+        },
+        {
+          "lo": 63.0,
+          "hi": 65.0,
+          "strength": "weak",
+          "origin": "thin",
+          "since": "2026-08-07",
+          "note": "secondary supply; $75–85 is the major HTF band above it"
+        }
+      ],
+      "demand4h": [
+        {
+          "lo": 49.0,
+          "hi": 50.0,
+          "strength": "fresh",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "immediate breakout demand — the $49.39 flip zone"
+        },
+        {
+          "lo": 46.5,
+          "hi": 47.5,
+          "strength": "tested",
+          "origin": "strong",
+          "since": "2026-08-07",
+          "frame": "4h",
+          "note": "stronger 4H/daily demand"
+        }
+      ],
+      "position": "at supply $52.50–54.00 (1.0% above) with 4H demand $49.00–50.00 (3.8% below); daily demand $43.50–45.00, confirmation zone $55.50–57.00",
+      "bull": "break $52.50–54.00 → $55.50–57.00; acceptance above $55.50–57.00 opens $58.50–60.50, then $63.00–65.00",
+      "bear": "reject $52.50–54.00 and lose $49.00 → $47.50–46.50; daily acceptance below $46.50 opens $45.00–43.50, then $42.00–40.50",
+      "retest": "$49.00–50.00 is the first likely retest and the key breakout-flip zone; a deeper normalisation tests $46.50–47.50",
+      "longCandidate": "Yes — the only long here with weekly, daily and 4H all bullish together. Take the **$49–50** retest rather than $52+.",
+      "longSetup": "Hold or retest **$49–50**, form a 4H higher low and break **$52.50–54** → **$55.50–57**. Clean acceptance above **$55.50–57** opens **$58.50–60.50**, then **$63–65**. A deeper pullback into **$46.50–47.50** with a strong reclaim is also a higher-quality continuation entry.",
+      "shortSetup": "Countertrend only while $49 holds. Reject **$52.50–54** and lose **$49** → **$47.50–46.50**. Daily acceptance below **$46.50** opens **$45–43.50**, then **$42–40.50**. Losing **$41.28** with a failed reclaim materially damages the recovery and exposes **$31–33**.",
+      "preferred": "**Long preferred** while $49–50 holds",
+      "h4": "Broke the $45–47 base through $49.39 with rising OBV, but RSI ~73.6 — extended.",
+      "note": "Hand-seeded from a chart read, not a generated run. ATR is the chart's visual estimate ($4.00–5.00 / ~8–10%), NOT a computed ATR(14) Wilder, so Rule B distances are provisional. Price $52.00 is approximate — the read quoted no close, only 'not chasing $52+', so the card's `change` avoids the '📅 CLOSE $X (±Y%)' form. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band; $75–85 macro supply is recorded here rather than as a fifth band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ DIFFERENT SECTOR from the ALOY/MP/USAR/UUUU critical-minerals cluster and deliberately NOT in that direction group — it is the diversifier among the new longs. ⚠️ FLAG FOR VERIFICATION: this read and MP's share a pivot at exactly $49.39 and near-identical $49–50 / $52.50–54 / $40.50–42 / $31–33 bands. Two different names in different sectors landing on the same levels to the cent is possible but improbable; the entries on both rows anchor to it, so it is worth re-checking against the charts before either is taken."
+    },
+    {
       "ticker": "STX",
       "date": "2026-08-07",
       "price": 812.76,
