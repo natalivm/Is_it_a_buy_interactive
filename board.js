@@ -275,7 +275,7 @@ const BOARD = {
         "h4": "bullish",
         "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
         "why": {
-          "d": "strong displacement reclaimed the $49.39 pivot, still under the declining mid-band ~$55.8",
+          "d": "+12.86% to $52.05 (O 47.56 H 52.40 L 47.23); the $49.39 pivot reclaimed and the BB mid $48.70 taken back",
           "w": "weekly mid-band ~$49.60 RECLAIMED after another defence of $41–42"
         }
       },
@@ -286,7 +286,7 @@ const BOARD = {
         "Z": 0
       },
       "score": null,
-      "bias": "Bullish reversal but extended — buy the $49–50 retest; acceptance over $57 is the confirmation.",
+      "bias": "Bullish reversal — buy the $49–50 retest; the 200-EMA $55.54 is the real confirmation.",
       "trendProse": {
         "m": "range / transition",
         "w": "uptrend",
@@ -335,7 +335,7 @@ const BOARD = {
           "strength": "tested",
           "origin": "strong",
           "since": "2026-08-07",
-          "note": "major daily confirmation zone; the declining daily mid-band ~$55.8 sits inside it"
+          "note": "major daily confirmation zone — the 200-EMA $55.54 sits inside it, which is why this level and not $52.50–54 is the one that matters"
         },
         {
           "lo": 58.5,
@@ -343,7 +343,7 @@ const BOARD = {
           "strength": "weak",
           "origin": "thin",
           "since": "2026-08-07",
-          "note": "weekly supply; the monthly mid-band ~$58.3 sits here"
+          "note": "weekly supply; the upper daily band $59.33 sits here"
         },
         {
           "lo": 63.0,
@@ -362,7 +362,7 @@ const BOARD = {
           "origin": "strong",
           "since": "2026-08-07",
           "frame": "4h",
-          "note": "immediate breakout demand — the $49.39 flip zone"
+          "note": "the $49.39 flip zone, CONFIRMED on the daily chart; the 50-EMA $50.08 sits at its top and the BB mid $48.70 just under it"
         },
         {
           "lo": 46.5,
@@ -374,7 +374,7 @@ const BOARD = {
           "note": "stronger 4H/daily demand"
         }
       ],
-      "position": "at supply $52.50–54.00 (0.9% above) with 4H demand $49.00–50.00 (3.9% below); daily demand $43.50–45.00, confirmation zone $55.50–57.00",
+      "position": "above the BB mid-band $48.70 and under supply $52.50–54.00 (0.9% above), with 4H demand $49.00–50.00 (3.9% below); the 200-EMA $55.54 is the overhead line",
       "bull": "break $52.50–54.00 → $55.50–57.00; acceptance above $55.50–57.00 opens $58.50–60.50, then $63.00–65.00",
       "bear": "reject $52.50–54.00 and lose $49.00 → $47.50–46.50; daily acceptance below $46.50 opens $45.00–43.50, then $42.00–40.50",
       "retest": "$49.00–50.00 is the first likely retest and the key breakout-flip zone; a deeper normalisation tests $46.50–47.50",
@@ -382,8 +382,8 @@ const BOARD = {
       "longSetup": "Hold or retest **$49–50**, form a 4H higher low and break **$52.50–54** → **$55.50–57**. Clean acceptance above **$55.50–57** opens **$58.50–60.50**, then **$63–65**. A deeper pullback into **$46.50–47.50** with a strong reclaim is also a higher-quality continuation entry.",
       "shortSetup": "Countertrend only while $49 holds. Reject **$52.50–54** and lose **$49** → **$47.50–46.50**. Daily acceptance below **$46.50** opens **$45–43.50**, then **$42–40.50**. Losing **$41.28** with a failed reclaim materially damages the recovery and exposes **$31–33**.",
       "preferred": "**Long preferred** while $49–50 holds",
-      "h4": "Broke the $45–47 base through $49.39 with rising OBV, but RSI ~73.6 — extended.",
-      "note": "⚠️ ATR(14) CORRECTED 2026-08-09: this row previously carried a visual estimate from the chart read; it now carries the COMPUTED ATR(14) Wilder supplied with the close table, and the Rule B distances below are measured against that. The estimate and the computed value differed enough to matter — $4.00–5.00 estimated vs $3.04 computed, a large overstatement: the $45.00 stop is 1.48 ATR from the zone midpoint, not the 1.00 it was set for. Hand-seeded from a chart read, not a generated run. Price $52.00 is approximate — the read quoted no close, only 'not chasing $52+', so the card's `change` avoids the '📅 CLOSE $X (±Y%)' form. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band; $75–85 macro supply is recorded here rather than as a fifth band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ DIFFERENT SECTOR from the ALOY/MP/USAR/UUUU critical-minerals cluster and deliberately NOT in that direction group — it is the diversifier among the new longs. ⚠️ FLAG FOR VERIFICATION: this read and MP's share a pivot at exactly $49.39 and near-identical $49–50 / $52.50–54 / $40.50–42 / $31–33 bands. Two different names in different sectors landing on the same levels to the cent is possible but improbable; the entries on both rows anchor to it, so it is worth re-checking against the charts before either is taken."
+      "h4": "4H RSI ~73.6 is stretched — but daily RSI is only 56.29, so the extension is 4H-only.",
+      "note": "Hand-seeded from a chart read. ATR(14) $3.04 (5.83%) COMPUTED. Score is null because R/M/O need an OHLCV fetch. ✅ VERIFIED 2026-08-09 against the daily chart: close $52.05 (+12.86%), O 47.56 H 52.40 L 47.23 V 5.67m; BB(21,2) 59.33/48.70/38.07; EMA 9/50/200 = 47.18/50.08/55.54; RSI 56.29; MACD −1.57 sig −2.06 hist +0.49; Stoch 67.16/50.36; OBV 345.7m. ⭐ The $49.39 pivot IS a real drawn level on TEM — the coincidence flagged against MP is resolved on this side, and it is MP's read that still needs checking. The entry zone turns out to rest on THREE references, not two: $49.39, the 50-EMA $50.08 at its top and the BB mid $48.70 just under it. ⚠️ TWO CORRECTIONS to the original read. Daily RSI is 56.29, not extended — the ~73.6 belongs to the 4H alone, so 'wait' here is about location, not exhaustion. And price is ABOVE the daily BB mid-band $48.70; the '~$55.8 declining mid-band' in the original was the 200-EMA $55.54, which sits inside the $55.50–57.00 confirmation zone and is what makes that zone the decisive one. ⚠️ DIFFERENT SECTOR from the ALOY/MP/USAR/UUUU cluster and deliberately not in that direction group."
     },
     {
       "ticker": "STX",
@@ -857,7 +857,7 @@ const BOARD = {
         "h4": "bullish",
         "h4Note": "hand-seeded from a chart read — no 4H series in this feed",
         "why": {
-          "d": "bullish reversal, $49.39 reclaimed, pressing the upper daily band ~$53",
+          "d": "+7.62% to $51.11 (O 50.68 H 53.47 L 48.17); closed 4c over the 50-EMA $51.07",
           "w": "recovering off $41.28 demand but still under the weekly mid-band $55–56"
         }
       },
@@ -868,7 +868,7 @@ const BOARD = {
         "Z": 0
       },
       "score": null,
-      "bias": "Bullish reversal — buy the $49–50 retest, not $52+; acceptance over $55–57 confirms the weekly.",
+      "bias": "Bullish reversal — the only support under price is $44–46.40; nothing between it and the 50-EMA.",
       "trendProse": {
         "m": "uptrend",
         "w": "range / transition",
@@ -938,34 +938,25 @@ const BOARD = {
       ],
       "demand4h": [
         {
-          "lo": 49.0,
-          "hi": 50.0,
-          "strength": "fresh",
-          "origin": "strong",
-          "since": "2026-08-07",
-          "frame": "4h",
-          "note": "immediate breakout demand — $49.39 flipped from resistance to support"
-        },
-        {
-          "lo": 47.0,
-          "hi": 48.5,
+          "lo": 44.0,
+          "hi": 46.4,
           "strength": "tested",
           "origin": "strong",
           "since": "2026-08-07",
           "frame": "4h",
-          "note": "stronger 4H demand"
+          "note": "RE-ANCHORED — board daily demand $44–46 with the 9-EMA $46.37 and the BB mid $45.70 inside it"
         }
       ],
-      "position": "under supply $52.50–54.00 (2.7% above) with 4H demand $49.00–50.00 (2.2% below); daily demand $44.00–46.00, weekly confirmation $55.00–57.00",
-      "bull": "break $52.50–54.00 → $55.00–57.00; acceptance above $55–57 opens $60.00–64.00, then $68.00–72.00",
-      "bear": "reject $52.50–54.00 and lose $49.00 → $48.50–47.00, then $46.00–44.00; daily acceptance below $44.00 opens $42.00–40.50",
-      "retest": "$49.00–50.00 is the first likely retest and the key breakout-flip zone; a deeper normalisation tests $47.00–48.50",
-      "longCandidate": "Yes — the cluster's bellwether and the only one with a flipped level beneath it. Take the **$49–50** retest rather than $51.80+.",
-      "longSetup": "Hold or retest **$49–50**, form a 4H higher low and break **$52.50–54** → **$55–57**. Clean weekly/4H acceptance above **$55–57** opens **$60–64**, then **$68–72**. A deeper pullback into **$47–48.50** that is strongly reclaimed is also a favourable continuation entry.",
-      "shortSetup": "Countertrend only while $49 holds. Reject **$52.50–54** and lose **$49** → **$48.50–47**, then **$46–44**. Daily acceptance below **$44** materially weakens the recovery and opens **$42–40.50**; losing **$40.50–41.30** reopens **$31–33**.",
-      "preferred": "**Long preferred** while $49–50 holds",
-      "h4": "Impulsive 4H uptrend, $49.39 flipped to support, but RSI ~68–70 — becoming extended.",
-      "note": "⚠️ ATR(14) CORRECTED 2026-08-09: this row previously carried a visual estimate from the chart read; it now carries the COMPUTED ATR(14) Wilder supplied with the close table, and the Rule B distances below are measured against that. The estimate and the computed value differed enough to matter — $3.00–3.50 estimated vs $3.05 computed — close. Hand-seeded from a chart read, not a generated run. Price $51.80 is the lower end of the $51.80–52.00 read supplied with the chart; no session close or % was given, so the card's `change` avoids the '📅 CLOSE $X (±Y%)' form. supply4h ABSENT: the read gave two 4H demand edges but no 4H supply band; $75–83 macro supply is recorded here rather than as a fifth band. Score is null because R/M/O cannot be computed without an OHLCV fetch. ⚠️ MP is the LIQUID BELLWETHER of the ALOY/USAR/UUUU cluster — see the direction group; it is also the least extended of the four (4H RSI ~68–70 vs 73/76/78) and the only one with a level that has actually flipped beneath it ($49.39)."
+      "position": "sitting ON the 50-EMA $51.07 with a 9.2% air pocket beneath it to demand $44.00–46.40; supply $52.50–54.00 above, 200-EMA $55.17 the overhead line",
+      "bull": "hold the 50-EMA $51.07 and break $52.50–54.00 → the 200-EMA $55.17, then $60.00–64.00",
+      "bear": "lose the 50-EMA $51.07 and there is no reference until $46.40–44.00; below $44.00 the major weekly demand $40.50–42.00 is next",
+      "retest": "$44.00–46.40 is the first REAL support beneath price — the 9-EMA, the BB mid and board demand together; the old $49–50 idea had nothing in it",
+      "longCandidate": "Yes, but the entry is deeper than it looked: **$44–46.40**, 1.54 ATR below. Holding the 50-EMA $51.07 is the near-term tell.",
+      "longSetup": "Hold **$44–46.40** — the 9-EMA $46.37 and BB mid $45.70 sit inside board demand $44–46 — form a 4H higher low and break **$52.50–54** → the 200-EMA **$55.17**, then **$60–64**.",
+      "shortSetup": "Losing the 50-EMA **$51.07** opens a 9.2% air pocket with no reference until **$46.40–44**. Below **$44**, major weekly demand **$40.50–42** is next; losing that reopens **$31–33**.",
+      "preferred": "**Long preferred** — but support is far below",
+      "h4": "Closed 4c over the 50-EMA $51.07; nothing between it and the 9-EMA $46.37.",
+      "note": "Hand-seeded from a chart read. ATR(14) $3.05 (5.96%) COMPUTED. Score is null because R/M/O need an OHLCV fetch. ✅ VERIFIED 2026-08-09 against the daily chart: close $51.11 (+7.62%), O 50.68 H 53.47 L 48.17 V 12.3m, AH $51.79; BB(21,2) 53.01/45.70/38.38; EMA 9/50/200 = 46.37/51.07/55.17; RSI 56.70; MACD −1.57 sig −2.87 hist +1.30; Stoch 86.23/82.98; OBV 500.7m. 🚨 RETRACTION: the original read had MP reclaiming a pivot at $49.39 and that level DOES NOT EXIST on this chart — it was TEM's level, carried onto MP's analysis. The flagged coincidence is resolved in TEM's favour: TEM's $49.39 is real and drawn, MP's was spurious. That claim was the entire basis for calling MP the cluster's bellwether and 'the only one with a level proven from above', so BOTH are withdrawn. ⚠️ The old $49.00–50.00 entry had NO reference inside it: the 50-EMA $51.07 is ABOVE it and the 9-EMA $46.37 and BB mid $45.70 are BELOW it, with a 9.2% air pocket between — which is exactly why an unanchored zone can look reasonable. Re-anchored to $44.00–46.40 on three references. ⚠️ Stoch 86.23/82.98 is genuinely high, so the daily is more extended than the earlier '4H RSI ~68–70, least extended of the four' framing suggested."
     },
     {
       "ticker": "USAR",
@@ -6471,7 +6462,7 @@ const BOARD = {
           "USAR",
           "UUUU"
         ],
-        "note": "Same news, same session, same shape: all four reversed off a July washout, all four are now pressing into their first real supply, and all four carry a 4H RSI in the 68–78 band. Sized as four names this is one correlated bet at quadruple weight, and the retest each is waiting for will almost certainly arrive on the same bar — treat a fill in one as having consumed the cluster's risk budget, not a quarter of it. MP is the liquid bellwether and the least extended, and it is the only one with a level that has actually flipped beneath it ($49.39); watch it for the group's confirmation. ALOY is the most volatile at ~11% ATR and the nearest to its trigger."
+        "note": "Same news, same session, same shape: all four reversed off a July washout, all four are now pressing into their first real supply, and all four carry a 4H RSI in the 68–78 band. Sized as four names this is one correlated bet at quadruple weight, and the retest each is waiting for will almost certainly arrive on the same bar — treat a fill in one as having consumed the cluster's risk budget, not a quarter of it. ⚠️ MP was previously called the bellwether here on the strength of a $49.39 level 'proven from above'; that level was verified on 2026-08-09 and does not exist on MP's chart, so the claim is withdrawn and no name in this cluster has a flipped level under it. ALOY is the most volatile at ~11% ATR and the nearest to its trigger."
       },
       {
         "label": "Best trend-following longs",
