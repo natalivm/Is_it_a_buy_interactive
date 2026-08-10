@@ -700,13 +700,27 @@ check("a deck with no level chart is silent",
 print("\nMARKET — the three fields around the computed bars")
 
 
+# ⚠️ `vol` is a TOP-LEVEL list on MARKET, which is where renderTrendMeter()
+# reads it (`M.vol || []`). This fixture used to hang it off the market instead,
+# and that is the only reason the range check ever looked alive: it fired
+# happily on a shape data.js has never had, while against the real MARKET the
+# per-market lookup returned {} on every pass and the check never ran once.
+# A fixture that disagrees with the renderer tests nothing.
 def _mkt(**over):
     m = {'updated': '2026-08-05', 'note': 'short stance',
          'markets': [{'symbol': 'QQQ',
-                      'checks': [{'label': 'Weekly', 'verdict': 'bull', 'weight': 1.5}],
-                      'vol': {'value': '24.15', 'range': [18, 30]}}]}
+                      'checks': [{'label': 'Weekly', 'verdict': 'bull', 'weight': 1.5}]}],
+         'vol': [{'symbol': 'VIX', 'value': '24.15', 'range': [18, 30],
+                  'verdict': 'neutral'}]}
     m.update(over)
     return refresh.audit_market(m, '2026-08-05')
+
+
+def _vol(**over):
+    """One vol gauge, overridden field by field."""
+    v = {'symbol': 'VIX', 'value': '24.15', 'range': [18, 30], 'verdict': 'neutral'}
+    v.update(over)
+    return _mkt(vol=[v])
 
 
 check("a well-formed MARKET is silent", _mkt(), [])
@@ -722,10 +736,18 @@ check("a non-numeric weight is flagged",
       len(_mkt(markets=[{'symbol': 'QQQ',
                          'checks': [{'label': 'W', 'verdict': 'bull',
                                      'weight': 'high'}]}])), 1)
-check("a vol gauge with no two-ended range is flagged",
-      len(_mkt(markets=[{'symbol': 'QQQ',
-                         'checks': [{'label': 'W', 'verdict': 'bull'}],
-                         'vol': {'value': '24', 'range': [18]}}])), 1)
+check("a vol gauge with no two-ended range is flagged", len(_vol(range=[18])), 1)
+check("…and a range that is not a list at all", len(_vol(range='18-30')), 1)
+# The needle is CLAMPED to the track, so both of these render a gauge that
+# looks fine and means nothing — which is why they have to be caught here.
+check("an inverted range is flagged — hi <= lo divides by zero",
+      len(_vol(range=[30, 18])), 1)
+check("a value outside its own range is flagged — the needle pins to the end",
+      len(_vol(value='11.20')), 1)
+check("…and one inside it is silent", _vol(value='19.90'), [])
+check("a value with no number in it is flagged", len(_vol(value='n/a')), 1)
+check("an unrecognised vol verdict is flagged", len(_vol(verdict='calm')), 1)
+check("MARKET with no vol gauges at all is silent", _mkt(vol=[]), [])
 check("a market with no checks is flagged",
       len(_mkt(markets=[{'symbol': 'QQQ', 'checks': []}])), 1)
 check("a missing MARKET is one finding, not a crash",

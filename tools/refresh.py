@@ -453,7 +453,91 @@ def audit_fields(stock: dict) -> list[str]:
                        f"not the {frame} {card_px:g}")
     out += audit_ladder(stock, story)
     out += audit_stop_rung(stock, story)
+    out += audit_target_rungs(stock, story)
     out += audit_level_chart(stock, story, card_px)
+    return out
+
+
+# A target label, not any T-shaped text. `$102` and `T1` in a word both false-
+# positive, so the number must stand alone and not follow a `$`.
+TARGET_TAG = re.compile(r"(?<![\w$])T([1-9])\b")
+
+# Captions that are ABOUT a superseded level rather than quoting a live one.
+# A deck is allowed — encouraged — to keep the old target on the ladder and say
+# so ('Старий T1 · так і не тегнуто'); that is history, not drift.
+TARGET_STALE = re.compile(r"Стар|BROKEN|Пробит|НЕДІЙСН", re.I)
+
+
+def audit_target_rungs(stock: dict, story: Path) -> list[str]:
+    """Every deck label calling itself T<n> must quote the card's n-th target.
+
+    The deck's ТУТ price and its stop were each checked against the card; its
+    TARGETS were not, and they drift the same way and for the same reason — a
+    refresh re-prices `lead.targets` and re-cuts the ТУТ rung, and the target
+    rungs keep whatever the previous session put there.
+
+    USAR is what that costs. Its card reads `$21.50 → $24 → $27` and its own
+    `edge` spells the ladder out ('above $20.20 the ladder opens $21.50–22.50
+    → $24–25 → $27–29'), but both the ladder AND the cover chart label
+    $19.50–20.20 as T1, pushing every target down a rung: the deck's T2 band
+    holds the card's T1 and its T3 band holds the card's T2. $19.50–20.20 is
+    the one level the card refuses to act on — it calls it the decision zone —
+    so the deck told a reader to take first profit where the plan says do
+    nothing. Its two cluster siblings, written in the same commit, are both
+    correct, which is exactly why a per-deck eye missed it.
+
+    Checked on BOTH surfaces a deck prices levels on — the ladder's rungs and
+    the cover chart's `data-lv` lines — because they disagreed with each other
+    on INTC: the chart labelled $85/$80/$75/$66 as T1-T4, matching the card,
+    while the ladder called $75 'T1'.
+
+    A rung is a BAND ('$21.5–22.5'), so the test is containment, not equality —
+    the target has to sit somewhere in the band, at either edge or between.
+    Reported, never fixed: which level is T2 is the card's statement, and a
+    deck disagreeing with it may mean the card moved on without the deck or
+    that the deck is quoting a different setup's ladder.
+    """
+    want = nums((stock.get("lead") or {}).get("targets"))
+    if not want:
+        return []
+    sym, out, text = stock["symbol"], [], story.read_text(encoding="utf-8")
+    # (source, raw JSON, price index, caption index) — a rung is [kind, px, cap],
+    # a chart line is [colour, y, axisLabel, caption].
+    specs = [("ladder", m.group(1), 1, 2)
+             for m in re.finditer(r"data-rungs='(\[[\s\S]*?\])'", text)]
+    specs += [("chart", m.group(1), 2, 3)
+              for m in re.finditer(r"data-lv='(\[[\s\S]*?\])'", text)]
+    for where, raw, px_i, cap_i in specs:
+        try:
+            spec = json.loads(raw)
+        except (json.JSONDecodeError, TypeError):
+            continue        # audit_ladder already reports unparseable ladders
+        for entry in spec:
+            if not isinstance(entry, list) or len(entry) <= cap_i:
+                continue
+            cap = str(entry[cap_i] or "")
+            tag = TARGET_TAG.search(cap)
+            if not tag or TARGET_STALE.search(cap):
+                continue
+            n = int(tag.group(1))
+            if n > len(want):
+                out.append(f"{sym}: {where} labels a level T{n}, but the card "
+                           f"lists only {len(want)} target(s) "
+                           f"(`{stock['lead']['targets']}`)")
+                continue
+            band = rung_bounds(str(entry[px_i]))
+            if not band:
+                continue
+            target, tol = want[n - 1], want[n - 1] * 0.006
+            if band[0] - tol <= target <= band[1] + tol:
+                continue
+            # A caption that spells the target out ('T1 $330') agrees even when
+            # the rung it sits on is priced at the level's other edge.
+            if any(abs(c - target) <= tol for c in nums(cap)):
+                continue
+            out.append(f"{sym}: {where} rung {entry[px_i]} is labelled T{n}, but "
+                       f"the card's T{n} is {target:g} (`{stock['lead']['targets']}`) "
+                       f"— the deck is quoting a different ladder")
     return out
 
 
@@ -770,11 +854,35 @@ def audit_market(market: dict, newest_card: str | None) -> list[str]:
             if w is not None and not isinstance(w, (int, float)):
                 out.append(f"MARKET/{sym}: check '{str(c.get('label'))[:30]}' has "
                            f"a non-numeric weight {w!r}")
-        vol = m.get("vol") or {}
-        rng = vol.get("range")
-        if vol and (not isinstance(rng, list) or len(rng) != 2):
+    # The VIX/VXN mini-gauges. `vol` is a TOP-LEVEL list on MARKET — which is
+    # where renderTrendMeter() reads it (`M.vol || []`) — not a field on each
+    # market. This loop used to look for `m['vol']` inside the markets loop
+    # above, so it found `{}` on every pass, the `if vol` guard went falsy and
+    # the check never ran once: a broken `range` on VIX rendered a mini with no
+    # needle and the audit stayed silent. Read it where the renderer reads it.
+    for v in market.get("vol") or []:
+        sym = v.get("symbol", "?")
+        rng = v.get("range")
+        if not isinstance(rng, list) or len(rng) != 2:
             out.append(f"MARKET/{sym}: vol.range {rng!r} is not [calmLo, fearHi] — "
                        f"the mini-gauge needle has no scale to sit on")
+        elif not all(isinstance(x, (int, float)) for x in rng) or rng[1] <= rng[0]:
+            out.append(f"MARKET/{sym}: vol.range {rng!r} is not calmLo < fearHi — "
+                       f"volMiniHtml() drops the needle rather than divide by zero")
+        # `value` is parsed for the needle the same way a card's price is, and
+        # the needle is CLAMPED to the track, so a value outside its own range
+        # parks silently at an end of the scale rather than reading wrong.
+        elif not nums(v.get("value")):
+            out.append(f"MARKET/{sym}: vol.value {v.get('value')!r} has no number "
+                       f"in it — the mini renders with no needle")
+        elif not rng[0] <= nums(v.get("value"))[0] <= rng[1]:
+            out.append(f"MARKET/{sym}: vol.value {nums(v.get('value'))[0]:g} is "
+                       f"outside its own range {rng} — the needle pins to the end "
+                       f"of the scale and stops meaning anything; move the bound")
+        if v.get("verdict") not in ("bull", "bear", "neutral"):
+            out.append(f"MARKET/{sym}: vol.verdict {v.get('verdict')!r} is not "
+                       f"bull/bear/neutral — it renders as a `tm-` class that "
+                       f"has no styling")
     return out
 
 

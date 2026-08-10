@@ -86,9 +86,19 @@ function clampChartText() {
       const anchor = t.getAttribute('text-anchor');
       const room = anchor === 'middle' ? Math.min(x, vbw - x) * 2 - 8
                  : anchor === 'end' ? x - 8 : vbw - x - 8;
+      // Re-measure from scratch every pass. The first pass runs on FALLBACK
+      // font metrics (the webfonts have not landed yet) and the second runs
+      // from document.fonts.ready — that second pass exists precisely because
+      // the metrics change. Bailing out on an existing textLength made it a
+      // no-op for exactly the elements the first pass had acted on, so a
+      // caption that only overflowed in the fallback font stayed squeezed for
+      // good: the re-measure could add clamps, never revise or drop one.
+      // Clearing first also means the measurement is of the natural text
+      // rather than of the previous clamp.
+      t.removeAttribute('textLength');
+      t.removeAttribute('lengthAdjust');
       let len;
       try { len = t.getComputedTextLength(); } catch (e) { return; }
-      if (t.hasAttribute('textLength')) return;   // already clamped
       if (len > room && room > 0) {
         t.setAttribute('textLength', room);
         t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
