@@ -397,17 +397,36 @@ refresh places a card in its block rather than at the end:
 `lead.edge` (the one-line why-this-trade) renders on the stock **tile**, not in
 the table — the table carries only the numeric plan.
 
-**⚠️ CYCLE RESET — 2026-07-31 (in progress, don't forget):** the July short
-cycle is closed and the board started from a clean slate: every `lead` was
-removed and the realised-shorts ledger cleared — the closed cycle's results
-are archived in the comment block above `STOCKS` in `data.js` (history only,
-nothing renders; the ranking table and booked strip hide themselves until new
-leads exist). ALL trades are being re-entered now for the new cycle. Stance
-for the new plans: **go long only once the uptrend is confirmed** (the gate is
-an SMH daily CLOSE over $547–550 — a close back under $535 re-arms shorts),
-and **keep shorts where an individual setup still warrants one** — the board
-is mixed by design, `side` set per card, not longs-only. Card signals still
-describing the old short cycle are stale until their refresh lands.
+**⚠️ STANCE — the SMH gate is CLEARED, so longs are live (2026-08-07):** the
+July short cycle closed on 07-31 and the board was re-entered from a clean
+slate; that cycle's results are archived in the comment block above `STOCKS`
+in `data.js` (history only, nothing renders). The re-entry is DONE — leads
+exist, and the ranking table and booked strip both render again.
+
+The gate this block used to wait on has been taken. SMH has closed over
+**$547–550 for a fourth session** and cleared the **$580 lid on 08-07** at
+$582.70, printing a new month high $586.09. The "go long only once the uptrend
+is confirmed" condition is therefore SATISFIED, and the stance is **take every
+long fill**: a plan that reaches its entry zone is taken, not re-argued against
+the regime one name at a time.
+
+⚠️ Which makes the OFF-SWITCH the thing to keep current, because "buy
+everything that fills" without one is a mood, not a rule. It is SMH's own
+ladder, in order: a daily close back under **$580** undoes the breakout; under
+**$572.82** loses the weekly 9-EMA; under **$570.40** loses the 50-day; under
+**$547–550** re-opens the whole question; under **$535** voids the reclaim and
+re-arms shorts. Those numbers live in `MARKET.markets[SMH].levels.invalidate`
+— keep this paragraph in step with that field, never the other way round.
+
+⚠️ "Every fill" is a STANCE, not a sizing instruction, and only the stance
+changed. The board's own `direction.groups` calls ALOY/MP/USAR/UUUU **"one
+position, not three"**; on a −1 ATR session **13 of the 16 waiting longs fill on
+the same bar**, and 11 of the 21 resulting longs are semis. Position COUNT is
+not diversification here — take every fill, and size them as the handful of
+independent bets they actually are.
+
+And still **keep shorts where an individual setup warrants one** — the board is
+mixed by design, `side` set per card, not longs-only.
 
 Ranked entries also render a computed **progress line** (tile) and a
 **Progress** column (table): earned-% since entry (only when `lead.entry`
