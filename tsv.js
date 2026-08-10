@@ -81,9 +81,16 @@
         ['4H', function (r) { return frame(r, 'h4'); }],
         ['Combo', function (r) { return plain(r.combo); }],
         ['Score', function (r) { return r.score == null ? '' : String(r.score); }],
+        // Terms the row does not carry are OMITTED, not printed. A seeded row
+        // holds only the structure terms (W/D/H/Z) — R/M/O are the extractor's
+        // and are absent — so mapping the full list unconditionally exported
+        // "W+1 D+1 H+1 Rundefined Mundefined Oundefined Z0" on all 15 seeded
+        // rows. An absent term is not a zero one (a seeded row's `score` is
+        // null for the same reason), so a blank is the honest cell.
         ['Score parts', function (r) {
             if (!r.parts) return '';
             return ['W', 'D', 'H', 'R', 'M', 'O', 'Z']
+                .filter(function (k) { return typeof r.parts[k] === 'number'; })
                 .map(function (k) { return k + (r.parts[k] > 0 ? '+' : '') + r.parts[k]; })
                 .join(' ');
         }],
@@ -125,8 +132,8 @@
             lines.push(COLUMNS.map(function (c) {
                 // Guard the join itself: a value that still contains a tab would
                 // shift every column after it.
-                return String(c[1](r, board) == null ? '' : c[1](r, board))
-                    .replace(/[\t\r\n]+/g, ' ');
+                const v = c[1](r, board);
+                return String(v == null ? '' : v).replace(/[\t\r\n]+/g, ' ');
             }).join('\t'));
         });
         return lines.join('\n');
