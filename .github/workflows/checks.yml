@@ -128,6 +128,41 @@ jobs:
                     \`~\${lim} budget — see CLAUDE.md, 'Structure board'\`);
                 }
               }
+              // A DATED GATE EXPIRES BY ITSELF — that is the point of dating
+              // it — but nothing knew the date had passed. 'preferred' is in
+              // the extractor's CARRY list, so a stand-aside is copied onto
+              // every future generated row verbatim: AXON's
+              // '**Stand aside to 08-11** — post-earnings' would keep the row
+              // standing aside for as long as the board is regenerated, long
+              // after the third post-earnings session it was waiting for.
+              // CLAUDE.md already says it 'needs rewriting to the row's real
+              // stance' on the morning it lapses; this is what makes that
+              // happen instead of hoping.
+              //
+              // ⚠️ Deliberately time-dependent: this passes today and fails
+              // tomorrow with no code change, which is unusual for CI and is
+              // the entire mechanism. The fix is one line — rewrite that row's
+              // 'preferred' to its real stance — and the alternative is a gate
+              // nobody notices has expired.
+              //
+              // The year is anchored to the board's own 'updated' rather than
+              // to today, so a gate written in December for January does not
+              // read as eleven months lapsed.
+              const gate = /stand aside to (\d{2})-(\d{2})/i.exec(r.preferred || '');
+              if (gate) {
+                const [, mm, dd] = gate;
+                let year = Number((B.updated || '').slice(0, 4));
+                const asOf = (B.updated || '').slice(5);
+                if (asOf && \`\${mm}-\${dd}\` < asOf && asOf > '06-30') year += 1;
+                const due = \`\${year}-\${mm}-\${dd}\`;
+                const today = new Date().toISOString().slice(0, 10);
+                if (today >= due) {
+                  throw new Error(
+                    \`\${r.ticker}: the gate in preferred lapsed on \${due} \` +
+                    \`(today \${today}) — rewrite it to the row's real stance; \` +
+                    \"see CLAUDE.md, 'Earnings: three sessions before a move'\");
+                }
+              }
             }
             // Same discipline one level up: the board note renders under the
             // bars, where a wall of prose is what the cockpit exists to avoid.
