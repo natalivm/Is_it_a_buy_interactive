@@ -567,6 +567,76 @@ check("a closed trade's historical stop/rr are not linted",
        if 'entry zone' in f or "rr '" in f
        or 'ATR from the entry' in f or 'STOP BROKEN' in f], [])
 
+# ── card audit: "was the zone reached?" is the SESSION, not the close ───────
+# A plan that filled intraday and closed straight through its zone is the case
+# the analyst most needs told, and asking the close reports it as untouched.
+# The 2026-08-10 close is the fixture: ALAB, AMAT and FN each traded into a
+# long zone and closed below it, all three reading 'wait' with the audit silent.
+print("\nCard audit — a zone is reached by the session's range, not by the close")
+
+
+def _reached(entry, price, bar=None, status='wait', side='long', stop='$1'):
+    card = {'symbol': 'TEST', 'side': side, 'exchange': 'NASDAQ',
+            'date': '2026-08-10', 'price': f'${price}', 'story': 'stories/crwv.html',
+            'lead': {'entry': entry, 'stop': stop, 'targets': '$999',
+                     'rr': '~3:1', 'status': status}}
+    return [f for f in refresh.audit_card(card, price, None, bar)
+            if 'INSIDE' in f or 'traded INTO' in f or 'is ABOVE' in f]
+
+
+check("a long that closed through its zone is reported, not missed",
+      len(_reached('pullback holds $320–325', 317.23, (316.78, 342.82))), 1)
+check("…and the finding names the low that reached it",
+      'low 316.78' in _reached('pullback holds $320–325', 317.23,
+                               (316.78, 342.82))[0], True)
+check("a close INSIDE the zone keeps the original wording",
+      'is INSIDE' in _reached('pullback holds $217–220', 217.55,
+                              (216.77, 224.14))[0], True)
+check("a session whose whole range sits under the zone never touched it",
+      _reached('pullback holds $320–325', 300.0, (295.0, 305.0)), [])
+check("a session that never came down to the zone is still 'wait'",
+      _reached('pullback holds $402–408', 422.4, (420.16, 432.73)), [])
+check("…and calling that one 'live' is still caught",
+      len(_reached('pullback holds $402–408', 422.4, (420.16, 432.73),
+                   status='live')), 1)
+check("a long that dipped in and closed back above is filled, not waiting",
+      _reached('pullback holds $402–408', 412.0, (405.0, 415.0), status='live'), [])
+# Without a bar — every --audit-only run — the close is all there is, and the
+# check has to behave exactly as it did before rather than infer a range.
+check("no bar: a close below the zone is not read as a fill",
+      _reached('pullback holds $320–325', 300.0), [])
+check("no bar: a close inside the zone still fires",
+      len(_reached('pullback holds $320–325', 322.0)), 1)
+
+# ── card audit: the price on a card with no plan ────────────────────────────
+# Every check but this one is about a `lead`; this one is about the tile, and
+# living under the `lead` guard meant the twelve cards without a plan were
+# never price-checked at all. COHR is the fixture: a tile narrating a +13.44%
+# session at $379.13 against the $325.15 close that reversed it.
+print("\nCard audit — a card with no plan still shows a price")
+
+
+def _drift(price, close, lead=None, sym='TEST'):
+    card = {'symbol': sym, 'side': 'long', 'exchange': 'NASDAQ',
+            'date': '2026-08-10', 'price': f'${price}', 'story': 'stories/crwv.html'}
+    if lead:
+        card['lead'] = lead
+    return [f for f in refresh.audit_card(card, close) if 'stale' in f]
+
+
+check("a lead-less card with a stale price is now flagged",
+      len(_drift(379.13, 325.15)), 1)
+check("…at the drift the tile actually carries",
+      '16.6% stale' in _drift(379.13, 325.15)[0], True)
+check("a lead-less card inside tolerance stays silent",
+      _drift(325.15, 325.20), [])
+check("an index card is held to the tighter tolerance",
+      len(_drift(582.7, 569.41, sym=sorted(refresh.MARKET_SYMBOLS)[0])), 1)
+check("a carded plan is still checked the same way",
+      len(_drift(379.13, 325.15,
+                 lead={'entry': '$1–2', 'stop': '$0.5', 'targets': '$9',
+                       'rr': '~3:1', 'status': 'wait'})), 1)
+
 # ── card audit: signal/edge accretion ───────────────────────────────────────
 # `signal` is the tile's CURRENT read and a refresh REPLACES it; git is the
 # archive. Two dated close blocks in one field is the fingerprint of the
