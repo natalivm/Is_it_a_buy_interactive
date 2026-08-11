@@ -1844,13 +1844,13 @@ const BOARD = {
       "bull": "close above $587.00–611.21 → $703.03–740.00",
       "bear": "close below $560.62–593.96 → $540.93–555.06",
       "retest": "a break above $587.00–611.21 likely retests it as support",
-      "longCandidate": "Nothing before **08-11** — the post-earnings gate. The pre-earnings breakout thesis ($575–585 hold with a 4H higher low) is SUSPENDED, not cancelled and not confirmed: it was written when monthly, weekly and daily all read bullish, and all three are neutral now. Re-read the frames when the gate lapses; $502.72 has to still be intact.",
+      "longCandidate": "Gate lapsed 08-11, and this is the re-read it was waiting for: on the 08-10 close every structural frame is neutral — monthly, weekly, daily AND 4H — so the score is carried entirely by oscillators, with W/D/H/Z all zero. The suspended breakout thesis is therefore not resumed. Price $596.33 has also crossed from the demand it sat in pre-gate into weak supply $587.00–611.21, so the level that mattered is now overhead rather than underfoot: a close above $611.21 makes it a plan again, and $502.72 still has to be intact.",
       "longSetup": "Hold $575–585, or the current $605–610 higher low, then break $620–630 → $650–670, then $695–710. A clean hold above $630 confirms continuation.",
       "shortSetup": "Countertrend only: reject $620–630 and lose $585 → $555–545. Daily acceptance below $545 opens $525–515, then $480–468.",
-      "preferred": "**Stand aside to 08-11** — post-earnings",
+      "preferred": "**Neutral** — no edge until supply clears",
       "h4": "+9.3% off the 08-06 close — inside 4H demand **$562–576**, 4H 50-EMA **$538** beneath.",
       "h4Effect": "The 4H frame still reads bullish, but on 532.92→564.24 highs and 485.74→502.72 lows — NOT on the $628.22 print, which was the crash bar's own wick and is no longer a confirmed pivot. Price is sitting on a real confluence: 4H demand $514.76–521.97 tested, the 4H 200-EMA $521.18, the lower band $513.50 and the top of daily demand $498.30–520.18. That is the level the row turns on. A 4H close under $502.72 ends the 4H uptrend and hands the frame to the daily neutral, with $498.30–520.18 the only thing under it. Stochastics at 4.09/16.50 means the first bounce is likely mechanical and proves nothing — it is the second test that reads.",
-      "note": "TIMING GATE, set 2026-08-07: no entry on this row until the THIRD session after the earnings reaction — 08-06 is day 0, so 08-07 / 08-10 pass and 08-11 is the first actionable session. The levels below stay live and keep being refreshed; the gate governs when a plan may be taken, not what the plan is. It is a date, so it expires by itself: on 08-11 the row goes back to its computed stance, and `preferred` needs rewriting that morning rather than being left to read stale. The reaction bar is identified from the bars themselves — -14.28% on 2.7x median volume, 70 days after the 05-28 report bar and a year on from 2025-08-05, both the same shape."
+      "note": "GATE LAPSED 08-11, and the row is back on its computed stance. It ran its full course: the reaction bar was identified from the bars themselves (-14.28% on 2.7x median volume, 70 days after the 05-28 report bar and a year on from 2025-08-05, both the same shape), 08-06 was day 0, 08-07 and 08-10 passed, and no plan was taken on the way through. What the gate was FOR is visible in what the wait produced: on 08-06 the 4H frame read bullish on a 'higher high' at $628.22 that was the crash bar's own wick, and by the 08-10 close every frame — monthly, weekly, daily and 4H — reads neutral instead. Three sessions turned a bullish structure read into no read, which is the whole argument for the rule. The gate is spent; do not re-date it. A new one belongs here only after the NEXT earnings reaction bar."
     },
     {
       "ticker": "ALAB",
@@ -7134,7 +7134,7 @@ const BOARD = {
     "**LITE two-way** — short only a confirmed rejection from $865–900; long only a $820–835 retest or acceptance above $900.",
     "**STX short** — fired: $842 and $818 both failed on the 08-07 close ($812.76); $797–816 is the 4H shelf under it.",
     "**AKAM rejection short** — live: below $118 and $112 both gave way, closing $110.54 into a 4H strong downtrend.",
-    "**AXON long** — nothing before **08-11**, the post-earnings gate. $560–576 is the hold, $587–611 the cap; do not pre-empt the date.",
+    "**AXON neutral** — gate lapsed 08-11 and the re-read gives no edge: all four frames neutral, price inside supply $587–611. Needs a close above $611.",
     "**PLTR long** — through $170 and inside supply $167–177 on a 4H RSI of 78. Wait for the $158–162 retest, not this push.",
     "**TE long** — still the weakest: the bounce stalled at the 4H 50-EMA $5.90, inside supply $5.76–6.25."
   ],
