@@ -887,16 +887,39 @@ def audit_market(market: dict, newest_card: str | None) -> list[str]:
 
 
 def audit_card(stock: dict, close: float | None,
-               atr: float | None = None) -> list[str]:
+               atr: float | None = None,
+               bar: tuple[float, float] | None = None) -> list[str]:
     """Only mechanical, decidable checks. No opinions.
 
     `atr` is present only on a full run — the ATR-units check (3b) is skipped
-    rather than guessed when --audit-only means there are no bars."""
+    rather than guessed when --audit-only means there are no bars. `bar` is the
+    latest session's (low, high) and comes from the same run; check 5 falls back
+    to the close without it."""
     lead, out = stock.get("lead"), audit_fields(stock)
     sym, side = stock["symbol"], stock.get("side", "long")
+    card_px = (nums(stock.get("price")) or [None])[0]
+
+    # 0. card price vs the real close, against the tolerance for its type.
+    #
+    #    HOISTED ABOVE THE `lead` GUARD ON PURPOSE. It used to sit at the end of
+    #    this function, past `if not lead: return out`, so the twelve cards
+    #    carrying no plan were never checked at all — and a card with no plan is
+    #    the one nobody re-reads, so it is exactly where a stale price survives.
+    #    On 2026-08-10 COHR's tile read "+13.44% — the board's biggest single
+    #    session" at $379.13 against a $325.15 close: 16.6% stale, the move
+    #    fully reversed, and the report said nothing. LITE was 9.4% stale and
+    #    SMH — the card the whole gate is quoted from — 2.3%, both silent for
+    #    the same reason. Every other check here is about a plan and belongs
+    #    under the guard; this one is about the tile, which every card renders.
+    if close is not None and card_px is not None:
+        drift = abs(card_px - close) / close * 100
+        tol = TOL_INDEX if sym in MARKET_SYMBOLS else TOL_STOCK
+        if drift > tol:
+            out.append(f"{sym}: card price {card_px:g} vs close {close:g} "
+                       f"({drift:.1f}% stale, tolerance {tol:g}%) — needs a refresh")
+
     if not lead:
         return out
-    card_px = (nums(stock.get("price")) or [None])[0]
     px = close if close is not None else card_px
     if px is None:
         return [f"{sym}: no usable price"]
@@ -1017,6 +1040,22 @@ def audit_card(stock: dict, close: float | None,
     if entry and not held:
         lo, hi = min(entry), max(entry)
         have = lead.get("status")
+        # "Was the zone reached?" is arithmetic, not a paraphrase — and the
+        # arithmetic is the SESSION's range against the zone bounds. Asking the
+        # CLOSE reports the level as untouched whenever price traded through it
+        # and kept going, which is the one case where the analyst most needs
+        # telling: on 2026-08-10 ALAB ($320-325, low 316.78), AMAT ($525-532,
+        # low 521.57) and FN ($530-540, low 527.00) each filled and closed
+        # BELOW the zone, and all three read 'wait' with the audit silent —
+        # three plans quietly filled and underwater. NVDA and ASTS closed
+        # inside theirs and were the only two reported.
+        #
+        # The test is range OVERLAP, which is the same statement on both sides
+        # and survives a gap: a session whose whole range sits under the zone
+        # never touched it, however far below the close ends up.
+        low, high = bar if bar else (None, None)
+        inside = lo <= px <= hi
+        touched = (low <= hi and high >= lo) if bar else inside
         if have in ("live", "wait"):
             # Price inside the zone means the trigger is reached — EXCEPT on a
             # rejection-only entry, where arriving in the zone is the setup
@@ -1025,10 +1064,22 @@ def audit_card(stock: dict, close: float | None,
             # keeps this one: INTC sits inside $96–102 with the $89 confirmation
             # never printed, which is 'wait' by its own rule, while CRWV flipped
             # to 'live' the day the reversal candle closed near its low.
-            if lo <= px <= hi and have != "live" and not reject_style:
-                out.append(f"{sym}: status 'wait' but price {px:g} is INSIDE "
-                           f"zone {lo:g}-{hi:g} → expected 'live'")
-            elif px > hi and have != "wait":
+            if touched and have != "live" and not reject_style:
+                if inside:
+                    out.append(f"{sym}: status 'wait' but price {px:g} is INSIDE "
+                               f"zone {lo:g}-{hi:g} → expected 'live'")
+                else:
+                    seen = ("low", low) if side == "long" else ("high", high)
+                    out.append(f"{sym}: status 'wait' but the session traded INTO "
+                               f"zone {lo:g}-{hi:g} ({seen[0]} {seen[1]:g}) and closed "
+                               f"{px:g} {'under' if px < lo else 'over'} it → the plan "
+                               f"filled and price kept going; expected 'live'")
+            # A long that dipped INTO its zone and closed back above it is
+            # filled and working — telling it to 'wait' is telling it to wait
+            # for an entry it already has, the same error `held` prevents one
+            # check up. On the short side price above the whole zone is the
+            # accepted-through shape that check 2 owns, so leave it alone.
+            elif px > hi and have != "wait" and not (side == "long" and touched):
                 need = "a pullback" if side == "long" else "this is above the zone"
                 out.append(f"{sym}: status '{have}' but price {px:g} is ABOVE "
                            f"zone {lo:g}-{hi:g} ({need}) → expected 'wait'")
@@ -1083,13 +1134,9 @@ def audit_card(stock: dict, close: float | None,
             out.append(f"{sym}: `{gone}` is computed by script.js now — delete it "
                        f"from the lead so it cannot drift")
 
-    # 9. card price vs the real close, against the tolerance for its type
-    if close is not None and card_px is not None:
-        drift = abs(card_px - close) / close * 100
-        tol = TOL_INDEX if sym in MARKET_SYMBOLS else TOL_STOCK
-        if drift > tol:
-            out.append(f"{sym}: card price {card_px:g} vs close {close:g} "
-                       f"({drift:.1f}% stale, tolerance {tol:g}%) — needs a refresh")
+    # (check 9, the card-price drift, is now check 0 at the top — it is the one
+    #  check here that does not need a `lead`, and living under the guard is
+    #  what silenced it on every card without one.)
     return out
 
 
@@ -1144,6 +1191,9 @@ def main() -> int:
 
     closes: dict[str, float] = {}
     atrs: dict[str, float] = {}
+    # (low, high) of the latest session — what check 5 needs to answer "was the
+    # zone reached?" without paraphrasing it as "did it close there?"
+    session: dict[str, tuple[float, float]] = {}
     report: list[str] = []
 
     def emit(line: str = "") -> None:
@@ -1175,6 +1225,7 @@ def main() -> int:
                 continue
             fs = frames(bars)
             closes[t] = fs[0].c
+            session[t] = (bars[-1]["l"], bars[-1]["h"])
             a = atr([b["h"] for b in bars], [b["l"] for b in bars],
                     [b["c"] for b in bars])[-1]
             if a:
@@ -1211,7 +1262,7 @@ def main() -> int:
         s = stocks.get(t)
         if not s:
             continue
-        for line in audit_card(s, closes.get(t), atrs.get(t)):
+        for line in audit_card(s, closes.get(t), atrs.get(t), session.get(t)):
             emit(f"  {line}")
             findings += 1
     emit()

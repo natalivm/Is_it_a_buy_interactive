@@ -470,6 +470,14 @@ future `date`. A full run (no flag) fetches OHLCV and adds price/indicator
 drift. Finish a refresh with a clean audit, or with a note saying why a finding
 is deliberate.
 
+Two of those checks read the whole board rather than the ranked part of it, and
+did not used to: **card-price drift runs on every card, `lead` or no `lead`**
+(the checks that need a plan sit behind that guard; the tile's price does not,
+and twelve cards were going unchecked — COHR's tile narrated a +13.44% session
+at $379.13 against the $325.15 close that reversed it, silently), and **the
+zone test uses the session's range, not the close**, so a plan that filled
+intraday and kept going is reported instead of read as untouched.
+
 **"Was the zone reached?" is arithmetic, not a paraphrase** — compare the
 session's actual high/low against the zone's numeric bounds (`high >= zoneLow`
 for a short's rejection zone, `low <= zoneHigh` for a long's dip zone), not a
